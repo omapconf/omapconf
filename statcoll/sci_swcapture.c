@@ -198,7 +198,7 @@ static volatile unsigned int *addr_32k = NULL;
 #define MAX_ITERATIONS 1000000UL
 uint32_t counters[(8+1)*MAX_ITERATIONS];
 unsigned int num_use_cases;
-unsigned int overflow_counter_index;
+unsigned int overflow_counter_index[2];
 unsigned int tests;
 unsigned int nosleep_32k_reg;
 unsigned int nosleep_32k = 0;
@@ -273,7 +273,9 @@ void dump_buffer(void)
 			printf("Ref timestamp: %u\n", timestamp0);
 		}
 		for (j = 0; j < num_use_cases; j++) {
-			if ( (*(counters_current + 1 + num_use_cases + 1 + overflow_counter_index) < *(counters_current + 1 + overflow_counter_index)) ) {
+			if ( ((*(counters_current + 1 + num_use_cases + 1 + overflow_counter_index[0]) < *(counters_current + 1 + overflow_counter_index[0])))
+			  || ((*(counters_current + 1 + num_use_cases + 1 + overflow_counter_index[1]) < *(counters_current + 1 + overflow_counter_index[1]))) ) {
+
 				printf("Warning: overflow\n");
 				printf("0,0,0,S,,SDRAM,,%u,%s,T,V,%u,,,,0,\n", *(counters_current + 1 + num_use_cases + 1 + j) - *(counters_current + 1 + j), msg_overflow[j], timestamp - timestamp0);
 		}
@@ -349,7 +351,7 @@ int statcoll_main(int argc, char **argv)
 	int c;
 	unsigned int delay_us;
 	unsigned int iterations;
-	unsigned int overflow_threshold;
+	unsigned int overflow_threshold[2];
 	unsigned int disable = 0;
 	unsigned int min_addr;
 	unsigned int max_addr;
@@ -357,8 +359,10 @@ int statcoll_main(int argc, char **argv)
 	delay_us = 1000000;
 	accumulation_type = 2;
 	iterations = 0;
-	overflow_counter_index = 1;
-	overflow_threshold = 0;
+	overflow_counter_index[0] = 0;
+	overflow_counter_index[1] = 0;
+	overflow_threshold[0] = 0;
+	overflow_threshold[1] = 0;
 
 	while ((c = getopt (argc, argv, "hnm:d:a:i:o:t:r:D")) != -1) {
 		switch (c)
@@ -497,10 +501,28 @@ int statcoll_main(int argc, char **argv)
 				sscanf(optarg, "%u", &iterations);
 			break;
 			case 'o':
-				sscanf(optarg, "%u", &overflow_counter_index);
+			{
+				static unsigned int o_count = 0;
+
+				if (o_count++ > 0)
+					sscanf(optarg, "%u", &overflow_counter_index[1]);
+				else {
+					sscanf(optarg, "%u", &overflow_counter_index[0]);
+					sscanf(optarg, "%u", &overflow_counter_index[1]);
+				}
+			}
 			break;
 			case 't':
-				sscanf(optarg, "%u", &overflow_threshold);
+			{
+				static unsigned int t_count = 0;
+
+				if (t_count++ > 0)
+					sscanf(optarg, "%u", &overflow_threshold[1]);
+				else {
+					sscanf(optarg, "%u", &overflow_threshold[0]);
+					sscanf(optarg, "%u", &overflow_threshold[1]);
+				}
+			}
 			break;
 			case 'n':
 				nosleep_32k = 1;
@@ -533,10 +555,10 @@ int statcoll_main(int argc, char **argv)
 	printf("delay in us: %u\n", delay_us);
 	printf("accumulation type: %u\n", accumulation_type);
 	printf("iterations (0=infinite): %u\n", iterations);
-	printf("Overflow counter index: %u\n", overflow_counter_index);
-	printf("Overflow threshold: %u\n", overflow_threshold);
+	printf("Overflow counter index: %u %u\n", overflow_counter_index[0], overflow_counter_index[1]);
+	printf("Overflow threshold: %u %u\n", overflow_threshold[0], overflow_threshold[1]);
 
-	if ((accumulation_type == 1) && (overflow_threshold == 0))
+	if ((accumulation_type == 1) && (overflow_threshold[0] == 0))
 		printf("WARNING: it is not recommended to set -a 1 with -t 0 if -d is small. HW is reset at every capture !\n");
 
 	if (iterations > MAX_ITERATIONS) {
@@ -620,7 +642,9 @@ int statcoll_main(int argc, char **argv)
 					*counters_current = GET_32K;
 					sci_dump_sdram_cntrs(num_use_cases, counters_current + 1);
 
-					if (*(counters_current + 1 + overflow_counter_index) >= overflow_threshold) {
+					if ( (*(counters_current + 1 + overflow_counter_index[0]) >= overflow_threshold[0])
+					  || (*(counters_current + 1 + overflow_counter_index[1]) >= overflow_threshold[1]) ) {
+
 						sci_global_disable(psci_hdl);
 						sci_global_enable(psci_hdl);
 						counters_current += 1 + num_use_cases;
@@ -653,7 +677,8 @@ int statcoll_main(int argc, char **argv)
 					*counters_current = GET_32K;
 					sci_dump_sdram_cntrs(num_use_cases, counters_current + 1);
 
-					if (*(counters_current + 1 + overflow_counter_index ) >= overflow_threshold) {
+					if ( (*(counters_current + 1 + overflow_counter_index[0] ) >= overflow_threshold[0])
+					  || (*(counters_current + 1 + overflow_counter_index[1] ) >= overflow_threshold[1]) ) {
 						//printf("DEBUG1 %u %u %u %u\n", *counters_prev, *(counters_prev + 1), *(counters_prev + 2), *(counters_prev + 3));
 						//printf("DEBUG2 %u %u %u %u\n", *counters_current, *(counters_current + 1), *(counters_current + 2), *(counters_current + 3));
 						sci_global_disable(psci_hdl);
@@ -674,7 +699,8 @@ int statcoll_main(int argc, char **argv)
 					/* pointers increment */
 					if (overflow_on == 1) {
 						overflow_on = 0;
-						printf("Warning: statcoll HW IP reset to avoid overflow (user defined through -o -t)\n");
+						if (overflow_threshold[0] > 0)
+							printf("Warning: statcoll HW IP reset to avoid overflow (user defined through -o -t)\n");
 						counters_current = counters_overflow;
 					}
 
