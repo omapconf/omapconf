@@ -148,32 +148,17 @@ struct sci_config_sdram my_config_emif6 = {
 						}
 					};
 
-char * msg[] = { "EMIF 0:Wr:All Initiators",
-                 "EMIF 1:Wr:All Initiators",
-                 "EMIF 0:Rd:All Initiators",
-                 "EMIF 1:Rd:All Initiators",
-                 "EMIF 0:Rd:IVA",
-                 "EMIF 1:Rd:IVA",
-                 "EMIF 0:Wr:IVA",
-                 "EMIF 1:Rd:IVA",
-		};
-char * msg_overflow[] = { "EMIF 0:W:All Initiators",
-                 "EMIF 1:W:All Initiators",
-                 "EMIF 0:R:All Initiators",
-                 "EMIF 1:R:All Initiators",
-                 "EMIF 0:R:IVA",
-                 "EMIF 1:R:IVA",
-                 "EMIF 0:W:IVA",
-                 "EMIF 1:W:IVA",
-		};
+char msg[6][100];
+
+char msg_overflow[6][100];
 
 struct sci_config_sdram * pmy_cfg[] =  {
 					&my_config_emif1,
                                         &my_config_emif2,
                                         &my_config_emif3,
                                         &my_config_emif4,
-                                        //&my_config_emif5,
-                                        //&my_config_emif6,
+                                        &my_config_emif5,
+                                        &my_config_emif6,
 					};
 
 void sci_errhandler(psci_handle phandle, const char * func, enum sci_err err)
@@ -197,7 +182,7 @@ static volatile unsigned int *addr_32k = NULL;
 
 #define MAX_ITERATIONS 1000000UL
 uint32_t counters[(8+1)*MAX_ITERATIONS];
-unsigned int num_use_cases;
+unsigned int num_use_cases = 4;
 unsigned int overflow_counter_index[2];
 unsigned int tests;
 unsigned int nosleep_32k_reg;
@@ -308,40 +293,56 @@ void sci_killhandler(void)
 	omapconf_emu_disable_domain();
 }
 
-struct master_names {
+struct name_value {
 	char *name;
-	unsigned int addr;
+	char *name_ccs;
+	unsigned int value;
 };
 
-struct master_names match_master[] = {
-{ "all", SCI_MASTID_ALL },
-{ "mpudss", SCI_MSTID_MPUSS },
-{ "dap", SCI_MSTID_DAP },
-{ "dsp", SCI_MSTID_DSP },
-{ "iva", SCI_MSTID_IVA },
-{ "iss", SCI_MSTID_ISS },
-{ "ipu", SCI_MSTID_IPU },
-{ "fdid", SCI_MSTID_FDIF },
-{ "sdma_rd", SCI_MSTID_SDMA_RD },
-{ "sdma_wr", SCI_MSTID_SDMA_WR },
-{ "gpu_p1", SCI_MSTID_GPU_P1 },
-{ "gpu_p2", SCI_MSTID_GPU_P2 },
-{ "bb2d_p1", SCI_MSTID_BB2D_P1 },
-{ "bb2d_p2", SCI_MSTID_BB2D_P2 },
-{ "dss", SCI_MSTID_DSS },
-{ "c2c", SCI_MSTID_C2C },
-{ "lli", SCI_MSTID_LLI },
-{ "hsi", SCI_MSTID_HSI },
-{ "unipro1", SCI_MSTID_UNIPRO1 },
-{ "unipro2", SCI_MSTID_UNIPRO2 },
-{ "mmc1", SCI_MSTID_MMC1 },
-{ "mmc2", SCI_MSTID_MMC2 },
-{ "sata", SCI_MSTID_SATA },
-{ "usb_host_hs", SCI_MSTID_USB_HOST_HS },
-{ "usb_otg_hs", SCI_MSTID_USB_OTG_HS },
-{ "usb_otg_fs", SCI_MSTID_USB_OTG_FS },
-{ "usb3", SCI_MSTID_USB3 },
-{ NULL, 0 }
+struct name_value match_master[] = {
+{ "all", "All Initiators", SCI_MASTID_ALL },
+{ "mpuss", "MPUSS", SCI_MSTID_MPUSS },
+{ "dap", "DAP", SCI_MSTID_DAP },
+{ "dsp", "DSP", SCI_MSTID_DSP },
+{ "iva", "IVA", SCI_MSTID_IVA },
+{ "iss", "ISS", SCI_MSTID_ISS },
+{ "ipu", "IPU", SCI_MSTID_IPU },
+{ "fdid", "FDID", SCI_MSTID_FDIF },
+{ "sdma_rd", "SDMA_RD", SCI_MSTID_SDMA_RD },
+{ "sdma_wr", "SDMA_WR", SCI_MSTID_SDMA_WR },
+{ "gpu_p1", "GPU_P1", SCI_MSTID_GPU_P1 },
+{ "gpu_p2", "GPU_P2", SCI_MSTID_GPU_P2 },
+{ "bb2d_p1", "BB2D_P1", SCI_MSTID_BB2D_P1 },
+{ "bb2d_p2", "BB2D_P2", SCI_MSTID_BB2D_P2 },
+{ "dss", "DSS", SCI_MSTID_DSS },
+{ "c2c", "C2C", SCI_MSTID_C2C },
+{ "lli", "LLI", SCI_MSTID_LLI },
+{ "hsi", "HSI", SCI_MSTID_HSI },
+{ "unipro1", "UNIPRO1", SCI_MSTID_UNIPRO1 },
+{ "unipro2", "UNIPRO2", SCI_MSTID_UNIPRO2 },
+{ "mmc1", "MMC1", SCI_MSTID_MMC1 },
+{ "mmc2", "MMC2", SCI_MSTID_MMC2 },
+{ "sata", "SATA", SCI_MSTID_SATA },
+{ "usb_host_hs", "USB_HOST_HS", SCI_MSTID_USB_HOST_HS },
+{ "usb_otg_hs", "USB_OTG_HS", SCI_MSTID_USB_OTG_HS },
+{ "usb_otg_fs", "USB_OTG_FS", SCI_MSTID_USB_OTG_FS },
+{ "usb3", "USB3", SCI_MSTID_USB3 },
+{ NULL, NULL, 0 }
+};
+
+struct name_value match_qualifier[] = {
+{ "r", "Rd", SCI_RD_ONLY },
+{ "r+w", "Rd/Wr", SCI_RD_OR_WR_DONTCARE },
+{ "w", "Wr", SCI_WR_ONLY },
+{ NULL, NULL, 0 }
+};
+
+struct name_value match_probe[] = {
+{ "emif1", "EMIF 1", SCI_EMIF1 },
+{ "emif2", "EMIF 2", SCI_EMIF2 },
+{ "ma_mpu_1", "MA_MPU_P1", SCI_MA_MPU_P1 },
+{ "ma_mpu_2", "MA_MPU_P2", SCI_MA_MPU_P2 },
+{ NULL, NULL, 0 }
 };
 
 int statcoll_main(int argc, char **argv)
@@ -355,6 +356,7 @@ int statcoll_main(int argc, char **argv)
 	unsigned int disable = 0;
 	unsigned int min_addr;
 	unsigned int max_addr;
+	unsigned int describe_loop;
 
 	delay_us = 1000000;
 	accumulation_type = 2;
@@ -368,37 +370,20 @@ int statcoll_main(int argc, char **argv)
 		switch (c)
 		{
 			case 'h':
+			{
+				unsigned int loop = 0;
 				printf("\n\tomapconf trace bw [-h] [-m 0xyy or MA_MPU_1_2] [-d x] [-a 1 or 2] [-i x] [-o x -t y] [-r 0xaaaaaaaa-0xbbbbbbbb] [-n]\n");
 				printf("\n\t-m 0xaa or MA_MPU_1_2 or XXX (SCI_MSTID_XXX)\n");
 				printf("\t\tMaster initiator\n");
 				printf("\t\tMA_MPU_1_2 - Non DMM MPU memory traffic, see Examples\n");
-				printf("\t\tSCI_MASTID_ALL 0x%x\n", SCI_MASTID_ALL);
-				printf("\t\tSCI_MSTID_MPUSS 0x%x\n",SCI_MSTID_MPUSS );
-				printf("\t\tSCI_MSTID_DAP 0x%x\n", SCI_MSTID_DAP);
-				printf("\t\tSCI_MSTID_DSP 0x%x\n", SCI_MSTID_DSP);
-				printf("\t\tSCI_MSTID_IVA 0x%x\n", SCI_MSTID_IVA);
-				printf("\t\tSCI_MSTID_ISS 0x%x\n", SCI_MSTID_ISS);
-				printf("\t\tSCI_MSTID_IPU 0x%x\n", SCI_MSTID_IPU);
-				printf("\t\tSCI_MSTID_FDIF 0x%x\n", SCI_MSTID_FDIF);
-				printf("\t\tSCI_MSTID_SDMA_RD 0x%x\n", SCI_MSTID_SDMA_RD);
-				printf("\t\tSCI_MSTID_SDMA_WR 0x%x\n", SCI_MSTID_SDMA_WR);
-				printf("\t\tSCI_MSTID_GPU_P1 0x%x\n", SCI_MSTID_GPU_P1);
-				printf("\t\tSCI_MSTID_GPU_P2 0x%x\n", SCI_MSTID_GPU_P2);
-				printf("\t\tSCI_MSTID_BB2D_P1 0x%x (GC320)\n", SCI_MSTID_BB2D_P1);
-				printf("\t\tSCI_MSTID_BB2D_P2 0x%x (GC320)\n", SCI_MSTID_BB2D_P2);
-				printf("\t\tSCI_MSTID_DSS 0x%x\n", SCI_MSTID_DSS);
-				printf("\t\tSCI_MSTID_C2C 0x%x\n", SCI_MSTID_C2C);
-				printf("\t\tSCI_MSTID_LLI 0x%x\n", SCI_MSTID_LLI);
-				printf("\t\tSCI_MSTID_HSI 0x%x\n", SCI_MSTID_HSI);
-				printf("\t\tSCI_MSTID_UNIPRO1 0x%x\n", SCI_MSTID_UNIPRO1);
-				printf("\t\tSCI_MSTID_UNIPRO2 0x%x\n", SCI_MSTID_UNIPRO2);
-				printf("\t\tSCI_MSTID_MMC1 0x%x\n", SCI_MSTID_MMC1);
-				printf("\t\tSCI_MSTID_MMC2 0x%x\n", SCI_MSTID_MMC2);
-				printf("\t\tSCI_MSTID_SATA 0x%x\n", SCI_MSTID_SATA);
-				printf("\t\tSCI_MSTID_USB_HOST_HS 0x%x\n", SCI_MSTID_USB_HOST_HS);
-				printf("\t\tSCI_MSTID_USB_OTG_HS 0x%x\n", SCI_MSTID_USB_OTG_HS);
-				printf("\t\tSCI_MSTID_USB_OTG_FS 0x%x\n", SCI_MSTID_USB_OTG_FS);
-				printf("\t\tSCI_MSTID_USB3 0x%x\n", SCI_MSTID_USB3);
+
+
+				while (match_master[loop].name != NULL)
+				{
+					printf("\t\t%s 0x%x\n", match_master[loop].name, match_master[loop].value);
+					loop++;
+				}
+
 				printf("\n\t-d xxx or 0.xx\n");
 				printf("\t\tDelay in ms between 2 captures, can be float\n");
 				printf("\n\t-a 1 or 2\n");
@@ -436,6 +421,7 @@ int statcoll_main(int argc, char **argv)
 				sci_close(&psci_hdl);
 
 				return 0;
+			}
 
 			case 'm':
 				if (strstr(optarg, "0x")) {
@@ -448,7 +434,7 @@ int statcoll_main(int argc, char **argv)
 
 					while (match_master[loop].name != NULL)
 					{
-						if (match_master[loop].addr == a)
+						if (match_master[loop].value == a)
 							break;
 						loop++;
 					}
@@ -475,10 +461,10 @@ int statcoll_main(int argc, char **argv)
 					}
 					if (match_master[loop].name != NULL)
 					{
-						my_config_emif1.filter[0].mstr_addr_match = match_master[loop].addr;
-						my_config_emif2.filter[0].mstr_addr_match = match_master[loop].addr;
-						my_config_emif3.filter[0].mstr_addr_match = match_master[loop].addr;
-						my_config_emif4.filter[0].mstr_addr_match = match_master[loop].addr;
+						my_config_emif1.filter[0].mstr_addr_match = match_master[loop].value;
+						my_config_emif2.filter[0].mstr_addr_match = match_master[loop].value;
+						my_config_emif3.filter[0].mstr_addr_match = match_master[loop].value;
+						my_config_emif4.filter[0].mstr_addr_match = match_master[loop].value;
 						printf("Master: %s\n", match_master[loop].name);
 					}
 					else
@@ -534,22 +520,97 @@ int statcoll_main(int argc, char **argv)
 				my_config_emif2.addr_filter_min = min_addr;
 				my_config_emif3.addr_filter_min = min_addr;
 				my_config_emif4.addr_filter_min = min_addr;
+				my_config_emif5.addr_filter_min = min_addr;
+				my_config_emif6.addr_filter_min = min_addr;
 
 				my_config_emif1.addr_filter_max = max_addr;
 				my_config_emif2.addr_filter_max = max_addr;
 				my_config_emif3.addr_filter_max = max_addr;
 				my_config_emif4.addr_filter_max = max_addr;
+				my_config_emif5.addr_filter_max = max_addr;
+				my_config_emif6.addr_filter_max = max_addr;
 
 				my_config_emif1.addr_filter_enable = true;
 				my_config_emif2.addr_filter_enable = true;
 				my_config_emif3.addr_filter_enable = true;
 				my_config_emif4.addr_filter_enable = true;
+				my_config_emif5.addr_filter_enable = true;
+				my_config_emif6.addr_filter_enable = true;
 				break;
 			case 'D':
 				disable = 1;
 			default:
 				printf("Unknown option\n");
 		}
+	}
+
+	for (describe_loop = 0; describe_loop < num_use_cases; describe_loop++) {
+		unsigned int a, b, c;
+		char *a_name, *b_name, *c_name;
+		unsigned int loop = 0;
+
+		a = pmy_cfg[describe_loop]->filter[0].mstr_addr_match;
+		b = pmy_cfg[describe_loop]->filter[0].trans_qual;
+		c = pmy_cfg[describe_loop]->probe_id;
+
+		while (match_probe[loop].name != NULL)
+		{
+			if (match_probe[loop].value == c)
+				break;
+			loop++;
+		}
+		if (match_probe[loop].name != NULL) {
+			c_name = match_probe[loop].name;
+			strcpy(msg[describe_loop], match_probe[loop].name_ccs);
+			strcpy(msg_overflow[describe_loop], match_probe[loop].name_ccs);
+		}
+		else {
+			c_name = "ERROR";
+			strcpy(msg[describe_loop], "ERROR");
+			strcpy(msg_overflow[describe_loop], "ERROR");
+		}
+
+		loop = 0;
+		while (match_qualifier[loop].name != NULL)
+		{
+			if (match_qualifier[loop].value == b)
+				break;
+			loop++;
+		}
+		if (match_qualifier[loop].name != NULL) {
+			char temp[20];
+
+			b_name = match_qualifier[loop].name;
+			sprintf(temp, ":%s:", match_qualifier[loop].name_ccs);
+			strcat(msg[describe_loop], temp);
+			sprintf(temp, ":%s:", match_qualifier[loop].name);
+			strcat(msg_overflow[describe_loop], temp);
+		}
+		else {
+			b_name = "ERROR";
+			strcat(msg[describe_loop], ":ERROR:");
+			strcat(msg_overflow[describe_loop], ":ERROR:");
+		}
+
+		loop = 0;
+		while (match_master[loop].name != NULL)
+		{
+			if (match_master[loop].value == a)
+				break;
+			loop++;
+		}
+		if (match_master[loop].name != NULL) {
+			a_name = match_master[loop].name;
+			strcat(msg[describe_loop], match_master[loop].name_ccs);
+			strcat(msg_overflow[describe_loop], match_master[loop].name_ccs);
+		}
+		else {
+			a_name = "ERROR";
+			strcat(msg[describe_loop], "ERROR");
+			strcat(msg_overflow[describe_loop], "ERROR");
+		}
+
+		printf("Counter: %d  Master: %s  Qualifier: %s Probe: %s\n", describe_loop, a_name, b_name, c_name);
 	}
 
 	printf("delay in us: %u\n", delay_us);
@@ -605,7 +666,6 @@ int statcoll_main(int argc, char **argv)
 	{
 		unsigned int i, j;
 
-		num_use_cases = sizeof(pmy_cfg)/sizeof(struct sci_config_sdram *);
 		for (i = 0; i < num_use_cases; i++) {
 			my_sci_err = sci_reg_usecase_sdram(psci_hdl, pmy_cfg[i], &my_usecase_key[i] );
 
