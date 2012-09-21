@@ -1,0 +1,58 @@
+###############################################################################
+#                                                                             #
+#                     How to submit OMAPCONF changes                          #
+#                                                                             #
+###############################################################################
+
+
+Please try to follow the guidelines below. This will make things
+easier on the maintainers.  Not all of these guidelines matter for every
+trivial patch so apply some common sense.
+
+1.	Always ###TEST### your changes, however small.
+	Run provided OMAPCONF non-regression test suites.
+
+2.	Make sure your changes compile correctly (0 warning, 0 error).
+	OMAPCONF follows same coding convention as Linux Kernel.
+	PLEASE check your patch with the Linux Kernel automated style checker
+	(scripts/checkpatch.pl) to catch trival style violations.
+	See Linux Kernel "Documentation/CodingStyle" for guidance.
+
+3.	All functions in *.c source files should use the following
+	doxygen-compliant function header:
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		function name (only name, not full prototype)
+ * @BRIEF		short description of the function role.
+ * @RETURNS		returned value(s)
+ * @param[in]		for unchanged argument(s)
+ * @param[in, out]	for modified argument(s)
+ * @DESCRIPTION		complete description of the function role.
+ *//*------------------------------------------------------------------------ */
+
+	All created files shall come with he following
+	doxygen-compliant file header:
+
+/* ======================================================================= *//**
+ * @Component		OMAPCONF
+ * @Filename		name of the file
+ * @Description		main purpose of the functions in this file
+ * @Author		author
+ * @Date		year of creation
+ * @Copyright		person or company owning this code
+ *//*======================================================================== */
+
+	Please keep the same spacing (with tabs) between tags and descriptions
+
+4.	Make patch available to omapconf_contribution@list.ti.com
+
+	PLEASE document known bugs. If it doesn't work for everything
+	or does something very odd once a month document it.
+
+	PLEASE remember that submissions should include a Signed-off-by: line.
+
+5.	Make sure you have the right to send any changes you make. If you
+	do changes at work you may find your employer owns the patch
+	not you.
+
+Thanks!

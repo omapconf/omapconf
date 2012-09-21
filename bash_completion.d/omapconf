@@ -1,0 +1,271 @@
+#
+#  OMAPCONF BASH Completion Setup File
+#
+#  Copyright (C) 2010 Texas Instruments, Inc.
+#
+#  Patrick Titiano (p-titiano@ti.com)
+#  Refreshed a bit by Vincent Stehlé <v-stehle@ti.com>
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License version 2 as
+#  published by the Free Software Foundation.
+#
+
+have omapconf &&
+_omapconf()
+{
+    local cur prev opts base
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+    #
+    #  The basic options we'll complete.
+    #
+    opts="audit clear dump enable export read reset search set setup show \
+	test trace write --help --version --cpuinfo --buildinfo --import --norw \
+	--force"
+
+    #
+    #  Complete the arguments to some of the basic commands.
+    #
+    case "${prev}" in
+	abb)
+		opts="cfg dump"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	abe)
+		# TODO: cfg, disambiguate abe vs show abe
+		opts="atc cfg dump"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	avs)
+		opts="core full iva mpu "
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	audioic)
+		# TODO: cfg
+		COMPREPLY=("gains")
+		return 0
+		;;
+	audit)
+		opts="avs clkspeed dpll full homescreen io mp3 os_idle pads \
+			perf play720p play1080p rec1080p statdep sysconfig"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	# TODO: bit: address, name
+	bw)
+		# TODO: use case
+		opts="-h -m MA_MPU_1_2 -d -a -i -o -t -r -n"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	camera)
+		opts="all iss_hl iss_csi2a iss_csi2b iss_csiphy1 iss_csiphy2 iss_ccp2"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	clear)
+		opts="bit prcm"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	clkspeed)
+		COMPREPLY=("-kernel")
+		return 0
+		;;
+	counters)
+		opts="defaults help"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	ctt|pct)
+		# TODO: filename & disambiguate export ctt/pct vs ctt/pct
+		opts="dump rd1"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	ctrlmod)
+		opts="all core core_pad wkup wkup_pad"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	emif)
+		COMPREPLY=("dump")
+		return 0
+		;;
+	devpwrgrp)
+		opts="MOD CON APP ON OFF"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	display)
+		# TODO: disambiguate display vs dump display
+		opts="dump all dss dsi1 dsi1_pll dsi1_phy dsi2 dsi2_pll dsi2_phy rfbi venc"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	dpll)
+		# TODO: cfg, disambiguate dppl vs dump dpll vs show dpll
+		opts="-d -o mpu iva core per abe usb unipro1 unipro2 all"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	dump)
+		# TODO: address
+		opts="abe audioic camera ctrlmod display dpll emif mpuss pmic prcm sr"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	enable)
+		COMPREPLY=("hwobs")
+		return 0
+		;;
+	export)
+		# TODO: xml file
+		opts="ctt pct xml"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	hwobs)
+		# TODO: cfg, disambiguate enable vs setup vs show vs setup vs test
+		opts="abe cfg mpuss one pinmux prcm setup test zero"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	i2c)
+		opts="read write"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	mpuss)
+		# TODO: cfg, disambiguate dump vs show
+		opts="scu l2c gic wkg scm"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	perf)
+		opts="-d -s"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	pmic)
+		# TODO: disambiguate reset pmic vs set pmic vs show pmic
+		opts="cfg devpwrgrp devpwrgrpstat ldocfg rescfg smpscfg"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	prcm)
+		# TODO: disambiguate dump/show prcm vs set/clear prcm statdep vs show,
+		# and pwrdm vs clkdm
+		opts="abb abe all alwon c2c cam ckgen core coreaon dep dev dma \
+			dsp dss dyndep emif emu gfx gpu instr ipu irq iva ivahd \
+			l3init l3instr l3main1 l3main2 l4cfg l4per mipiext mpu \
+			per statdep wkdep wkup wkupaon"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	read)
+		# TODO: address, name
+		opts="audioic i2c"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	reset)
+		COMPREPLY=("pmic")
+		return 0
+		;;
+	search)
+		COMPREPLY=("vmin")
+		return 0
+		;;
+	set)
+		opts="bit pmic prcm volt"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	setup)
+		COMPREPLY=("hwobs")
+		return 0
+		;;
+	show)
+		opts="abe audioic dpll hwobs mpuss opp pmic prcm pwst sr temp timers_32k"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	sr)
+		# TODO: cfg, disambiguate dump sr vs show sr
+		opts="all core mm mpu status"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	statdep)
+		# TODO: disambiguate vs prcm
+		opts="abe all c2c cam clear coreaon custefuse dma dsp dss dump \
+			emif emu gpu ipu iva l3init l3instr l3main1 l3main2 \
+			l4cfg l4per l4sec mipiext mpu set wkupaon"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	temp)
+		# TODO: disambiguate vs show
+		opts="all bandgap case core emif1 emif2 gpu hotspot mem mpu pcb"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	test)
+		COMPREPLY=("hwobs")
+		return 0
+		;;
+	trace)
+		opts="bw counters opp perf pwrdm"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	vmin)
+		opts="mpu iva core"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	volt)
+		opts="core iva mm mpu"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	write)
+		# TODO: address
+		opts="audioic i2c"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	-d)
+		# TODO: disambiguate dpll vs delay
+		opts="abe all core iva mpu per unipro1 unipro2 usb"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	--force)
+		opts="omap4430 omap4460 omap4470 omap5430 omap5432"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+	--import)
+		_filedir
+		return 0
+		;;
+	-o)
+		opts="all dpll_casc high low nom opp100 opp50 opp_nitro \
+			opp_nitrosb opp_turbo speedbin"
+		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+		return 0
+		;;
+    esac
+
+    COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+    return 0
+} &&
+complete -F _omapconf omapconf

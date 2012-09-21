@@ -1,0 +1,10 @@
+*.ko
+*.cmd
+*.o
+*.mod.c
+/omapconf
+*.pyc
+builddate.c
+Module.symvers
+Module.markers
+modules.order

@@ -1,0 +1,124 @@
+###############################################################################
+#                                                                             #
+#                                 CREDITS                                     #
+#                                                                             #
+###############################################################################
+
+	This is at least a partial credits-file of people that have
+	contributed to the OMAPCONF project. It is sorted by name and
+	formatted to allow easy grepping and beautification by
+	scripts.  The fields are: name (N), email (E), web-address
+	(W), PGP key ID and fingerprint (P), description (D), and
+	snail-mail address (S).
+----------
+
+N: Sergio Aguirre
+E: saaguirre@ti.com
+D: OMAP4 ISS/CAMERA support
+S: USA
+
+N: Benoit Cousson
+E: b-cousson@ti.com
+D: initiator
+S: France
+
+N: Oleksandr Dmytryshyn
+E: oleksandr.dmytryshyn@ti.com
+D: OMAP4470 support
+S: Ukraine
+
+N: Sebastien Guiriec
+E: s-guiriec@ti.com
+D: ABE HW observability support
+S: France
+
+N: Nourredine Hamoudi
+E: n-hamoudi@ti.com
+D: initiator
+S: France
+
+N: Jon Hunter
+E: jon-hunter@ti.com
+D: PCT support
+D: CTT support
+D: kernel timer statistics support
+D: OMAP4430 ES2.2 detection
+D: misc. fixes/improvements
+S: USA
+
+N: Ivan Khoronzhuk
+E: ivan.khoronzhuk@ti.com
+D: OMAP4 IO PAD Audit Function
+S: USA
+
+N: Louis Lamia
+E: loulamia@ti.com
+D: Performance Trace customization capability
+S: USA
+
+N: Edward Lee
+E: edward.lee@ti.com
+D: OMAP4 ISS/CAMERA support
+S: Taiwan
+
+N: Misael Lopez Cruz
+E: misael.lopez@ti.com
+D: TWL6040 support
+S: USA
+
+N: Nishanth Menon
+E: nm@ti.com
+D: TWL6030 support
+D: Makefile guidelines
+D: misc. bug fixes
+S: USA
+
+N: Vikram Pandita
+E: vikram.pandita@ti.com
+D: OMAP4460 ES1.1 detection fix
+D: Makefile guidelines
+D: misc. bug fixes
+S: USA
+
+N: Erwan Petillon
+E: e-petillon@ti.com
+D: DSS registers dump
+S: France
+
+N: Konstantin Shlyakhovoy
+E: x0155534@ti.com
+D: OMAP4460 setvolt & vminsearch support
+D: OMAP4460 OPP-NITRO-SB support.
+D: OMAP4460 OPP frequency table correction
+S: Ukraine
+
+N: Steve Korson
+E: s-korson@ti.com
+D: OMAP4 EMIF/L2 cache controller counters trace
+S: USA
+
+N: Patrick Titiano
+E: p-titiano@ti.com
+D: initiator
+D: OMAP4 support
+D: OMAP5 support
+D: maintainer
+S: France
+
+N: Fred Turgis
+E: f-turgis@ti.com
+D: EMIF bandwidth monitoring with statistical collectors
+S: France
+
+N: Mike Turquette
+E: mturquette@ti.com
+D: RBB/FBB fix
+D: misc. bug fixes
+S: USA
+
+N: Cedric Vamour
+E: c-vamour@ti.com
+D: HW observability support for PRCM
+D: DPLL configuration audit
+D: misc. fixes/improvements
+S: France

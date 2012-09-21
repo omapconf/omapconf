@@ -1,0 +1,84 @@
+/*
+ *
+ * @Component			OMAPCONF
+ * @Filename			coresight44xx.h
+ * @Description			OMAP4 ARM CORESIGHT configuration & control
+ *				functions
+ * @Author			Patrick Titiano (p-titiano@ti.com)
+ * @Date			2011
+ * @Copyright			Texas Instruments Incorporated
+ *
+ *
+ * Copyright (C) 2011 Texas Instruments Incorporated - http://www.ti.com/
+ *
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ */
+
+
+#ifndef __CORESIGHT44XX_H__
+#define __CORESIGHT44XX_H__
+
+
+#define OMAP4_CORESIGHT_UNLOCK_VALUE	0xC5ACCE55
+
+#define OMAP4430_CORESIGHT_REGADDR(module, reg) ((module) + (reg))
+
+#define OMAP4430_ETB_BASE	0x54162000
+#define OMAP4430_ETB_RDP	OMAP4430_CORESIGHT_REGADDR(OMAP4430_ETB_BASE, 0x004)
+#define OMAP4430_ETB_STS	OMAP4430_CORESIGHT_REGADDR(OMAP4430_ETB_BASE, 0x00C)
+#define OMAP4430_ETB_RRD	OMAP4430_CORESIGHT_REGADDR(OMAP4430_ETB_BASE, 0x010)
+#define OMAP4430_ETB_RRP	OMAP4430_CORESIGHT_REGADDR(OMAP4430_ETB_BASE, 0x014)
+#define OMAP4430_ETB_RWP	OMAP4430_CORESIGHT_REGADDR(OMAP4430_ETB_BASE, 0x018)
+#define OMAP4430_ETB_TRG	OMAP4430_CORESIGHT_REGADDR(OMAP4430_ETB_BASE, 0x01C)
+#define OMAP4430_ETB_CTL	OMAP4430_CORESIGHT_REGADDR(OMAP4430_ETB_BASE, 0x020)
+#define OMAP4430_ETB_RWD	OMAP4430_CORESIGHT_REGADDR(OMAP4430_ETB_BASE, 0x024)
+#define OMAP4430_ETB_FFSR	OMAP4430_CORESIGHT_REGADDR(OMAP4430_ETB_BASE, 0x300)
+#define OMAP4430_ETB_FFCR	OMAP4430_CORESIGHT_REGADDR(OMAP4430_ETB_BASE, 0x304)
+#define OMAP4430_ETB_CTS	OMAP4430_CORESIGHT_REGADDR(OMAP4430_ETB_BASE, 0xFA0)
+#define OMAP4430_ETB_CTC	OMAP4430_CORESIGHT_REGADDR(OMAP4430_ETB_BASE, 0xFA4)
+#define OMAP4430_ETB_LOCK	OMAP4430_CORESIGHT_REGADDR(OMAP4430_ETB_BASE, 0xFB0)
+#define OMAP4430_ETB_LOCK_STS	OMAP4430_CORESIGHT_REGADDR(OMAP4430_ETB_BASE, 0xFB4)
+
+#define OMAP4430_CSTF_BASE	0x54164000
+#define OMAP4430_CSTF_FCR	OMAP4430_CORESIGHT_REGADDR(OMAP4430_CSTF_BASE, 0x000)
+#define OMAP4430_CSTF_PCR	OMAP4430_CORESIGHT_REGADDR(OMAP4430_CSTF_BASE, 0x004)
+#define OMAP4430_CSTF_CTS	OMAP4430_CORESIGHT_REGADDR(OMAP4430_CSTF_BASE, 0xFA0)
+#define OMAP4430_CSTF_CTC	OMAP4430_CORESIGHT_REGADDR(OMAP4430_CSTF_BASE, 0xFA4)
+#define OMAP4430_CSTF_LOCK	OMAP4430_CORESIGHT_REGADDR(OMAP4430_CSTF_BASE, 0xFB0)
+#define OMAP4430_CSTF_LOCK_STS	OMAP4430_CORESIGHT_REGADDR(OMAP4430_CSTF_BASE, 0xFB4)
+
+
+int coresight_etb_capture_enable(void);
+int coresight_etb_capture_disable(unsigned int *size);
+int coresight_etb_save_trace(char *filename);
+
+
+#endif
