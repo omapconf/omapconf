@@ -416,7 +416,7 @@ void help44xx(help_category cat, char *context)
 		printf(
 			"\t    # omapconf trace perf -t 30 -d 3 -s 0.1 -p db175_mp3_\n");
 
-		printf("\n\tomapconf trace bw [-h] [-m 0xyy or MA_MPU_1_2]"
+		printf("\n\tomapconf trace bw [-h] [-m 0xyy or -m MA_MPU_1_2]"
 			" [-d x] [-a 1 or 2] [-i x] [-o x -t y] "
 			"[-r 0xaaaaaaaa-0xbbbbbbbb] [-n]\n");
 		printf("\t    EMIF traffic monitoring. Type 'omapconf trace "
