@@ -135,6 +135,7 @@ char *cpu_gets(char s[CPU_NAME_MAX_LENGTH]);
 char *cpu_full_name_get(char s[CPU_FULL_NAME_MAX_LENGTH]);
 
 unsigned int cpu_cores_count_get(void);
+unsigned int cpu_online_cores_count_get(void);
 
 unsigned int cpu_is_online(unsigned short cpu);
 int cpu_proc_stats_get(unsigned int cpu,
