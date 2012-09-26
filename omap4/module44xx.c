@@ -193,7 +193,7 @@ int mod44xx_get_mode(mod44xx_id id, mod_module_mode *mmode)
 		dprintf(
 			"%s(): CM_CLKCTRL ADDR = 0x%08X CM_CLKCTRL = 0x%08X MODULEMODE = %d\n",
 			__func__, cm_clkctrl_addr, cm_clkctrl, *mmode);
-		ret = 0;
+		ret = *mmode;
 	}
 
 mod44xx_get_mode_exit:
