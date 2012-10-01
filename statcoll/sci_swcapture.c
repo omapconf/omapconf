@@ -306,6 +306,42 @@ void sci_killhandler(void)
 	omapconf_emu_disable_domain();
 }
 
+struct master_names {
+	char *name;
+	unsigned int addr;
+};
+
+struct master_names match_master[] = {
+{ "all", SCI_MASTID_ALL },
+{ "mpudss", SCI_MSTID_MPUSS },
+{ "dap", SCI_MSTID_DAP },
+{ "dsp", SCI_MSTID_DSP },
+{ "iva", SCI_MSTID_IVA },
+{ "iss", SCI_MSTID_ISS },
+{ "ipu", SCI_MSTID_IPU },
+{ "fdid", SCI_MSTID_FDIF },
+{ "sdma_rd", SCI_MSTID_SDMA_RD },
+{ "sdma_wr", SCI_MSTID_SDMA_WR },
+{ "gpu_p1", SCI_MSTID_GPU_P1 },
+{ "gpu_p2", SCI_MSTID_GPU_P2 },
+{ "bb2d_p1", SCI_MSTID_BB2D_P1 },
+{ "bb2d_p2", SCI_MSTID_BB2D_P2 },
+{ "dss", SCI_MSTID_DSS },
+{ "c2c", SCI_MSTID_C2C },
+{ "lli", SCI_MSTID_LLI },
+{ "hsi", SCI_MSTID_HSI },
+{ "unipro1", SCI_MSTID_UNIPRO1 },
+{ "unipro2", SCI_MSTID_UNIPRO2 },
+{ "mmc1", SCI_MSTID_MMC1 },
+{ "mmc2", SCI_MSTID_MMC2 },
+{ "sata", SCI_MSTID_SATA },
+{ "usb_host_hs", SCI_MSTID_USB_HOST_HS },
+{ "usb_otg_hs", SCI_MSTID_USB_OTG_HS },
+{ "usb_otg_fs", SCI_MSTID_USB_OTG_FS },
+{ "usb3", SCI_MSTID_USB3 },
+{ NULL, 0 }
+};
+
 int statcoll_main(int argc, char **argv)
 {
 	struct sci_config my_sci_config;
@@ -329,7 +365,7 @@ int statcoll_main(int argc, char **argv)
 		{
 			case 'h':
 				printf("\n\tomapconf trace bw [-h] [-m 0xyy or MA_MPU_1_2] [-d x] [-a 1 or 2] [-i x] [-o x -t y] [-r 0xaaaaaaaa-0xbbbbbbbb] [-n]\n");
-				printf("\n\t-m 0xaa or MA_MPU_1_2\n");
+				printf("\n\t-m 0xaa or MA_MPU_1_2 or XXX (SCI_MSTID_XXX)\n");
 				printf("\t\tMaster initiator\n");
 				printf("\t\tMA_MPU_1_2 - Non DMM MPU memory traffic, see Examples\n");
 				printf("\t\tSCI_MASTID_ALL 0x%x\n", SCI_MASTID_ALL);
@@ -357,6 +393,8 @@ int statcoll_main(int argc, char **argv)
 				printf("\t\tSCI_MSTID_SATA 0x%x\n", SCI_MSTID_SATA);
 				printf("\t\tSCI_MSTID_USB_HOST_HS 0x%x\n", SCI_MSTID_USB_HOST_HS);
 				printf("\t\tSCI_MSTID_USB_OTG_HS 0x%x\n", SCI_MSTID_USB_OTG_HS);
+				printf("\t\tSCI_MSTID_USB_OTG_FS 0x%x\n", SCI_MSTID_USB_OTG_FS);
+				printf("\t\tSCI_MSTID_USB3 0x%x\n", SCI_MSTID_USB3);
 				printf("\n\t-d xxx or 0.xx\n");
 				printf("\t\tDelay in ms between 2 captures, can be float\n");
 				printf("\n\t-a 1 or 2\n");
@@ -397,13 +435,23 @@ int statcoll_main(int argc, char **argv)
 
 			case 'm':
 				if (strstr(optarg, "0x")) {
-					int a;
+					unsigned int a, loop = 0;
 					sscanf(optarg, "%x", &a);
 					my_config_emif1.filter[0].mstr_addr_match = a;
 					my_config_emif2.filter[0].mstr_addr_match = a;
 					my_config_emif3.filter[0].mstr_addr_match = a;
 					my_config_emif4.filter[0].mstr_addr_match = a;
-					printf("Master: %x\n", a);
+
+					while (match_master[loop].name != NULL)
+					{
+						if (match_master[loop].addr == a)
+							break;
+						loop++;
+					}
+					if (match_master[loop].name != NULL)
+						printf("Master: %s\n", match_master[loop].name);
+					else
+						printf("Master: %x\n", a);
 				}
 				else if (strstr(optarg, "ma_mpu_1_2")) {
 					my_config_emif1.probe_id = SCI_MA_MPU_P1;
@@ -411,6 +459,28 @@ int statcoll_main(int argc, char **argv)
 					my_config_emif3.probe_id = SCI_MA_MPU_P1;
 					my_config_emif4.probe_id = SCI_MA_MPU_P2;
 					printf("Master: MA_MPU_1 and MA_MPU_2\n");
+				}
+				else
+				{
+					int loop = 0;
+					while (match_master[loop].name != NULL)
+					{
+						if (!strcmp(match_master[loop].name, optarg))
+							break;
+						loop++;
+					}
+					if (match_master[loop].name != NULL)
+					{
+						my_config_emif1.filter[0].mstr_addr_match = match_master[loop].addr;
+						my_config_emif2.filter[0].mstr_addr_match = match_master[loop].addr;
+						my_config_emif3.filter[0].mstr_addr_match = match_master[loop].addr;
+						my_config_emif4.filter[0].mstr_addr_match = match_master[loop].addr;
+						printf("Master: %s\n", match_master[loop].name);
+					}
+					else
+					{
+						printf("ERROR: %s option of -m is not recognized, forcing ALL\n", optarg);
+					}
 				}
 			break;
 			case 'd':
