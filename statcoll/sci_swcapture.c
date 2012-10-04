@@ -143,6 +143,7 @@ static volatile unsigned int *addr_32k = NULL; // 32K timestamping
 static uint32_t counters[(8+1)*MAX_ITERATIONS]; // timestamp+counters storing in "-a 1" mode
 static unsigned int num_use_cases = 4;
 static unsigned int option_overflow_counter_index[2], option_overflow_threshold[2];
+static unsigned int option_overflow_iterations;
 static unsigned int tests; // number of tests really executed in case of Ctrl-C
 static unsigned int nosleep_32k_reg; // -n option
 static unsigned int option_nosleep_32k = 0; // -n option
@@ -163,8 +164,10 @@ void dump_buffer(void)
 {
 	uint32_t *counters_current = counters;
 	unsigned int timestamp0, time;
-	unsigned int i,j;
+	unsigned int i,j, tests_overflow;
 	unsigned int *prev_counter, *current_counter;
+	tests_overflow = 1;
+	unsigned int overflow_on = 0;
 
 	fprintf(stderr, "%u iterations finished, dumping to file\n", tests);
 
@@ -176,6 +179,16 @@ void dump_buffer(void)
 			printf("Ref timestamp: %u\n", timestamp0);
 		}
 		time = timestamp - timestamp0;
+
+		if (    ( (option_overflow_iterations > 0) && (tests_overflow > option_overflow_iterations) )
+		     || (   (option_overflow_iterations == 0)
+		         && (   (*(counters_current + 1 + option_overflow_counter_index[0]) >= option_overflow_threshold[0])
+		             || (*(counters_current + 1 + option_overflow_counter_index[1]) >= option_overflow_threshold[1])
+		            )
+		        )
+		   )
+			overflow_on = 1;
+
 		for (j = 0; j < num_use_cases; j++) {
 			current_counter = counters_current + 1 + j + 1 + num_use_cases;
 			prev_counter = counters_current + 1 + j;
@@ -187,8 +200,7 @@ void dump_buffer(void)
 			}
 
 			// Dump result. In case of overflow, just print for reference, post-processing will ignore
-			if ( (*(counters_current + 1 + option_overflow_counter_index[0]) >= option_overflow_threshold[0])
-			  || (*(counters_current + 1 + option_overflow_counter_index[1]) >= option_overflow_threshold[1]) ) {
+			if (overflow_on == 1) {
 				printf("Warning: overflow\n");
 				printf("0,0,0,S,,SDRAM,,%u,%s,T,V,%u,,,,0,\n", *current_counter - *prev_counter, msg_overflow[j], time);
 			}
@@ -205,6 +217,12 @@ void dump_buffer(void)
 			}
 		}
 		counters_current += 1 + num_use_cases;
+
+		if (overflow_on == 1) {
+			tests_overflow = 0;
+			overflow_on = 0;
+		}
+		tests_overflow++;
 	}
 }
 
@@ -237,6 +255,7 @@ int statcoll_main(int argc, char **argv)
 	int c, option_index = 0;
 	static int longopt_flag;
 	unsigned int option_delay_us;
+	unsigned int option_overflow_delay_us;
 	unsigned int option_iterations;
 	unsigned int option_disable = 0;
 	unsigned int option_min_addr;
@@ -245,6 +264,8 @@ int statcoll_main(int argc, char **argv)
 
 	// Default values of options
 	option_delay_us = 1000000; // 1 second
+	option_overflow_delay_us = 1000000; // 1 second
+	option_overflow_iterations = option_overflow_delay_us / option_delay_us;
 	option_accumulation_type = 2; // dump on terminal
 	option_iterations = 0; // infinite iterations
 	option_overflow_counter_index[0] = 0; // check counter 0 for overflow
@@ -279,6 +300,7 @@ int statcoll_main(int argc, char **argv)
 		{"p6",	required_argument,	&longopt_flag,	'p'},
 		{"p7",	required_argument,	&longopt_flag,	'p'},
 		{"allcounters",	no_argument,	&longopt_flag,	'8'},
+		{"overflow_delay",	required_argument,	&longopt_flag,	'1'},
 		{0, 0, 0, 0}
 	};
 
@@ -579,6 +601,8 @@ int statcoll_main(int argc, char **argv)
 					printf("ERROR: %s option of -d not recognized or wrong\n", optarg);
 					goto END;
 				}
+				if (option_overflow_iterations > 0)
+					option_overflow_iterations = option_overflow_delay_us / option_delay_us;
 			}
 			break;
 			case 'a':
@@ -607,6 +631,8 @@ int statcoll_main(int argc, char **argv)
 				option_overflow_counter_index[1] = result;
 				if (o_count++ == 0)
 					option_overflow_counter_index[0] = result;
+				option_overflow_delay_us = 0;
+				option_overflow_iterations = 0;
 			}
 			break;
 			case 't':
@@ -622,6 +648,8 @@ int statcoll_main(int argc, char **argv)
 				option_overflow_threshold[1] = result;
 				if (t_count++ == 0)
 					option_overflow_threshold[0] = result;
+				option_overflow_delay_us = 0;
+				option_overflow_iterations = 0;
 			}
 			break;
 			case 'n':
@@ -629,6 +657,19 @@ int statcoll_main(int argc, char **argv)
 			break;
 			case '8':
 				 num_use_cases = sizeof(pmy_cfg)/sizeof(struct sci_config_sdram *);
+			break;
+			case '1':
+			{
+				float a;
+				if ( (sscanf(optarg, "%f", &a) > 0) && (a > 0)) {
+					option_overflow_delay_us = a * 1000;
+					option_overflow_iterations = option_overflow_delay_us / option_delay_us;
+				}
+				else {
+					printf("ERROR: %s option of --overflow_delay not recognized or wrong\n", optarg);
+					goto END;
+				}
+			}
 			break;
 			case 'r':
 				sscanf(optarg, "0x%x-0x%x", &option_min_addr, &option_max_addr);
@@ -762,10 +803,20 @@ int statcoll_main(int argc, char **argv)
 	}
 
 	printf("delay in us: %u\n", option_delay_us);
+	if (option_overflow_iterations > 0)
+		printf("overflow delay in us: %u (iterations=%u)\n", option_overflow_delay_us, option_overflow_iterations);
+	else
+		printf("overflow delay in us: DISABLED (-o -t used)\n");
 	printf("accumulation type: %u\n", option_accumulation_type);
 	printf("iterations (0=infinite): %u\n", option_iterations);
-	printf("Overflow counter index: %u %u\n", option_overflow_counter_index[0], option_overflow_counter_index[1]);
-	printf("Overflow threshold: %u %u\n", option_overflow_threshold[0], option_overflow_threshold[1]);
+	if (option_overflow_iterations == 0) {
+		printf("Overflow counter index: %u %u\n", option_overflow_counter_index[0], option_overflow_counter_index[1]);
+		printf("Overflow threshold: %u %u\n", option_overflow_threshold[0], option_overflow_threshold[1]);
+	}
+	else {
+		printf("Overflow counter index: DISABLED (overflow delay used)\n");
+		printf("Overflow threshold: DISABLED (overflow delay used)\n");
+	}
 
 	if ((option_accumulation_type == 1) && (option_overflow_threshold[0] == 0))
 		printf("WARNING: it is not recommended to set -a 1 with -t 0 if -d is small. HW is reset at every capture !\n");
@@ -838,6 +889,7 @@ int statcoll_main(int argc, char **argv)
 		if (valid_usecase_cnt == num_use_cases)
 		{
 			uint32_t *counters_current = counters;
+			unsigned int tests_overflow = 1;
 
 			if (option_accumulation_type == 1) {
 				for (tests = 0; tests < (option_iterations * 9); tests++)
@@ -850,17 +902,24 @@ int statcoll_main(int argc, char **argv)
 					*counters_current = GET_32K;
 					sci_dump_sdram_cntrs(num_use_cases, counters_current + 1);
 
-					if ( (*(counters_current + 1 + option_overflow_counter_index[0]) >= option_overflow_threshold[0])
-					  || (*(counters_current + 1 + option_overflow_counter_index[1]) >= option_overflow_threshold[1]) ) {
+					if (    ( (option_overflow_iterations > 0) && (tests_overflow > option_overflow_iterations) )
+					     || (   (option_overflow_iterations == 0)
+					         && (   (*(counters_current + 1 + option_overflow_counter_index[0]) >= option_overflow_threshold[0])
+					             || (*(counters_current + 1 + option_overflow_counter_index[1]) >= option_overflow_threshold[1])
+					            )
+					        )
+					   ) {
 						sci_global_disable(psci_hdl);
 						sci_global_enable(psci_hdl);
 						counters_current += 1 + num_use_cases;
 						*counters_current = GET_32K;
 						sci_dump_sdram_cntrs(num_use_cases, counters_current + 1);
 						tests++;
+						tests_overflow = 1;
 						//printf("overflow %u\n", *counters_current - counters[0]);
 					}
 					counters_current += 1 + num_use_cases;
+					tests_overflow++;
 				}
 			}
 			else {
