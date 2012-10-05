@@ -159,6 +159,10 @@ void nosleep_32k_disable(void);
 void omapconf_emu_enable_domain(void);
 void omapconf_emu_disable_domain(void);
 
+// Generic handling of sample array
+#define SAMPLE_SIZE (1 + num_use_cases) // sample contains 1 timestamp + x counters
+#define TIMESTAMP_INDEX (0) // timestamp is first index in 1 sample
+#define COUNTER_INDEX (1) // counters are put just after timestamp
 
 void dump_buffer(void)
 {
@@ -171,29 +175,33 @@ void dump_buffer(void)
 
 	fprintf(stderr, "%u iterations finished, dumping to file\n", tests);
 
+	// for each test, we will compute delta between prev and current and print at current timestamp
 	for (i = 0; i < tests - 1; i++)
 	{
-		unsigned int timestamp = *(counters_current + 1 + num_use_cases);
+		unsigned int timestamp = *(counters_current + TIMESTAMP_INDEX + SAMPLE_SIZE);
 		if (i == 0) {
-			timestamp0 = *counters_current;
+			timestamp0 = *(counters_current + TIMESTAMP_INDEX);
 			printf("Ref timestamp: %u\n", timestamp0);
 		}
+		// Use relative timestamp
 		time = timestamp - timestamp0;
 
+		// Detect reset. Sample i triggers reset so sample i+1 delta to i is ignored
 		if (    ( (option_overflow_iterations > 0) && (tests_overflow > option_overflow_iterations) )
 		     || (   (option_overflow_iterations == 0)
-		         && (   (*(counters_current + 1 + option_overflow_counter_index[0]) >= option_overflow_threshold[0])
-		             || (*(counters_current + 1 + option_overflow_counter_index[1]) >= option_overflow_threshold[1])
+		         && (   (*(counters_current + COUNTER_INDEX + option_overflow_counter_index[0]) >= option_overflow_threshold[0])
+		             || (*(counters_current + COUNTER_INDEX + option_overflow_counter_index[1]) >= option_overflow_threshold[1])
 		            )
 		        )
 		   )
 			overflow_on = 1;
 
 		for (j = 0; j < num_use_cases; j++) {
-			current_counter = counters_current + 1 + j + 1 + num_use_cases;
-			prev_counter = counters_current + 1 + j;
+			// current counter is in fact next sample, i.e. j + sample_size. prev is j
+			current_counter = counters_current + SAMPLE_SIZE + COUNTER_INDEX + j;
+			prev_counter = counters_current + COUNTER_INDEX + j;
 
-			// Overflow at 2^32
+			// Overflow at 2^32. We can't fix that
 			if (*current_counter == 0xFFFFFFFF) {
 				fprintf(stderr, "ERROR: counter %d %s overflowed at time %u, don't trust results\n", j, msg[j], time);
 				printf("ERROR: counter %d %s overflowed at time %u, don't trust results\n", j, msg[j], time);
@@ -205,7 +213,7 @@ void dump_buffer(void)
 				printf("0,0,0,S,,SDRAM,,%u,%s,T,V,%u,,,,0,\n", *current_counter - *prev_counter, msg_overflow[j], time);
 			}
 			else {
-				// HW bug, you read a counter that is < previous value
+				// HW bug, you read a counter that is < previous value. We fix this by forcing same value than previous sample
 				if (*current_counter < *prev_counter) {
 					fprintf(stderr, "WARNING: HW bug, counter %d %s  N-1=%u N=%u at time %u. omapconf fixes it\n", j, msg[j], *prev_counter, *current_counter, time);
 					printf("WARNING: HW bug, counter %d %s  N-1=%u N=%u at time %u. omapconf fixes it\n", j, msg[j], *prev_counter, *current_counter, time);
@@ -216,7 +224,7 @@ void dump_buffer(void)
 				printf("0,0,0,S,,SDRAM,,%u,%s,T,V,%u,,,,0,\n", *current_counter - *prev_counter, msg[j], time);
 			}
 		}
-		counters_current += 1 + num_use_cases;
+		counters_current += SAMPLE_SIZE;
 
 		if (overflow_on == 1) {
 			tests_overflow = 0;
@@ -320,7 +328,7 @@ int statcoll_main(int argc, char **argv)
 			{
 				unsigned int loop = 0;
 
-				printf("\n\tomapconf trace bw [-h] [<-m | --m<x>> <0xyy | ma_mpu | alldmm | dss | iva | ...>] [<-p | --p<x> <emif1 | emif2>] [<--tr | --tr<x>> <r|w|r+w>] [-d x] [-a 1 or 2] [-i x] [-o x -t y] [-r 0xaaaaaaaa-0xbbbbbbbb] [-n]\n");
+				printf("\n\tomapconf trace bw [-h] [<-m | --m<x>> <0xyy | ma_mpu | alldmm | dss | iva | ...>] [<-p | --p<x> <emif1 | emif2>] [<--tr | --tr<x>> <r|w|r+w>] [-d x] [--overflow_delay x] [-a 1 or 2] [-i x] [-o x -t y] [-r 0xaaaaaaaa-0xbbbbbbbb] [-n]\n");
 				printf("\n\t-m, -p, -q sets all 8 counters while -m0, --p0, --q0 to --m7, --tr7, --p5 set 1 counter only\n");
 				printf("\n\t-m <0xyy | ma_mpu | alldmm | dss | iva | ...> (MA_MPU_1_2 deprecated)\n");
 				printf("\t\tMaster initiator monitored. WARNING: All DMM traffic includes DSS, IVA, GPU, ... but not MA_MPU, which requires parallel monitoring \n");
@@ -334,6 +342,8 @@ int statcoll_main(int argc, char **argv)
 
 				printf("\n\t-d xxx or 0.xx\n");
 				printf("\t\tDelay in ms between 2 captures, can be float\n");
+				printf("\n\t--overflow_delay xxx or 0.xx\n");
+				printf("\t\tDelay in ms after which HW IP is reset to avoid overflow. Disables -o -t options. Can be float.\n");
 				printf("\n\t-p <emif1 | emif2> or --p<x> <emif1 | emif2>\n");
 				printf("\t\tProbed channel. 1 counter can monitor only EMIF1 or EMIF2\n");
 				printf("\n\t--tr <r|w|r+w> or --tr<x> <r|w|r+w>\n");
@@ -343,7 +353,7 @@ int statcoll_main(int argc, char **argv)
 				printf("\n\t-i x\n");
 				printf("\t\tnumber of iterations (for -a 1). You can Ctrl-C during test, current captures will be displayed\n");
 				printf("\n\t-o x -t y \n");
-				printf("\t\tindex for overflow handling + threshold to reset HW. You MUST use them for -a 1\n");
+				printf("\t\tindex for overflow handling + threshold to reset HW. Disables auto-reset of HW IP based on time (--overflow_delay). You MUST use them for -a 1\n");
 				printf("\t\tUse this option twice to set 2 different thresholds on 2 different counters\n");
 				printf("\n\t-r 0xaa-0xbb\n");
 				printf("\t\taddress filtering, like 0x9b000000-0x9f000000\n");
@@ -361,13 +371,13 @@ int statcoll_main(int argc, char **argv)
 				printf("\t\tCounter: 5  Master: alldmm  Transaction: w Probe: emif2\n");
 				printf("\t\tCounter: 6  Master: alldmm  Transaction: r+w Probe: emif1\n");
 				printf("\t\tCounter: 7  Master: alldmm  Transaction: r+w Probe: emif2\n");
-				printf("\n\t-m 0x70 -d 1000 -a 2 -o 2 -t 3000000000 (often used as -m 0x70 only)\n");
+				printf("\n\t-m 0x70 -d 1000 -a 2 (often used as -m 0x70 only)\n");
 				printf("\t\taccumulation 2 is reading of registers and tracing them immediately\n");
 				printf("\t\tFormat is time: time_start time_end delta_time -> Wr_DMM_EMIF1 Wr_DMM_EMIF2 Rd_DMM_EMIF1 Rd_DMM_EMIF2 (MB/s)\n");
 				printf("\n\t-m dss -d 0.3 -a 1 -i 40000 -o 2 -t 3000000000\n");
 				printf("\t\taccumulation 1 is reading of registers and storing in RAM. Result is dumped at the end with CCS format to reuse\n");
 				printf("\t\texisting post-processing. So you must set iterations. Overflow is taken into account. Suits small delays\n");
-				printf("\n\t-m MA_MPU -d 1000 -a 2 -o 2 -t 3000000000\n");
+				printf("\n\t-m MA_MPU -d 1000 -a 2 --overflow_delay 500\n");
 				printf("\t\tMA_MPU is MPU memory adaptor, a direct path to EMIF. MA_MPU will display:\n");
 				printf("\t\tWr_MA_MPU_EMIF1 Wr_MA_MPU_EMIF2 Rd_MA_MPU_EMIF Rd_MA_MPU_EMIF2 (MB/s)\n");
 				printf("\n\t--tr r+w -p emif1 --m0 ma_mpu --m1 ma_mpu --tr1 w --p1 emif2 --m2 gpu_p1 --m3 dss --m4 alldmm --m5 alldmm --p5 emif2\n");
@@ -380,8 +390,8 @@ int statcoll_main(int argc, char **argv)
 				printf("\n\t2 masters + all traffic on EMIF1 and EMIF2: --tr r+w --m0 dss --m1 dss --m2 iva --m3 iva --m6 ma_mpu --m7 ma_mpu\n");
 				printf("\tNote that you can monitor more masters if you have identified earlier that traffic is well balanced over EMIF1 and EMIF2, i.e. traffic for this master = 2 * EMIF1 = 2 * EMIF2\n");
 				printf("\n\tDefault settings:\n");
-				printf("\t\t-m 0xcd -d 1000 -a 2 -i 0 -o 0 -t 0\n");
-				printf("\t\tall initiators, 1000ms delay, accumulation 2, infinite iterations, overflow on counter 0, threshold=0 i.e. always stop/restart HW IP after 1 capture\n");
+				printf("\t\t-m 0xcd -d 1000 -a 2 -i 0 --overflow_delay 1000\n");
+				printf("\t\tall initiators, 1000ms delay, accumulation 2, infinite iterations, auto-reset IP after 1 s, i.e. always stop/restart HW IP after 1 capture\n");
 				printf("\n\tPost-processing (for -a 1):\n");
 				printf("\t\tgit clone git://gitorious.tif.ti.com/omap-video-perf/runperf.git, instrumentation/bandwidth/BWstats_ccsv5.py\n");
 				printf("\t\tpython-matplotlib is needed\n");
@@ -818,9 +828,6 @@ int statcoll_main(int argc, char **argv)
 		printf("Overflow threshold: DISABLED (overflow delay used)\n");
 	}
 
-	if ((option_accumulation_type == 1) && (option_overflow_threshold[0] == 0))
-		printf("WARNING: it is not recommended to set -a 1 with -t 0 if -d is small. HW is reset at every capture !\n");
-
 	if (option_iterations > MAX_ITERATIONS) {
 		option_iterations = MAX_ITERATIONS;
 		printf("WARNING: MAX_ITERATIONS(%d) exceeded\n", option_iterations);
@@ -899,26 +906,26 @@ int statcoll_main(int argc, char **argv)
 
 				for (tests = 0; tests < option_iterations; tests++) {
 					usleep(option_delay_us);
-					*counters_current = GET_32K;
-					sci_dump_sdram_cntrs(num_use_cases, counters_current + 1);
+					*(counters_current + TIMESTAMP_INDEX) = GET_32K;
+					sci_dump_sdram_cntrs(num_use_cases, counters_current + COUNTER_INDEX);
 
 					if (    ( (option_overflow_iterations > 0) && (tests_overflow > option_overflow_iterations) )
 					     || (   (option_overflow_iterations == 0)
-					         && (   (*(counters_current + 1 + option_overflow_counter_index[0]) >= option_overflow_threshold[0])
-					             || (*(counters_current + 1 + option_overflow_counter_index[1]) >= option_overflow_threshold[1])
+					         && (   (*(counters_current + COUNTER_INDEX + option_overflow_counter_index[0]) >= option_overflow_threshold[0])
+					             || (*(counters_current + COUNTER_INDEX + option_overflow_counter_index[1]) >= option_overflow_threshold[1])
 					            )
 					        )
 					   ) {
 						sci_global_disable(psci_hdl);
 						sci_global_enable(psci_hdl);
-						counters_current += 1 + num_use_cases;
-						*counters_current = GET_32K;
-						sci_dump_sdram_cntrs(num_use_cases, counters_current + 1);
+						counters_current += SAMPLE_SIZE;
+						*(counters_current + TIMESTAMP_INDEX) = GET_32K;
+						sci_dump_sdram_cntrs(num_use_cases, counters_current + COUNTER_INDEX);
 						tests++;
 						tests_overflow = 1;
 						//printf("overflow %u\n", *counters_current - counters[0]);
 					}
-					counters_current += 1 + num_use_cases;
+					counters_current += SAMPLE_SIZE;
 					tests_overflow++;
 				}
 			}
@@ -927,61 +934,75 @@ int statcoll_main(int argc, char **argv)
 				uint32_t *counters_overflow;
 				unsigned int overflow_on;
 				uint32_t delta_time;
+				unsigned int tests_overflow = 1;
 
 				for (i = 0; i < sizeof(counters)/4; i++)
 					counters[i] = 0;
 				counters_prev = counters;
-				counters_current = counters + 1 + num_use_cases;
-				counters_overflow = counters + 2 + 2 * num_use_cases;
+				counters_current = counters + SAMPLE_SIZE;
+				counters_overflow = counters + 2 * SAMPLE_SIZE;
 
 				sci_global_enable(psci_hdl);
-				*counters_prev = GET_32K;
-				sci_dump_sdram_cntrs(num_use_cases, counters_prev + 1);
+				*(counters_prev + TIMESTAMP_INDEX) = GET_32K;
+				sci_dump_sdram_cntrs(num_use_cases, counters_prev + COUNTER_INDEX);
 
 				for (;;) {
-					usleep(option_delay_us);
-					*counters_current = GET_32K;
-					sci_dump_sdram_cntrs(num_use_cases, counters_current + 1);
+					tests_overflow++;
 
-					if ( (*(counters_current + 1 + option_overflow_counter_index[0] ) >= option_overflow_threshold[0])
-					  || (*(counters_current + 1 + option_overflow_counter_index[1] ) >= option_overflow_threshold[1]) ) {
-						//printf("DEBUG1 %u %u %u %u\n", *counters_prev, *(counters_prev + 1), *(counters_prev + 2), *(counters_prev + 3));
-						//printf("DEBUG2 %u %u %u %u\n", *counters_current, *(counters_current + 1), *(counters_current + 2), *(counters_current + 3));
+					usleep(option_delay_us);
+					*(counters_current + TIMESTAMP_INDEX) = GET_32K;
+					sci_dump_sdram_cntrs(num_use_cases, counters_current + COUNTER_INDEX);
+
+
+					if (    ( (option_overflow_iterations > 0) && (tests_overflow > option_overflow_iterations) )
+					     || (   (option_overflow_iterations == 0)
+		        			 && (   (*(counters_current + COUNTER_INDEX + option_overflow_counter_index[0]) >= option_overflow_threshold[0])
+					             || (*(counters_current + COUNTER_INDEX + option_overflow_counter_index[1]) >= option_overflow_threshold[1])
+					            )
+					        )
+					   ) {
 						sci_global_disable(psci_hdl);
 						sci_global_enable(psci_hdl);
-						*counters_overflow = GET_32K;
-						sci_dump_sdram_cntrs(num_use_cases, counters_overflow + 1);
+						*(counters_overflow + TIMESTAMP_INDEX) = GET_32K;
+						sci_dump_sdram_cntrs(num_use_cases, counters_overflow + COUNTER_INDEX);
 						overflow_on = 1;
+						tests_overflow = 1;
 					}
 
 					/* trace current - prev */
-					delta_time = *counters_current - *counters_prev;
-					printf("time: %u %u %u -> ", *counters_current, *counters_prev, delta_time);
+					delta_time = *(counters_current + TIMESTAMP_INDEX) - *(counters_prev + TIMESTAMP_INDEX);
+					printf("time: %u %u %u -> ", *(counters_current + TIMESTAMP_INDEX), *(counters_prev + TIMESTAMP_INDEX), delta_time);
 					for (j = 0; j < num_use_cases; j++) {
-						printf("%.2f ", ((float)(*(counters_current + 1 + j) - *(counters_prev + 1 + j))/1000000)*32768.0/delta_time);
+						printf("%.2f ", ((float)(*(counters_current + COUNTER_INDEX + j) - *(counters_prev + COUNTER_INDEX + j))/1000000)*32768.0/delta_time);
 					}
 					printf("\n");
+
+					for (j = 0; j < num_use_cases; j++) {
+						if (*(counters_current + COUNTER_INDEX + j) == 0xFFFFFFFF) {
+							fprintf(stderr, "ERROR: counter %d %s overflowed at time %u, don't trust results\n", j, msg[j], *(counters_current + TIMESTAMP_INDEX));
+							printf("ERROR: counter %d %s overflowed at time %u, don't trust results\n", j, msg[j], *(counters_current + TIMESTAMP_INDEX));
+						}
+					}
 
 					/* pointers increment */
 					if (overflow_on == 1) {
 						overflow_on = 0;
-						if (option_overflow_threshold[0] > 0)
-							printf("Warning: statcoll HW IP reset to avoid overflow (user defined through -o -t)\n");
 						counters_current = counters_overflow;
 					}
 
+					// offset all pointers by 1 sample
 					counters_prev = counters_current;
 
-					if ((unsigned int)(counters_current - counters) == (2 + 2 * num_use_cases))
+					if ((unsigned int)(counters_current - counters) == (2 * SAMPLE_SIZE))
 						counters_current = counters;
 					else
-						counters_current += 1 + num_use_cases;
+						counters_current += SAMPLE_SIZE;
 
 					counters_overflow = counters_current;
-					if ((unsigned int)(counters_overflow - counters) == (2 + 2 * num_use_cases))
+					if ((unsigned int)(counters_overflow - counters) == (2 * SAMPLE_SIZE))
 						counters_overflow = counters;
 					else
-						counters_overflow += 1 + num_use_cases;
+						counters_overflow += SAMPLE_SIZE;
 				}
 			}
 		}
