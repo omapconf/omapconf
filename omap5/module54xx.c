@@ -1193,8 +1193,7 @@ int mod54xx_context_is_lost(mod54xx_id id)
 	rm_context_reg = mod54xx_rm_context_reg_get(id);
 	if (rm_context_reg == NULL) {
 		dprintf("%s(%u (%s)): %s addr==NULL\n", __func__, id,
-			mod54xx_name_get(id), reg_name_get(rm_context_reg),
-			reg_addr_get(rm_context_reg), rm_context);
+			mod54xx_name_get(id), reg_name_get(rm_context_reg));
 		return -1;
 	}
 	/* Read register */
