@@ -416,14 +416,12 @@ void help44xx(help_category cat, char *context)
 		printf(
 			"\t    # omapconf trace perf -t 30 -d 3 -s 0.1 -p db175_mp3_\n");
 
-		printf("\n\tomapconf trace bw [-h] [-m 0xyy or MA_MPU_1_2]"
-			" [-d x] [-a 1 or 2] [-i x] [-o x -t y] "
-			"[-r 0xaaaaaaaa-0xbbbbbbbb] [-n]\n");
-		printf("\t    EMIF traffic monitoring. Type 'omapconf trace "
-			"bw -h' for detailed help.\n");
-		printf("\t    Visit wiki: "
-			"<http://opbuwiki.dal.design.ti.com/index.php/"
-			"L3_bus_monitoring_SW_tool>\n");
+		printf(
+			"\n\tomapconf trace bw [-h] [<-m | --m<x>> <0xyy | ma_mpu | alldmm | dss | iva | ...>] [<-p | --p<x> <emif1 | emif2>] [<--tr | --tr<x>> <r|w|r+w>] [-d x] [-a 1 or 2] [-i x] [--overflow_delay x] [-o x -t y] [-r 0xaaaaaaaa-0xbbbbbbbb] [-n]\n");
+		printf(
+			"\t    EMIF traffic monitoring. Type 'omapconf trace bw -h' for detailed help.\n");
+		printf(
+			"\t    Visit wiki: <http://opbuwiki.dal.design.ti.com/index.php/L3_bus_monitoring_SW_tool>\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_TRACE) ||

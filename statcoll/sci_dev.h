@@ -167,16 +167,26 @@ enum sci_master_addr {
     SCI_MSTID_BB2D_P2 = 0x6C,
     SCI_MSTID_DSS = 0x70,          
     SCI_MSTID_C2C = 0x80,              
-    SCI_MSTID_LLI = 0x84,              
+#if defined(_OMAP5430)
+    SCI_MSTID_LLI = 0x84,
+#endif
     SCI_MSTID_HSI = 0x90,
+#if defined(_OMAP5430)
     SCI_MSTID_UNIPRO1 = 0x94,          
     SCI_MSTID_UNIPRO2 = 0x98,          
+#endif
     SCI_MSTID_MMC1 = 0xA0,
     SCI_MSTID_MMC2 = 0xA4,
+#if defined(_OMAP5430)
     SCI_MSTID_SATA = 0xA8,                                                
+#endif
     SCI_MSTID_USB_HOST_HS = 0xC0,
-    SCI_MSTID_USB_OTG_HS = 0xCC,        
-    SCI_MASTID_ALL                             
+    SCI_MSTID_USB_OTG_HS = 0xC4,
+    SCI_MSTID_USB_OTG_FS = 0xC8,
+#if defined(_OMAP5430)
+    SCI_MSTID_USB3 = 0xCC,
+#endif
+    SCI_MASTID_ALL
 };
 
 /*! \par sci_slave_addr Slave address enumerations. */
