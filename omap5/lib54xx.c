@@ -72,6 +72,9 @@
 #endif
 
 
+#define OPP_MAX_RETRY		100
+
+
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		lib54xx_pwst_show
  * @BRIEF		show OMAP5 power status
@@ -323,33 +326,28 @@ int lib54xx_pwst_show(FILE *stream)
 
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		lib54xx_opp_show
- * @BRIEF		show current operating voltages and frequencies
+ * @BRIEF		show current operating voltages and key clock rates.
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  *			OMAPCONF_ERR_CPU
- * @DESCRIPTION		show current operating voltages and frequencies
+ * @DESCRIPTION		show current operating voltages and key clock rates.
  *//*------------------------------------------------------------------------ */
 int lib54xx_opp_show(void)
 {
-	opp54xx_id opp_mpu, opp_mm, opp_core;
-	double volt_mpu, volt_mm, volt_core;
+	voltdm54xx_id vdd_id;
+	double volt, volt2;
+	opp54xx_id opp, opp2;
+	double rate_mpu, rate_mpu_por;
+	unsigned int rate_dsp, rate_iva, rate_gpu;
+	unsigned int rate_dsp_por, rate_iva_por, rate_gpu_por;
+	unsigned int rate_l3, rate_l3_por;
+	unsigned int rate_l4, rate_emif, rate_lpddr2, rate_aess, rate_iss,
+		rate_fdif, rate_cal, rate_ipu, rate_m4, rate_dss, rate_bb2d,
+		rate_hsi, rate_c2c;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row = 0;
-	char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH],
-		prev_gov2[CPUFREQ_GOV_MAX_NAME_LENGTH];
-
-	/* Switch to userspace governor temporarily,
-	 * so that OPP cannot change during audit and does not false it.
-	 */
-	cpufreq_scaling_governor_set("userspace", prev_gov);
-
-	opp_mpu = voltdm54xx_opp_get(VDD54XX_MPU);
-	opp_mm = voltdm54xx_opp_get(VDD54XX_MM);
-	opp_core = voltdm54xx_opp_get(VDD54XX_CORE);
-
-	volt_mpu = voltdm54xx_voltage_get(VDD54XX_MPU);
-	volt_mm = voltdm54xx_voltage_get(VDD54XX_MM);
-	volt_core = voltdm54xx_voltage_get(VDD54XX_CORE);
+	unsigned int retry_cnt = 0;
+	unsigned int found = 0;
 
 	autoadjust_table_init(table);
 	row = 0;
@@ -358,117 +356,243 @@ int lib54xx_opp_show(void)
 	strncpy(table[row][3], "OPerating Point", TABLE_MAX_ELT_LEN);
 	row++;
 
-	strncpy(table[row][0], "VDD_MPU / VDD_CORE1", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.3lf V", volt_mpu);
-	if (opp_mpu != OPP54XX_ID_MAX)
-		strncpy(table[row][3], opp54xx_name_get(opp_mpu),
-			TABLE_MAX_ELT_LEN);
-	else
-		strncpy(table[row][3], "UNKNOWN",
-			TABLE_MAX_ELT_LEN);
-	row++;
-	if (cpu_is_online(1) == 1)
-		strncpy(table[row][0], "  MPU (CPU1 ON)", TABLE_MAX_ELT_LEN);
-	else
-		strncpy(table[row][0], "  MPU (CPU1 OFF)", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_MPU, 0));
-	row += 2;
+	/*
+	 * In order to make sure all details (OPP, voltage, clock rates) are
+	 * coherent (due to potential OPP change in between), must use a loop,
+	 * checking that OPP and voltage did not change and that at least ONE
+	 * clock rate is aligned to expected rate for the detected OPP.
+	 */
 
-	strncpy(table[row][0], "VDD_MM / VDD_CORE2", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.3lf V", volt_mm);
-	if (opp_mm != OPP54XX_ID_MAX)
-		strncpy(table[row][3], opp54xx_name_get(opp_mm),
-			TABLE_MAX_ELT_LEN);
-	else
-		strncpy(table[row][3], "UNKNOWN",
-			TABLE_MAX_ELT_LEN);
-	row++;
-	strncpy(table[row][0], "  IVA", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_IVA, 1));
-	row++;
-	strncpy(table[row][0], "  GPU", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_GPU, 1));
-	row++;
-	strncpy(table[row][0], "  DSP", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_DSP, 1));
-	row += 2;
+	for (vdd_id = VDD54XX_MPU; vdd_id <= VDD54XX_CORE; vdd_id++) {
+		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s / VDD_CORE%u",
+				voltdm54xx_name_get(vdd_id),
+				(unsigned int) vdd_id);
 
-	strncpy(table[row][0], "VDD_CORE / VDD_CORE3", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.3lf V", volt_core);
-	if (opp_core != OPP54XX_ID_MAX)
-		strncpy(table[row][3], opp54xx_name_get(opp_core),
-			TABLE_MAX_ELT_LEN);
-	else
-		strncpy(table[row][3], "UNKNOWN",
-			TABLE_MAX_ELT_LEN);
-	row++;
-	strncpy(table[row][0], "  L4", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(
-			OMAP5_L4_CFG_INTERCONNECT, 1));
-	row++;
-	strncpy(table[row][0], "  L3", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(
-			OMAP5_L3_MAIN1_INTERCONNECT, 1));
-	row++;
-	strncpy(table[row][0], "  DMM/EMIF", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_EMIF1, 1));
-	row++;
-	strncpy(table[row][0], "    LP-DDR2", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_PHY_EMIF, 1));
-	row++;
-	strncpy(table[row][0], "  AESS", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_AESS, 1));
-	row++;
-	strncpy(table[row][0], "  ISS", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_ISS, 1));
-	row++;
-	strncpy(table[row][0], "  FDIF", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_FDIF, 1));
-	row++;
-	strncpy(table[row][0], "  CAL", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_CAL, 1));
-	row++;
-	strncpy(table[row][0], "  IPU", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_IPU, 1));
-	row++;
-	strncpy(table[row][0], "    Cortex-M4 Cores", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_IPU, 1) / 2);
-	row++;
-	strncpy(table[row][0], "  DSS", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_DSS, 1));
-	row++;
-	strncpy(table[row][0], "  BB2D", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_BB2D, 1));
-	row++;
-	strncpy(table[row][0], "  HSI", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_HSI, 1));
-	row++;
-	strncpy(table[row][0], "  C2C", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) mod54xx_clk_rate_get(OMAP5_C2C, 1));
-	row++;
+		/* Retrieve OPP and clock rates */
+		retry_cnt = 0;
+		found = 0;
+		do {
+			opp = voltdm54xx_opp_get(vdd_id);
+			volt = voltdm54xx_voltage_get(vdd_id);
 
+			switch (vdd_id) {
+			case VDD54XX_MPU:
+				rate_mpu = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_MPU, 0);
+				rate_mpu_por = (unsigned int)
+					mod54xx_por_clk_rate_get(
+						OMAP5_MPU, opp);
+				break;
+
+			case VDD54XX_MM:
+				rate_dsp = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_DSP, 1);
+				rate_iva = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_IVA, 1);
+				rate_gpu = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_GPU, 1);
+
+				rate_dsp_por = (unsigned int)
+					mod54xx_por_clk_rate_get(
+						OMAP5_DSP, opp);
+				rate_iva_por = (unsigned int)
+					mod54xx_por_clk_rate_get(
+						OMAP5_IVA, opp);
+				rate_gpu_por = (unsigned int)
+					mod54xx_por_clk_rate_get(
+						OMAP5_GPU, opp);
+				break;
+
+			case VDD54XX_CORE:
+				rate_l3 = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_L3_MAIN1_INTERCONNECT, 0);
+				rate_l3_por = (unsigned int)
+					mod54xx_por_clk_rate_get(
+						OMAP5_L3_MAIN1_INTERCONNECT,
+						opp);
+
+				rate_l4 = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_L4_CFG_INTERCONNECT, 1);
+				rate_emif = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_EMIF1, 1);
+				rate_lpddr2 =
+					(unsigned int) mod54xx_clk_rate_get(
+						OMAP5_PHY_EMIF, 1);
+				rate_aess = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_AESS, 1);
+				rate_iss = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_ISS, 1);
+				rate_fdif = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_FDIF, 1);
+				rate_cal = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_CAL, 1);
+				rate_ipu = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_IPU, 1);
+				rate_m4 = rate_ipu / 2;
+				rate_dss = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_DSS, 1);
+				rate_bb2d = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_BB2D, 1);
+				rate_hsi = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_HSI, 1);
+				rate_c2c = (unsigned int) mod54xx_clk_rate_get(
+					OMAP5_C2C, 1);
+				break;
+
+			default:
+				/* cannot happen */
+				fprintf(stderr,
+					"omapconf: %s(): cannot happen?!\n",
+					__func__);
+			}
+
+			opp2 = voltdm54xx_opp_get(vdd_id);
+			volt2 = voltdm54xx_voltage_get(vdd_id);
+
+			switch (vdd_id) {
+			case VDD54XX_MPU:
+				found = ((rate_mpu == rate_mpu_por) &&
+					(opp == opp2) && (volt == volt2));
+				break;
+
+			case VDD54XX_MM:
+				found = ((opp == opp2) && (volt == volt2) &&
+					((rate_dsp == rate_dsp_por) ||
+						(rate_iva == rate_iva_por) ||
+						(rate_gpu == rate_gpu_por)));
+				break;
+
+			case VDD54XX_CORE:
+				found = ((opp == opp2) && (volt == volt2) &&
+					(rate_l3 == rate_l3_por));
+				break;
+
+			default:
+				/* cannot happen */
+				fprintf(stderr,
+					"omapconf: %s(): cannot happen?!\n",
+					__func__);
+			}
+
+			retry_cnt++;
+		} while ((retry_cnt < OPP_MAX_RETRY) && (found == 0));
+
+		/* Print voltage */
+		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.3lf V", volt);
+
+		/* Print OPP */
+		if (retry_cnt < OPP_MAX_RETRY) {
+			strncpy(table[row][3], opp54xx_name_get(opp),
+				TABLE_MAX_ELT_LEN);
+		} else {
+			fprintf(stderr,
+				"omapconf: too many %s OPP changes, could not retrieve it!!!\n",
+				voltdm54xx_name_get(vdd_id));
+			strncpy(table[row][3], "ERROR", TABLE_MAX_ELT_LEN);
+		}
+		row++;
+
+		/* Print clock rates */
+		switch (vdd_id) {
+		case VDD54XX_MPU:
+			if (cpu_is_online(1) == 1)
+				strncpy(table[row][0], "  MPU (CPU1 ON)",
+					TABLE_MAX_ELT_LEN);
+			else
+				strncpy(table[row][0], "  MPU (CPU1 OFF)",
+					TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				(unsigned int) rate_mpu);
+			row += 2;
+			break;
+
+		case VDD54XX_MM:
+			strncpy(table[row][0], "  IVA", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_iva);
+			row++;
+			strncpy(table[row][0], "  GPU", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_gpu);
+			row++;
+			strncpy(table[row][0], "  DSP", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_dsp);
+			row += 2;
+			break;
+
+		case VDD54XX_CORE:
+			strncpy(table[row][0], "  L4", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_l4);
+			row++;
+			strncpy(table[row][0], "  L3", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_l3);
+			row++;
+			strncpy(table[row][0], "  DMM/EMIF",
+				TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_emif);
+			row++;
+			strncpy(table[row][0], "    LP-DDR2",
+				TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_lpddr2);
+			row++;
+			strncpy(table[row][0], "  AESS", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_aess);
+			row++;
+			strncpy(table[row][0], "  ISS", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_iss);
+			row++;
+			strncpy(table[row][0], "  FDIF", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_fdif);
+			row++;
+			strncpy(table[row][0], "  CAL", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_cal);
+			row++;
+			strncpy(table[row][0], "  IPU", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_ipu);
+			row++;
+			strncpy(table[row][0], "    Cortex-M4 Cores",
+				TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_m4);
+			row++;
+			strncpy(table[row][0], "  DSS", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_dss);
+			row++;
+			strncpy(table[row][0], "  BB2D", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_bb2d);
+			row++;
+			strncpy(table[row][0], "  HSI", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_hsi);
+			row++;
+			strncpy(table[row][0], "  C2C", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
+				rate_c2c);
+			row++;
+			break;
+
+			default:
+				/* cannot happen */
+				fprintf(stderr,
+					"omapconf: %s(): cannot happen?!\n",
+					__func__);
+		}
+	}
+
+	/* Display table */
 	autoadjust_table_print(table, row, 4);
-
-	/* Restore CPUFreq governor */
-	cpufreq_scaling_governor_set(prev_gov, prev_gov2);
 
 	return 0;
 }
