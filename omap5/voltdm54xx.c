@@ -43,6 +43,7 @@
 
 
 #include <voltdm54xx.h>
+#include <vc54xx.h>
 #include <dpll54xx.h>
 #include <cpuinfo.h>
 #include <prm54xx-defs.h>
@@ -79,6 +80,14 @@ static const char
 	"HIGH",
 	"SPEEDBIN",
 	"UNKNOWN"};
+
+
+static const double
+	voltdm54xx_por_nominal_voltages_table_es1[VDD54XX_ID_MAX][OPP54XX_ID_MAX + 1] = {
+	{-1.0, -1.0, -1.0, -1.0, -1.0}, /* VDD_WKUP */
+	{0.94, 0.95, 1.04, 1.22, -1.0}, /* VDD_MPU */
+	{0.94, 0.95, 1.04, 1.22, -1.0}, /* VDD_MM */
+	{0.94, 0.95, 1.04, -1.0, -1.0} }; /* VDD_CORE */
 
 
 /* ------------------------------------------------------------------------*//**
@@ -155,75 +164,54 @@ const char *opp54xx_name_get(opp54xx_id id)
 opp54xx_id voltdm54xx_opp_get(voltdm54xx_id id)
 {
 	opp54xx_id opp_id;
-	mod54xx_id module_id;
-	dpll54xx_id dpll_id;
-	dpll_status status;
-	double rate = 0.0, rate_por = 0.0;
+	double volt = 0.0, volt_por = 0.0;
 
 	CHECK_CPU(54xx, OPP54XX_ID_MAX);
 	CHECK_ARG_LESS_THAN(id, VDD54XX_ID_MAX, OPP54XX_ID_MAX);
 
-	/*
-	 * Determine current OPPs by getting MPU / IVA / L3 / SARRAM rate
-	 * and comparing it to POR rate.
-	 */
-	switch (id) {
-	case VDD54XX_WKUP:
-		module_id = OMAP5_L4WKUP_INTERCONNECT;
-		dpll_id = DPLL54XX_CORE;
-		break;
+	if (id == VDD54XX_WKUP) {
+		/* Only 1 OPP for WKUP voltage domain */
+		opp_id = OPP54XX_NOM;
+	} else {
+		/*
+		 * In VDD_MM there are 3 independent modules (GPU, IVA, DSP)
+		 * that may be running at different clock rates.
+		 * Furthermore, these modules may or may not be running, so
+		 * module's clock rate may not be relevant.
+		 * Use nominal voltage instead.
+		 */
+		volt = voltdm54xx_nominal_voltage_get(id);
+		if (volt < 0.0)
+			return OPP54XX_ID_MAX;
 
-	case VDD54XX_MPU:
-		module_id = OMAP5_MPU;
-		dpll_id = DPLL54XX_MPU;
-		break;
+		dprintf("%s(%s): nominal voltage is %lfV\n", __func__,
+			voltdm54xx_name_get(id), volt);
 
-	case VDD54XX_MM:
-		module_id = OMAP5_IVA;
-		dpll_id = DPLL54XX_IVA;
-		break;
-
-	case VDD54XX_CORE:
-		module_id = OMAP5_L3_MAIN1_INTERCONNECT;
-		dpll_id = DPLL54XX_CORE;
-		break;
-
-	default:
-		return OPP54XX_ID_MAX;
-	}
-
-	/* if the DPLL clocking the selected module is stopped,
-	 * reported speed will be 0 and OPP cannot be detected.
-	 * Hence, if DPLL is stopped, ignore DPLL status to get
-	 * the speed when the DPLL is running.
-	 */
-	status = dpll54xx_status_get(dpll_id);
-	if (status == DPLL_STATUS_STOPPED)
-		rate = mod54xx_clk_rate_get(module_id, 1);
-	else
-		rate = mod54xx_clk_rate_get(module_id, 0);
-
-	dprintf("%s(%s): %s rate is %lfMHz\n", __func__,
-		voltdm54xx_name_get(id),
-		clk54xx_name_get(mod54xx_clk_get(module_id)), rate);
-
-	for (opp_id = OPP54XX_DPLL_CASC; opp_id < OPP54XX_ID_MAX; opp_id++) {
-		rate_por = mod54xx_por_clk_rate_get(module_id, opp_id);
-		dprintf("%s(%s): %s POR rate for %s is %lf\n",
-			__func__, voltdm54xx_name_get(id),
-			mod54xx_name_get(module_id),
-			opp54xx_name_get(opp_id), rate_por);
-		if ((int) rate == (int) rate_por) {
-			dprintf("%s(%s): OPP found: %s\n",
+		for (opp_id = OPP54XX_DPLL_CASC; opp_id < OPP54XX_ID_MAX;
+			opp_id++) {
+			volt_por = voltdm54xx_por_nominal_voltage_get(
+				id, opp_id);
+			if (volt_por < 0.0)
+				return OPP54XX_ID_MAX;
+			dprintf("%s(%s): POR nominal voltage for %s is %lfV\n",
 				__func__, voltdm54xx_name_get(id),
-				opp54xx_name_get(opp_id));
-			return opp_id;
+				opp54xx_name_get(opp_id), volt_por);
+			if (volt == volt_por)
+				break;
 		}
 	}
 
-	dprintf("%s(%s): OPP not found!\n", __func__, voltdm54xx_name_get(id));
+	#ifdef VOLTDM54XX_DEBUG
+	if (opp_id != OPP54XX_ID_MAX) {
+		dprintf("%s(%s): OPP found: %s\n", __func__,
+			voltdm54xx_name_get(id), opp54xx_name_get(opp_id));
+	} else {
+		dprintf("%s(%s): OPP not found!\n", __func__,
+			voltdm54xx_name_get(id));
+	}
+	#endif
 
-	return OPP54XX_ID_MAX;
+	return opp_id;
 }
 
 
@@ -280,6 +268,72 @@ double vr54xx_vsel2volt(voltdm54xx_id id, unsigned char vsel)
 
 
 /* ------------------------------------------------------------------------*//**
+ * @FUNCTION		voltdm54xx_nominal_voltage_get
+ * @BRIEF		return the nominal voltage of a given voltage domain
+ * @RETURNS		supply voltage in case of success (>= 0.0)
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_NOT_AVAILABLE
+ * @param[in]		id: valid voltage domain ID
+ * @DESCRIPTION		return the nominal voltage of a given voltage domain.
+ *//*------------------------------------------------------------------------ */
+double voltdm54xx_nominal_voltage_get(voltdm54xx_id id)
+{
+	int ret;
+	double volt;
+	vc54xx_registers vc_regs;
+	unsigned char cmd_on, cmd_onlp, cmd_ret, cmd_off;
+
+	CHECK_CPU(54xx, (double) OMAPCONF_ERR_CPU);
+	CHECK_ARG_LESS_THAN(id, VDD54XX_ID_MAX, (double) OMAPCONF_ERR_ARG);
+
+	ret = vc54xx_registers_get(&vc_regs);
+	if (ret != 0)
+		return (double) ret;
+	ret = vc54xx_cmd_values_get(id, &vc_regs,
+			&cmd_on, &cmd_onlp, &cmd_ret, &cmd_off);
+	if (ret != 0)
+		return (double) ret;
+
+	volt = smps_vsel2volt(vdd_id2smps_id(id), cmd_on);
+
+	dprintf("%s(%s): nominal volt=%lfV\n", __func__,
+		voltdm54xx_name_get(id), volt);
+
+	return volt;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		voltdm54xx_por_nominal_voltage_get
+ * @BRIEF		return the Plan of Record (POR) nominal voltage
+ *			of a given voltage domain for a given OPP.
+ * @RETURNS		supply voltage in case of success (>= 0.0)
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_CPU
+ * @param[in]		id: valid voltage domain ID
+ * @DESCRIPTION		return the Plan of Record (POR) nominal voltage
+ *			of a given voltage domain for a given OPP.
+ *//*------------------------------------------------------------------------ */
+double voltdm54xx_por_nominal_voltage_get(voltdm54xx_id id, opp54xx_id opp_id)
+{
+	double volt;
+
+	CHECK_CPU(54xx, (double) OMAPCONF_ERR_CPU);
+	CHECK_ARG_LESS_THAN(id, VDD54XX_ID_MAX, (double) OMAPCONF_ERR_ARG);
+	CHECK_ARG_LESS_THAN(id, VDD54XX_ID_MAX, (double) OMAPCONF_ERR_ARG);
+
+	volt = voltdm54xx_por_nominal_voltages_table_es1[id][opp_id];
+
+	dprintf("%s(%s): %s POR nominal volt=%lfV\n", __func__,
+		opp54xx_name_get(opp_id),
+		voltdm54xx_name_get(id), volt);
+
+	return volt;
+}
+
+
+/* ------------------------------------------------------------------------*//**
  * @FUNCTION		voltdm54xx_voltage_get
  * @BRIEF		find the current supply voltage of a domain
  * @RETURNS		supply voltage in case of success (>= 0.0)
@@ -302,7 +356,6 @@ double voltdm54xx_voltage_get(voltdm54xx_id id)
 	CHECK_CPU(54xx, (double) OMAPCONF_ERR_CPU);
 	CHECK_ARG_LESS_THAN(id, VDD54XX_ID_MAX, (double) OMAPCONF_ERR_ARG);
 
-	/* Retrieve domain state */
 	switch (id) {
 	case VDD54XX_WKUP:
 		return (double) OMAPCONF_ERR_NOT_AVAILABLE;
