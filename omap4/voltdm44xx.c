@@ -793,6 +793,7 @@ int voltdm44xx_opp_show(void)
 	double volt, volt2;
 	char vdd_name[VOLTDM44XX_MAX_NAME_LENGTH];
 	opp44xx_id opp, opp2;
+	int temp;
 	mod_module_mode mmode;
 	double rate_mpu, rate_mpu_por;
 	double rate_dsp, rate_iva, rate_aess;
@@ -810,9 +811,10 @@ int voltdm44xx_opp_show(void)
 
 	autoadjust_table_init(table);
 	row = 0;
-	strncpy(table[row][1], "Voltage", TABLE_MAX_ELT_LEN);
-	strncpy(table[row][2], "Frequency", TABLE_MAX_ELT_LEN);
-	strncpy(table[row][3], "OPerating Point", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][1], "Temperature", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][2], "Voltage", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][3], "Frequency", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][4], "OPerating Point", TABLE_MAX_ELT_LEN);
 	row++;
 
 	/*
@@ -956,16 +958,23 @@ int voltdm44xx_opp_show(void)
 		} while ((ret == 0) && (retry_cnt < OPP_MAX_RETRY)
 			&& (found == 0));
 
+		/* Print temperature */
+		if (vdd_id == OMAP4_VDD_CORE) {
+			ret = temp44xx_read_bandgap_sensor(&temp);
+			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
+				"%dC / %dF", temp, celcius2fahrenheit(temp));
+		}
+
 		/* Print voltage */
 		if (ret_volt == 0) {
-			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%lf V",
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%lf V",
 				volt);
 		} else {
 			fprintf(stderr,
 				"omapconf: could not retrieve %s voltage!!! (%d)\n",
 				voltdm44xx_get_name(vdd_id, vdd_name),
 				ret_volt);
-			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "NA");
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "NA");
 		}
 
 		/* Print OPP */
@@ -973,14 +982,14 @@ int voltdm44xx_opp_show(void)
 			fprintf(stderr,
 				"omapconf: too many %s OPP changes, could not retrieve it!!!\n",
 				voltdm44xx_get_name(vdd_id, vdd_name));
-			strncpy(table[row][3], "ERROR", TABLE_MAX_ELT_LEN);
+			strncpy(table[row][4], "ERROR", TABLE_MAX_ELT_LEN);
 		} else if (ret_opp != 0) {
 			fprintf(stderr,
 				"omapconf: could not retrieve %s OPP!!! (%d)\n",
 				voltdm44xx_get_name(vdd_id, vdd_name), ret_opp);
-			strncpy(table[row][3], "NA", TABLE_MAX_ELT_LEN);
+			strncpy(table[row][4], "NA", TABLE_MAX_ELT_LEN);
 		} else {
-			strncpy(table[row][3], opp44xx_name_get(opp, vdd_id),
+			strncpy(table[row][4], opp44xx_name_get(opp, vdd_id),
 				TABLE_MAX_ELT_LEN);
 		}
 		row++;
@@ -994,7 +1003,7 @@ int voltdm44xx_opp_show(void)
 			else
 				strncpy(table[row][0], "  MPU (CPU1 OFF)",
 					TABLE_MAX_ELT_LEN);
-			snprintf(table[row][2], TABLE_MAX_ELT_LEN, " %-4d MHz",
+			snprintf(table[row][3], TABLE_MAX_ELT_LEN, " %-4d MHz",
 				(unsigned int) rate_mpu);
 			row += 2;
 			break;
@@ -1003,11 +1012,11 @@ int voltdm44xx_opp_show(void)
 			strncpy(table[row][0], "  DSP", TABLE_MAX_ELT_LEN);
 			mod44xx_get_mode(OMAP4_DSP, &mmode);
 			if (mmode == MOD_DISABLED_MODE)
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)",
 					(unsigned int) rate_dsp);
 			else
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					" %-4d MHz",
 					(unsigned int) rate_dsp);
 			row++;
@@ -1015,11 +1024,11 @@ int voltdm44xx_opp_show(void)
 			strncpy(table[row][0], "  IVAHD", TABLE_MAX_ELT_LEN);
 			mod44xx_get_mode(OMAP4_IVAHD, &mmode);
 			if (mmode == MOD_DISABLED_MODE)
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)",
 					(unsigned int) rate_iva);
 			else
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					" %-4d MHz",
 					(unsigned int) rate_iva);
 			row++;
@@ -1027,11 +1036,11 @@ int voltdm44xx_opp_show(void)
 			strncpy(table[row][0], "  AESS", TABLE_MAX_ELT_LEN);
 			mod44xx_get_mode(OMAP4_AESS, &mmode);
 			if (mmode == MOD_DISABLED_MODE)
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)",
 					(unsigned int) rate_aess);
 			else
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					" %-4d MHz", (unsigned int) rate_aess);
 
 			row += 2;
@@ -1039,45 +1048,45 @@ int voltdm44xx_opp_show(void)
 
 		case OMAP4_VDD_CORE:
 			strncpy(table[row][0], "  L3", TABLE_MAX_ELT_LEN);
-			snprintf(table[row][2], TABLE_MAX_ELT_LEN, " %-4d MHz",
+			snprintf(table[row][3], TABLE_MAX_ELT_LEN, " %-4d MHz",
 				(unsigned int) rate_l3);
 			row++;
 
 			strncpy(table[row][0], "  DMM/EMIF", TABLE_MAX_ELT_LEN);
-			snprintf(table[row][2], TABLE_MAX_ELT_LEN, " %-4d MHz",
+			snprintf(table[row][3], TABLE_MAX_ELT_LEN, " %-4d MHz",
 				(unsigned int) rate_emif);
 			row++;
 
 			strncpy(table[row][0], "    LP-DDR2",
 				TABLE_MAX_ELT_LEN);
-			snprintf(table[row][2], TABLE_MAX_ELT_LEN, " %-4d MHz",
+			snprintf(table[row][3], TABLE_MAX_ELT_LEN, " %-4d MHz",
 				(unsigned int) rate_lpddr2);
 			row++;
 
 			strncpy(table[row][0], "  L4", TABLE_MAX_ELT_LEN);
-			snprintf(table[row][2], TABLE_MAX_ELT_LEN, " %-4d MHz",
+			snprintf(table[row][3], TABLE_MAX_ELT_LEN, " %-4d MHz",
 				(unsigned int) rate_l4);
 			row++;
 
 			strncpy(table[row][0], "  GFX", TABLE_MAX_ELT_LEN);
 			mod44xx_get_mode(OMAP4_GFX, &mmode);
 			if (mmode == MOD_DISABLED_MODE)
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)",
 					(unsigned int) rate_gfx);
 			else
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					" %-4d MHz", (unsigned int) rate_gfx);
 			row++;
 
 			strncpy(table[row][0], "  FDIF", TABLE_MAX_ELT_LEN);
 			mod44xx_get_mode(OMAP4_FDIF, &mmode);
 			if (mmode == MOD_DISABLED_MODE)
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)",
 					(unsigned int) rate_fdif);
 			else
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					" %-4d MHz", (unsigned int) rate_fdif);
 			row++;
 
@@ -1085,33 +1094,33 @@ int voltdm44xx_opp_show(void)
 				TABLE_MAX_ELT_LEN);
 			mod44xx_get_mode(OMAP4_MPU_M3, &mmode);
 			if (mmode == MOD_DISABLED_MODE)
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)",
 					(unsigned int) rate_m3);
 			else
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					" %-4d MHz", (unsigned int) rate_m3);
 			row++;
 
 			strncpy(table[row][0], "  ISS", TABLE_MAX_ELT_LEN);
 			mod44xx_get_mode(OMAP4_ISS, &mmode);
 			if (mmode == MOD_DISABLED_MODE)
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)",
 					(unsigned int) rate_iss);
 			else
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					" %-4d MHz", (unsigned int) rate_iss);
 			row++;
 
 			strncpy(table[row][0], "  DSS", TABLE_MAX_ELT_LEN);
 			mod44xx_get_mode(OMAP4_DISPC, &mmode);
 			if (mmode == MOD_DISABLED_MODE)
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)",
 					(unsigned int) rate_dss);
 			else
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					" %-4d MHz", (unsigned int) rate_dss);
 			row++;
 
@@ -1120,12 +1129,12 @@ int voltdm44xx_opp_show(void)
 					TABLE_MAX_ELT_LEN);
 				mod44xx_get_mode(OMAP4_BB2D, &mmode);
 				if (mmode == MOD_DISABLED_MODE)
-					snprintf(table[row][2],
+					snprintf(table[row][3],
 						TABLE_MAX_ELT_LEN,
 						"(%-4d MHz) (1)",
 						(unsigned int) rate_bb2d);
 				else
-					snprintf(table[row][2],
+					snprintf(table[row][3],
 						TABLE_MAX_ELT_LEN, " %-4d MHz",
 						(unsigned int) rate_bb2d);
 				row++;
@@ -1134,11 +1143,11 @@ int voltdm44xx_opp_show(void)
 			strncpy(table[row][0], "  HSI", TABLE_MAX_ELT_LEN);
 			mod44xx_get_mode(OMAP4_HSI, &mmode);
 			if (mmode == MOD_DISABLED_MODE)
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)",
 					(unsigned int) rate_hsi);
 			else
-				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					" %-4d MHz", (unsigned int) rate_hsi);
 			row++;
 			break;
@@ -1152,7 +1161,7 @@ int voltdm44xx_opp_show(void)
 	}
 
 	/* Display table */
-	autoadjust_table_print(table, row, 4);
+	autoadjust_table_print(table, row, 5);
 
 	fprintf(stdout, "Notes:\n");
 	fprintf(stdout,
