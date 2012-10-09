@@ -324,6 +324,16 @@ int lib54xx_pwst_show(FILE *stream)
 }
 
 
+/* #define LIB54XX_OPP_SHOW_DEBUG */
+#ifndef LIB54XX_DEBUG
+#ifdef LIB54XX_OPP_SHOW_DEBUG
+#undef dprintf
+#define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
+#endif
+#else
+#undef dprintf
+#define dprintf(format, ...)
+#endif
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		lib54xx_opp_show
  * @BRIEF		show current operating voltages and key clock rates.
@@ -337,7 +347,7 @@ int lib54xx_opp_show(void)
 	voltdm54xx_id vdd_id;
 	double volt, volt2;
 	opp54xx_id opp, opp2;
-	double rate_mpu, rate_mpu_por;
+	unsigned int rate_mpu, rate_mpu_por;
 	unsigned int rate_dsp, rate_iva, rate_gpu;
 	unsigned int rate_dsp_por, rate_iva_por, rate_gpu_por;
 	unsigned int rate_l3, rate_l3_por;
@@ -362,18 +372,24 @@ int lib54xx_opp_show(void)
 	 * checking that OPP and voltage did not change and that at least ONE
 	 * clock rate is aligned to expected rate for the detected OPP.
 	 */
-
+	dprintf("%s():\n", __func__);
 	for (vdd_id = VDD54XX_MPU; vdd_id <= VDD54XX_CORE; vdd_id++) {
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s / VDD_CORE%u",
 				voltdm54xx_name_get(vdd_id),
 				(unsigned int) vdd_id);
+		dprintf("  %s:\n", voltdm54xx_name_get(vdd_id));
 
 		/* Retrieve OPP and clock rates */
 		retry_cnt = 0;
 		found = 0;
 		do {
+			dprintf("    TRY #%u:\n",retry_cnt);
+
 			opp = voltdm54xx_opp_get(vdd_id);
+			dprintf("      OPP detected: %s\n",
+				opp54xx_name_get(opp));
 			volt = voltdm54xx_voltage_get(vdd_id);
+			dprintf("      Voltage: %lfV\n", volt);
 
 			switch (vdd_id) {
 			case VDD54XX_MPU:
@@ -382,6 +398,8 @@ int lib54xx_opp_show(void)
 				rate_mpu_por = (unsigned int)
 					mod54xx_por_clk_rate_get(
 						OMAP5_MPU, opp);
+				dprintf("      MPU Rate: %dMHz, POR Rate: %dMHz\n",
+					rate_mpu, rate_mpu_por);
 				break;
 
 			case VDD54XX_MM:
@@ -401,6 +419,12 @@ int lib54xx_opp_show(void)
 				rate_gpu_por = (unsigned int)
 					mod54xx_por_clk_rate_get(
 						OMAP5_GPU, opp);
+				dprintf("      DSP Rate: %dMHz, POR Rate: %dMHz\n",
+					rate_dsp, rate_dsp_por);
+				dprintf("      IVA Rate: %dMHz, POR Rate: %dMHz\n",
+					rate_iva, rate_iva_por);
+				dprintf("      GPU Rate: %dMHz, POR Rate: %dMHz\n",
+					rate_gpu, rate_gpu_por);
 				break;
 
 			case VDD54XX_CORE:
@@ -410,6 +434,8 @@ int lib54xx_opp_show(void)
 					mod54xx_por_clk_rate_get(
 						OMAP5_L3_MAIN1_INTERCONNECT,
 						opp);
+				dprintf("      L3_1 Rate: %dMHz, POR Rate: %dMHz\n",
+					rate_l3, rate_l3_por);
 
 				rate_l4 = (unsigned int) mod54xx_clk_rate_get(
 					OMAP5_L4_CFG_INTERCONNECT, 1);
@@ -447,7 +473,10 @@ int lib54xx_opp_show(void)
 			}
 
 			opp2 = voltdm54xx_opp_get(vdd_id);
+			dprintf("      OPP detected (2): %s\n",
+				opp54xx_name_get(opp2));
 			volt2 = voltdm54xx_voltage_get(vdd_id);
+			dprintf("      Voltage (2): %lfV\n", volt2);
 
 			switch (vdd_id) {
 			case VDD54XX_MPU:
@@ -502,7 +531,7 @@ int lib54xx_opp_show(void)
 				strncpy(table[row][0], "  MPU (CPU1 OFF)",
 					TABLE_MAX_ELT_LEN);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, " %-4d MHz",
-				(unsigned int) rate_mpu);
+				rate_mpu);
 			row += 2;
 			break;
 
@@ -652,6 +681,15 @@ int lib54xx_opp_show(void)
 
 	return 0;
 }
+#ifndef LIB54XX_DEBUG
+#ifdef LIB54XX_OPP_SHOW_DEBUG
+#undef dprintf
+#define dprintf(format, ...)
+#endif
+#else
+#undef dprintf
+#define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
+#endif
 
 
 /* ------------------------------------------------------------------------*//**
