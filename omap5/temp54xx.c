@@ -309,7 +309,7 @@ int temp54xx_show(FILE *stream, temp54xx_sensor_id id)
 			sprintf(sensor_name, "%s",
 				(char *) temp54xx_name_get(id));
 		} else {
-			sprintf(sensor_name, "%s (extrapolated)",
+			sprintf(sensor_name, "%s",
 				(char *) temp54xx_name_get(id));
 		}
 		autoadjust_table_strncpy(table, row, 0, sensor_name);

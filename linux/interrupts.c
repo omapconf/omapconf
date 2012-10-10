@@ -146,7 +146,7 @@ int irq_total_count_get(FILE *fp)
 	char irq_ctrl_name[256], dev_name[256];
 	int ret;
 
-	cpu_count = cpu_cores_count_get();
+	cpu_count = cpu_online_cores_count_get();
 	if (cpu_count == 0) {
 		fprintf(stderr, "%s(): cpu_count == 0!\n", __func__);
 		return IRQ_ERR_CPU;
@@ -244,7 +244,7 @@ int irq_count_get(unsigned int n, FILE *fp)
 	char irq_ctrl_name[256], dev_name[256];
 	int ret;
 
-	cpu_count = cpu_cores_count_get();
+	cpu_count = cpu_online_cores_count_get();
 	if (cpu_count == 0) {
 		fprintf(stderr, "%s(): cpu_count == 0!\n", __func__);
 		return IRQ_ERR_CPU;
@@ -360,7 +360,7 @@ char *irq_dev_name_get(unsigned int n, FILE *fp, char name[256])
 	int ret;
 
 	dprintf("%s(): looking for irq #%u name ...\n", __func__, n);
-	cpu_count = cpu_cores_count_get();
+	cpu_count = cpu_online_cores_count_get();
 	if (cpu_count == 0) {
 		fprintf(stderr, "%s(): cpu_count == 0!\n", __func__);
 		return NULL;

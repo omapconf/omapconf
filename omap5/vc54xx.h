@@ -96,6 +96,8 @@ typedef enum {
 
 int vc54xx_config_show(FILE *stream, vc54xx_registers *vc_regs);
 
+int vc54xx_registers_get(vc54xx_registers *vc_regs);
+
 short int vc54xx_sa_get(voltdm54xx_id id, vc54xx_registers *vc_regs);
 short int vc54xx_volra_get(voltdm54xx_id id, vc54xx_registers *vc_regs);
 short int vc54xx_cmdra_get(voltdm54xx_id id, vc54xx_registers *vc_regs);

@@ -552,6 +552,7 @@ int mod44xx_get_autoidle_mode(mod44xx_id module_id,
 					extract_bit(sysconfig, 9);
 				ret_val = 1;
 				dprintf("%s(): module %s AUTOIDLE bit 9 = %d\n",
+					__func__,
 					mod44xx_get_name(module_id, name),
 					*mode);
 				break;

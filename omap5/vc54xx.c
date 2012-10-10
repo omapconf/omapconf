@@ -43,6 +43,7 @@
 
 
 #include <vc54xx.h>
+#include <prm54xx.h>
 #include <vc.h>
 #include <lib.h>
 #include <cpuinfo.h>
@@ -162,6 +163,44 @@ const char *vc54xx_bypass_error_name_get(vc54xx_bypass_error_type type)
 		return vc54xx_bypass_error_type_names[type];
 	else
 		return vc54xx_bypass_error_type_names[VC54XX_BYPS_ERR_TYPE_MAX];
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		vc54xx_registers_get
+ * @BRIEF		save all VC registers in structure provided as argument.
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ * @param[in, out]	vc_regs: structure where to store VC registers
+ * @DESCRIPTION		save all VC registers in structure provided as argument.
+ *//*------------------------------------------------------------------------ */
+int vc54xx_registers_get(vc54xx_registers *vc_regs)
+{
+	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
+	CHECK_NULL_ARG(vc_regs, OMAPCONF_ERR_ARG);
+
+	vc_regs->vc_smps_mpu_config =
+		reg_read(&omap5430_prm_vc_smps_mpu_config);
+	vc_regs->vc_smps_mm_config =
+		reg_read(&omap5430_prm_vc_smps_mm_config);
+	vc_regs->vc_smps_core_config =
+		reg_read(&omap5430_prm_vc_smps_core_config);
+	vc_regs->vc_val_cmd_vdd_mpu_l =
+		reg_read(&omap5430_prm_vc_val_cmd_vdd_mpu_l);
+	vc_regs->vc_val_cmd_vdd_mm_l =
+		reg_read(&omap5430_prm_vc_val_cmd_vdd_mm_l);
+	vc_regs->vc_val_cmd_vdd_core_l =
+		reg_read(&omap5430_prm_vc_val_cmd_vdd_core_l);
+	vc_regs->vc_val_bypass = reg_read(&omap5430_prm_vc_val_bypass);
+	vc_regs->vc_mpu_errst = reg_read(&omap5430_prm_vc_mpu_errst);
+	vc_regs->vc_mm_errst = reg_read(&omap5430_prm_vc_mm_errst);
+	vc_regs->vc_core_errst = reg_read(&omap5430_prm_vc_core_errst);
+	vc_regs->vc_bypass_errst = reg_read(&omap5430_prm_vc_bypass_errst);
+	vc_regs->vc_cfg_i2c_mode = reg_read(&omap5430_prm_vc_cfg_i2c_mode);
+	vc_regs->vc_cfg_i2c_clk = reg_read(&omap5430_prm_vc_cfg_i2c_clk);
+
+	return 0;
 }
 
 
