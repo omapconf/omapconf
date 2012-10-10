@@ -1116,6 +1116,26 @@ double cpu_load_get(unsigned int delta_idle,
 	return load;
 }
 
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		cpu_online_cores_count_get
+ * @BRIEF		return the number of CPU cores online
+ * @RETURNS		number of CPU cores online
+ * @param[in]		none
+ * @DESCRIPTION		return the number of CPU cores online
+ *//*------------------------------------------------------------------------ */
+unsigned int cpu_online_cores_count_get(void)
+{
+	unsigned int i, cpu_total_count, cpu_online_count;
+
+	cpu_total_count = cpu_cores_count_get();
+	cpu_online_count = 0;
+	for (i = 0; i < cpu_total_count; i ++) {
+		if (cpu_is_online(i) == 1)
+			cpu_online_count ++;
+	}
+
+	return cpu_online_count;
+}
 
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		cpu_cores_count_get

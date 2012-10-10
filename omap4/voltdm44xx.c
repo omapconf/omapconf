@@ -67,6 +67,9 @@
 #endif
 
 
+#define OPP_MAX_RETRY		100
+
+
 const char
 	voltdm44xx_name_table[OMAP4_VD_ID_MAX][VOLTDM44XX_MAX_NAME_LENGTH] = {
 	"LDO_WKUP",
@@ -277,6 +280,9 @@ double voltdm44xx_nominal_voltage_get(voltdm44xx_id id, opp44xx_id opp)
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
+#else
+#undef dprintf
+#define dprintf(format, ...)
 #endif
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		voltdm44xx_get_opp
@@ -299,7 +305,7 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 	double gfx_speed_curr = 0.0, gfx_speed_por = 0.0;
 	omap4_dpll_params dpll_params;
 	dpll44xx_id dpll_id;
-	#if (defined OMAP4CONF_GET_OPP_DEBUG || defined VOLTDM44XX_DEBUG)
+	#ifdef OMAP4CONF_GET_OPP_DEBUG
 	char mname[MOD44XX_MAX_NAME_LENGTH];
 	char cname[CLOCK44XX_MAX_NAME_LENGTH];
 	char vname[VOLTDM44XX_MAX_NAME_LENGTH];
@@ -361,8 +367,7 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 	dprintf("%s(): %s speed is %lfMHz\n", __func__,
 		clk44xx_get_name(clk_id, cname), speed_curr);
 	for (opp_id = 0; opp_id < OPP44XX_ID_MAX; opp_id++) {
-		#if (defined OMAP4CONF_GET_OPP_DEBUG || \
-			defined VOLTDM44XX_DEBUG)
+		#ifdef OMAP4CONF_GET_OPP_DEBUG
 		voltdm44xx_opp2string(s_opp, opp_id, id);
 		#endif
 
@@ -409,10 +414,8 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 
 			if ((int) gfx_speed_curr == (int) gfx_speed_por) {
 				opp_id = OMAP447X_OPP119_LOW;
-				#if (defined OMAP4CONF_GET_OPP_DEBUG ||\
-					defined VOLTDM44XX_DEBUG)
-				voltdm44xx_opp2string(s_opp, opp_id,
-					id);
+				#ifdef OMAP4CONF_GET_OPP_DEBUG
+				voltdm44xx_opp2string(s_opp, opp_id, id);
 				#endif
 				dprintf("%s(): GFX POR Speed == OPP119_LOW "
 					"POR Speed\n", __func__);
@@ -437,6 +440,9 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 #undef dprintf
 #define dprintf(format, ...)
 #endif
+#else
+#undef dprintf
+#define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
 
 
@@ -760,174 +766,418 @@ voltdm44xx_get_voltage_by_type_end:
 }
 
 
+/* #define OMAP4CONF_OPP_SHOW_DEBUG */
+#ifndef VOLTDM44XX_DEBUG
+#ifdef OMAP4CONF_OPP_SHOW_DEBUG
+#undef dprintf
+#define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
+#endif
+#else
+#undef dprintf
+#define dprintf(format, ...)
+#endif
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		voltdm44xx_opp_show
- * @BRIEF		show OPerating Point (OPP, voltage + frequency)
+ * @BRIEF		show OPerating Point (OPP, voltage + key clock rates)
  *			of a given voltage domain.
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		none
- * @DESCRIPTION		show OPerating Point (OPP, voltage + frequency)
+ * @DESCRIPTION		show OPerating Point (OPP, voltage + key clock rates)
  *			of a given voltage domain.
  *//*------------------------------------------------------------------------ */
 int voltdm44xx_opp_show(void)
 {
-	opp44xx_id current_opp[OMAP4_VD_ID_MAX] = {
-		OPP44XX_ID_MAX, OPP44XX_ID_MAX, OPP44XX_ID_MAX, OPP44XX_ID_MAX};
-	char s_opp_mpu[OPP44XX_MAX_NAME_LENGTH] = "UNKNOWN";
-	char s_opp_ivahd[OPP44XX_MAX_NAME_LENGTH] = "UNKNOWN";
-	char s_opp_core[OPP44XX_MAX_NAME_LENGTH] = "UNKNOWN";
+	voltdm44xx_id vdd_id;
+	double volt, volt2;
+	char vdd_name[VOLTDM44XX_MAX_NAME_LENGTH];
+	opp44xx_id opp, opp2;
+	int temp;
+	mod_module_mode mmode;
+	double rate_mpu, rate_mpu_por;
+	double rate_dsp, rate_iva, rate_aess;
+	double rate_dsp_por, rate_iva_por, rate_aess_por;
+	double rate_l3, rate_l3_por;
+	double rate_l4, rate_emif, rate_lpddr2, rate_iss,
+		rate_fdif, rate_m3, rate_dss, rate_bb2d, rate_hsi, rate_gfx;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row = 0;
-	int ret = 0;
-	double volt;
-	char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH],
-		prev_gov2[CPUFREQ_GOV_MAX_NAME_LENGTH];
+	unsigned int retry_cnt = 0;
+	unsigned int found = 0;
+	int ret, ret_volt, ret_opp;
 
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
 
-	/* Switch to userspace governor temporarily,
-	 * so that OPP cannot change during audit and does not false it.
-	 */
-	cpufreq_scaling_governor_set("userspace", prev_gov);
-
-	/* Retrieve OPP */
-	ret = voltdm44xx_get_opp(OMAP4_VDD_MPU, &current_opp[OMAP4_VDD_MPU]);
-	if (ret != 0)
-		dprintf("%s(): warning VDD_MPU OPP not detected!!! (%d)\n",
-			__func__, ret);
-	else
-		voltdm44xx_opp2string(s_opp_mpu, current_opp[OMAP4_VDD_MPU],
-			OMAP4_VDD_MPU);
-
-	ret = voltdm44xx_get_opp(OMAP4_VDD_IVA, &current_opp[OMAP4_VDD_IVA]);
-	if (ret != 0)
-		dprintf("%s(): warning VDD_IVA OPP not detected!!! (%d)\n",
-		__func__, ret);
-	else
-		voltdm44xx_opp2string(s_opp_ivahd, current_opp[OMAP4_VDD_IVA],
-			OMAP4_VDD_IVA);
-
-	ret = voltdm44xx_get_opp(OMAP4_VDD_CORE, &current_opp[OMAP4_VDD_CORE]);
-	if (ret != 0)
-		dprintf("%s(): warning VDD_CORE OPP not detected!!! (%d)\n",
-		__func__, ret);
-	else
-		voltdm44xx_opp2string(s_opp_core, current_opp[OMAP4_VDD_CORE],
-			OMAP4_VDD_CORE);
-
 	autoadjust_table_init(table);
 	row = 0;
-	strncpy(table[row][1], "Voltage", TABLE_MAX_ELT_LEN);
-	strncpy(table[row][2], "Frequency", TABLE_MAX_ELT_LEN);
-	strncpy(table[row][3], "OPerating Point", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][1], "Temperature", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][2], "Voltage", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][3], "Frequency", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][4], "OPerating Point", TABLE_MAX_ELT_LEN);
 	row++;
 
-	strncpy(table[row][0], "VDD_MPU / VDD_CORE1", TABLE_MAX_ELT_LEN);
-	ret = voltdm44xx_get_voltage(OMAP4_VDD_MPU, &volt);
-	if (ret == 0)
-		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%-4f V", volt);
-	else
-		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "NA");
-	strncpy(table[row][3], s_opp_mpu, TABLE_MAX_ELT_LEN);
-	row++;
-	if (cpu_is_online(1) == 1)
-		strncpy(table[row][0], "  MPU (CPU1 ON)", TABLE_MAX_ELT_LEN);
-	else
-		strncpy(table[row][0], "  MPU (CPU1 OFF)", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) clk44xx_get_clock_speed(OMAP4_MPU_DPLL_CLK,
-			0));
-	row += 2;
+	/*
+	 * In order to make sure all details (OPP, voltage, clock rates) are
+	 * coherent (due to potential OPP change in between), must use a loop,
+	 * checking that OPP and voltage did not change and that at least ONE
+	 * clock rate is aligned to expected rate for the detected OPP.
+	 */
+	dprintf("%s():\n", __func__);
+	for (vdd_id = OMAP4_VDD_MPU; vdd_id <= OMAP4_VDD_CORE; vdd_id++) {
+		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s / VDD_CORE%u",
+				voltdm44xx_get_name(vdd_id, vdd_name),
+				(unsigned int) vdd_id);
+		dprintf("  %s:\n", voltdm44xx_get_name(vdd_id, vdd_name));
 
-	strncpy(table[row][0], "VDD_IVA / VDD_CORE2", TABLE_MAX_ELT_LEN);
-	ret = voltdm44xx_get_voltage(OMAP4_VDD_IVA, &volt);
-	if (ret == 0)
-		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%-4f V", volt);
-	else
-		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "NA");
-	strncpy(table[row][3], s_opp_ivahd, TABLE_MAX_ELT_LEN);
-	row++;
-	strncpy(table[row][0], "  DSP", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) clk44xx_get_clock_speed(OMAP4_DSP_ROOT_CLK, 1));
-	row++;
-	strncpy(table[row][0], "  IVAHD", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) clk44xx_get_clock_speed(OMAP4_IVAHD_ROOT_CLK,
-		1));
-	row++;
-	strncpy(table[row][0], "  ABE", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) clk44xx_get_clock_speed(OMAP4_ABE_CLK, 1));
-	row += 2;
+		/* Retrieve OPP and clock rates */
+		retry_cnt = 0;
+		found = 0;
+		do {
+			dprintf("    TRY #%u:\n", retry_cnt);
 
-	strncpy(table[row][0], "VDD_CORE / VDD_CORE3", TABLE_MAX_ELT_LEN);
-	ret = voltdm44xx_get_voltage(OMAP4_VDD_CORE, &volt);
-	if (ret == 0)
-		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%-4f V", volt);
-	else
-		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "NA");
-	strncpy(table[row][3], s_opp_core, TABLE_MAX_ELT_LEN);
-	row++;
-	strncpy(table[row][0], "  L3", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) clk44xx_get_clock_speed(OMAP4_L3_ICLK, 1));
-	row++;
-	strncpy(table[row][0], "  DMM/EMIF", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) clk44xx_get_clock_speed(OMAP4_EMIF_L3_ICLK, 1));
-	row++;
-	strncpy(table[row][0], "    LPDDR2", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) clk44xx_get_clock_speed(
-			OMAP4_PHY_ROOT_CLK, 1) / 2);
-	row++;
-	strncpy(table[row][0], "  L4", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) clk44xx_get_clock_speed(OMAP4_L4_ICLK, 1));
-	row++;
-	strncpy(table[row][0], "  GFX", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) clk44xx_get_clock_speed(OMAP4_GFX_FCLK, 1));
-	row++;
-	strncpy(table[row][0], "  FDIF", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) clk44xx_get_clock_speed(OMAP4_FDIF_FCLK, 1));
-	row++;
-	strncpy(table[row][0], "  Cortex-M3 Cores", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) clk44xx_get_clock_speed(
-			OMAP4_MPU_M3_CLK, 1) / 2);
-	row++;
-	strncpy(table[row][0], "  ISS", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) clk44xx_get_clock_speed(OMAP4_ISS_CLK, 1));
-	row++;
-	strncpy(table[row][0], "  DSS", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) clk44xx_get_clock_speed(OMAP4_DSS_FCLK, 1));
-	row++;
-	if (cpu_is_omap4470()) {
-		strncpy(table[row][0], "  BB2D", TABLE_MAX_ELT_LEN);
-		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-			(unsigned int) clk44xx_get_clock_speed(
-				OMAP4_BB2D_FCLK, 1));
+			ret_opp = voltdm44xx_get_opp(vdd_id, &opp);
+			dprintf("      OPP detected: %s (ret_opp=%d)\n",
+				opp44xx_name_get(opp, vdd_id), ret_opp);
+			ret_volt = voltdm44xx_get_voltage(vdd_id, &volt);
+			dprintf("      Voltage: %lfV (ret_opp=%d)\n",
+				volt, ret_volt);
+
+			switch (vdd_id) {
+			case OMAP4_VDD_MPU:
+				rate_mpu = clk44xx_get_clock_speed(
+					OMAP4_MPU_DPLL_CLK, 0);
+				ret = mod44xx_get_por_clk_speed(
+					OMAP4_MPU, opp, &rate_mpu_por);
+				dprintf(
+					"      MPU Rate: %.3lfMHz, POR Rate: %.3lfMHz (ret=%d)\n",
+					rate_mpu, rate_mpu_por, ret);
+				break;
+
+			case OMAP4_VDD_IVA:
+				rate_dsp = clk44xx_get_clock_speed(
+					OMAP4_DSP_ROOT_CLK, 1);
+				rate_iva = clk44xx_get_clock_speed(
+					OMAP4_IVAHD_ROOT_CLK, 1);
+				rate_aess = clk44xx_get_clock_speed(
+					OMAP4_AESS_FCLK, 1);
+
+				ret = mod44xx_get_por_clk_speed(
+					OMAP4_DSP, opp, &rate_dsp_por);
+				ret += mod44xx_get_por_clk_speed(
+					OMAP4_IVAHD, opp, &rate_iva_por);
+				ret += mod44xx_get_por_clk_speed(
+					OMAP4_AESS, opp, &rate_aess_por);
+				dprintf(
+					"      DSP Rate: %.3lfMHz, POR Rate: %.3lfMHz (ret=%d)\n",
+					rate_dsp, rate_dsp_por, ret);
+				dprintf(
+					"      IVAHD Rate: %.3lfMHz, POR Rate: %.3lfMHz (ret=%d)\n",
+					rate_iva, rate_iva_por, ret);
+				dprintf(
+					"      AESS Rate: %.3lfMHz, POR Rate: %.3lfMHz (ret=%d)\n",
+					rate_aess, rate_aess_por, ret);
+				break;
+
+			case OMAP4_VDD_CORE:
+				rate_l3 = clk44xx_get_clock_speed(
+					OMAP4_L3_ICLK, 1);
+				ret = mod44xx_get_por_clk_speed(
+					OMAP4_L3_1, opp, &rate_l3_por);
+				dprintf(
+					"      L3_1 Rate: %.3lfMHz, POR Rate: %.3lfMHz (ret=%d)\n",
+					rate_l3, rate_l3_por, ret);
+
+				rate_emif = clk44xx_get_clock_speed(
+					OMAP4_EMIF_L3_ICLK, 1);
+				rate_lpddr2 = clk44xx_get_clock_speed(
+					OMAP4_PHY_ROOT_CLK, 1) / 2;
+				rate_l4 = clk44xx_get_clock_speed(
+					OMAP4_L4_ICLK, 1);
+				rate_gfx = clk44xx_get_clock_speed(
+					OMAP4_GFX_FCLK, 1);
+				rate_fdif = clk44xx_get_clock_speed(
+					OMAP4_FDIF_FCLK, 1);
+				rate_m3 = clk44xx_get_clock_speed(
+					OMAP4_MPU_M3_CLK, 1) / 2;
+				rate_iss = clk44xx_get_clock_speed(
+					OMAP4_ISS_CLK, 1);
+				rate_dss = clk44xx_get_clock_speed(
+					OMAP4_DSS_FCLK, 1);
+				rate_hsi = clk44xx_get_clock_speed(
+					OMAP4_HSI_FCLK, 1);
+				if (cpu_is_omap4470())
+					rate_bb2d = clk44xx_get_clock_speed(
+						OMAP4_BB2D_FCLK, 1);
+			break;
+
+			default:
+				/* cannot happen */
+				fprintf(stderr,
+					"omapconf: %s(): cannot happen?!\n",
+					__func__);
+			}
+
+			ret_opp += voltdm44xx_get_opp(vdd_id, &opp2);
+			dprintf("      OPP detected (2): %s (ret_opp=%d)\n",
+				opp44xx_name_get(opp2, vdd_id), ret_opp);
+			ret_volt += voltdm44xx_get_voltage(vdd_id, &volt2);
+			dprintf("      Voltage (2): %lfV (ret_opp=%d)\n",
+				volt2, ret_volt);
+
+			switch (vdd_id) {
+			case OMAP4_VDD_MPU:
+				found = (((unsigned int) rate_mpu == (unsigned int) rate_mpu_por) &&
+					(opp == opp2) && (volt == volt2));
+				break;
+
+			case OMAP4_VDD_IVA:
+				found = ((opp == opp2) && (volt == volt2) &&
+					(((unsigned int) rate_dsp == (unsigned int) rate_dsp_por) ||
+						((unsigned int) rate_iva == (unsigned int) rate_iva_por) ||
+						((unsigned int) rate_aess == (unsigned int) rate_aess_por)));
+				break;
+
+			case OMAP4_VDD_CORE:
+				found = ((opp == opp2) && (volt == volt2) &&
+					((unsigned int) rate_l3 == (unsigned int) rate_l3_por));
+				break;
+
+			default:
+				/* cannot happen */
+				fprintf(stderr,
+					"omapconf: %s(): cannot happen?!\n",
+					__func__);
+			}
+			dprintf("      found=%u\n", found);
+
+			retry_cnt++;
+
+			ret = ret + ret_volt + ret_opp;
+			dprintf("      ret=%d\n\n", ret);
+		} while ((ret == 0) && (retry_cnt < OPP_MAX_RETRY)
+			&& (found == 0));
+
+		/* Print temperature */
+		if (vdd_id == OMAP4_VDD_CORE) {
+			ret = temp44xx_read_bandgap_sensor(&temp);
+			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
+				"%dC / %dF", temp, celcius2fahrenheit(temp));
+		}
+
+		/* Print voltage */
+		if (ret_volt == 0) {
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%lf V",
+				volt);
+		} else {
+			fprintf(stderr,
+				"omapconf: could not retrieve %s voltage!!! (%d)\n",
+				voltdm44xx_get_name(vdd_id, vdd_name),
+				ret_volt);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "NA");
+		}
+
+		/* Print OPP */
+		if (retry_cnt >= OPP_MAX_RETRY) {
+			fprintf(stderr,
+				"omapconf: too many %s OPP changes, could not retrieve it!!!\n",
+				voltdm44xx_get_name(vdd_id, vdd_name));
+			strncpy(table[row][4], "ERROR", TABLE_MAX_ELT_LEN);
+		} else if (ret_opp != 0) {
+			fprintf(stderr,
+				"omapconf: could not retrieve %s OPP!!! (%d)\n",
+				voltdm44xx_get_name(vdd_id, vdd_name), ret_opp);
+			strncpy(table[row][4], "NA", TABLE_MAX_ELT_LEN);
+		} else {
+			strncpy(table[row][4], opp44xx_name_get(opp, vdd_id),
+				TABLE_MAX_ELT_LEN);
+		}
 		row++;
+
+		/* Print clock rates */
+		switch (vdd_id) {
+		case OMAP4_VDD_MPU:
+			if (cpu_is_online(1) == 1)
+				strncpy(table[row][0], "  MPU (CPU1 ON)",
+					TABLE_MAX_ELT_LEN);
+			else
+				strncpy(table[row][0], "  MPU (CPU1 OFF)",
+					TABLE_MAX_ELT_LEN);
+			snprintf(table[row][3], TABLE_MAX_ELT_LEN, " %-4d MHz",
+				(unsigned int) rate_mpu);
+			row += 2;
+			break;
+
+		case OMAP4_VDD_IVA:
+			strncpy(table[row][0], "  DSP", TABLE_MAX_ELT_LEN);
+			mod44xx_get_mode(OMAP4_DSP, &mmode);
+			if (mmode == MOD_DISABLED_MODE)
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					"(%-4d MHz) (1)",
+					(unsigned int) rate_dsp);
+			else
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					" %-4d MHz",
+					(unsigned int) rate_dsp);
+			row++;
+
+			strncpy(table[row][0], "  IVAHD", TABLE_MAX_ELT_LEN);
+			mod44xx_get_mode(OMAP4_IVAHD, &mmode);
+			if (mmode == MOD_DISABLED_MODE)
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					"(%-4d MHz) (1)",
+					(unsigned int) rate_iva);
+			else
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					" %-4d MHz",
+					(unsigned int) rate_iva);
+			row++;
+
+			strncpy(table[row][0], "  AESS", TABLE_MAX_ELT_LEN);
+			mod44xx_get_mode(OMAP4_AESS, &mmode);
+			if (mmode == MOD_DISABLED_MODE)
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					"(%-4d MHz) (1)",
+					(unsigned int) rate_aess);
+			else
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					" %-4d MHz", (unsigned int) rate_aess);
+
+			row += 2;
+			break;
+
+		case OMAP4_VDD_CORE:
+			strncpy(table[row][0], "  L3", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][3], TABLE_MAX_ELT_LEN, " %-4d MHz",
+				(unsigned int) rate_l3);
+			row++;
+
+			strncpy(table[row][0], "  DMM/EMIF", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][3], TABLE_MAX_ELT_LEN, " %-4d MHz",
+				(unsigned int) rate_emif);
+			row++;
+
+			strncpy(table[row][0], "    LP-DDR2",
+				TABLE_MAX_ELT_LEN);
+			snprintf(table[row][3], TABLE_MAX_ELT_LEN, " %-4d MHz",
+				(unsigned int) rate_lpddr2);
+			row++;
+
+			strncpy(table[row][0], "  L4", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][3], TABLE_MAX_ELT_LEN, " %-4d MHz",
+				(unsigned int) rate_l4);
+			row++;
+
+			strncpy(table[row][0], "  GFX", TABLE_MAX_ELT_LEN);
+			mod44xx_get_mode(OMAP4_GFX, &mmode);
+			if (mmode == MOD_DISABLED_MODE)
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					"(%-4d MHz) (1)",
+					(unsigned int) rate_gfx);
+			else
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					" %-4d MHz", (unsigned int) rate_gfx);
+			row++;
+
+			strncpy(table[row][0], "  FDIF", TABLE_MAX_ELT_LEN);
+			mod44xx_get_mode(OMAP4_FDIF, &mmode);
+			if (mmode == MOD_DISABLED_MODE)
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					"(%-4d MHz) (1)",
+					(unsigned int) rate_fdif);
+			else
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					" %-4d MHz", (unsigned int) rate_fdif);
+			row++;
+
+			strncpy(table[row][0], "    Cortex-M3 Cores",
+				TABLE_MAX_ELT_LEN);
+			mod44xx_get_mode(OMAP4_MPU_M3, &mmode);
+			if (mmode == MOD_DISABLED_MODE)
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					"(%-4d MHz) (1)",
+					(unsigned int) rate_m3);
+			else
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					" %-4d MHz", (unsigned int) rate_m3);
+			row++;
+
+			strncpy(table[row][0], "  ISS", TABLE_MAX_ELT_LEN);
+			mod44xx_get_mode(OMAP4_ISS, &mmode);
+			if (mmode == MOD_DISABLED_MODE)
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					"(%-4d MHz) (1)",
+					(unsigned int) rate_iss);
+			else
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					" %-4d MHz", (unsigned int) rate_iss);
+			row++;
+
+			strncpy(table[row][0], "  DSS", TABLE_MAX_ELT_LEN);
+			mod44xx_get_mode(OMAP4_DISPC, &mmode);
+			if (mmode == MOD_DISABLED_MODE)
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					"(%-4d MHz) (1)",
+					(unsigned int) rate_dss);
+			else
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					" %-4d MHz", (unsigned int) rate_dss);
+			row++;
+
+			if (cpu_is_omap4470()) {
+				strncpy(table[row][0], "  BB2D",
+					TABLE_MAX_ELT_LEN);
+				mod44xx_get_mode(OMAP4_BB2D, &mmode);
+				if (mmode == MOD_DISABLED_MODE)
+					snprintf(table[row][3],
+						TABLE_MAX_ELT_LEN,
+						"(%-4d MHz) (1)",
+						(unsigned int) rate_bb2d);
+				else
+					snprintf(table[row][3],
+						TABLE_MAX_ELT_LEN, " %-4d MHz",
+						(unsigned int) rate_bb2d);
+				row++;
+			}
+
+			strncpy(table[row][0], "  HSI", TABLE_MAX_ELT_LEN);
+			mod44xx_get_mode(OMAP4_HSI, &mmode);
+			if (mmode == MOD_DISABLED_MODE)
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					"(%-4d MHz) (1)",
+					(unsigned int) rate_hsi);
+			else
+				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					" %-4d MHz", (unsigned int) rate_hsi);
+			row++;
+			break;
+
+		default:
+			/* cannot happen */
+			fprintf(stderr,
+				"omapconf: %s(): cannot happen?!\n",
+				__func__);
+		}
 	}
-	strncpy(table[row][0], "  HSI", TABLE_MAX_ELT_LEN);
-	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%-4d MHz",
-		(unsigned int) clk44xx_get_clock_speed(OMAP4_HSI_FCLK, 1));
-	row++;
 
-	autoadjust_table_print(table, row, 4);
+	/* Display table */
+	autoadjust_table_print(table, row, 5);
 
-	/* Restore CPUFreq governor */
-	cpufreq_scaling_governor_set(prev_gov, prev_gov2);
+	fprintf(stdout, "Notes:\n");
+	fprintf(stdout,
+		"  (1) Module is disabled, rate may not be relevant.\n\n");
 
 	return 0;
 }
+#ifndef VOLTDM44XX_DEBUG
+#ifdef OMAP4CONF_OPP_SHOW_DEBUG
+#undef dprintf
+#define dprintf(format, ...)
+#endif
+#else
+#undef dprintf
+#define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
+#endif
 
 
 /* ------------------------------------------------------------------------*//**
