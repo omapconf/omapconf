@@ -102,9 +102,9 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 	unsigned int emif_delta_cycles,
 		emif_delta_busy_cycles;
 	double emif_load;
-	uint64_t *time_in_opp_t0;
-	uint64_t *time_in_opp_t1;
-	uint64_t *time_in_opp_cnt;
+	uint64_t *time_in_opp_t0 = NULL;
+	uint64_t *time_in_opp_t1 = NULL;
+	uint64_t *time_in_opp_cnt = NULL;
 	uint64_t total_trans_t0, total_trans_t1, total_trans_cnt;
 	unsigned int i;
 	uint64_t sec, msec, usec, active_c0_time;

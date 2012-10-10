@@ -1,3 +1,27 @@
+v1.51:
+-------
+	- [AUDIT][PERF] fixed empty interrupt statistic when CPU1 is offline
+	- [AUDIT][PERF] fixed segmentation fault
+	- [OMAP4][OMAP5][OPP] fixed OPP-clock rates incoherency
+	- [OMAP4][OMAP5][OPP] highlight disabled modules
+	- [OMAP4][OMAP5][OPP] highlight disabled modules
+	- [OMAP4][OMAP5][OPP] added debug traces
+	- [OMAP4][MODULE] fixed missing arg in debug trace in mod44xx_get_autoidle_mode()
+	- [OMAP5][VOLTDM][OPP] use nominal voltage instead of frequencies to detect OPP
+	- [OMAP5][VC] added function to retrieve registers of a given VC module
+	- [OMAP5][MODULE] fixed incorrect number of arguments in debug trace
+	- [OMAP5][MODULE] fixed GPU/IVA/DSP OPP_[NOM-HI] clock rates
+	- [STATCOLL] Added --overflow_delay in "trace" module help
+	- [STATCOLL] Extended --overflow_delay to -a 2 mode (direct dump on terminal)
+	- [STATCOLL] Reset HW IP after a certain number of iterations in -a 1 mode instead of counter checking
+	- [STATCOLL] per-counter config, error checking, HW bug handling, overflow handling
+	- [STATCOLL] clarified that option is -m MA_MPU_1_2, not MA_MPU_1_2 alone
+	- [STATCOLL] 6 counters and better description of counters before first data output
+	- [STATCOLL] Add capability to track overflow on 2 thresholds (use twice -o and -t)
+	- [STATCOLL] rename trans_qaul to trans_qual in cTools lib
+	- [STATCOLL] Missing initiator, error check for -m option and capability to use initiator name
+
+
 v1.50:
 -------
 	- Initial release.

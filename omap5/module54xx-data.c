@@ -1098,10 +1098,10 @@ const double mod54xx_por_rates_table[MOD54XX_ID_MAX][OPP_MAX] = {
 	/* Voltage dom.: MM, Power dom.: DSP, Clock domain = DSP */
 	{98.304, 232.960, 465.92, 532.0, -1.0, -1.0}, /* OMAP5_DSP */
 	/* Voltage dom.: MM, Power dom.: GPU, Clock domain = GPU */
-	{98.304, 192.0, 384.0, -1.0, -1.0, -1.0}, /* OMAP5_GPU */
+	{98.304, 177.333, 354.667, 532.0, -1.0, -1.0}, /* OMAP5_GPU */
 	/* Voltage dom.: MM, Power dom.: IVA, Clock domain = IVA */
-	{98.304, 194.133, 388.267, 531.2, -1.0, -1.0}, /* OMAP5_IVA */
-	{98.304, 194.133, 388.267, 531.2, -1.0, -1.0}, /* OMAP5_SL2 */
+	{98.304, 194.133, 388.267, 532.0, -1.0, -1.0}, /* OMAP5_IVA */
+	{98.304, 194.133, 388.267, 532.0, -1.0, -1.0}, /* OMAP5_SL2 */
 	/* Voltage dom.: MPU, Power dom.: MPUAON Clock domain = MPU */
 	{196.608, 400.0, 800.0, 1100.0, 1200.0, -1.0} }; /* OMAP5_MPU */
 
