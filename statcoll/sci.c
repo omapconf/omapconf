@@ -530,7 +530,7 @@ enum sci_err sci_reg_usecase_sdram(psci_handle const phandle,
         filter[0].match_userinfo = 0;
         filter[1].en = 0;
 
-        pcfg->filter[0].trans_qaul = SCI_RD_OR_WR_DONTCARE;
+        pcfg->filter[0].trans_qual = SCI_RD_OR_WR_DONTCARE;
      }
      else {
         num_filters = pcfg->num_filters;
@@ -545,7 +545,7 @@ enum sci_err sci_reg_usecase_sdram(psci_handle const phandle,
             else
                 filter[i].mask_mstaddr = pcfg->filter[i].mstr_addr_mask;
 
-            switch (pcfg->filter[i].trans_qaul) {
+            switch (pcfg->filter[i].trans_qual) {
             case SCI_RD_ONLY:
                 filter[i].mask_rd = 1;
                 filter[i].mask_wr = 1;
@@ -604,7 +604,7 @@ enum sci_err sci_reg_usecase_sdram(psci_handle const phandle,
     /* Setup the meta data */
     get_meta_data(phandle, *pusecase_key,
                   sdram_probe_name_table[pcfg->probe_id],
-                  trans_type_table[pcfg->filter[0].trans_qaul],
+                  trans_type_table[pcfg->filter[0].trans_qual],
                   master_name_table[filter[0].match_mstaddr],
                   filter[0].mask_mstaddr );
 #endif
@@ -782,7 +782,7 @@ enum sci_err sci_reg_usecase_mstr(psci_handle const phandle,
         filter.match_requserinfo = 0;
         filter.match_rspuserinfo = 0;
 
-        pcfg->filter.trans_qaul = SCI_RD_OR_WR_DONTCARE;
+        pcfg->filter.trans_qual = SCI_RD_OR_WR_DONTCARE;
 
      }
      else {
@@ -802,7 +802,7 @@ enum sci_err sci_reg_usecase_mstr(psci_handle const phandle,
         else
             filter.mask_slvaddr = pcfg->filter.slave_addr_match;
 
-        switch (pcfg->filter.trans_qaul) {
+        switch (pcfg->filter.trans_qual) {
         case SCI_RD_ONLY:
             filter.mask_rd = 1;
             filter.mask_wr = 1;
@@ -856,7 +856,7 @@ enum sci_err sci_reg_usecase_mstr(psci_handle const phandle,
     /* Setup the meta data */
     get_meta_data(phandle, *pusecase_key,
                   mstr_probe_name_table[pcfg->probe_id],
-                  trans_type_table[pcfg->filter.trans_qaul],
+                  trans_type_table[pcfg->filter.trans_qual],
                   master_name_table[filter.match_mstaddr],
                   filter.mask_mstaddr );
 #endif

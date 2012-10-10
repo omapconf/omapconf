@@ -398,7 +398,7 @@ struct sci_filter_sdram
 {
     enum sci_master_addr  mstr_addr_match;  /*!< Master address match */
     uint32_t  mstr_addr_mask;               /*!< Master address mask */
-    enum sci_trans_qual trans_qaul;         /*!< Tranaction qualifier */
+    enum sci_trans_qual trans_qual;         /*!< Tranaction qualifier */
     enum sci_error_qual error_qual;         /*!< Error qualifier */
 //#if _SC_VER_1_16
 //    bool addr_filter_enable;                /*!< Probe address filter enable */
@@ -411,7 +411,7 @@ struct sci_filter_sdram
 struct sci_filter_mstr {
     enum sci_slave_addr  slave_addr_match;  /*!< Slave address match */
     uint32_t  slave_addr_mask;              /*!< Slave address mask */
-    enum sci_trans_qual trans_qaul;         /*!< Tranaction qualifier */
+    enum sci_trans_qual trans_qual;         /*!< Tranaction qualifier */
     enum sci_error_qual error_qual;         /*!< Error qualifier */
 };
 
