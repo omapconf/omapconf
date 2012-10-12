@@ -49,6 +49,34 @@
 
 static unsigned int last_mem_addr;
 static unsigned short fake_mem_access = 0;
+static unsigned short mem_read_trace = 0;
+static unsigned short mem_write_trace = 0;
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		mem_read_trace_enable
+ * @BRIEF		enable tracing of all memory read access.
+ * @param[in]		enable: 0 to disable trace (default), 1 to enable it.
+ * @DESCRIPTION		enable tracing of all memory read access.
+ *			Print trace with physical address and read value.
+ *//*------------------------------------------------------------------------ */
+void mem_read_trace_enable(unsigned short enable)
+{
+	mem_read_trace = enable;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		mem_write_trace_enable
+ * @BRIEF		enable tracing of all memory write access.
+ * @param[in]		enable: 0 to disable trace (default), 1 to enable it.
+ * @DESCRIPTION		enable tracing of all memory read access.
+ *			Print trace with physical address and written value.
+ *//*------------------------------------------------------------------------ */
+void mem_write_trace_enable(unsigned short enable)
+{
+	mem_write_trace = enable;
+}
 
 
 /* ------------------------------------------------------------------------*//**
@@ -164,6 +192,9 @@ int mem_read(unsigned int addr, unsigned int *val)
 			ret = MEM_ERR_ACCESS;
 	}
 
+	if (mem_read_trace)
+		printf("omapconf: read 0x%08X at address 0x%08X\n", *val, addr);
+
 	return ret;
 }
 
@@ -195,6 +226,10 @@ int mem_write(unsigned int addr, unsigned int val)
 	} else {
 		ret = 0;
 	}
+
+	if (mem_write_trace)
+		printf("omapconf: wrote 0x%08X at address 0x%08X\n",
+			val, addr);
 
 	return ret;
 }

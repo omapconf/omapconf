@@ -60,6 +60,7 @@
 #include <mem.h>
 #include <lib54xx.h>
 #include <trace.h>
+#include <mem.h>
 
 
 /* #define DEBUG */
@@ -851,6 +852,16 @@ static int main_options_scan(int *argc, char **argv[])
 			mem_fake_access_set(1);
 			printf(
 				"\n### FAKE MEMORY ACCESS DEBUG MODE ENABLED ###\n\n");
+			cpt++;
+			ret++;
+		} else if (strcmp((*argv)[i], "--trace_read") == 0) {
+			/* Trace all memory read access */
+			mem_read_trace_enable(1);
+			cpt++;
+			ret++;
+		} else if (strcmp((*argv)[i], "--trace_write") == 0) {
+			/* Trace all memory write access */
+			mem_write_trace_enable(1);
 			cpt++;
 			ret++;
 		}
