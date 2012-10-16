@@ -42,6 +42,7 @@
  */
 
 
+#include <temperature.h>
 #include <temperature44xx.h>
 #include <lib.h>
 #include <lib_android.h>
@@ -535,9 +536,9 @@ double temp4460_bandgap_sensor_clock_get(void)
 
 	/* Retrieve divider value */
 	div = 8 << extract_bitfield(cm_wkup_bandgap_clkctrl, 24, 2);
-	dprintf("%s(): sensor f-clk rate = "
-			"%lfMHz (L4WKUP_ICLK (%lfMHz) / %u)\n",
-			__func__, rate / div, rate, div);
+	dprintf(
+		"%s(): sensor f-clk rate = %lfMHz (L4WKUP_ICLK (%lfMHz) / %u)\n",
+		__func__, rate / div, rate, div);
 
 	return rate / (double) div;
 }
@@ -679,8 +680,9 @@ int temp4460_read_bandgap_sensor(int *temp)
 		ret = mem_write(OMAP4430_CONTROL_TEMP_SENSOR,
 			control_temp_sensor & ~OMAP4460_BGAP_TEMPSOFF_MASK);
 		if (ret != 0) {
-			dprintf("%s: Error writing control register (start)! "
-				"(%d)\n", __func__, ret);
+			dprintf(
+				"%s: Error writing control register (start)! (%d)\n",
+				__func__, ret);
 			ret = OMAPCONF_ERR_REG_ACCESS;
 			goto temp4460_read_bandgap_sensor_end;
 		}
@@ -820,21 +822,6 @@ int temp4430_read_bandgap_sensor(int *temp)
 	 * even when no conversion ongoing. Don't check it then ...
 	 */
 	usleep(1000);
-	#if 0
-	do {
-		usleep(1000); /* wait for 1ms between each read */
-		ret = mem_read(OMAP4430_CONTROL_TEMP_SENSOR,
-			&control_temp_sensor);
-		if (ret != 0) {
-			dprintf("temp44xx_read_bandgap_sensor(): "
-			"Error reading control register (end)! (%d)\n", ret);
-			return OMAPCONF_ERR_REG_ACCESS;
-		}
-		dprintf("temp44xx_read_bandgap_sensor(): in conversion "
-			"control_temp_sensor = 0x%08X\n", control_temp_sensor);
-	} while (extract_bit(control_temp_sensor, 8) != 0);
-	/* FIXME: potential deadloop here if conversion never ends */
-	#endif
 
 	/* Stop Conversion */
 	control_temp_sensor &= ~(1 << 9);
@@ -896,12 +883,12 @@ int temp44xx_read_bandgap_sensor(int *temp)
 	if (os_is_android()) {
 		if (os_is_android() && (android_pastry_get() < PASTRY_ICS))
 			fp = fopen(
-			"/sys/devices/platform/omap_temp_sensor.0/temp1_input",
-			"r");
+				"/sys/devices/platform/omap_temp_sensor.0/temp1_input",
+				"r");
 		else
 			fp = fopen(
-			"/sys/devices/platform/omap/omap_temp_sensor.0"
-			"/temp1_input", "r");
+				"/sys/devices/platform/omap/omap_temp_sensor.0/temp1_input",
+				"r");
 		if (fp == NULL) {
 			dprintf("%s(): couldn't open temp sensor file!\n",
 				__func__);
@@ -953,8 +940,7 @@ int temp4470_read_pcb_sensor(int *temp)
 	static const char pcb_temp_file_gb[] =
 		"/sys/devices/platform/i2c_omap.4/i2c-4/4-0048/temp1_input";
 	static const char pcb_temp_file_ics[] =
-		"/sys/devices/platform/omap/omap_i2c.4/i2c-4/4-0048/"
-		"temp1_input";
+		"/sys/devices/platform/omap/omap_i2c.4/i2c-4/4-0048/temp1_input";
 	char *pcb_temp_file;
 
 	CHECK_CPU(4470, OMAPCONF_ERR_CPU);
@@ -995,8 +981,8 @@ int temp4470_read_pcb_sensor(int *temp)
 temp4470_read_pcb_sensor_no_driver:
 	conf = tmp102_read_reg(TMP102_CONF_REG);
 	if (conf < 0) {
-		fprintf(stderr, "%s(): could not read register!"
-			"(%d)\n", __func__, conf);
+		fprintf(stderr, "%s(): could not read register!(%d)\n",
+			__func__, conf);
 		return OMAPCONF_ERR_REG_ACCESS;
 	}
 
@@ -1005,16 +991,17 @@ temp4470_read_pcb_sensor_no_driver:
 		conf &= ~TMP102_CONF_SD;
 		ret = tmp102_write_reg(TMP102_CONF_REG, conf);
 		if (ret < 0) {
-			fprintf(stderr, "%s(): could not write register!"
-				"(%d)\n", __func__, ret);
+			fprintf(stderr,
+				"%s(): could not write register!(%d)\n",
+				__func__, ret);
 			return OMAPCONF_ERR_REG_ACCESS;
 		}
 	}
 
 	ret = tmp102_read_reg(TMP102_TEMP_REG);
 	if (ret < 0) {
-		fprintf(stderr, "%s(): could not read register!"
-			"(%d)\n", __func__, ret);
+		fprintf(stderr, "%s(): could not read register!(%d)\n",
+			__func__, ret);
 		return OMAPCONF_ERR_REG_ACCESS;
 	}
 
@@ -1039,8 +1026,7 @@ int temp4460_read_pcb_sensor(int *temp)
 	char line[256];
 	int ret;
 	static const char pcb_temp_file_gb[] =
-		"/sys/devices/platform/i2c_omap.1/i2c-1/1-0049/twl6030_gpadc/"
-		"in4_input";
+		"/sys/devices/platform/i2c_omap.1/i2c-1/1-0049/twl6030_gpadc/in4_input";
 	static const char pcb_temp_file_ics[] =
 		"/sys/devices/platform/omap/pcb_temp_sensor.0/temp1_input";
 	char *pcb_temp_file;
@@ -1057,8 +1043,9 @@ int temp4460_read_pcb_sensor(int *temp)
 			pcb_temp_file = (char *) pcb_temp_file_ics;
 		fp = fopen(pcb_temp_file, "r");
 		if (fp == NULL) {
-			fprintf(stderr, "Couldn't open PCB sensor file! "
-				"(%s)\n\n", pcb_temp_file);
+			fprintf(stderr,
+				"Couldn't open PCB sensor file! (%s)\n\n",
+				pcb_temp_file);
 			return OMAPCONF_ERR_NOT_AVAILABLE;
 		}
 		if (fgets(line, 256, fp) == NULL) {
@@ -1143,8 +1130,9 @@ int temp44xx_hotspot_temp_get(void)
 	}
 	if (fgets(line, 256, fp) == NULL) {
 		fclose(fp);
-		fprintf(stderr, "Unexpected error reading hotspot temperature "
-			"sensor file (%s).\n\n", hotspot_temp_file);
+		fprintf(stderr,
+			"Unexpected error reading hotspot temperature sensor file (%s).\n\n",
+			hotspot_temp_file);
 		return TEMP_ABSOLUTE_ZERO;
 	}
 	fclose(fp);
@@ -1156,8 +1144,9 @@ int temp44xx_hotspot_temp_get(void)
 	/* Retrieve temperature, in millidegrees celcius */
 	ret = sscanf(line, "hot spot temp%d", &degc);
 	if (ret != 1) {
-		fprintf(stderr, "Unexpected error reading hotspot temperature "
-			"sensor file (%s).\n\n", hotspot_temp_file);
+		fprintf(stderr,
+			"Unexpected error reading hotspot temperature sensor file (%s).\n\n",
+			hotspot_temp_file);
 		return TEMP_ABSOLUTE_ZERO;
 	}
 	degc = degc / 1000; /* convert to degrees */
@@ -1219,7 +1208,8 @@ int temp44xx_read_mem_sensor(unsigned short emif,
 		return OMAPCONF_ERR_ARG;
 	}
 	/* Write EMIF cfg register */
-	ret = mem_write(emif_lpddr2_mode_reg_cfg_addr, emif_lpddr2_mode_reg_cfg);
+	ret = mem_write(emif_lpddr2_mode_reg_cfg_addr,
+		emif_lpddr2_mode_reg_cfg);
 	if (ret != 0) {
 		dprintf("%s(): Error writing cfg register! (%d)\n",
 			__func__, ret);
@@ -1254,218 +1244,98 @@ int temp44xx_read_mem_sensor(unsigned short emif,
 
 
 /* ------------------------------------------------------------------------*//**
- * @FUNCTION		temp44xx_read_sensors
- * @BRIEF		read OMAP4 temperature sensors (bandgap, pcb, memory)
- * @RETURNS		0
- * @DESCRIPTION		read OMAP4 temperature sensors (bandgap, pcb, memory)
+ * @FUNCTION		temp44xx_get
+ * @BRIEF		read temperature from selected temperature sensor
+ * @RETURNS		temperature on success (> TEMP_ABSOLUTE_ZERO)
+ *			TEMP_ABSOLUTE_ZERO in case of error
+ * @param[in]		id: valid OMAP4 temperature sensor ID
+ * @DESCRIPTION		read temperature from selected temperature sensor
  *//*------------------------------------------------------------------------ */
-int temp44xx_read_sensors(void)
+int temp44xx_get(temp44xx_sensor_id id)
 {
-	int ret;
-	int temp_sensor_c, temp_sensor_f;
-	omap4_emif_temperature temp_mem;
-	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
-	unsigned int row = 0;
-	unsigned short emif, cs, num_cs;
+	int ret, temp;
 
-	num_cs = emif44xx_cs_count_get();
+	switch (id) {
+	case TEMP44XX_BANDGAP:
+		ret = temp44xx_read_bandgap_sensor(&temp);
+		if (ret != 0)
+			temp = TEMP_ABSOLUTE_ZERO;
+		break;
 
-	ret = temp44xx_read_mem_sensor(1, 0, &temp_mem);
-	ret = temp44xx_read_mem_sensor(2, 0, &temp_mem);
+	case TEMP44XX_HOTSPOT:
+		temp = temp44xx_hotspot_temp_get();
+		break;
 
-	if (num_cs == 2) {
-		ret = temp44xx_read_mem_sensor(1, 1, &temp_mem);
-		ret = temp44xx_read_mem_sensor(2, 1, &temp_mem);
-	}
+	case TEMP44XX_DDR1_CS1:
+		ret = temp44xx_read_mem_sensor(1, 0,
+			(omap4_emif_temperature *) &temp);
+		if (ret != 0)
+			temp = TEMP_ABSOLUTE_ZERO;
+		break;
 
-	autoadjust_table_init(table);
-	row = 0;
-	strncpy(table[row][0], "OMAP Temperature Sensor", TABLE_MAX_ELT_LEN);
-	strncpy(table[row][1], "Temperature (C)", TABLE_MAX_ELT_LEN);
-	strncpy(table[row][2], "Temperature (F)", TABLE_MAX_ELT_LEN);
-	row++;
+	case TEMP44XX_DDR2_CS1:
+		ret = temp44xx_read_mem_sensor(2, 0,
+			(omap4_emif_temperature *) &temp);
+		if (ret != 0)
+			temp = TEMP_ABSOLUTE_ZERO;
+		break;
 
-	/* PCB temperature sensor is not available on OMAP4430 */
-	if (!cpu_is_omap4430()) {
-		strncpy(table[row][0], "PCB", TABLE_MAX_ELT_LEN);
-		ret = temp44xx_read_pcb_sensor(&temp_sensor_c);
-		if (ret != 0) {
-			strncpy(table[row][1], "Unavailable",
-				TABLE_MAX_ELT_LEN);
-			strncpy(table[row][2], "Unavailable",
-				TABLE_MAX_ELT_LEN);
-		} else {
-			temp_sensor_f = ((temp_sensor_c * 9) / 5) + 32;
-			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%d",
-				temp_sensor_c);
-			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%d",
-				temp_sensor_f);
+	case TEMP44XX_DDR1_CS2:
+		if (emif44xx_cs_count_get() != 2)
+			return TEMP_ABSOLUTE_ZERO;
+		ret = temp44xx_read_mem_sensor(1, 1,
+			(omap4_emif_temperature *) &temp);
+		if (ret != 0)
+			temp = TEMP_ABSOLUTE_ZERO;
+		break;
+
+	case TEMP44XX_DDR2_CS2:
+		if (emif44xx_cs_count_get() != 2) {
+			temp = TEMP_ABSOLUTE_ZERO;
+			break;
 		}
-		row += 1;
+		ret = temp44xx_read_mem_sensor(2, 1,
+			(omap4_emif_temperature *) &temp);
+		if (ret != 0)
+			temp = TEMP_ABSOLUTE_ZERO;
+		break;
+
+	case TEMP44XX_PCB:
+		ret = temp44xx_read_pcb_sensor(&temp);
+		if (ret != 0)
+			temp = TEMP_ABSOLUTE_ZERO;
+		break;
+
+	default:
+		fprintf(stderr,
+			"omapconf: %s(): id (%u) >= TEMP44XX_ID_MAX (%u) !!!\n",
+			__func__, id, TEMP44XX_ID_MAX);
+		temp = TEMP_ABSOLUTE_ZERO;
 	}
 
-	strncpy(table[row][0], "Bandgap", TABLE_MAX_ELT_LEN);
-	ret = temp44xx_read_bandgap_sensor(&temp_sensor_c);
-	if (ret != 0) {
-		strncpy(table[row][1], "error!", TABLE_MAX_ELT_LEN);
-		strncpy(table[row][2], "error!", TABLE_MAX_ELT_LEN);
-	} else {
-		temp_sensor_f = celcius2fahrenheit(temp_sensor_c);
-		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%d",
-			temp_sensor_c);
-		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%d",
-			temp_sensor_f);
-	}
-	row++;
-
-	strncpy(table[row][0], "Hotspot", TABLE_MAX_ELT_LEN);
-	temp_sensor_c = temp44xx_hotspot_temp_get();
-	if (temp_sensor_c == TEMP_ABSOLUTE_ZERO) {
-		strncpy(table[row][1], "Unavailable", TABLE_MAX_ELT_LEN);
-		strncpy(table[row][2], "Unavailable", TABLE_MAX_ELT_LEN);
-	} else {
-		temp_sensor_f = ((temp_sensor_c * 9) / 5) + 32;
-		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%d",
-			temp_sensor_c);
-		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%d",
-			temp_sensor_f);
-	}
-	row += 2;
-
-	for (emif = 1; emif < 3; emif++) {
-		for (cs = 0; cs < num_cs; cs++) {
-			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-				"EMIF%d CS%d", emif, cs);
-			ret = temp44xx_read_mem_sensor(emif, cs,
-				&temp_mem);
-			switch (temp_mem) {
-			case OMAP4_EMIF_TEMP_BELOW_85C:
-				strncpy(table[row][1], "<= 85",
-					TABLE_MAX_ELT_LEN);
-				strncpy(table[row][2], "<= 185",
-					TABLE_MAX_ELT_LEN);
-				break;
-			case OMAP4_EMIF_TEMP_ABOVE_85C:
-				strncpy(table[row][1], "> 85",
-					TABLE_MAX_ELT_LEN);
-				strncpy(table[row][2], "> 185",
-					TABLE_MAX_ELT_LEN);
-				break;
-			case OMAP4_EMIF_TEMP_EXCEED_105C:
-				strncpy(table[row][1], "> 105!",
-					TABLE_MAX_ELT_LEN);
-				strncpy(table[row][2], "> 221!",
-					TABLE_MAX_ELT_LEN);
-				break;
-			default:
-				strncpy(table[row][1], "error!",
-					TABLE_MAX_ELT_LEN);
-				strncpy(table[row][2], "error!",
-					TABLE_MAX_ELT_LEN);
-			}
-			row++;
-		}
-	}
-	autoadjust_table_print(table, row, 3);
-
-	return 0;
+	dprintf("%s(%d) = %dC\n", __func__, (int) id, temp);
+	return temp;
 }
 
 
 /* ------------------------------------------------------------------------*//**
- * @FUNCTION		temp44xx_main
- * @BRIEF		main entry point
- * @RETURNS		0 in case of success
- *			OMAPCONF_ERR_ARG
- *			OMAPCONF_ERR_CPU
- *			OMAPCONF_ERR_INTERNAL
- * @param[in]		argc: shell input argument number
- * @param[in]		argv: shell input argument(s)
- * @DESCRIPTION		main entry point
+ * @FUNCTION		temp44xx_voltdm2sensor_id
+ * @BRIEF		convert voltage domain ID to sensor domain ID
+ * @RETURNS		valid sensor ID in case of success
+ *			TEMP44XX_ID_MAX in case of voltage domain ID
+ * @param[in]		vdd_id: valid voltage domain ID
+ * @DESCRIPTION		convert voltage domain ID to sensor domain ID.
  *//*------------------------------------------------------------------------ */
-int temp44xx_main(int argc, char *argv[])
+temp44xx_sensor_id temp44xx_voltdm2sensor_id(voltdm44xx_id vdd_id)
 {
-	int ret;
-	omap4_emif_temperature temp_mem;
-	int temp_bandgap_pcb;
-	unsigned int emif;
-	unsigned int cs;
+	static const temp44xx_sensor_id voltdm2sensor_map[OMAP4_VD_ID_MAX] = {
+		TEMP44XX_ID_MAX, /* OMAP4_LDO_WKUP */
+		TEMP44XX_HOTSPOT, /* OMAP4_VDD_MPU */
+		TEMP44XX_ID_MAX, /* OMAP4_VDD_IVA */
+		TEMP44XX_BANDGAP}; /* OMAP4_VDD_CORE */
 
-	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
+	CHECK_ARG_LESS_THAN(vdd_id, OMAP4_VD_ID_MAX, TEMP44XX_ID_MAX);
 
-	if (argc == 1) {
-		ret = temp44xx_read_sensors();
-	} else if (argc == 2) {
-		if (strcmp(argv[1], "bandgap") == 0) {
-			ret = temp44xx_read_bandgap_sensor(
-				&temp_bandgap_pcb);
-			if (ret == 0)
-				printf("%d\n", temp_bandgap_pcb);
-		} else if (strcmp(argv[1], "pcb") == 0) {
-			ret = temp44xx_read_pcb_sensor(&temp_bandgap_pcb);
-			if (ret == 0)
-				printf("%d\n", temp_bandgap_pcb);
-		} else if (strcmp(argv[1], "hotspot") == 0) {
-			temp_bandgap_pcb = temp44xx_hotspot_temp_get();
-			if (temp_bandgap_pcb != TEMP_ABSOLUTE_ZERO)
-				printf("%d\n", temp_bandgap_pcb);
-		} else {
-			help(HELP_TEMPERATURE);
-			ret = OMAPCONF_ERR_ARG;
-		}
-	} else if ((argc == 4) &&
-		(strcmp(argv[1], "mem") == 0)) {
-		/* Retrieve EMIF # */
-		ret = sscanf(argv[2], "%u", &emif);
-		if (ret != 1) {
-			dprintf("emif not found (%s)\n", argv[2]);
-			help(HELP_TEMPERATURE);
-			return OMAPCONF_ERR_ARG;
-		}
-		dprintf("emif = %u\n", emif);
-
-		/* Retrieve CS # */
-		ret = sscanf(argv[3], "%u", &cs);
-		if (ret != 1) {
-			dprintf("cs not found (%s)\n", argv[3]);
-			help(HELP_TEMPERATURE);
-			return OMAPCONF_ERR_ARG;
-		}
-		dprintf("cs = %u\n", cs);
-		if (cs >= emif44xx_cs_count_get()) {
-			dprintf("bad cs (%u)\n", cs);
-			help(HELP_TEMPERATURE);
-			return OMAPCONF_ERR_ARG;
-		}
-
-		ret = temp44xx_read_mem_sensor(emif, cs, &temp_mem);
-		if (ret == 0) {
-			switch (temp_mem) {
-			case OMAP4_EMIF_TEMP_BELOW_85C:
-				printf("%d (<= 85C / <= 185F)\n",
-					(unsigned int) temp_mem);
-				break;
-			case OMAP4_EMIF_TEMP_ABOVE_85C:
-				printf("%d (> 85C / > 185F)\n",
-					(unsigned int) temp_mem);
-				break;
-			case OMAP4_EMIF_TEMP_EXCEED_105C:
-				printf("%d (> 105! / > 221!)\n",
-					(unsigned int) temp_mem);
-				break;
-			default:
-				break;
-			}
-		} else if (ret == OMAPCONF_ERR_ARG) {
-			dprintf("incorrect EMIF (%u) / CS (%u)\n", emif, cs);
-			help(HELP_TEMPERATURE);
-		} else {
-			printf("error during the capture! (%d)\n", ret);
-		}
-	} else {
-		help(HELP_TEMPERATURE);
-		ret = OMAPCONF_ERR_ARG;
-	}
-
-	return ret;
+	dprintf("%s(%d) = %d\n", __func__, vdd_id, voltdm2sensor_map[vdd_id]);
+	return voltdm2sensor_map[vdd_id];
 }

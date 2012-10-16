@@ -46,7 +46,19 @@
 #define __TEMPERATURE44XX_H__
 
 
-#define TEMP_ABSOLUTE_ZERO		-273
+#include <voltdm44xx.h>
+
+
+typedef enum {
+	TEMP44XX_BANDGAP,
+	TEMP44XX_HOTSPOT,
+	TEMP44XX_DDR1_CS1,
+	TEMP44XX_DDR1_CS2,
+	TEMP44XX_DDR2_CS1,
+	TEMP44XX_DDR2_CS2,
+	TEMP44XX_PCB,
+	TEMP44XX_ID_MAX
+} temp44xx_sensor_id;
 
 
 typedef enum {
@@ -57,12 +69,9 @@ typedef enum {
 } omap4_emif_temperature;
 
 
-int temp44xx_main(int argc, char *argv[]);
-int temp44xx_read_pcb_sensor(int *temp);
-int temp44xx_read_bandgap_sensor(int *temp);
-int temp44xx_hotspot_temp_get(void);
-int temp44xx_read_mem_sensor(unsigned short emif,
-	unsigned short cs, omap4_emif_temperature *temp);
+temp44xx_sensor_id temp44xx_voltdm2sensor_id(voltdm44xx_id vdd_id);
+
+int temp44xx_get(temp44xx_sensor_id id);
 
 
 #endif

@@ -46,7 +46,7 @@
 #define __EMIF_H__
 
 
-#include <temp.h>
+#include <temperature.h>
 
 
 #define EMIF_TEMP_MAX_NAME_LENGTH	16

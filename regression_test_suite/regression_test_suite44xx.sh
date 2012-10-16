@@ -16,7 +16,7 @@
 # NOTES: ---
 # AUTHOR: Patrick Titiano
 # COMPANY: Texas Instruments France
-VERSION=1.00
+VERSION=1.01
 # CREATED: 2011-09-06
 # REVISION: ---
 #=================================================================================
@@ -57,8 +57,8 @@ function compare {
 
 	if [ "$1" = "dump dpll" ]; then
 		# EMIF clocks may be gated or not, ignore it
-		$ref_omapconf_bin $1 | grep -v CM_DIV_M2_DPLL_CORE | grep -v CM_DIV_M4_DPLL_CORE > $logfile_ref
-		$new_omapconf_bin $1 | grep -v CM_DIV_M2_DPLL_CORE | grep -v CM_DIV_M4_DPLL_CORE > $logfile_new
+		$ref_omapconf_bin $1 | grep -v CM_DIV_M2_DPLL_CORE | grep -v CM_DIV_M4_DPLL_CORE &> $logfile_ref
+		$new_omapconf_bin $1 | grep -v CM_DIV_M2_DPLL_CORE | grep -v CM_DIV_M4_DPLL_CORE &> $logfile_new
 	elif [ "$1" = "show pwst" ]; then
 		# ignore EMIF status (always changing)
 		$ref_omapconf_bin $1 | grep -v EMIF > $logfile_ref
@@ -431,15 +431,10 @@ if  [ $all_tests = 1 ] || [ $tests = temp ]; then
 	compare "show temp bandgap" "SHOW TEMP BANDGAP" 0
 	compare "show temp pcb" "SHOW TEMP PCB" 0
 	compare "show temp hotspot" "SHOW TEMP HOTSPOT" 0
-	compare "show temp mem 1 0" "SHOW TEMP MEM 1 0" 0
-	compare "show temp mem 2 0" "SHOW TEMP MEM 2 0" 0
-	if [ $omap_cpu != OMAP4470 ]; then
-		compare "show temp mem 1 1" "SHOW TEMP MEM 1 1" 0
-		compare "show temp mem 2 1" "SHOW TEMP MEM 2 1" 1
-	else
-		echo | tee -a $logfile
-	fi
+	compare "show temp mem1" "SHOW TEMP MEM1" 0
+	compare "show temp mem2" "SHOW TEMP MEM2" 1
 fi
+
 
 # Test EXPORT function(s)
 if  [ $all_tests = 1 ] || [ $tests = export ]; then

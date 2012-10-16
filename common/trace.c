@@ -50,7 +50,7 @@
 #include <cpufreq.h>
 #include <lib.h>
 #include <lib44xx.h>
-#include <temperature44xx.h>
+#include <temperature.h>
 #include <temp54xx.h>
 #include <clock44xx.h>
 #include <module54xx.h>
@@ -1533,7 +1533,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 
 	if (p_flags[HOTSPOT_TEMP]) {
 		if (cpu_is_omap44xx() &&
-			(temp44xx_hotspot_temp_get() != TEMP_ABSOLUTE_ZERO)) {
+			(temp_sensor_get(TEMP_SENSOR_HOTSPOT) != TEMP_ABSOLUTE_ZERO)) {
 			hotspot_temp = malloc(sample_cnt * sizeof(int));
 			if (hotspot_temp == NULL) {
 				fprintf(stderr,
@@ -1728,28 +1728,25 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				__func__, gpu_freq[sample]);
 		}
 
+		/* Get bandgap sensor temperature */
 		if (p_flags[BANDGAP_TEMP]) {
-			/* Get bandgap sensor temperature */
-			ret = temp44xx_read_bandgap_sensor(
-				&(bandgap_temp[sample]));
+			bandgap_temp[sample] =
+				temp_sensor_get(TEMP_SENSOR_BANDGAP);
 			dprintf("%s(): bandgap_temp = %dC\n", __func__,
 				bandgap_temp[sample]);
 		}
 
+		/* Get PCB sensor temperature */
 		if (p_flags[PCB_TEMP]) {
-			/* Get PCB sensor temperature */
-			if (cpu_is_omap44xx())
-				ret = temp44xx_read_pcb_sensor(
-					&(pcb_temp[sample]));
-			else
-				pcb_temp[sample] = temp54xx_get(TEMP54XX_PCB);
+			pcb_temp[sample] = temp_sensor_get(TEMP_SENSOR_PCB);
 			dprintf("%s(): pcb_temp = %dC\n", __func__,
 				pcb_temp[sample]);
 		}
 
 		/* Get HOTSPOT temperature */
 		if (p_flags[HOTSPOT_TEMP]) {
-			hotspot_temp[sample] = temp44xx_hotspot_temp_get();
+			hotspot_temp[sample] =
+				temp_sensor_get(TEMP_SENSOR_HOTSPOT);
 			dprintf("%s(): hotspot_temp = %dC\n", __func__,
 				hotspot_temp[sample]);
 		}

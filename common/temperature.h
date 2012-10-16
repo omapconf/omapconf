@@ -50,6 +50,13 @@
 #include <genlist.h>
 
 
+typedef enum {
+	TEMP_CELCIUS_DEGREES,
+	TEMP_FAHRENHEIT_DEGREES,
+	TEMP_UNIT_MAX
+} temperature_unit;
+
+
 #define TEMP_ABSOLUTE_ZERO		-273
 
 #define TEMP_SENSOR_MAX_NAME_LENGTH	16

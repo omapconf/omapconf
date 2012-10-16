@@ -68,7 +68,7 @@
 #include <alwon44xx.h>
 #include <emu44xx.h>
 #include <abb44xx.h>
-#include <temperature44xx.h>
+#include <temperature.h>
 #include <emif44xx.h>
 #include <power_trace44xx.h>
 #include <twl603x.h>
@@ -474,7 +474,18 @@ static int main44xx_show(int argc, char *argv[])
 		else
 			return err_arg_msg_show(HELP_ABE);
 	} else if (strcmp(argv[0], "temp") == 0) {
-		return temp44xx_main(argc, argv);
+		if (argc == 1) {
+			return temp_sensor_show(stdout, "all");
+		} else if (argc == 2) {
+			if (strcmp(argv[1], "all") == 0)
+				return temp_sensor_show(stdout, argv[1]);
+			else if (temp_sensor_is_available(argv[1]) != 0)
+				return temp_sensor_show(stdout, argv[1]);
+			else
+				return err_arg_msg_show(HELP_TEMPERATURE);
+		} else {
+			return err_arg_too_many_msg_show(HELP_TEMPERATURE);
+		}
 	} else if (strcmp(argv[0], "sr") == 0) {
 		if (argc == 1) {
 			return sr44xx_config_show(stdout);
@@ -934,7 +945,18 @@ static int main44xx_legacy(int argc, char *argv[])
 	} else if (strcmp(argv[0], "abb") == 0) {
 		ret = abb44xx_main(argc, argv);
 	} else if (strcmp(argv[0], "temp") == 0) {
-		ret = temp44xx_main(argc, argv);
+		if (argc == 1) {
+			ret = temp_sensor_show(stdout, "all");
+		} else if (argc == 2) {
+			if (strcmp(argv[1], "all") == 0)
+				ret = temp_sensor_show(stdout, argv[1]);
+			else if (temp_sensor_is_available(argv[1]) != 0)
+				ret = temp_sensor_show(stdout, argv[1]);
+			else
+				ret = err_arg_msg_show(HELP_TEMPERATURE);
+		} else {
+			ret = err_arg_too_many_msg_show(HELP_TEMPERATURE);
+		}
 	} else if (strcmp(argv[0], "ctt") == 0) {
 		ret = ctt44xx_main(argc, argv);
 	} else if (strcmp(argv[0], "pct") == 0) {
@@ -1029,6 +1051,8 @@ main44xx_legacy_end:
  *//*------------------------------------------------------------------------ */
 int main44xx(int argc, char *argv[])
 {
+	int ret;
+
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
 
 	if (argc == 0) {
@@ -1040,33 +1064,38 @@ int main44xx(int argc, char *argv[])
 	main44xx_init();
 
 	if (strcmp(argv[0], "dump") == 0)
-		return main44xx_dump(argc - 1, argv + 1);
+		ret = main44xx_dump(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "show") == 0)
-		return main44xx_show(argc - 1, argv + 1);
+		ret = main44xx_show(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "audit") == 0)
-		return audit44xx_main(argc, argv);
+		ret = audit44xx_main(argc, argv);
 	else if (strcmp(argv[0], "trace") == 0)
-		return main44xx_trace(argc, argv);
+		ret = main44xx_trace(argc, argv);
 	else if (strcmp(argv[0], "search") == 0)
-		return main44xx_search(argc - 1, argv + 1);
+		ret = main44xx_search(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "export") == 0)
-		return main44xx_export(argc - 1, argv + 1);
+		ret = main44xx_export(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "read") == 0)
-		return main44xx_read(argc - 1, argv + 1);
+		ret = main44xx_read(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "write") == 0)
-		return main44xx_write(argc - 1, argv + 1);
+		ret = main44xx_write(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "set") == 0)
-		return main44xx_set(argc - 1, argv + 1);
+		ret = main44xx_set(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "reset") == 0)
-		return main44xx_reset(argc - 1, argv + 1);
+		ret = main44xx_reset(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "clear") == 0)
-		return main44xx_clear(argc - 1, argv + 1);
+		ret = main44xx_clear(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "enable") == 0)
-		return main44xx_enable(argc - 1, argv + 1);
+		ret = main44xx_enable(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "setup") == 0)
-		return main44xx_setup(argc - 1, argv + 1);
+		ret = main44xx_setup(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "test") == 0)
-		return main44xx_test(argc - 1, argv + 1);
+		ret = main44xx_test(argc - 1, argv + 1);
 	else
-		return main44xx_legacy(argc, argv);
+		ret = main44xx_legacy(argc, argv);
+
+	/* Deinitializations */
+	temp_sensor_deinit();
+
+	return ret;
 }
