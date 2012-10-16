@@ -72,7 +72,6 @@ OMAP4SOURCES=		omap4/clock44xx.c omap4/clkdm44xx.c omap4/pwrdm44xx.c\
 			omap4/dpll4460-data-38_4MHz.c\
 			omap4/dpll4430-data-38_4MHz.c omap4/pads44xx.c
 
-
 OMAP4OBJECTS=		$(OMAP4SOURCES:.c=.o)
 
 
@@ -115,7 +114,7 @@ SOURCES=		omapconf.c builddate.c common/lib.c common/reg.c\
                         statcoll/sci_swcapture.c statcoll/sci.c\
                         statcoll/cToolsHelper.c common/timestamp_32k.c\
                         common/lib_android.c common/mem.c common/emif.c\
-                        common/trace.c
+                        common/trace.c common/temperature.c
 
 OBJECTS=		$(SOURCES:.c=.o)
 
