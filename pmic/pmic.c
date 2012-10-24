@@ -272,8 +272,9 @@ int pmic_detect(void)
 	is_twl6034 = twl603x_is_twl6034();
 	is_twl6035 = twl603x_is_twl6035();
 	tps62361_present = tps62361_is_present();
-	dprintf("%s(): is_twl6030=%u is_twl6032=%u is_tps62361=%u "
-		"is_twl6034=%u is_twl6035=%u\n", __func__, is_twl6030,
+	dprintf(
+		"%s(): is_twl6030=%u is_twl6032=%u is_tps62361=%u is_twl6034=%u is_twl6035=%u\n",
+		__func__, is_twl6030,
 		is_twl6032, tps62361_present, is_twl6034, is_twl6035);
 
 	/*
@@ -922,6 +923,38 @@ double smps_vsel2volt(pmic_smps_id smps_id, unsigned char vsel)
 	dprintf("%s(%s, 0x%X) = %lfV\n", __func__,
 		smps_name_get(smps_id), vsel, volt);
 	return volt;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		smps_voltage_round
+ * @BRIEF		for a given rail, convert RAW voltage
+ *			(e.g from Data Manual) into stepped SMPS voltage
+ *			(in micro-volt).
+ * @RETURNS		>= 0 voltage in microvolt rounded to SMPS voltage
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_NOT_AVAILABLE
+ * @param[in]		smps_id: valid SMPS ID
+ * @param[in]		uvolt: RAW voltage in microvolt
+ * @DESCRIPTION		for a given rail, convert RAW voltage
+ *			(e.g from Data Manual) into stepped SMPS voltage
+ *			(in microvolt).
+ *//*------------------------------------------------------------------------ */
+long smps_voltage_round(pmic_smps_id smps_id, long uvolt)
+{
+	long rounded_uvolt;
+	int vsel;
+
+	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, (long) OMAPCONF_ERR_ARG);
+	if (uvolt < 0)
+		return (long) OMAPCONF_ERR_ARG;
+
+	vsel = smps_uvolt2vsel(smps_id, uvolt);
+	rounded_uvolt = smps_vsel2uvolt(smps_id, vsel);
+
+	dprintf("%s(%s, %lduV) = %lduV (vsel=%d)\n",
+		__func__, smps_name_get(smps_id), uvolt, rounded_uvolt, vsel);
+	return rounded_uvolt;
 }
 
 
