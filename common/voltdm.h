@@ -1,8 +1,8 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			vc44xx.h
- * @Description			OMAP4 VOLTAGE CONTROLLER (VC) Definitions & Functions
+ * @Filename			voltdm.h
+ * @Description			Generic Voltage Domain Definitions & APIs
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2012
  * @Copyright			Texas Instruments Incorporated
@@ -42,43 +42,34 @@
  */
 
 
-#ifndef __VC44XX_H__
-#define __VC44XX_H__
+#ifndef __VOLTDM_H__
+#define __VOLTDM_H__
 
 
-#include <stdio.h>
-#include <voltdm44xx.h>
+#include <genlist.h>
+
+#define VOLTDM_MAX_NAME_LENGTH		16
+
+#define VDD_WKUP	((const char *) "VDD_WKUP") /* Common */
+#define VDD_MPU		((const char *) "VDD_MPU") /* Common */
+#define VDD_IVA		((const char *) "VDD_IVA") /* OMAP4 */
+#define VDD_MM		((const char *) "VDD_MM") /* OMAP5 */
+#define VDD_CORE	((const char *) "VDD_CORE") /* Common */
 
 
-typedef struct {
-	unsigned int prm_vc_smps_sa;
-	unsigned int prm_vc_smps_ra_vol;
-	unsigned int prm_vc_val_smps_ra_cmd;
-	unsigned int prm_vc_val_cmd_vdd_core_l;
-	unsigned int prm_vc_val_cmd_vdd_mpu_l;
-	unsigned int prm_vc_val_cmd_vdd_iva_l;
-	unsigned int prm_vc_cfg_channel;
-	unsigned int prm_vc_cfg_i2c_mode;
-	unsigned int prm_vc_cfg_i2c_clk;
-} vc44xx_registers;
+void voltdm_init(void);
+void voltdm_deinit(void);
 
+int voltdm_s2id(const char *voltdm);
 
-short int vc44xx_sa_get(voltdm44xx_id id,
-	unsigned int prm_vc_smps_sa, unsigned int prm_vc_cfg_channel);
-short int vc44xx_volra_get(voltdm44xx_id id,
-	unsigned int prm_vc_cfg_channel, unsigned int prm_vc_val_smps_ra_vol);
-short int vc44xx_cmdra_get(voltdm44xx_id id,
-	unsigned int prm_vc_cfg_channel, unsigned int prm_vc_val_smps_ra_cmd);
-short int vc44xx_raw_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
-	unsigned char *cmd_on, unsigned char *cmd_onlp,
-	unsigned char *cmd_ret, unsigned char *cmd_off);
-short int vc44xx_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
-	unsigned char *cmd_on, unsigned char *cmd_onlp,
-	unsigned char *cmd_ret, unsigned char *cmd_off);
+int voltdm_count_get(void);
+const genlist *voltdm_list_get(void);
 
-int vc44xx_registers_get(vc44xx_registers *vc_regs);
+int voltdm_voltage_get(const char *voltdm);
+int voltdm_voltage_set(const char *voltdm, int uv);
 
-int vc44xx_config_show(FILE *stream, vc44xx_registers *vc_regs);
+int voltdm_nominal_voltage_get(const char *voltdm);
+int voltdm_por_nominal_voltage_get(const char *voltdm, const char *opp);
 
 
 #endif

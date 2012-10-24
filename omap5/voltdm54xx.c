@@ -42,6 +42,8 @@
  */
 
 
+#include <voltdm.h>
+#include <opp.h>
 #include <voltdm54xx.h>
 #include <vc54xx.h>
 #include <dpll54xx.h>
@@ -134,6 +136,42 @@ opp54xx_id opp54xx_s2id(char *s)
 		return OPP54XX_SB;
 	else
 		return OPP54XX_ID_MAX;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		voltdm54xx_id2s
+ * @BRIEF		convert voltage domain ID into voltage domain name, as
+ *			defined in voltdm.h.
+ * @RETURNS		Voltage Domain name, as defined in voltdm.h.
+ *			NULL in case of invalid voltage domain ID
+ * @param[in]		id: voltage domain ID
+ * @DESCRIPTION		convert voltage domain ID to voltage domain name.
+ *//*------------------------------------------------------------------------ */
+const char *voltdm54xx_id2s(voltdm54xx_id id)
+{
+	const char *s;
+	CHECK_ARG_LESS_THAN(id, VDD54XX_ID_MAX, NULL);
+
+	switch (id) {
+	case VDD54XX_WKUP:
+		s = VDD_WKUP;
+		break;
+	case VDD54XX_MPU:
+		s = VDD_MPU;
+		break;
+	case VDD54XX_MM:
+		s = VDD_MM;
+		break;
+	case VDD54XX_CORE:
+		s = VDD_CORE;
+		break;
+	default:
+		s = NULL;
+	}
+
+	dprintf("%s(%d) = %s\n", __func__, id, s);
+	return s;
 }
 
 

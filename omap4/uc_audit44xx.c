@@ -447,7 +447,7 @@ char *voltage_audit44xx(voltdm44xx_id vd_id,
 		return (char *) warning;
 	}
 	/* Get nominal voltage for this particular UC */
-	*volt_por = voltdm44xx_nominal_voltage_get(vd_id, opp_por);
+	*volt_por = voltdm44xx_por_nominal_voltage_get(vd_id, opp_por);
 	if (*volt_por <= 0) {
 		(*wng_nbr)++;
 		return (char *) warning;
@@ -513,7 +513,7 @@ char *ret_voltage_audit44xx(voltdm44xx_id vd_id,
 	}
 
 	/* Get expected retention voltage */
-	*volt_por = voltdm44xx_retention_voltage_get(vd_id);
+	*volt_por = voltdm44xx_por_retention_voltage_get(vd_id);
 	if (*volt_por <= 0.0) {
 		(*wng_nbr)++;
 		return (char *) warning;

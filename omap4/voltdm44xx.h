@@ -89,12 +89,13 @@ typedef enum {
 char *voltdm44xx_get_name(voltdm44xx_id id,
 	char name[VOLTDM44XX_MAX_NAME_LENGTH]);
 
-
 voltdm44xx_id voltdm44xx_s2id(char *s);
 
 
 double voltdm44xx_retention_voltage_get(voltdm44xx_id id);
-double voltdm44xx_nominal_voltage_get(voltdm44xx_id id, opp44xx_id opp);
+double voltdm44xx_por_retention_voltage_get(voltdm44xx_id id);
+double voltdm44xx_nominal_voltage_get(voltdm44xx_id id);
+double voltdm44xx_por_nominal_voltage_get(voltdm44xx_id id, opp44xx_id opp);
 
 const char *opp44xx_name_get(unsigned short opp_id, voltdm44xx_id vdd_id);
 
@@ -106,6 +107,7 @@ int voltdm44xx_get_voltage_by_type(voltdm44xx_id id,
 
 unsigned int opp44xx_s2id(char *s);
 
+const char *voltdm44xx_id2s(voltdm44xx_id id);
 int voltdm44xx_opp_show(void);
 int voltdm44xx_vminsearch(voltdm44xx_id vdd_id, double v, unsigned int ms);
 

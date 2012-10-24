@@ -44,6 +44,8 @@
 
 
 #include <vc44xx.h>
+#include <prm44xx.h>
+#include <mem.h>
 #include <vc.h>
 #include <pmic.h>
 #include <lib.h>
@@ -346,6 +348,46 @@ short int vc44xx_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
 	*cmd_off = extract_bitfield(*cmd_off, 0, vsel_len);
 
 	return 0;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		vc44xx_registers_get
+ * @BRIEF		save all VC registers in structure provided as argument.
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in, out]	vc_regs: structure where to store VC registers
+ * @DESCRIPTION		save all VC registers in structure provided as argument.
+ *//*------------------------------------------------------------------------ */
+int vc44xx_registers_get(vc44xx_registers *vc_regs)
+{
+	int ret;
+
+	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
+	CHECK_NULL_ARG(vc_regs, OMAPCONF_ERR_ARG);
+
+	ret = mem_read(OMAP4430_PRM_VC_SMPS_SA,
+		&(vc_regs->prm_vc_smps_sa));
+	ret += mem_read(OMAP4430_PRM_VC_VAL_SMPS_RA_VOL,
+		&(vc_regs->prm_vc_smps_ra_vol));
+	ret += mem_read(OMAP4430_PRM_VC_VAL_SMPS_RA_CMD,
+		&(vc_regs->prm_vc_val_smps_ra_cmd));
+	ret += mem_read(OMAP4430_PRM_VC_VAL_CMD_VDD_CORE_L,
+		&(vc_regs->prm_vc_val_cmd_vdd_core_l));
+	ret += mem_read(OMAP4430_PRM_VC_VAL_CMD_VDD_MPU_L,
+		&(vc_regs->prm_vc_val_cmd_vdd_mpu_l));
+	ret += mem_read(OMAP4430_PRM_VC_VAL_CMD_VDD_IVA_L,
+		&(vc_regs->prm_vc_val_cmd_vdd_iva_l));
+	ret += mem_read(OMAP4430_PRM_VC_CFG_CHANNEL,
+		&(vc_regs->prm_vc_cfg_channel));
+	ret += mem_read(OMAP4430_PRM_VC_CFG_I2C_MODE,
+		&(vc_regs->prm_vc_cfg_i2c_mode));
+	ret += mem_read(OMAP4430_PRM_VC_CFG_I2C_CLK,
+		&(vc_regs->prm_vc_cfg_i2c_clk));
+
+	return ret;
 }
 
 
