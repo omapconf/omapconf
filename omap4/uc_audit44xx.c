@@ -122,9 +122,9 @@ static const opp44xx_id omap4_gb_por_opp_table[OMAP4_VD_ID_MAX][OMAP4_UC_MAX] = 
 
 static const opp44xx_id omap4_ics_por_opp_table[OMAP4_VD_ID_MAX][OMAP4_UC_MAX] = {
 	{OMAP4_OPP100, OMAP4_OPP100, OMAP4_OPP100, OMAP4_OPP100, OMAP4_OPP100, OMAP4_OPP100},
-	{OMAP4_OPP50, OMAP4_OPP50, OMAP4_OPP50, OMAP4_OPP50, OMAP4_OPP50, OMAP4_OPP50},
-	{OMAP4_OPP50, OMAP4_OPP50, OMAP4_OPP100, OMAP4_OPP50, OMAP4_OPP100, OMAP4_OPP50},
-	{OMAP4_OPP50, OMAP4_OPP50, OMAP4_OPP100, OMAP4_OPP50, OMAP4_OPP100, OMAP4_OPP50} };
+	{OMAP4_OPP50, OMAP4_OPPDPLL_CASC, OMAP4_OPP50, OMAP4_OPP50, OMAP4_OPP50, OMAP4_OPP50},
+	{OMAP4_OPP50, OMAP4_OPPDPLL_CASC, OMAP4_OPP100, OMAP4_OPP50, OMAP4_OPP100, OMAP4_OPP50},
+	{OMAP4_OPP50, OMAP4_OPPDPLL_CASC, OMAP4_OPP100, OMAP4_OPP50, OMAP4_OPP100, OMAP4_OPP50} };
 
 static const opp44xx_id omap4470_blaze_ics_por_opp_table[OMAP4_VD_ID_MAX][OMAP4_UC_MAX] = {
 	{OMAP4_OPP100, OMAP4_OPP100, OMAP4_OPP100, OMAP4_OPP100, OMAP4_OPP100, OMAP4_OPP100},
@@ -211,7 +211,7 @@ static const pwrdm_state
 static const dpll_status
 	omap4_gb_por_dpll_status_table[DPLL44XX_ID_MAX][OMAP4_UC_MAX] = {
 	{DPLL_STATUS_LOCKED, DPLL_STATUS_BYPASSED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED}, /* DPLL44XX_MPU */
-	{DPLL_STATUS_STOPPED, DPLL_STATUS_STOPPED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED, DPLL_STATUS_STOPPED}, /* DPLL44XX_IVA */
+	{DPLL_STATUS_STOPPED, DPLL_STATUS_BYPASSED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED, DPLL_STATUS_STOPPED}, /* DPLL44XX_IVA */
 	{DPLL_STATUS_LOCKED, DPLL_STATUS_BYPASSED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED}, /* DPLL44XX_CORE */
 	{DPLL_STATUS_LOCKED, DPLL_STATUS_BYPASSED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED}, /* DPLL44XX_PER */
 	{DPLL_STATUS_STOPPED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED, DPLL_STATUS_LOCKED, DPLL_STATUS_STOPPED}, /* DPLL44XX_ABE */
@@ -281,6 +281,7 @@ const char *use_case_name_get(omap4_use_case_id id)
 opp44xx_id por_opp44xx_get(voltdm44xx_id id, omap4_use_case_id uc_id)
 {
 	opp44xx_id opp_por;
+	android_pastry_id pastry;
 	#ifdef UC_AUDIT44XX_DEBUG
 	char vname[VOLTDM44XX_MAX_NAME_LENGTH];
 	char oname[OPP44XX_MAX_NAME_LENGTH];
@@ -290,13 +291,13 @@ opp44xx_id por_opp44xx_get(voltdm44xx_id id, omap4_use_case_id uc_id)
 	CHECK_ARG_LESS_THAN(id, OMAP4_VD_ID_MAX, OPP44XX_ID_MAX);
 	CHECK_ARG_LESS_THAN(uc_id, OMAP4_UC_MAX, OPP44XX_ID_MAX);
 
-	/* FIXME: find expected OPP for Generic Linux */
-	switch (android_pastry_get()) {
-	case PASTRY_GB:
-	case PASTRY_HC:
+	pastry = android_pastry_get();
+	if ((pastry == PASTRY_UNKNOWN) || (pastry == PASTRY_ID_MAX)) {
+		/* FIXME: find expected OPP for Generic Linux */
+		opp_por = OPP44XX_ID_MAX;
+	} else if (pastry < PASTRY_ICS) {
 		opp_por = omap4_gb_por_opp_table[id][uc_id];
-		break;
-	case PASTRY_ICS:
+	} else {
 		if (!cpu_is_omap4470())
 			opp_por = omap4_ics_por_opp_table[id][uc_id];
 		else if (((unsigned int) clk44xx_get_clock_speed(OMAP4_L3_ICLK1, 1) == 100) ||
@@ -304,9 +305,6 @@ opp44xx_id por_opp44xx_get(voltdm44xx_id id, omap4_use_case_id uc_id)
 			opp_por = omap4470_blaze_ics_por_opp_table[id][uc_id];
 		else
 			opp_por = omap4470_tablet_ics_por_opp_table[id][uc_id];
-		break;
-	default:
-		opp_por = OPP44XX_ID_MAX;
 	}
 
 	#ifdef UC_AUDIT44XX_DEBUG
@@ -703,6 +701,7 @@ char *cpu1_power_state_audit44xx(omap4_use_case_id uc_id,
 	unsigned int *err_nbr, unsigned int *wng_nbr)
 {
 	int ret;
+	android_pastry_id pastry;
 	#ifdef UC_AUDIT44XX_DEBUG
 	char pwst[6];
 	char pwst_por[6];
@@ -736,20 +735,17 @@ char *cpu1_power_state_audit44xx(omap4_use_case_id uc_id,
 	}
 
 	/* Get expected power domain state */
-	/* FIXME: find expected power domain state for Generic Linux */
-	switch (android_pastry_get()) {
-	case PASTRY_GB:
-	case PASTRY_HC:
-		*state_por = omap4_por_hotplug_cpu1_power_state_table[uc_id];
-		break;
-	case PASTRY_ICS:
-		*state_por =
-			omap4_por_interactive_cpu1_power_state_table[uc_id];
-		break;
-	default:
+	pastry = android_pastry_get();
+	if ((pastry == PASTRY_UNKNOWN) || (pastry == PASTRY_ID_MAX)) {
+		/* FIXME: find expected OPP for Generic Linux */
 		*state_por = PWRDM_STATE_MAX;
 		(*wng_nbr)++;
 		return (char *) warning;
+	} else if (pastry < PASTRY_ICS) {
+		*state_por = omap4_por_hotplug_cpu1_power_state_table[uc_id];
+	} else {
+		*state_por =
+			omap4_por_interactive_cpu1_power_state_table[uc_id];
 	}
 
 	#ifdef UC_AUDIT44XX_DEBUG
@@ -790,6 +786,7 @@ char *dpll_status_audit44xx(dpll44xx_id dpll_id,
 {
 	int ret;
 	omap4_dpll_params dpll_params;
+	android_pastry_id pastry;
 
 	if ((status == NULL) || (status_por == NULL) ||
 		(err_nbr == NULL) || (wng_nbr == NULL)) {
@@ -817,18 +814,20 @@ char *dpll_status_audit44xx(dpll44xx_id dpll_id,
 	*status = dpll_params.status;
 
 	/* Get expected DPLL Status */
-	/* FIXME: find expected DPLL Status for Generic Linux */
-	switch (android_pastry_get()) {
-	case PASTRY_GB:
-	case PASTRY_HC:
-		*status_por = omap4_gb_por_dpll_status_table[dpll_id][uc_id];
-		break;
-	case PASTRY_ICS:
-		*status_por = omap4_ics_por_dpll_status_table[dpll_id][uc_id];
-		break;
-	default:
+	pastry = android_pastry_get();
+	if ((pastry == PASTRY_UNKNOWN) || (pastry == PASTRY_ID_MAX)) {
+		/* FIXME: find expected OPP for Generic Linux */
 		(*wng_nbr)++;
 		return (char *) warning;
+	} else if (pastry < PASTRY_ICS) {
+		*status_por = omap4_gb_por_dpll_status_table[dpll_id][uc_id];
+	} else {
+		if (cpu_is_omap4470())
+			*status_por =
+				omap4_ics_por_dpll_status_table[dpll_id][uc_id];
+		else
+			*status_por =
+				omap4_gb_por_dpll_status_table[dpll_id][uc_id];
 	}
 
 	#ifdef UC_AUDIT44XX_DEBUG
@@ -864,6 +863,7 @@ char *cpufreq_governor_audit44xx(char gov[16], char gov_por[16],
 	unsigned int *err_nbr, unsigned int *wng_nbr)
 {
 	FILE *fp = NULL;
+	android_pastry_id pastry;
 
 	if ((gov == NULL) || (gov_por == NULL) ||
 		(err_nbr == NULL) || (wng_nbr == NULL)) {
@@ -891,18 +891,15 @@ char *cpufreq_governor_audit44xx(char gov[16], char gov_por[16],
 	dprintf("gov = %s\n", gov);
 
 	/* Retrieve expected governor depending on Android pastry */
-	/* FIXME: find expected governor for Generic Linux */
-	switch (android_pastry_get()) {
-	case PASTRY_GB:
-	case PASTRY_HC:
-		strncpy(gov_por, "hotplug", 16);
-		break;
-	case PASTRY_ICS:
-		strncpy(gov_por, "interactive", 16);
-		break;
-	default:
+	pastry = android_pastry_get();
+	if ((pastry == PASTRY_UNKNOWN) || (pastry == PASTRY_ID_MAX)) {
+		/* FIXME: find expected OPP for Generic Linux */
 		(*wng_nbr)++;
 		return (char *) warning;
+	} else if (pastry < PASTRY_ICS) {
+		strncpy(gov_por, "hotplug", 16);
+	} else {
+		strncpy(gov_por, "interactive", 16);
 	}
 
 	if (strncmp(gov, gov_por, strlen(gov_por)) == 0) {
@@ -945,6 +942,7 @@ char *deepest_cstate_audit44xx(omap4_use_case_id uc_id,
 	unsigned int cstate_usage_sample1[MAX_CSTATE];
 	unsigned int cstate_usage_sample2[MAX_CSTATE];
 	unsigned int i;
+	android_pastry_id pastry;
 
 	if ((cstate == NULL) || (cstate_por == NULL) ||
 		(err_nbr == NULL) || (wng_nbr == NULL)) {
@@ -968,18 +966,15 @@ char *deepest_cstate_audit44xx(omap4_use_case_id uc_id,
 	}
 
 	/* Retrieve expected lowest C-State */
-	/* FIXME: find expected lowest C-State for Generic Linux */
-	switch (android_pastry_get()) {
-	case PASTRY_GB:
-	case PASTRY_HC:
-		*cstate_por = omap4_gb_por_cstate_table[uc_id];
-		break;
-	case PASTRY_ICS:
-		*cstate_por = omap4_ics_por_cstate_table[uc_id];
-		break;
-	default:
+	pastry = android_pastry_get();
+	if ((pastry == PASTRY_UNKNOWN) || (pastry == PASTRY_ID_MAX)) {
+		/* FIXME: find expected OPP for Generic Linux */
 		(*wng_nbr)++;
 		return (char *) warning;
+	} else if (pastry < PASTRY_ICS) {
+		*cstate_por = omap4_gb_por_cstate_table[uc_id];
+	} else {
+		*cstate_por = omap4_ics_por_cstate_table[uc_id];
 	}
 
 	dprintf("%s(): UC is %s POR C-STATE is C%d\n", __func__,
@@ -1192,11 +1187,8 @@ int use_case_audit44xx(omap4_use_case_id uc_id,
 	/* Check Smart-Reflex is enabled */
 	strncpy(table[row][0], "Smart-Reflex", TABLE_MAX_ELT_LEN);
 	row++;
-	switch (android_pastry_get()) {
-	case PASTRY_UNKNOWN:
-	case PASTRY_ID_MAX:
-	case PASTRY_ICS:
-		/* ICS use SR Class 1.5.
+	if (android_pastry_get() != PASTRY_GB) {
+		/* ICS and next pastries use SR Class 1.5.
 		 * Sensors are disabled outside of periodic recalibration.
 		 * Just ignore this audit.
 		 */
@@ -1213,11 +1205,6 @@ int use_case_audit44xx(omap4_use_case_id uc_id,
 		row += 2;
 		test_nbr++;
 		goto use_case_audit44xx_voltage_check;
-		break;
-
-	default:
-		/* execute regular audit */
-		break;
 	}
 
 	if (sr44xx_is_enabled(OMAP4_SR_MPU) == 1) {
