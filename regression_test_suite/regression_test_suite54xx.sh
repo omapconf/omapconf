@@ -16,7 +16,7 @@
 # NOTES: ---
 # AUTHOR: Patrick Titiano
 # COMPANY: Texas Instruments France
-VERSION=0.30
+VERSION=1.01
 # CREATED: 2011-12-22
 # REVISION: ---
 #===================================================================================
@@ -55,8 +55,8 @@ function compare {
 		echo "compare: $new_omapconf_bin $1 > $logfile_new"
 	fi
 
-	$ref_omapconf_bin --force omap5430 --norw --import regression_test_suite54xx_ref_settings.xml $1 > $logfile_ref
-	$new_omapconf_bin --force omap5430 --norw --import regression_test_suite54xx_ref_settings.xml $1 > $logfile_new
+	$ref_omapconf_bin --force omap5430 --norw --import regression_test_suite54xx_ref_settings.xml $1 &> $logfile_ref
+	$new_omapconf_bin --force omap5430 --norw --import regression_test_suite54xx_ref_settings.xml $1 &> $logfile_new
 
 	# First line of log file will always be different (contains OMAPCONF/CHIPS/BUILD revision numbers).
 	# busybox diff doesn't support -I option.
@@ -352,14 +352,16 @@ fi
 # Test TEMPERATURE function(s)
 if  [ $all_tests = 1 ] || [ $tests = temp ]; then
 	compare "show temp" "SHOW TEMP" 0
-	compare "show temp cpu" "SHOW TEMP CPU" 0
+	compare "show temp all" "SHOW TEMP ALL" 0
+	compare "show temp mpu" "SHOW TEMP MPU" 0
 	compare "show temp gpu" "SHOW TEMP GPU" 0
 	compare "show temp core" "SHOW TEMP CORE" 0
-	compare "show temp emif1" "SHOW TEMP EMIF1" 0
-	compare "show temp emif2" "SHOW TEMP EMIF2" 0
+	compare "show temp mem1" "SHOW TEMP MEM1" 0
+	compare "show temp mem2" "SHOW TEMP MEM2" 0
 	compare "show temp pcb" "SHOW TEMP PCB" 0
 	compare "show temp case" "SHOW TEMP CASE" 1
 fi
+
 
 # Test EXPORT function(s)
 if  [ $all_tests = 1 ] || [ $tests = export ]; then
