@@ -202,7 +202,7 @@ void opp4460_init(void)
 	static opp_t opp_iva_opp100 = {		OPP_100,	1114000, 266057};
 	static opp_t opp_iva_turbo = {		OPP_TURBO,	1291000, 330700};
 	static opp_t opp_iva_nitro = {		OPP_NITRO,	1375000, 430400};
-	static opp_t opp_iva_nitrosb = {	OPP_NITROSB,	1375000, 499200};
+	static opp_t opp_iva_nitrosb = {	OPP_NITROSB,	1375000, 500000};
 
 	static opp_t opp_core_dpll_casc = {	OPP_DPLL_CASC,	962000,  98304};
 	static opp_t opp_core_opp50 = {		OPP_50,		962000,  100000};
@@ -311,7 +311,7 @@ void opp4470_init(void)
 	static opp_t opp_iva_opp100 = {		OPP_100,	1137000, 266057};
 	static opp_t opp_iva_turbo = {		OPP_TURBO,	1287000, 330700};
 	static opp_t opp_iva_nitro = {		OPP_NITRO,	1375000, 430100};
-	static opp_t opp_iva_nitrosb = {	OPP_NITROSB,	1380000, 499200};
+	static opp_t opp_iva_nitrosb = {	OPP_NITROSB,	1380000, 500000};
 
 	static opp_t opp_core_dpll_casc = {	OPP_DPLL_CASC,	980000,  98304};
 	static opp_t opp_core_opp50_low = {	OPP_50_LOW,	980000,  100000};
