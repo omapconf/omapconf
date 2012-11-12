@@ -1378,107 +1378,80 @@ clkspeed_audit44xx_default:
 				1000.0;
 			dprintf("%s(): speed=%.3lfMHz\n", __func__, speed_curr);
 
-			switch (module_id) {
-			case OMAP4_TIMER2:
-			case OMAP4_TIMER3:
-			case OMAP4_TIMER4:
-			case OMAP4_TIMER5:
-			case OMAP4_TIMER6:
-			case OMAP4_TIMER7:
-			case OMAP4_TIMER8:
-			case OMAP4_TIMER9:
-			case OMAP4_TIMER10:
-			case OMAP4_TIMER11:
-			case OMAP4_MCASP:
-			case OMAP4_MCBSP1:
-			case OMAP4_MCBSP2:
-			case OMAP4_MCBSP3:
-			case OMAP4_SLIMBUS1:
-			case OMAP4_SLIMBUS2:
-				/* These modules are out of interest or
-				 * there is no mandatory clock speed
-				 */
-				dprintf("%s(): no mandatory clock speed.\n",
-					__func__);
-				status = (char *) ignore4;
-				snprintf(s_por, 12, "%s", "Undefined");
-				break;
-
-			default:
+			/*
+			 * Get Plan Of Record (POR) module's functional
+			 * source clock speed
+			 */
+			ret = mod44xx_get_por_clk_speed(module_id,
+				current_opp, &speed_por);
+			mod44xx_get_mode(module_id, &mmode);
+			if ((ret == 0) && (speed_por != -1.0)) {
+				mhz2string(speed_por, s_por);
 				/*
-				 * Get Plan Of Record (POR) module's functional
-				 * source clock speed
+				 * Keep only 3 decimals for comparison
 				 */
-				ret = mod44xx_get_por_clk_speed(module_id,
-					current_opp, &speed_por);
-				mod44xx_get_mode(module_id, &mmode);
-				if ((ret == 0) && (speed_por != -1.0)) {
-					mhz2string(speed_por, s_por);
-					/*
-					 * Keep only 3 decimals for comparison
-					 */
-					speed_por = (int)(speed_por * 1000.0) /
-						1000.0;
-					dprintf("%s(): PoR speed=%.3lfMHz\n",
-							__func__, speed_por);
+				speed_por = (int)(speed_por * 1000.0) /
+					1000.0;
+				dprintf("%s(): PoR speed=%.3lfMHz\n",
+						__func__, speed_por);
 
-					if (speed_curr == speed_por) {
+				if (speed_curr == speed_por) {
+					status = (char *) pass;
+					dprintf("%s(): pass!\n",
+						__func__);
+				} else if (((module_id == OMAP4_AESS) ||
+					(module_id == OMAP4_DMIC) ||
+					(module_id == OMAP4_L4_ABE)) &&
+					(current_opp == OMAP4_OPP100)) {
+					/*
+					 * From ICS pastry,
+					 * ABE is not always following
+					 * IVAHD OPP. i.e. it's possible
+					 * that VDD_IVA=OPP100 but ABE
+					 * stays at OPP50 clock rates.
+					 */
+					mod44xx_get_por_clk_speed(
+						module_id, OMAP4_OPP50,
+						&speed_opp50_por);
+					if (speed_curr ==
+						speed_opp50_por) {
 						status = (char *) pass;
+						mhz2string(
+							speed_opp50_por,
+							s_por);
 						dprintf("%s(): pass!\n",
 							__func__);
-					} else if (((module_id == OMAP4_AESS) ||
-						(module_id == OMAP4_DMIC) ||
-						(module_id == OMAP4_L4_ABE)) &&
-						(current_opp == OMAP4_OPP100)) {
-						/*
-						 * From ICS pastry,
-						 * ABE is not always following
-						 * IVAHD OPP. i.e. it's possible
-						 * that VDD_IVA=OPP100 but ABE
-						 * stays at OPP50 clock rates.
-						 */
-						mod44xx_get_por_clk_speed(
-							module_id, OMAP4_OPP50,
-							&speed_opp50_por);
-						if (speed_curr ==
-							speed_opp50_por) {
-							status = (char *) pass;
-							mhz2string(
-								speed_opp50_por,
-								s_por);
-							dprintf("%s(): pass!\n",
-								__func__);
-						} else {
-							dprintf("%s(): FAILED!"
-								"\n", __func__);
-							status = (char *) fail;
-							(*err_nbr)++;
-						}
-					} else if (mmode == MOD_DISABLED_MODE) {
-						/*
-						 * may not be a true failure
-						 * when module is disabled
-						 * (not configured). Does not
-						 * impact power.
-						 */
-						dprintf("%s(): disabled "
-							"module.\n",
-							__func__);
-						status = (char *) warning3;
-						(*wng_nbr)++;
 					} else {
-						dprintf("%s(): FAILED!\n",
-							__func__);
+						dprintf("%s(): FAILED!"
+							"\n", __func__);
 						status = (char *) fail;
 						(*err_nbr)++;
 					}
-				} else {
-					dprintf("%s(): warning POR speed "
-						"not found!\n", __func__);
-					status = (char *) warning1;
+				} else if (mmode == MOD_DISABLED_MODE) {
+					/*
+					 * may not be a true failure
+					 * when module is disabled
+					 * (not configured). Does not
+					 * impact power.
+					 */
+					dprintf("%s(): disabled "
+						"module.\n",
+						__func__);
+					status = (char *) warning3;
 					(*wng_nbr)++;
+				} else {
+					dprintf("%s(): FAILED!\n",
+						__func__);
+					status = (char *) fail;
+					(*err_nbr)++;
 				}
+			} else {
+				dprintf("%s(): warning POR speed "
+					"not found!\n", __func__);
+				status = (char *) warning1;
+				(*wng_nbr)++;
 			}
+
 clkspeed_audit44xx_show:
 			if (stream != NULL)
 				fprintf(stream,
