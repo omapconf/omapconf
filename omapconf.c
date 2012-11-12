@@ -61,6 +61,9 @@
 #include <lib54xx.h>
 #include <trace.h>
 #include <mem.h>
+#include <opp.h>
+#include <voltdm.h>
+#include <temperature.h>
 
 
 /* #define DEBUG */
@@ -1186,6 +1189,11 @@ main_exit:
 
 	/* Unmap last mapped memory page */
 	mem_unmap();
+
+	/* Deinitializations */
+	opp_deinit();
+	voltdm_deinit();
+	temp_sensor_deinit();
 
 	return ret;
 }

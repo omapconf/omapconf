@@ -108,7 +108,6 @@ int voltdm44xx_get_voltage_by_type(voltdm44xx_id id,
 unsigned int opp44xx_s2id(char *s);
 
 const char *voltdm44xx_id2s(voltdm44xx_id id);
-int voltdm44xx_opp_show(void);
 int voltdm44xx_vminsearch(voltdm44xx_id vdd_id, double v, unsigned int ms);
 
 

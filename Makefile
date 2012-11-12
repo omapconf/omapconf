@@ -70,7 +70,9 @@ OMAP4SOURCES=		omap4/clock44xx.c omap4/clkdm44xx.c omap4/pwrdm44xx.c\
 			omap4/vp44xx-data.c omap4/dpll44xx-data.c\
 			omap4/dpll4470-data-38_4MHz.c\
 			omap4/dpll4460-data-38_4MHz.c\
-			omap4/dpll4430-data-38_4MHz.c omap4/pads44xx.c
+			omap4/dpll4430-data-38_4MHz.c omap4/pads44xx.c\
+			omap4/opp44xx.c
+
 
 OMAP4OBJECTS=		$(OMAP4SOURCES:.c=.o)
 
@@ -99,7 +101,7 @@ OMAP5SOURCES=		omap5/cpuinfo54xx.c omap5/main54xx.c omap5/cm54xx-defs.c\
 			omap5/abb54xx.c omap5/emif54xx-defs.c omap5/emif54xx.c\
 			omap5/clkdm_dependency54xx-data.c\
 			omap5/clkdm_dependency54xx.c omap5/ctt54xx.c\
-			omap5/vp54xx.c omap5/vc54xx.c
+			omap5/vp54xx.c omap5/vc54xx.c omap5/opp54xx.c
 
 OMAP5OBJECTS=		$(OMAP5SOURCES:.c=.o)
 
@@ -114,7 +116,8 @@ SOURCES=		omapconf.c builddate.c common/lib.c common/reg.c\
                         statcoll/sci_swcapture.c statcoll/sci.c\
                         statcoll/cToolsHelper.c common/timestamp_32k.c\
                         common/lib_android.c common/mem.c common/emif.c\
-                        common/trace.c common/temperature.c
+                        common/trace.c common/opp.c common/voltdm.c\
+                        common/temperature.c
 
 OBJECTS=		$(SOURCES:.c=.o)
 

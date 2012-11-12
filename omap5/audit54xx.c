@@ -52,6 +52,7 @@
 #include <clkdm_dependency54xx.h>
 #include <ctrlmod54xx.h>
 #include <dpll54xx.h>
+#include <opp.h>
 
 
 /* #define AUDIT54XX_DEBUG */

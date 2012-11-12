@@ -87,6 +87,7 @@
 #include <sci_swcapture.h>
 #include <stdlib.h>
 #include <counters44xx.h>
+#include <opp.h>
 
 
 /* #define DEBUG */
@@ -451,7 +452,7 @@ static int main44xx_show(int argc, char *argv[])
 			return err_arg_too_many_msg_show(HELP_PRCM);
 		}
 	} else if (strcmp(argv[0], "opp") == 0) {
-		return voltdm44xx_opp_show();
+		return opp_show(stdout);
 	} else if (strcmp(argv[0], "pwst") == 0) {
 		return power44xx_status_show();
 	} else if (strcmp(argv[0], "dpll") == 0) {
@@ -886,7 +887,7 @@ static int main44xx_legacy(int argc, char *argv[])
 	if (strcmp(argv[0], "pwst") == 0) {
 		ret = power44xx_status_show();
 	} else if (strcmp(argv[0], "opp") == 0) {
-		ret = voltdm44xx_opp_show();
+		ret = opp_show(stdout);
 	} else if (strcmp(argv[0], "hwobs") == 0) {
 		ret = hwobs44xx_main(argc, argv);
 	} else if (strcmp(argv[0], "mpu") == 0) {
@@ -1093,9 +1094,6 @@ int main44xx(int argc, char *argv[])
 		ret = main44xx_test(argc - 1, argv + 1);
 	else
 		ret = main44xx_legacy(argc, argv);
-
-	/* Deinitializations */
-	temp_sensor_deinit();
 
 	return ret;
 }

@@ -1,14 +1,15 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			lib54xx.h
- * @Description			OMAPCONF OMAP5 General Purpose Library
+ * @Filename			opp54xx.h
+ * @Description			OMAP5 OPerating Point (OPP) Common Definitions
+ *				& Functions
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2011
+ * @Date			2012
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2011 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,19 +43,27 @@
  */
 
 
-#ifndef __LIB54XX_H__
-#define __LIB54XX_H__
+#ifndef __OPP54XX_H__
+#define __OPP54XX_H__
 
 
-#include <stdio.h>
 #include <voltdm54xx.h>
 
 
-int lib54xx_pwst_show(FILE *stream);
-int lib54xx_export(char *file);
-int lib54xx_import(char *file);
-int lib54xx_voltage_set(voltdm54xx_id vdd_id, double volt);
-int lib54xx_vminsearch(int argc, char *argv[]);
+void opp54xx_init(void);
+void opp54xx_deinit(void);
+
+int opp54xx_count_get(voltdm54xx_id vdd_id);
+const genlist *opp54xx_list_get(voltdm54xx_id vdd_id);
+
+int opp54xx_id_get(const char *opp);
+
+const char *opp54xx_get(voltdm54xx_id vdd_id);
+#if 0
+const char *opp54xx_by_voltage_get(voltdm54xx_id vdd_id);
+#endif
+const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id);
+int opp54xx_set(voltdm54xx_id vdd_id, opp54xx_id opp_id);
 
 
 #endif
