@@ -228,7 +228,7 @@ fi
 omap_cpu=$($new_omapconf_bin --cpuinfo | grep perf | awk '{print $1}')
 opp_list_4430="300000 600000 800000 1008000"
 opp_list_4460="350000 700000 920000 1200000 1500000"
-opp_list_4470="400000 800000 1100000 1300000 1500000"
+opp_list_4470="396800 800000 1100000 1300000 1500000"
 if [ $omap_cpu = OMAP4430 ]; then
 	opp_list=$opp_list_4430
 elif [ $omap_cpu = OMAP4460 ]; then
