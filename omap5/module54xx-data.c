@@ -975,7 +975,7 @@ const double mod54xx_por_rates_table[MOD54XX_ID_MAX][OPP_MAX] = {
 	{-1.0, -1.0, 19.2, -1.0, -1.0, -1.0}, /* OMAP5_SMARTREFLEX_CORE */
 	{-1.0, -1.0, 19.2, -1.0, -1.0, -1.0}, /* OMAP5_SMARTREFLEX_MM */
 	{-1.0, -1.0, 19.2, -1.0, -1.0, -1.0}, /* OMAP5_SMARTREFLEX_MPU */
-	{-1.0, -1.0, -1.0, -1.0, -1.0, -1.0}, /* OMAP5_BANDGAPTS */
+	{-1.0, -1.0, 1.2, -1.0, -1.0, -1.0}, /* OMAP5_BANDGAPTS */
 	{-1.0, -1.0, 19.2, -1.0, -1.0, -1.0}, /* OMAP5_IO_SRCOMP_CORE */
 	{-1.0, -1.0, 0.032768, -1.0, -1.0, -1.0}, /* OMAP5_USB_PHY_CORE */
 	/* Voltage dom.: CORE, Power dom.: CAM, Clock domain = CAM */
