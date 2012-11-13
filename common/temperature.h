@@ -63,8 +63,9 @@ typedef enum {
 
 #define TEMP_SENSOR_BANDGAP	((const char *) "Bandgap") /* OMAP4 */
 #define TEMP_SENSOR_MPU		((const char *) "MPU") /* OMAP5 */
-#define TEMP_SENSOR_HOTSPOT	((const char *) "Hotspot") /* OMAP4 */
+#define TEMP_SENSOR_HOTSPOT_MPU	((const char *) "MPU_Hotspot") /* Common */
 #define TEMP_SENSOR_GPU		((const char *) "GPU") /* OMAP5 */
+#define TEMP_SENSOR_HOTSPOT_GPU	((const char *) "GPU_Hotspot") /* OMAP5 */
 #define TEMP_SENSOR_MEM1	((const char *) "MEM1") /* Common */
 #define TEMP_SENSOR_MEM2	((const char *) "MEM2") /* Common */
 #define TEMP_SENSOR_CORE	((const char *) "CORE") /* OMAP5 */

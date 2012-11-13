@@ -79,8 +79,8 @@ void temp_sensor_init(void)
 				(void *) TEMP_SENSOR_BANDGAP,
 				(1 + strlen(TEMP_SENSOR_BANDGAP)) * sizeof(char));
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_HOTSPOT,
-				(1 + strlen(TEMP_SENSOR_HOTSPOT)) * sizeof(char));
+				(void *) TEMP_SENSOR_HOTSPOT_MPU,
+				(1 + strlen(TEMP_SENSOR_HOTSPOT_MPU)) * sizeof(char));
 			genlist_addtail(&temp_sensor_list,
 				(void *) TEMP_SENSOR_MEM1,
 				(1 + strlen(TEMP_SENSOR_MEM1)) * sizeof(char));
@@ -95,8 +95,14 @@ void temp_sensor_init(void)
 				(void *) TEMP_SENSOR_MPU,
 				(1 + strlen(TEMP_SENSOR_MPU)) * sizeof(char));
 			genlist_addtail(&temp_sensor_list,
+				(void *) TEMP_SENSOR_HOTSPOT_MPU,
+				(1 + strlen(TEMP_SENSOR_HOTSPOT_MPU)) * sizeof(char));
+			genlist_addtail(&temp_sensor_list,
 				(void *) TEMP_SENSOR_GPU,
 				(1 + strlen(TEMP_SENSOR_GPU)) * sizeof(char));
+			genlist_addtail(&temp_sensor_list,
+				(void *) TEMP_SENSOR_HOTSPOT_GPU,
+				(1 + strlen(TEMP_SENSOR_HOTSPOT_GPU)) * sizeof(char));
 			genlist_addtail(&temp_sensor_list,
 				(void *) TEMP_SENSOR_CORE,
 				(1 + strlen(TEMP_SENSOR_CORE)) * sizeof(char));
@@ -163,7 +169,7 @@ const char *temp_sensor_voltdm2sensor(const char *voltdm)
 	} else if (cpu_is_omap44xx()) {
 		switch (vdd_id) {
 		case OMAP4_VDD_MPU:
-			sensor = TEMP_SENSOR_HOTSPOT;
+			sensor = TEMP_SENSOR_HOTSPOT_MPU;
 			break;
 		case OMAP4_VDD_CORE:
 			sensor = TEMP_SENSOR_BANDGAP;
@@ -270,7 +276,7 @@ int temp_sensor_s2id(const char *sensor)
 	if (cpu_is_omap44xx()) {
 		if (strcasecmp(sensor, TEMP_SENSOR_BANDGAP) == 0)
 			id = (int) TEMP44XX_BANDGAP;
-		else if (strcasecmp(sensor, TEMP_SENSOR_HOTSPOT) == 0)
+		else if (strcasecmp(sensor, TEMP_SENSOR_HOTSPOT_MPU) == 0)
 			id = (int) TEMP44XX_HOTSPOT;
 		else if (strcasecmp(sensor, TEMP_SENSOR_MEM1) == 0)
 			id = (int) TEMP44XX_DDR1_CS1;
@@ -282,9 +288,13 @@ int temp_sensor_s2id(const char *sensor)
 			id = OMAPCONF_ERR_ARG;
 	} else if (cpu_is_omap54xx()) {
 		if (strcasecmp(sensor, TEMP_SENSOR_MPU) == 0)
-			id = (int) TEMP54XX_CPU;
+			id = (int) TEMP54XX_MPU;
+		else if (strcasecmp(sensor, TEMP_SENSOR_HOTSPOT_MPU) == 0)
+			id = (int) TEMP54XX_HOTSPOT_MPU;
 		else if (strcasecmp(sensor, TEMP_SENSOR_GPU) == 0)
 			id = (int) TEMP54XX_GPU;
+		else if (strcasecmp(sensor, TEMP_SENSOR_HOTSPOT_GPU) == 0)
+			id = (int) TEMP54XX_HOTSPOT_GPU;
 		else if (strcasecmp(sensor, TEMP_SENSOR_MEM1) == 0)
 			id = (int) TEMP54XX_EMIF1;
 		else if (strcasecmp(sensor, TEMP_SENSOR_MEM2) == 0)

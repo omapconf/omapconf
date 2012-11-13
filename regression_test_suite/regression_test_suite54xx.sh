@@ -354,7 +354,9 @@ if  [ $all_tests = 1 ] || [ $tests = temp ]; then
 	compare "show temp" "SHOW TEMP" 0
 	compare "show temp all" "SHOW TEMP ALL" 0
 	compare "show temp mpu" "SHOW TEMP MPU" 0
+	compare "show temp mpu_hotspot" "SHOW TEMP MPU HOTSPOT" 0
 	compare "show temp gpu" "SHOW TEMP GPU" 0
+	compare "show temp gpu_hotspot" "SHOW TEMP GPU HOTSPOT" 0
 	compare "show temp core" "SHOW TEMP CORE" 0
 	compare "show temp mem1" "SHOW TEMP MEM1" 0
 	compare "show temp mem2" "SHOW TEMP MEM2" 0

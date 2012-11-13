@@ -62,8 +62,10 @@
 
 
 const char *temp54xx_sensor_names[TEMP54XX_ID_MAX + 1] = {
-	"CPU",
+	"MPU",
+	"Hotspot MPU",
 	"GPU",
+	"Hotspot GPU",
 	"CORE",
 	"EMIF1",
 	"EMIF2",
@@ -101,7 +103,7 @@ temp54xx_sensor_id voltdm2sensor_id(voltdm54xx_id vdd_id)
 {
 	static const temp54xx_sensor_id voltdm2sensor_map[VDD54XX_ID_MAX] = {
 		TEMP54XX_ID_MAX,
-		TEMP54XX_CPU,
+		TEMP54XX_MPU,
 		TEMP54XX_GPU,
 		TEMP54XX_CORE};
 
@@ -131,7 +133,9 @@ int temp54xx_get(temp54xx_sensor_id id)
 	FILE *fp = NULL;
 	static const char *sensor_filenames1[TEMP54XX_ID_MAX] = {
 		"/sys/kernel/debug/thermal_debug/devices/omap_cpu_sensor/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/omap_cpu_governor/hotspot_temp",
 		"/sys/kernel/debug/thermal_debug/devices/omap_gpu_sensor/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/omap_gpu_governor/hotspot_temp",
 		"/sys/kernel/debug/thermal_debug/devices/omap_core_sensor/temperature",
 		"/sys/kernel/debug/emif.1/mr4",
 		"/sys/kernel/debug/emif.2/mr4",
@@ -139,7 +143,9 @@ int temp54xx_get(temp54xx_sensor_id id)
 		"/sys/kernel/debug/thermal_debug/devices/tmp006_sensor/temperature"};
 	static const char *sensor_filenames2[TEMP54XX_ID_MAX] = {
 		"/sys/devices/platform/omap/omap_temp_sensor.0/temp1_input",
+		"/sys/kernel/debug/thermal_debug/devices/omap_cpu_governor/hotspot_temp",
 		"/sys/devices/platform/omap/omap_temp_sensor.1/temp1_input",
+		"/sys/kernel/debug/thermal_debug/devices/omap_gpu_governor/hotspot_temp",
 		"/sys/devices/platform/omap/omap_temp_sensor.2/temp1_input",
 		"/sys/kernel/debug/emif.1/mr4",
 		"/sys/kernel/debug/emif.2/mr4",
@@ -147,7 +153,9 @@ int temp54xx_get(temp54xx_sensor_id id)
 		"/sys/kernel/debug/thermal_debug/devices/tmp006_sensor/temperature"};
 	static const char *sensor_filenames3[TEMP54XX_ID_MAX] = {
 		"/sys/devices/platform/omap/omap4plus_scm.0/temp_sensor_hwmon.0/temp1_input",
+		"/sys/kernel/debug/thermal_debug/devices/omap_cpu_governor/hotspot_temp",
 		"/sys/devices/platform/omap/omap4plus_scm.0/temp_sensor_hwmon.1/temp1_input",
+		"/sys/kernel/debug/thermal_debug/devices/omap_gpu_governor/hotspot_temp",
 		"/sys/devices/platform/omap/omap4plus_scm.0/temp_sensor_hwmon.2/temp1_input",
 		"/sys/kernel/debug/emif.1/mr4",
 		"/sys/kernel/debug/emif.2/mr4",
@@ -235,10 +243,14 @@ temp54xx_sensor_id temp54xx_s2id(char *s)
 
 	CHECK_NULL_ARG(s, TEMP54XX_ID_MAX);
 
-	if (strcmp(s, "cpu") == 0)
-		id = TEMP54XX_CPU;
+	if (strcmp(s, "mpu") == 0)
+		id = TEMP54XX_MPU;
+	else if (strcmp(s, "mpu_hotspot") == 0)
+		id = TEMP54XX_HOTSPOT_MPU;
 	else if (strcmp(s, "gpu") == 0)
 		id = TEMP54XX_GPU;
+	else if (strcmp(s, "gpu_hotspot") == 0)
+		id = TEMP54XX_HOTSPOT_GPU;
 	else if (strcmp(s, "core") == 0)
 		id = TEMP54XX_CORE;
 	else if (strcmp(s, "pcb") == 0)
@@ -304,7 +316,7 @@ int temp54xx_show(FILE *stream, temp54xx_sensor_id id)
 	autoadjust_table_strncpy(table, row, 1, "Temperature (C)");
 	autoadjust_table_strncpy(table, row++, 2, "Temperature (F)");
 
-	for (id = TEMP54XX_CPU; id < TEMP54XX_ID_MAX; id++) {
+	for (id = TEMP54XX_MPU; id < TEMP54XX_ID_MAX; id++) {
 		if (id != TEMP54XX_CASE) {
 			sprintf(sensor_name, "%s",
 				(char *) temp54xx_name_get(id));
