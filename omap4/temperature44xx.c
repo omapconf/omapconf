@@ -1142,7 +1142,7 @@ int temp44xx_hotspot_temp_get(void)
 	dprintf("%s(): line=%s len=%u\n", __func__, line, strlen(line));
 
 	/* Retrieve temperature, in millidegrees celcius */
-	ret = sscanf(line, "hot spot temp%d", &degc);
+	ret = sscanf(line, "%d", &degc);
 	if (ret != 1) {
 		fprintf(stderr,
 			"Unexpected error reading hotspot temperature sensor file (%s).\n\n",
