@@ -102,27 +102,75 @@ function compare {
 	elif [ "$1" = "audit homescreen full_log" ]; then
 		# ignore EMIF status (always changing)
 		$ref_omapconf_bin $1 | grep -v EMIF > $logfile_ref
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat home_screen_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_ref
+		# Append details file to logfile and ignore OMAPCONF header
+		cat home_screen_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_ref
 		$new_omapconf_bin $1 | grep -v EMIF > $logfile_new
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat home_screen_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_new
+		# Append details file to logfile and ignore OMAPCONF header
+		cat home_screen_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_new
 	elif [ "$1" = "audit os_idle full_log" ]; then
 		# ignore EMIF status (always changing)
 		$ref_omapconf_bin $1 | grep -v EMIF > $logfile_ref
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat os_idle_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_ref
+		# Append details file to logfile and ignore OMAPCONF header
+		cat os_idle_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_ref
 		$new_omapconf_bin $1 | grep -v EMIF > $logfile_new
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat os_idle_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_new
+		# Append details file to logfile and ignore OMAPCONF header
+		cat os_idle_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_new
 	elif [ "$1" = "audit mp3 full_log" ]; then
 		# ignore EMIF status (always changing)
 		$ref_omapconf_bin $1 | grep -v EMIF > $logfile_ref
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat mp3_playback_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_ref
+		# Append details file to logfile and ignore OMAPCONF header
+		cat mp3_playback_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_ref
 		$new_omapconf_bin $1 | grep -v EMIF > $logfile_new
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat mp3_playback_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_new
+		# Append details file to logfile and ignore OMAPCONF header
+		cat mp3_playback_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_new
 	elif [ "$1" = "audit play720p full_log" ]; then
 		# ignore EMIF status (always changing)
 		$ref_omapconf_bin $1 | grep -v EMIF > $logfile_ref
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat avplayback_720p_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_ref
+		# Append details file to logfile and ignore OMAPCONF header
+		cat avplayback_720p_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_ref
 		$new_omapconf_bin $1 | grep -v EMIF > $logfile_new
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat avplayback_720p_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_new
+		# Append details file to logfile and ignore OMAPCONF header
+		cat avplayback_720p_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_new
 	elif [ "$1" = "audit play1080p full_log" ]; then
 		# ignore EMIF status (always changing)
 		$ref_omapconf_bin $1 | grep -v EMIF > $logfile_ref
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat avplayback_1080p_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_ref
+		# Append details file to logfile and ignore OMAPCONF header
+		cat avplayback_1080p_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_ref
 		$new_omapconf_bin $1 | grep -v EMIF > $logfile_new
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat avplayback_1080p_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_new
+		# Append details file to logfile and ignore OMAPCONF header
+		cat avplayback_1080p_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_new
 	elif [ "$1" = "audit rec1080p full_log" ]; then
 		# ignore EMIF status (always changing)
 		$ref_omapconf_bin $1 | grep -v EMIF > $logfile_ref
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat avrecord_1080p_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_ref
+		# Append details file to logfile and ignore OMAPCONF header
+		cat avrecord_1080p_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_ref
 		$new_omapconf_bin $1 | grep -v EMIF > $logfile_new
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat avrecord_1080p_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_new
+		# Append details file to logfile and ignore OMAPCONF header
+		cat avrecord_1080p_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_new
 	else
 		$ref_omapconf_bin $1 > $logfile_ref
 		$new_omapconf_bin $1 > $logfile_new
