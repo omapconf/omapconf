@@ -90,6 +90,7 @@ const char
 	"OPP100_LOW",
 	"OPP119_LOW",
 	"OPP119_HIGH",
+	"OPP100_HIGH",
 	"UNKNOWN"};
 
 
@@ -110,10 +111,10 @@ static const double omap4430_retention_voltage_table[OMAP4_VD_ID_MAX] = {
 
 static const double
 	omap4430_nominal_voltage_table[OMAP4_VD_ID_MAX][OPP44XX_ID_MAX] = {
-	{1.06, 1.06, 1.06, 1.06, 1.06, 1.06}, /* LDO_WKUP */
-	{1.0255, 1.0255, 1.2027, 1.3293, 1.3926, 1.3926}, /* VDD_MPU */
-	{0.9622, 0.9622, 1.114, 1.291, -1.0, -1.0}, /* VDD_IVA */
-	{0.9622, 0.9622, 1.127, -1.0, -1.0, -1.0} }; /* VDD_CORE */
+	{1.06, 1.06, 1.06, 1.06, 1.06, 1.06, 1.06}, /* LDO_WKUP */
+	{1.0255, 1.0255, 1.2027, 1.3293, 1.3926, 1.3926, -1.0}, /* VDD_MPU */
+	{0.9622, 0.9622, 1.114, 1.291, -1.0, -1.0, -1.0}, /* VDD_IVA */
+	{0.9622, 0.9622, 1.127, -1.0, -1.0, -1.0, -1.0} }; /* VDD_CORE */
 
 
 static const double omap4460_retention_voltage_table[OMAP4_VD_ID_MAX] = {
@@ -122,9 +123,9 @@ static const double omap4460_retention_voltage_table[OMAP4_VD_ID_MAX] = {
 
 static const double
 	omap4460_nominal_voltage_table[OMAP4_VD_ID_MAX][OPP44XX_ID_MAX] = {
-	{1.06, 1.06, 1.06, 1.06, 1.06, 1.06}, /* LDO_WKUP */
-	{1.025, 1.025, 1.203, 1.317, 1.380, 1.380}, /* VDD_MPU */
-	{0.9622, 0.9622, 1.114, 1.291, 1.380, 1.380}, /* VDD_IVA */
+	{1.06, 1.06, 1.06, 1.06, 1.06, 1.06, 1.06}, /* LDO_WKUP */
+	{1.025, 1.025, 1.203, 1.317, 1.380, 1.380, -1.0}, /* VDD_MPU */
+	{0.9622, 0.9622, 1.114, 1.291, 1.380, 1.380, -1.0}, /* VDD_IVA */
 	{0.9622, 0.9622, 1.127, 1.2534, -1.0, -1.0} }; /* VDD_CORE */
 
 
@@ -134,10 +135,10 @@ static const double omap4470_retention_voltage_table[OMAP4_VD_ID_MAX] = {
 
 static const double
 	omap4470_nominal_voltage_table[OMAP4_VD_ID_MAX][OPP44XX_ID_MAX] = {
-	{1.06, 1.06, 1.06, 1.06, 1.06, 1.06}, /* LDO_WKUP */
-	{1.0255, 1.0255, 1.2027, 1.3167, 1.380, 1.380}, /* VDD_MPU */
-	{0.9622, 0.9622, 1.1394, 1.2914, 1.380, 1.380}, /* VDD_IVA */
-	{0.9622, 0.9622, 0.9622, 1.1255, 1.2534, 1.2534} }; /* VDD_CORE */
+	{1.06, 1.06, 1.06, 1.06, 1.06, 1.06, 1.06}, /* LDO_WKUP */
+	{1.0255, 1.0255, 1.2027, 1.3167, 1.380, 1.380, -1.0}, /* VDD_MPU */
+	{0.9622, 0.9622, 1.1394, 1.2914, 1.380, 1.380, -1.0}, /* VDD_IVA */
+	{0.9622, 0.9622, 0.9622, 1.1255, 1.2534, 1.253, 1.1274} }; /* VDD_CORE */
 
 
 /* ------------------------------------------------------------------------*//**
@@ -399,6 +400,7 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 	unsigned int opp_id;
 	double speed_curr = 0.0, speed_por = 0.0;
 	double gfx_speed_curr = 0.0, gfx_speed_por = 0.0;
+	double dss_speed_curr = 0.0, dss_speed_por = 0.0;
 	omap4_dpll_params dpll_params;
 	dpll44xx_id dpll_id;
 	#ifdef OMAP4CONF_GET_OPP_DEBUG
@@ -518,6 +520,46 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 			} else {
 				dprintf("%s(): GFX POR Speed != OPP119_LOW "
 					"POR Speed\n", __func__);
+				continue;
+			}
+		} else if (cpu_is_omap4470() && (id == OMAP4_VDD_CORE) && \
+			(opp_id == OMAP447X_OPP50_HIGH)) {
+			/* for opp_id == OMAP447X_OPP50_HIGH
+			 * and opp_id == OMAP447X_OPP100_HIGH
+			 * L3 clock frequencies are equal.
+			 * Use DSS clock frequencies to distinguish.
+			 */
+			ret = mod44xx_get_por_clk_speed(OMAP4_DISPC,
+					OMAP447X_OPP50_HIGH, &dss_speed_por);
+			if (ret != 0) {
+				dprintf("%s(): could not get %s %s POR "
+					"speed! (%d)\n", __func__,
+					mod44xx_get_name(OMAP4_DISPC, mname),
+					"OPP50_HIGH", ret);
+				return ret;
+			}
+			dprintf("%s(): %s POR Speed for OMAP447X_OPP50_HIGH is %lfMHz\n",
+				__func__, clk44xx_get_name(
+					OMAP4_DSS_FCLK, cname),
+				dss_speed_por);
+
+			dss_speed_curr =
+				clk44xx_get_clock_speed(OMAP4_DSS_FCLK, 1);
+			dprintf("%s(): %s speed is %lfMHz\n", __func__,
+				clk44xx_get_name(OMAP4_DSS_FCLK, cname),
+				dss_speed_curr);
+
+			if ((int) dss_speed_curr == (int) dss_speed_por) {
+				opp_id = OMAP447X_OPP50_HIGH;
+				#ifdef OMAP4CONF_GET_OPP_DEBUG
+				voltdm44xx_opp2string(s_opp, opp_id, id);
+				#endif
+				dprintf("%s(): DSS POR Speed == OPP50_HIGH "
+					"POR Speed\n", __func__);
+			} else {
+				dprintf("%s(): DSS POR Speed != OPP50_HIGH "
+					"POR Speed\n", __func__);
+				continue;
 			}
 		}
 
@@ -599,6 +641,9 @@ int voltdm44xx_opp2string(char s[OPP44XX_MAX_NAME_LENGTH],
 		case OMAP447X_OPP100_LOW:
 			strcpy(s, "OPP100_LOW");
 			break;
+		case OMAP447X_OPP100_HIGH:
+			strcpy(s, "OPP100_HIGH");
+			break;
 		case OMAP447X_OPP119_LOW:
 			strcpy(s, "OPP119_LOW");
 			break;
@@ -669,6 +714,8 @@ unsigned int opp44xx_s2id(char *s)
 		return (unsigned int) OMAP447X_OPP50_HIGH;
 	else if (strcmp(s, "opp100_low") == 0)
 		return (unsigned int) OMAP447X_OPP100_LOW;
+	else if (strcmp(s, "opp100_high") == 0)
+		return (unsigned int) OMAP447X_OPP100_HIGH;
 	else if (strcmp(s, "opp119_low") == 0)
 		return (unsigned int) OMAP447X_OPP119_LOW;
 	else if (strcmp(s, "opp119_high") == 0)

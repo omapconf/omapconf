@@ -317,6 +317,7 @@ void opp4470_init(void)
 	static opp_t opp_core_opp50_low = {	OPP_50_LOW,	980000,  100000};
 	static opp_t opp_core_opp50_high = {	OPP_50_HIGH,	980000,  116666};
 	static opp_t opp_core_opp100_low = {	OPP_100_LOW,	1126000, 200000};
+	static opp_t opp_core_opp100_high = {	OPP_100_HIGH,	1126000, 116666};
 	static opp_t opp_core_opp119_low = {	OPP_119_LOW,	1190000, 200000};
 	static opp_t opp_core_opp119_high = {	OPP_119_HIGH,	1190000, 233333};
 
@@ -399,6 +400,10 @@ void opp4470_init(void)
 		PMIC_SMPS_CORE, opp_core_opp100_low.voltage);
 	genlist_addtail(&vdd44xx_core_opp_list,
 			(void *) &opp_core_opp100_low, sizeof(opp_t));
+	opp_core_opp100_high.voltage = smps_voltage_round(
+		PMIC_SMPS_CORE, opp_core_opp100_high.voltage);
+	genlist_addtail(&vdd44xx_core_opp_list,
+			(void *) &opp_core_opp100_high, sizeof(opp_t));
 	opp_core_opp119_low.voltage = smps_voltage_round(
 		PMIC_SMPS_CORE, opp_core_opp119_low.voltage);
 	genlist_addtail(&vdd44xx_core_opp_list,
@@ -518,6 +523,8 @@ int opp44xx_id_get(const char *opp)
 		return (int) OMAP447X_OPP50_HIGH;
 	else if (strcasecmp(opp, OPP_100_LOW) == 0)
 		return (int) OMAP447X_OPP100_LOW;
+	else if (strcasecmp(opp, OPP_100_HIGH) == 0)
+		return (int) OMAP447X_OPP100_HIGH;
 	else if (strcasecmp(opp, OPP_119_LOW) == 0)
 		return (int) OMAP447X_OPP119_LOW;
 	else if (strcasecmp(opp, OPP_119_HIGH) == 0)
@@ -613,6 +620,7 @@ const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id)
 	int opp_id;
 	double rate = 0.0, rate_por = 0.0;
 	double gpu_rate = 0.0, gpu_rate_por = 0.0;
+	double dss_rate = 0.0, dss_rate_por = 0.0;
 	opp_t opp;
 	const genlist *opp_list;
 	int i, opp_count;
@@ -762,6 +770,41 @@ const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id)
 				goto opp44xx_by_rate_get_end;
 			} else {
 				opp_name = OPP_100_LOW;
+				goto opp44xx_by_rate_get_end;
+			}
+		} else if (cpu_is_omap4470() && (vdd_id == OMAP4_VDD_CORE) &&
+			(opp_id == OMAP447X_OPP50_HIGH)) {
+			/* for opp_id == OMAP447X_OPP50_HIGH
+			 * and opp_id == OMAP447X_OPP100_HIGH
+			 * L3 clock frequencies are equal.
+			 * Use DSS clock frequencies to distinguish.
+			 */
+			ret = mod44xx_get_por_clk_speed(OMAP4_DISPC,
+					OMAP447X_OPP50_HIGH, &dss_rate_por);
+			if (ret != 0) {
+				dprintf(
+					"%s(): could not get DSS OMAP447X_OPP50_HIGH POR speed! (%d)\n",
+					__func__, ret);
+				goto opp44xx_by_rate_get_end;
+			}
+			dprintf(
+				"%s(): DSS POR Speed for OMAP447X_OPP50_HIGH is %lfMHz\n",
+				__func__, dss_rate_por);
+
+			dss_rate = clk44xx_get_clock_speed(OMAP4_DSS_FCLK, 1);
+			if (dss_rate < 0.0) {
+				dprintf(
+					"%s(): could not retrieve DSS clock rate!\n",
+					__func__);
+					goto opp44xx_by_rate_get_end;
+			}
+			dprintf("%s(): DSS speed is %lfMHz\n",
+				__func__, dss_rate);
+			if ((int) dss_rate == (int) dss_rate_por) {
+				opp_name = OPP_50_HIGH;
+				goto opp44xx_by_rate_get_end;
+			} else {
+				opp_name = OPP_100_HIGH;
 				goto opp44xx_by_rate_get_end;
 			}
 		} else {
