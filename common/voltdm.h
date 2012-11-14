@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			temp54xx.h
- * @Description			OMAP5 Temperature Sensors Functions
+ * @Filename			voltdm.h
+ * @Description			Generic Voltage Domain Definitions & APIs
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2011
+ * @Date			2012
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2011 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,32 +42,34 @@
  */
 
 
-#ifndef __TEMP54XX_H__
-#define __TEMP54XX_H__
+#ifndef __VOLTDM_H__
+#define __VOLTDM_H__
 
 
-#include <stdio.h>
-#include <voltdm54xx.h>
+#include <genlist.h>
+
+#define VOLTDM_MAX_NAME_LENGTH		16
+
+#define VDD_WKUP	((const char *) "VDD_WKUP") /* Common */
+#define VDD_MPU		((const char *) "VDD_MPU") /* Common */
+#define VDD_IVA		((const char *) "VDD_IVA") /* OMAP4 */
+#define VDD_MM		((const char *) "VDD_MM") /* OMAP5 */
+#define VDD_CORE	((const char *) "VDD_CORE") /* Common */
 
 
-typedef enum {
-	TEMP54XX_MPU,
-	TEMP54XX_HOTSPOT_MPU,
-	TEMP54XX_GPU,
-	TEMP54XX_HOTSPOT_GPU,
-	TEMP54XX_CORE,
-	TEMP54XX_EMIF1,
-	TEMP54XX_EMIF2,
-	TEMP54XX_PCB,
-	TEMP54XX_CASE,
-	TEMP54XX_CHARGER,
-	TEMP54XX_ID_MAX
-} temp54xx_sensor_id;
+void voltdm_init(void);
+void voltdm_deinit(void);
 
+int voltdm_s2id(const char *voltdm);
 
-const char *temp54xx_name_get(temp54xx_sensor_id id);
-temp54xx_sensor_id voltdm2sensor_id(voltdm54xx_id vdd_id);
-int temp54xx_get(temp54xx_sensor_id id);
+int voltdm_count_get(void);
+const genlist *voltdm_list_get(void);
+
+int voltdm_voltage_get(const char *voltdm);
+int voltdm_voltage_set(const char *voltdm, int uv);
+
+int voltdm_nominal_voltage_get(const char *voltdm);
+int voltdm_por_nominal_voltage_get(const char *voltdm, const char *opp);
 
 
 #endif

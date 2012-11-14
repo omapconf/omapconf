@@ -224,6 +224,14 @@ void help(help_category cat)
 		printf("\t    Fake memory access (no real R/W done): write "
 			"accesses are discarded, read accesses return physical "
 			"address.\n");
+
+		printf("\n\t--trace_read\n");
+		printf(
+			"\t    Enable console tracing of all omapconf memory read access.\n");
+
+		printf("\n\t--trace_write\n");
+		printf(
+			"\t    Enable console tracing of all omapconf memory write access.\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_FORCEDETECT)) {

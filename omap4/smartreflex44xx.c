@@ -533,31 +533,15 @@ int sr44xx_vc_config(void)
 	if (!cpu_is_omap44xx())
 		return OMAPCONF_ERR_CPU;
 
-	ret = mem_read(OMAP4430_PRM_VC_SMPS_SA,
-		&(vc_regs.prm_vc_smps_sa));
-	ret += mem_read(OMAP4430_PRM_VC_VAL_SMPS_RA_VOL,
-		&(vc_regs.prm_vc_smps_ra_vol));
-	ret += mem_read(OMAP4430_PRM_VC_VAL_SMPS_RA_CMD,
-		&(vc_regs.prm_vc_val_smps_ra_cmd));
-	ret += mem_read(OMAP4430_PRM_VC_VAL_CMD_VDD_CORE_L,
-		&(vc_regs.prm_vc_val_cmd_vdd_core_l));
-	ret += mem_read(OMAP4430_PRM_VC_VAL_CMD_VDD_MPU_L,
-		&(vc_regs.prm_vc_val_cmd_vdd_mpu_l));
-	ret += mem_read(OMAP4430_PRM_VC_VAL_CMD_VDD_IVA_L,
-		&(vc_regs.prm_vc_val_cmd_vdd_iva_l));
-	ret += mem_read(OMAP4430_PRM_VC_CFG_CHANNEL,
-		&(vc_regs.prm_vc_cfg_channel));
-	ret += mem_read(OMAP4430_PRM_VC_CFG_I2C_MODE,
-		&(vc_regs.prm_vc_cfg_i2c_mode));
-	ret += mem_read(OMAP4430_PRM_VC_CFG_I2C_CLK,
-		&(vc_regs.prm_vc_cfg_i2c_clk));
+	ret = vc44xx_registers_get(&vc_regs);
 	if (ret != 0)
-		return OMAPCONF_ERR_REG_ACCESS;
+		return ret;
 
 	/* Analyze VC configuration registers */
 	ret = vc44xx_config_show(stdout, &vc_regs);
 	if (ret != 0)
 		return ret;
+
 	return sri2c_config_show(stdout,
 		vc_regs.prm_vc_cfg_i2c_mode, vc_regs.prm_vc_cfg_i2c_clk);
 }

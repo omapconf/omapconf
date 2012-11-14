@@ -82,11 +82,6 @@
 #define RELEASE_TYPE_MAX_LENGTH		128
 #define RELEASE_DATE_MAX_LENGTH		128
 
-#define VOLTDM_MAX_NAME_LENGTH		12
-#define OPP_MAX_NAME_LENGTH		10
-
-#define TEMP_ABSOLUTE_ZERO		-273
-
 typedef enum {
 	OFF_VOLTAGE = 0,
 	RETENTION_VOLTAGE = 8,
@@ -142,27 +137,27 @@ static const char int2char_table[11] = "0123456789";
 /* OMAP_READREG() MACRO DEPRECATED STARTING OMAP5, DON'T USE IT ANYMORE */
 #define OMAP_READREG(addr, var) \
 	if (mem_read((unsigned int) addr, &var) != 0) { \
-		fprintf(stderr, "%s(): read error at 0x%08X!!!\n",  \
+		fprintf(stderr, "omapconf: %s(): read error at 0x%08X!!!\n",  \
 			__func__, (unsigned int) addr); \
 		return OMAPCONF_ERR_REG_ACCESS; \
 	}
 
 #define CHECK_NULL_ARG(arg, ret) \
 	if ((void *) arg == NULL) { \
-		fprintf(stderr, "%s(): %s == NULL!!!\n", __func__, #arg); \
+		fprintf(stderr, "omapconf: %s(): %s == NULL!!!\n", __func__, #arg); \
 		return ret; \
 	}
 
 #define CHECK_ARG_LESS_THAN(arg, max, ret) \
 	if (arg >= max) { \
-		fprintf(stderr, "%s(): %s (%u) >= %s (%u) !!!\n", \
+		fprintf(stderr, "omapconf: %s(): %s (%u) >= %s (%u) !!!\n", \
 			__func__, #arg, arg, #max, max); \
 		return ret; \
 	}
 
 #define CHECK_CPU(cpu, ret) \
 	if (!cpu_is_omap##cpu()) { \
-		fprintf(stderr, "%s(): cpu %s not supported!!!\n", \
+		fprintf(stderr, "omapconf: %s(): cpu %s not supported!!!\n", \
 			__func__, #cpu); \
 		return ret; \
 	}
@@ -192,7 +187,7 @@ double avg_recalc(double prev_avg, double new_val, unsigned int n);
 
 char *mhz2string(double rate, char s[15]);
 
-int find_reg_addr(char *name, unsigned int* addr);
+int find_reg_addr(char *name, unsigned int *addr);
 int name2addr(char *name, unsigned int *addr, reg_table table[]);
 int dumpregs(reg_table table[]);
 int mem_address_range_dump(unsigned int start, unsigned int end);
@@ -201,7 +196,7 @@ char *lowercase(char *s);
 char *uppercase(char *s);
 
 char *workdir_get(void);
-FILE *workdir_fopen(char filename[128], const char * mode);
+FILE *workdir_fopen(char filename[128], const char *mode);
 
 char *kernel_details_get(char version[KERNEL_VERSION_MAX_LENGTH],
 			char author[KERNEL_AUTHOR_MAX_LENGTH],
@@ -232,6 +227,12 @@ int multivalue2desc(unsigned int value, char *desc, unsigned int index,
 double avg_recalc(double prev_avg, double new_val, unsigned int n);
 
 int celcius2fahrenheit(int d);
+
+inline double uv2v(int uv);
+inline int v2uv(double v);
+
+inline double khz2mhz(int khz);
+inline int mhz2khz(double mhz);
 
 int omapconf_getdefaults(
 	char *defaults_file, char *prefix, name_desc_val_table tablep[]);

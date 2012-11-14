@@ -68,7 +68,7 @@ typedef enum {
 	EMIF_LOAD,
 	BANDGAP_TEMP,
 	PCB_TEMP,
-	HOTSPOT_TEMP,
+	HOTSPOT_MPU_TEMP,
 	/* OMAP5 Specific */
 	MPU_TEMP,
 	GPU_TEMP,

@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			temp.h
- * @Description			OMAP Temperature Definitions
+ * @Filename			temperature.h
+ * @Description			Generic Temperature Sensors Functions
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2010
+ * @Date			2012
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,11 +42,12 @@
  */
 
 
-#ifndef __TEMP_H__
-#define __TEMP_H__
+#ifndef __TEMPERATURE_H__
+#define __TEMPERATURE_H__
 
 
-#define TEMP_ABSOLUTE_ZERO		-273
+#include <stdio.h>
+#include <genlist.h>
 
 
 typedef enum {
@@ -54,6 +55,37 @@ typedef enum {
 	TEMP_FAHRENHEIT_DEGREES,
 	TEMP_UNIT_MAX
 } temperature_unit;
+
+
+#define TEMP_ABSOLUTE_ZERO		-273
+
+#define TEMP_SENSOR_MAX_NAME_LENGTH	16
+
+#define TEMP_SENSOR_BANDGAP	((const char *) "Bandgap") /* OMAP4 */
+#define TEMP_SENSOR_MPU		((const char *) "MPU") /* OMAP5 */
+#define TEMP_SENSOR_HOTSPOT_MPU	((const char *) "MPU_Hotspot") /* Common */
+#define TEMP_SENSOR_GPU		((const char *) "GPU") /* OMAP5 */
+#define TEMP_SENSOR_HOTSPOT_GPU	((const char *) "GPU_Hotspot") /* OMAP5 */
+#define TEMP_SENSOR_MEM1	((const char *) "MEM1") /* Common */
+#define TEMP_SENSOR_MEM2	((const char *) "MEM2") /* Common */
+#define TEMP_SENSOR_CORE	((const char *) "CORE") /* OMAP5 */
+#define TEMP_SENSOR_PCB		((const char *) "PCB") /* Common */
+#define TEMP_SENSOR_CASE	((const char *) "CASE") /* OMAP5 */
+#define TEMP_SENSOR_CHARGER	((const char *) "CHARGER") /* OMAP5 */
+
+
+void temp_sensor_init(void);
+void temp_sensor_deinit(void);
+
+int temp_sensor_count_get(void);
+const genlist *temp_sensor_list_get(void);
+
+const char *temp_sensor_voltdm2sensor(const char *voltdm);
+int temp_sensor_s2id(const char *sensor);
+
+int temp_sensor_is_available(const char *sensor);
+int temp_sensor_get(const char *sensor);
+int temp_sensor_show(FILE *stream, const char *sensor);
 
 
 #endif

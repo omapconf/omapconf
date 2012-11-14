@@ -51,6 +51,9 @@
 #define MEM_ERR_MAP			-5 /* memory could not be mapped */
 
 
+void mem_read_trace_enable(unsigned short enable);
+void mem_write_trace_enable(unsigned short enable);
+
 int mem_map(unsigned int addr);
 void mem_unmap(void);
 inline void *mem_phys2virt(void *addr);

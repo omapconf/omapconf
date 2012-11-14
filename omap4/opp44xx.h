@@ -1,14 +1,15 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			temp54xx.h
- * @Description			OMAP5 Temperature Sensors Functions
+ * @Filename			opp44xx.h
+ * @Description			OMAP4 OPerating Point (OPP) Common Definitions
+ *				& Functions
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2011
+ * @Date			2012
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2011 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,32 +43,28 @@
  */
 
 
-#ifndef __TEMP54XX_H__
-#define __TEMP54XX_H__
+#ifndef __OPP44XX_H__
+#define __OPP44XX_H__
 
 
-#include <stdio.h>
-#include <voltdm54xx.h>
+#include <voltdm44xx.h>
+#include <genlist.h>
 
 
-typedef enum {
-	TEMP54XX_MPU,
-	TEMP54XX_HOTSPOT_MPU,
-	TEMP54XX_GPU,
-	TEMP54XX_HOTSPOT_GPU,
-	TEMP54XX_CORE,
-	TEMP54XX_EMIF1,
-	TEMP54XX_EMIF2,
-	TEMP54XX_PCB,
-	TEMP54XX_CASE,
-	TEMP54XX_CHARGER,
-	TEMP54XX_ID_MAX
-} temp54xx_sensor_id;
+void opp44xx_init(void);
+void opp44xx_deinit(void);
 
+int opp44xx_id_get(const char *opp);
 
-const char *temp54xx_name_get(temp54xx_sensor_id id);
-temp54xx_sensor_id voltdm2sensor_id(voltdm54xx_id vdd_id);
-int temp54xx_get(temp54xx_sensor_id id);
+int opp44xx_count_get(voltdm44xx_id vdd_id);
+const genlist *opp44xx_list_get(voltdm44xx_id vdd_id);
+
+const char *opp44xx_get(voltdm44xx_id vdd_id);
+#if 0
+const char *opp44xx_by_voltage_get(voltdm44xx_id vdd_id);
+#endif
+const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id);
+int opp44xx_set(voltdm44xx_id vdd_id, opp44xx_id opp_id);
 
 
 #endif

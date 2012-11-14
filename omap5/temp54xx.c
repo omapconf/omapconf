@@ -62,13 +62,16 @@
 
 
 const char *temp54xx_sensor_names[TEMP54XX_ID_MAX + 1] = {
-	"CPU",
+	"MPU",
+	"Hotspot MPU",
 	"GPU",
+	"Hotspot GPU",
 	"CORE",
 	"EMIF1",
 	"EMIF2",
 	"PCB",
 	"CASE",
+	"CHARGER",
 	"FIXME"};
 
 
@@ -101,7 +104,7 @@ temp54xx_sensor_id voltdm2sensor_id(voltdm54xx_id vdd_id)
 {
 	static const temp54xx_sensor_id voltdm2sensor_map[VDD54XX_ID_MAX] = {
 		TEMP54XX_ID_MAX,
-		TEMP54XX_CPU,
+		TEMP54XX_MPU,
 		TEMP54XX_GPU,
 		TEMP54XX_CORE};
 
@@ -131,28 +134,37 @@ int temp54xx_get(temp54xx_sensor_id id)
 	FILE *fp = NULL;
 	static const char *sensor_filenames1[TEMP54XX_ID_MAX] = {
 		"/sys/kernel/debug/thermal_debug/devices/omap_cpu_sensor/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/omap_cpu_governor/hotspot_temp",
 		"/sys/kernel/debug/thermal_debug/devices/omap_gpu_sensor/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/omap_gpu_governor/hotspot_temp",
 		"/sys/kernel/debug/thermal_debug/devices/omap_core_sensor/temperature",
 		"/sys/kernel/debug/emif.1/mr4",
 		"/sys/kernel/debug/emif.2/mr4",
-		"/sys/kernel/debug/thermal_debug/devices/tmp102_sensor/temperature",
-		"/sys/kernel/debug/thermal_debug/devices/tmp006_sensor/temperature"};
+		"/sys/kernel/debug/thermal_debug/devices/tmp102_temp_sensor.72/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/tmp006_sensor/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/tmp102_temp_sensor.73/temperature"};
 	static const char *sensor_filenames2[TEMP54XX_ID_MAX] = {
 		"/sys/devices/platform/omap/omap_temp_sensor.0/temp1_input",
+		"/sys/kernel/debug/thermal_debug/devices/omap_cpu_governor/hotspot_temp",
 		"/sys/devices/platform/omap/omap_temp_sensor.1/temp1_input",
+		"/sys/kernel/debug/thermal_debug/devices/omap_gpu_governor/hotspot_temp",
 		"/sys/devices/platform/omap/omap_temp_sensor.2/temp1_input",
 		"/sys/kernel/debug/emif.1/mr4",
 		"/sys/kernel/debug/emif.2/mr4",
-		"/sys/kernel/debug/thermal_debug/devices/tmp102_sensor/temperature",
-		"/sys/kernel/debug/thermal_debug/devices/tmp006_sensor/temperature"};
+		"/sys/kernel/debug/thermal_debug/devices/tmp102_temp_sensor.72/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/tmp006_sensor/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/tmp102_temp_sensor.73/temperature"};
 	static const char *sensor_filenames3[TEMP54XX_ID_MAX] = {
 		"/sys/devices/platform/omap/omap4plus_scm.0/temp_sensor_hwmon.0/temp1_input",
+		"/sys/kernel/debug/thermal_debug/devices/omap_cpu_governor/hotspot_temp",
 		"/sys/devices/platform/omap/omap4plus_scm.0/temp_sensor_hwmon.1/temp1_input",
+		"/sys/kernel/debug/thermal_debug/devices/omap_gpu_governor/hotspot_temp",
 		"/sys/devices/platform/omap/omap4plus_scm.0/temp_sensor_hwmon.2/temp1_input",
 		"/sys/kernel/debug/emif.1/mr4",
 		"/sys/kernel/debug/emif.2/mr4",
-		"/sys/kernel/debug/thermal_debug/devices/tmp102_sensor/temperature",
-		"/sys/kernel/debug/thermal_debug/devices/tmp006_sensor/temperature"};
+		"/sys/kernel/debug/thermal_debug/devices/tmp102_temp_sensor.72/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/tmp006_sensor/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/tmp102_temp_sensor.73/temperature"};
 	static const char **sensor_filenames_list[3] = {
 		sensor_filenames1,
 		sensor_filenames2,
@@ -218,126 +230,4 @@ temp54xx_get_end:
 			emif_mr4_convert(temp, TEMP_CELCIUS_DEGREES));
 	}
 	return temp;
-}
-
-
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		temp54xx_s2id
- * @BRIEF		convert string into valid sensor ID
- * @RETURNS		valid sensor ID on success
- *			TEMP54XX_ID_MAX otherwise
- * @param[in,out]	s: string to be converted to sensor ID
- * @DESCRIPTION		convert string into valid sensor ID
- *//*------------------------------------------------------------------------ */
-temp54xx_sensor_id temp54xx_s2id(char *s)
-{
-	temp54xx_sensor_id id;
-
-	CHECK_NULL_ARG(s, TEMP54XX_ID_MAX);
-
-	if (strcmp(s, "cpu") == 0)
-		id = TEMP54XX_CPU;
-	else if (strcmp(s, "gpu") == 0)
-		id = TEMP54XX_GPU;
-	else if (strcmp(s, "core") == 0)
-		id = TEMP54XX_CORE;
-	else if (strcmp(s, "pcb") == 0)
-		id = TEMP54XX_PCB;
-	else if (strcmp(s, "case") == 0)
-		id = TEMP54XX_CASE;
-	else if (strcmp(s, "emif1") == 0)
-		id = TEMP54XX_EMIF1;
-	else if (strcmp(s, "emif2") == 0)
-		id = TEMP54XX_EMIF2;
-	else
-		id = TEMP54XX_ID_MAX;
-
-	dprintf("%s(%s) = %d (%s)\n", __func__, s, id, temp54xx_name_get(id));
-	return id;
-}
-
-
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		temp54xx_show
- * @BRIEF		display temperature(s)
- * @RETURNS		0 in case of success
- *			OMAPCONF_ERR_CPU
- *			OMAPCONF_ERR_ARG
- *			OMAPCONF_ERR_NOT_AVAILABLE
- * @param[in,out]	stream: output file
- * @param[in]		id: sensor ID.
- *			Use TEMP54XX_ID_MAX to display all temperature sensors.
- * @DESCRIPTION		display temperature(s)
- *//*------------------------------------------------------------------------ */
-int temp54xx_show(FILE *stream, temp54xx_sensor_id id)
-{
-	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
-	unsigned int row = 0;
-	int temp, temp_f;
-	char temp_s[EMIF_TEMP_MAX_NAME_LENGTH];
-	char sensor_name[32];
-
-	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
-	CHECK_NULL_ARG(stream, OMAPCONF_ERR_ARG);
-
-	if (id != TEMP54XX_ID_MAX) {
-		temp = temp54xx_get(id);
-		if (temp != TEMP_ABSOLUTE_ZERO) {
-			if ((id == TEMP54XX_EMIF1) || (id == TEMP54XX_EMIF2))
-				fprintf(stream, "%s\n",
-					emif_mr4_convert((emif_mr4_code) temp,
-						TEMP_CELCIUS_DEGREES));
-			else
-				fprintf(stream, "%d\n", temp);
-			return 0;
-		} else {
-			fprintf(stream,
-				"omapconf: %s temperature not available.\n",
-				temp54xx_name_get(id));
-			return OMAPCONF_ERR_NOT_AVAILABLE;
-		}
-	}
-
-	row = 0;
-	autoadjust_table_init(table);
-	autoadjust_table_strncpy(table, row, 0, "OMAP5 Sensor");
-	autoadjust_table_strncpy(table, row, 1, "Temperature (C)");
-	autoadjust_table_strncpy(table, row++, 2, "Temperature (F)");
-
-	for (id = TEMP54XX_CPU; id < TEMP54XX_ID_MAX; id++) {
-		if (id != TEMP54XX_CASE) {
-			sprintf(sensor_name, "%s",
-				(char *) temp54xx_name_get(id));
-		} else {
-			sprintf(sensor_name, "%s",
-				(char *) temp54xx_name_get(id));
-		}
-		autoadjust_table_strncpy(table, row, 0, sensor_name);
-		temp = temp54xx_get(id);
-		if (temp != TEMP_ABSOLUTE_ZERO) {
-			if ((id == TEMP54XX_EMIF1) || (id == TEMP54XX_EMIF2)) {
-				sprintf(temp_s, "%s",
-					emif_mr4_convert((emif_mr4_code) temp,
-						TEMP_CELCIUS_DEGREES));
-				autoadjust_table_strncpy(table, row, 1, temp_s);
-				sprintf(temp_s, "%s",
-					emif_mr4_convert((emif_mr4_code) temp,
-						TEMP_FAHRENHEIT_DEGREES));
-				autoadjust_table_strncpy(table, row++, 2,
-					temp_s);
-			} else {
-				sprintf(temp_s, "%d", temp);
-				autoadjust_table_strncpy(table, row, 1, temp_s);
-				temp_f = celcius2fahrenheit(temp);
-				sprintf(temp_s, "%d", temp_f);
-				autoadjust_table_strncpy(table, row++, 2,
-					temp_s);
-			}
-		} else {
-			autoadjust_table_strncpy(table, row, 1, "NA");
-			autoadjust_table_strncpy(table, row++, 2, "NA");
-		}
-	}
-
-	return autoadjust_table_fprint(stream, table, row, 3);
 }

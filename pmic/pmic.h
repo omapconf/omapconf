@@ -91,6 +91,7 @@ int smps_vsel_len_get(pmic_smps_id smps_id);
 int smps_uvolt2vsel(pmic_smps_id smps_id, unsigned long uvolt);
 long smps_vsel2uvolt(pmic_smps_id smps_id, unsigned char vsel);
 double smps_vsel2volt(pmic_smps_id smps_id, unsigned char vsel);
+long smps_voltage_round(pmic_smps_id smps_id, long uvolt);
 int smps_vsel_get(pmic_smps_id smps_id);
 double smps_voltage_get(pmic_smps_id smps_id);
 int smps_voltage_set(pmic_smps_id smps_id, unsigned long uvolt);
