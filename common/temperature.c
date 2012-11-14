@@ -118,6 +118,9 @@ void temp_sensor_init(void)
 			genlist_addtail(&temp_sensor_list,
 				(void *) TEMP_SENSOR_CASE,
 				(1 + strlen(TEMP_SENSOR_CASE)) * sizeof(char));
+			genlist_addtail(&temp_sensor_list,
+				(void *) TEMP_SENSOR_CHARGER,
+				(1 + strlen(TEMP_SENSOR_CHARGER)) * sizeof(char));
 		} else {
 			fprintf(stderr,
 				"omapconf: %s(): cpu not supported!!!\n",
@@ -305,6 +308,8 @@ int temp_sensor_s2id(const char *sensor)
 			id = (int) TEMP54XX_PCB;
 		else if (strcasecmp(sensor, TEMP_SENSOR_CASE) == 0)
 			id = (int) TEMP54XX_CASE;
+		else if (strcasecmp(sensor, TEMP_SENSOR_CHARGER) == 0)
+			id = (int) TEMP54XX_CHARGER;
 		else
 			id = OMAPCONF_ERR_ARG;
 	} else {

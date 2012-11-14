@@ -71,6 +71,7 @@ typedef enum {
 #define TEMP_SENSOR_CORE	((const char *) "CORE") /* OMAP5 */
 #define TEMP_SENSOR_PCB		((const char *) "PCB") /* Common */
 #define TEMP_SENSOR_CASE	((const char *) "CASE") /* OMAP5 */
+#define TEMP_SENSOR_CHARGER	((const char *) "CHARGER") /* OMAP5 */
 
 
 void temp_sensor_init(void);

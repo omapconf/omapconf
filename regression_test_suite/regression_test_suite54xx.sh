@@ -362,6 +362,7 @@ if  [ $all_tests = 1 ] || [ $tests = temp ]; then
 	compare "show temp mem2" "SHOW TEMP MEM2" 0
 	compare "show temp pcb" "SHOW TEMP PCB" 0
 	compare "show temp case" "SHOW TEMP CASE" 1
+	compare "show temp charger" "SHOW TEMP CHARGER" 1
 fi
 
 

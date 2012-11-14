@@ -134,7 +134,7 @@ void help54xx(help_category cat, char *context)
 		printf(
 			"\t    Print temperature reported by <sensor>, in celcius degrees.\n");
 		printf(
-			"\t    Supported <sensor>: mpu, mpu_hotspot, gpu, gpu_hotspot, core, pcb, case, mem1, mem2, all.\n");
+			"\t    Supported <sensor>: mpu, mpu_hotspot, gpu, gpu_hotspot, core, pcb, case, mem1, mem2, charger, all.\n");
 		printf(
 			"\t    If <sensor> is omitted or <sensor> = all, all available sensors will be printed in a table, with both celcius and fahrenheit degrees.\n");
 	}

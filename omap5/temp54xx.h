@@ -60,6 +60,7 @@ typedef enum {
 	TEMP54XX_EMIF2,
 	TEMP54XX_PCB,
 	TEMP54XX_CASE,
+	TEMP54XX_CHARGER,
 	TEMP54XX_ID_MAX
 } temp54xx_sensor_id;
 

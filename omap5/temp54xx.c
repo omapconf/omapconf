@@ -71,6 +71,7 @@ const char *temp54xx_sensor_names[TEMP54XX_ID_MAX + 1] = {
 	"EMIF2",
 	"PCB",
 	"CASE",
+	"CHARGER",
 	"FIXME"};
 
 
@@ -139,8 +140,9 @@ int temp54xx_get(temp54xx_sensor_id id)
 		"/sys/kernel/debug/thermal_debug/devices/omap_core_sensor/temperature",
 		"/sys/kernel/debug/emif.1/mr4",
 		"/sys/kernel/debug/emif.2/mr4",
-		"/sys/kernel/debug/thermal_debug/devices/tmp102_sensor/temperature",
-		"/sys/kernel/debug/thermal_debug/devices/tmp006_sensor/temperature"};
+		"/sys/kernel/debug/thermal_debug/devices/tmp102_temp_sensor.72/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/tmp006_sensor/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/tmp102_temp_sensor.73/temperature"};
 	static const char *sensor_filenames2[TEMP54XX_ID_MAX] = {
 		"/sys/devices/platform/omap/omap_temp_sensor.0/temp1_input",
 		"/sys/kernel/debug/thermal_debug/devices/omap_cpu_governor/hotspot_temp",
@@ -149,8 +151,9 @@ int temp54xx_get(temp54xx_sensor_id id)
 		"/sys/devices/platform/omap/omap_temp_sensor.2/temp1_input",
 		"/sys/kernel/debug/emif.1/mr4",
 		"/sys/kernel/debug/emif.2/mr4",
-		"/sys/kernel/debug/thermal_debug/devices/tmp102_sensor/temperature",
-		"/sys/kernel/debug/thermal_debug/devices/tmp006_sensor/temperature"};
+		"/sys/kernel/debug/thermal_debug/devices/tmp102_temp_sensor.72/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/tmp006_sensor/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/tmp102_temp_sensor.73/temperature"};
 	static const char *sensor_filenames3[TEMP54XX_ID_MAX] = {
 		"/sys/devices/platform/omap/omap4plus_scm.0/temp_sensor_hwmon.0/temp1_input",
 		"/sys/kernel/debug/thermal_debug/devices/omap_cpu_governor/hotspot_temp",
@@ -159,8 +162,9 @@ int temp54xx_get(temp54xx_sensor_id id)
 		"/sys/devices/platform/omap/omap4plus_scm.0/temp_sensor_hwmon.2/temp1_input",
 		"/sys/kernel/debug/emif.1/mr4",
 		"/sys/kernel/debug/emif.2/mr4",
-		"/sys/kernel/debug/thermal_debug/devices/tmp102_sensor/temperature",
-		"/sys/kernel/debug/thermal_debug/devices/tmp006_sensor/temperature"};
+		"/sys/kernel/debug/thermal_debug/devices/tmp102_temp_sensor.72/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/tmp006_sensor/temperature",
+		"/sys/kernel/debug/thermal_debug/devices/tmp102_temp_sensor.73/temperature"};
 	static const char **sensor_filenames_list[3] = {
 		sensor_filenames1,
 		sensor_filenames2,
