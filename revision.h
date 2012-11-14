@@ -47,7 +47,7 @@
 
 
 #define OMAPCONF_REV_MAJOR	1
-#define OMAPCONF_REV_MINOR	51
+#define OMAPCONF_REV_MINOR	52
 
 extern char *builddate;
 

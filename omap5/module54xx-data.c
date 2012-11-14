@@ -975,7 +975,7 @@ const double mod54xx_por_rates_table[MOD54XX_ID_MAX][OPP_MAX] = {
 	{-1.0, -1.0, 19.2, -1.0, -1.0, -1.0}, /* OMAP5_SMARTREFLEX_CORE */
 	{-1.0, -1.0, 19.2, -1.0, -1.0, -1.0}, /* OMAP5_SMARTREFLEX_MM */
 	{-1.0, -1.0, 19.2, -1.0, -1.0, -1.0}, /* OMAP5_SMARTREFLEX_MPU */
-	{-1.0, -1.0, -1.0, -1.0, -1.0, -1.0}, /* OMAP5_BANDGAPTS */
+	{-1.0, -1.0, 1.2, -1.0, -1.0, -1.0}, /* OMAP5_BANDGAPTS */
 	{-1.0, -1.0, 19.2, -1.0, -1.0, -1.0}, /* OMAP5_IO_SRCOMP_CORE */
 	{-1.0, -1.0, 0.032768, -1.0, -1.0, -1.0}, /* OMAP5_USB_PHY_CORE */
 	/* Voltage dom.: CORE, Power dom.: CAM, Clock domain = CAM */
@@ -1096,12 +1096,12 @@ const double mod54xx_por_rates_table[MOD54XX_ID_MAX][OPP_MAX] = {
 	{-1.0, 19.2, 19.2, -1.0, -1.0, -1.0}, /* OMAP5_TIMER8 */
 	{0.032768, 0.032768, 0.032768, -1.0, -1.0, -1.0}, /* OMAP5_WD_TIMER3 */
 	/* Voltage dom.: MM, Power dom.: DSP, Clock domain = DSP */
-	{98.304, 232.960, 465.92, 532.0, -1.0, -1.0}, /* OMAP5_DSP */
+	{98.304, 232.960, 465.919, 532.0, -1.0, -1.0}, /* OMAP5_DSP */
 	/* Voltage dom.: MM, Power dom.: GPU, Clock domain = GPU */
-	{98.304, 177.333, 354.667, 532.0, -1.0, -1.0}, /* OMAP5_GPU */
+	{98.304, 177.333, 354.666, 532.0, -1.0, -1.0}, /* OMAP5_GPU */
 	/* Voltage dom.: MM, Power dom.: IVA, Clock domain = IVA */
-	{98.304, 194.133, 388.267, 532.0, -1.0, -1.0}, /* OMAP5_IVA */
-	{98.304, 194.133, 388.267, 532.0, -1.0, -1.0}, /* OMAP5_SL2 */
+	{98.304, 194.133, 388.266, 532.0, -1.0, -1.0}, /* OMAP5_IVA */
+	{98.304, 194.133, 388.266, 532.0, -1.0, -1.0}, /* OMAP5_SL2 */
 	/* Voltage dom.: MPU, Power dom.: MPUAON Clock domain = MPU */
 	{196.608, 400.0, 800.0, 1100.0, 1200.0, -1.0} }; /* OMAP5_MPU */
 

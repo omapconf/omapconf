@@ -71,6 +71,8 @@
 #include <audit.h>
 #include <timestamp_32k.h>
 #include <sci_swcapture.h>
+#include <temperature.h>
+#include <opp.h>
 
 
 /* #define MAIN54XX_DEBUG */
@@ -641,7 +643,6 @@ int main54xx_trace(int argc, char *argv[])
 int main54xx_show(int argc, char *argv[])
 {
 	int ret;
-	temp54xx_sensor_id sensor_id;
 
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(argv, OMAPCONF_ERR_ARG);
@@ -653,7 +654,7 @@ int main54xx_show(int argc, char *argv[])
 		return prcm54xx_config_show(stdout, argc - 1, argv + 1);
 	} else if (strcmp(argv[0], "opp") == 0) {
 		if (argc == 1)
-			return lib54xx_opp_show();
+			return opp_show(stdout);
 		else
 			return err_arg_too_many_msg_show(HELP_SOC_OPP);
 	} else if (strcmp(argv[0], "pwst") == 0) {
@@ -663,15 +664,14 @@ int main54xx_show(int argc, char *argv[])
 			return err_arg_too_many_msg_show(HELP_SOC_PWST);
 	} else if (strcmp(argv[0], "temp") == 0) {
 		if (argc == 1) {
-			return temp54xx_show(stdout, TEMP54XX_ID_MAX);
+			return temp_sensor_show(stdout, "all");
 		} else if (argc == 2) {
 			if (strcmp(argv[1], "all") == 0)
-				return temp54xx_show(stdout, TEMP54XX_ID_MAX);
-			sensor_id = temp54xx_s2id(argv[1]);
-			if (sensor_id == TEMP54XX_ID_MAX)
-				return err_arg_msg_show(HELP_TEMPERATURE);
+				return temp_sensor_show(stdout, argv[1]);
+			else if (temp_sensor_is_available(argv[1]) != 0)
+				return temp_sensor_show(stdout, argv[1]);
 			else
-				return temp54xx_show(stdout, sensor_id);
+				return err_arg_msg_show(HELP_TEMPERATURE);
 		} else {
 			return err_arg_too_many_msg_show(HELP_TEMPERATURE);
 		}
@@ -1069,6 +1069,8 @@ main54xx_err_arg:
 	ret = OMAPCONF_ERR_ARG;
 
 main54xx_end:
+	/* Deinitializations */
 	dpll54xx_free();
+
 	return ret;
 }

@@ -50,7 +50,7 @@
 #include <cpufreq.h>
 #include <lib.h>
 #include <lib44xx.h>
-#include <temperature44xx.h>
+#include <temperature.h>
 #include <temp54xx.h>
 #include <clock44xx.h>
 #include <module54xx.h>
@@ -1208,9 +1208,9 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	int *pcb_temp = NULL;
 	int pcb_temp_min, pcb_temp_max;
 	double pcb_temp_avg;
-	int *hotspot_temp = NULL;
-	int hotspot_temp_min, hotspot_temp_max;
-	double hotspot_temp_avg;
+	int *hotspot_mpu_temp = NULL;
+	int hotspot_mpu_temp_min, hotspot_mpu_temp_max;
+	double hotspot_mpu_temp_avg;
 
 	/* Variables for OMAP5 temperature items */
 	int *temps[TEMP54XX_ID_MAX];
@@ -1349,9 +1349,9 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	pcb_temp_min = 200; /* PCB Temp Min */
 	pcb_temp_max = TEMP_ABSOLUTE_ZERO; /* PCB Temp Max */
 	pcb_temp_avg = 0.0; /* PCB Temp Avg */
-	hotspot_temp_min = 200;
-	hotspot_temp_max = TEMP_ABSOLUTE_ZERO;
-	hotspot_temp_avg = 0.0;
+	hotspot_mpu_temp_min = 200;
+	hotspot_mpu_temp_max = TEMP_ABSOLUTE_ZERO;
+	hotspot_mpu_temp_avg = 0.0;
 	for (i = 0; i < (int) TEMP54XX_ID_MAX; i++) {
 		temps_min[i] = 200;
 		temps_max[i] = TEMP_ABSOLUTE_ZERO ;
@@ -1531,29 +1531,29 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		}
 	}
 
-	if (p_flags[HOTSPOT_TEMP]) {
-		if (cpu_is_omap44xx() &&
-			(temp44xx_hotspot_temp_get() != TEMP_ABSOLUTE_ZERO)) {
-			hotspot_temp = malloc(sample_cnt * sizeof(int));
-			if (hotspot_temp == NULL) {
+	if (p_flags[HOTSPOT_MPU_TEMP]) {
+		if ((cpu_is_omap44xx() || cpu_is_omap54xx()) &&
+			(temp_sensor_get(TEMP_SENSOR_HOTSPOT_MPU) != TEMP_ABSOLUTE_ZERO)) {
+			hotspot_mpu_temp = malloc(sample_cnt * sizeof(int));
+			if (hotspot_mpu_temp == NULL) {
 				fprintf(stderr,
-					"omapconf: could not allocate buffer for hotspot_temp!\n");
+					"omapconf: could not allocate buffer for hotspot_mpu_temp!\n");
 				ret = OMAPCONF_ERR_NOT_AVAILABLE;
 				goto trace_perf_capture_err;
 			}
 		} else {
 			fprintf(stderr,
 				"omapconf: warning: HOTSPOT temperature sensor not available, skipping it.\n");
-			p_flags[HOTSPOT_TEMP] = 0;
+			p_flags[HOTSPOT_MPU_TEMP] = 0;
 		}
 	}
 
 	if (p_flags[MPU_TEMP]) {
 		if (cpu_is_omap54xx()) {
-			temps[TEMP54XX_CPU] = malloc(sample_cnt * sizeof(int));
-			if (temps[TEMP54XX_CPU] == NULL) {
+			temps[TEMP54XX_MPU] = malloc(sample_cnt * sizeof(int));
+			if (temps[TEMP54XX_MPU] == NULL) {
 				fprintf(stderr,
-					"omapconf: could not allocate buffer for temps[TEMP54XX_CPU]!\n");
+					"omapconf: could not allocate buffer for temps[TEMP54XX_MPU]!\n");
 				ret = OMAPCONF_ERR_NOT_AVAILABLE;
 				goto trace_perf_capture_err;
 			}
@@ -1728,38 +1728,35 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				__func__, gpu_freq[sample]);
 		}
 
+		/* Get bandgap sensor temperature */
 		if (p_flags[BANDGAP_TEMP]) {
-			/* Get bandgap sensor temperature */
-			ret = temp44xx_read_bandgap_sensor(
-				&(bandgap_temp[sample]));
+			bandgap_temp[sample] =
+				temp_sensor_get(TEMP_SENSOR_BANDGAP);
 			dprintf("%s(): bandgap_temp = %dC\n", __func__,
 				bandgap_temp[sample]);
 		}
 
+		/* Get PCB sensor temperature */
 		if (p_flags[PCB_TEMP]) {
-			/* Get PCB sensor temperature */
-			if (cpu_is_omap44xx())
-				ret = temp44xx_read_pcb_sensor(
-					&(pcb_temp[sample]));
-			else
-				pcb_temp[sample] = temp54xx_get(TEMP54XX_PCB);
+			pcb_temp[sample] = temp_sensor_get(TEMP_SENSOR_PCB);
 			dprintf("%s(): pcb_temp = %dC\n", __func__,
 				pcb_temp[sample]);
 		}
 
 		/* Get HOTSPOT temperature */
-		if (p_flags[HOTSPOT_TEMP]) {
-			hotspot_temp[sample] = temp44xx_hotspot_temp_get();
-			dprintf("%s(): hotspot_temp = %dC\n", __func__,
-				hotspot_temp[sample]);
+		if (p_flags[HOTSPOT_MPU_TEMP]) {
+			hotspot_mpu_temp[sample] =
+				temp_sensor_get(TEMP_SENSOR_HOTSPOT_MPU);
+			dprintf("%s(): hotspot_mpu_temp = %dC\n", __func__,
+				hotspot_mpu_temp[sample]);
 		}
 
 		/* Get CPU sensor temperature */
 		if (p_flags[MPU_TEMP]) {
-			temps[TEMP54XX_CPU][sample] =
-				temp54xx_get(TEMP54XX_CPU);
+			temps[TEMP54XX_MPU][sample] =
+				temp54xx_get(TEMP54XX_MPU);
 			dprintf("%s(): cpu_temp = %dC\n", __func__,
-				temps[TEMP54XX_CPU][sample]);
+				temps[TEMP54XX_MPU][sample]);
 		}
 
 		/* Get GPU sensor temperature */
@@ -2049,14 +2046,14 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		}
 
 		/* Compute and save HOTSPOT temperature */
-		if (p_flags[HOTSPOT_TEMP]) {
-			if (hotspot_temp[sample] > hotspot_temp_max)
-				hotspot_temp_max = hotspot_temp[sample];
-			if (hotspot_temp[sample] < hotspot_temp_min)
-				hotspot_temp_min = hotspot_temp[sample];
-			hotspot_temp_avg = avg_recalc(hotspot_temp_avg,
-				hotspot_temp[sample], sample - 1);
-			sprintf(s, "%d", hotspot_temp[sample]);
+		if (p_flags[HOTSPOT_MPU_TEMP]) {
+			if (hotspot_mpu_temp[sample] > hotspot_mpu_temp_max)
+				hotspot_mpu_temp_max = hotspot_mpu_temp[sample];
+			if (hotspot_mpu_temp[sample] < hotspot_mpu_temp_min)
+				hotspot_mpu_temp_min = hotspot_mpu_temp[sample];
+			hotspot_mpu_temp_avg = avg_recalc(hotspot_mpu_temp_avg,
+				hotspot_mpu_temp[sample], sample - 1);
+			sprintf(s, "%d", hotspot_mpu_temp[sample]);
 			fprintf(fp, ", %s", s);
 		} else {
 			fputs(", NA", fp);
@@ -2064,18 +2061,18 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 
 		/* Compute and save CPU sensor temperature */
 		if (p_flags[MPU_TEMP]) {
-			if (temps[TEMP54XX_CPU][sample] >
-				temps_max[TEMP54XX_CPU])
-				temps_max[TEMP54XX_CPU] =
-					temps[TEMP54XX_CPU][sample];
-			if (temps[TEMP54XX_CPU][sample] <
-				temps_min[TEMP54XX_CPU])
-				temps_min[TEMP54XX_CPU] =
-					temps[TEMP54XX_CPU][sample];
-			temps_avg[TEMP54XX_CPU] = avg_recalc(
-				temps_avg[TEMP54XX_CPU],
-				temps[TEMP54XX_CPU][sample], sample - 1);
-			fprintf(fp, ", %d", temps[TEMP54XX_CPU][sample]);
+			if (temps[TEMP54XX_MPU][sample] >
+				temps_max[TEMP54XX_MPU])
+				temps_max[TEMP54XX_MPU] =
+					temps[TEMP54XX_MPU][sample];
+			if (temps[TEMP54XX_MPU][sample] <
+				temps_min[TEMP54XX_MPU])
+				temps_min[TEMP54XX_MPU] =
+					temps[TEMP54XX_MPU][sample];
+			temps_avg[TEMP54XX_MPU] = avg_recalc(
+				temps_avg[TEMP54XX_MPU],
+				temps[TEMP54XX_MPU][sample], sample - 1);
+			fprintf(fp, ", %d", temps[TEMP54XX_MPU][sample]);
 		} else {
 			fputs(", NA", fp);
 		}
@@ -2244,13 +2241,13 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	}
 	if (p_flags[MPU_TEMP]) {
 		strncpy(table[row][0], "CPU Temperature", TABLE_MAX_ELT_LEN);
-		if (temps_avg[TEMP54XX_CPU] != TEMP_ABSOLUTE_ZERO) {
+		if (temps_avg[TEMP54XX_MPU] != TEMP_ABSOLUTE_ZERO) {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%dC",
-				temps_min[TEMP54XX_CPU]);
+				temps_min[TEMP54XX_MPU]);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%dC",
-				temps_max[TEMP54XX_CPU]);
+				temps_max[TEMP54XX_MPU]);
 			snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2lfC",
-				temps_avg[TEMP54XX_CPU]);
+				temps_avg[TEMP54XX_MPU]);
 		} else {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "NA");
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "NA");
@@ -2390,16 +2387,16 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		}
 		row++;
 	}
-	if (p_flags[HOTSPOT_TEMP]) {
-		strncpy(table[row][0], "HOTSPOT Temperature",
+	if (p_flags[HOTSPOT_MPU_TEMP]) {
+		strncpy(table[row][0], "MPU HOTSPOT Temperature",
 			TABLE_MAX_ELT_LEN);
-		if (hotspot_temp_avg != TEMP_ABSOLUTE_ZERO) {
+		if (hotspot_mpu_temp_avg != TEMP_ABSOLUTE_ZERO) {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%dC",
-				hotspot_temp_min);
+				hotspot_mpu_temp_min);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%dC",
-				hotspot_temp_max);
+				hotspot_mpu_temp_max);
 			snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2lfC",
-				hotspot_temp_avg);
+				hotspot_mpu_temp_avg);
 		} else {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "NA");
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "NA");
@@ -2479,7 +2476,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		chart_count++;
 	if (p_flags[CPU_FREQ] || p_flags[GPU_FREQ] || p_flags[L3_FREQ])
 		chart_count++;
-	if (p_flags[BANDGAP_TEMP] || p_flags[PCB_TEMP] || p_flags[HOTSPOT_TEMP])
+	if (p_flags[BANDGAP_TEMP] || p_flags[PCB_TEMP] || p_flags[HOTSPOT_MPU_TEMP])
 		chart_count++;
 	for (i = 0; i < geninput_num; i++) {
 		if (geninput_flags[i]) {
@@ -2649,7 +2646,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		if (p_flags[BANDGAP_TEMP] || p_flags[PCB_TEMP] ||
 			p_flags[MPU_TEMP] || p_flags[GPU_TEMP] ||
 			p_flags[CORE_TEMP] || p_flags[CASE_TEMP] ||
-			p_flags[HOTSPOT_TEMP]) {
+			p_flags[HOTSPOT_MPU_TEMP]) {
 			/* Plot temperatures over time */
 			fprintf(fp, "set size 1.0,%.2lf\n", height);
 			fprintf(fp, "set origin 0,%.2lf\n",
@@ -2662,7 +2659,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 					p_flags[GPU_TEMP] ||
 					p_flags[CORE_TEMP] ||
 					p_flags[CASE_TEMP] ||
-					p_flags[HOTSPOT_TEMP])
+					p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"plot '%s' using 1:%d ls 7 title 'Bandgap' with lines,\\\n",
 						trace_perf_file,
@@ -2682,7 +2679,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				if (p_flags[MPU_TEMP] || p_flags[GPU_TEMP] ||
 					p_flags[CORE_TEMP] ||
 					p_flags[CASE_TEMP] ||
-					p_flags[HOTSPOT_TEMP])
+					p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"     '%s' using 1:%d ls 3 title 'PCB' with lines,\\\n",
 						trace_perf_file, PCB_TEMP + 1);
@@ -2699,7 +2696,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 					fprintf(fp, "plot ");
 				if (p_flags[GPU_TEMP] || p_flags[CORE_TEMP] ||
 					p_flags[CASE_TEMP] ||
-					p_flags[HOTSPOT_TEMP])
+					p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"     '%s' using 1:%d ls 1 title 'MPU' with lines,\\\n",
 						trace_perf_file, MPU_TEMP + 1);
@@ -2717,7 +2714,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				else
 					fprintf(fp, "plot ");
 				if (p_flags[CORE_TEMP] || p_flags[CASE_TEMP] ||
-					p_flags[HOTSPOT_TEMP])
+					p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"     '%s' using 1:%d ls 2 title 'GPU' with lines,\\\n",
 						trace_perf_file, GPU_TEMP + 1);
@@ -2735,7 +2732,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 					fprintf(fp, "     ");
 				else
 					fprintf(fp, "plot ");
-				if (p_flags[CASE_TEMP] || p_flags[HOTSPOT_TEMP])
+				if (p_flags[CASE_TEMP] || p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"     '%s' using 1:%d ls 7 title 'CORE' with lines,\\\n",
 						trace_perf_file, CORE_TEMP + 1);
@@ -2754,7 +2751,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 					fprintf(fp, "     ");
 				else
 					fprintf(fp, "plot ");
-				if (p_flags[HOTSPOT_TEMP])
+				if (p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"     '%s' using 1:%d ls 5 title 'CASE' with lines,\\\n",
 						trace_perf_file, CASE_TEMP + 1);
@@ -2764,7 +2761,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 						trace_perf_file, CASE_TEMP + 1);
 			}
 
-			if (p_flags[HOTSPOT_TEMP]) {
+			if (p_flags[HOTSPOT_MPU_TEMP]) {
 				if (p_flags[BANDGAP_TEMP] ||
 					p_flags[PCB_TEMP] ||
 					p_flags[MPU_TEMP] ||
@@ -2775,8 +2772,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				else
 					fprintf(fp, "plot ");
 				fprintf(fp,
-					"     '%s' using 1:%d ls 1 title 'HotSpot' with lines;\n",
-					trace_perf_file, HOTSPOT_TEMP + 1);
+					"     '%s' using 1:%d ls 1 title 'MPU HotSpot' with lines;\n",
+					trace_perf_file, HOTSPOT_MPU_TEMP + 1);
 			}
 			fprintf(fp, "\n");
 			chart_count++;
@@ -2888,8 +2885,8 @@ trace_perf_capture_err:
 		free(bandgap_temp);
 	if (pcb_temp != NULL)
 		free(pcb_temp);
-	if (hotspot_temp != NULL)
-		free(hotspot_temp);
+	if (hotspot_mpu_temp != NULL)
+		free(hotspot_mpu_temp);
 	for (i = 0; i < (int) TEMP54XX_ID_MAX; i++) {
 		if (temps[i] != NULL)
 			free(temps[i]);

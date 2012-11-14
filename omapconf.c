@@ -60,6 +60,10 @@
 #include <mem.h>
 #include <lib54xx.h>
 #include <trace.h>
+#include <mem.h>
+#include <opp.h>
+#include <voltdm.h>
+#include <temperature.h>
 
 
 /* #define DEBUG */
@@ -853,6 +857,16 @@ static int main_options_scan(int *argc, char **argv[])
 				"\n### FAKE MEMORY ACCESS DEBUG MODE ENABLED ###\n\n");
 			cpt++;
 			ret++;
+		} else if (strcmp((*argv)[i], "--trace_read") == 0) {
+			/* Trace all memory read access */
+			mem_read_trace_enable(1);
+			cpt++;
+			ret++;
+		} else if (strcmp((*argv)[i], "--trace_write") == 0) {
+			/* Trace all memory write access */
+			mem_write_trace_enable(1);
+			cpt++;
+			ret++;
 		}
 	}
 
@@ -1175,6 +1189,11 @@ main_exit:
 
 	/* Unmap last mapped memory page */
 	mem_unmap();
+
+	/* Deinitializations */
+	opp_deinit();
+	voltdm_deinit();
+	temp_sensor_deinit();
 
 	return ret;
 }

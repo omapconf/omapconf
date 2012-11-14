@@ -294,7 +294,7 @@ double clk44xx_get_system_clock_speed(void)
 		dprintf("%s(): crystal rate = 16.8MHz\n", __func__);
 		return 16.8; /* 16.8MHz */
 	case 4:
-		dprintf("%s(): crystal rate = 19.2MHz\n, __func__");
+		dprintf("%s(): crystal rate = 19.2MHz\n", __func__);
 		return 19.2; /* 19.2MHz */
 	case 5:
 		dprintf("%s(): crystal rate = 26MHz\n", __func__);
@@ -375,7 +375,7 @@ double clk44xx_get_clock_speed(clock44xx_id clk_id,
 	double src_clk_speed, out_clk_speed;
 	clock44xx_id src_clk_id;
 	double div;
-	#ifdef CLK44XX_GET_CLOCK_SPEED_DEBUG
+	#if defined (CLK44XX_GET_CLOCK_SPEED_DEBUG) || defined (CLOCK44XX_DEBUG)
 	char clk_name[CLOCK44XX_MAX_NAME_LENGTH];
 	char src_clk_name[CLOCK44XX_MAX_NAME_LENGTH];
 	#endif

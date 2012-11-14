@@ -44,6 +44,11 @@
 
 #include <module.h>
 #include <lib.h>
+#include <string.h>
+#include <module44xx.h>
+#include <module54xx.h>
+#include <cpuinfo.h>
+#include <opp.h>
 
 
 /* #define MOD_DEBUG */
@@ -288,4 +293,436 @@ unsigned int mod_is_accessible(unsigned int cm_clkctrl)
 		fprintf(stderr, "%s(): ?!?!?!?! => NOT accessible\n", __func__);
 		return 0;
 	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		mod_id_get
+ * @BRIEF		return the platform-specific module ID corresponding to
+ *			generic module name provided as argument.
+ * @RETURNS		platform-specific module ID (>0) in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_NOT_AVAILABLE
+ * @param[in]		mod: module name, as defined in module.h
+ * @DESCRIPTION		return the platform-specific module ID corresponding to
+ *			generic module name provided as argument.
+ *//*------------------------------------------------------------------------ */
+int mod_id_get(const char *mod)
+{
+	int mod_id;
+	#ifdef MOD_DEBUG
+	char name[MOD44XX_MAX_NAME_LENGTH];
+	#endif
+
+	/* FIXME: TACTICAL IMPLEMENTATION, NEED TO BE REWORKED/COMPLETED!!! */
+
+	CHECK_NULL_ARG(mod, OMAPCONF_ERR_ARG);
+
+	if (strcmp(mod, "MPU") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_MPU;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_MPU;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "IVA") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_IVAHD;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_IVA;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "DSP") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_DSP;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_DSP;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "GPU") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_GFX;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_GPU;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "AESS") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_AESS;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_AESS;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "L3") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_L3_1;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_L3_MAIN1_INTERCONNECT;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "L4") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_L4_CFG;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_L4_CFG_INTERCONNECT;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "EMIF") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_EMIF1;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_EMIF1;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "MEM") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_DDRPHY;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_PHY_EMIF;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "ISS") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_ISS;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_ISS;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "FDIF") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_FDIF;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_FDIF;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "CAL") == 0) {
+		if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_CAL;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "IPU") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_MPU_M3;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_IPU;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "DSS") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_DISPC;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_DSS;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "BB2D") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_BB2D;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_BB2D;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "HSI") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_HSI;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_HSI;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else if (strcmp(mod, "C2C") == 0) {
+		if (cpu_is_omap44xx())
+			mod_id = (int) OMAP4_C2C;
+		else if (cpu_is_omap54xx())
+			mod_id = (int) OMAP5_C2C;
+		else
+			mod_id = (int) OMAPCONF_ERR_CPU;
+	} else {
+		mod_id = (int) OMAPCONF_ERR_NOT_AVAILABLE;
+	}
+
+	#ifdef MOD_DEBUG
+	if (cpu_is_omap44xx())
+		printf("%s(%s) = %d (%s)\n", __func__, mod, mod_id,
+			mod44xx_get_name(mod_id, name));
+	else if (cpu_is_omap54xx())
+		printf("%s(%s) = %d (%s)\n", __func__, mod, mod_id,
+			mod54xx_name_get(mod_id));
+	#endif
+	return mod_id;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		mod_clk_rate_get
+ * @BRIEF		return the module functional clock rate, in KHz.
+ * @RETURNS		module functional clock rate, in KHz.
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_NOT_AVAILABLE
+ * @param[in]		mod: module name, as defined in module.h
+ * @DESCRIPTION		return the module functional clock rate, in KHz.
+ *//*------------------------------------------------------------------------ */
+int mod_clk_rate_get(const char *mod)
+{
+	int ret, mod_id, rate_khz;
+	double rate_mhz;
+	clock44xx_id clk_id;
+	opp44xx_id opp_id;
+
+	CHECK_NULL_ARG(mod, OMAPCONF_ERR_ARG);
+
+	/* FIXME: TACTICAL IMPLEMENTATION, NEED TO BE REWORKED/COMPLETED!!! */
+
+	mod_id = mod_id_get(mod);
+	if (mod_id < 0) {
+		dprintf("%s(%s): could not retrieve module ID! (%d)\n",
+			__func__, mod, mod_id);
+		rate_khz = mod_id;
+	} else if (cpu_is_omap44xx()) {
+		ret = mod44xx_get_clk_speed((mod44xx_id) mod_id,
+			&clk_id, &opp_id, &rate_mhz);
+		if (ret != 0) {
+			dprintf(
+				"%s(%s): could not retrieve module rate! (%d)\n",
+				__func__, mod, ret);
+			rate_khz = ret;
+		} else {
+			if (mod_id == OMAP4_DDRPHY)
+				rate_mhz /= 2.0;
+			rate_khz = mhz2khz(rate_mhz);
+		}
+	} else if (cpu_is_omap54xx()) {
+		rate_mhz = mod54xx_clk_rate_get((mod54xx_id) mod_id, 1);
+		if (rate_mhz < 0) {
+			dprintf(
+				"%s(%s): could not retrieve module rate! (%d)\n",
+				__func__, mod, (int) rate_mhz);
+			rate_khz = (int) rate_mhz;
+		} else {
+			rate_khz = mhz2khz(rate_mhz);
+		}
+	} else {
+		fprintf(stderr, "omapconf: %s(): cpu not supported!!!\n",
+			__func__);
+		rate_khz = OMAPCONF_ERR_CPU;
+	}
+
+	dprintf("%s(%s) = %d KHz\n", __func__, mod, rate_khz);
+	return rate_khz;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		mod_mode_get
+ * @BRIEF		return the module module.
+ * @RETURNS		module module in case of success
+ *			MOD_MODULE_MODE_MAX otherwise
+ * @param[in]		mod: module name, as defined in module.h
+ * @DESCRIPTION		return the module module.
+ *//*------------------------------------------------------------------------ */
+mod_module_mode mod_mode_get(const char *mod)
+{
+	mod_module_mode mmode;
+
+	/* FIXME: TACTICAL IMPLEMENTATION, NEED TO BE REWORKED/COMPLETED!!! */
+
+	CHECK_NULL_ARG(mod, MOD_MODULE_MODE_MAX);
+
+	if (strcmp(mod, "MPU") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_MPU, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_MPU);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "IVA") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_IVAHD, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_IVA);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "DSP") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_DSP, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_DSP);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "GPU") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_GFX, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_GPU);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "AESS") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_AESS, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_AESS);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "L3") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_L3_1, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_L3_MAIN1_INTERCONNECT);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "L4") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_L4_CFG, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_L4_CFG_INTERCONNECT);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "EMIF") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_EMIF1, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_EMIF1);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "MEM") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_DDRPHY, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_PHY_EMIF);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "ISS") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_ISS, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_ISS);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "FDIF") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_FDIF, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_FDIF);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "CAL") == 0) {
+		if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_CAL);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "IPU") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_MPU_M3, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_IPU);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "DSS") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_DISPC, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_DSS);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "BB2D") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_BB2D, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_BB2D);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "HSI") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_HSI, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_HSI);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else if (strcmp(mod, "C2C") == 0) {
+		if (cpu_is_omap44xx())
+			mod44xx_get_mode(OMAP4_C2C, &mmode);
+		else if (cpu_is_omap54xx())
+			mmode = mod54xx_mode_get(OMAP5_C2C);
+		else
+			mmode = MOD_MODULE_MODE_MAX;
+	} else {
+		mmode = MOD_MODULE_MODE_MAX;
+	}
+
+	dprintf("%s(%s) = %s\n", __func__, mod,
+		mod_module_mode_name_get(mmode));
+	return mmode;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		mod_por_clk_rate_get
+ * @BRIEF		return the recommended module functional clock rate,
+ *			in KHz, for a given OPerating Point (OPP),
+ *			as defined in Data Manual.
+ * @RETURNS		module recommended functional clock rate, in KHz.
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_NOT_AVAILABLE
+ * @param[in]		mod: module name, as defined in module.h
+ * @DESCRIPTION		return the recommended module functional clock rate,
+ *			in KHz, for a given OPerating Point (OPP),
+ *			as defined in Data Manual.
+ *//*------------------------------------------------------------------------ */
+int mod_por_clk_rate_get(const char *mod, const char *opp)
+{
+	int ret, mod_id, opp_id, rate_khz;
+	double rate_mhz;
+
+	CHECK_NULL_ARG(mod, OMAPCONF_ERR_ARG);
+
+	/* FIXME: TACTICAL IMPLEMENTATION, NEED TO BE REWORKED/COMPLETED!!! */
+
+	mod_id = mod_id_get(mod);
+	if (mod_id < 0) {
+		dprintf("%s(%s): could not retrieve module ID! (%d)\n",
+			__func__, mod, mod_id);
+		rate_khz = mod_id;
+		goto mod_por_clk_rate_get_end;
+	}
+
+	opp_id = opp_s2id(opp);
+	if (opp_id < 0) {
+		dprintf("%s(%s): could not retrieve OPP ID! (%d)\n",
+			__func__, mod, opp_id);
+		rate_khz = opp_id;
+		goto mod_por_clk_rate_get_end;
+	}
+
+	if (cpu_is_omap44xx()) {
+		ret = mod44xx_get_por_clk_speed((mod44xx_id) mod_id,
+			(unsigned short) opp_id, &rate_mhz);
+		if (ret < 0) {
+			dprintf(
+				"%s(%s): could not retrieve module POR rate! (%d)\n",
+				__func__, mod, ret);
+			rate_khz = ret;
+		} else {
+			rate_khz = mhz2khz(rate_mhz);
+		}
+	} else if (cpu_is_omap54xx()) {
+		rate_mhz = mod54xx_por_clk_rate_get(
+			(mod54xx_id) mod_id, (opp54xx_id) opp_id);
+		if (rate_mhz < 0) {
+			rate_khz = (int) rate_mhz;
+			dprintf(
+				"%s(%s): could not retrieve module POR rate! (%d)\n",
+				__func__, mod, rate_khz);
+		} else {
+			rate_khz = mhz2khz(rate_mhz);
+		}
+	} else {
+		fprintf(stderr, "omapconf: %s(): cpu not supported!!!\n",
+			__func__);
+		rate_khz = OMAPCONF_ERR_CPU;
+	}
+
+mod_por_clk_rate_get_end:
+	dprintf("%s(%s) = %d KHz\n", __func__, mod, rate_khz);
+	return rate_khz;
 }

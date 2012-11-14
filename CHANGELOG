@@ -1,3 +1,30 @@
+v1.52:
+-------
+	- [OMAP5][CLKSPEED][AUDIT] fix missing BANDGAPTS expected clock rate
+	- [OMAP5][HELP][TEMP] fix supported memory sensor names in help
+	- [OMAP5][MODULE] fix double rounding side effect with GPU DSP And IVA PoR rates
+	- [OMAP5][TEMP] fix PCB sensor and add CHARGER sensor support
+	- [OMAP5][TEMP] remove unused code
+	- [OMAP5][TEMP] MPU and GPU hotspot sensors support
+	- [OMAP4][TEMP] cleanup code and fix sensors path
+	- [OMAP4][TEMP] fix hotspot sensor file read
+	- [OMAP4][TEMP] use new generic temperature sensor abstracted layer
+	- [OMAP4][CLOCK] fix 2 bugs in debug code
+	- [OMAP4][CLKSPEED][AUDIT] do not skip TIMERs, MCBSP, MCASP modules
+	- [OMAP4][UC_AUDIT] fix Jelly Bean support
+	- [OMAP4460][OMAP4470][OPP] fix VDD_IVA OPP NITROSB expected clock rate
+	- [OMAP4470][OPP] OMAP4470 VDD_CORE OPP100_HIGH support
+	- [PMIC] add function to round voltage
+	- [LIB] add functions to convert clock rates and voltages
+	- [TEMP] introduce generic temperature sensor abstraction layer
+	- [VOLTDM] introduce voltage domain generic abstraction layer
+	- [OPP] introduce OPP generic abstraction layer
+	- [OMAPCONF] add user options to dynamically trace omapconf memory R/W access
+	- [REGRESSIONTESTSUITE][OMAP4][UC_AUDIT] add output files to audit
+	- [REGRESSIONTESTSUITE][TEMP][OMAP5] update script to support new temp options
+	- [REGRESSIONTESTSUITE][OMAP4470] fix OPP50 MPU clock rate
+
+
 v1.51:
 -------
 	- [AUDIT][PERF] fixed empty interrupt statistic when CPU1 is offline

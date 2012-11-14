@@ -131,22 +131,12 @@ void help54xx(help_category cat, char *context)
 
 	if ((cat == HELP_ALL) || (cat == HELP_TEMPERATURE)) {
 		printf("\n\tomapconf show temp [<sensor>]\n");
-		printf("\t    Print temperature reported by <sensor>, in "
-			"celcius degrees.\n");
-		printf("\t    Supported <sensor>: mpu, gpu, core, pcb, case, "
-			"emif1, emif2, all.\n");
-		printf("\t    If <sensor> is omitted or <sensor> = all, "
-			"all available sensors will be printed in a table, "
-			"with both celcius and fahrenheit degrees.\n");
-
-#if 0 /* FIXME */
-		autoadjust_table_strncpy(table, row, 2,
-			"  'EMIF' instance ([1-2]).");
-		row++;
-		autoadjust_table_strncpy(table, row, 2,
-			"  'CS' line ([0-1]).");
-		row += 2;
-#endif
+		printf(
+			"\t    Print temperature reported by <sensor>, in celcius degrees.\n");
+		printf(
+			"\t    Supported <sensor>: mpu, mpu_hotspot, gpu, gpu_hotspot, core, pcb, case, mem1, mem2, charger, all.\n");
+		printf(
+			"\t    If <sensor> is omitted or <sensor> = all, all available sensors will be printed in a table, with both celcius and fahrenheit degrees.\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_DPLL)) {

@@ -51,7 +51,6 @@
 
 
 int lib54xx_pwst_show(FILE *stream);
-int lib54xx_opp_show(void);
 int lib54xx_export(char *file);
 int lib54xx_import(char *file);
 int lib54xx_voltage_set(voltdm54xx_id vdd_id, double volt);

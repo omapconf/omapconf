@@ -145,5 +145,10 @@ const char *mod_idle_status_name_get(mod_idle_status status);
 const char *mod_standby_status_name_get(mod_standby_status status);
 unsigned int mod_is_accessible(unsigned int cm_clkctrl);
 
+int mod_id_get(const char *mod);
+int mod_clk_rate_get(const char *mod);
+int mod_por_clk_rate_get(const char *mod, const char *opp);
+mod_module_mode mod_mode_get(const char *mod);
+
 
 #endif

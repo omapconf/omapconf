@@ -100,23 +100,12 @@ void help44xx(help_category cat, char *context)
 
 	if ((cat == HELP_ALL) || (cat == HELP_TEMPERATURE)) {
 		printf("\n\tomapconf show temp [<sensor>]\n");
-		printf("\t    Print temperature reported by <sensor>, in "
-			"celcius degrees.\n");
-		printf("\t    Supported <sensor>: bandgap, pcb, "
-			"hotspot.\n");
-		printf("\t    If <sensor> is omitted, all available "
-			"sensors will be printed in a table, with both celcius "
-			"and fahrenheit degrees.\n");
-
-		printf("\n\tomapconf show temp mem <emif> <cs>\n");
-		printf("\t    Print memory (LP-DDR2) temperature, in "
-			"celcius degrees.\n");
-		printf("\t    <emif> is the EMIF controller instance ([1-2])"
-			".\n");
-		if (!cpu_is_omap4470())
-			printf("\t    <cs> is the chip select line ([0-1]).\n");
-		else
-			printf("\t    <cs> is the chip select line (0).\n");
+		printf(
+			"\t    Print temperature reported by <sensor>, in celcius degrees.\n");
+		printf(
+			"\t    Supported <sensor>: bandgap, hotspot, mem1, mem2, pcb.\n");
+		printf(
+			"\t    If <sensor> is omitted, all available sensors will be printed in a table, with both celcius and fahrenheit degrees.\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_VOLT)) {

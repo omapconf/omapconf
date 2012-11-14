@@ -16,7 +16,7 @@
 # NOTES: ---
 # AUTHOR: Patrick Titiano
 # COMPANY: Texas Instruments France
-VERSION=1.00
+VERSION=1.01
 # CREATED: 2011-09-06
 # REVISION: ---
 #=================================================================================
@@ -57,8 +57,8 @@ function compare {
 
 	if [ "$1" = "dump dpll" ]; then
 		# EMIF clocks may be gated or not, ignore it
-		$ref_omapconf_bin $1 | grep -v CM_DIV_M2_DPLL_CORE | grep -v CM_DIV_M4_DPLL_CORE > $logfile_ref
-		$new_omapconf_bin $1 | grep -v CM_DIV_M2_DPLL_CORE | grep -v CM_DIV_M4_DPLL_CORE > $logfile_new
+		$ref_omapconf_bin $1 | grep -v CM_DIV_M2_DPLL_CORE | grep -v CM_DIV_M4_DPLL_CORE &> $logfile_ref
+		$new_omapconf_bin $1 | grep -v CM_DIV_M2_DPLL_CORE | grep -v CM_DIV_M4_DPLL_CORE &> $logfile_new
 	elif [ "$1" = "show pwst" ]; then
 		# ignore EMIF status (always changing)
 		$ref_omapconf_bin $1 | grep -v EMIF > $logfile_ref
@@ -102,27 +102,75 @@ function compare {
 	elif [ "$1" = "audit homescreen full_log" ]; then
 		# ignore EMIF status (always changing)
 		$ref_omapconf_bin $1 | grep -v EMIF > $logfile_ref
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat home_screen_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_ref
+		# Append details file to logfile and ignore OMAPCONF header
+		cat home_screen_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_ref
 		$new_omapconf_bin $1 | grep -v EMIF > $logfile_new
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat home_screen_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_new
+		# Append details file to logfile and ignore OMAPCONF header
+		cat home_screen_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_new
 	elif [ "$1" = "audit os_idle full_log" ]; then
 		# ignore EMIF status (always changing)
 		$ref_omapconf_bin $1 | grep -v EMIF > $logfile_ref
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat os_idle_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_ref
+		# Append details file to logfile and ignore OMAPCONF header
+		cat os_idle_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_ref
 		$new_omapconf_bin $1 | grep -v EMIF > $logfile_new
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat os_idle_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_new
+		# Append details file to logfile and ignore OMAPCONF header
+		cat os_idle_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_new
 	elif [ "$1" = "audit mp3 full_log" ]; then
 		# ignore EMIF status (always changing)
 		$ref_omapconf_bin $1 | grep -v EMIF > $logfile_ref
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat mp3_playback_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_ref
+		# Append details file to logfile and ignore OMAPCONF header
+		cat mp3_playback_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_ref
 		$new_omapconf_bin $1 | grep -v EMIF > $logfile_new
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat mp3_playback_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_new
+		# Append details file to logfile and ignore OMAPCONF header
+		cat mp3_playback_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_new
 	elif [ "$1" = "audit play720p full_log" ]; then
 		# ignore EMIF status (always changing)
 		$ref_omapconf_bin $1 | grep -v EMIF > $logfile_ref
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat avplayback_720p_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_ref
+		# Append details file to logfile and ignore OMAPCONF header
+		cat avplayback_720p_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_ref
 		$new_omapconf_bin $1 | grep -v EMIF > $logfile_new
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat avplayback_720p_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_new
+		# Append details file to logfile and ignore OMAPCONF header
+		cat avplayback_720p_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_new
 	elif [ "$1" = "audit play1080p full_log" ]; then
 		# ignore EMIF status (always changing)
 		$ref_omapconf_bin $1 | grep -v EMIF > $logfile_ref
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat avplayback_1080p_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_ref
+		# Append details file to logfile and ignore OMAPCONF header
+		cat avplayback_1080p_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_ref
 		$new_omapconf_bin $1 | grep -v EMIF > $logfile_new
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat avplayback_1080p_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_new
+		# Append details file to logfile and ignore OMAPCONF header
+		cat avplayback_1080p_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_new
 	elif [ "$1" = "audit rec1080p full_log" ]; then
 		# ignore EMIF status (always changing)
 		$ref_omapconf_bin $1 | grep -v EMIF > $logfile_ref
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat avrecord_1080p_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_ref
+		# Append details file to logfile and ignore OMAPCONF header
+		cat avrecord_1080p_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_ref
 		$new_omapconf_bin $1 | grep -v EMIF > $logfile_new
+		# Append summary file to logfile and ignore OMAPCONF header
+		cat avrecord_1080p_uc_audit_summary.txt | grep -v OMAPCONF >> $logfile_new
+		# Append details file to logfile and ignore OMAPCONF header
+		cat avrecord_1080p_uc_audit_details.txt | grep -v OMAPCONF >> $logfile_new
 	else
 		$ref_omapconf_bin $1 > $logfile_ref
 		$new_omapconf_bin $1 > $logfile_new
@@ -228,7 +276,7 @@ fi
 omap_cpu=$($new_omapconf_bin --cpuinfo | grep perf | awk '{print $1}')
 opp_list_4430="300000 600000 800000 1008000"
 opp_list_4460="350000 700000 920000 1200000 1500000"
-opp_list_4470="400000 800000 1100000 1300000 1500000"
+opp_list_4470="396800 800000 1100000 1300000 1500000"
 if [ $omap_cpu = OMAP4430 ]; then
 	opp_list=$opp_list_4430
 elif [ $omap_cpu = OMAP4460 ]; then
@@ -431,15 +479,10 @@ if  [ $all_tests = 1 ] || [ $tests = temp ]; then
 	compare "show temp bandgap" "SHOW TEMP BANDGAP" 0
 	compare "show temp pcb" "SHOW TEMP PCB" 0
 	compare "show temp hotspot" "SHOW TEMP HOTSPOT" 0
-	compare "show temp mem 1 0" "SHOW TEMP MEM 1 0" 0
-	compare "show temp mem 2 0" "SHOW TEMP MEM 2 0" 0
-	if [ $omap_cpu != OMAP4470 ]; then
-		compare "show temp mem 1 1" "SHOW TEMP MEM 1 1" 0
-		compare "show temp mem 2 1" "SHOW TEMP MEM 2 1" 1
-	else
-		echo | tee -a $logfile
-	fi
+	compare "show temp mem1" "SHOW TEMP MEM1" 0
+	compare "show temp mem2" "SHOW TEMP MEM2" 1
 fi
+
 
 # Test EXPORT function(s)
 if  [ $all_tests = 1 ] || [ $tests = export ]; then

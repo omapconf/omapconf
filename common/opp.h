@@ -1,8 +1,9 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			vc44xx.h
- * @Description			OMAP4 VOLTAGE CONTROLLER (VC) Definitions & Functions
+ * @Filename			opp.h
+ * @Description			OPerating Point (OPP) Common Definitions
+ *				& Functions
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2012
  * @Copyright			Texas Instruments Incorporated
@@ -42,43 +43,70 @@
  */
 
 
-#ifndef __VC44XX_H__
-#define __VC44XX_H__
+#ifndef __OPP_H__
+#define __OPP_H__
 
 
 #include <stdio.h>
-#include <voltdm44xx.h>
+#include <genlist.h>
+
+
+#define OPP_MAX_NAME_LENGTH	16
+
+/* COMMON  OPP */
+#define OPP_UNKNOWN		((const char *) "UNKNOWN")
+
+/* OMAP4, OMAP5 OPP */
+#define OPP_DPLL_CASC		((const char *) "DPLL_CASC")
+
+/* OMAP4 OPP */
+#define OPP_50			((const char *) "OPP50")
+#define OPP_50_LOW		((const char *) "OPP50_LOW")
+#define OPP_50_HIGH		((const char *) "OPP50_HIGH")
+#define OPP_100			((const char *) "OPP100")
+#define OPP_100_LOW		((const char *) "OPP100_LOW")
+#define OPP_100_HIGH		((const char *) "OPP100_HIGH")
+#define OPP_119			((const char *) "OPP119")
+#define OPP_119_LOW		((const char *) "OPP119_LOW")
+#define OPP_119_HIGH		((const char *) "OPP119_HIGH")
+#define OPP_TURBO		((const char *) "OPP_TURBO")
+#define OPP_NITRO		((const char *) "OPP_NITRO")
+#define OPP_NITROSB		((const char *) "OPP_NITRO_SB")
+#define OPP_VHS			((const char *) "OPP_VHS")
+
+/* OMAP5 OPP */
+#define OPP_LOW			((const char *) "LOW")
+#define OPP_NOM			((const char *) "NOM")
+#define OPP_HIGH		((const char *) "HIGH")
+#define OPP_SB			((const char *) "SPEEDBIN")
 
 
 typedef struct {
-	unsigned int prm_vc_smps_sa;
-	unsigned int prm_vc_smps_ra_vol;
-	unsigned int prm_vc_val_smps_ra_cmd;
-	unsigned int prm_vc_val_cmd_vdd_core_l;
-	unsigned int prm_vc_val_cmd_vdd_mpu_l;
-	unsigned int prm_vc_val_cmd_vdd_iva_l;
-	unsigned int prm_vc_cfg_channel;
-	unsigned int prm_vc_cfg_i2c_mode;
-	unsigned int prm_vc_cfg_i2c_clk;
-} vc44xx_registers;
+	const char *name;
+	int voltage; /* in micro-volt */
+	int rate; /* in KHz */
+} opp_t;
 
 
-short int vc44xx_sa_get(voltdm44xx_id id,
-	unsigned int prm_vc_smps_sa, unsigned int prm_vc_cfg_channel);
-short int vc44xx_volra_get(voltdm44xx_id id,
-	unsigned int prm_vc_cfg_channel, unsigned int prm_vc_val_smps_ra_vol);
-short int vc44xx_cmdra_get(voltdm44xx_id id,
-	unsigned int prm_vc_cfg_channel, unsigned int prm_vc_val_smps_ra_cmd);
-short int vc44xx_raw_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
-	unsigned char *cmd_on, unsigned char *cmd_onlp,
-	unsigned char *cmd_ret, unsigned char *cmd_off);
-short int vc44xx_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
-	unsigned char *cmd_on, unsigned char *cmd_onlp,
-	unsigned char *cmd_ret, unsigned char *cmd_off);
+void opp_init(void);
+void opp_deinit(void);
 
-int vc44xx_registers_get(vc44xx_registers *vc_regs);
+int opp_s2id(const char *opp);
 
-int vc44xx_config_show(FILE *stream, vc44xx_registers *vc_regs);
+int opp_count_get(const char *voltdm);
+const genlist *opp_list_get(const char *voltdm);
+
+const char *opp_get(const char *voltdm, unsigned int quiet);
+const char *opp_by_rate_get(const char *voltdm, unsigned short quiet);
+#if 0
+const char *opp_by_voltage_get(const char *voltdm, unsigned short quiet);
+#endif
+int opp_set(const char *voltdm, const char *opp);
+
+int opp_show(FILE *stream);
+
+const char *opp_audit(FILE *stream, const char *voltdm,
+	unsigned int *err_nbr, unsigned int *wng_nbr);
 
 
 #endif
