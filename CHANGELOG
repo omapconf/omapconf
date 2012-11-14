@@ -1,4 +1,4 @@
-v1.51:
+v1.52:
 -------
 	- [OMAP5][CLKSPEED][AUDIT] fix missing BANDGAPTS expected clock rate
 	- [OMAP5][HELP][TEMP] fix supported memory sensor names in help
