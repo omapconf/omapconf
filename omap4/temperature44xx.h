@@ -70,7 +70,7 @@ typedef enum {
 
 
 temp44xx_sensor_id temp44xx_voltdm2sensor_id(voltdm44xx_id vdd_id);
-
+const char *temp44xx_name_get(temp44xx_sensor_id id);
 int temp44xx_get(temp44xx_sensor_id id);
 
 
