@@ -73,7 +73,9 @@
 
 
 /* ID Codes */
+#define OMAP5432_ES_2_0_ID_CODE				0x1B99802F
 #define OMAP5432_ES_1_0_ID_CODE				0x0B99802F
+#define OMAP5430_ES_2_0_ID_CODE				0x1B94202F
 #define OMAP5430_ES_1_0_ID_CODE				0x0B94202F
 
 #define OMAP4470_ES_1_0_ID_CODE				0x0B97502F
@@ -768,9 +770,19 @@ int cpu_detect(void)
 	dprintf("%s(): ID_CODE = 0x%08X\n", __func__, id_code);
 
 	switch (id_code) {
+	case OMAP5432_ES_2_0_ID_CODE:
+		cpu_set(OMAP_5432);
+		cpu_revision_set(REV_ES2_0);
+		break;
+
 	case OMAP5432_ES_1_0_ID_CODE:
 		cpu_set(OMAP_5432);
 		cpu_revision_set(REV_ES1_0);
+		break;
+
+	case OMAP5430_ES_2_0_ID_CODE:
+		cpu_set(OMAP_5430);
+		cpu_revision_set(REV_ES2_0);
 		break;
 
 	case OMAP5430_ES_1_0_ID_CODE:
@@ -1129,9 +1141,9 @@ unsigned int cpu_online_cores_count_get(void)
 
 	cpu_total_count = cpu_cores_count_get();
 	cpu_online_count = 0;
-	for (i = 0; i < cpu_total_count; i ++) {
+	for (i = 0; i < cpu_total_count; i++) {
 		if (cpu_is_online(i) == 1)
-			cpu_online_count ++;
+			cpu_online_count++;
 	}
 
 	return cpu_online_count;
