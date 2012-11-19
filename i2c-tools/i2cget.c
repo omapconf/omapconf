@@ -6,7 +6,7 @@
  *//*======================================================================== */
 /*
     i2cget.c - A user-space program to read an I2C register.
-    Copyright (C) 2005-2008  Jean Delvare <khali@linux-fr.org>
+    Copyright (C) 2005-2010  Jean Delvare <khali@linux-fr.org>
 
     Based on i2cset.c:
     Copyright (C) 2001-2003  Frodo Looijaard <frodol@dds.nl>, and
@@ -218,7 +218,7 @@ int main_i2cget(int argc, char *argv[])
 		pec = argv[flags+4][1] == 'p';
 	}
 
-	file = open_i2c_dev(i2cbus, filename, 0);
+	file = open_i2c_dev(i2cbus, filename, sizeof(filename), 0);
 	if (file < 0
 	 || check_funcs(file, size, daddress, pec)
 	 || set_slave_addr(file, address, force))
@@ -299,7 +299,7 @@ int i2cget(
 		return -1;
 	}
 
-	file = open_i2c_dev(i2cbus, filename, 1);
+	file = open_i2c_dev(i2cbus, filename, sizeof(filename), 1);
 	if (file < 0
 	 || check_funcs(file, I2C_SMBUS_BYTE_DATA, daddress, 0)
 	 || set_slave_addr(file, address, 1))
@@ -354,7 +354,7 @@ int i2cget_word(
 		return -1;
 	}
 
-	file = open_i2c_dev(i2cbus, filename, 1);
+	file = open_i2c_dev(i2cbus, filename, sizeof(filename), 1);
 	if (file < 0
 	 || check_funcs(file, I2C_SMBUS_WORD_DATA, daddress, 0)
 	 || set_slave_addr(file, address, 1))
