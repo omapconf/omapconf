@@ -1191,9 +1191,11 @@ main_exit:
 	mem_unmap();
 
 	/* Deinitializations */
-	opp_deinit();
-	voltdm_deinit();
-	temp_sensor_deinit();
+	if (cpu_get() != OMAP_MAX) {
+		opp_deinit();
+		voltdm_deinit();
+		temp_sensor_deinit();
+	}
 
 	return ret;
 }
