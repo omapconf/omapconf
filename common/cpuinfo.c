@@ -918,10 +918,24 @@ int cpu_force(char *forced_cpu)
 		cpu_forced_set(1);
 		cpu_set(OMAP_5430);
 		cpu_device_type_set(DEV_GP);
+		cpu_revision_set(REV_ES2_0);
+		cpu_silicon_type_set(STANDARD_PERF_SI);
+		cpu_full_name_set();
+	} else if (strcmp(forced_cpu, "omap5430es1") == 0) {
+		cpu_forced_set(1);
+		cpu_set(OMAP_5430);
+		cpu_device_type_set(DEV_GP);
 		cpu_revision_set(REV_ES1_0);
 		cpu_silicon_type_set(STANDARD_PERF_SI);
 		cpu_full_name_set();
 	} else if (strcmp(forced_cpu, "omap5432") == 0) {
+		cpu_forced_set(1);
+		cpu_set(OMAP_5432);
+		cpu_device_type_set(DEV_GP);
+		cpu_revision_set(REV_ES2_0);
+		cpu_silicon_type_set(STANDARD_PERF_SI);
+		cpu_full_name_set();
+	} else if (strcmp(forced_cpu, "omap5432es1") == 0) {
 		cpu_forced_set(1);
 		cpu_set(OMAP_5432);
 		cpu_device_type_set(DEV_GP);
