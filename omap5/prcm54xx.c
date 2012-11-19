@@ -180,8 +180,8 @@ int prcm54xx_pwrdm_config_show(FILE *stream, char *pwrdm_s, char *clkdm_s)
 			return err_arg_msg_show(HELP_PRCM);
 
 		if (clkdm54xx_pwrdm_get(clkdm_id_start) != pwrdm_id_start) {
-			printf("omapconf: clock domain '\"%s\"' is not part "
-				"of '\"%s\"' power domain!!!\n\n",
+			printf(
+				"omapconf: clock domain '\"%s\"' is not part of '\"%s\"' power domain!!!\n\n",
 				clkdm_s, pwrdm_s);
 			return err_arg_msg_show(HELP_PRCM);
 		}
@@ -202,6 +202,9 @@ int prcm54xx_pwrdm_config_show(FILE *stream, char *pwrdm_s, char *clkdm_s)
 		case PWRDM54XX_MMAON:
 		case PWRDM54XX_MPUAON:
 			break;
+		case PWRDM54XX_L4_PER:
+			if (cpu_revision_get() != REV_ES1_0)
+				break;
 		default:
 			ret = pwrdm54xx_config_show(stream,
 				(pwrdm54xx_id) pwrdm_id);
@@ -435,7 +438,10 @@ pwrdm54xx_id prcm54xx_idx2pwrdmid(prcm54xx_index idx)
 		id = PWRDM54XX_L3_INIT;
 		break;
 	case PRCM54XX_IDX_L4PER:
-		id = PWRDM54XX_L4_PER;
+		if (cpu_revision_get() == REV_ES1_0)
+			id = PWRDM54XX_L4_PER;
+		else
+			id = PWRDM54XX_ID_MAX;
 		break;
 	case PRCM54XX_IDX_ABE:
 		id = PWRDM54XX_ABE;
@@ -498,7 +504,8 @@ int prcm54xx_dump(char *s)
 		ret |= instr54xx_dump(stdout);
 		ret |= dss54xx_dump(stdout);
 		ret |= l3init54xx_dump(stdout);
-		ret |= l4per54xx_dump(stdout);
+		if (cpu_revision_get() == REV_ES1_0)
+			ret |= l4per54xx_dump(stdout);
 		ret |= abe54xx_dump(stdout);
 		ret |= dsp54xx_dump(stdout);
 		ret |= gpu54xx_dump(stdout);
@@ -526,7 +533,10 @@ int prcm54xx_dump(char *s)
 	} else if (strcmp(s, "l3init") == 0) {
 		return l3init54xx_dump(stdout);
 	} else if (strcmp(s, "l4per") == 0) {
-		return l4per54xx_dump(stdout);
+		if (cpu_revision_get() == REV_ES1_0)
+			return l4per54xx_dump(stdout);
+		else
+			return err_arg_msg_show(HELP_PRCM);
 	} else if (strcmp(s, "abe") == 0) {
 		return abe54xx_dump(stdout);
 	} else if (strcmp(s, "dsp") == 0) {

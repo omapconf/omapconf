@@ -641,6 +641,9 @@ pwrdm54xx_config_show_mem:
 			pwrdm_state_name_get(st_tgt));
 		break;
 	case PWRDM54XX_L4_PER:
+		if (cpu_revision_get() != REV_ES1_0)
+			break;
+
 		fprintf(stream, "| %-32s | %-7s | %-7s |         |\n",
 			"Memory", "", "");
 		st_curr = (pwrdm_state) extract_bitfield(pm_pwrstst, 6, 2);

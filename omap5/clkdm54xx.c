@@ -114,7 +114,7 @@ static reg *clkdm54xx_cm_clkstctrl_table[CLKDM54XX_ID_MAX] = {
 	NULL}; /* CLKDM54XX_NONE */
 
 
-static const pwrdm54xx_id clkdm54xx_partition_table[CLKDM54XX_ID_MAX] = {
+static const pwrdm54xx_id clkdm54xx_partition_table_es1[CLKDM54XX_ID_MAX] = {
 	PWRDM54XX_EMU,		/* CLKDM54XX_EMU */
 	PWRDM54XX_WKUPAON,	/* CLKDM54XX_WKUPAON */
 	PWRDM54XX_COREAON,	/* CLKDM54XX_COREAON */
@@ -133,6 +133,33 @@ static const pwrdm54xx_id clkdm54xx_partition_table[CLKDM54XX_ID_MAX] = {
 	PWRDM54XX_L3_INIT,	/* CLKDM54XX_L3_INIT */
 	PWRDM54XX_L4_PER,	/* CLKDM54XX_L4_PER */
 	PWRDM54XX_L4_PER,	/* CLKDM54XX_L4_SEC */
+	PWRDM54XX_ABE,		/* CLKDM54XX_ABE */
+	PWRDM54XX_DSP,		/* CLKDM54XX_DSP */
+	PWRDM54XX_GPU,		/* CLKDM54XX_GPU */
+	PWRDM54XX_IVA,		/* CLKDM54XX_IVA */
+	PWRDM54XX_MPU,		/* CLKDM54XX_MPU */
+	PWRDM54XX_ID_MAX};	/* CLKDM54XX_NONE */
+
+
+static const pwrdm54xx_id clkdm54xx_partition_table[CLKDM54XX_ID_MAX] = {
+	PWRDM54XX_EMU,		/* CLKDM54XX_EMU */
+	PWRDM54XX_WKUPAON,	/* CLKDM54XX_WKUPAON */
+	PWRDM54XX_COREAON,	/* CLKDM54XX_COREAON */
+	PWRDM54XX_CAM,		/* CLKDM54XX_CAM */
+	PWRDM54XX_CORE,		/* CLKDM54XX_L4_CFG */
+	PWRDM54XX_CORE,		/* CLKDM54XX_EMIF */
+	PWRDM54XX_CORE,		/* CLKDM54XX_IPU */
+	PWRDM54XX_CORE,		/* CLKDM54XX_L3_MAIN2 */
+	PWRDM54XX_CORE,		/* CLKDM54XX_L3_INSTR */
+	PWRDM54XX_CORE,		/* CLKDM54XX_L3_MAIN1 */
+	PWRDM54XX_CORE,		/* CLKDM54XX_C2C */
+	PWRDM54XX_CORE,		/* CLKDM54XX_DMA */
+	PWRDM54XX_CORE,		/* CLKDM54XX_MIPIEXT */
+	PWRDM54XX_DSS,		/* CLKDM54XX_DSS */
+	PWRDM54XX_CUST_EFUSE,	/* CLKDM54XX_CUST_EFUSE */
+	PWRDM54XX_L3_INIT,	/* CLKDM54XX_L3_INIT */
+	PWRDM54XX_CORE,		/* CLKDM54XX_L4_PER */
+	PWRDM54XX_CORE,		/* CLKDM54XX_L4_SEC */
 	PWRDM54XX_ABE,		/* CLKDM54XX_ABE */
 	PWRDM54XX_DSP,		/* CLKDM54XX_DSP */
 	PWRDM54XX_GPU,		/* CLKDM54XX_GPU */
@@ -172,7 +199,10 @@ pwrdm54xx_id clkdm54xx_pwrdm_get(clkdm54xx_id id)
 {
 	CHECK_ARG_LESS_THAN(id, CLKDM54XX_ID_MAX, PWRDM54XX_ID_MAX);
 
-	return clkdm54xx_partition_table[id];
+	if (cpu_revision_get() == REV_ES1_0)
+		return clkdm54xx_partition_table_es1[id];
+	else
+		return clkdm54xx_partition_table[id];
 }
 
 
@@ -361,13 +391,13 @@ int clkdm54xx_config_show(FILE *stream, clkdm54xx_id id)
 	cm_clkstctrl = reg_read(cm_clkstctrl_reg);
 
 	/* Decode and display clock domain's configuration */
-	fprintf(stream, "|---------------------------------------------------"
-		"-------------|\n");
+	fprintf(stream,
+		"|----------------------------------------------------------------|\n");
 	strcpy(s, clkdm54xx_name_get(id));
 	strcat(s, " Clock Domain Configuration");
 	fprintf(stream, "| %-62s |\n", s);
-	fprintf(stream, "|--------------------------------------|------------"
-		"-------------|\n");
+	fprintf(stream,
+		"|--------------------------------------|-------------------------|\n");
 	fprintf(stream, "| %-36s | %-23s |\n", "Clock State Transition control",
 		clkdm_ctrl_mode_name_get(clkdm54xx_ctrl_mode_get(id)));
 
@@ -758,8 +788,8 @@ int clkdm54xx_config_show(FILE *stream, clkdm54xx_id id)
 		break;
 	}
 
-	fprintf(stream, "|---------------------------------------------------"
-		"-------------|\n\n");
+	fprintf(stream,
+		"|----------------------------------------------------------------|\n\n");
 
 	return 0;
 }

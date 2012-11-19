@@ -153,24 +153,34 @@ void help54xx(help_category cat, char *context)
 
 	if ((cat == HELP_ALL) || (cat == HELP_PRCM)) {
 		printf("\n\tomapconf dump prcm [<pwrdm>]\n");
-		printf("\t    Dump PRCM Registers related to <pwrdm> power "
-			"domain ('all' assumed if omitted).\n");
-		printf("\t    Supported <pwrdm>: mpu, core, dsp, dss, cam, gpu,"
-			" iva, l4per, abe, l3init, dev, emu, instr, ckgen, "
-			"wkupaon, coreaon, all.\n");
+		printf(
+			"\t    Dump PRCM Registers related to <pwrdm> power domain ('all' assumed if omitted).\n");
+		if (cpu_revision_get() == REV_ES1_0)
+			printf(
+				"\t    Supported <pwrdm>: mpu, core, dsp, dss, cam, gpu, iva, l4per, abe, l3init, dev, emu, instr, ckgen, wkupaon, coreaon, all.\n");
+		else
+			printf(
+				"\t    Supported <pwrdm>: mpu, core, dsp, dss, cam, gpu, iva, abe, l3init, dev, emu, instr, ckgen, wkupaon, coreaon, all.\n");
+
 
 		printf("\n\tomapconf show prcm [<pwrdm>] [<clkdm>] [cfg]\n");
-		printf("\t    Print PRCM power configuration and status of "
-			"<pwrdm> power domain ('all' assumed if omitted). "
-			"[cfg] may also be omitted.\n");
-		printf("\t    Supported <pwrdm>: mpu, core, dsp, dss, cam, gpu,"
-			" iva, l4per, abe, l3init, emu, wkupaon, coreaon, all."
-			"\n");
-		printf("\t    Note for CORE power domain, it is possible to "
-			"select a single clock domain, providing optional "
-			"<clkdm>.\n");
-		printf("\t    Supported <clkdm>: l4cfg, emif, ipu, l3main1, "
-			"l3main2, l3instr, c2c, dma, mipiext.\n");
+		printf(
+			"\t    Print PRCM power configuration and status of <pwrdm> power domain ('all' assumed if omitted). [cfg] may also be omitted.\n");
+		if (cpu_revision_get() == REV_ES1_0) {
+			printf(
+				"\t    Supported <pwrdm>: mpu, core, dsp, dss, cam, gpu, iva, l4per, abe, l3init, emu, wkupaon, coreaon, all.\n");
+			printf(
+				"\t    Note for CORE power domain, it is possible to select a single clock domain, providing optional <clkdm>.\n");
+			printf(
+				"\t    Supported <clkdm>: l4cfg, emif, ipu, l3main1, l3main2, l3instr, c2c, dma, mipiext.\n");
+		} else {
+			printf(
+				"\t    Supported <pwrdm>: mpu, core, dsp, dss, cam, gpu, iva, abe, l3init, emu, wkupaon, coreaon, all.\n");
+			printf(
+				"\t    Note for CORE power domain, it is possible to select a single clock domain, providing optional <clkdm>.\n");
+			printf(
+				"\t    Supported <clkdm>: l4cfg, emif, ipu, l3main1, l3main2, l3instr, l4per, l4sec, c2c, dma, mipiext.\n");
+		}
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_PRCM) || (cat == HELP_STATDEP)) {
