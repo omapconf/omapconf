@@ -45,7 +45,8 @@
 
 CC = $(CROSS_COMPILE)gcc
 DEF_INC := $(shell $(CROSS_COMPILE)gcc  -print-file-name=include)
-MYCFLAGS+=$(CFLAGS) -D_OMAP5430 -D_SC_VER_1_16 -c -Wall -Wextra -Wno-missing-field-initializers -I. -Icommon -Ipmic -Iaudioic -Ilinux -Istatcoll -Iomap4 -Iomap5 -Ii2c-tools -I$(DEF_INC) -static
+DEF_INC_PATH = -I. -Icommon -Ipmic -Iaudioic -Ilinux -Istatcoll -Iomap4 -Iomap5 -Ii2c-tools -Iarch/arm/mach-omap/common
+MYCFLAGS+=$(CFLAGS) -D_OMAP5430 -D_SC_VER_1_16 -c -Wall -Wextra -Wno-missing-field-initializers -I$(DEF_INC) $(DEF_INC_PATH) -static
 DESTDIR ?= target
 
 
@@ -108,7 +109,7 @@ OMAP5OBJECTS=		$(OMAP5SOURCES:.c=.o)
 
 SOURCES=		omapconf.c builddate.c common/lib.c common/reg.c\
 			common/autoadjust_table.c common/genlist.c common/abb.c\
-			common/module.c common/clkdm.c common/pwrdm.c pmic/pmic.c\
+			common/module.c common/pwrdm.c pmic/pmic.c\
 			common/cpuinfo.c common/dpll.c i2c-tools/i2cbusses.c\
 			i2c-tools/i2cget.c i2c-tools/i2cset.c i2c-tools/util.c\
 			common/help.c common/clkdm_dependency.c\
@@ -120,6 +121,11 @@ SOURCES=		omapconf.c builddate.c common/lib.c common/reg.c\
                         common/temperature.c
 
 OBJECTS=		$(SOURCES:.c=.o)
+
+
+PRCMSOURCES=		arch/arm/mach-omap/common/prcm-clkdm.c
+
+PRCMOBJECTS=		$(PRCMSOURCES:.c=.o)
 
 
 PMICSOURCES=		pmic/twl603x.c pmic/tps62361.c pmic/twl603x_lib.c
@@ -141,7 +147,7 @@ LINUXSOURCES=		linux/cpufreq.c linux/cstate.c linux/interrupts.c\
 LINUXOBJECTS=		$(LINUXSOURCES:.c=.o)
 
 
-ALLOBJECTS=		$(OBJECTS) $(OMAP4OBJECTS) $(OMAP5OBJECTS) $(LINUXOBJECTS) $(PMICOBJECTS) $(AUDIOICOBJECTS)
+ALLOBJECTS=		$(OBJECTS) $(PRCMOBJECTS) $(OMAP4OBJECTS) $(OMAP5OBJECTS) $(LINUXOBJECTS) $(PMICOBJECTS) $(AUDIOICOBJECTS)
 
 
 EXECUTABLE=		omapconf

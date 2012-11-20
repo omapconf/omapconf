@@ -46,7 +46,7 @@
 #include <dpll44xx.h>
 #include <lib44xx.h>
 #include <help.h>
-#include <clkdm.h>
+#include <prcm-clkdm.h>
 #include <cm44xx.h>
 #include <prm44xx.h>
 #include <pwrdm44xx.h>

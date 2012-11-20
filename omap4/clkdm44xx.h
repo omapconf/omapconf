@@ -46,7 +46,7 @@
 #define __CLKDM44XX_H__
 
 
-#include <clkdm.h>
+#include <prcm-clkdm.h>
 #include <pwrdm44xx.h>
 #include <voltdm44xx.h>
 

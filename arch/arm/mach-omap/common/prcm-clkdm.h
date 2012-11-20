@@ -1,7 +1,7 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			clkdm.h
+ * @Filename			prcm-clkdm.h
  * @Description			Clock Domain Definitions & Functions
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2006
@@ -42,8 +42,8 @@
  */
 
 
-#ifndef __CLKDM_H__
-#define __CLKDM_H__
+#ifndef __PRCM_CLKDM_H__
+#define __PRCM_CLKDM_H__
 
 
 #include <reg.h>
