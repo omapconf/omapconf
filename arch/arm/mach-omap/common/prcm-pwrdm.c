@@ -1,7 +1,7 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			pwrdm.c
+ * @Filename			prcm-pwrdm.c
  * @Description			OMAP Power Domain APIs
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2011
@@ -42,15 +42,15 @@
  */
 
 
-#include <pwrdm.h>
+#include <prcm-pwrdm.h>
 #include <lib.h>
 #include <mem.h>
 #include <stdio.h>
 #include <string.h>
 
 
-/* #define PWRDM_DEBUG */
-#ifdef PWRDM_DEBUG
+/* #define PRCM_PWRDM_DEBUG */
+#ifdef PRCM_PWRDM_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)

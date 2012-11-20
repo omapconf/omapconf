@@ -1,7 +1,7 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			pwrdm.h
+ * @Filename			prcm-pwrdm.h
  * @Description			OMAP Power Domain Definitions & APIs
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2011
@@ -42,8 +42,8 @@
  */
 
 
-#ifndef __PWRDM_H__
-#define __PWRDM_H__
+#ifndef __PRCM_PWRDM_H__
+#define __PRCM_PWRDM_H__
 
 
 #include <reg.h>

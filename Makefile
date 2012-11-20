@@ -109,7 +109,7 @@ OMAP5OBJECTS=		$(OMAP5SOURCES:.c=.o)
 
 SOURCES=		omapconf.c builddate.c common/lib.c common/reg.c\
 			common/autoadjust_table.c common/genlist.c common/abb.c\
-			common/module.c common/pwrdm.c pmic/pmic.c\
+			common/module.c pmic/pmic.c\
 			common/cpuinfo.c common/dpll.c i2c-tools/i2cbusses.c\
 			i2c-tools/i2cget.c i2c-tools/i2cset.c i2c-tools/util.c\
 			common/help.c common/clkdm_dependency.c\
@@ -123,7 +123,8 @@ SOURCES=		omapconf.c builddate.c common/lib.c common/reg.c\
 OBJECTS=		$(SOURCES:.c=.o)
 
 
-PRCMSOURCES=		arch/arm/mach-omap/common/prcm-clkdm.c
+PRCMSOURCES=		arch/arm/mach-omap/common/prcm-clkdm.c\
+			arch/arm/mach-omap/common/prcm-pwrdm.c
 
 PRCMOBJECTS=		$(PRCMSOURCES:.c=.o)
 

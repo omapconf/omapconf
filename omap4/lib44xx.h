@@ -46,7 +46,7 @@
 #define __LIB44XX_H__
 
 
-#include <pwrdm.h>
+#include <prcm-pwrdm.h>
 #include <stdio.h>
 
 

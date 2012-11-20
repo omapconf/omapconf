@@ -46,7 +46,7 @@
 #define __PWRDM54XX_H__
 
 
-#include <pwrdm.h>
+#include <prcm-pwrdm.h>
 #include <voltdm54xx.h>
 
 

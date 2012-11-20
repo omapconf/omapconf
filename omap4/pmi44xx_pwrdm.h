@@ -47,7 +47,7 @@
 #define __PMI_PWRDM44XX_H__
 
 
-#include <pwrdm.h>
+#include <prcm-pwrdm.h>
 #include <coresight44xx.h>
 #include <pmi44xx.h>
 

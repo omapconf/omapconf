@@ -57,7 +57,7 @@
 #include <pmic.h>
 #include <cpuinfo.h>
 #include <string.h>
-#include <pwrdm.h>
+#include <prcm-pwrdm.h>
 
 
 /* #define PMI44XX_DEBUG */

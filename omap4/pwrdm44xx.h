@@ -46,7 +46,7 @@
 #define __PWRDM44XX_H__
 
 
-#include <pwrdm.h>
+#include <prcm-pwrdm.h>
 #include <voltdm44xx.h>
 
 #define PWRDM44XX_MAX_NAME_LENGTH		16

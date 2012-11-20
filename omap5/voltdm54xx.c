@@ -50,7 +50,7 @@
 #include <cpuinfo.h>
 #include <prm54xx-defs.h>
 #include <sr54xx.h>
-#include <pwrdm.h>
+#include <prcm-pwrdm.h>
 #include <clock54xx.h>
 #include <module54xx.h>
 #include <autoadjust_table.h>
