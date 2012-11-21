@@ -107,7 +107,7 @@ OMAP5SOURCES=	omap5/cpuinfo54xx.c omap5/main54xx.c omap5/cm54xx-defs.c\
 OMAP5OBJECTS=	$(OMAP5SOURCES:.c=.o)
 
 
-SOURCES=	omapconf.c builddate.c common/lib.c common/reg.c\
+SOURCES=	omapconf.c common/lib.c common/reg.c\
 		common/autoadjust_table.c common/genlist.c common/abb.c\
 		common/module.c common/clkdm.c common/pwrdm.c pmic/pmic.c\
 		common/cpuinfo.c common/dpll.c i2c-tools/i2cbusses.c\
@@ -149,24 +149,23 @@ ALLOBJECTS=	$(OBJECTS) $(OMAP4OBJECTS) $(OMAP5OBJECTS) $(LINUXOBJECTS) \
 EXECUTABLE=	omapconf
 
 
-all: 		$(SOURCES) $(ALLOBJECTS) $(EXECUTABLE)
+all: 		$(EXECUTABLE)
 
 
-
-$(EXECUTABLE):	$(ALLOBJECTS)
-		$(CC) $(STATIC_BUILD) $(LDFLAGS) $(ALLOBJECTS) -lrt -o $@
-		rm -f builddate.c
+$(EXECUTABLE):	$(ALLOBJECTS) builddate.o
+		$(CC) $(STATIC_BUILD) $(LDFLAGS) $(ALLOBJECTS) builddate.o \
+		-lrt -o $@
 
 
 .c.o:
 		$(CC) $(MYCFLAGS) $< -o $@
 
 
-builddate.c:
+builddate.c:	$(ALLOBJECTS)
 		echo 'char *builddate="'`date`'";' > builddate.c
 
 
-install: 	omapconf
+install: 	$(EXECUTABLE)
 		install -d $(DESTDIR)
 		install omapconf $(DESTDIR)
 
