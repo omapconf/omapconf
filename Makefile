@@ -43,10 +43,11 @@
 
 CC = $(CROSS_COMPILE)gcc
 DEF_INC := $(shell $(CC) -print-file-name=include)
-MYCFLAGS += $(CFLAGS) -D_OMAP5430 -D_SC_VER_1_16 -c -Wall \
+STATIC_BUILD ?= -static
+MYCFLAGS += $(CFLAGS) -D_OMAP5430 -D_SC_VER_1_16 -c $(STATIC_BUILD) -Wall \
             -Wextra -Wno-missing-field-initializers -I. -Icommon -Ipmic \
             -Iaudioic -Ilinux -Istatcoll -Iomap4 -Iomap5 -Ii2c-tools \
-            -I$(DEF_INC) -static
+            -I$(DEF_INC)
 DESTDIR ?= target
 
 
@@ -153,7 +154,7 @@ all: 		$(SOURCES) $(ALLOBJECTS) $(EXECUTABLE)
 
 
 $(EXECUTABLE):	$(ALLOBJECTS)
-		$(CC) -static $(LDFLAGS) $(ALLOBJECTS) -lrt -o $@
+		$(CC) $(STATIC_BUILD) $(LDFLAGS) $(ALLOBJECTS) -lrt -o $@
 		rm -f builddate.c
 
 
