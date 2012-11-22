@@ -64,6 +64,9 @@
 #include <opp.h>
 #include <voltdm.h>
 #include <temperature.h>
+#include <module.h>
+#include <pwrdm.h>
+#include <clkdm.h>
 
 
 /* #define DEBUG */
@@ -1195,6 +1198,9 @@ main_exit:
 		opp_deinit();
 		voltdm_deinit();
 		temp_sensor_deinit();
+		mod_deinit();
+		pwrdm_deinit();
+		clkdm_deinit();
 	}
 
 	return ret;
