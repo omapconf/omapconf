@@ -49,7 +49,7 @@
 #include <clkdm44xx.h>
 #include <pwrdm44xx.h>
 #include <voltdm44xx.h>
-#include <module.h>
+#include <prcm-module.h>
 
 #define MOD44XX_MAX_NAME_LENGTH			21
 
@@ -321,6 +321,12 @@ typedef enum {
 	OMAP4_MCBSP4,
 	OMAP4_MODULE_ID_MAX
 } mod44xx_id;
+
+void mod44xx_init(void);
+void mod44xx_deinit(void);
+
+const genlist *mod44xx_list_get(void);
+int mod44xx_count_get(void);
 
 int mod44xx_init_info_table(void);
 

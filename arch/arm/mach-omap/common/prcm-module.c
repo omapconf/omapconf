@@ -1,8 +1,8 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			module.c
- * @Description			OMAP Module APIs
+ * @Filename			prcm-module.c
+ * @Description			OMAP PRCM Module APIs
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2011
  * @Copyright			Texas Instruments Incorporated
@@ -269,9 +269,9 @@ unsigned int mod_is_accessible(unsigned int cm_clkctrl)
 		 * the module is tentatively accessed, so it is safer to always
 		 * consider module as non-accessible.
 		 */
-		dprintf("%s(): module is performing transition: "
-			"wakeup, or sleep, or sleep abortion => "
-			"NOT accessible\n", __func__);
+		dprintf(
+			"%s(): module is performing transition: wakeup, or sleep, or sleep abortion => NOT accessible\n",
+			__func__);
 		return 0;
 
 	case MOD_OCP_ONLY_IDLE:
@@ -279,14 +279,16 @@ unsigned int mod_is_accessible(unsigned int cm_clkctrl)
 		 * Module is in Idle mode (only OCP part). OCP clock can be
 		 * re-enabled on access, so module is accessible.
 		 */
-		dprintf("%s(): module is in Idle mode (only OCP part)"
-			" => accessible\n", __func__);
+		dprintf(
+			"%s(): module is in Idle mode (only OCP part) => accessible\n",
+			__func__);
 		return 1;
 
 	case MOD_DISABLED:
 		/* Module is disabled and cannot be accessed. */
-		dprintf("%s(): module is disabled and cannot be "
-			"accessed => NOT accessible\n", __func__);
+		dprintf(
+			"%s(): module is disabled and cannot be accessed => NOT accessible\n",
+			__func__);
 		return 0;
 
 	default:

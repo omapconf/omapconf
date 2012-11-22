@@ -46,6 +46,7 @@
 #define __MODULE54XX_H__
 
 
+#include <prcm-module.h>
 #include <module.h>
 #include <clock54xx.h>
 #include <clkdm54xx.h>
@@ -205,6 +206,11 @@ typedef enum {
 	MOD54XX_ID_MAX
 } mod54xx_id;
 
+void mod54xx_init(void);
+void mod54xx_deinit(void);
+
+const genlist *mod54xx_list_get(void);
+int mod54xx_count_get(void);
 
 const char *mod54xx_name_get(mod54xx_id id);
 clkdm54xx_id mod54xx_clkdm_get(mod54xx_id id);

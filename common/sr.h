@@ -47,7 +47,7 @@
 
 
 #include <stdio.h>
-#include <module.h>
+#include <prcm-module.h>
 
 
 #define SR_SENSOR_TYPE_MAX_LENGTH		8

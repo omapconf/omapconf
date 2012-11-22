@@ -1,8 +1,8 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			module.h
- * @Description			OMAP Module Definitions & APIs
+ * @Filename			prcm-module.h
+ * @Description			OMAP PRCM Module Definitions & APIs
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2011
  * @Copyright			Texas Instruments Incorporated
@@ -42,8 +42,8 @@
  */
 
 
-#ifndef __MODULE_H__
-#define __MODULE_H__
+#ifndef __PRCM_MODULE_H__
+#define __PRCM_MODULE_H__
 
 
 #define MODULE_MAX_NAME_LENGTH			32

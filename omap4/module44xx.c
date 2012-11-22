@@ -60,6 +60,122 @@
 #endif
 
 
+static unsigned short mod44xx_init_done = 0;
+genlist mod44xx_list;
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		mod4430_init
+ * @BRIEF		initialize internal data
+ * @DESCRIPTION		initialize internal data (architecture dependent)
+ *//*------------------------------------------------------------------------ */
+void mod4430_init(void)
+{
+	/* FIXME */
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		mod4460_init
+ * @BRIEF		initialize internal data
+ * @DESCRIPTION		initialize internal data (architecture dependent)
+ *//*------------------------------------------------------------------------ */
+void mod4460_init(void)
+{
+	/* FIXME */
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		mod4470_init
+ * @BRIEF		initialize internal data
+ * @DESCRIPTION		initialize internal data (architecture dependent)
+ *//*------------------------------------------------------------------------ */
+void mod4470_init(void)
+{
+	/* FIXME */
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		mod44xx_init
+ * @BRIEF		initialize internal data
+ * @DESCRIPTION		initialize internal data (architecture dependent)
+ *//*------------------------------------------------------------------------ */
+void mod44xx_init(void)
+{
+	if (!mod44xx_init_done) {
+		genlist_init(&mod44xx_list);
+		if (cpu_is_omap4430()) {
+			mod4430_init();
+		} else if (cpu_is_omap4460()) {
+			mod4460_init();
+		} else if (cpu_is_omap4470()) {
+			mod4470_init();
+		} else {
+			fprintf(stderr,
+				"omapconf: %s(): cpu not supported!!!\n",
+				__func__);
+		}
+		mod44xx_init_done = 1;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		mod44xx_deinit
+ * @BRIEF		free dynamically allocated internal data.
+ * @DESCRIPTION		free dynamically allocated internal data.
+ *			MUST BE CALLED AT END OF EXECUTION.
+ *//*------------------------------------------------------------------------ */
+void mod44xx_deinit(void)
+{
+	if (mod44xx_init_done) {
+		genlist_free(&mod44xx_list);
+		mod44xx_init_done = 0;
+	}
+	dprintf("%s(): deinit done.\n", __func__);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		mod44xx_list_get
+ * @BRIEF		return the list of modules
+ * @RETURNS		list of modules in case of success
+ *			NULL in case of error
+ * @DESCRIPTION		return the list of modules
+ *//*------------------------------------------------------------------------ */
+const genlist *mod44xx_list_get(void)
+{
+	mod44xx_init();
+
+	return (const genlist *) &mod44xx_list;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		mod44xx_count_get
+ * @BRIEF		return the number of modules
+ * @RETURNS		number of modules (> 0) in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ * @DESCRIPTION		return the number of modules
+ *//*------------------------------------------------------------------------ */
+int mod44xx_count_get(void)
+{
+	int count;
+
+	mod44xx_init();
+
+	count = genlist_getcount(&mod44xx_list);
+
+	dprintf("%s() = %d\n", __func__, count);
+	return count;
+}
+
+
+
+
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		mod44xx_get_name
  * @BRIEF		return module name
