@@ -348,7 +348,7 @@ const clk54xx_id mod54xx_flck_table[MOD54XX_ID_MAX] = {
 	CLK54XX_IVA_GCLK, /* OMAP5_IVA */
 	CLK54XX_IVA_GCLK, /* OMAP5_SL2 */
 	/* Voltage dom.: MPU, Power dom.: MPUAON Clock domain = MPU */
-	CLK54XX_MPU_GCLK /* OMAP5_MPU */};
+	CLK54XX_MPU_GCLK}; /* OMAP5_MPU */
 
 
 const clkdm54xx_id mod54xx_clkdm_table[MOD54XX_ID_MAX] = {
@@ -499,7 +499,7 @@ const clkdm54xx_id mod54xx_clkdm_table[MOD54XX_ID_MAX] = {
 	CLKDM54XX_IVA, /* OMAP5_IVA */
 	CLKDM54XX_IVA, /* OMAP5_SL2 */
 	/* Voltage dom.: MPU, Power dom.: MPUAON Clock domain = MPU */
-	CLKDM54XX_MPU /* OMAP5_MPU */};
+	CLKDM54XX_MPU}; /* OMAP5_MPU */
 
 
 reg *mod54xx_sysconfig_table[MOD54XX_ID_MAX] = {
@@ -650,7 +650,7 @@ reg *mod54xx_sysconfig_table[MOD54XX_ID_MAX] = {
 	NULL, /* OMAP5_IVA */
 	NULL, /* OMAP5_SL2 */
 	/* Voltage dom.: MPU, Power dom.: MPUAON Clock domain = MPU */
-	NULL /* OMAP5_MPU */};
+	NULL}; /* OMAP5_MPU */
 
 
 reg *mod54xx_cm_clkctrl_reg_table[MOD54XX_ID_MAX] = {
@@ -801,7 +801,7 @@ reg *mod54xx_cm_clkctrl_reg_table[MOD54XX_ID_MAX] = {
 	&omap5430_cm_iva_iva_clkctrl, /* OMAP5_IVA */
 	&omap5430_cm_iva_sl2_clkctrl, /* OMAP5_SL2 */
 	/* Voltage dom.: MPU, Power dom.: MPUAON Clock domain = MPU */
-	&omap5430_cm_mpu_mpu_clkctrl /* OMAP5_MPU */};
+	&omap5430_cm_mpu_mpu_clkctrl}; /* OMAP5_MPU */
 
 
 reg *mod54xx_rm_context_reg_table[MOD54XX_ID_MAX] = {
@@ -952,7 +952,7 @@ reg *mod54xx_rm_context_reg_table[MOD54XX_ID_MAX] = {
 	&omap5430_rm_iva_iva_context, /* OMAP5_IVA */
 	&omap5430_rm_iva_sl2_context, /* OMAP5_SL2 */
 	/* Voltage dom.: MPU, Power dom.: MPUAON Clock domain = MPU */
-	&omap5430_rm_mpu_mpu_context /* OMAP5_MPU */};
+	&omap5430_rm_mpu_mpu_context}; /* OMAP5_MPU */
 
 
 const double mod54xx_por_rates_table[MOD54XX_ID_MAX][OPP_MAX] = {
@@ -1044,12 +1044,12 @@ const double mod54xx_por_rates_table[MOD54XX_ID_MAX][OPP_MAX] = {
 	{-1.0, 19.2, 19.2, -1.0, -1.0, -1.0}, /* OMAP5_TIMER9 */
 	{-1.0, 66.5, 133.0, -1.0, -1.0, -1.0}, /* OMAP5_ELM */
 	{-1.0, 0.032768, 0.032768, -1.0, -1.0, -1.0}, /* OMAP5_GPIO2 */
-	{-1.0, 0.032768, 0.032768, -1.0, -1.0}, /* OMAP5_GPIO3 */
-	{-1.0, 0.032768, 0.032768, -1.0, -1.0}, /* OMAP5_GPIO4 */
-	{-1.0, 0.032768, 0.032768, -1.0, -1.0}, /* OMAP5_GPIO5 */
-	{-1.0, 0.032768, 0.032768, -1.0, -1.0}, /* OMAP5_GPIO6 */
-	{-1.0, 0.032768, 0.032768, -1.0, -1.0}, /* OMAP5_GPIO7 */
-	{-1.0, 0.032768, 0.032768, -1.0, -1.0}, /* OMAP5_GPIO8 */
+	{-1.0, 0.032768, 0.032768, -1.0, -1.0, -1.0}, /* OMAP5_GPIO3 */
+	{-1.0, 0.032768, 0.032768, -1.0, -1.0, -1.0}, /* OMAP5_GPIO4 */
+	{-1.0, 0.032768, 0.032768, -1.0, -1.0, -1.0}, /* OMAP5_GPIO5 */
+	{-1.0, 0.032768, 0.032768, -1.0, -1.0, -1.0}, /* OMAP5_GPIO6 */
+	{-1.0, 0.032768, 0.032768, -1.0, -1.0, -1.0}, /* OMAP5_GPIO7 */
+	{-1.0, 0.032768, 0.032768, -1.0, -1.0, -1.0}, /* OMAP5_GPIO8 */
 	{-1.0, 12.0, 12.0, -1.0, -1.0, -1.0}, /* OMAP5_HDQ1W */
 	{-1.0, 96.0, 96.0, -1.0, -1.0, -1.0}, /* OMAP5_I2C1 */
 	{-1.0, 96.0, 96.0, -1.0, -1.0, -1.0}, /* OMAP5_I2C2 */
@@ -1254,4 +1254,4 @@ const unsigned int mod54xx_properties_table[MOD54XX_ID_MAX] = {
 	MOD_HAS_STANDBY_STATUS, /* OMAP5_IVA */
 	0, /* OMAP5_SL2 */
 	/* Voltage dom.: MPU, Power dom.: MPUAON Clock domain = MPU */
-	MOD_HAS_STANDBY_STATUS /* OMAP5_MPU */};
+	MOD_HAS_STANDBY_STATUS}; /* OMAP5_MPU */
