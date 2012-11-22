@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			clkdm54xx.h
- * @Description			OMAP5 Clock Domain Definitions & APIs
+ * @Filename			clkdm.h
+ * @Description			Clock Domain Generic Definitions & Functions
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2011
+ * @Date			2012
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2011 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,64 +42,57 @@
  */
 
 
-#ifndef __CLKDM54XX_H__
-#define __CLKDM54XX_H__
+#ifndef __CLKDM_H__
+#define __CLKDM_H__
 
 
-#include <clkdm.h>
-#include <prcm-clkdm.h>
-#include <pwrdm54xx.h>
-#include <voltdm54xx.h>
+#include <reg.h>
+#include <genlist.h>
 
 
-#define CLKDM54XX_MAX_NAME_LENGTH		12
+#define CLKDM_EMU			((const char *) "EMU")
+#define CLKDM_WKUPAON			((const char *) "WKUPAON")
+#define CLKDM_COREAON			((const char *) "COREAON")
+#define CLKDM_CAM			((const char *) "CAM")
+#define CLKDM_L4_CFG			((const char *) "L4_CFG")
+#define CLKDM_EMIF			((const char *) "EMIF")
+#define CLKDM_IPU			((const char *) "IPU")
+#define CLKDM_L3_MAIN2			((const char *) "L3_MAIN2")
+#define CLKDM_L3_INSTR			((const char *) "L3_INSTR")
+#define CLKDM_L3_MAIN1			((const char *) "L3_MAIN1")
+#define CLKDM_C2C			((const char *) "C2C")
+#define CLKDM_DMA			((const char *) "DMA")
+#define CLKDM_MIPIEXT			((const char *) "MIPIEXT")
+#define CLKDM_DSS			((const char *) "DSS")
+#define CLKDM_CUST_EFUSE		((const char *) "CUST_EFUSE")
+#define CLKDM_L3_INIT			((const char *) "L3_INIT")
+#define CLKDM_L4_PER			((const char *) "L4_PER")
+#define CLKDM_L4_SEC			((const char *) "L4_SEC")
+#define CLKDM_ABE			((const char *) "ABE")
+#define CLKDM_DSP			((const char *) "DSP")
+#define CLKDM_GPU			((const char *) "GPU")
+#define CLKDM_IVA			((const char *) "IVA")
+#define CLKDM_MPU			((const char *) "MPU")
+#define CLKDM_NONE			((const char *) "NONE")
+#define CLKDM_UNKNOWN			((const char *) "UNKNOWN")
 
 
-typedef enum {
-	CLKDM54XX_EMU,
-	CLKDM54XX_WKUPAON,
-	CLKDM54XX_COREAON,
-	CLKDM54XX_CAM,
-	CLKDM54XX_L4_CFG,
-	CLKDM54XX_EMIF,
-	CLKDM54XX_IPU,
-	CLKDM54XX_L3_MAIN2,
-	CLKDM54XX_L3_INSTR,
-	CLKDM54XX_L3_MAIN1,
-	CLKDM54XX_C2C,
-	CLKDM54XX_DMA,
-	CLKDM54XX_MIPIEXT,
-	CLKDM54XX_DSS,
-	CLKDM54XX_CUST_EFUSE,
-	CLKDM54XX_L3_INIT,
-	CLKDM54XX_L4_PER,
-	CLKDM54XX_L4_SEC,
-	CLKDM54XX_ABE,
-	CLKDM54XX_DSP,
-	CLKDM54XX_GPU,
-	CLKDM54XX_IVA,
-	CLKDM54XX_MPU,
-	CLKDM54XX_NONE, /* for PRCM own clock */
-	CLKDM54XX_ID_MAX
-} clkdm54xx_id;
+typedef struct {
+	const char *name;
+	int id;
+	const char *pwrdm;
+	const char *voltdm;
+	reg *clkstctrl;
+	int properties;
+} clkdm_info;
 
 
-void clkdm54xx_init(void);
-void clkdm54xx_deinit(void);
+void clkdm_init(void);
+void clkdm_deinit(void);
 
-int clkdm54xx_count_get(void);
-const genlist *clkdm54xx_list_get(void);
+int clkdm_count_get(void);
+const genlist *clkdm_list_get(void);
 
-
-const char *clkdm54xx_name_get(clkdm54xx_id id);
-pwrdm54xx_id clkdm54xx_pwrdm_get(clkdm54xx_id id);
-voltdm54xx_id clkdm54xx_voltdm_get(clkdm54xx_id id);
-
-clkdm_ctrl_mode clkdm54xx_ctrl_mode_get(clkdm54xx_id id);
-clkdm_status clkdm54xx_status_get(clkdm54xx_id id);
-
-clkdm54xx_id clkdm54xx_s2id(char *s);
-int clkdm54xx_config_show(FILE *stream, clkdm54xx_id id);
 
 
 #endif

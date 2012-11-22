@@ -46,6 +46,7 @@
 #define __CLKDM44XX_H__
 
 
+#include <clkdm.h>
 #include <prcm-clkdm.h>
 #include <pwrdm44xx.h>
 #include <voltdm44xx.h>
@@ -79,6 +80,14 @@ typedef enum {
 	OMAP4_CD_NONE, /* for PRCM own clock */
 	OMAP4_CD_ID_MAX
 } clkdm44xx_id;
+
+
+void clkdm44xx_init(void);
+void clkdm44xx_deinit(void);
+
+int clkdm44xx_count_get(void);
+const genlist *clkdm44xx_list_get(void);
+
 
 char *clkdm44xx_get_name(clkdm44xx_id id, char name[CLKDM44XX_MAX_NAME_LENGTH]);
 pwrdm44xx_id clkdm44xx_get_pwrdm(clkdm44xx_id id);

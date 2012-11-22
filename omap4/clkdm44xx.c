@@ -141,6 +141,84 @@ static const unsigned int *
 	NULL};
 
 
+static unsigned short clkdm44xx_init_done = 0;
+genlist clkdm44xx_list;
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		clkdm44xx_init
+ * @BRIEF		initialize internal data
+ * @DESCRIPTION		initialize internal data (architecture dependent)
+ *//*------------------------------------------------------------------------ */
+void clkdm44xx_init(void)
+{
+	clkdm_info clkdm;
+
+	if (clkdm44xx_init_done)
+		return;
+
+	genlist_init(&clkdm44xx_list);
+
+	/* FIXME */
+	clkdm = clkdm;
+
+	clkdm44xx_init_done = 1;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		clkdm44xx_deinit
+ * @BRIEF		free dynamically allocated internal data.
+ * @DESCRIPTION		free dynamically allocated internal data.
+ *			MUST BE CALLED AT END OF EXECUTION.
+ *//*------------------------------------------------------------------------ */
+void clkdm44xx_deinit(void)
+{
+	if (clkdm44xx_init_done) {
+		genlist_free(&clkdm44xx_list);
+		clkdm44xx_init_done = 0;
+
+	}
+	dprintf("%s(): deinit done.\n", __func__);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		clkdm44xx_list_get
+ * @BRIEF		return the list of clock domains
+ * @RETURNS		list of clock domains in case of success
+ *			NULL in case of error
+ * @DESCRIPTION		return the list of clock domains
+ *//*------------------------------------------------------------------------ */
+const genlist *clkdm44xx_list_get(void)
+{
+	clkdm44xx_init();
+
+	return (const genlist *) &clkdm44xx_list;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		clkdm44xx_count_get
+ * @BRIEF		return the number of clock domains
+ * @RETURNS		number of clock domains (> 0) in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ * @DESCRIPTION		return the number of clock domains
+ *//*------------------------------------------------------------------------ */
+int clkdm44xx_count_get(void)
+{
+	int count;
+
+	clkdm44xx_init();
+
+	count = genlist_getcount(&clkdm44xx_list);
+
+	dprintf("%s() = %d\n", __func__, count);
+	return count;
+}
+
+
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		clkdm44xx_get_name
  * @BRIEF		return clock domain name
