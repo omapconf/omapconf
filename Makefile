@@ -44,150 +44,298 @@
 
 
 CC = $(CROSS_COMPILE)gcc
+
+
 DEF_INC := $(shell $(CROSS_COMPILE)gcc  -print-file-name=include)
-DEF_INC_PATH = -I. -Icommon -Ipmic -Iaudioic -Ilinux -Istatcoll -Iomap4 -Iomap5 -Ii2c-tools -Iarch/arm/mach-omap/common
-MYCFLAGS+=$(CFLAGS) -D_OMAP5430 -D_SC_VER_1_16 -c -Wall -Wextra -Wno-missing-field-initializers -I$(DEF_INC) $(DEF_INC_PATH) -static
+
+
+DEF_INC_PATH = -I. -Icommon -Ipmic -Iaudioic -Ilinux -Ii2c-tools\
+	-Iarch/arm/mach-omap/common\
+	-Iarch/arm/mach-omap/common/prcm\
+	-Iarch/arm/mach-omap/common/statcoll\
+	-Iarch/arm/mach-omap/omap4\
+	-Iarch/arm/mach-omap/omap4/prcm\
+	-Iarch/arm/mach-omap/omap4/dpll\
+	-Iarch/arm/mach-omap/omap4/pmi\
+	-Iarch/arm/mach-omap/omap5\
+	-Iarch/arm/mach-omap/omap5/prcm\
+	-Iarch/arm/mach-omap/omap5/dpll\
+	-Iarch/arm/mach-omap/omap5/ctrlmod
+
+
+MYCFLAGS+=$(CFLAGS) -D_OMAP5430 -D_SC_VER_1_16 -c -Wall -Wextra\
+	-Wno-missing-field-initializers -I$(DEF_INC) $(DEF_INC_PATH) -static
+
+
 DESTDIR ?= target
 
 
-OMAP4SOURCES=		omap4/clock44xx.c omap4/clkdm44xx.c omap4/pwrdm44xx.c\
-			omap4/voltdm44xx.c omap4/module44xx.c omap4/cpuinfo44xx.c\
-			omap4/lib44xx.c omap4/gfx44xx.c omap4/ivahd44xx.c\
-			omap4/abe44xx.c omap4/wkup44xx.c omap4/audit44xx.c\
-			omap4/l3init44xx.c omap4/mpuss44xx.c omap4/alwon44xx.c\
-			omap4/emu44xx.c omap4/smartreflex44xx.c omap4/main44xx.c\
-			omap4/dpll44xx.c omap4/mpu44xx.c omap4/wkdep44xx.c\
-			omap4/core44xx.c omap4/per44xx.c omap4/dsp44xx.c\
-			omap4/dss44xx.c omap4/cam44xx.c omap4/hwobs44xx.c\
-			omap4/abb44xx.c omap4/temperature44xx.c omap4/ctt44xx.c\
-			omap4/pct44xx.c omap4/emif44xx.c omap4/coresight44xx.c\
-			omap4/stm44xx.c omap4/pmi44xx.c omap4/pmi44xx_pwrdm.c\
-			omap4/counters44xx.c omap4/l2cc44xx.c\
-			omap4/pmi44xx_voltdm.c omap4/power_trace44xx.c\
-			omap4/display44xx.c omap4/prcm44xx.c omap4/camera44xx.c\
-			omap4/dep44xx.c omap4/uc_audit44xx.c\
-			omap4/help44xx.c omap4/module44xx-data.c\
-			omap4/vc44xx.c omap4/sr44xx-data.c omap4/vp44xx.c\
-			omap4/vp44xx-data.c omap4/dpll44xx-data.c\
-			omap4/dpll4470-data-38_4MHz.c\
-			omap4/dpll4460-data-38_4MHz.c\
-			omap4/dpll4430-data-38_4MHz.c omap4/pads44xx.c\
-			omap4/opp44xx.c
 
 
-OMAP4OBJECTS=		$(OMAP4SOURCES:.c=.o)
+OMAPSOURCES=\
+		arch/arm/mach-omap/common/prcm/prcm-module.c\
+		arch/arm/mach-omap/common/prcm/clkdm.c\
+		arch/arm/mach-omap/common/prcm/pwrdm.c\
+		arch/arm/mach-omap/common/prcm/abb.c\
+		arch/arm/mach-omap/common/prcm/clkdm_dependency.c\
+		arch/arm/mach-omap/common/prcm/vp.c\
+		arch/arm/mach-omap/common/prcm/vc.c\
+		arch/arm/mach-omap/common/dpll.c\
+		arch/arm/mach-omap/common/sr.c\
+		arch/arm/mach-omap/common/emif.c\
+		arch/arm/mach-omap/common/module.c\
+		arch/arm/mach-omap/common/clockdomain.c\
+		arch/arm/mach-omap/common/powerdomain.c\
+		arch/arm/mach-omap/common/voltdomain.c\
+		arch/arm/mach-omap/common/statcoll/sci_swcapture.c\
+		arch/arm/mach-omap/common/statcoll/sci.c\
+		arch/arm/mach-omap/common/statcoll/cToolsHelper.c\
+		arch/arm/mach-omap/common/timestamp_32k.c
+
+OMAPOBJECTS=	$(OMAPSOURCES:.c=.o)
 
 
-OMAP5SOURCES=		omap5/cpuinfo54xx.c omap5/main54xx.c omap5/cm54xx-defs.c\
-			omap5/cm54xx.c omap5/prm54xx-defs.c omap5/prm54xx.c\
-			omap5/sr54xx-defs.c omap5/sr54xx.c omap5/dss54xx.c\
-			omap5/wkupaon54xx.c omap5/cam54xx.c omap5/dsp54xx.c\
-			omap5/abe54xx.c omap5/gpu54xx.c omap5/coreaon54xx.c\
-			omap5/iva54xx.c omap5/mpu54xx.c omap5/l3init54xx.c\
-			omap5/core54xx.c omap5/l4per54xx.c omap5/prmdevice54xx.c\
-			omap5/emu54xx.c omap5/ckgen54xx.c omap5/instr54xx.c\
-			omap5/help54xx.c omap5/dpll54xx.c omap5/prcm54xx.c\
-			omap5/clock54xx.c omap5/voltdm54xx.c omap5/pwrdm54xx.c\
-			omap5/clkdm54xx.c omap5/module54xx-data.c\
-			omap5/module54xx.c omap5/dpll54xx-data.c\
-			omap5/dpll54xx-data-19_2MHz.c\
-			omap5/dpll54xx-data-38_4MHz.c\
-			omap5/audit54xx.c omap5/lib54xx.c\
-			omap5/ctrlmod_core54xx-defs.c\
-			omap5/ctrlmod_core_pad54xx-defs.c\
-			omap5/ctrlmod_wkup54xx-defs.c\
-			omap5/ctrlmod_wkup_pad54xx-defs.c omap5/ctrlmod54xx.c\
-			omap5/ctrlmod54xx-data.c omap5/temp54xx.c\
-			omap5/sysconfig54xx-defs.c omap5/hwobs54xx.c\
-			omap5/abb54xx.c omap5/emif54xx-defs.c omap5/emif54xx.c\
-			omap5/clkdm_dependency54xx-data.c\
-			omap5/clkdm_dependency54xx.c omap5/ctt54xx.c\
-			omap5/vp54xx.c omap5/vc54xx.c omap5/opp54xx.c
-
-OMAP5OBJECTS=		$(OMAP5SOURCES:.c=.o)
 
 
-SOURCES=		omapconf.c builddate.c common/lib.c common/reg.c\
-			common/autoadjust_table.c common/genlist.c common/abb.c\
-			pmic/pmic.c\
-			common/cpuinfo.c common/dpll.c i2c-tools/i2cbusses.c\
-			i2c-tools/i2cget.c i2c-tools/i2cset.c i2c-tools/util.c\
-			common/help.c common/clkdm_dependency.c\
-			common/vp.c common/vc.c common/sr.c common/audit.c\
-                        statcoll/sci_swcapture.c statcoll/sci.c\
-                        statcoll/cToolsHelper.c common/timestamp_32k.c\
-                        common/lib_android.c common/mem.c common/emif.c\
-                        common/trace.c common/opp.c common/voltdm.c\
-                        common/temperature.c
+OMAP4SOURCES=\
+		arch/arm/mach-omap/omap4/prcm/module44xx-data.c\
+		arch/arm/mach-omap/omap4/prcm/clock44xx.c\
+		arch/arm/mach-omap/omap4/prcm/clkdm44xx.c\
+		arch/arm/mach-omap/omap4/prcm/pwrdm44xx.c\
+		arch/arm/mach-omap/omap4/prcm/voltdm44xx.c\
+		arch/arm/mach-omap/omap4/prcm/abb44xx.c\
+		arch/arm/mach-omap/omap4/prcm/vp44xx.c\
+		arch/arm/mach-omap/omap4/prcm/vp44xx-data.c\
+		arch/arm/mach-omap/omap4/prcm/vc44xx.c\
+		arch/arm/mach-omap/omap4/prcm/gfx44xx.c\
+		arch/arm/mach-omap/omap4/prcm/ivahd44xx.c\
+		arch/arm/mach-omap/omap4/prcm/abe44xx.c\
+		arch/arm/mach-omap/omap4/prcm/l3init44xx.c\
+		arch/arm/mach-omap/omap4/prcm/mpu44xx.c\
+		arch/arm/mach-omap/omap4/prcm/wkdep44xx.c\
+		arch/arm/mach-omap/omap4/prcm/core44xx.c\
+		arch/arm/mach-omap/omap4/prcm/per44xx.c\
+		arch/arm/mach-omap/omap4/prcm/dsp44xx.c\
+		arch/arm/mach-omap/omap4/prcm/prcm44xx.c\
+		arch/arm/mach-omap/omap4/prcm/camera44xx.c\
+		arch/arm/mach-omap/omap4/prcm/dep44xx.c\
+		arch/arm/mach-omap/omap4/prcm/alwon44xx.c\
+		arch/arm/mach-omap/omap4/prcm/emu44xx.c\
+		arch/arm/mach-omap/omap4/prcm/dss44xx.c\
+		arch/arm/mach-omap/omap4/prcm/cam44xx.c\
+		arch/arm/mach-omap/omap4/prcm/wkup44xx.c\
+		arch/arm/mach-omap/omap4/dpll/dpll44xx.c\
+		arch/arm/mach-omap/omap4/dpll/dpll44xx-data.c\
+		arch/arm/mach-omap/omap4/dpll/dpll4470-data-38_4MHz.c\
+		arch/arm/mach-omap/omap4/dpll/dpll4460-data-38_4MHz.c\
+		arch/arm/mach-omap/omap4/dpll/dpll4430-data-38_4MHz.c\
+		arch/arm/mach-omap/omap4/pmi/coresight44xx.c\
+		arch/arm/mach-omap/omap4/pmi/stm44xx.c\
+		arch/arm/mach-omap/omap4/pmi/pmi44xx.c\
+		arch/arm/mach-omap/omap4/pmi/pmi44xx_pwrdm.c\
+		arch/arm/mach-omap/omap4/pmi/pmi44xx_voltdm.c\
+		arch/arm/mach-omap/omap4/pmi/power_trace44xx.c\
+		arch/arm/mach-omap/omap4/module44xx.c\
+		arch/arm/mach-omap/omap4/cpuinfo44xx.c\
+		arch/arm/mach-omap/omap4/lib44xx.c\
+		arch/arm/mach-omap/omap4/audit44xx.c\
+		arch/arm/mach-omap/omap4/mpuss44xx.c\
+		arch/arm/mach-omap/omap4/smartreflex44xx.c\
+		arch/arm/mach-omap/omap4/main44xx.c\
+		arch/arm/mach-omap/omap4/hwobs44xx.c\
+		arch/arm/mach-omap/omap4/temperature44xx.c\
+		arch/arm/mach-omap/omap4/ctt44xx.c\
+		arch/arm/mach-omap/omap4/pct44xx.c\
+		arch/arm/mach-omap/omap4/emif44xx.c\
+		arch/arm/mach-omap/omap4/counters44xx.c\
+		arch/arm/mach-omap/omap4/l2cc44xx.c\
+		arch/arm/mach-omap/omap4/display44xx.c\
+		arch/arm/mach-omap/omap4/uc_audit44xx.c\
+		arch/arm/mach-omap/omap4/help44xx.c\
+		arch/arm/mach-omap/omap4/sr44xx-data.c\
+		arch/arm/mach-omap/omap4/pads44xx.c\
+		arch/arm/mach-omap/omap4/opp44xx.c
 
-OBJECTS=		$(SOURCES:.c=.o)
+
+OMAP4OBJECTS=	$(OMAP4SOURCES:.c=.o)
 
 
-PRCMSOURCES=		arch/arm/mach-omap/common/prcm-clkdm.c\
-			arch/arm/mach-omap/common/prcm-pwrdm.c\
-			arch/arm/mach-omap/common/prcm-module.c\
-			arch/arm/mach-omap/common/clkdm.c\
-			arch/arm/mach-omap/common/pwrdm.c\
-			arch/arm/mach-omap/common/module.c
-
-PRCMOBJECTS=		$(PRCMSOURCES:.c=.o)
 
 
-PMICSOURCES=		pmic/twl603x.c pmic/tps62361.c pmic/twl603x_lib.c
+OMAP5SOURCES=\
+		arch/arm/mach-omap/omap5/prcm/cm54xx-defs.c\
+		arch/arm/mach-omap/omap5/prcm/cm54xx.c\
+		arch/arm/mach-omap/omap5/prcm/prm54xx-defs.c\
+		arch/arm/mach-omap/omap5/prcm/prm54xx.c\
+		arch/arm/mach-omap/omap5/prcm/clock54xx.c\
+		arch/arm/mach-omap/omap5/prcm/abb54xx.c\
+		arch/arm/mach-omap/omap5/prcm/vp54xx.c\
+		arch/arm/mach-omap/omap5/prcm/vc54xx.c\
+		arch/arm/mach-omap/omap5/prcm/clkdm_dependency54xx-data.c\
+		arch/arm/mach-omap/omap5/prcm/clkdm_dependency54xx.c\
+		arch/arm/mach-omap/omap5/prcm/dss54xx.c\
+		arch/arm/mach-omap/omap5/prcm/wkupaon54xx.c\
+		arch/arm/mach-omap/omap5/prcm/cam54xx.c\
+		arch/arm/mach-omap/omap5/prcm/dsp54xx.c\
+		arch/arm/mach-omap/omap5/prcm/abe54xx.c\
+		arch/arm/mach-omap/omap5/prcm/gpu54xx.c\
+		arch/arm/mach-omap/omap5/prcm/coreaon54xx.c\
+		arch/arm/mach-omap/omap5/prcm/iva54xx.c\
+		arch/arm/mach-omap/omap5/prcm/mpu54xx.c\
+		arch/arm/mach-omap/omap5/prcm/l3init54xx.c\
+		arch/arm/mach-omap/omap5/prcm/core54xx.c\
+		arch/arm/mach-omap/omap5/prcm/l4per54xx.c\
+		arch/arm/mach-omap/omap5/prcm/prmdevice54xx.c\
+		arch/arm/mach-omap/omap5/prcm/emu54xx.c\
+		arch/arm/mach-omap/omap5/prcm/ckgen54xx.c\
+		arch/arm/mach-omap/omap5/prcm/instr54xx.c\
+		arch/arm/mach-omap/omap5/prcm/prcm54xx.c\
+		arch/arm/mach-omap/omap5/prcm/voltdm54xx.c\
+		arch/arm/mach-omap/omap5/prcm/pwrdm54xx.c\
+		arch/arm/mach-omap/omap5/prcm/clkdm54xx.c\
+		arch/arm/mach-omap/omap5/prcm/module54xx-data.c\
+		arch/arm/mach-omap/omap5/prcm/module54xx.c\
+		arch/arm/mach-omap/omap5/dpll/dpll54xx.c\
+		arch/arm/mach-omap/omap5/dpll/dpll54xx-data.c\
+		arch/arm/mach-omap/omap5/dpll/dpll54xx-data-19_2MHz.c\
+		arch/arm/mach-omap/omap5/dpll/dpll54xx-data-38_4MHz.c\
+		arch/arm/mach-omap/omap5/ctrlmod/ctrlmod_core54xx-defs.c\
+		arch/arm/mach-omap/omap5/ctrlmod/ctrlmod_core_pad54xx-defs.c\
+		arch/arm/mach-omap/omap5/ctrlmod/ctrlmod_wkup54xx-defs.c\
+		arch/arm/mach-omap/omap5/ctrlmod/ctrlmod_wkup_pad54xx-defs.c\
+		arch/arm/mach-omap/omap5/ctrlmod/ctrlmod54xx.c\
+		arch/arm/mach-omap/omap5/ctrlmod/ctrlmod54xx-data.c\
+		arch/arm/mach-omap/omap5/cpuinfo54xx.c\
+		arch/arm/mach-omap/omap5/main54xx.c\
+		arch/arm/mach-omap/omap5/sr54xx-defs.c\
+		arch/arm/mach-omap/omap5/sr54xx.c\
+		arch/arm/mach-omap/omap5/help54xx.c\
+		arch/arm/mach-omap/omap5/audit54xx.c\
+		arch/arm/mach-omap/omap5/lib54xx.c\
+		arch/arm/mach-omap/omap5/temp54xx.c\
+		arch/arm/mach-omap/omap5/sysconfig54xx-defs.c\
+		arch/arm/mach-omap/omap5/hwobs54xx.c\
+		arch/arm/mach-omap/omap5/emif54xx-defs.c\
+		arch/arm/mach-omap/omap5/emif54xx.c\
+		arch/arm/mach-omap/omap5/ctt54xx.c\
+		arch/arm/mach-omap/omap5/opp54xx.c
+
+OMAP5OBJECTS=	$(OMAP5SOURCES:.c=.o)
 
 
-PMICOBJECTS=		$(PMICSOURCES:.c=.o)
 
 
-AUDIOICSOURCES=		audioic/twl6040.c audioic/twl6040_lib.c
+SOURCES=\
+		omapconf.c\
+		builddate.c\
+		common/lib.c\
+		common/reg.c\
+		common/autoadjust_table.c\
+		common/genlist.c\
+		common/cpuinfo.c\
+		common/help.c\
+		common/audit.c\
+                common/lib_android.c\
+                common/mem.c\
+                common/trace.c\
+                common/opp.c\
+                common/temperature.c\
+		pmic/pmic.c
+
+OBJECTS=	$(SOURCES:.c=.o)
 
 
-AUDIOICOBJECTS=		$(AUDIOICSOURCES:.c=.o)
 
 
-LINUXSOURCES=		linux/cpufreq.c linux/cstate.c linux/interrupts.c\
-			linux/timer_stats.c linux/linux_mem.c
+PMICSOURCES=	pmic/twl603x.c pmic/tps62361.c pmic/twl603x_lib.c
+
+PMICOBJECTS=	$(PMICSOURCES:.c=.o)
 
 
-LINUXOBJECTS=		$(LINUXSOURCES:.c=.o)
 
 
-ALLOBJECTS=		$(OBJECTS) $(PRCMOBJECTS) $(OMAP4OBJECTS) $(OMAP5OBJECTS) $(LINUXOBJECTS) $(PMICOBJECTS) $(AUDIOICOBJECTS)
+AUDIOICSOURCES=	audioic/twl6040.c audioic/twl6040_lib.c
+
+AUDIOICOBJECTS=	$(AUDIOICSOURCES:.c=.o)
 
 
-EXECUTABLE=		omapconf
 
 
-all: 			$(SOURCES) $(ALLOBJECTS) $(EXECUTABLE)
+LINUXSOURCES=	linux/cpufreq.c linux/cstate.c linux/interrupts.c\
+		linux/timer_stats.c linux/linux_mem.c
 
 
-$(EXECUTABLE):		$(ALLOBJECTS)
-			$(CC) -static $(LDFLAGS) $(ALLOBJECTS) -lrt -o $@
-			rm -f builddate.c
+LINUXOBJECTS=	$(LINUXSOURCES:.c=.o)
+
+
+
+
+I2CSOURCES=\
+		i2c-tools/i2cbusses.c\
+		i2c-tools/i2cget.c\
+		i2c-tools/i2cset.c\
+		i2c-tools/util.c\
+
+I2COBJECTS=	$(I2CSOURCES:.c=.o)
+
+
+
+
+ALLOBJECTS=	$(OBJECTS) $(OMAPOBJECTS) $(OMAP4OBJECTS) $(OMAP5OBJECTS) $(LINUXOBJECTS) $(PMICOBJECTS) $(AUDIOICOBJECTS) $(I2COBJECTS)
+
+
+
+
+EXECUTABLE=	omapconf
+
+
+
+
+all: 		$(SOURCES) $(ALLOBJECTS) $(EXECUTABLE)
+
+
+
+
+$(EXECUTABLE):	$(ALLOBJECTS)
+		$(CC) -static $(LDFLAGS) $(ALLOBJECTS) -lrt -o $@
+		rm -f builddate.c
+
+
 
 
 .c.o:
-			$(CC) $(MYCFLAGS) $< -o $@
+		$(CC) $(MYCFLAGS) $< -o $@
+
+
 
 
 builddate.c:
-			echo 'char *builddate="'`date`'";' > builddate.c
+		echo 'char *builddate="'`date`'";' > builddate.c
 
 
-install: 		omapconf
-			install -d $(DESTDIR)
-			install omapconf $(DESTDIR)
 
 
-install_android:	omapconf
-			adb push omapconf /data/
+
+install: 	omapconf
+		install -d $(DESTDIR)
+		install omapconf $(DESTDIR)
+
+
+
+
+install_android: omapconf
+		adb push omapconf /data/
+
+
 
 
 clean:
-			rm -f omapconf *.o builddate.c
-			rm -f $(OBJECTS)
-			rm -f $(LINUXOBJECTS)
-			rm -f $(OMAP4OBJECTS)
-			rm -f $(OMAP5OBJECTS)
-			rm -f $(PMICOBJECTS)
-			rm -f $(AUDIOICOBJECTS)
+		rm -f omapconf *.o builddate.c
+		rm -f $(OBJECTS)
+		rm -f $(LINUXOBJECTS)
+		rm -f $(OMAPOBJECTS)
+		rm -f $(OMAP4OBJECTS)
+		rm -f $(OMAP5OBJECTS)
+		rm -f $(PMICOBJECTS)
+		rm -f $(AUDIOICOBJECTS)
+		rm -f $(I2COBJECTS)

@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			revision.h
- * @Description			Revision File
+ * @Filename			abb54xx.h
+ * @Description			OMAP5 PRCM ABB Definitions & Functions
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2010
+ * @Date			2012
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,14 +42,15 @@
  */
 
 
-#ifndef __REVISION_H__
-#define __REVISION_H__
+#ifndef __PRCM_ABB54XX_H__
+#define __PRCM_ABB54XX_H__
 
 
-#define OMAPCONF_REV_MAJOR	1
-#define OMAPCONF_REV_MINOR	60
+#include <stdio.h>
 
-extern char *builddate;
+
+int abb54xx_dump(FILE *stream);
+int abb54xx_config_show(FILE *stream);
 
 
 #endif

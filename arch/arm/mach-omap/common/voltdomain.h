@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			revision.h
- * @Description			Revision File
+ * @Filename			voltdomain.h
+ * @Description			Generic Voltage Domain Definitions & APIs
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2010
+ * @Date			2012
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,14 +42,34 @@
  */
 
 
-#ifndef __REVISION_H__
-#define __REVISION_H__
+#ifndef __VOLTDOMAIN_H__
+#define __VOLTDOMAIN_H__
 
 
-#define OMAPCONF_REV_MAJOR	1
-#define OMAPCONF_REV_MINOR	60
+#include <genlist.h>
 
-extern char *builddate;
+#define VOLTDM_MAX_NAME_LENGTH		16
+
+#define VDD_WKUP	((const char *) "VDD_WKUP") /* Common */
+#define VDD_MPU		((const char *) "VDD_MPU") /* Common */
+#define VDD_IVA		((const char *) "VDD_IVA") /* OMAP4 */
+#define VDD_MM		((const char *) "VDD_MM") /* OMAP5 */
+#define VDD_CORE	((const char *) "VDD_CORE") /* Common */
+
+
+void voltdm_init(void);
+void voltdm_deinit(void);
+
+int voltdm_s2id(const char *voltdm);
+
+int voltdm_count_get(void);
+const genlist *voltdm_list_get(void);
+
+int voltdm_voltage_get(const char *voltdm);
+int voltdm_voltage_set(const char *voltdm, int uv);
+
+int voltdm_nominal_voltage_get(const char *voltdm);
+int voltdm_por_nominal_voltage_get(const char *voltdm, const char *opp);
 
 
 #endif

@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			revision.h
- * @Description			Revision File
+ * @Filename			clockdomain.h
+ * @Description			Clock Domain Generic Definitions & Functions
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2010
+ * @Date			2012
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,14 +42,57 @@
  */
 
 
-#ifndef __REVISION_H__
-#define __REVISION_H__
+#ifndef __CLOCKDOMAIN_H__
+#define __CLOCKDOMAIN_H__
 
 
-#define OMAPCONF_REV_MAJOR	1
-#define OMAPCONF_REV_MINOR	60
+#include <reg.h>
+#include <genlist.h>
 
-extern char *builddate;
+
+#define CLKDM_EMU			((const char *) "EMU")
+#define CLKDM_WKUPAON			((const char *) "WKUPAON")
+#define CLKDM_COREAON			((const char *) "COREAON")
+#define CLKDM_CAM			((const char *) "CAM")
+#define CLKDM_L4_CFG			((const char *) "L4_CFG")
+#define CLKDM_EMIF			((const char *) "EMIF")
+#define CLKDM_IPU			((const char *) "IPU")
+#define CLKDM_L3_MAIN2			((const char *) "L3_MAIN2")
+#define CLKDM_L3_INSTR			((const char *) "L3_INSTR")
+#define CLKDM_L3_MAIN1			((const char *) "L3_MAIN1")
+#define CLKDM_C2C			((const char *) "C2C")
+#define CLKDM_DMA			((const char *) "DMA")
+#define CLKDM_MIPIEXT			((const char *) "MIPIEXT")
+#define CLKDM_DSS			((const char *) "DSS")
+#define CLKDM_CUST_EFUSE		((const char *) "CUST_EFUSE")
+#define CLKDM_L3_INIT			((const char *) "L3_INIT")
+#define CLKDM_L4_PER			((const char *) "L4_PER")
+#define CLKDM_L4_SEC			((const char *) "L4_SEC")
+#define CLKDM_ABE			((const char *) "ABE")
+#define CLKDM_DSP			((const char *) "DSP")
+#define CLKDM_GPU			((const char *) "GPU")
+#define CLKDM_IVA			((const char *) "IVA")
+#define CLKDM_MPU			((const char *) "MPU")
+#define CLKDM_NONE			((const char *) "NONE")
+#define CLKDM_UNKNOWN			((const char *) "UNKNOWN")
+
+
+typedef struct {
+	const char *name;
+	int id;
+	const char *pwrdm;
+	const char *voltdm;
+	reg *clkstctrl;
+	int properties;
+} clkdm_info;
+
+
+void clkdm_init(void);
+void clkdm_deinit(void);
+
+int clkdm_count_get(void);
+const genlist *clkdm_list_get(void);
+
 
 
 #endif

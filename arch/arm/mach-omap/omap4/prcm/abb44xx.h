@@ -1,8 +1,8 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			revision.h
- * @Description			Revision File
+ * @Filename			abb44xx.h
+ * @Description			OMAP4 PRCM ABB Definitions & Functions
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2010
  * @Copyright			Texas Instruments Incorporated
@@ -42,14 +42,16 @@
  */
 
 
-#ifndef __REVISION_H__
-#define __REVISION_H__
+#ifndef __PRCM_ABB44XX_H__
+#define __PRCM_ABB44XX_H__
 
 
-#define OMAPCONF_REV_MAJOR	1
-#define OMAPCONF_REV_MINOR	60
+int abb44xx_name2addr(char *name, unsigned int *addr);
+int abb44xx_dump(void);
+int abb44xx_config_show(void);
 
-extern char *builddate;
+/* DEPRECATED, DO NOT USE ANYMORE */
+int abb44xx_main(int argc, char *argv[]);
 
 
 #endif

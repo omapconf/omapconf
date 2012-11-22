@@ -1,8 +1,8 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			revision.h
- * @Description			Revision File
+ * @Filename			lib44xx.h
+ * @Description			OMAPCONF OMAP4 General Purpose Library
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2010
  * @Copyright			Texas Instruments Incorporated
@@ -42,14 +42,34 @@
  */
 
 
-#ifndef __REVISION_H__
-#define __REVISION_H__
+#ifndef __LIB44XX_H__
+#define __LIB44XX_H__
 
 
-#define OMAPCONF_REV_MAJOR	1
-#define OMAPCONF_REV_MINOR	60
+#include <pwrdm.h>
+#include <stdio.h>
 
-extern char *builddate;
+
+#define OMAP44XX_UART_TIMEOUT		10
+
+
+int reg44xx_addr_find(char *name, unsigned int* addr);
+
+
+int cpu44xx_power_state_get(unsigned int cpu,
+	pwrdm_state *state);
+
+int pwrdm44xx_config_show(FILE *stream, const char name[11],
+	unsigned int pm_pwstctrl_addr, unsigned int pm_pwstctrl,
+	unsigned int pm_pwstst_addr, unsigned int pm_pwstst);
+int clkdm44xx_config_show(FILE *stream, const char name[11],
+	unsigned int cm_clkstctrl_addr,	unsigned int cm_clkstctrl);
+int mod44xx_config_show(FILE *stream, const char name[11],
+	unsigned int cm_clkctrl_addr, unsigned int cm_clkctrl,
+	unsigned int rm_context_addr, unsigned int rm_context);
+
+
+int power44xx_status_show(void);
 
 
 #endif

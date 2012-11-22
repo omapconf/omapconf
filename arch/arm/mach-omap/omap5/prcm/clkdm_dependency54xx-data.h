@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			revision.h
- * @Description			Revision File
+ * @Filename			clkdm_dependency54xx-data.h
+ * @Description			OMAP5 Clock Domain Dependencies Definitions
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2010
+ * @Date			2012
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,14 +42,19 @@
  */
 
 
-#ifndef __REVISION_H__
-#define __REVISION_H__
+#ifndef __PRCM_CLKDM_DEPENDENCY54XX_DATA_H__
+#define __PRCM_CLKDM_DEPENDENCY54XX_DATA_H__
 
+#include <reg.h>
+#include <clkdm54xx.h>
+#include <clkdm_dependency.h>
 
-#define OMAPCONF_REV_MAJOR	1
-#define OMAPCONF_REV_MINOR	60
+extern const reg *clkdmdep54xx_reg_table[CLKDM54XX_ID_MAX][2];
 
-extern char *builddate;
+extern const short int clkdmdep54xx_bit_pos_table[CLKDM54XX_ID_MAX];
+
+extern const clkdmdep_ctrl_type *clkdmdep54xx_statdep_table[CLKDM54XX_ID_MAX];
+extern const clkdmdep_ctrl_type *clkdmdep54xx_dyndep_table[CLKDM54XX_ID_MAX];
 
 
 #endif

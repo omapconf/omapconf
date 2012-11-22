@@ -47,15 +47,16 @@
 #include <cpuinfo.h>
 #include <lib.h>
 #include <string.h>
-#include <voltdm.h>
+#include <voltdomain.h>
 #include <autoadjust_table.h>
 #include <temperature.h>
 #include <cpufreq.h>
 #include <opp44xx.h>
 #include <clock44xx.h>
+#include <prcm-module.h>
 #include <module44xx.h>
-#include <opp54xx.h>
 #include <module54xx.h>
+#include <opp54xx.h>
 
 
 /* #define OPP_DEBUG */

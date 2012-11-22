@@ -62,11 +62,11 @@
 #include <trace.h>
 #include <mem.h>
 #include <opp.h>
-#include <voltdm.h>
+#include <voltdomain.h>
 #include <temperature.h>
 #include <module.h>
-#include <pwrdm.h>
-#include <clkdm.h>
+#include <powerdomain.h>
+#include <clockdomain.h>
 
 
 /* #define DEBUG */

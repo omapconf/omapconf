@@ -1,8 +1,8 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			revision.h
- * @Description			Revision File
+ * @Filename			abb.h
+ * @Description			PRCM ABB Common Definitions & Functions
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2010
  * @Copyright			Texas Instruments Incorporated
@@ -42,14 +42,16 @@
  */
 
 
-#ifndef __REVISION_H__
-#define __REVISION_H__
+#ifndef __PRCM_ABB_H__
+#define __PRCM_ABB_H__
 
 
-#define OMAPCONF_REV_MAJOR	1
-#define OMAPCONF_REV_MINOR	60
+#include <stdio.h>
 
-extern char *builddate;
+
+int abb_config_show(FILE *stream, double sysclk_rate,
+	unsigned int abb_mpu_setup, unsigned int abb_mpu_ctrl,
+	unsigned int abb_iva_setup, unsigned int abb_iva_ctrl);
 
 
 #endif

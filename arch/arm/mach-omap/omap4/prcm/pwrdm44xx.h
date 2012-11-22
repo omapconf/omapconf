@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			revision.h
- * @Description			Revision File
+ * @Filename			pwrdm44xx.h
+ * @Description			OMAP4 Power Domain Definitions & Functions
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2010
+ * @Date			2011
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2011 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,14 +42,51 @@
  */
 
 
-#ifndef __REVISION_H__
-#define __REVISION_H__
+#ifndef __PWRDM44XX_H__
+#define __PWRDM44XX_H__
 
 
-#define OMAPCONF_REV_MAJOR	1
-#define OMAPCONF_REV_MINOR	60
+#include <powerdomain.h>
+#include <pwrdm.h>
+#include <voltdm44xx.h>
 
-extern char *builddate;
+#define PWRDM44XX_MAX_NAME_LENGTH		16
+
+
+typedef enum {
+	OMAP4_PD_WKUP,
+	OMAP4_PD_EMU,
+	OMAP4_PD_MPU,
+	OMAP4_PD_ALWON_MPU,
+	OMAP4_PD_ABE,
+	OMAP4_PD_IVA_HD,
+	OMAP4_PD_DSP,
+	OMAP4_PD_ALWON_IVA,
+	OMAP4_PD_ALWON_CORE,
+	OMAP4_PD_CORE,
+	OMAP4_PD_STD_EFUSE,
+	OMAP4_PD_CUST_EFUSE,
+	OMAP4_PD_CAM,
+	OMAP4_PD_DSS,
+	OMAP4_PD_GFX,
+	OMAP4_PD_L3_INIT,
+	OMAP4_PD_L4_PER,
+	OMAP4_PD_ID_MAX
+} pwrdm44xx_id;
+
+
+void pwrdm44xx_init(void);
+void pwrdm44xx_deinit(void);
+
+int pwrdm44xx_count_get(void);
+const genlist *pwrdm44xx_list_get(void);
+
+
+char *pwrdm44xx_get_name(pwrdm44xx_id id, char name[PWRDM44XX_MAX_NAME_LENGTH]);
+voltdm44xx_id pwrdm44xx_get_voltdm(pwrdm44xx_id id);
+int pwrdm_states_get(char *name, char pwst[6], char pwtgst[6]);
+int pwrdm44xx_get_state(pwrdm44xx_id pd_id,
+	pwrdm_state *state);
 
 
 #endif

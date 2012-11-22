@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			revision.h
- * @Description			Revision File
+ * @Filename			clkdm54xx.h
+ * @Description			OMAP5 Clock Domain Definitions & APIs
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2010
+ * @Date			2011
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2011 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,14 +42,64 @@
  */
 
 
-#ifndef __REVISION_H__
-#define __REVISION_H__
+#ifndef __CLKDM54XX_H__
+#define __CLKDM54XX_H__
 
 
-#define OMAPCONF_REV_MAJOR	1
-#define OMAPCONF_REV_MINOR	60
+#include <clockdomain.h>
+#include <clkdm.h>
+#include <pwrdm54xx.h>
+#include <voltdm54xx.h>
 
-extern char *builddate;
+
+#define CLKDM54XX_MAX_NAME_LENGTH		12
+
+
+typedef enum {
+	CLKDM54XX_EMU,
+	CLKDM54XX_WKUPAON,
+	CLKDM54XX_COREAON,
+	CLKDM54XX_CAM,
+	CLKDM54XX_L4_CFG,
+	CLKDM54XX_EMIF,
+	CLKDM54XX_IPU,
+	CLKDM54XX_L3_MAIN2,
+	CLKDM54XX_L3_INSTR,
+	CLKDM54XX_L3_MAIN1,
+	CLKDM54XX_C2C,
+	CLKDM54XX_DMA,
+	CLKDM54XX_MIPIEXT,
+	CLKDM54XX_DSS,
+	CLKDM54XX_CUST_EFUSE,
+	CLKDM54XX_L3_INIT,
+	CLKDM54XX_L4_PER,
+	CLKDM54XX_L4_SEC,
+	CLKDM54XX_ABE,
+	CLKDM54XX_DSP,
+	CLKDM54XX_GPU,
+	CLKDM54XX_IVA,
+	CLKDM54XX_MPU,
+	CLKDM54XX_NONE, /* for PRCM own clock */
+	CLKDM54XX_ID_MAX
+} clkdm54xx_id;
+
+
+void clkdm54xx_init(void);
+void clkdm54xx_deinit(void);
+
+int clkdm54xx_count_get(void);
+const genlist *clkdm54xx_list_get(void);
+
+
+const char *clkdm54xx_name_get(clkdm54xx_id id);
+pwrdm54xx_id clkdm54xx_pwrdm_get(clkdm54xx_id id);
+voltdm54xx_id clkdm54xx_voltdm_get(clkdm54xx_id id);
+
+clkdm_ctrl_mode clkdm54xx_ctrl_mode_get(clkdm54xx_id id);
+clkdm_status clkdm54xx_status_get(clkdm54xx_id id);
+
+clkdm54xx_id clkdm54xx_s2id(char *s);
+int clkdm54xx_config_show(FILE *stream, clkdm54xx_id id);
 
 
 #endif

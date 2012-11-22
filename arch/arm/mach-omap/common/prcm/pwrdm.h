@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			revision.h
- * @Description			Revision File
+ * @Filename			pwrdm.h
+ * @Description			OMAP Power Domain Definitions & APIs
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2010
+ * @Date			2011
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2011 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,14 +42,46 @@
  */
 
 
-#ifndef __REVISION_H__
-#define __REVISION_H__
+#ifndef __PRCM_PWRDM_H__
+#define __PRCM_PWRDM_H__
 
 
-#define OMAPCONF_REV_MAJOR	1
-#define OMAPCONF_REV_MINOR	60
+#include <reg.h>
 
-extern char *builddate;
+
+#define PWRDM_STATE_MAX_NAME_LENGTH	8
+
+
+#define PWRDM_HAS_LAST_STATE			(1 << 0)
+#define PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT	(1 << 1) /* bit 2 */
+
+
+typedef enum {
+	PWRDM_OFF_STATE = 0,
+	PWRDM_RET_STATE = 1,
+	PWRDM_INACTIVE_STATE = 2,
+	PWRDM_ON_STATE = 3,
+	PWRDM_STATE_MAX
+} pwrdm_state;
+
+
+typedef enum {
+	PWRDM_STATE_PREVIOUS,
+	PWRDM_STATE_CURRENT,
+	PWRDM_STATE_TARGET,
+	PWRDM_STATE_TYPE_MAX
+} pwrdm_state_type;
+
+
+pwrdm_state pwrdm_state_get(reg *pm_pwrst, pwrdm_state_type type);
+pwrdm_state pwrdm_target_logic_ret_state_get(reg *pm_pwrstctrl);
+pwrdm_state pwrdm_logic_state_get(reg *pm_pwrstst);
+unsigned int pwrdm_in_transition(reg *pm_pwrstst);
+const char *pwrdm_state_name_get(pwrdm_state st);
+
+/* FIXME: DEPRECATED FUNCTION. Update OMAP4 code to use new functions ... */
+int pwrdm_state2string(char s[6], pwrdm_state powerstate);
+int pwrdm_states_get(char *name, char pwst[6], char pwtgst[6]);
 
 
 #endif

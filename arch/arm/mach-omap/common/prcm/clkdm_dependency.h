@@ -1,14 +1,15 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			revision.h
- * @Description			Revision File
+ * @Filename			clkdm_dependency.h
+ * @Description			Clock Domain Dependencies Common Definitions &
+ *				Functions
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2010
+ * @Date			2011
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2011 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,14 +43,44 @@
  */
 
 
-#ifndef __REVISION_H__
-#define __REVISION_H__
+#ifndef __PRCM_CLKDM_DEPENDENCY_H__
+#define __PRCM_CLKDM_DEPENDENCY_H__
 
 
-#define OMAPCONF_REV_MAJOR	1
-#define OMAPCONF_REV_MINOR	60
+#include <stdio.h>
 
-extern char *builddate;
+
+#define CLKDMDEP_TYPE_MAX_NAME_LENGTH		8
+#define CLKDMDEP_CTRL_TYPE_MAX_NAME_LENGTH	4
+#define CLKDMDEP_STATUS_MAX_NAME_LENGTH		9
+
+
+typedef enum {
+	CLKDMDEP_STATIC,
+	CLKDMDEP_DYNAMIC,
+	CLKDMDEP_TYPE_MAX
+} clkdmdep_type;
+
+
+typedef enum {
+	CLKDMDEP_NA, /* not available, does not exist */
+	CLKDMDEP_RW, /* available, SW-configurable */
+	CLKDMDEP_RO, /* available, not configurable (hard-coded) */
+	CLKDMDEP_CONTROL_TYPE_MAX
+} clkdmdep_ctrl_type;
+
+
+typedef enum {
+	CLKDMDEP_DIS,		/* dependency is disabled */
+	CLKDMDEP_EN,		/* dependency is enabled */
+	CLKDMDEP_STATUS_MAX
+} clkdmdep_status;
+
+
+
+const char *clkdmdep_type_name_get(clkdmdep_type type);
+const char *clkdmdep_ctrl_type_name_get(clkdmdep_ctrl_type type);
+const char *clkdmdep_status_name_get(clkdmdep_status st);
 
 
 #endif

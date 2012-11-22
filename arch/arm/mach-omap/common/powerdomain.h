@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			revision.h
- * @Description			Revision File
+ * @Filename			powerdomain.h
+ * @Description			OMAP Generic Power Domain Definitions & APIs
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2010
+ * @Date			2012
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,14 +42,48 @@
  */
 
 
-#ifndef __REVISION_H__
-#define __REVISION_H__
+#ifndef __POWERDOMAIN_H__
+#define __POWERDOMAIN_H__
 
 
-#define OMAPCONF_REV_MAJOR	1
-#define OMAPCONF_REV_MINOR	60
+#include <reg.h>
+#include <genlist.h>
 
-extern char *builddate;
+
+#define PWRDM_EMU			((const char *) "EMU")
+#define PWRDM_WKUPAON			((const char *) "WKUPAON")
+#define PWRDM_COREAON			((const char *) "COREAON")
+#define PWRDM_CAM			((const char *) "CAM")
+#define PWRDM_CORE			((const char *) "CORE")
+#define PWRDM_DSS			((const char *) "DSS")
+#define PWRDM_CUST_EFUSE		((const char *) "CUST_EFUSE")
+#define PWRDM_L3_INIT			((const char *) "L3_INIT")
+#define PWRDM_L4_PER			((const char *) "L4_PER")
+#define PWRDM_ABE			((const char *) "ABE")
+#define PWRDM_DSP			((const char *) "DSP")
+#define PWRDM_GPU			((const char *) "GPU")
+#define PWRDM_MMAON			((const char *) "MMAON")
+#define PWRDM_IVA			((const char *) "IVA")
+#define PWRDM_MPUAON			((const char *) "MPUAON")
+#define PWRDM_MPU			((const char *) "MPU")
+#define PWRDM_UNKNOWN			((const char *) "UNKNOWN")
+
+
+typedef struct {
+	const char *name;
+	int id;
+	const char *voltdm;
+	reg *pwrstctrl;
+	reg *pwrstst;
+	int properties;
+} pwrdm_info;
+
+
+void pwrdm_init(void);
+void pwrdm_deinit(void);
+
+int pwrdm_count_get(void);
+const genlist *pwrdm_list_get(void);
 
 
 #endif

@@ -1,14 +1,15 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			revision.h
- * @Description			Revision File
+ * @Filename			vc.h
+ * @Description			VOLTAGE CONTROLLER (VC) Common Definitions &
+ *				Functions
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2010
+ * @Date			2006
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2006 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,14 +43,32 @@
  */
 
 
-#ifndef __REVISION_H__
-#define __REVISION_H__
+#ifndef __PRCM_VC_H__
+#define __PRCM_VC_H__
 
 
-#define OMAPCONF_REV_MAJOR	1
-#define OMAPCONF_REV_MINOR	60
+#include <stdio.h>
 
-extern char *builddate;
+
+short int vc_cmd_values_get(unsigned int prm_vc_val_cmd,
+	unsigned char *cmd_on, unsigned char *cmd_onlp,
+	unsigned char *cmd_ret, unsigned char *cmd_off);
+
+unsigned char sri2c_is_double_filtering_enabled(
+	unsigned int prm_vc_cfg_i2c_mode);
+unsigned char sri2c_is_sr_mode_enabled(unsigned int prm_vc_cfg_i2c_mode);
+unsigned char sri2c_is_hs_mode_enabled(unsigned int prm_vc_cfg_i2c_mode);
+unsigned char sri2c_master_code_get(unsigned int prm_vc_cfg_i2c_mode);
+
+int sri2c_low_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
+	unsigned int prm_vc_cfg_i2c_clk,
+	unsigned char *cycles, double *us);
+int sri2c_high_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
+	unsigned int prm_vc_cfg_i2c_clk,
+	unsigned char *cycles, double *us);
+
+int sri2c_config_show(FILE *stream, unsigned int prm_vc_cfg_i2c_mode,
+	unsigned int prm_vc_cfg_i2c_clk);
 
 
 #endif
