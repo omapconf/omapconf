@@ -100,6 +100,84 @@ static const voltdm44xx_id pwrdm44xx_partition_table[OMAP4_PD_ID_MAX] = {
 	OMAP4_VDD_CORE};
 
 
+static unsigned short pwrdm44xx_init_done = 0;
+genlist pwrdm44xx_list;
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		pwrdm44xx_init
+ * @BRIEF		initialize internal data
+ * @DESCRIPTION		initialize internal data (architecture dependent)
+ *//*------------------------------------------------------------------------ */
+void pwrdm44xx_init(void)
+{
+	pwrdm_info pwrdm;
+
+	if (pwrdm44xx_init_done)
+		return;
+
+	genlist_init(&pwrdm44xx_list);
+
+	/* FIXME */
+	pwrdm = pwrdm;
+
+	pwrdm44xx_init_done = 1;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		pwrdm44xx_deinit
+ * @BRIEF		free dynamically allocated internal data.
+ * @DESCRIPTION		free dynamically allocated internal data.
+ *			MUST BE CALLED AT END OF EXECUTION.
+ *//*------------------------------------------------------------------------ */
+void pwrdm44xx_deinit(void)
+{
+	if (pwrdm44xx_init_done) {
+		genlist_free(&pwrdm44xx_list);
+		pwrdm44xx_init_done = 0;
+
+	}
+	dprintf("%s(): deinit done.\n", __func__);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		pwrdm44xx_list_get
+ * @BRIEF		return the list of power domains
+ * @RETURNS		list of power domains in case of success
+ *			NULL in case of error
+ * @DESCRIPTION		return the list of power domains
+ *//*------------------------------------------------------------------------ */
+const genlist *pwrdm44xx_list_get(void)
+{
+	pwrdm44xx_init();
+
+	return (const genlist *) &pwrdm44xx_list;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		pwrdm44xx_count_get
+ * @BRIEF		return the number of power domains
+ * @RETURNS		number of power domains (> 0) in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ * @DESCRIPTION		return the number of power domains
+ *//*------------------------------------------------------------------------ */
+int pwrdm44xx_count_get(void)
+{
+	int count;
+
+	pwrdm44xx_init();
+
+	count = genlist_getcount(&pwrdm44xx_list);
+
+	dprintf("%s() = %d\n", __func__, count);
+	return count;
+}
+
+
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		pwrdm44xx_get_name
  * @BRIEF		return power domain name

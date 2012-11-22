@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			pwrdm54xx.h
- * @Description			OMAP5 Power Domain Definitions & APIs
+ * @Filename			pwrdm.h
+ * @Description			OMAP Generic Power Domain Definitions & APIs
  * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2011
+ * @Date			2012
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2011 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,61 +42,48 @@
  */
 
 
-#ifndef __PWRDM54XX_H__
-#define __PWRDM54XX_H__
+#ifndef __PWRDM_H__
+#define __PWRDM_H__
 
 
-#include <prcm-pwrdm.h>
-#include <voltdm54xx.h>
+#include <reg.h>
 #include <genlist.h>
 
 
-#define PWRDM54XX_MAX_NAME_LENGTH		16
+#define PWRDM_EMU			((const char *) "EMU")
+#define PWRDM_WKUPAON			((const char *) "WKUPAON")
+#define PWRDM_COREAON			((const char *) "COREAON")
+#define PWRDM_CAM			((const char *) "CAM")
+#define PWRDM_CORE			((const char *) "CORE")
+#define PWRDM_DSS			((const char *) "DSS")
+#define PWRDM_CUST_EFUSE		((const char *) "CUST_EFUSE")
+#define PWRDM_L3_INIT			((const char *) "L3_INIT")
+#define PWRDM_L4_PER			((const char *) "L4_PER")
+#define PWRDM_ABE			((const char *) "ABE")
+#define PWRDM_DSP			((const char *) "DSP")
+#define PWRDM_GPU			((const char *) "GPU")
+#define PWRDM_MMAON			((const char *) "MMAON")
+#define PWRDM_IVA			((const char *) "IVA")
+#define PWRDM_MPUAON			((const char *) "MPUAON")
+#define PWRDM_MPU			((const char *) "MPU")
+#define PWRDM_UNKNOWN			((const char *) "UNKNOWN")
 
 
-typedef enum {
-	PWRDM54XX_EMU,
-	PWRDM54XX_WKUPAON,
-	PWRDM54XX_COREAON,
-	PWRDM54XX_CAM,
-	PWRDM54XX_CORE,
-	PWRDM54XX_DSS,
-	PWRDM54XX_CUST_EFUSE,
-	PWRDM54XX_L3_INIT,
-	PWRDM54XX_L4_PER,
-	PWRDM54XX_ABE,
-	PWRDM54XX_DSP,
-	PWRDM54XX_GPU,
-	PWRDM54XX_MMAON,
-	PWRDM54XX_IVA,
-	PWRDM54XX_MPUAON,
-	PWRDM54XX_MPU,
-	PWRDM54XX_ID_MAX
-} pwrdm54xx_id;
+typedef struct {
+	const char *name;
+	int id;
+	const char *voltdm;
+	reg *pwrstctrl;
+	reg *pwrstst;
+	int properties;
+} pwrdm_info;
 
 
-void pwrdm54xx_init(void);
-void pwrdm54xx_deinit(void);
+void pwrdm_init(void);
+void pwrdm_deinit(void);
 
-int pwrdm54xx_count_get(void);
-const genlist *pwrdm54xx_list_get(void);
-
-
-const char *pwrdm54xx_name_get(pwrdm54xx_id id);
-voltdm54xx_id pwrdm54xx_voltdm_get(pwrdm54xx_id id);
-unsigned int pwrdm54xx_properties_get(pwrdm54xx_id id);
-unsigned int pwrdm54xx_has_pwrstctrl_reg(pwrdm54xx_id id);
-reg *pwrdm54xx_pwrstctrl_reg_get(pwrdm54xx_id id);
-unsigned int pwrdm54xx_has_pwrstst_reg(pwrdm54xx_id id);
-reg *pwrdm54xx_pwrstst_reg_get(pwrdm54xx_id id);
-unsigned int pwrdm54xx_has_last_power_state(pwrdm54xx_id id);
-unsigned int pwrdm54xx_has_logic_ret_state_ctrl_bit(pwrdm54xx_id id);
-pwrdm_state pwrdm54xx_target_logic_ret_state_get(pwrdm54xx_id id);
-pwrdm_state pwrdm54xx_logic_state_get(pwrdm54xx_id id);
-pwrdm_state pwrdm54xx_state_get(pwrdm54xx_id id, pwrdm_state_type type);
-unsigned int pwrdm54xx_in_transition(pwrdm54xx_id id);
-
-int pwrdm54xx_config_show(FILE *stream, pwrdm54xx_id id);
+int pwrdm_count_get(void);
+const genlist *pwrdm_list_get(void);
 
 
 #endif

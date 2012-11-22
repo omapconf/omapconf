@@ -46,6 +46,7 @@
 #define __PWRDM44XX_H__
 
 
+#include <pwrdm.h>
 #include <prcm-pwrdm.h>
 #include <voltdm44xx.h>
 
@@ -72,6 +73,13 @@ typedef enum {
 	OMAP4_PD_L4_PER,
 	OMAP4_PD_ID_MAX
 } pwrdm44xx_id;
+
+
+void pwrdm44xx_init(void);
+void pwrdm44xx_deinit(void);
+
+int pwrdm44xx_count_get(void);
+const genlist *pwrdm44xx_list_get(void);
 
 
 char *pwrdm44xx_get_name(pwrdm44xx_id id, char name[PWRDM44XX_MAX_NAME_LENGTH]);

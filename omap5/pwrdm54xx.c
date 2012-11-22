@@ -42,6 +42,8 @@
  */
 
 
+#include <pwrdm.h>
+#include <voltdm.h>
 #include <pwrdm54xx.h>
 #include <lib.h>
 #include <string.h>
@@ -155,6 +157,211 @@ static const unsigned int pwrdm54xx_properties_table[PWRDM54XX_ID_MAX] = {
 	PWRDM_HAS_LAST_STATE | PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT, /* PWRDM54XX_IVA */
 	0, /* PWRDM54XX_MPUAON */
 	PWRDM_HAS_LAST_STATE | PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT, /* PWRDM54XX_MPU */};
+
+
+static unsigned short pwrdm54xx_init_done = 0;
+genlist pwrdm54xx_list;
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		pwrdm54xx_init
+ * @BRIEF		initialize internal data
+ * @DESCRIPTION		initialize internal data (architecture dependent)
+ *//*------------------------------------------------------------------------ */
+void pwrdm54xx_init(void)
+{
+	pwrdm_info pwrdm;
+
+	if (pwrdm54xx_init_done)
+		return;
+
+	genlist_init(&pwrdm54xx_list);
+
+	pwrdm.name = PWRDM_EMU;
+	pwrdm.id = (int) PWRDM54XX_EMU;
+	pwrdm.voltdm = VDD_WKUP;
+	pwrdm.pwrstctrl = &omap5430_pm_emu_pwrstctrl;
+	pwrdm.pwrstst = &omap5430_pm_emu_pwrstst;
+	pwrdm.properties = PWRDM_HAS_LAST_STATE;
+	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+
+	pwrdm.name = PWRDM_WKUPAON;
+	pwrdm.id = (int) PWRDM54XX_WKUPAON;
+	pwrdm.voltdm = VDD_WKUP;
+	pwrdm.pwrstctrl = NULL;
+	pwrdm.pwrstst = NULL;
+	pwrdm.properties = 0;
+	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+
+	pwrdm.name = PWRDM_COREAON;
+	pwrdm.id = (int) PWRDM54XX_COREAON;
+	pwrdm.voltdm = VDD_CORE;
+	pwrdm.pwrstctrl = NULL;
+	pwrdm.pwrstst = NULL;
+	pwrdm.properties = 0;
+	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+
+	pwrdm.name = PWRDM_CAM;
+	pwrdm.id = (int) PWRDM54XX_CAM;
+	pwrdm.voltdm = VDD_CORE;
+	pwrdm.pwrstctrl = &omap5430_pm_cam_pwrstctrl;
+	pwrdm.pwrstst = &omap5430_pm_cam_pwrstst;
+	pwrdm.properties = PWRDM_HAS_LAST_STATE;
+	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+
+	pwrdm.name = PWRDM_CORE;
+	pwrdm.id = (int) PWRDM54XX_CORE;
+	pwrdm.voltdm = VDD_CORE;
+	pwrdm.pwrstctrl = &omap5430_pm_core_pwrstctrl;
+	pwrdm.pwrstst = &omap5430_pm_core_pwrstst;
+	pwrdm.properties = PWRDM_HAS_LAST_STATE | PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT;
+	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+
+	pwrdm.name = PWRDM_DSS;
+	pwrdm.id = (int) PWRDM54XX_DSS;
+	pwrdm.voltdm = VDD_CORE;
+	pwrdm.pwrstctrl = &omap5430_pm_dss_pwrstctrl;
+	pwrdm.pwrstst = &omap5430_pm_dss_pwrstst;
+	pwrdm.properties = PWRDM_HAS_LAST_STATE | PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT;
+	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+
+	pwrdm.name = PWRDM_CUST_EFUSE;
+	pwrdm.id = (int) PWRDM54XX_CUST_EFUSE;
+	pwrdm.voltdm = VDD_CORE;
+	pwrdm.pwrstctrl = &omap5430_pm_core_pwrstctrl;
+	pwrdm.pwrstst = &omap5430_pm_core_pwrstst;
+	pwrdm.properties = PWRDM_HAS_LAST_STATE;
+	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+
+	pwrdm.name = PWRDM_L3_INIT;
+	pwrdm.id = (int) PWRDM54XX_L3_INIT;
+	pwrdm.voltdm = VDD_CORE;
+	pwrdm.pwrstctrl = &omap5430_pm_l3init_pwrstctrl;
+	pwrdm.pwrstst = &omap5430_pm_l3init_pwrstst;
+	pwrdm.properties = PWRDM_HAS_LAST_STATE | PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT;
+	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+
+	if (cpu_revision_get() == REV_ES1_0) {
+		pwrdm.name = PWRDM_L4_PER;
+		pwrdm.id = (int) PWRDM54XX_L4_PER;
+		pwrdm.voltdm = VDD_CORE;
+		pwrdm.pwrstctrl = &omap5430_pm_l4per_pwrstctrl;
+		pwrdm.pwrstst = &omap5430_pm_l4per_pwrstst;
+		pwrdm.properties = PWRDM_HAS_LAST_STATE | PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT;
+		genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+	}
+
+	pwrdm.name = PWRDM_ABE;
+	pwrdm.id = (int) PWRDM54XX_ABE;
+	pwrdm.voltdm = VDD_CORE;
+	pwrdm.pwrstctrl = &omap5430_pm_abe_pwrstctrl;
+	pwrdm.pwrstst = &omap5430_pm_abe_pwrstst;
+	pwrdm.properties = PWRDM_HAS_LAST_STATE | PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT;
+	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+
+	pwrdm.name = PWRDM_DSP;
+	pwrdm.id = (int) PWRDM54XX_DSP;
+	pwrdm.voltdm = VDD_MM;
+	pwrdm.pwrstctrl = &omap5430_pm_dsp_pwrstctrl;
+	pwrdm.pwrstst = &omap5430_pm_dsp_pwrstst;
+	pwrdm.properties = PWRDM_HAS_LAST_STATE | PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT;
+	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+
+	pwrdm.name = PWRDM_GPU;
+	pwrdm.id = (int) PWRDM54XX_GPU;
+	pwrdm.voltdm = VDD_MM;
+	pwrdm.pwrstctrl = &omap5430_pm_gpu_pwrstctrl;
+	pwrdm.pwrstst = &omap5430_pm_gpu_pwrstst;
+	pwrdm.properties = PWRDM_HAS_LAST_STATE;
+	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+
+	pwrdm.name = PWRDM_MMAON;
+	pwrdm.id = (int) PWRDM54XX_MMAON;
+	pwrdm.voltdm = VDD_MM;
+	pwrdm.pwrstctrl = NULL;
+	pwrdm.pwrstst = NULL;
+	pwrdm.properties = 0;
+	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+
+	pwrdm.name = PWRDM_IVA;
+	pwrdm.id = (int) PWRDM54XX_IVA;
+	pwrdm.voltdm = VDD_MM;
+	pwrdm.pwrstctrl = &omap5430_pm_iva_pwrstctrl;
+	pwrdm.pwrstst = &omap5430_pm_iva_pwrstst;
+	pwrdm.properties = PWRDM_HAS_LAST_STATE;
+	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+
+	pwrdm.name = PWRDM_MPUAON;
+	pwrdm.id = (int) PWRDM54XX_MPUAON;
+	pwrdm.voltdm = VDD_MPU;
+	pwrdm.pwrstctrl = NULL;
+	pwrdm.pwrstst = NULL;
+	pwrdm.properties = 0;
+	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+
+	pwrdm.name = PWRDM_MPU;
+	pwrdm.id = (int) PWRDM54XX_MPU;
+	pwrdm.voltdm = VDD_MPU;
+	pwrdm.pwrstctrl = &omap5430_pm_mpu_pwrstctrl;
+	pwrdm.pwrstst = &omap5430_pm_mpu_pwrstst;
+	pwrdm.properties = PWRDM_HAS_LAST_STATE;
+	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
+
+	pwrdm54xx_init_done = 1;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		pwrdm54xx_deinit
+ * @BRIEF		free dynamically allocated internal data.
+ * @DESCRIPTION		free dynamically allocated internal data.
+ *			MUST BE CALLED AT END OF EXECUTION.
+ *//*------------------------------------------------------------------------ */
+void pwrdm54xx_deinit(void)
+{
+	if (pwrdm54xx_init_done) {
+		genlist_free(&pwrdm54xx_list);
+		pwrdm54xx_init_done = 0;
+
+	}
+	dprintf("%s(): deinit done.\n", __func__);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		pwrdm54xx_list_get
+ * @BRIEF		return the list of power domains
+ * @RETURNS		list of power domains in case of success
+ *			NULL in case of error
+ * @DESCRIPTION		return the list of power domains
+ *//*------------------------------------------------------------------------ */
+const genlist *pwrdm54xx_list_get(void)
+{
+	pwrdm54xx_init();
+
+	return (const genlist *) &pwrdm54xx_list;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		pwrdm54xx_count_get
+ * @BRIEF		return the number of power domains
+ * @RETURNS		number of power domains (> 0) in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ * @DESCRIPTION		return the number of power domains
+ *//*------------------------------------------------------------------------ */
+int pwrdm54xx_count_get(void)
+{
+	int count;
+
+	pwrdm54xx_init();
+
+	count = genlist_getcount(&pwrdm54xx_list);
+
+	dprintf("%s() = %d\n", __func__, count);
+	return count;
+}
 
 
 /* ------------------------------------------------------------------------*//**
