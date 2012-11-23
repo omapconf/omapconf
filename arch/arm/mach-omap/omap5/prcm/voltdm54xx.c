@@ -48,7 +48,7 @@
 #include <vc54xx.h>
 #include <dpll54xx.h>
 #include <cpuinfo.h>
-#include <prm54xx-defs.h>
+#include <prm54xxes1-defs.h>
 #include <sr54xx.h>
 #include <pwrdm.h>
 #include <clock54xx.h>

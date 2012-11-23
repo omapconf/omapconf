@@ -180,25 +180,61 @@ int vc54xx_registers_get(vc54xx_registers *vc_regs)
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(vc_regs, OMAPCONF_ERR_ARG);
 
-	vc_regs->vc_smps_mpu_config =
-		reg_read(&omap5430_prm_vc_smps_mpu_config);
-	vc_regs->vc_smps_mm_config =
-		reg_read(&omap5430_prm_vc_smps_mm_config);
-	vc_regs->vc_smps_core_config =
-		reg_read(&omap5430_prm_vc_smps_core_config);
-	vc_regs->vc_val_cmd_vdd_mpu_l =
-		reg_read(&omap5430_prm_vc_val_cmd_vdd_mpu_l);
-	vc_regs->vc_val_cmd_vdd_mm_l =
-		reg_read(&omap5430_prm_vc_val_cmd_vdd_mm_l);
-	vc_regs->vc_val_cmd_vdd_core_l =
-		reg_read(&omap5430_prm_vc_val_cmd_vdd_core_l);
-	vc_regs->vc_val_bypass = reg_read(&omap5430_prm_vc_val_bypass);
-	vc_regs->vc_mpu_errst = reg_read(&omap5430_prm_vc_mpu_errst);
-	vc_regs->vc_mm_errst = reg_read(&omap5430_prm_vc_mm_errst);
-	vc_regs->vc_core_errst = reg_read(&omap5430_prm_vc_core_errst);
-	vc_regs->vc_bypass_errst = reg_read(&omap5430_prm_vc_bypass_errst);
-	vc_regs->vc_cfg_i2c_mode = reg_read(&omap5430_prm_vc_cfg_i2c_mode);
-	vc_regs->vc_cfg_i2c_clk = reg_read(&omap5430_prm_vc_cfg_i2c_clk);
+	if (cpu_revision_get() == REV_ES1_0) {
+		vc_regs->vc_smps_mpu_config =
+			reg_read(&omap5430es1_prm_vc_smps_mpu_config);
+		vc_regs->vc_smps_mm_config =
+			reg_read(&omap5430es1_prm_vc_smps_mm_config);
+		vc_regs->vc_smps_core_config =
+			reg_read(&omap5430es1_prm_vc_smps_core_config);
+		vc_regs->vc_val_cmd_vdd_mpu_l =
+			reg_read(&omap5430es1_prm_vc_val_cmd_vdd_mpu_l);
+		vc_regs->vc_val_cmd_vdd_mm_l =
+			reg_read(&omap5430es1_prm_vc_val_cmd_vdd_mm_l);
+		vc_regs->vc_val_cmd_vdd_core_l =
+			reg_read(&omap5430es1_prm_vc_val_cmd_vdd_core_l);
+		vc_regs->vc_val_bypass =
+			reg_read(&omap5430es1_prm_vc_val_bypass);
+		vc_regs->vc_mpu_errst =
+			reg_read(&omap5430es1_prm_vc_mpu_errst);
+		vc_regs->vc_mm_errst =
+			reg_read(&omap5430es1_prm_vc_mm_errst);
+		vc_regs->vc_core_errst =
+			reg_read(&omap5430es1_prm_vc_core_errst);
+		vc_regs->vc_bypass_errst =
+			reg_read(&omap5430es1_prm_vc_bypass_errst);
+		vc_regs->vc_cfg_i2c_mode =
+			reg_read(&omap5430es1_prm_vc_cfg_i2c_mode);
+		vc_regs->vc_cfg_i2c_clk =
+			reg_read(&omap5430es1_prm_vc_cfg_i2c_clk);
+	} else { /* FIXME when ES2 ready */
+		vc_regs->vc_smps_mpu_config =
+			reg_read(&omap5430es1_prm_vc_smps_mpu_config);
+		vc_regs->vc_smps_mm_config =
+			reg_read(&omap5430es1_prm_vc_smps_mm_config);
+		vc_regs->vc_smps_core_config =
+			reg_read(&omap5430es1_prm_vc_smps_core_config);
+		vc_regs->vc_val_cmd_vdd_mpu_l =
+			reg_read(&omap5430es1_prm_vc_val_cmd_vdd_mpu_l);
+		vc_regs->vc_val_cmd_vdd_mm_l =
+			reg_read(&omap5430es1_prm_vc_val_cmd_vdd_mm_l);
+		vc_regs->vc_val_cmd_vdd_core_l =
+			reg_read(&omap5430es1_prm_vc_val_cmd_vdd_core_l);
+		vc_regs->vc_val_bypass =
+			reg_read(&omap5430es1_prm_vc_val_bypass);
+		vc_regs->vc_mpu_errst =
+			reg_read(&omap5430es1_prm_vc_mpu_errst);
+		vc_regs->vc_mm_errst =
+			reg_read(&omap5430es1_prm_vc_mm_errst);
+		vc_regs->vc_core_errst =
+			reg_read(&omap5430es1_prm_vc_core_errst);
+		vc_regs->vc_bypass_errst =
+			reg_read(&omap5430es1_prm_vc_bypass_errst);
+		vc_regs->vc_cfg_i2c_mode =
+			reg_read(&omap5430es1_prm_vc_cfg_i2c_mode);
+		vc_regs->vc_cfg_i2c_clk =
+			reg_read(&omap5430es1_prm_vc_cfg_i2c_clk);
+	}
 
 	return 0;
 }

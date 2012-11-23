@@ -89,30 +89,30 @@ static const char
 	"NONE (PRCM)"};
 
 
-static reg *clkdm54xx_cm_clkstctrl_table[CLKDM54XX_ID_MAX] = {
-	&omap5430_cm_emu_clkstctrl, /* CLKDM54XX_EMU */
-	&omap5430_cm_wkupaon_clkstctrl, /* CLKDM54XX_WKUPAON */
-	&omap5430_cm_coreaon_clkstctrl, /* CLKDM54XX_COREAON */
-	&omap5430_cm_cam_clkstctrl, /* CLKDM54XX_CAM */
-	&omap5430_cm_l4cfg_clkstctrl, /* CLKDM54XX_L4_CFG */
-	&omap5430_cm_emif_clkstctrl, /* EMIF */
-	&omap5430_cm_ipu_clkstctrl, /* IPU */
-	&omap5430_cm_l3main2_clkstctrl, /* L3_MAIN2 */
-	&omap5430_cm_l3instr_clkstctrl, /* L3_INSTR */
-	&omap5430_cm_l3main1_clkstctrl, /* L3_MAIN1 */
-	&omap5430_cm_c2c_clkstctrl, /* C2C */
-	&omap5430_cm_dma_clkstctrl, /* DMA */
-	&omap5430_cm_mipiext_clkstctrl, /* MIPIEXT */
-	&omap5430_cm_dss_clkstctrl, /* DSS */
-	&omap5430_cm_custefuse_clkstctrl, /* CUST_EFUSE */
-	&omap5430_cm_l3init_clkstctrl, /* L3_INIT */
-	&omap5430_cm_l4per_clkstctrl, /* L4_PER */
+static reg *clkdm54xxes1_cm_clkstctrl_table[CLKDM54XX_ID_MAX] = { /* FIXME when ES2 ready */
+	&omap5430es1_cm_emu_clkstctrl, /* CLKDM54XX_EMU */
+	&omap5430es1_cm_wkupaon_clkstctrl, /* CLKDM54XX_WKUPAON */
+	&omap5430es1_cm_coreaon_clkstctrl, /* CLKDM54XX_COREAON */
+	&omap5430es1_cm_cam_clkstctrl, /* CLKDM54XX_CAM */
+	&omap5430es1_cm_l4cfg_clkstctrl, /* CLKDM54XX_L4_CFG */
+	&omap5430es1_cm_emif_clkstctrl, /* EMIF */
+	&omap5430es1_cm_ipu_clkstctrl, /* IPU */
+	&omap5430es1_cm_l3main2_clkstctrl, /* L3_MAIN2 */
+	&omap5430es1_cm_l3instr_clkstctrl, /* L3_INSTR */
+	&omap5430es1_cm_l3main1_clkstctrl, /* L3_MAIN1 */
+	&omap5430es1_cm_c2c_clkstctrl, /* C2C */
+	&omap5430es1_cm_dma_clkstctrl, /* DMA */
+	&omap5430es1_cm_mipiext_clkstctrl, /* MIPIEXT */
+	&omap5430es1_cm_dss_clkstctrl, /* DSS */
+	&omap5430es1_cm_custefuse_clkstctrl, /* CUST_EFUSE */
+	&omap5430es1_cm_l3init_clkstctrl, /* L3_INIT */
+	&omap5430es1_cm_l4per_clkstctrl, /* L4_PER */
 	NULL /* FIXME &OMAP5430_CM_L4SEC_CLKSTCTRL*/, /* L4_SEC */
-	&omap5430_cm_abe_clkstctrl, /* ABE */
-	&omap5430_cm_dsp_clkstctrl, /* DSP */
-	&omap5430_cm_gpu_clkstctrl, /* GPU */
-	&omap5430_cm_iva_clkstctrl, /* IVA */
-	&omap5430_cm_mpu_clkstctrl, /* MPU */
+	&omap5430es1_cm_abe_clkstctrl, /* ABE */
+	&omap5430es1_cm_dsp_clkstctrl, /* DSP */
+	&omap5430es1_cm_gpu_clkstctrl, /* GPU */
+	&omap5430es1_cm_iva_clkstctrl, /* IVA */
+	&omap5430es1_cm_mpu_clkstctrl, /* MPU */
 	NULL}; /* CLKDM54XX_NONE */
 
 
@@ -192,7 +192,7 @@ void clkdm54xx_init(void)
 	clkdm.id = (int) CLKDM54XX_EMU;
 	clkdm.pwrdm = PWRDM_EMU;
 	clkdm.voltdm = VDD_WKUP;
-	clkdm.clkstctrl = &omap5430_cm_emu_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_emu_clkstctrl;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
 
@@ -200,7 +200,7 @@ void clkdm54xx_init(void)
 	clkdm.id = (int) CLKDM54XX_WKUPAON;
 	clkdm.pwrdm = PWRDM_WKUPAON;
 	clkdm.voltdm = VDD_WKUP;
-	clkdm.clkstctrl = &omap5430_cm_wkupaon_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_wkupaon_clkstctrl;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
 
@@ -208,7 +208,7 @@ void clkdm54xx_init(void)
 	clkdm.id = (int) CLKDM54XX_COREAON;
 	clkdm.pwrdm = PWRDM_COREAON;
 	clkdm.voltdm = VDD_CORE;
-	clkdm.clkstctrl = &omap5430_cm_coreaon_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_coreaon_clkstctrl;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
 
@@ -216,7 +216,7 @@ void clkdm54xx_init(void)
 	clkdm.id = (int) CLKDM54XX_CAM;
 	clkdm.pwrdm = PWRDM_CAM;
 	clkdm.voltdm = VDD_CORE;
-	clkdm.clkstctrl = &omap5430_cm_cam_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_cam_clkstctrl;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
 
@@ -224,7 +224,7 @@ void clkdm54xx_init(void)
 	clkdm.id = (int) CLKDM54XX_L4_CFG;
 	clkdm.pwrdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
-	clkdm.clkstctrl = &omap5430_cm_l4cfg_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_l4cfg_clkstctrl;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
 
@@ -232,7 +232,7 @@ void clkdm54xx_init(void)
 	clkdm.id = (int) CLKDM54XX_EMIF;
 	clkdm.pwrdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
-	clkdm.clkstctrl = &omap5430_cm_emif_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_emif_clkstctrl;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
 
@@ -240,7 +240,7 @@ void clkdm54xx_init(void)
 	clkdm.id = (int) CLKDM54XX_IPU;
 	clkdm.pwrdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
-	clkdm.clkstctrl = &omap5430_cm_ipu_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_ipu_clkstctrl;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
 
@@ -248,7 +248,7 @@ void clkdm54xx_init(void)
 	clkdm.id = (int) CLKDM54XX_L3_MAIN2;
 	clkdm.pwrdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
-	clkdm.clkstctrl = &omap5430_cm_l3main2_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_l3main2_clkstctrl;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
 
@@ -256,7 +256,7 @@ void clkdm54xx_init(void)
 	clkdm.id = (int) CLKDM54XX_L3_INSTR;
 	clkdm.pwrdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
-	clkdm.clkstctrl = &omap5430_cm_l3instr_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_l3instr_clkstctrl;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
 
@@ -264,7 +264,7 @@ void clkdm54xx_init(void)
 	clkdm.id = (int) CLKDM54XX_L3_MAIN1;
 	clkdm.pwrdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
-	clkdm.clkstctrl = &omap5430_cm_l3main1_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_l3main1_clkstctrl;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
 
@@ -272,7 +272,7 @@ void clkdm54xx_init(void)
 	clkdm.id = (int) CLKDM54XX_C2C;
 	clkdm.pwrdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
-	clkdm.clkstctrl = &omap5430_cm_c2c_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_c2c_clkstctrl;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
 
@@ -280,7 +280,7 @@ void clkdm54xx_init(void)
 	clkdm.id = (int) CLKDM54XX_DMA;
 	clkdm.pwrdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
-	clkdm.clkstctrl = &omap5430_cm_dma_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_dma_clkstctrl;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
 
@@ -288,7 +288,7 @@ void clkdm54xx_init(void)
 	clkdm.id = (int) CLKDM54XX_MIPIEXT;
 	clkdm.pwrdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
-	clkdm.clkstctrl = &omap5430_cm_mipiext_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_mipiext_clkstctrl;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
 
@@ -296,14 +296,14 @@ void clkdm54xx_init(void)
 	clkdm.id = (int) CLKDM54XX_DSS;
 	clkdm.pwrdm = PWRDM_DSS;
 	clkdm.voltdm = VDD_CORE;
-	clkdm.clkstctrl = &omap5430_cm_dss_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_dss_clkstctrl;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
 
 	clkdm.name = CLKDM_CUST_EFUSE;
 	clkdm.id = (int) CLKDM54XX_CUST_EFUSE;
 	clkdm.pwrdm = PWRDM_CUST_EFUSE;
-	clkdm.clkstctrl = &omap5430_cm_custefuse_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_custefuse_clkstctrl;
 	clkdm.voltdm = VDD_CORE;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
@@ -311,7 +311,7 @@ void clkdm54xx_init(void)
 	clkdm.name = CLKDM_L3_INIT;
 	clkdm.id = (int) CLKDM54XX_L3_INIT;
 	clkdm.pwrdm = PWRDM_L3_INIT;
-	clkdm.clkstctrl = &omap5430_cm_l3init_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_l3init_clkstctrl;
 	clkdm.voltdm = VDD_CORE;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
@@ -322,7 +322,7 @@ void clkdm54xx_init(void)
 		clkdm.pwrdm = PWRDM_L4_PER;
 	else
 		clkdm.pwrdm = PWRDM_CORE;
-	clkdm.clkstctrl = &omap5430_cm_l4per_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_l4per_clkstctrl;
 	clkdm.voltdm = VDD_CORE;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
@@ -341,7 +341,7 @@ void clkdm54xx_init(void)
 	clkdm.name = CLKDM_ABE;
 	clkdm.id = (int) CLKDM54XX_ABE;
 	clkdm.pwrdm = PWRDM_ABE;
-	clkdm.clkstctrl = &omap5430_cm_abe_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_abe_clkstctrl;
 	clkdm.voltdm = VDD_CORE;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
@@ -349,7 +349,7 @@ void clkdm54xx_init(void)
 	clkdm.name = CLKDM_DSP;
 	clkdm.id = (int) CLKDM54XX_DSP;
 	clkdm.pwrdm = PWRDM_DSP;
-	clkdm.clkstctrl = &omap5430_cm_dsp_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_dsp_clkstctrl;
 	clkdm.voltdm = VDD_MM;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
@@ -357,7 +357,7 @@ void clkdm54xx_init(void)
 	clkdm.name = CLKDM_GPU;
 	clkdm.id = (int) CLKDM54XX_GPU;
 	clkdm.pwrdm = PWRDM_GPU;
-	clkdm.clkstctrl = &omap5430_cm_gpu_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_gpu_clkstctrl;
 	clkdm.voltdm = VDD_MM;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
@@ -365,7 +365,7 @@ void clkdm54xx_init(void)
 	clkdm.name = CLKDM_IVA;
 	clkdm.id = (int) CLKDM54XX_IVA;
 	clkdm.pwrdm = PWRDM_IVA;
-	clkdm.clkstctrl = &omap5430_cm_iva_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_iva_clkstctrl;
 	clkdm.voltdm = VDD_MM;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
@@ -373,7 +373,7 @@ void clkdm54xx_init(void)
 	clkdm.name = CLKDM_MPU;
 	clkdm.id = (int) CLKDM54XX_MPU;
 	clkdm.pwrdm = PWRDM_MPU;
-	clkdm.clkstctrl = &omap5430_cm_mpu_clkstctrl;
+	clkdm.clkstctrl = &omap5430es1_cm_mpu_clkstctrl;
 	clkdm.voltdm = VDD_MPU;
 	clkdm.properties = 0;
 	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clkdm_info));
@@ -512,7 +512,10 @@ reg *clkdm54xx_clkstctrl_reg_get(clkdm54xx_id id)
 {
 	CHECK_ARG_LESS_THAN(id, CLKDM54XX_ID_MAX, NULL);
 
-	return clkdm54xx_cm_clkstctrl_table[id];
+	if (cpu_revision_get() == REV_ES1_0)
+		return clkdm54xxes1_cm_clkstctrl_table[id];
+	else /* FIXME when ES2 ready */
+		return clkdm54xxes1_cm_clkstctrl_table[id];
 }
 
 
@@ -529,8 +532,12 @@ clkdm_ctrl_mode clkdm54xx_ctrl_mode_get(clkdm54xx_id id)
 	CHECK_CPU(54xx, CLKM_CTRL_MODE_MAX);
 	CHECK_ARG_LESS_THAN(id, CLKDM54XX_ID_MAX, CLKM_CTRL_MODE_MAX);
 
-	return clkdm_ctrl_mode_get(
-		clkdm54xx_cm_clkstctrl_table[id]);
+	if (cpu_revision_get() == REV_ES1_0)
+		return clkdm_ctrl_mode_get(
+			clkdm54xxes1_cm_clkstctrl_table[id]);
+	else /* FIXME when ES2 ready */
+		return clkdm_ctrl_mode_get(
+			clkdm54xxes1_cm_clkstctrl_table[id]);
 }
 
 

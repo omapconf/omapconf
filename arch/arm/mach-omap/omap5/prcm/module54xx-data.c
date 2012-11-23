@@ -197,10 +197,10 @@ const char
 	"IVA",
 	"SL2",
 	/* Voltage dom.: MPU, Power dom.: MPUAON Clock domain = MPU */
-	"MPU"
+	"MPU",
 	/* ES2.0 additions */
 	/* Voltage dom.: CORE, Power dom.: COREAON, Clock domain = COREAON */
-	"USB2PHY"
+	"USB2PHY",
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = L3_INSTR */
 	"CTRL_MODULE_BANDGAP"};
 
@@ -658,122 +658,122 @@ reg *mod54xx_sysconfig_table[MOD54XX_ID_MAX] = {
 	NULL}; /* OMAP5_MPU */
 
 
-reg *mod54xx_cm_clkctrl_reg_table[MOD54XX_ID_MAX] = {
+reg *mod54xx_cm_clkctrl_reg_table[MOD54XX_ID_MAX] = { /* FIXME when ES2 ready */
 	/* Voltage dom.: WKUP, Power dom.: EMU, Clock dom. = EMU */
-	&omap5430_cm_emu_debugss_clkctrl, /* OMAP5_DEBUGSS */
+	&omap5430es1_cm_emu_debugss_clkctrl, /* OMAP5_DEBUGSS */
 	/* Voltage dom.: WKUP, Power dom.: WKUPAON, Clock domain = WKUPAON */
 	NULL, /* OMAP5_CTRL_MODULE_WKUP */
-	&omap5430_cm_wkupaon_l4_wkup_clkctrl, /* OMAP5_L4WKUP_INTERCONNECT */
-	&omap5430_cm_wkupaon_gpio1_clkctrl, /* OMAP5_GPIO1 */
-	&omap5430_cm_wkupaon_timer1_clkctrl, /* OMAP5_TIMER1 */
-	&omap5430_cm_wkupaon_wd_timer2_clkctrl, /* OMAP5_WD_TIMER2 */
-	&omap5430_cm_wkupaon_sar_ram_clkctrl, /* OMAP5_SARRAM */
-	&omap5430_cm_wkupaon_counter_32k_clkctrl, /* OMAP5_COUNTER_32K */
-	&omap5430_cm_wkupaon_kbd_clkctrl, /* OMAP5_KBD */
-	&omap5430_cm_wkupaon_io_srcomp_clkctrl, /* IO_SRCOMP_WKUP */
+	&omap5430es1_cm_wkupaon_l4_wkup_clkctrl, /* OMAP5_L4WKUP_INTERCONNECT */
+	&omap5430es1_cm_wkupaon_gpio1_clkctrl, /* OMAP5_GPIO1 */
+	&omap5430es1_cm_wkupaon_timer1_clkctrl, /* OMAP5_TIMER1 */
+	&omap5430es1_cm_wkupaon_wd_timer2_clkctrl, /* OMAP5_WD_TIMER2 */
+	&omap5430es1_cm_wkupaon_sar_ram_clkctrl, /* OMAP5_SARRAM */
+	&omap5430es1_cm_wkupaon_counter_32k_clkctrl, /* OMAP5_COUNTER_32K */
+	&omap5430es1_cm_wkupaon_kbd_clkctrl, /* OMAP5_KBD */
+	&omap5430es1_cm_wkupaon_io_srcomp_clkctrl, /* IO_SRCOMP_WKUP */
 	/* HS/EMU ONLY */
 	NULL, /* OMAP5_TIMER12 */
 	NULL, /* OMAP5_WDT1 */
 	/* Voltage dom.: CORE, Power dom.: COREAON, Clock domain = COREAON */
-	&omap5430_cm_coreaon_smartreflex_core_clkctrl, /* OMAP5_SMARTREFLEX_CORE */
-	&omap5430_cm_coreaon_smartreflex_mm_clkctrl, /* OMAP5_SMARTREFLEX_MM */
-	&omap5430_cm_coreaon_smartreflex_mpu_clkctrl, /* OMAP5_SMARTREFLEX_MPU */
-	&omap5430_cm_coreaon_bandgap_clkctrl, /* OMAP5_BANDGAPTS */
-	&omap5430_cm_coreaon_io_srcomp_clkctrl, /* OMAP5_IO_SRCOMP_CORE */
-	&omap5430_cm_coreaon_usb_phy_core_clkctrl, /* OMAP5_USB_PHY_CORE */
+	&omap5430es1_cm_coreaon_smartreflex_core_clkctrl, /* OMAP5_SMARTREFLEX_CORE */
+	&omap5430es1_cm_coreaon_smartreflex_mm_clkctrl, /* OMAP5_SMARTREFLEX_MM */
+	&omap5430es1_cm_coreaon_smartreflex_mpu_clkctrl, /* OMAP5_SMARTREFLEX_MPU */
+	&omap5430es1_cm_coreaon_bandgap_clkctrl, /* OMAP5_BANDGAPTS */
+	&omap5430es1_cm_coreaon_io_srcomp_clkctrl, /* OMAP5_IO_SRCOMP_CORE */
+	&omap5430es1_cm_coreaon_usb_phy_core_clkctrl, /* OMAP5_USB_PHY_CORE */
 	/* Voltage dom.: CORE, Power dom.: CAM, Clock domain = CAM */
-	&omap5430_cm_cam_fdif_clkctrl, /* OMAP5_FDIF */
-	&omap5430_cm_cam_iss_clkctrl, /* OMAP5_ISS */
-	&omap5430_cm_cam_cal_clkctrl, /* OMAP5_CAL */
+	&omap5430es1_cm_cam_fdif_clkctrl, /* OMAP5_FDIF */
+	&omap5430es1_cm_cam_iss_clkctrl, /* OMAP5_ISS */
+	&omap5430es1_cm_cam_cal_clkctrl, /* OMAP5_CAL */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = L4CFG */
 	NULL, /* OMAP5_CTRL_MODULE_CORE */
-	&omap5430_cm_l4cfg_spinlock_clkctrl, /* OMAP5_SPINLOCK */
-	&omap5430_cm_l4cfg_l4_cfg_clkctrl, /* OMAP5_L4_CFG_INTERCONNECT */
-	&omap5430_cm_l4cfg_mailbox_clkctrl, /* OMAP5_MAILBOX */
-	&omap5430_cm_l4cfg_sar_rom_clkctrl, /* OMAP5_SARROM */
-	&omap5430_cm_l4cfg_ocp2scp2_clkctrl, /* OMAP5_OCP2SCP2 */
+	&omap5430es1_cm_l4cfg_spinlock_clkctrl, /* OMAP5_SPINLOCK */
+	&omap5430es1_cm_l4cfg_l4_cfg_clkctrl, /* OMAP5_L4_CFG_INTERCONNECT */
+	&omap5430es1_cm_l4cfg_mailbox_clkctrl, /* OMAP5_MAILBOX */
+	&omap5430es1_cm_l4cfg_sar_rom_clkctrl, /* OMAP5_SARROM */
+	&omap5430es1_cm_l4cfg_ocp2scp2_clkctrl, /* OMAP5_OCP2SCP2 */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = EMIF */
 	NULL, /* OMAP5_PHY_EMIF */
 	NULL, /* OMAP5_DLL_EMIF */
-	&omap5430_cm_emif_dmm_clkctrl, /* OMAP5_DMM */
-	&omap5430_cm_emif_emif1_clkctrl, /* OMAP5_EMIF1 */
-	&omap5430_cm_emif_emif2_clkctrl, /* OMAP5_EMIF2 */
-	&omap5430_cm_emif_emif_ocp_fw_clkctrl, /* OMAP5_EMIF_OCP_FW */
+	&omap5430es1_cm_emif_dmm_clkctrl, /* OMAP5_DMM */
+	&omap5430es1_cm_emif_emif1_clkctrl, /* OMAP5_EMIF1 */
+	&omap5430es1_cm_emif_emif2_clkctrl, /* OMAP5_EMIF2 */
+	&omap5430es1_cm_emif_emif_ocp_fw_clkctrl, /* OMAP5_EMIF_OCP_FW */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = IPU */
-	&omap5430_cm_ipu_ipu_clkctrl, /* OMAP5_IPU */
+	&omap5430es1_cm_ipu_ipu_clkctrl, /* OMAP5_IPU */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = L3_MAIN2 */
-	&omap5430_cm_l3main2_gpmc_clkctrl, /* OMAP5_GPMC */
-	&omap5430_cm_l3main2_l3_main_2_clkctrl, /* OMAP5_L3_MAIN2_INTERCONNECT */
-	&omap5430_cm_l3main2_ocmc_ram_clkctrl, /* OMAP5_OCMC_RAM */
+	&omap5430es1_cm_l3main2_gpmc_clkctrl, /* OMAP5_GPMC */
+	&omap5430es1_cm_l3main2_l3_main_2_clkctrl, /* OMAP5_L3_MAIN2_INTERCONNECT */
+	&omap5430es1_cm_l3main2_ocmc_ram_clkctrl, /* OMAP5_OCMC_RAM */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = L3_INSTR */
-	&omap5430_cm_l3instr_l3_main_3_clkctrl, /* OMAP5_L3_MAIN3_INTERCONNECT */
-	&omap5430_cm_l3instr_l3_instr_clkctrl, /* OMAP5_L3_INSTR_INTERCONNECT */
-	&omap5430_cm_l3instr_ocp_wp_noc_clkctrl, /* OMAP5_OCP_WP_NOC */
+	&omap5430es1_cm_l3instr_l3_main_3_clkctrl, /* OMAP5_L3_MAIN3_INTERCONNECT */
+	&omap5430es1_cm_l3instr_l3_instr_clkctrl, /* OMAP5_L3_INSTR_INTERCONNECT */
+	&omap5430es1_cm_l3instr_ocp_wp_noc_clkctrl, /* OMAP5_OCP_WP_NOC */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = L3_MAIN1 */
-	&omap5430_cm_l3main1_l3_main_1_clkctrl, /* OMAP5_L3_MAIN1_INTERCONNECT */
+	&omap5430es1_cm_l3main1_l3_main_1_clkctrl, /* OMAP5_L3_MAIN1_INTERCONNECT */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = C2C */
-	&omap5430_cm_c2c_c2c_clkctrl, /* OMAP5_C2C */
-	&omap5430_cm_c2c_c2c_ocp_fw_clkctrl, /* OMAP5_C2C_OCP_FW */
-	&omap5430_cm_c2c_modem_icr_clkctrl, /* OMAP5_MODEM_ICR */
+	&omap5430es1_cm_c2c_c2c_clkctrl, /* OMAP5_C2C */
+	&omap5430es1_cm_c2c_c2c_ocp_fw_clkctrl, /* OMAP5_C2C_OCP_FW */
+	&omap5430es1_cm_c2c_modem_icr_clkctrl, /* OMAP5_MODEM_ICR */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = DMA */
-	&omap5430_cm_dma_dma_system_clkctrl, /* OMAP5_DMA_SYSTEM */
+	&omap5430es1_cm_dma_dma_system_clkctrl, /* OMAP5_DMA_SYSTEM */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = MIPIEXT */
-	&omap5430_cm_mipiext_lli_clkctrl, /* OMAP5_LLI */
-	&omap5430_cm_mipiext_lli_ocp_fw_clkctrl, /* OMAP5_LLI_OCP_FW */
-	&omap5430_cm_mipiext_mphy_clkctrl, /* OMAP5_MPHY */
-	&omap5430_cm_mipiext_unipro1_clkctrl, /* OMAP5_UNIPRO1 */
+	&omap5430es1_cm_mipiext_lli_clkctrl, /* OMAP5_LLI */
+	&omap5430es1_cm_mipiext_lli_ocp_fw_clkctrl, /* OMAP5_LLI_OCP_FW */
+	&omap5430es1_cm_mipiext_mphy_clkctrl, /* OMAP5_MPHY */
+	&omap5430es1_cm_mipiext_unipro1_clkctrl, /* OMAP5_UNIPRO1 */
 	/* Voltage dom.: CORE, Power dom.: DSS, Clock domain = DSS */
-	&omap5430_cm_dss_dss_clkctrl, /* OMAP5_DSS */
-	&omap5430_cm_dss_bb2d_clkctrl, /* OMAP5_BB2D */
+	&omap5430es1_cm_dss_dss_clkctrl, /* OMAP5_DSS */
+	&omap5430es1_cm_dss_bb2d_clkctrl, /* OMAP5_BB2D */
 	/* Voltage dom.: CORE, Power dom.: L3INIT, Clock domain = L3INIT */
-	&omap5430_cm_l3init_hsi_clkctrl, /* OMAP5_HSI */
-	&omap5430_cm_l3init_ieee1500_2_ocp_clkctrl, /* OMAP5_IEEE1500_2_OCP */
-	&omap5430_cm_l3init_mmc1_clkctrl, /* OMAP5_MMC1 */
-	&omap5430_cm_l3init_mmc2_clkctrl, /* OMAP5_MMC2 */
-	&omap5430_cm_l3init_ocp2scp1_clkctrl, /* OMAP5_OCPSCP1 */
-	&omap5430_cm_l3init_usb_host_hs_clkctrl, /* OMAP5_USB_HOST_HS */
-	&omap5430_cm_l3init_usb_otg_ss_clkctrl, /* OMAP5_USB_OTG_SS */
-	&omap5430_cm_l3init_usb_tll_hs_clkctrl, /* OMAP5_USB_TLL_HS */
-	&omap5430_cm_l3init_sata_clkctrl, /* OMAP5_SATA */
-	&omap5430_cm_l3init_unipro2_clkctrl, /* OMAP5_UNIPRO2 */
-	&omap5430_cm_l3init_mphy_unipro2_clkctrl, /* OMAP5_MPHY_UNIPRO2 */
-	&omap5430_cm_l3init_ocp2scp3_clkctrl, /* OMAP5_OCPSCP3 */
+	&omap5430es1_cm_l3init_hsi_clkctrl, /* OMAP5_HSI */
+	&omap5430es1_cm_l3init_ieee1500_2_ocp_clkctrl, /* OMAP5_IEEE1500_2_OCP */
+	&omap5430es1_cm_l3init_mmc1_clkctrl, /* OMAP5_MMC1 */
+	&omap5430es1_cm_l3init_mmc2_clkctrl, /* OMAP5_MMC2 */
+	&omap5430es1_cm_l3init_ocp2scp1_clkctrl, /* OMAP5_OCPSCP1 */
+	&omap5430es1_cm_l3init_usb_host_hs_clkctrl, /* OMAP5_USB_HOST_HS */
+	&omap5430es1_cm_l3init_usb_otg_ss_clkctrl, /* OMAP5_USB_OTG_SS */
+	&omap5430es1_cm_l3init_usb_tll_hs_clkctrl, /* OMAP5_USB_TLL_HS */
+	&omap5430es1_cm_l3init_sata_clkctrl, /* OMAP5_SATA */
+	&omap5430es1_cm_l3init_unipro2_clkctrl, /* OMAP5_UNIPRO2 */
+	&omap5430es1_cm_l3init_mphy_unipro2_clkctrl, /* OMAP5_MPHY_UNIPRO2 */
+	&omap5430es1_cm_l3init_ocp2scp3_clkctrl, /* OMAP5_OCPSCP3 */
 	/* Voltage dom.: CORE, Power dom.: L4_PER, Clock domain = L4_PER */
-	&omap5430_cm_l4per_timer10_clkctrl, /* OMAP5_TIMER10 */
-	&omap5430_cm_l4per_timer11_clkctrl, /* OMAP5_TIMER11 */
-	&omap5430_cm_l4per_timer2_clkctrl, /* OMAP5_TIMER2 */
-	&omap5430_cm_l4per_timer3_clkctrl, /* OMAP5_TIMER3 */
-	&omap5430_cm_l4per_timer4_clkctrl, /* OMAP5_TIMER4 */
-	&omap5430_cm_l4per_timer9_clkctrl, /* OMAP5_TIMER9 */
-	&omap5430_cm_l4per_elm_clkctrl, /* OMAP5_ELM */
-	&omap5430_cm_l4per_gpio2_clkctrl, /* OMAP5_GPIO2 */
-	&omap5430_cm_l4per_gpio3_clkctrl, /* OMAP5_GPIO3 */
-	&omap5430_cm_l4per_gpio4_clkctrl, /* OMAP5_GPIO4 */
-	&omap5430_cm_l4per_gpio5_clkctrl, /* OMAP5_GPIO5 */
-	&omap5430_cm_l4per_gpio6_clkctrl, /* OMAP5_GPIO6 */
-	&omap5430_cm_l4per_gpio7_clkctrl, /* OMAP5_GPIO7 */
-	&omap5430_cm_l4per_gpio8_clkctrl, /* OMAP5_GPIO8 */
-	&omap5430_cm_l4per_hdq1w_clkctrl, /* OMAP5_HDQ1W */
-	&omap5430_cm_l4per_i2c1_clkctrl, /* OMAP5_I2C1 */
-	&omap5430_cm_l4per_i2c2_clkctrl, /* OMAP5_I2C2 */
-	&omap5430_cm_l4per_i2c3_clkctrl, /* OMAP5_I2C3 */
-	&omap5430_cm_l4per_i2c4_clkctrl, /* OMAP5_I2C4 */
-	&omap5430_cm_l4per_i2c5_clkctrl, /* OMAP5_I2C5 */
-	&omap5430_cm_l4per_l4_per_clkctrl, /* OMAP5_L4_PER_INTERCONNECT */
-	&omap5430_cm_l4per_mcspi1_clkctrl, /* OMAP5_MCSPI1 */
-	&omap5430_cm_l4per_mcspi2_clkctrl, /* OMAP5_MCSPI2 */
-	&omap5430_cm_l4per_mcspi3_clkctrl, /* OMAP5_MCSPI3 */
-	&omap5430_cm_l4per_mcspi4_clkctrl, /* OMAP5_MCSPI4 */
-	&omap5430_cm_l4per_mmc3_clkctrl, /* OMAP5_MMC3 */
-	&omap5430_cm_l4per_mmc4_clkctrl, /* OMAP5_MMC4 */
-	&omap5430_cm_l4per_mmc5_clkctrl, /* OMAP5_MMC5 */
-	&omap5430_cm_l4per_slimbus2_clkctrl, /* OMAP5_SLIMBUS2 */
-	&omap5430_cm_l4per_uart1_clkctrl, /* OMAP5_UART1 */
-	&omap5430_cm_l4per_uart2_clkctrl, /* OMAP5_UART2 */
-	&omap5430_cm_l4per_uart3_clkctrl, /* OMAP5_UART3 */
-	&omap5430_cm_l4per_uart4_clkctrl, /* OMAP5_UART4 */
-	&omap5430_cm_l4per_uart5_clkctrl, /* OMAP5_UART5 */
-	&omap5430_cm_l4per_uart6_clkctrl, /* OMAP5_UART6 */
+	&omap5430es1_cm_l4per_timer10_clkctrl, /* OMAP5_TIMER10 */
+	&omap5430es1_cm_l4per_timer11_clkctrl, /* OMAP5_TIMER11 */
+	&omap5430es1_cm_l4per_timer2_clkctrl, /* OMAP5_TIMER2 */
+	&omap5430es1_cm_l4per_timer3_clkctrl, /* OMAP5_TIMER3 */
+	&omap5430es1_cm_l4per_timer4_clkctrl, /* OMAP5_TIMER4 */
+	&omap5430es1_cm_l4per_timer9_clkctrl, /* OMAP5_TIMER9 */
+	&omap5430es1_cm_l4per_elm_clkctrl, /* OMAP5_ELM */
+	&omap5430es1_cm_l4per_gpio2_clkctrl, /* OMAP5_GPIO2 */
+	&omap5430es1_cm_l4per_gpio3_clkctrl, /* OMAP5_GPIO3 */
+	&omap5430es1_cm_l4per_gpio4_clkctrl, /* OMAP5_GPIO4 */
+	&omap5430es1_cm_l4per_gpio5_clkctrl, /* OMAP5_GPIO5 */
+	&omap5430es1_cm_l4per_gpio6_clkctrl, /* OMAP5_GPIO6 */
+	&omap5430es1_cm_l4per_gpio7_clkctrl, /* OMAP5_GPIO7 */
+	&omap5430es1_cm_l4per_gpio8_clkctrl, /* OMAP5_GPIO8 */
+	&omap5430es1_cm_l4per_hdq1w_clkctrl, /* OMAP5_HDQ1W */
+	&omap5430es1_cm_l4per_i2c1_clkctrl, /* OMAP5_I2C1 */
+	&omap5430es1_cm_l4per_i2c2_clkctrl, /* OMAP5_I2C2 */
+	&omap5430es1_cm_l4per_i2c3_clkctrl, /* OMAP5_I2C3 */
+	&omap5430es1_cm_l4per_i2c4_clkctrl, /* OMAP5_I2C4 */
+	&omap5430es1_cm_l4per_i2c5_clkctrl, /* OMAP5_I2C5 */
+	&omap5430es1_cm_l4per_l4_per_clkctrl, /* OMAP5_L4_PER_INTERCONNECT */
+	&omap5430es1_cm_l4per_mcspi1_clkctrl, /* OMAP5_MCSPI1 */
+	&omap5430es1_cm_l4per_mcspi2_clkctrl, /* OMAP5_MCSPI2 */
+	&omap5430es1_cm_l4per_mcspi3_clkctrl, /* OMAP5_MCSPI3 */
+	&omap5430es1_cm_l4per_mcspi4_clkctrl, /* OMAP5_MCSPI4 */
+	&omap5430es1_cm_l4per_mmc3_clkctrl, /* OMAP5_MMC3 */
+	&omap5430es1_cm_l4per_mmc4_clkctrl, /* OMAP5_MMC4 */
+	&omap5430es1_cm_l4per_mmc5_clkctrl, /* OMAP5_MMC5 */
+	&omap5430es1_cm_l4per_slimbus2_clkctrl, /* OMAP5_SLIMBUS2 */
+	&omap5430es1_cm_l4per_uart1_clkctrl, /* OMAP5_UART1 */
+	&omap5430es1_cm_l4per_uart2_clkctrl, /* OMAP5_UART2 */
+	&omap5430es1_cm_l4per_uart3_clkctrl, /* OMAP5_UART3 */
+	&omap5430es1_cm_l4per_uart4_clkctrl, /* OMAP5_UART4 */
+	&omap5430es1_cm_l4per_uart5_clkctrl, /* OMAP5_UART5 */
+	&omap5430es1_cm_l4per_uart6_clkctrl, /* OMAP5_UART6 */
 	/* Voltage dom.: CORE, Power dom.: L4_PER, Clock domain = L4_SEC */
 	/* HS/EMU ONLY */
 	NULL, /* OMAP5_DMA_CRYPTO */
@@ -784,147 +784,147 @@ reg *mod54xx_cm_clkctrl_reg_table[MOD54XX_ID_MAX] = {
 	NULL, /* OMAP5_DES3DES */
 	NULL, /* OMAP5_PKA */
 	/* Voltage dom.: CORE, Power dom.: ABE, Clock domain = ABE */
-	&omap5430_cm_abe_aess_clkctrl, /* OMAP5_AESS */
-	&omap5430_cm_abe_dmic_clkctrl, /* OMAP5_DMIC */
-	&omap5430_cm_abe_l4_abe_clkctrl, /* OMAP5_L4_ABE_INTERCONNECT */
-	&omap5430_cm_abe_mcasp_clkctrl, /* OMAP5_MCASP */
-	&omap5430_cm_abe_mcbsp1_clkctrl, /* OMAP5_MCBSP1 */
-	&omap5430_cm_abe_mcbsp2_clkctrl, /* OMAP5_MCBSP2 */
-	&omap5430_cm_abe_mcbsp3_clkctrl, /* OMAP5_MCBSP3 */
-	&omap5430_cm_abe_mcpdm_clkctrl, /* OMAP5_MCPDM */
-	&omap5430_cm_abe_slimbus1_clkctrl, /* OMAP5_SLIMBUS1 */
-	&omap5430_cm_abe_timer5_clkctrl, /* OMAP5_TIMER5 */
-	&omap5430_cm_abe_timer6_clkctrl, /* OMAP5_TIMER6 */
-	&omap5430_cm_abe_timer7_clkctrl, /* OMAP5_TIMER7 */
-	&omap5430_cm_abe_timer8_clkctrl, /* OMAP5_TIMER8 */
-	&omap5430_cm_abe_wd_timer3_clkctrl, /* OMAP5_WD_TIMER3 */
+	&omap5430es1_cm_abe_aess_clkctrl, /* OMAP5_AESS */
+	&omap5430es1_cm_abe_dmic_clkctrl, /* OMAP5_DMIC */
+	&omap5430es1_cm_abe_l4_abe_clkctrl, /* OMAP5_L4_ABE_INTERCONNECT */
+	&omap5430es1_cm_abe_mcasp_clkctrl, /* OMAP5_MCASP */
+	&omap5430es1_cm_abe_mcbsp1_clkctrl, /* OMAP5_MCBSP1 */
+	&omap5430es1_cm_abe_mcbsp2_clkctrl, /* OMAP5_MCBSP2 */
+	&omap5430es1_cm_abe_mcbsp3_clkctrl, /* OMAP5_MCBSP3 */
+	&omap5430es1_cm_abe_mcpdm_clkctrl, /* OMAP5_MCPDM */
+	&omap5430es1_cm_abe_slimbus1_clkctrl, /* OMAP5_SLIMBUS1 */
+	&omap5430es1_cm_abe_timer5_clkctrl, /* OMAP5_TIMER5 */
+	&omap5430es1_cm_abe_timer6_clkctrl, /* OMAP5_TIMER6 */
+	&omap5430es1_cm_abe_timer7_clkctrl, /* OMAP5_TIMER7 */
+	&omap5430es1_cm_abe_timer8_clkctrl, /* OMAP5_TIMER8 */
+	&omap5430es1_cm_abe_wd_timer3_clkctrl, /* OMAP5_WD_TIMER3 */
 	/* Voltage dom.: MM, Power dom.: DSP, Clock domain = DSP */
-	&omap5430_cm_dsp_dsp_clkctrl, /* OMAP5_DSP */
+	&omap5430es1_cm_dsp_dsp_clkctrl, /* OMAP5_DSP */
 	/* Voltage dom.: MM, Power dom.: GPU, Clock domain = GPU */
-	&omap5430_cm_gpu_gpu_clkctrl, /* OMAP5_GPU */
+	&omap5430es1_cm_gpu_gpu_clkctrl, /* OMAP5_GPU */
 	/* Voltage dom.: MM, Power dom.: IVA, Clock domain = IVA */
-	&omap5430_cm_iva_iva_clkctrl, /* OMAP5_IVA */
-	&omap5430_cm_iva_sl2_clkctrl, /* OMAP5_SL2 */
+	&omap5430es1_cm_iva_iva_clkctrl, /* OMAP5_IVA */
+	&omap5430es1_cm_iva_sl2_clkctrl, /* OMAP5_SL2 */
 	/* Voltage dom.: MPU, Power dom.: MPUAON Clock domain = MPU */
-	&omap5430_cm_mpu_mpu_clkctrl}; /* OMAP5_MPU */
+	&omap5430es1_cm_mpu_mpu_clkctrl}; /* OMAP5_MPU */
 
 
-reg *mod54xx_rm_context_reg_table[MOD54XX_ID_MAX] = {
+reg *mod54xx_rm_context_reg_table[MOD54XX_ID_MAX] = { /* FIXME when ES2 ready */
 	/* Voltage dom.: WKUP, Power dom.: EMU, Clock dom. = EMU */
-	&omap5430_rm_emu_debugss_context, /* OMAP5_DEBUGSS */
+	&omap5430es1_rm_emu_debugss_context, /* OMAP5_DEBUGSS */
 	/* Voltage dom.: WKUP, Power dom.: WKUPAON, Clock domain = WKUPAON */
 	NULL, /* OMAP5_CTRL_MODULE_WKUP */
-	&omap5430_rm_wkupaon_l4_wkup_context, /* OMAP5_L4WKUP_INTERCONNECT */
-	&omap5430_rm_wkupaon_gpio1_context, /* OMAP5_GPIO1 */
-	&omap5430_rm_wkupaon_timer1_context, /* OMAP5_TIMER1 */
-	&omap5430_rm_wkupaon_wd_timer2_context, /* OMAP5_WD_TIMER2 */
-	&omap5430_rm_wkupaon_sar_ram_context, /* OMAP5_SARRAM */
-	&omap5430_rm_wkupaon_counter_32k_context, /* OMAP5_COUNTER_32K */
-	&omap5430_rm_wkupaon_kbd_context, /* OMAP5_KBD */
+	&omap5430es1_rm_wkupaon_l4_wkup_context, /* OMAP5_L4WKUP_INTERCONNECT */
+	&omap5430es1_rm_wkupaon_gpio1_context, /* OMAP5_GPIO1 */
+	&omap5430es1_rm_wkupaon_timer1_context, /* OMAP5_TIMER1 */
+	&omap5430es1_rm_wkupaon_wd_timer2_context, /* OMAP5_WD_TIMER2 */
+	&omap5430es1_rm_wkupaon_sar_ram_context, /* OMAP5_SARRAM */
+	&omap5430es1_rm_wkupaon_counter_32k_context, /* OMAP5_COUNTER_32K */
+	&omap5430es1_rm_wkupaon_kbd_context, /* OMAP5_KBD */
 	NULL, /* IO_SRCOMP_WKUP */
 	/* HS/EMU ONLY */
 	NULL, /* OMAP5_TIMER12 */
 	NULL, /* OMAP5_WDT1 */
 	/* Voltage dom.: CORE, Power dom.: COREAON, Clock domain = COREAON */
-	&omap5430_rm_coreaon_smartreflex_core_context, /* OMAP5_SMARTREFLEX_CORE */
-	&omap5430_rm_coreaon_smartreflex_mm_context, /* OMAP5_SMARTREFLEX_MM */
-	&omap5430_rm_coreaon_smartreflex_mpu_context, /* OMAP5_SMARTREFLEX_MPU */
+	&omap5430es1_rm_coreaon_smartreflex_core_context, /* OMAP5_SMARTREFLEX_CORE */
+	&omap5430es1_rm_coreaon_smartreflex_mm_context, /* OMAP5_SMARTREFLEX_MM */
+	&omap5430es1_rm_coreaon_smartreflex_mpu_context, /* OMAP5_SMARTREFLEX_MPU */
 	NULL, /* OMAP5_BANDGAPTS */
 	NULL, /* OMAP5_IO_SRCOMP_CORE */
 	NULL, /* OMAP5_USB_PHY_CORE */
 	/* Voltage dom.: CORE, Power dom.: CAM, Clock domain = CAM */
-	&omap5430_rm_cam_fdif_context, /* OMAP5_FDIF */
-	&omap5430_rm_cam_iss_context, /* OMAP5_ISS */
-	&omap5430_rm_cam_cal_context, /* OMAP5_CAL */
+	&omap5430es1_rm_cam_fdif_context, /* OMAP5_FDIF */
+	&omap5430es1_rm_cam_iss_context, /* OMAP5_ISS */
+	&omap5430es1_rm_cam_cal_context, /* OMAP5_CAL */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = L4CFG */
 	NULL, /* OMAP5_CTRL_MODULE_CORE */
-	&omap5430_rm_l4cfg_spinlock_context, /* OMAP5_SPINLOCK */
-	&omap5430_rm_l4cfg_l4_cfg_context, /* OMAP5_L4_CFG_INTERCONNECT */
-	&omap5430_rm_l4cfg_mailbox_context, /* OMAP5_MAILBOX */
-	&omap5430_rm_l4cfg_sar_rom_context, /* OMAP5_SARROM */
-	&omap5430_rm_l4cfg_ocp2scp2_context, /* OMAP5_OCP2SCP2 */
+	&omap5430es1_rm_l4cfg_spinlock_context, /* OMAP5_SPINLOCK */
+	&omap5430es1_rm_l4cfg_l4_cfg_context, /* OMAP5_L4_CFG_INTERCONNECT */
+	&omap5430es1_rm_l4cfg_mailbox_context, /* OMAP5_MAILBOX */
+	&omap5430es1_rm_l4cfg_sar_rom_context, /* OMAP5_SARROM */
+	&omap5430es1_rm_l4cfg_ocp2scp2_context, /* OMAP5_OCP2SCP2 */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = EMIF */
 	NULL, /* OMAP5_PHY_EMIF */
-	&omap5430_rm_emif_emif_dll_context, /* OMAP5_DLL_EMIF */
-	&omap5430_rm_emif_dmm_context, /* OMAP5_DMM */
-	&omap5430_rm_emif_emif1_context, /* OMAP5_EMIF1 */
-	&omap5430_rm_emif_emif2_context, /* OMAP5_EMIF2 */
-	&omap5430_rm_emif_emif_fw_context, /* OMAP5_EMIF_OCP_FW */
+	&omap5430es1_rm_emif_emif_dll_context, /* OMAP5_DLL_EMIF */
+	&omap5430es1_rm_emif_dmm_context, /* OMAP5_DMM */
+	&omap5430es1_rm_emif_emif1_context, /* OMAP5_EMIF1 */
+	&omap5430es1_rm_emif_emif2_context, /* OMAP5_EMIF2 */
+	&omap5430es1_rm_emif_emif_fw_context, /* OMAP5_EMIF_OCP_FW */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = IPU */
-	&omap5430_rm_ipu_ipu_context, /* OMAP5_IPU */
+	&omap5430es1_rm_ipu_ipu_context, /* OMAP5_IPU */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = L3_MAIN2 */
-	&omap5430_rm_l3main2_gpmc_context, /* OMAP5_GPMC */
-	&omap5430_rm_l3main2_l3_main_2_context, /* OMAP5_L3_MAIN2_INTERCONNECT */
-	&omap5430_rm_l3main2_ocmc_ram_context, /* OMAP5_OCMC_RAM */
+	&omap5430es1_rm_l3main2_gpmc_context, /* OMAP5_GPMC */
+	&omap5430es1_rm_l3main2_l3_main_2_context, /* OMAP5_L3_MAIN2_INTERCONNECT */
+	&omap5430es1_rm_l3main2_ocmc_ram_context, /* OMAP5_OCMC_RAM */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = L3_INSTR */
-	&omap5430_rm_l3instr_l3_main_3_context, /* OMAP5_L3_MAIN3_INTERCONNECT */
-	&omap5430_rm_l3instr_l3_instr_context, /* OMAP5_L3_INSTR_INTERCONNECT */
-	&omap5430_rm_l3instr_ocp_wp_noc_context, /* OMAP5_OCP_WP_NOC */
+	&omap5430es1_rm_l3instr_l3_main_3_context, /* OMAP5_L3_MAIN3_INTERCONNECT */
+	&omap5430es1_rm_l3instr_l3_instr_context, /* OMAP5_L3_INSTR_INTERCONNECT */
+	&omap5430es1_rm_l3instr_ocp_wp_noc_context, /* OMAP5_OCP_WP_NOC */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = L3_MAIN1 */
-	&omap5430_rm_l3main1_l3_main_1_context, /* OMAP5_L3_MAIN1_INTERCONNECT */
+	&omap5430es1_rm_l3main1_l3_main_1_context, /* OMAP5_L3_MAIN1_INTERCONNECT */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = C2C */
-	&omap5430_rm_c2c_c2c_context, /* OMAP5_C2C */
-	&omap5430_rm_c2c_c2c_ocp_fw_context, /* OMAP5_C2C_OCP_FW */
-	&omap5430_rm_c2c_modem_icr_context, /* OMAP5_MODEM_ICR */
+	&omap5430es1_rm_c2c_c2c_context, /* OMAP5_C2C */
+	&omap5430es1_rm_c2c_c2c_ocp_fw_context, /* OMAP5_C2C_OCP_FW */
+	&omap5430es1_rm_c2c_modem_icr_context, /* OMAP5_MODEM_ICR */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = DMA */
-	&omap5430_rm_dma_dma_system_context, /* OMAP5_DMA_SYSTEM */
+	&omap5430es1_rm_dma_dma_system_context, /* OMAP5_DMA_SYSTEM */
 	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = MIPIEXT */
-	&omap5430_rm_mipiext_lli_context, /* OMAP5_LLI */
-	&omap5430_rm_mipiext_lli_ocp_fw_context, /* OMAP5_LLI_OCP_FW */
-	&omap5430_rm_mipiext_mphy_context, /* OMAP5_MPHY */
-	&omap5430_rm_mipiext_unipro1_context, /* OMAP5_UNIPRO1 */
+	&omap5430es1_rm_mipiext_lli_context, /* OMAP5_LLI */
+	&omap5430es1_rm_mipiext_lli_ocp_fw_context, /* OMAP5_LLI_OCP_FW */
+	&omap5430es1_rm_mipiext_mphy_context, /* OMAP5_MPHY */
+	&omap5430es1_rm_mipiext_unipro1_context, /* OMAP5_UNIPRO1 */
 	/* Voltage dom.: CORE, Power dom.: DSS, Clock domain = DSS */
-	&omap5430_rm_dss_dss_context, /* OMAP5_DSS */
-	&omap5430_rm_dss_bb2d_context, /* OMAP5_BB2D */
+	&omap5430es1_rm_dss_dss_context, /* OMAP5_DSS */
+	&omap5430es1_rm_dss_bb2d_context, /* OMAP5_BB2D */
 	/* Voltage dom.: CORE, Power dom.: L3INIT, Clock domain = L3INIT */
-	&omap5430_rm_l3init_hsi_context, /* OMAP5_HSI */
-	&omap5430_rm_l3init_ieee1500_2_ocp_context, /* OMAP5_IEEE1500_2_OCP */
-	&omap5430_rm_l3init_mmc1_context, /* OMAP5_MMC1 */
-	&omap5430_rm_l3init_mmc2_context, /* OMAP5_MMC2 */
-	&omap5430_rm_l3init_ocp2scp1_context, /* OMAP5_OCPSCP1 */
-	&omap5430_rm_l3init_usb_host_hs_context, /* OMAP5_USB_HOST_HS */
-	&omap5430_rm_l3init_usb_otg_ss_context, /* OMAP5_USB_OTG_SS */
-	&omap5430_rm_l3init_usb_tll_hs_context, /* OMAP5_USB_TLL_HS */
-	&omap5430_rm_l3init_sata_context, /* OMAP5_SATA */
-	&omap5430_rm_l3init_unipro2_context, /* OMAP5_UNIPRO2 */
+	&omap5430es1_rm_l3init_hsi_context, /* OMAP5_HSI */
+	&omap5430es1_rm_l3init_ieee1500_2_ocp_context, /* OMAP5_IEEE1500_2_OCP */
+	&omap5430es1_rm_l3init_mmc1_context, /* OMAP5_MMC1 */
+	&omap5430es1_rm_l3init_mmc2_context, /* OMAP5_MMC2 */
+	&omap5430es1_rm_l3init_ocp2scp1_context, /* OMAP5_OCPSCP1 */
+	&omap5430es1_rm_l3init_usb_host_hs_context, /* OMAP5_USB_HOST_HS */
+	&omap5430es1_rm_l3init_usb_otg_ss_context, /* OMAP5_USB_OTG_SS */
+	&omap5430es1_rm_l3init_usb_tll_hs_context, /* OMAP5_USB_TLL_HS */
+	&omap5430es1_rm_l3init_sata_context, /* OMAP5_SATA */
+	&omap5430es1_rm_l3init_unipro2_context, /* OMAP5_UNIPRO2 */
 	NULL, /* OMAP5_MPHY_UNIPRO2 */
-	&omap5430_rm_l3init_ocp2scp3_context, /* OMAP5_OCPSCP3 */
+	&omap5430es1_rm_l3init_ocp2scp3_context, /* OMAP5_OCPSCP3 */
 	/* Voltage dom.: CORE, Power dom.: L4_PER, Clock domain = L4_PER */
-	&omap5430_rm_l4per_timer10_context, /* OMAP5_TIMER10 */
-	&omap5430_rm_l4per_timer11_context, /* OMAP5_TIMER11 */
-	&omap5430_rm_l4per_timer2_context, /* OMAP5_TIMER2 */
-	&omap5430_rm_l4per_timer3_context, /* OMAP5_TIMER3 */
-	&omap5430_rm_l4per_timer4_context, /* OMAP5_TIMER4 */
-	&omap5430_rm_l4per_timer9_context, /* OMAP5_TIMER9 */
-	&omap5430_rm_l4per_elm_context, /* OMAP5_ELM */
-	&omap5430_rm_l4per_gpio2_context, /* OMAP5_GPIO2 */
-	&omap5430_rm_l4per_gpio3_context, /* OMAP5_GPIO3 */
-	&omap5430_rm_l4per_gpio4_context, /* OMAP5_GPIO4 */
-	&omap5430_rm_l4per_gpio5_context, /* OMAP5_GPIO5 */
-	&omap5430_rm_l4per_gpio6_context, /* OMAP5_GPIO6 */
-	&omap5430_rm_l4per_gpio7_context, /* OMAP5_GPIO7 */
-	&omap5430_rm_l4per_gpio8_context, /* OMAP5_GPIO8 */
-	&omap5430_rm_l4per_hdq1w_context, /* OMAP5_HDQ1W */
-	&omap5430_rm_l4per_i2c1_context, /* OMAP5_I2C1 */
-	&omap5430_rm_l4per_i2c2_context, /* OMAP5_I2C2 */
-	&omap5430_rm_l4per_i2c3_context, /* OMAP5_I2C3 */
-	&omap5430_rm_l4per_i2c4_context, /* OMAP5_I2C4 */
-	&omap5430_rm_l4per_i2c5_context, /* OMAP5_I2C5 */
-	&omap5430_rm_l4per_l4_per_context, /* OMAP5_L4_PER_INTERCONNECT */
-	&omap5430_rm_l4per_mcspi1_context, /* OMAP5_MCSPI1 */
-	&omap5430_rm_l4per_mcspi2_context, /* OMAP5_MCSPI2 */
-	&omap5430_rm_l4per_mcspi3_context, /* OMAP5_MCSPI3 */
-	&omap5430_rm_l4per_mcspi4_context, /* OMAP5_MCSPI4 */
-	&omap5430_rm_l4per_mmc3_context, /* OMAP5_MMC3 */
-	&omap5430_rm_l4per_mmc4_context, /* OMAP5_MMC4 */
-	&omap5430_rm_l4per_mmc5_context, /* OMAP5_MMC5 */
-	&omap5430_rm_l4per_slimbus2_context, /* OMAP5_SLIMBUS2 */
-	&omap5430_rm_l4per_uart1_context, /* OMAP5_UART1 */
-	&omap5430_rm_l4per_uart2_context, /* OMAP5_UART2 */
-	&omap5430_rm_l4per_uart3_context, /* OMAP5_UART3 */
-	&omap5430_rm_l4per_uart4_context, /* OMAP5_UART4 */
-	&omap5430_rm_l4per_uart5_context, /* OMAP5_UART5 */
-	&omap5430_rm_l4per_uart6_context, /* OMAP5_UART6 */
+	&omap5430es1_rm_l4per_timer10_context, /* OMAP5_TIMER10 */
+	&omap5430es1_rm_l4per_timer11_context, /* OMAP5_TIMER11 */
+	&omap5430es1_rm_l4per_timer2_context, /* OMAP5_TIMER2 */
+	&omap5430es1_rm_l4per_timer3_context, /* OMAP5_TIMER3 */
+	&omap5430es1_rm_l4per_timer4_context, /* OMAP5_TIMER4 */
+	&omap5430es1_rm_l4per_timer9_context, /* OMAP5_TIMER9 */
+	&omap5430es1_rm_l4per_elm_context, /* OMAP5_ELM */
+	&omap5430es1_rm_l4per_gpio2_context, /* OMAP5_GPIO2 */
+	&omap5430es1_rm_l4per_gpio3_context, /* OMAP5_GPIO3 */
+	&omap5430es1_rm_l4per_gpio4_context, /* OMAP5_GPIO4 */
+	&omap5430es1_rm_l4per_gpio5_context, /* OMAP5_GPIO5 */
+	&omap5430es1_rm_l4per_gpio6_context, /* OMAP5_GPIO6 */
+	&omap5430es1_rm_l4per_gpio7_context, /* OMAP5_GPIO7 */
+	&omap5430es1_rm_l4per_gpio8_context, /* OMAP5_GPIO8 */
+	&omap5430es1_rm_l4per_hdq1w_context, /* OMAP5_HDQ1W */
+	&omap5430es1_rm_l4per_i2c1_context, /* OMAP5_I2C1 */
+	&omap5430es1_rm_l4per_i2c2_context, /* OMAP5_I2C2 */
+	&omap5430es1_rm_l4per_i2c3_context, /* OMAP5_I2C3 */
+	&omap5430es1_rm_l4per_i2c4_context, /* OMAP5_I2C4 */
+	&omap5430es1_rm_l4per_i2c5_context, /* OMAP5_I2C5 */
+	&omap5430es1_rm_l4per_l4_per_context, /* OMAP5_L4_PER_INTERCONNECT */
+	&omap5430es1_rm_l4per_mcspi1_context, /* OMAP5_MCSPI1 */
+	&omap5430es1_rm_l4per_mcspi2_context, /* OMAP5_MCSPI2 */
+	&omap5430es1_rm_l4per_mcspi3_context, /* OMAP5_MCSPI3 */
+	&omap5430es1_rm_l4per_mcspi4_context, /* OMAP5_MCSPI4 */
+	&omap5430es1_rm_l4per_mmc3_context, /* OMAP5_MMC3 */
+	&omap5430es1_rm_l4per_mmc4_context, /* OMAP5_MMC4 */
+	&omap5430es1_rm_l4per_mmc5_context, /* OMAP5_MMC5 */
+	&omap5430es1_rm_l4per_slimbus2_context, /* OMAP5_SLIMBUS2 */
+	&omap5430es1_rm_l4per_uart1_context, /* OMAP5_UART1 */
+	&omap5430es1_rm_l4per_uart2_context, /* OMAP5_UART2 */
+	&omap5430es1_rm_l4per_uart3_context, /* OMAP5_UART3 */
+	&omap5430es1_rm_l4per_uart4_context, /* OMAP5_UART4 */
+	&omap5430es1_rm_l4per_uart5_context, /* OMAP5_UART5 */
+	&omap5430es1_rm_l4per_uart6_context, /* OMAP5_UART6 */
 	/* Voltage dom.: CORE, Power dom.: L4_PER, Clock domain = L4_SEC */
 	/* HS/EMU ONLY */
 	NULL, /* OMAP5_DMA_CRYPTO */
@@ -935,29 +935,29 @@ reg *mod54xx_rm_context_reg_table[MOD54XX_ID_MAX] = {
 	NULL, /* OMAP5_DES3DES */
 	NULL, /* OMAP5_PKA */
 	/* Voltage dom.: CORE, Power dom.: ABE, Clock domain = ABE */
-	&omap5430_rm_abe_aess_context, /* OMAP5_AESS */
-	&omap5430_rm_abe_dmic_context, /* OMAP5_DMIC */
+	&omap5430es1_rm_abe_aess_context, /* OMAP5_AESS */
+	&omap5430es1_rm_abe_dmic_context, /* OMAP5_DMIC */
 	NULL, /* OMAP5_L4_ABE_INTERCONNECT */
-	&omap5430_rm_abe_mcasp_context, /* OMAP5_MCASP */
-	&omap5430_rm_abe_mcbsp1_context, /* OMAP5_MCBSP1 */
-	&omap5430_rm_abe_mcbsp2_context, /* OMAP5_MCBSP2 */
-	&omap5430_rm_abe_mcbsp3_context, /* OMAP5_MCBSP3 */
-	&omap5430_rm_abe_mcpdm_context, /* OMAP5_MCPDM */
-	&omap5430_rm_abe_slimbus1_context, /* OMAP5_SLIMBUS1 */
-	&omap5430_rm_abe_timer5_context, /* OMAP5_TIMER5 */
-	&omap5430_rm_abe_timer6_context, /* OMAP5_TIMER6 */
-	&omap5430_rm_abe_timer7_context, /* OMAP5_TIMER7 */
-	&omap5430_rm_abe_timer8_context, /* OMAP5_TIMER8 */
-	&omap5430_rm_abe_wd_timer3_context, /* OMAP5_WD_TIMER3 */
+	&omap5430es1_rm_abe_mcasp_context, /* OMAP5_MCASP */
+	&omap5430es1_rm_abe_mcbsp1_context, /* OMAP5_MCBSP1 */
+	&omap5430es1_rm_abe_mcbsp2_context, /* OMAP5_MCBSP2 */
+	&omap5430es1_rm_abe_mcbsp3_context, /* OMAP5_MCBSP3 */
+	&omap5430es1_rm_abe_mcpdm_context, /* OMAP5_MCPDM */
+	&omap5430es1_rm_abe_slimbus1_context, /* OMAP5_SLIMBUS1 */
+	&omap5430es1_rm_abe_timer5_context, /* OMAP5_TIMER5 */
+	&omap5430es1_rm_abe_timer6_context, /* OMAP5_TIMER6 */
+	&omap5430es1_rm_abe_timer7_context, /* OMAP5_TIMER7 */
+	&omap5430es1_rm_abe_timer8_context, /* OMAP5_TIMER8 */
+	&omap5430es1_rm_abe_wd_timer3_context, /* OMAP5_WD_TIMER3 */
 	/* Voltage dom.: MM, Power dom.: DSP, Clock domain = DSP */
-	&omap5430_rm_dsp_dsp_context, /* OMAP5_DSP */
+	&omap5430es1_rm_dsp_dsp_context, /* OMAP5_DSP */
 	/* Voltage dom.: MM, Power dom.: GPU, Clock domain = GPU */
-	&omap5430_rm_gpu_gpu_context, /* OMAP5_GPU */
+	&omap5430es1_rm_gpu_gpu_context, /* OMAP5_GPU */
 	/* Voltage dom.: MM, Power dom.: IVA, Clock domain = IVA */
-	&omap5430_rm_iva_iva_context, /* OMAP5_IVA */
-	&omap5430_rm_iva_sl2_context, /* OMAP5_SL2 */
+	&omap5430es1_rm_iva_iva_context, /* OMAP5_IVA */
+	&omap5430es1_rm_iva_sl2_context, /* OMAP5_SL2 */
 	/* Voltage dom.: MPU, Power dom.: MPUAON Clock domain = MPU */
-	&omap5430_rm_mpu_mpu_context}; /* OMAP5_MPU */
+	&omap5430es1_rm_mpu_mpu_context}; /* OMAP5_MPU */
 
 
 const double mod54xx_por_rates_table[MOD54XX_ID_MAX][OPP_MAX] = {

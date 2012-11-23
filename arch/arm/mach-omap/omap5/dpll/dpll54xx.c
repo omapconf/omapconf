@@ -44,7 +44,7 @@
 
 #include <dpll54xx.h>
 #include <dpll54xx-data.h>
-#include <cm54xx-defs.h>
+#include <cm54xxes1-defs.h>
 #include <clock54xx.h>
 #include <voltdm54xx.h>
 #include <autoadjust_table.h>

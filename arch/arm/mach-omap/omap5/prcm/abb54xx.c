@@ -48,7 +48,7 @@
 #include <lib.h>
 #include <mem.h>
 #include <cpuinfo.h>
-#include <prm54xx-defs.h>
+#include <prm54xxes1-defs.h>
 #include <clock54xx.h>
 
 
@@ -58,12 +58,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
-
-static reg *abb_mpu_setup_reg = &omap5430_prm_abbldo_mpu_setup;
-static reg *abb_mpu_ctrl_reg = &omap5430_prm_abbldo_mpu_ctrl;
-static reg *abb_mm_setup_reg = &omap5430_prm_abbldo_mm_setup;
-static reg *abb_mm_ctrl_reg = &omap5430_prm_abbldo_mm_ctrl;
 
 
 /* ------------------------------------------------------------------------*//**
@@ -77,6 +71,10 @@ static reg *abb_mm_ctrl_reg = &omap5430_prm_abbldo_mm_ctrl;
  *//*------------------------------------------------------------------------ */
 int abb54xx_dump(FILE *stream)
 {
+	reg *abb_mpu_setup_reg;
+	reg *abb_mpu_ctrl_reg;
+	reg *abb_mm_setup_reg;
+	reg *abb_mm_ctrl_reg;
 	char autoadjust_table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row;
 
@@ -92,6 +90,18 @@ int abb54xx_dump(FILE *stream)
 	strncpy(autoadjust_table[row][2], "Reg. Val.", TABLE_MAX_ELT_LEN);
 	row++;
 
+	/* Read ABB registers content */
+	if (cpu_revision_get() == REV_ES1_0) {
+		abb_mpu_setup_reg = &omap5430es1_prm_abbldo_mpu_setup;
+		abb_mpu_ctrl_reg = &omap5430es1_prm_abbldo_mpu_ctrl;
+		abb_mm_setup_reg = &omap5430es1_prm_abbldo_mm_setup;
+		abb_mm_ctrl_reg = &omap5430es1_prm_abbldo_mm_ctrl;
+	} else { /* FIXME when ES2 ready */
+		abb_mpu_setup_reg = &omap5430es1_prm_abbldo_mpu_setup;
+		abb_mpu_ctrl_reg = &omap5430es1_prm_abbldo_mpu_ctrl;
+		abb_mm_setup_reg = &omap5430es1_prm_abbldo_mm_setup;
+		abb_mm_ctrl_reg = &omap5430es1_prm_abbldo_mm_ctrl;
+	}
 
 	/* Show register name, addr & content (hex) */
 	snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
@@ -137,7 +147,6 @@ int abb54xx_dump(FILE *stream)
  *//*------------------------------------------------------------------------ */
 int abb54xx_config_show(FILE *stream)
 {
-
 	unsigned int abb_mpu_setup, abb_mpu_ctrl;
 	unsigned int abb_mm_setup, abb_mm_ctrl;
 	double sysclk_rate;
@@ -145,10 +154,17 @@ int abb54xx_config_show(FILE *stream)
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(stream, OMAPCONF_ERR_ARG);
 
-	abb_mpu_setup = reg_read(abb_mpu_setup_reg);
-	abb_mpu_ctrl = reg_read(abb_mpu_ctrl_reg);
-	abb_mm_setup = reg_read(abb_mm_setup_reg);
-	abb_mm_ctrl = reg_read(abb_mm_ctrl_reg);
+	if (cpu_revision_get() == REV_ES1_0) {
+		abb_mpu_setup = reg_read(&omap5430es1_prm_abbldo_mpu_setup);
+		abb_mpu_ctrl = reg_read(&omap5430es1_prm_abbldo_mpu_ctrl);
+		abb_mm_setup = reg_read(&omap5430es1_prm_abbldo_mm_setup);
+		abb_mm_ctrl = reg_read(&omap5430es1_prm_abbldo_mm_ctrl);
+	} else { /* FIXME when ES2 ready */
+		abb_mpu_setup = reg_read(&omap5430es1_prm_abbldo_mpu_setup);
+		abb_mpu_ctrl = reg_read(&omap5430es1_prm_abbldo_mpu_ctrl);
+		abb_mm_setup = reg_read(&omap5430es1_prm_abbldo_mm_setup);
+		abb_mm_ctrl = reg_read(&omap5430es1_prm_abbldo_mm_ctrl);
+	}
 
 	sysclk_rate = clk54xx_sysclk_rate_get();
 	if (sysclk_rate <= 0) {

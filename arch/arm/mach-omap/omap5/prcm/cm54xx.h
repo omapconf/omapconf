@@ -45,7 +45,7 @@
 #ifndef __CM54XX_H__
 #define __CM54XX_H__
 
-#include <cm54xx-defs.h>
+#include <cm54xxes1-defs.h>
 #include <stdio.h>
 
 

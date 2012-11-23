@@ -2,7 +2,7 @@
  *
  * @Component			OMAPCONF
  * @Filename			clkdm_dependency54xx-data.h
- * @Description			OMAP5 Clock Domain Dependencies Definitions
+ * @Description			OMAP5 ES1 Clock Domain Dependencies Definitions
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2012
  * @Copyright			Texas Instruments Incorporated
@@ -42,19 +42,19 @@
  */
 
 
-#ifndef __PRCM_CLKDM_DEPENDENCY54XX_DATA_H__
-#define __PRCM_CLKDM_DEPENDENCY54XX_DATA_H__
+#ifndef __PRCM_CLKDM_DEPENDENCY54XXES1_DATA_H__
+#define __PRCM_CLKDM_DEPENDENCY54XXES1_DATA_H__
 
 #include <reg.h>
 #include <clkdm54xx.h>
 #include <clkdm_dependency.h>
 
-extern const reg *clkdmdep54xx_reg_table[CLKDM54XX_ID_MAX][2];
+extern const reg *clkdmdep54xxes1_reg_table[CLKDM54XX_ID_MAX][2];
 
-extern const short int clkdmdep54xx_bit_pos_table[CLKDM54XX_ID_MAX];
+extern const short int clkdmdep54xxes1_bit_pos_table[CLKDM54XX_ID_MAX];
 
-extern const clkdmdep_ctrl_type *clkdmdep54xx_statdep_table[CLKDM54XX_ID_MAX];
-extern const clkdmdep_ctrl_type *clkdmdep54xx_dyndep_table[CLKDM54XX_ID_MAX];
+extern const clkdmdep_ctrl_type *clkdmdep54xxes1_statdep_table[CLKDM54XX_ID_MAX];
+extern const clkdmdep_ctrl_type *clkdmdep54xxes1_dyndep_table[CLKDM54XX_ID_MAX];
 
 
 #endif

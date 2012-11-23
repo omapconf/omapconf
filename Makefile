@@ -163,15 +163,15 @@ OMAP4OBJECTS=	$(OMAP4SOURCES:.c=.o)
 
 
 OMAP5SOURCES=\
-		arch/arm/mach-omap/omap5/prcm/cm54xx-defs.c\
+		arch/arm/mach-omap/omap5/prcm/cm54xxes1-defs.c\
 		arch/arm/mach-omap/omap5/prcm/cm54xx.c\
-		arch/arm/mach-omap/omap5/prcm/prm54xx-defs.c\
+		arch/arm/mach-omap/omap5/prcm/prm54xxes1-defs.c\
 		arch/arm/mach-omap/omap5/prcm/prm54xx.c\
 		arch/arm/mach-omap/omap5/prcm/clock54xx.c\
 		arch/arm/mach-omap/omap5/prcm/abb54xx.c\
 		arch/arm/mach-omap/omap5/prcm/vp54xx.c\
 		arch/arm/mach-omap/omap5/prcm/vc54xx.c\
-		arch/arm/mach-omap/omap5/prcm/clkdm_dependency54xx-data.c\
+		arch/arm/mach-omap/omap5/prcm/clkdm_dependency54xxes1-data.c\
 		arch/arm/mach-omap/omap5/prcm/clkdm_dependency54xx.c\
 		arch/arm/mach-omap/omap5/prcm/dss54xx.c\
 		arch/arm/mach-omap/omap5/prcm/wkupaon54xx.c\

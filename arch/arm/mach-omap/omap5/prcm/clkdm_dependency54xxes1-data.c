@@ -1,8 +1,8 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			clkdm_dependency54xx-data.c
- * @Description			OMAP5 Clock Domain Dependencies Definitions
+ * @Filename			clkdm_dependency54xxes1-data.c
+ * @Description			OMAP5 ES1 Clock Domain Dependencies Definitions
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2012
  * @Copyright			Texas Instruments Incorporated
@@ -42,37 +42,37 @@
  */
 
 
-#include <clkdm_dependency54xx-data.h>
+#include <clkdm_dependency54xxes1-data.h>
 #include <cm54xx.h>
 
 /*
  * Table used to retrieve clock domain dependency register.
  * NULL = does not exist
  */
-const reg *clkdmdep54xx_reg_table[CLKDM54XX_ID_MAX][2] = {
-	{NULL, &omap5430_cm_emu_dynamicdep}, /* CLKDM54XX_EMU */
+const reg *clkdmdep54xxes1_reg_table[CLKDM54XX_ID_MAX][2] = {
+	{NULL, &omap5430es1_cm_emu_dynamicdep}, /* CLKDM54XX_EMU */
 	{NULL, NULL}, /* CLKDM54XX_WKUPAON */
 	{NULL, NULL}, /* CLKDM54XX_COREAON */
-	{&omap5430_cm_cam_staticdep, &omap5430_cm_cam_dynamicdep}, /* CLKDM54XX_CAM */
-	{NULL, &omap5430_cm_l4cfg_dynamicdep}, /* CLKDM54XX_L4CFG */
+	{&omap5430es1_cm_cam_staticdep, &omap5430es1_cm_cam_dynamicdep}, /* CLKDM54XX_CAM */
+	{NULL, &omap5430es1_cm_l4cfg_dynamicdep}, /* CLKDM54XX_L4CFG */
 	{NULL, NULL}, /* CLKDM54XX_EMIF */
-	{&omap5430_cm_ipu_staticdep, &omap5430_cm_ipu_dynamicdep}, /* CLKDM54XX_IPU */
-	{NULL, &omap5430_cm_l3main2_dynamicdep}, /* CLKDM54XX_L3MAIN2 */
+	{&omap5430es1_cm_ipu_staticdep, &omap5430es1_cm_ipu_dynamicdep}, /* CLKDM54XX_IPU */
+	{NULL, &omap5430es1_cm_l3main2_dynamicdep}, /* CLKDM54XX_L3MAIN2 */
 	{NULL, NULL}, /* CLKDM54XX_INSTR */
-	{NULL, &omap5430_cm_l3main1_dynamicdep}, /* CLKDM54XX_L3MAIN1 */
-	{&omap5430_cm_c2c_staticdep, &omap5430_cm_c2c_dynamicdep}, /* CLKDM54XX_C2C */
-	{&omap5430_cm_dma_staticdep, &omap5430_cm_dma_dynamicdep}, /* CLKDM54XX_DMA */
-	{&omap5430_cm_mipiext_staticdep, &omap5430_cm_mipiext_dynamicdep}, /* CLKDM54XX_MIPIEXT */
-	{&omap5430_cm_dss_staticdep, &omap5430_cm_dss_dynamicdep}, /* CLKDM54XX_DSS */
+	{NULL, &omap5430es1_cm_l3main1_dynamicdep}, /* CLKDM54XX_L3MAIN1 */
+	{&omap5430es1_cm_c2c_staticdep, &omap5430es1_cm_c2c_dynamicdep}, /* CLKDM54XX_C2C */
+	{&omap5430es1_cm_dma_staticdep, &omap5430es1_cm_dma_dynamicdep}, /* CLKDM54XX_DMA */
+	{&omap5430es1_cm_mipiext_staticdep, &omap5430es1_cm_mipiext_dynamicdep}, /* CLKDM54XX_MIPIEXT */
+	{&omap5430es1_cm_dss_staticdep, &omap5430es1_cm_dss_dynamicdep}, /* CLKDM54XX_DSS */
 	{NULL, NULL}, /* CLKDM54XX_CUST_EFUSE */
-	{&omap5430_cm_l3init_staticdep, &omap5430_cm_l3init_dynamicdep}, /* CLKDM54XX_L3INIT */
-	{NULL, &omap5430_cm_l4per_dynamicdep}, /* CLKDM54XX_L4PER */
+	{&omap5430es1_cm_l3init_staticdep, &omap5430es1_cm_l3init_dynamicdep}, /* CLKDM54XX_L3INIT */
+	{NULL, &omap5430es1_cm_l4per_dynamicdep}, /* CLKDM54XX_L4PER */
 	{NULL, NULL}, /* CLKDM54XX_L4SEC */
 	{NULL, NULL}, /* CLKDM54XX_ABE */
-	{&omap5430_cm_dsp_staticdep, &omap5430_cm_dsp_dynamicdep}, /* CLKDM54XX_DSP */
-	{&omap5430_cm_gpu_staticdep, &omap5430_cm_gpu_dynamicdep}, /* CLKDM54XX_GPU */
-	{&omap5430_cm_iva_staticdep, &omap5430_cm_iva_dynamicdep}, /* CLKDM54XX_IVA */
-	{&omap5430_cm_mpu_staticdep, &omap5430_cm_mpu_dynamicdep}, /* CLKDM54XX_MPU */
+	{&omap5430es1_cm_dsp_staticdep, &omap5430es1_cm_dsp_dynamicdep}, /* CLKDM54XX_DSP */
+	{&omap5430es1_cm_gpu_staticdep, &omap5430es1_cm_gpu_dynamicdep}, /* CLKDM54XX_GPU */
+	{&omap5430es1_cm_iva_staticdep, &omap5430es1_cm_iva_dynamicdep}, /* CLKDM54XX_IVA */
+	{&omap5430es1_cm_mpu_staticdep, &omap5430es1_cm_mpu_dynamicdep}, /* CLKDM54XX_MPU */
 	{NULL, NULL} }; /* CLKDM54XX_NONE */
 
 
@@ -80,7 +80,7 @@ const reg *clkdmdep54xx_reg_table[CLKDM54XX_ID_MAX][2] = {
  * Table used to retrieve dependency bit position in dependency register
  * -1 = does not exist
  */
-const short int clkdmdep54xx_bit_pos_table[CLKDM54XX_ID_MAX] = {
+const short int clkdmdep54xxes1_bit_pos_table[CLKDM54XX_ID_MAX] = {
 	-1, /* CLKDM54XX_EMU */
 	15, /* CLKDM54XX_WKUPAON */
 	16, /* CLKDM54XX_COREAON */
@@ -107,7 +107,7 @@ const short int clkdmdep54xx_bit_pos_table[CLKDM54XX_ID_MAX] = {
 	-1}; /* CLKDM54XX_NONE */
 
 
-const clkdmdep_ctrl_type clkdmdep54xx_emu_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_emu_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -133,7 +133,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_emu_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_wkupaon_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_wkupaon_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -159,7 +159,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_wkupaon_statdep_table[CLKDM54XX_ID_MAX] = 
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_coreaon_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_coreaon_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -185,7 +185,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_coreaon_statdep_table[CLKDM54XX_ID_MAX] = 
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_cam_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_cam_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -211,7 +211,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_cam_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_l4cfg_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_l4cfg_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -237,7 +237,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_l4cfg_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_emif_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_emif_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -263,7 +263,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_emif_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_ipu_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_ipu_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_RW, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_RO, /* CLKDM54XX_COREAON */
@@ -289,7 +289,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_ipu_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_l3main2_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_l3main2_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -315,7 +315,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_l3main2_statdep_table[CLKDM54XX_ID_MAX] = 
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_instr_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_instr_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -341,7 +341,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_instr_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_l3main1_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_l3main1_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -367,7 +367,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_l3main1_statdep_table[CLKDM54XX_ID_MAX] = 
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_c2c_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_c2c_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -393,7 +393,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_c2c_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_dma_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_dma_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_RW, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -419,7 +419,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_dma_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_mipiext_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_mipiext_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -445,7 +445,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_mipiext_statdep_table[CLKDM54XX_ID_MAX] = 
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_dss_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_dss_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -471,7 +471,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_dss_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_cust_efuse_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_cust_efuse_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -497,7 +497,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_cust_efuse_statdep_table[CLKDM54XX_ID_MAX]
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_l3init_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_l3init_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_RW, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -523,7 +523,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_l3init_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_l4per_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_l4per_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -549,7 +549,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_l4per_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_l4sec_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_l4sec_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -575,7 +575,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_l4sec_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_abe_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_abe_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -601,7 +601,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_abe_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_dsp_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_dsp_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_RW, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_RO, /* CLKDM54XX_COREAON */
@@ -627,7 +627,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_dsp_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_gpu_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_gpu_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -653,7 +653,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_gpu_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_iva_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_iva_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -679,7 +679,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_iva_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_mpu_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_mpu_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_RW, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_RO, /* CLKDM54XX_COREAON */
@@ -705,7 +705,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_mpu_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_none_statdep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_none_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -731,7 +731,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_none_statdep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_emu_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_emu_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -757,7 +757,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_emu_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_wkupaon_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_wkupaon_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -783,7 +783,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_wkupaon_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_coreaon_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_coreaon_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -809,7 +809,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_coreaon_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_cam_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_cam_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -835,7 +835,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_cam_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_l4cfg_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_l4cfg_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_RO, /* CLKDM54XX_COREAON */
@@ -861,7 +861,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_l4cfg_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_RO, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_emif_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_emif_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -887,7 +887,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_emif_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_ipu_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_ipu_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -913,7 +913,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_ipu_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_l3main2_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_l3main2_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -939,7 +939,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_l3main2_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_instr_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_instr_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -965,7 +965,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_instr_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_l3main1_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_l3main1_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_RO, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -991,7 +991,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_l3main1_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_c2c_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_c2c_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -1017,7 +1017,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_c2c_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_dma_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_dma_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -1043,7 +1043,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_dma_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_mipiext_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_mipiext_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -1069,7 +1069,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_mipiext_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_dss_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_dss_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -1095,7 +1095,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_dss_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_cust_efuse_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_cust_efuse_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -1121,7 +1121,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_cust_efuse_dyndep_table[CLKDM54XX_ID_MAX] 
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_l3init_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_l3init_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -1147,7 +1147,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_l3init_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_l4per_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_l4per_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -1173,7 +1173,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_l4per_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_l4sec_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_l4sec_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -1199,7 +1199,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_l4sec_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_abe_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_abe_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -1225,7 +1225,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_abe_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_dsp_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_dsp_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -1251,7 +1251,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_dsp_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_gpu_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_gpu_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -1277,7 +1277,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_gpu_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_iva_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_iva_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -1303,7 +1303,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_iva_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_mpu_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_mpu_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -1329,7 +1329,7 @@ const clkdmdep_ctrl_type clkdmdep54xx_mpu_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_MPU */
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type clkdmdep54xx_none_dyndep_table[CLKDM54XX_ID_MAX] = {
+const clkdmdep_ctrl_type clkdmdep54xxes1_none_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA, /* CLKDM54XX_EMU */
 	CLKDMDEP_NA, /* CLKDM54XX_WKUPAON */
 	CLKDMDEP_NA, /* CLKDM54XX_COREAON */
@@ -1356,55 +1356,55 @@ const clkdmdep_ctrl_type clkdmdep54xx_none_dyndep_table[CLKDM54XX_ID_MAX] = {
 	CLKDMDEP_NA}; /* CLKDM54XX_NONE */
 
 
-const clkdmdep_ctrl_type *clkdmdep54xx_statdep_table[CLKDM54XX_ID_MAX] = {
-	clkdmdep54xx_emu_statdep_table, /* CLKDM54XX_EMU */
-	clkdmdep54xx_wkupaon_statdep_table, /* CLKDM54XX_WKUPAON */
-	clkdmdep54xx_coreaon_statdep_table, /* CLKDM54XX_COREAON */
-	clkdmdep54xx_cam_statdep_table, /* CLKDM54XX_CAM */
-	clkdmdep54xx_l4cfg_statdep_table, /* CLKDM54XX_L4CFG */
-	clkdmdep54xx_emif_statdep_table, /* CLKDM54XX_EMIF */
-	clkdmdep54xx_ipu_statdep_table, /* CLKDM54XX_IPU */
-	clkdmdep54xx_l3main2_statdep_table, /* CLKDM54XX_L3MAIN2 */
-	clkdmdep54xx_instr_statdep_table, /* CLKDM54XX_INSTR */
-	clkdmdep54xx_l3main1_statdep_table, /* CLKDM54XX_L3MAIN1 */
-	clkdmdep54xx_c2c_statdep_table, /* CLKDM54XX_C2C */
-	clkdmdep54xx_dma_statdep_table, /* CLKDM54XX_DMA */
-	clkdmdep54xx_mipiext_statdep_table, /* CLKDM54XX_MIPIEXT */
-	clkdmdep54xx_dss_statdep_table, /* CLKDM54XX_DSS */
-	clkdmdep54xx_cust_efuse_statdep_table, /* CLKDM54XX_CUST_EFUSE */
-	clkdmdep54xx_l3init_statdep_table, /* CLKDM54XX_L3INIT */
-	clkdmdep54xx_l4per_statdep_table, /* CLKDM54XX_L4PER */
-	clkdmdep54xx_l4sec_statdep_table, /* CLKDM54XX_L4SEC */
-	clkdmdep54xx_abe_statdep_table, /* CLKDM54XX_ABE */
-	clkdmdep54xx_dsp_statdep_table, /* CLKDM54XX_DSP */
-	clkdmdep54xx_gpu_statdep_table, /* CLKDM54XX_GPU */
-	clkdmdep54xx_iva_statdep_table, /* CLKDM54XX_IVA */
-	clkdmdep54xx_mpu_statdep_table, /* CLKDM54XX_MPU */
-	clkdmdep54xx_none_statdep_table}; /* CLKDM54XX_NONE */
+const clkdmdep_ctrl_type *clkdmdep54xxes1_statdep_table[CLKDM54XX_ID_MAX] = {
+	clkdmdep54xxes1_emu_statdep_table, /* CLKDM54XX_EMU */
+	clkdmdep54xxes1_wkupaon_statdep_table, /* CLKDM54XX_WKUPAON */
+	clkdmdep54xxes1_coreaon_statdep_table, /* CLKDM54XX_COREAON */
+	clkdmdep54xxes1_cam_statdep_table, /* CLKDM54XX_CAM */
+	clkdmdep54xxes1_l4cfg_statdep_table, /* CLKDM54XX_L4CFG */
+	clkdmdep54xxes1_emif_statdep_table, /* CLKDM54XX_EMIF */
+	clkdmdep54xxes1_ipu_statdep_table, /* CLKDM54XX_IPU */
+	clkdmdep54xxes1_l3main2_statdep_table, /* CLKDM54XX_L3MAIN2 */
+	clkdmdep54xxes1_instr_statdep_table, /* CLKDM54XX_INSTR */
+	clkdmdep54xxes1_l3main1_statdep_table, /* CLKDM54XX_L3MAIN1 */
+	clkdmdep54xxes1_c2c_statdep_table, /* CLKDM54XX_C2C */
+	clkdmdep54xxes1_dma_statdep_table, /* CLKDM54XX_DMA */
+	clkdmdep54xxes1_mipiext_statdep_table, /* CLKDM54XX_MIPIEXT */
+	clkdmdep54xxes1_dss_statdep_table, /* CLKDM54XX_DSS */
+	clkdmdep54xxes1_cust_efuse_statdep_table, /* CLKDM54XX_CUST_EFUSE */
+	clkdmdep54xxes1_l3init_statdep_table, /* CLKDM54XX_L3INIT */
+	clkdmdep54xxes1_l4per_statdep_table, /* CLKDM54XX_L4PER */
+	clkdmdep54xxes1_l4sec_statdep_table, /* CLKDM54XX_L4SEC */
+	clkdmdep54xxes1_abe_statdep_table, /* CLKDM54XX_ABE */
+	clkdmdep54xxes1_dsp_statdep_table, /* CLKDM54XX_DSP */
+	clkdmdep54xxes1_gpu_statdep_table, /* CLKDM54XX_GPU */
+	clkdmdep54xxes1_iva_statdep_table, /* CLKDM54XX_IVA */
+	clkdmdep54xxes1_mpu_statdep_table, /* CLKDM54XX_MPU */
+	clkdmdep54xxes1_none_statdep_table}; /* CLKDM54XX_NONE */
 
-const clkdmdep_ctrl_type *clkdmdep54xx_dyndep_table[CLKDM54XX_ID_MAX] = {
-	clkdmdep54xx_emu_dyndep_table, /* CLKDM54XX_EMU */
-	clkdmdep54xx_wkupaon_dyndep_table, /* CLKDM54XX_WKUPAON */
-	clkdmdep54xx_coreaon_dyndep_table, /* CLKDM54XX_COREAON */
-	clkdmdep54xx_cam_dyndep_table, /* CLKDM54XX_CAM */
-	clkdmdep54xx_l4cfg_dyndep_table, /* CLKDM54XX_L4CFG */
-	clkdmdep54xx_emif_dyndep_table, /* CLKDM54XX_EMIF */
-	clkdmdep54xx_ipu_dyndep_table, /* CLKDM54XX_IPU */
-	clkdmdep54xx_l3main2_dyndep_table, /* CLKDM54XX_L3MAIN2 */
-	clkdmdep54xx_instr_dyndep_table, /* CLKDM54XX_INSTR */
-	clkdmdep54xx_l3main1_dyndep_table, /* CLKDM54XX_L3MAIN1 */
-	clkdmdep54xx_c2c_dyndep_table, /* CLKDM54XX_C2C */
-	clkdmdep54xx_dma_dyndep_table, /* CLKDM54XX_DMA */
-	clkdmdep54xx_mipiext_dyndep_table, /* CLKDM54XX_MIPIEXT */
-	clkdmdep54xx_dss_dyndep_table, /* CLKDM54XX_DSS */
-	clkdmdep54xx_cust_efuse_dyndep_table, /* CLKDM54XX_CUST_EFUSE */
-	clkdmdep54xx_l3init_dyndep_table, /* CLKDM54XX_L3INIT */
-	clkdmdep54xx_l4per_dyndep_table, /* CLKDM54XX_L4PER */
-	clkdmdep54xx_l4sec_dyndep_table, /* CLKDM54XX_L4SEC */
-	clkdmdep54xx_abe_dyndep_table, /* CLKDM54XX_ABE */
-	clkdmdep54xx_dsp_dyndep_table, /* CLKDM54XX_DSP */
-	clkdmdep54xx_gpu_dyndep_table, /* CLKDM54XX_GPU */
-	clkdmdep54xx_iva_dyndep_table, /* CLKDM54XX_IVA */
-	clkdmdep54xx_mpu_dyndep_table, /* CLKDM54XX_MPU */
-	clkdmdep54xx_none_dyndep_table}; /* CLKDM54XX_NONE */
+const clkdmdep_ctrl_type *clkdmdep54xxes1_dyndep_table[CLKDM54XX_ID_MAX] = {
+	clkdmdep54xxes1_emu_dyndep_table, /* CLKDM54XX_EMU */
+	clkdmdep54xxes1_wkupaon_dyndep_table, /* CLKDM54XX_WKUPAON */
+	clkdmdep54xxes1_coreaon_dyndep_table, /* CLKDM54XX_COREAON */
+	clkdmdep54xxes1_cam_dyndep_table, /* CLKDM54XX_CAM */
+	clkdmdep54xxes1_l4cfg_dyndep_table, /* CLKDM54XX_L4CFG */
+	clkdmdep54xxes1_emif_dyndep_table, /* CLKDM54XX_EMIF */
+	clkdmdep54xxes1_ipu_dyndep_table, /* CLKDM54XX_IPU */
+	clkdmdep54xxes1_l3main2_dyndep_table, /* CLKDM54XX_L3MAIN2 */
+	clkdmdep54xxes1_instr_dyndep_table, /* CLKDM54XX_INSTR */
+	clkdmdep54xxes1_l3main1_dyndep_table, /* CLKDM54XX_L3MAIN1 */
+	clkdmdep54xxes1_c2c_dyndep_table, /* CLKDM54XX_C2C */
+	clkdmdep54xxes1_dma_dyndep_table, /* CLKDM54XX_DMA */
+	clkdmdep54xxes1_mipiext_dyndep_table, /* CLKDM54XX_MIPIEXT */
+	clkdmdep54xxes1_dss_dyndep_table, /* CLKDM54XX_DSS */
+	clkdmdep54xxes1_cust_efuse_dyndep_table, /* CLKDM54XX_CUST_EFUSE */
+	clkdmdep54xxes1_l3init_dyndep_table, /* CLKDM54XX_L3INIT */
+	clkdmdep54xxes1_l4per_dyndep_table, /* CLKDM54XX_L4PER */
+	clkdmdep54xxes1_l4sec_dyndep_table, /* CLKDM54XX_L4SEC */
+	clkdmdep54xxes1_abe_dyndep_table, /* CLKDM54XX_ABE */
+	clkdmdep54xxes1_dsp_dyndep_table, /* CLKDM54XX_DSP */
+	clkdmdep54xxes1_gpu_dyndep_table, /* CLKDM54XX_GPU */
+	clkdmdep54xxes1_iva_dyndep_table, /* CLKDM54XX_IVA */
+	clkdmdep54xxes1_mpu_dyndep_table, /* CLKDM54XX_MPU */
+	clkdmdep54xxes1_none_dyndep_table}; /* CLKDM54XX_NONE */
 

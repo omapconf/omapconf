@@ -74,7 +74,10 @@ const char *prm54xx_mod_name_get(prm54xx_mod_id id)
 		return NULL;
 	}
 
-	return prm54xx_mods_name[id];
+	if (cpu_revision_get() == REV_ES1_0)
+		return prm54xxes1_mods_name[id];
+	else /* FIXME when ES2 ready */
+		return prm54xxes1_mods_name[id];
 }
 
 
@@ -89,8 +92,13 @@ const char *prm54xx_mod_name_get(prm54xx_mod_id id)
  *//*------------------------------------------------------------------------ */
 unsigned int prm54xx_is_profiling_running(void)
 {
-	reg *cm_clkctrl_reg = &omap5430_cm_prm_profiling_clkctrl;
+	reg *cm_clkctrl_reg;
 	unsigned int cm_clkctrl;
+
+	if (cpu_revision_get() == REV_ES1_0)
+		cm_clkctrl_reg = &omap5430es1_cm_prm_profiling_clkctrl;
+	else /* FIXME when ES2 ready */
+		cm_clkctrl_reg = &omap5430es1_cm_prm_profiling_clkctrl;
 
 	if (cm_clkctrl_reg == NULL) {
 		dprintf("%s(): cm_clkctrl_reg == NULL!!!\n", __func__);
@@ -157,7 +165,10 @@ int prm54xx_dump(FILE *stream, prm54xx_mod_id id)
 		if ((id != PRM54XX_MODS_COUNT) && (mid != id))
 			continue;
 		else {
-			mod = prm54xx_mods[mid];
+			if (cpu_revision_get() == REV_ES1_0)
+				mod = prm54xxes1_mods[mid];
+			else
+				mod = prm54xxes1_mods[mid]; /* FIXME when ES2 ready */
 			for (i = 0; mod[i] != NULL; i++) {
 				r = mod[i];
 				/* Read register */
@@ -202,7 +213,10 @@ int prm54xx_export(FILE *fp, prm54xx_mod_id id)
 	CHECK_NULL_ARG(fp, OMAPCONF_ERR_ARG);
 	CHECK_ARG_LESS_THAN(id, PRM54XX_MODS_COUNT, OMAPCONF_ERR_ARG);
 
-	mod = prm54xx_mods[id];
+	if (cpu_revision_get() == REV_ES1_0)
+		mod = prm54xxes1_mods[id];
+	else
+		mod = prm54xxes1_mods[id]; /* FIXME when ES2 ready */
 
 	if ((id == PRM54XX_INSTR_PRM) && !prm54xx_is_profiling_running()) {
 		dprintf("%s(%s): PRM module is not accessible, "
@@ -247,7 +261,10 @@ int prm54xx_import(FILE *fp, prm54xx_mod_id id)
 	CHECK_NULL_ARG(fp, OMAPCONF_ERR_ARG);
 	CHECK_ARG_LESS_THAN(id, PRM54XX_MODS_COUNT, OMAPCONF_ERR_ARG);
 
-	mod = prm54xx_mods[id];
+	if (cpu_revision_get() == REV_ES1_0)
+		mod = prm54xxes1_mods[id];
+	else
+		mod = prm54xxes1_mods[id]; /* FIXME when ES2 ready */
 	rewind(fp);
 
 	/* Search for the PRM module tag */

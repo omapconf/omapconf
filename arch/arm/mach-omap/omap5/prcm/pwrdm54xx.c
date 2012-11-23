@@ -103,41 +103,41 @@ static const voltdm54xx_id pwrdm54xx_partition_table[PWRDM54XX_ID_MAX] = {
 
 
 static reg *pwrdm54xx_pwrstctrl_table[PWRDM54XX_ID_MAX] = {
-	&omap5430_pm_emu_pwrstctrl,	/* PWRDM54XX_EMU */
+	&omap5430es1_pm_emu_pwrstctrl,	/* PWRDM54XX_EMU */
 	NULL,				/* PWRDM54XX_WKUPAON */
 	NULL,				/* PWRDM54XX_COREAON */
-	&omap5430_pm_cam_pwrstctrl,	/* PWRDM54XX_CAM */
-	&omap5430_pm_core_pwrstctrl,	/* PWRDM54XX_CORE */
-	&omap5430_pm_dss_pwrstctrl,	/* PWRDM54XX_DSS */
-	&omap5430_pm_custefuse_pwrstctrl, /* PWRDM54XX_CUST_EFUSE */
-	&omap5430_pm_l3init_pwrstctrl,	/* PWRDM54XX_L3_INIT */
-	&omap5430_pm_l4per_pwrstctrl,	/* PWRDM54XX_L4_PER */
-	&omap5430_pm_abe_pwrstctrl,	/* PWRDM54XX_ABE */
-	&omap5430_pm_dsp_pwrstctrl,	/* PWRDM54XX_DSP */
-	&omap5430_pm_gpu_pwrstctrl,	/* PWRDM54XX_GPU */
+	&omap5430es1_pm_cam_pwrstctrl,	/* PWRDM54XX_CAM */
+	&omap5430es1_pm_core_pwrstctrl,	/* PWRDM54XX_CORE */
+	&omap5430es1_pm_dss_pwrstctrl,	/* PWRDM54XX_DSS */
+	&omap5430es1_pm_custefuse_pwrstctrl, /* PWRDM54XX_CUST_EFUSE */
+	&omap5430es1_pm_l3init_pwrstctrl,	/* PWRDM54XX_L3_INIT */
+	&omap5430es1_pm_l4per_pwrstctrl,	/* PWRDM54XX_L4_PER */
+	&omap5430es1_pm_abe_pwrstctrl,	/* PWRDM54XX_ABE */
+	&omap5430es1_pm_dsp_pwrstctrl,	/* PWRDM54XX_DSP */
+	&omap5430es1_pm_gpu_pwrstctrl,	/* PWRDM54XX_GPU */
 	NULL,				/* PWRDM54XX_MMAON */
-	&omap5430_pm_iva_pwrstctrl,	/* PWRDM54XX_IVA */
+	&omap5430es1_pm_iva_pwrstctrl,	/* PWRDM54XX_IVA */
 	NULL,				/* PWRDM54XX_MPUAON */
-	&omap5430_pm_mpu_pwrstctrl,	/* PWRDM54XX_MPU */};
+	&omap5430es1_pm_mpu_pwrstctrl,	/* PWRDM54XX_MPU */};
 
 
 static reg *pwrdm54xx_pwrstst_table[PWRDM54XX_ID_MAX] = {
-	&omap5430_pm_emu_pwrstst,	/* PWRDM54XX_EMU */
+	&omap5430es1_pm_emu_pwrstst,	/* PWRDM54XX_EMU */
 	NULL,				/* PWRDM54XX_WKUPAON */
 	NULL,				/* PWRDM54XX_COREAON */
-	&omap5430_pm_cam_pwrstst,	/* PWRDM54XX_CAM */
-	&omap5430_pm_core_pwrstst,	/* PWRDM54XX_CORE */
-	&omap5430_pm_dss_pwrstst,	/* PWRDM54XX_DSS */
-	&omap5430_pm_custefuse_pwrstst,	/* PWRDM54XX_CUST_EFUSE */
-	&omap5430_pm_l3init_pwrstst,	/* PWRDM54XX_L3_INIT */
-	&omap5430_pm_l4per_pwrstst,	/* PWRDM54XX_L4_PER */
-	&omap5430_pm_abe_pwrstst,	/* PWRDM54XX_ABE */
-	&omap5430_pm_dsp_pwrstst,	/* PWRDM54XX_DSP */
-	&omap5430_pm_gpu_pwrstst,	/* PWRDM54XX_GPU */
+	&omap5430es1_pm_cam_pwrstst,	/* PWRDM54XX_CAM */
+	&omap5430es1_pm_core_pwrstst,	/* PWRDM54XX_CORE */
+	&omap5430es1_pm_dss_pwrstst,	/* PWRDM54XX_DSS */
+	&omap5430es1_pm_custefuse_pwrstst,	/* PWRDM54XX_CUST_EFUSE */
+	&omap5430es1_pm_l3init_pwrstst,	/* PWRDM54XX_L3_INIT */
+	&omap5430es1_pm_l4per_pwrstst,	/* PWRDM54XX_L4_PER */
+	&omap5430es1_pm_abe_pwrstst,	/* PWRDM54XX_ABE */
+	&omap5430es1_pm_dsp_pwrstst,	/* PWRDM54XX_DSP */
+	&omap5430es1_pm_gpu_pwrstst,	/* PWRDM54XX_GPU */
 	NULL,				/* PWRDM54XX_MMAON */
-	&omap5430_pm_iva_pwrstst,	/* PWRDM54XX_IVA */
+	&omap5430es1_pm_iva_pwrstst,	/* PWRDM54XX_IVA */
 	NULL,				/* PWRDM54XX_MPUAON */
-	&omap5430_pm_mpu_pwrstst,	/* PWRDM54XX_MPU */};
+	&omap5430es1_pm_mpu_pwrstst,	/* PWRDM54XX_MPU */};
 
 
 
@@ -181,8 +181,8 @@ void pwrdm54xx_init(void)
 	pwrdm.name = PWRDM_EMU;
 	pwrdm.id = (int) PWRDM54XX_EMU;
 	pwrdm.voltdm = VDD_WKUP;
-	pwrdm.pwrstctrl = &omap5430_pm_emu_pwrstctrl;
-	pwrdm.pwrstst = &omap5430_pm_emu_pwrstst;
+	pwrdm.pwrstctrl = &omap5430es1_pm_emu_pwrstctrl;
+	pwrdm.pwrstst = &omap5430es1_pm_emu_pwrstst;
 	pwrdm.properties = PWRDM_HAS_LAST_STATE;
 	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
 
@@ -205,40 +205,40 @@ void pwrdm54xx_init(void)
 	pwrdm.name = PWRDM_CAM;
 	pwrdm.id = (int) PWRDM54XX_CAM;
 	pwrdm.voltdm = VDD_CORE;
-	pwrdm.pwrstctrl = &omap5430_pm_cam_pwrstctrl;
-	pwrdm.pwrstst = &omap5430_pm_cam_pwrstst;
+	pwrdm.pwrstctrl = &omap5430es1_pm_cam_pwrstctrl;
+	pwrdm.pwrstst = &omap5430es1_pm_cam_pwrstst;
 	pwrdm.properties = PWRDM_HAS_LAST_STATE;
 	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
 
 	pwrdm.name = PWRDM_CORE;
 	pwrdm.id = (int) PWRDM54XX_CORE;
 	pwrdm.voltdm = VDD_CORE;
-	pwrdm.pwrstctrl = &omap5430_pm_core_pwrstctrl;
-	pwrdm.pwrstst = &omap5430_pm_core_pwrstst;
+	pwrdm.pwrstctrl = &omap5430es1_pm_core_pwrstctrl;
+	pwrdm.pwrstst = &omap5430es1_pm_core_pwrstst;
 	pwrdm.properties = PWRDM_HAS_LAST_STATE | PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT;
 	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
 
 	pwrdm.name = PWRDM_DSS;
 	pwrdm.id = (int) PWRDM54XX_DSS;
 	pwrdm.voltdm = VDD_CORE;
-	pwrdm.pwrstctrl = &omap5430_pm_dss_pwrstctrl;
-	pwrdm.pwrstst = &omap5430_pm_dss_pwrstst;
+	pwrdm.pwrstctrl = &omap5430es1_pm_dss_pwrstctrl;
+	pwrdm.pwrstst = &omap5430es1_pm_dss_pwrstst;
 	pwrdm.properties = PWRDM_HAS_LAST_STATE | PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT;
 	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
 
 	pwrdm.name = PWRDM_CUST_EFUSE;
 	pwrdm.id = (int) PWRDM54XX_CUST_EFUSE;
 	pwrdm.voltdm = VDD_CORE;
-	pwrdm.pwrstctrl = &omap5430_pm_core_pwrstctrl;
-	pwrdm.pwrstst = &omap5430_pm_core_pwrstst;
+	pwrdm.pwrstctrl = &omap5430es1_pm_core_pwrstctrl;
+	pwrdm.pwrstst = &omap5430es1_pm_core_pwrstst;
 	pwrdm.properties = PWRDM_HAS_LAST_STATE;
 	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
 
 	pwrdm.name = PWRDM_L3_INIT;
 	pwrdm.id = (int) PWRDM54XX_L3_INIT;
 	pwrdm.voltdm = VDD_CORE;
-	pwrdm.pwrstctrl = &omap5430_pm_l3init_pwrstctrl;
-	pwrdm.pwrstst = &omap5430_pm_l3init_pwrstst;
+	pwrdm.pwrstctrl = &omap5430es1_pm_l3init_pwrstctrl;
+	pwrdm.pwrstst = &omap5430es1_pm_l3init_pwrstst;
 	pwrdm.properties = PWRDM_HAS_LAST_STATE | PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT;
 	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
 
@@ -246,8 +246,8 @@ void pwrdm54xx_init(void)
 		pwrdm.name = PWRDM_L4_PER;
 		pwrdm.id = (int) PWRDM54XX_L4_PER;
 		pwrdm.voltdm = VDD_CORE;
-		pwrdm.pwrstctrl = &omap5430_pm_l4per_pwrstctrl;
-		pwrdm.pwrstst = &omap5430_pm_l4per_pwrstst;
+		pwrdm.pwrstctrl = &omap5430es1_pm_l4per_pwrstctrl;
+		pwrdm.pwrstst = &omap5430es1_pm_l4per_pwrstst;
 		pwrdm.properties = PWRDM_HAS_LAST_STATE | PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT;
 		genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
 	}
@@ -255,24 +255,24 @@ void pwrdm54xx_init(void)
 	pwrdm.name = PWRDM_ABE;
 	pwrdm.id = (int) PWRDM54XX_ABE;
 	pwrdm.voltdm = VDD_CORE;
-	pwrdm.pwrstctrl = &omap5430_pm_abe_pwrstctrl;
-	pwrdm.pwrstst = &omap5430_pm_abe_pwrstst;
+	pwrdm.pwrstctrl = &omap5430es1_pm_abe_pwrstctrl;
+	pwrdm.pwrstst = &omap5430es1_pm_abe_pwrstst;
 	pwrdm.properties = PWRDM_HAS_LAST_STATE | PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT;
 	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
 
 	pwrdm.name = PWRDM_DSP;
 	pwrdm.id = (int) PWRDM54XX_DSP;
 	pwrdm.voltdm = VDD_MM;
-	pwrdm.pwrstctrl = &omap5430_pm_dsp_pwrstctrl;
-	pwrdm.pwrstst = &omap5430_pm_dsp_pwrstst;
+	pwrdm.pwrstctrl = &omap5430es1_pm_dsp_pwrstctrl;
+	pwrdm.pwrstst = &omap5430es1_pm_dsp_pwrstst;
 	pwrdm.properties = PWRDM_HAS_LAST_STATE | PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT;
 	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
 
 	pwrdm.name = PWRDM_GPU;
 	pwrdm.id = (int) PWRDM54XX_GPU;
 	pwrdm.voltdm = VDD_MM;
-	pwrdm.pwrstctrl = &omap5430_pm_gpu_pwrstctrl;
-	pwrdm.pwrstst = &omap5430_pm_gpu_pwrstst;
+	pwrdm.pwrstctrl = &omap5430es1_pm_gpu_pwrstctrl;
+	pwrdm.pwrstst = &omap5430es1_pm_gpu_pwrstst;
 	pwrdm.properties = PWRDM_HAS_LAST_STATE;
 	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
 
@@ -287,8 +287,8 @@ void pwrdm54xx_init(void)
 	pwrdm.name = PWRDM_IVA;
 	pwrdm.id = (int) PWRDM54XX_IVA;
 	pwrdm.voltdm = VDD_MM;
-	pwrdm.pwrstctrl = &omap5430_pm_iva_pwrstctrl;
-	pwrdm.pwrstst = &omap5430_pm_iva_pwrstst;
+	pwrdm.pwrstctrl = &omap5430es1_pm_iva_pwrstctrl;
+	pwrdm.pwrstst = &omap5430es1_pm_iva_pwrstst;
 	pwrdm.properties = PWRDM_HAS_LAST_STATE;
 	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
 
@@ -303,8 +303,8 @@ void pwrdm54xx_init(void)
 	pwrdm.name = PWRDM_MPU;
 	pwrdm.id = (int) PWRDM54XX_MPU;
 	pwrdm.voltdm = VDD_MPU;
-	pwrdm.pwrstctrl = &omap5430_pm_mpu_pwrstctrl;
-	pwrdm.pwrstst = &omap5430_pm_mpu_pwrstst;
+	pwrdm.pwrstctrl = &omap5430es1_pm_mpu_pwrstctrl;
+	pwrdm.pwrstst = &omap5430es1_pm_mpu_pwrstst;
 	pwrdm.properties = PWRDM_HAS_LAST_STATE;
 	genlist_addtail(&pwrdm54xx_list, (void *) &pwrdm, sizeof(pwrdm_info));
 

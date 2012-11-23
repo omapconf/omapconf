@@ -54,8 +54,8 @@
 #include <ctype.h>
 #include <autoadjust_table.h>
 
-#include <prm54xx-defs.h>
-#include <cm54xx-defs.h>
+#include <prm54xxes1-defs.h>
+#include <cm54xxes1-defs.h>
 #include <ctrlmod_core_pad54xx-defs.h>
 #include <ctrlmod_core54xx-defs.h>
 #include <ctrlmod_wkup_pad54xx-defs.h>
@@ -940,9 +940,12 @@ int hwobs54xx_prcm_setup(char *pos_s, char *cat_s, char *num_s)
 		/* CORE - CM2 (CM_CORE) */
 		final_mux = 0xFF;
 		debug_mux = 0x5;
-		ret = hwobs44xx_blkmuxreg_modify(
-			omap5430_cm_core_debug_cfg.addr, pos, num);
-
+		if (cpu_revision_get() == REV_ES1_0)
+			ret = hwobs44xx_blkmuxreg_modify(
+				omap5430es1_cm_core_debug_cfg.addr, pos, num);
+		else /* FIXME when ES2 ready */
+				ret = hwobs44xx_blkmuxreg_modify(
+				omap5430es1_cm_core_debug_cfg.addr, pos, num);
 		for (i = (pos * 8); i <= (pos * 8) + 7; i++) {
 			ret = mem_write(hwobs54xx_core_debug_mux_table[i]->addr,
 				debug_mux);
@@ -962,14 +965,22 @@ int hwobs54xx_prcm_setup(char *pos_s, char *cat_s, char *num_s)
 		if (strcmp(cat_s,
 			hwobs54xx_ctrl_wkup_conf_debug_sel_tst_names[0]) == 0) {
 			debug_mux = 0x0;
-			ret = hwobs44xx_blkmuxreg_modify(
-				omap5430_prm_debug_cfg.addr, pos, num);
+			if (cpu_revision_get() == REV_ES1_0)
+				ret = hwobs44xx_blkmuxreg_modify(
+					omap5430es1_prm_debug_cfg.addr, pos, num);
+			else /* FIXME when ES2 ready */
+				ret = hwobs44xx_blkmuxreg_modify(
+					omap5430es1_prm_debug_cfg.addr, pos, num);
 
 		/* WKUP - CM1 (CM_AON) */
 		} else {
 			debug_mux = 0x1;
-			ret = hwobs44xx_blkmuxreg_modify(
-				omap5430_cm_core_aon_debug_cfg.addr, pos, num);
+			if (cpu_revision_get() == REV_ES1_0)
+				ret = hwobs44xx_blkmuxreg_modify(
+					omap5430es1_cm_core_aon_debug_cfg.addr, pos, num);
+			else /* FIXME when ES2 ready */
+				ret = hwobs44xx_blkmuxreg_modify(
+					omap5430es1_cm_core_aon_debug_cfg.addr, pos, num);
 		}
 
 		for (i = (pos * 8); i <= (pos * 8) + 7; i++) {
@@ -1407,7 +1418,10 @@ int hwobs54xx_display_signals(void)
 						break;
 
 					case 0x5:
-						ret = mem_read(omap5430_cm_core_debug_cfg.addr, &hwobs_mux);
+						if (cpu_revision_get() == REV_ES1_0)
+							ret = mem_read(omap5430es1_cm_core_debug_cfg.addr, &hwobs_mux);
+						else /* FIXME when ES2 ready */
+							ret = mem_read(omap5430es1_cm_core_debug_cfg.addr, &hwobs_mux);
 						strcat(str_debug_mux, " (CM_CORE)");
 						break;
 
@@ -1436,11 +1450,17 @@ int hwobs54xx_display_signals(void)
 
 				switch (debug_mux) {
 					case 0x0:
-						ret = mem_read(omap5430_prm_debug_cfg.addr, &hwobs_mux);
+						if (cpu_revision_get() == REV_ES1_0)
+							ret = mem_read(omap5430es1_prm_debug_cfg.addr, &hwobs_mux);
+						else /* FIXME when ES2 ready */
+							ret = mem_read(omap5430es1_prm_debug_cfg.addr, &hwobs_mux);
 						break;
 
 					case 0x1:
-						ret = mem_read(omap5430_cm_core_aon_debug_cfg.addr, &hwobs_mux);
+						if (cpu_revision_get() == REV_ES1_0)
+							ret = mem_read(omap5430es1_cm_core_aon_debug_cfg.addr, &hwobs_mux);
+						else /* FIXME when ES2 ready */
+							ret = mem_read(omap5430es1_cm_core_aon_debug_cfg.addr, &hwobs_mux);
 						strcat(str_debug_mux, " (CM_AON)");
 						break;
 

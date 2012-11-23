@@ -48,8 +48,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <cpuinfo.h>
-#include <cm54xx-defs.h>
-#include <prm54xx-defs.h>
+#include <cm54xxes1-defs.h>
+#include <prm54xxes1-defs.h>
 #include <sysconfig54xx-defs.h>
 #include <module.h>
 #include <clockdomain.h>
@@ -93,8 +93,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_WKUP;
 	mod.clk = (int) CLK54XX_EMU_SYS_CLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_emu_debugss_clkctrl;
-	mod.context = &omap5430_rm_emu_debugss_context;
+	mod.clkctrl = &omap5430es1_cm_emu_debugss_clkctrl;
+	mod.context = &omap5430es1_rm_emu_debugss_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = -1;
@@ -145,8 +145,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_WKUP;
 	mod.clk = (int) CLK54XX_WKUPAON_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_wkupaon_l4_wkup_clkctrl;
-	mod.context = &omap5430_rm_wkupaon_l4_wkup_context;
+	mod.clkctrl = &omap5430es1_cm_wkupaon_l4_wkup_clkctrl;
+	mod.context = &omap5430es1_rm_wkupaon_l4_wkup_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = -1;
@@ -171,8 +171,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_WKUP;
 	mod.clk = (int) CLK54XX_WKUPAON_32K_GFCLK;
 	mod.sysconfig = &omap5430_gpio1_sysconfig;
-	mod.clkctrl = &omap5430_cm_wkupaon_gpio1_clkctrl;
-	mod.context = &omap5430_rm_wkupaon_gpio1_context;
+	mod.clkctrl = &omap5430es1_cm_wkupaon_gpio1_clkctrl;
+	mod.context = &omap5430es1_rm_wkupaon_gpio1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = -1;
@@ -197,8 +197,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_WKUP;
 	mod.clk = (int) CLK54XX_TIMER1_GFCLK;
 	mod.sysconfig = &omap5430_timer1_tiocp_cfg;
-	mod.clkctrl = &omap5430_cm_wkupaon_timer1_clkctrl;
-	mod.context = &omap5430_rm_wkupaon_timer1_context;
+	mod.clkctrl = &omap5430es1_cm_wkupaon_timer1_clkctrl;
+	mod.context = &omap5430es1_rm_wkupaon_timer1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = -1;
@@ -223,8 +223,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_WKUP;
 	mod.clk = (int) CLK54XX_WKUPAON_32K_GFCLK;
 	mod.sysconfig = &omap5430_wd_timer2_l4interconnect_wdsc;
-	mod.clkctrl = &omap5430_cm_wkupaon_wd_timer2_clkctrl;
-	mod.context = &omap5430_rm_wkupaon_wd_timer2_context;
+	mod.clkctrl = &omap5430es1_cm_wkupaon_wd_timer2_clkctrl;
+	mod.context = &omap5430es1_rm_wkupaon_wd_timer2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = -1;
@@ -249,8 +249,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_WKUP;
 	mod.clk = (int) CLK54XX_WKUPAON_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_wkupaon_sar_ram_clkctrl;
-	mod.context = &omap5430_rm_wkupaon_sar_ram_context;
+	mod.clkctrl = &omap5430es1_cm_wkupaon_sar_ram_clkctrl;
+	mod.context = &omap5430es1_rm_wkupaon_sar_ram_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = -1;
@@ -275,8 +275,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_WKUP;
 	mod.clk = (int) CLK54XX_FUNC_32K_CLK;
 	mod.sysconfig = &omap5430_counter_32k_sysconfig;
-	mod.clkctrl = &omap5430_cm_wkupaon_counter_32k_clkctrl;
-	mod.context = &omap5430_rm_wkupaon_counter_32k_context;
+	mod.clkctrl = &omap5430es1_cm_wkupaon_counter_32k_clkctrl;
+	mod.context = &omap5430es1_rm_wkupaon_counter_32k_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = -1;
@@ -301,8 +301,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_WKUP;
 	mod.clk = (int) CLK54XX_WKUPAON_32K_GFCLK;
 	mod.sysconfig = &omap5430_kbd_sysconfig;
-	mod.clkctrl = &omap5430_cm_wkupaon_kbd_clkctrl;
-	mod.context = &omap5430_rm_wkupaon_kbd_context;
+	mod.clkctrl = &omap5430es1_cm_wkupaon_kbd_clkctrl;
+	mod.context = &omap5430es1_rm_wkupaon_kbd_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = -1;
@@ -328,7 +328,7 @@ void mod54xx_init(void)
 		mod.voltdm = VDD_WKUP;
 		mod.clk = (int) CLK54XX_WKUPAON_IO_SRCOMP_GFCLK;
 		mod.sysconfig = NULL;
-		mod.clkctrl = &omap5430_cm_wkupaon_io_srcomp_clkctrl;
+		mod.clkctrl = &omap5430es1_cm_wkupaon_io_srcomp_clkctrl;
 		mod.context = NULL;
 		genlist_init(&(mod.mod_opp_list));
 		opp.name = OPP_LOW;
@@ -408,8 +408,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_SR_CORE_SYS_GFCLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_coreaon_smartreflex_core_clkctrl;
-	mod.context = &omap5430_rm_coreaon_smartreflex_core_context;
+	mod.clkctrl = &omap5430es1_cm_coreaon_smartreflex_core_clkctrl;
+	mod.context = &omap5430es1_rm_coreaon_smartreflex_core_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = -1;
@@ -434,8 +434,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_SR_MM_SYS_GFCLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_coreaon_smartreflex_mm_clkctrl;
-	mod.context = &omap5430_rm_coreaon_smartreflex_mm_context;
+	mod.clkctrl = &omap5430es1_cm_coreaon_smartreflex_mm_clkctrl;
+	mod.context = &omap5430es1_rm_coreaon_smartreflex_mm_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = -1;
@@ -460,8 +460,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_SR_MPU_SYS_GFCLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_coreaon_smartreflex_mpu_clkctrl;
-	mod.context = &omap5430_rm_coreaon_smartreflex_mpu_context;
+	mod.clkctrl = &omap5430es1_cm_coreaon_smartreflex_mpu_clkctrl;
+	mod.context = &omap5430es1_rm_coreaon_smartreflex_mpu_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = -1;
@@ -487,7 +487,7 @@ void mod54xx_init(void)
 		mod.voltdm = VDD_CORE;
 		mod.clk = (int) CLK54XX_COREAON_TS_GFCLK;
 		mod.sysconfig = NULL;
-		mod.clkctrl = &omap5430_cm_coreaon_bandgap_clkctrl;
+		mod.clkctrl = &omap5430es1_cm_coreaon_bandgap_clkctrl;
 		mod.context = NULL;
 		genlist_init(&(mod.mod_opp_list));
 		opp.name = OPP_LOW;
@@ -542,7 +542,7 @@ void mod54xx_init(void)
 		mod.voltdm = VDD_CORE;
 		mod.clk = (int) CLK54XX_COREAON_32K_GFCLK;
 		mod.sysconfig = NULL;
-		mod.clkctrl = &omap5430_cm_coreaon_usb_phy_core_clkctrl;
+		mod.clkctrl = &omap5430es1_cm_coreaon_usb_phy_core_clkctrl;
 		mod.context = NULL;
 		genlist_init(&(mod.mod_opp_list));
 		opp.name = OPP_LOW;
@@ -594,8 +594,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_FDIF_GFCLK;
 	mod.sysconfig = &omap5430_fdif_sysconfig;
-	mod.clkctrl = &omap5430_cm_cam_fdif_clkctrl;
-	mod.context = &omap5430_rm_cam_fdif_context;
+	mod.clkctrl = &omap5430es1_cm_cam_fdif_clkctrl;
+	mod.context = &omap5430es1_rm_cam_fdif_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 128000;
@@ -620,8 +620,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_CORE_ISS_MAIN_CLK;
 	mod.sysconfig = &omap5430_iss_hl_sysconfig;
-	mod.clkctrl = &omap5430_cm_cam_iss_clkctrl;
-	mod.context = &omap5430_rm_cam_iss_context;
+	mod.clkctrl = &omap5430es1_cm_cam_iss_clkctrl;
+	mod.context = &omap5430es1_rm_cam_iss_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 152000;
@@ -646,8 +646,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_CAM_L3_GICLK;
 	mod.sysconfig = &omap5430_cal_hl_sysconfig;
-	mod.clkctrl = &omap5430_cm_cam_cal_clkctrl;
-	mod.context = &omap5430_rm_cam_cal_context;
+	mod.clkctrl = &omap5430es1_cm_cam_cal_clkctrl;
+	mod.context = &omap5430es1_rm_cam_cal_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -698,8 +698,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L4CFG_L4_GICLK;
 	mod.sysconfig = &omap5430_spinlock_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4cfg_spinlock_clkctrl;
-	mod.context = &omap5430_rm_l4cfg_spinlock_context;
+	mod.clkctrl = &omap5430es1_cm_l4cfg_spinlock_clkctrl;
+	mod.context = &omap5430es1_rm_l4cfg_spinlock_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 66500;
@@ -724,8 +724,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L4CFG_L4_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_l4cfg_l4_cfg_clkctrl;
-	mod.context = &omap5430_rm_l4cfg_l4_cfg_context;
+	mod.clkctrl = &omap5430es1_cm_l4cfg_l4_cfg_clkctrl;
+	mod.context = &omap5430es1_rm_l4cfg_l4_cfg_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 66500;
@@ -750,8 +750,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L4CFG_L4_GICLK;
 	mod.sysconfig = &omap5430_mailbox_l4_cfginterconnect_mailbox_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4cfg_mailbox_clkctrl;
-	mod.context = &omap5430_rm_l4cfg_mailbox_context;
+	mod.clkctrl = &omap5430es1_cm_l4cfg_mailbox_clkctrl;
+	mod.context = &omap5430es1_rm_l4cfg_mailbox_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 66500;
@@ -776,8 +776,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L4CFG_L4_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_l4cfg_sar_rom_clkctrl;
-	mod.context = &omap5430_rm_l4cfg_sar_rom_context;
+	mod.clkctrl = &omap5430es1_cm_l4cfg_sar_rom_clkctrl;
+	mod.context = &omap5430es1_rm_l4cfg_sar_rom_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 66500;
@@ -802,8 +802,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L4CFG_L4_GICLK;
 	mod.sysconfig = &omap5430_ocp2scp2_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4cfg_ocp2scp2_clkctrl;
-	mod.context = &omap5430_rm_l4cfg_ocp2scp2_context;
+	mod.clkctrl = &omap5430es1_cm_l4cfg_ocp2scp2_clkctrl;
+	mod.context = &omap5430es1_rm_l4cfg_ocp2scp2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 66500;
@@ -855,7 +855,7 @@ void mod54xx_init(void)
 	mod.clk = (int) CLK54XX_CORE_DLL_GCLK;
 	mod.sysconfig = NULL;
 	mod.clkctrl = NULL;
-	mod.context = &omap5430_rm_emif_emif_dll_context;
+	mod.context = &omap5430es1_rm_emif_emif_dll_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 266000;
@@ -880,8 +880,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_EMIF_L3_GICLK;
 	mod.sysconfig = &omap5430_dmm_sysconfig;
-	mod.clkctrl = &omap5430_cm_emif_dmm_clkctrl;
-	mod.context = &omap5430_rm_emif_dmm_context;
+	mod.clkctrl = &omap5430es1_cm_emif_dmm_clkctrl;
+	mod.context = &omap5430es1_rm_emif_dmm_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -906,8 +906,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_EMIF_L3_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_emif_emif1_clkctrl;
-	mod.context = &omap5430_rm_emif_emif1_context;
+	mod.clkctrl = &omap5430es1_cm_emif_emif1_clkctrl;
+	mod.context = &omap5430es1_rm_emif_emif1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -932,8 +932,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_EMIF_L3_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_emif_emif2_clkctrl;
-	mod.context = &omap5430_rm_emif_emif2_context;
+	mod.clkctrl = &omap5430es1_cm_emif_emif2_clkctrl;
+	mod.context = &omap5430es1_rm_emif_emif2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -958,8 +958,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_EMIF_L3_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_emif_emif_ocp_fw_clkctrl;
-	mod.context = &omap5430_rm_emif_emif_fw_context;
+	mod.clkctrl = &omap5430es1_cm_emif_emif_ocp_fw_clkctrl;
+	mod.context = &omap5430es1_rm_emif_emif_fw_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -984,8 +984,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_CORE_IPU_ISS_BOOST_CLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_ipu_ipu_clkctrl;
-	mod.context = &omap5430_rm_ipu_ipu_context;
+	mod.clkctrl = &omap5430es1_cm_ipu_ipu_clkctrl;
+	mod.context = &omap5430es1_rm_ipu_ipu_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 212800;
@@ -1010,8 +1010,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L3MAIN2_L3_GICLK;
 	mod.sysconfig = &omap5430_gpmc_sysconfig;
-	mod.clkctrl = &omap5430_cm_l3main2_gpmc_clkctrl;
-	mod.context = &omap5430_rm_l3main2_gpmc_context;
+	mod.clkctrl = &omap5430es1_cm_l3main2_gpmc_clkctrl;
+	mod.context = &omap5430es1_rm_l3main2_gpmc_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -1036,8 +1036,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L3MAIN2_L3_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_l3main2_l3_main_2_clkctrl;
-	mod.context = &omap5430_rm_l3main2_l3_main_2_context;
+	mod.clkctrl = &omap5430es1_cm_l3main2_l3_main_2_clkctrl;
+	mod.context = &omap5430es1_rm_l3main2_l3_main_2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -1062,8 +1062,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L3MAIN2_L3_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_l3main2_ocmc_ram_clkctrl;
-	mod.context = &omap5430_rm_l3main2_ocmc_ram_context;
+	mod.clkctrl = &omap5430es1_cm_l3main2_ocmc_ram_clkctrl;
+	mod.context = &omap5430es1_rm_l3main2_ocmc_ram_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -1088,8 +1088,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L3INSTR_L3_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_l3instr_l3_main_3_clkctrl;
-	mod.context = &omap5430_rm_l3instr_l3_main_3_context;
+	mod.clkctrl = &omap5430es1_cm_l3instr_l3_main_3_clkctrl;
+	mod.context = &omap5430es1_rm_l3instr_l3_main_3_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -1114,8 +1114,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L3INSTR_L3_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_l3instr_l3_instr_clkctrl;
-	mod.context = &omap5430_rm_l3instr_l3_instr_context;
+	mod.clkctrl = &omap5430es1_cm_l3instr_l3_instr_clkctrl;
+	mod.context = &omap5430es1_rm_l3instr_l3_instr_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -1140,8 +1140,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L3INSTR_L3_GICLK;
 	mod.sysconfig = &omap5430_ocp_wp_sysconfig;
-	mod.clkctrl = &omap5430_cm_l3instr_ocp_wp_noc_clkctrl;
-	mod.context = &omap5430_rm_l3instr_ocp_wp_noc_context;
+	mod.clkctrl = &omap5430es1_cm_l3instr_ocp_wp_noc_clkctrl;
+	mod.context = &omap5430es1_rm_l3instr_ocp_wp_noc_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -1194,8 +1194,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L3MAIN1_L3_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_l3main1_l3_main_1_clkctrl;
-	mod.context = &omap5430_rm_l3main1_l3_main_1_context;
+	mod.clkctrl = &omap5430es1_cm_l3main1_l3_main_1_clkctrl;
+	mod.context = &omap5430es1_rm_l3main1_l3_main_1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -1220,8 +1220,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_C2C_L3_GICLK;
 	mod.sysconfig = &omap5430_c2c_sysconfig;
-	mod.clkctrl = &omap5430_cm_c2c_c2c_clkctrl;
-	mod.context = &omap5430_rm_c2c_c2c_context;
+	mod.clkctrl = &omap5430es1_cm_c2c_c2c_clkctrl;
+	mod.context = &omap5430es1_rm_c2c_c2c_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -1246,8 +1246,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_C2C_L3_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_c2c_c2c_ocp_fw_clkctrl;
-	mod.context = &omap5430_rm_c2c_c2c_ocp_fw_context;
+	mod.clkctrl = &omap5430es1_cm_c2c_c2c_ocp_fw_clkctrl;
+	mod.context = &omap5430es1_rm_c2c_c2c_ocp_fw_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -1272,8 +1272,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_C2C_L4_GICLK;
 	mod.sysconfig = &omap5430_modem_icr_mpu_pa_sys_config;
-	mod.clkctrl = &omap5430_cm_c2c_modem_icr_clkctrl;
-	mod.context = &omap5430_rm_c2c_modem_icr_context;
+	mod.clkctrl = &omap5430es1_cm_c2c_modem_icr_clkctrl;
+	mod.context = &omap5430es1_rm_c2c_modem_icr_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 66500;
@@ -1298,8 +1298,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_DMA_L3_GICLK;
 	mod.sysconfig = &omap5430_dma4_ocp_sysconfig;
-	mod.clkctrl = &omap5430_cm_dma_dma_system_clkctrl;
-	mod.context = &omap5430_rm_dma_dma_system_context;
+	mod.clkctrl = &omap5430es1_cm_dma_dma_system_clkctrl;
+	mod.context = &omap5430es1_rm_dma_dma_system_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -1324,8 +1324,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_UNIPRO1_PHY_GFCLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_mipiext_lli_clkctrl;
-	mod.context = &omap5430_rm_mipiext_lli_context;
+	mod.clkctrl = &omap5430es1_cm_mipiext_lli_clkctrl;
+	mod.context = &omap5430es1_rm_mipiext_lli_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 1457600;
@@ -1350,8 +1350,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_MIPIEXT_L3_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_mipiext_lli_ocp_fw_clkctrl;
-	mod.context = &omap5430_rm_mipiext_lli_ocp_fw_context;
+	mod.clkctrl = &omap5430es1_cm_mipiext_lli_ocp_fw_clkctrl;
+	mod.context = &omap5430es1_rm_mipiext_lli_ocp_fw_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -1376,8 +1376,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_MIPIEXT_L4_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_mipiext_mphy_clkctrl;
-	mod.context = &omap5430_rm_mipiext_mphy_context;
+	mod.clkctrl = &omap5430es1_cm_mipiext_mphy_clkctrl;
+	mod.context = &omap5430es1_rm_mipiext_mphy_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 66500;
@@ -1403,8 +1403,8 @@ void mod54xx_init(void)
 		mod.voltdm = VDD_CORE;
 		mod.clk = (int) CLK54XX_UNIPRO1_PHY_GFCLK;
 		mod.sysconfig = &omap5430_unipro1_sysconfig;
-		mod.clkctrl = &omap5430_cm_mipiext_unipro1_clkctrl;
-		mod.context = &omap5430_rm_mipiext_unipro1_context;
+		mod.clkctrl = &omap5430es1_cm_mipiext_unipro1_clkctrl;
+		mod.context = &omap5430es1_rm_mipiext_unipro1_context;
 		genlist_init(&(mod.mod_opp_list));
 		opp.name = OPP_LOW;
 		opp.rate = 1457600;
@@ -1430,8 +1430,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_DSS_GFCLK;
 	mod.sysconfig = &omap5430_dispc_l3_main_dispc_sysconfig;
-	mod.clkctrl = &omap5430_cm_dss_dss_clkctrl;
-	mod.context = &omap5430_rm_dss_dss_context;
+	mod.clkctrl = &omap5430es1_cm_dss_dss_clkctrl;
+	mod.context = &omap5430es1_rm_dss_dss_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 192000;
@@ -1456,8 +1456,8 @@ void mod54xx_init(void)
 		mod.voltdm = VDD_CORE;
 		mod.clk = (int) CLK54XX_DSS_L3_GICLK;
 		mod.sysconfig = &omap5430_bb2d_sysconfig_pm;
-		mod.clkctrl = &omap5430_cm_dss_bb2d_clkctrl;
-		mod.context = &omap5430_rm_dss_bb2d_context;
+		mod.clkctrl = &omap5430es1_cm_dss_bb2d_clkctrl;
+		mod.context = &omap5430es1_rm_dss_bb2d_context;
 		genlist_init(&(mod.mod_opp_list));
 		opp.name = OPP_LOW;
 		opp.rate = 133000;
@@ -1483,8 +1483,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_HSI_GFCLK;
 	mod.sysconfig = &omap5430_hsi_sysconfig;
-	mod.clkctrl = &omap5430_cm_l3init_hsi_clkctrl;
-	mod.context = &omap5430_rm_l3init_hsi_context;
+	mod.clkctrl = &omap5430es1_cm_l3init_hsi_clkctrl;
+	mod.context = &omap5430es1_rm_l3init_hsi_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 192000;
@@ -1509,8 +1509,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L3INIT_L3_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_l3init_ieee1500_2_ocp_clkctrl;
-	mod.context = &omap5430_rm_l3init_ieee1500_2_ocp_context;
+	mod.clkctrl = &omap5430es1_cm_l3init_ieee1500_2_ocp_clkctrl;
+	mod.context = &omap5430es1_rm_l3init_ieee1500_2_ocp_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -1535,8 +1535,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_MMC1_GFCLK;
 	mod.sysconfig = &omap5430_mmchs1_hl_sysconfig;
-	mod.clkctrl = &omap5430_cm_l3init_mmc1_clkctrl;
-	mod.context = &omap5430_rm_l3init_mmc1_context;
+	mod.clkctrl = &omap5430es1_cm_l3init_mmc1_clkctrl;
+	mod.context = &omap5430es1_rm_l3init_mmc1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 96000;
@@ -1561,8 +1561,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_MMC2_GFCLK;
 	mod.sysconfig = &omap5430_mmchs2_hl_sysconfig;
-	mod.clkctrl = &omap5430_cm_l3init_mmc2_clkctrl;
-	mod.context = &omap5430_rm_l3init_mmc2_context;
+	mod.clkctrl = &omap5430es1_cm_l3init_mmc2_clkctrl;
+	mod.context = &omap5430es1_rm_l3init_mmc2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 96000;
@@ -1587,8 +1587,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L3INIT_L4_GICLK;
 	mod.sysconfig = &omap5430_ocp2scp1_sysconfig;
-	mod.clkctrl = &omap5430_cm_l3init_ocp2scp1_clkctrl;
-	mod.context = &omap5430_rm_l3init_ocp2scp1_context;
+	mod.clkctrl = &omap5430es1_cm_l3init_ocp2scp1_clkctrl;
+	mod.context = &omap5430es1_rm_l3init_ocp2scp1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 66500;
@@ -1613,8 +1613,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_UTMI_P1_GFCLK;
 	mod.sysconfig = &omap5430_uhh_sysconfig;
-	mod.clkctrl = &omap5430_cm_l3init_usb_host_hs_clkctrl;
-	mod.context = &omap5430_rm_l3init_usb_host_hs_context;
+	mod.clkctrl = &omap5430es1_cm_l3init_usb_host_hs_clkctrl;
+	mod.context = &omap5430es1_rm_l3init_usb_host_hs_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 60000;
@@ -1639,8 +1639,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L3INIT_960M_FCLK;
 	mod.sysconfig = &omap5430_usbotgss_sysconfig;
-	mod.clkctrl = &omap5430_cm_l3init_usb_otg_ss_clkctrl;
-	mod.context = &omap5430_rm_l3init_usb_otg_ss_context;
+	mod.clkctrl = &omap5430es1_cm_l3init_usb_otg_ss_clkctrl;
+	mod.context = &omap5430es1_rm_l3init_usb_otg_ss_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 960000;
@@ -1665,8 +1665,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_TLL_CH0_GFCLK;
 	mod.sysconfig = &omap5430_usbtll_sysconfig;
-	mod.clkctrl = &omap5430_cm_l3init_usb_tll_hs_clkctrl;
-	mod.context = &omap5430_rm_l3init_usb_tll_hs_context;
+	mod.clkctrl = &omap5430es1_cm_l3init_usb_tll_hs_clkctrl;
+	mod.context = &omap5430es1_rm_l3init_usb_tll_hs_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 60000;
@@ -1691,8 +1691,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L3INIT_L3_GICLK;
 	mod.sysconfig = &omap5430_sata_sysconfig;
-	mod.clkctrl = &omap5430_cm_l3init_sata_clkctrl;
-	mod.context = &omap5430_rm_l3init_sata_context;
+	mod.clkctrl = &omap5430es1_cm_l3init_sata_clkctrl;
+	mod.context = &omap5430es1_rm_l3init_sata_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -1717,8 +1717,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_UNIPRO2_PHY_GFCLK;
 	mod.sysconfig = &omap5430_unipro2_sysconfig;
-	mod.clkctrl = &omap5430_cm_l3init_unipro2_clkctrl;
-	mod.context = &omap5430_rm_l3init_unipro2_context;
+	mod.clkctrl = &omap5430es1_cm_l3init_unipro2_clkctrl;
+	mod.context = &omap5430es1_rm_l3init_unipro2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 1457600;
@@ -1743,7 +1743,7 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L3INIT_L4_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_l3init_mphy_unipro2_clkctrl;
+	mod.clkctrl = &omap5430es1_cm_l3init_mphy_unipro2_clkctrl;
 	mod.context = NULL;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
@@ -1769,8 +1769,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L3INIT_L4_GICLK;
 	mod.sysconfig = &omap5430_ocp2scp3_sysconfig;
-	mod.clkctrl = &omap5430_cm_l3init_ocp2scp3_clkctrl;
-	mod.context = &omap5430_rm_l3init_ocp2scp3_context;
+	mod.clkctrl = &omap5430es1_cm_l3init_ocp2scp3_clkctrl;
+	mod.context = &omap5430es1_rm_l3init_ocp2scp3_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 66500;
@@ -1795,8 +1795,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_TIMER10_GFCLK;
 	mod.sysconfig = &omap5430_timer10_l4interconnect_tiocp_cfg;
-	mod.clkctrl = &omap5430_cm_l4per_timer10_clkctrl;
-	mod.context = &omap5430_rm_l4per_timer10_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_timer10_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_timer10_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 19200;
@@ -1821,8 +1821,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_TIMER11_GFCLK;
 	mod.sysconfig = &omap5430_timer11_l4interconnect_tiocp_cfg;
-	mod.clkctrl = &omap5430_cm_l4per_timer11_clkctrl;
-	mod.context = &omap5430_rm_l4per_timer11_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_timer11_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_timer11_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 19200;
@@ -1847,8 +1847,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_TIMER2_GFCLK;
 	mod.sysconfig = &omap5430_timer2_l4interconnect_tiocp_cfg;
-	mod.clkctrl = &omap5430_cm_l4per_timer2_clkctrl;
-	mod.context = &omap5430_rm_l4per_timer2_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_timer2_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_timer2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 19200;
@@ -1873,8 +1873,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_TIMER3_GFCLK;
 	mod.sysconfig = &omap5430_timer3_l4interconnect_tiocp_cfg;
-	mod.clkctrl = &omap5430_cm_l4per_timer3_clkctrl;
-	mod.context = &omap5430_rm_l4per_timer3_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_timer3_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_timer3_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 19200;
@@ -1899,8 +1899,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_TIMER4_GFCLK;
 	mod.sysconfig = &omap5430_timer4_l4interconnect_tiocp_cfg;
-	mod.clkctrl = &omap5430_cm_l4per_timer4_clkctrl;
-	mod.context = &omap5430_rm_l4per_timer4_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_timer4_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_timer4_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 19200;
@@ -1925,8 +1925,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_TIMER9_GFCLK;
 	mod.sysconfig = &omap5430_timer9_l4interconnect_tiocp_cfg;
-	mod.clkctrl = &omap5430_cm_l4per_timer9_clkctrl;
-	mod.context = &omap5430_rm_l4per_timer9_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_timer9_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_timer9_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 19200;
@@ -1951,8 +1951,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L4PER_L4_GICLK;
 	mod.sysconfig = &omap5430_elm_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_elm_clkctrl;
-	mod.context = &omap5430_rm_l4per_elm_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_elm_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_elm_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 66500;
@@ -1977,8 +1977,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_32K_GFCLK;
 	mod.sysconfig = &omap5430_gpio2_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_gpio2_clkctrl;
-	mod.context = &omap5430_rm_l4per_gpio2_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_gpio2_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_gpio2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 32;
@@ -2003,8 +2003,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_32K_GFCLK;
 	mod.sysconfig = &omap5430_gpio3_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_gpio3_clkctrl;
-	mod.context = &omap5430_rm_l4per_gpio3_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_gpio3_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_gpio3_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 32;
@@ -2029,8 +2029,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_32K_GFCLK;
 	mod.sysconfig = &omap5430_gpio4_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_gpio4_clkctrl;
-	mod.context = &omap5430_rm_l4per_gpio4_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_gpio4_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_gpio4_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 32;
@@ -2055,8 +2055,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_32K_GFCLK;
 	mod.sysconfig = &omap5430_gpio5_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_gpio5_clkctrl;
-	mod.context = &omap5430_rm_l4per_gpio5_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_gpio5_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_gpio5_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 32;
@@ -2081,8 +2081,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_32K_GFCLK;
 	mod.sysconfig = &omap5430_gpio6_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_gpio6_clkctrl;
-	mod.context = &omap5430_rm_l4per_gpio6_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_gpio6_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_gpio6_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 32;
@@ -2107,8 +2107,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_32K_GFCLK;
 	mod.sysconfig = &omap5430_gpio7_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_gpio7_clkctrl;
-	mod.context = &omap5430_rm_l4per_gpio7_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_gpio7_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_gpio7_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 32;
@@ -2133,8 +2133,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_32K_GFCLK;
 	mod.sysconfig = &omap5430_gpio8_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_gpio8_clkctrl;
-	mod.context = &omap5430_rm_l4per_gpio8_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_gpio8_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_gpio8_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 32;
@@ -2159,8 +2159,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_12M_GFCLK;
 	mod.sysconfig = &omap5430_hdq_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_hdq1w_clkctrl;
-	mod.context = &omap5430_rm_l4per_hdq1w_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_hdq1w_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_hdq1w_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 12000;
@@ -2185,8 +2185,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_96M_GFCLK;
 	mod.sysconfig = &omap5430_i2c1_sysc;
-	mod.clkctrl = &omap5430_cm_l4per_i2c1_clkctrl;
-	mod.context = &omap5430_rm_l4per_i2c1_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_i2c1_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_i2c1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 96000;
@@ -2211,8 +2211,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_96M_GFCLK;
 	mod.sysconfig = &omap5430_i2c2_sysc;
-	mod.clkctrl = &omap5430_cm_l4per_i2c2_clkctrl;
-	mod.context = &omap5430_rm_l4per_i2c2_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_i2c2_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_i2c2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 96000;
@@ -2237,8 +2237,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_96M_GFCLK;
 	mod.sysconfig = &omap5430_i2c3_sysc;
-	mod.clkctrl = &omap5430_cm_l4per_i2c3_clkctrl;
-	mod.context = &omap5430_rm_l4per_i2c3_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_i2c3_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_i2c3_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 96000;
@@ -2263,8 +2263,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_96M_GFCLK;
 	mod.sysconfig = &omap5430_i2c4_sysc;
-	mod.clkctrl = &omap5430_cm_l4per_i2c4_clkctrl;
-	mod.context = &omap5430_rm_l4per_i2c4_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_i2c4_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_i2c4_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 96000;
@@ -2289,8 +2289,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_96M_GFCLK;
 	mod.sysconfig = &omap5430_i2c5_sysc;
-	mod.clkctrl = &omap5430_cm_l4per_i2c5_clkctrl;
-	mod.context = &omap5430_rm_l4per_i2c5_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_i2c5_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_i2c5_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 96000;
@@ -2315,8 +2315,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_L4PER_L4_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_l4per_l4_per_clkctrl;
-	mod.context = &omap5430_rm_l4per_l4_per_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_l4_per_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_l4_per_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 66500;
@@ -2341,8 +2341,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_48M_GFCLK;
 	mod.sysconfig = &omap5430_mcspi1_hl_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_mcspi1_clkctrl;
-	mod.context = &omap5430_rm_l4per_mcspi1_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_mcspi1_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_mcspi1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 48000;
@@ -2367,8 +2367,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_48M_GFCLK;
 	mod.sysconfig = &omap5430_mcspi2_hl_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_mcspi2_clkctrl;
-	mod.context = &omap5430_rm_l4per_mcspi2_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_mcspi2_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_mcspi2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 48000;
@@ -2393,8 +2393,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_48M_GFCLK;
 	mod.sysconfig = &omap5430_mcspi3_hl_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_mcspi3_clkctrl;
-	mod.context = &omap5430_rm_l4per_mcspi3_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_mcspi3_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_mcspi3_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 48000;
@@ -2419,8 +2419,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_48M_GFCLK;
 	mod.sysconfig = &omap5430_mcspi4_hl_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_mcspi4_clkctrl;
-	mod.context = &omap5430_rm_l4per_mcspi4_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_mcspi4_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_mcspi4_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 48000;
@@ -2445,8 +2445,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_48M_GFCLK;
 	mod.sysconfig = &omap5430_mmchs3_hl_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_mmc3_clkctrl;
-	mod.context = &omap5430_rm_l4per_mmc3_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_mmc3_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_mmc3_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 48000;
@@ -2471,8 +2471,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_48M_GFCLK;
 	mod.sysconfig = &omap5430_mmchs4_hl_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_mmc4_clkctrl;
-	mod.context = &omap5430_rm_l4per_mmc4_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_mmc4_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_mmc4_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 48000;
@@ -2497,8 +2497,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_96M_GFCLK;
 	mod.sysconfig = &omap5430_mmchs5_hl_sysconfig;
-	mod.clkctrl = &omap5430_cm_l4per_mmc5_clkctrl;
-	mod.context = &omap5430_rm_l4per_mmc5_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_mmc5_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_mmc5_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 96000;
@@ -2524,8 +2524,8 @@ void mod54xx_init(void)
 		mod.voltdm = VDD_CORE;
 		mod.clk = (int) CLK54XX_PER_24M_GFCLK;
 		mod.sysconfig = &omap5430_slimbus2_cmp_sysconfig;
-		mod.clkctrl = &omap5430_cm_l4per_slimbus2_clkctrl;
-		mod.context = &omap5430_rm_l4per_slimbus2_context;
+		mod.clkctrl = &omap5430es1_cm_l4per_slimbus2_clkctrl;
+		mod.context = &omap5430es1_rm_l4per_slimbus2_context;
 		genlist_init(&(mod.mod_opp_list));
 		opp.name = OPP_LOW;
 		opp.rate = 24576;
@@ -2551,8 +2551,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_48M_GFCLK;
 	mod.sysconfig = &omap5430_uart1_sysc;
-	mod.clkctrl = &omap5430_cm_l4per_uart1_clkctrl;
-	mod.context = &omap5430_rm_l4per_uart1_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_uart1_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_uart1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 48000;
@@ -2577,8 +2577,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_48M_GFCLK;
 	mod.sysconfig = &omap5430_uart2_sysc;
-	mod.clkctrl = &omap5430_cm_l4per_uart2_clkctrl;
-	mod.context = &omap5430_rm_l4per_uart2_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_uart2_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_uart2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 48000;
@@ -2603,8 +2603,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_48M_GFCLK;
 	mod.sysconfig = &omap5430_uart3_sysc;
-	mod.clkctrl = &omap5430_cm_l4per_uart3_clkctrl;
-	mod.context = &omap5430_rm_l4per_uart3_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_uart3_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_uart3_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 48000;
@@ -2629,8 +2629,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_48M_GFCLK;
 	mod.sysconfig = &omap5430_uart4_sysc;
-	mod.clkctrl = &omap5430_cm_l4per_uart4_clkctrl;
-	mod.context = &omap5430_rm_l4per_uart4_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_uart4_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_uart4_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 48000;
@@ -2655,8 +2655,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_48M_GFCLK;
 	mod.sysconfig = &omap5430_uart5_sysc;
-	mod.clkctrl = &omap5430_cm_l4per_uart5_clkctrl;
-	mod.context = &omap5430_rm_l4per_uart5_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_uart5_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_uart5_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 48000;
@@ -2681,8 +2681,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PER_48M_GFCLK;
 	mod.sysconfig = &omap5430_uart6_sysc;
-	mod.clkctrl = &omap5430_cm_l4per_uart6_clkctrl;
-	mod.context = &omap5430_rm_l4per_uart6_context;
+	mod.clkctrl = &omap5430es1_cm_l4per_uart6_clkctrl;
+	mod.context = &omap5430es1_rm_l4per_uart6_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 48000;
@@ -2890,8 +2890,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_AESS_FCLK;
 	mod.sysconfig = &omap5430_aess_sysconfig;
-	mod.clkctrl = &omap5430_cm_abe_aess_clkctrl;
-	mod.context = &omap5430_rm_abe_aess_context;
+	mod.clkctrl = &omap5430es1_cm_abe_aess_clkctrl;
+	mod.context = &omap5430es1_rm_abe_aess_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 98304;
@@ -2916,8 +2916,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_DMIC_GFCLK;
 	mod.sysconfig = &omap5430_dmic_cortex_a15_dmic_sysconfig;
-	mod.clkctrl = &omap5430_cm_abe_dmic_clkctrl;
-	mod.context = &omap5430_rm_abe_dmic_context;
+	mod.clkctrl = &omap5430es1_cm_abe_dmic_clkctrl;
+	mod.context = &omap5430es1_rm_abe_dmic_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 24576;
@@ -2942,7 +2942,7 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_ABE_GICLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_abe_l4_abe_clkctrl;
+	mod.clkctrl = &omap5430es1_cm_abe_l4_abe_clkctrl;
 	mod.context = NULL;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
@@ -2968,8 +2968,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_MCASP1_GFCLK;
 	mod.sysconfig = &omap5430_mcasp_mpu_mcasp_sysconfig;
-	mod.clkctrl = &omap5430_cm_abe_mcasp_clkctrl;
-	mod.context = &omap5430_rm_abe_mcasp_context;
+	mod.clkctrl = &omap5430es1_cm_abe_mcasp_clkctrl;
+	mod.context = &omap5430es1_rm_abe_mcasp_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 98000;
@@ -2994,8 +2994,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_MCBSP1_GFCLK;
 	mod.sysconfig = &omap5430_mcbsp1_cortex_a15_mcbsplp_sysconfig_reg;
-	mod.clkctrl = &omap5430_cm_abe_mcbsp1_clkctrl;
-	mod.context = &omap5430_rm_abe_mcbsp1_context;
+	mod.clkctrl = &omap5430es1_cm_abe_mcbsp1_clkctrl;
+	mod.context = &omap5430es1_rm_abe_mcbsp1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 96000;
@@ -3020,8 +3020,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_MCBSP2_GFCLK;
 	mod.sysconfig = &omap5430_mcbsp2_cortex_a15_mcbsplp_sysconfig_reg;
-	mod.clkctrl = &omap5430_cm_abe_mcbsp2_clkctrl;
-	mod.context = &omap5430_rm_abe_mcbsp2_context;
+	mod.clkctrl = &omap5430es1_cm_abe_mcbsp2_clkctrl;
+	mod.context = &omap5430es1_rm_abe_mcbsp2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 96000;
@@ -3046,8 +3046,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_MCBSP3_GFCLK;
 	mod.sysconfig = &omap5430_mcbsp3_cortex_a15_mcbsplp_sysconfig_reg;
-	mod.clkctrl = &omap5430_cm_abe_mcbsp3_clkctrl;
-	mod.context = &omap5430_rm_abe_mcbsp3_context;
+	mod.clkctrl = &omap5430es1_cm_abe_mcbsp3_clkctrl;
+	mod.context = &omap5430es1_rm_abe_mcbsp3_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 96000;
@@ -3072,8 +3072,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_PAD_GCLKS;
 	mod.sysconfig = &omap5430_mcpdm_cortex_a15_mcpdm_sysconfig;
-	mod.clkctrl = &omap5430_cm_abe_mcpdm_clkctrl;
-	mod.context = &omap5430_rm_abe_mcpdm_context;
+	mod.clkctrl = &omap5430es1_cm_abe_mcpdm_clkctrl;
+	mod.context = &omap5430es1_rm_abe_mcpdm_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 19200;
@@ -3098,8 +3098,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_SLIMBUS_UCLKS;
 	mod.sysconfig = &omap5430_slimbus1_mpu_slimbus_cmp_sysconfig;
-	mod.clkctrl = &omap5430_cm_abe_slimbus1_clkctrl;
-	mod.context = &omap5430_rm_abe_slimbus1_context;
+	mod.clkctrl = &omap5430es1_cm_abe_slimbus1_clkctrl;
+	mod.context = &omap5430es1_rm_abe_slimbus1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 24576;
@@ -3124,8 +3124,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_TIMER5_GFCLK;
 	mod.sysconfig = &omap5430_timer5_mpu_tiocp_cfg;
-	mod.clkctrl = &omap5430_cm_abe_timer5_clkctrl;
-	mod.context = &omap5430_rm_abe_timer5_context;
+	mod.clkctrl = &omap5430es1_cm_abe_timer5_clkctrl;
+	mod.context = &omap5430es1_rm_abe_timer5_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 19200;
@@ -3150,8 +3150,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_TIMER6_GFCLK;
 	mod.sysconfig = &omap5430_timer6_mpu_tiocp_cfg;
-	mod.clkctrl = &omap5430_cm_abe_timer6_clkctrl;
-	mod.context = &omap5430_rm_abe_timer6_context;
+	mod.clkctrl = &omap5430es1_cm_abe_timer6_clkctrl;
+	mod.context = &omap5430es1_rm_abe_timer6_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 19200;
@@ -3176,8 +3176,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_TIMER7_GFCLK;
 	mod.sysconfig = &omap5430_timer7_mpu_tiocp_cfg;
-	mod.clkctrl = &omap5430_cm_abe_timer7_clkctrl;
-	mod.context = &omap5430_rm_abe_timer7_context;
+	mod.clkctrl = &omap5430es1_cm_abe_timer7_clkctrl;
+	mod.context = &omap5430es1_rm_abe_timer7_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 19200;
@@ -3202,8 +3202,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_TIMER8_GFCLK;
 	mod.sysconfig = &omap5430_timer8_mpu_tiocp_cfg;
-	mod.clkctrl = &omap5430_cm_abe_timer8_clkctrl;
-	mod.context = &omap5430_rm_abe_timer8_context;
+	mod.clkctrl = &omap5430es1_cm_abe_timer8_clkctrl;
+	mod.context = &omap5430es1_rm_abe_timer8_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 19200;
@@ -3228,8 +3228,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK54XX_ABE_32K_CLK;
 	mod.sysconfig = &omap5430_wd_timer3_l3interconnect_wdsc;
-	mod.clkctrl = &omap5430_cm_abe_wd_timer3_clkctrl;
-	mod.context = &omap5430_rm_abe_wd_timer3_context;
+	mod.clkctrl = &omap5430es1_cm_abe_wd_timer3_clkctrl;
+	mod.context = &omap5430es1_rm_abe_wd_timer3_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 32;
@@ -3254,8 +3254,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_MM;
 	mod.clk = (int) CLK54XX_DSP_GCLK;
 	mod.sysconfig = &omap5430_dsp_sysc_sysconfig;
-	mod.clkctrl = &omap5430_cm_dsp_dsp_clkctrl;
-	mod.context = &omap5430_rm_dsp_dsp_context;
+	mod.clkctrl = &omap5430es1_cm_dsp_dsp_clkctrl;
+	mod.context = &omap5430es1_rm_dsp_dsp_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 232960;
@@ -3280,8 +3280,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_MM;
 	mod.clk = (int) CLK54XX_GPU_CORE_GCLK;
 	mod.sysconfig = &omap5430_gpu_sysconfig;
-	mod.clkctrl = &omap5430_cm_gpu_gpu_clkctrl;
-	mod.context = &omap5430_rm_gpu_gpu_context;
+	mod.clkctrl = &omap5430es1_cm_gpu_gpu_clkctrl;
+	mod.context = &omap5430es1_rm_gpu_gpu_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 177333;
@@ -3306,8 +3306,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_MM;
 	mod.clk = (int) CLK54XX_IVA_GCLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_iva_iva_clkctrl;
-	mod.context = &omap5430_rm_iva_iva_context;
+	mod.clkctrl = &omap5430es1_cm_iva_iva_clkctrl;
+	mod.context = &omap5430es1_rm_iva_iva_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 194133;
@@ -3332,8 +3332,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_MM;
 	mod.clk = (int) CLK54XX_IVA_GCLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_iva_sl2_clkctrl;
-	mod.context = &omap5430_rm_iva_sl2_context;
+	mod.clkctrl = &omap5430es1_cm_iva_sl2_clkctrl;
+	mod.context = &omap5430es1_rm_iva_sl2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 194133;
@@ -3358,8 +3358,8 @@ void mod54xx_init(void)
 	mod.voltdm = VDD_MPU;
 	mod.clk = (int) CLK54XX_MPU_GCLK;
 	mod.sysconfig = NULL;
-	mod.clkctrl = &omap5430_cm_mpu_mpu_clkctrl;
-	mod.context = &omap5430_rm_mpu_mpu_context;
+	mod.clkctrl = &omap5430es1_cm_mpu_mpu_clkctrl;
+	mod.context = &omap5430es1_rm_mpu_mpu_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 400000;

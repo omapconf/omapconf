@@ -47,7 +47,7 @@
 
 
 #include <dpll.h>
-#include <cm54xx-defs.h>
+#include <cm54xxes1-defs.h>
 #include <voltdm54xx.h>
 #include <stdio.h>
 
