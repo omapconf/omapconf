@@ -197,7 +197,12 @@ const char
 	"IVA",
 	"SL2",
 	/* Voltage dom.: MPU, Power dom.: MPUAON Clock domain = MPU */
-	"MPU"};
+	"MPU"
+	/* ES2.0 additions */
+	/* Voltage dom.: CORE, Power dom.: COREAON, Clock domain = COREAON */
+	"USB2PHY"
+	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = L3_INSTR */
+	"CTRL_MODULE_BANDGAP"};
 
 
 const clk54xx_id mod54xx_flck_table[MOD54XX_ID_MAX] = {

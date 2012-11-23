@@ -202,6 +202,11 @@ typedef enum {
 	OMAP5_SL2,
 	/* Voltage dom.: MPU, Power dom.: MPUAON Clock domain = MPU */
 	OMAP5_MPU,
+	/* ES2.0 additions */
+	/* Voltage dom.: CORE, Power dom.: COREAON, Clock domain = COREAON */
+	OMAP5_USB2PHY,
+	/* Voltage dom.: CORE, Power dom.: CORE, Clock domain = L3_INSTR */
+	OMAP5_CTRL_MODULE_BANDGAP,
 	MOD54XX_ID_MAX
 } mod54xx_id;
 
