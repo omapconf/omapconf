@@ -2,8 +2,7 @@
  *
  * @Component			OMAPCONF
  * @Filename			clkdm_dependency54xx.h
- * @Description			OMAP5 Clock Domain Dependencies Definitions &
- *				Functions
+ * @Description			OMAP5 Clock Domain Dependencies Definitions
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2012
  * @Copyright			Texas Instruments Incorporated
@@ -47,8 +46,10 @@
 #define __PRCM_CLKDM_DEPENDENCY54XX_H__
 
 
-#include <clkdm_dependency.h>
 #include <stdio.h>
+#include <clkdm_dependency.h>
+#include <clkdm_dependency54xxes1-data.h>
+#include <clkdm_dependency54xx-data.h>
 
 
 int clkdmdep54xx_dump(FILE *stream);

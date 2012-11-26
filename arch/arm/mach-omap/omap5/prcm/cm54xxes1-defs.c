@@ -1991,7 +1991,7 @@ reg **cm54xxes1_mods[CM54XX_MODS_COUNT + 1] = {
 	(reg **) &omap5430es1_dsp_cm_core_aon_mod,
 	NULL};
 
-const char *cm54xxes1_mods_name[CM54XX_MODS_COUNT] = {
+const char *cm54xx_mods_name[CM54XX_MODS_COUNT] = {
 	"CM CORE DSS",
 	"CM CORE INSTR",
 	"CM CORE CORE",

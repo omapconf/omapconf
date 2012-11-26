@@ -44,7 +44,6 @@
 
 
 #include <clkdm_dependency54xx.h>
-#include <clkdm_dependency54xxes1-data.h>
 #include <lib.h>
 #include <cm54xx.h>
 #include <clkdm54xx.h>
@@ -83,11 +82,11 @@ const reg *clkdmdep54xx_register_get(clkdm54xx_id id, clkdmdep_type type)
 			reg_addr_get((reg *) clkdmdep54xxes1_reg_table[id][type]));
 
 		return clkdmdep54xxes1_reg_table[id][type];
-	} else { /* FIXME when ES2 ready */
+	} else {
 		dprintf("%s(%u (%s), %u (%s)) = %s (0x%08X)\n", __func__,
 			id, clkdm54xx_name_get(id), type, clkdmdep_type_name_get(type),
-			reg_name_get((reg *) clkdmdep54xxes1_reg_table[id][type]),
-			reg_addr_get((reg *) clkdmdep54xxes1_reg_table[id][type]));
+			reg_name_get((reg *) clkdmdep54xx_reg_table[id][type]),
+			reg_addr_get((reg *) clkdmdep54xx_reg_table[id][type]));
 
 		return clkdmdep54xxes1_reg_table[id][type];
 	}
@@ -113,8 +112,8 @@ short clkdmdep54xx_bit_pos_get(clkdm54xx_id id)
 
 	if (cpu_revision_get() == REV_ES1_0)
 		pos = clkdmdep54xxes1_bit_pos_table[id];
-	else /* FIXME when ES2 ready */
-		pos = clkdmdep54xxes1_bit_pos_table[id];
+	else
+		pos = clkdmdep54xx_bit_pos_table[id];
 	dprintf("%s(%s)=%d\n", __func__, clkdm54xx_name_get(id), pos);
 
 	return pos;
@@ -197,8 +196,8 @@ int clkdmdep54xx_has_dependency_towards_it(clkdm54xx_id id)
 
 	if (cpu_revision_get() == REV_ES1_0)
 		flag = clkdmdep54xxes1_bit_pos_table[id];
-	else /* FIXME when ES2 ready */
-		flag = clkdmdep54xxes1_bit_pos_table[id];
+	else
+		flag = clkdmdep54xx_bit_pos_table[id];
 	if (flag != -1)
 		return 1;
 	else
@@ -230,11 +229,11 @@ clkdmdep_ctrl_type clkdmdep54xx_dep_get(
 			return  clkdmdep54xxes1_statdep_table[from][to];
 		else
 			return  clkdmdep54xxes1_dyndep_table[from][to];
-	} else { /* FIXME when ES2 ready */
+	} else {
 		if (type == CLKDMDEP_STATIC)
-			return  clkdmdep54xxes1_statdep_table[from][to];
+			return  clkdmdep54xx_statdep_table[from][to];
 		else
-			return  clkdmdep54xxes1_dyndep_table[from][to];
+			return  clkdmdep54xx_dyndep_table[from][to];
 	}
 }
 

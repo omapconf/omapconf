@@ -667,7 +667,7 @@ typedef enum {
 
 extern reg **cm54xxes1_mods[CM54XX_MODS_COUNT + 1];
 
-extern const char *cm54xxes1_mods_name[CM54XX_MODS_COUNT];
+extern const char *cm54xx_mods_name[CM54XX_MODS_COUNT];
 
 typedef enum {
 	DPLL54XX_MPU,

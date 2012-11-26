@@ -74,10 +74,7 @@ const char *cm54xx_mod_name_get(cm54xx_mod_id id)
 		return NULL;
 	}
 
-	if (cpu_revision_get() == REV_ES1_0)
-		return cm54xxes1_mods_name[id];
-	else /* FIXME when ES2 ready */
-		return cm54xxes1_mods_name[id];
+	return cm54xx_mods_name[id];
 }
 
 
