@@ -54,6 +54,8 @@ extern reg omap5430_control_wkup_revision;
 extern reg omap5430_control_wkup_hwinfo;
 #define OMAP5430_CONTROL_WKUP_SYSCONFIG			0x4ae0c010
 extern reg omap5430_control_wkup_sysconfig;
+#define OMAP5430_CONTROL_WKUP_PROT_CTRL			0x4ae0c100
+extern reg omap5430_control_wkup_prot_ctrl;
 #define OMAP5430_CONTROL_WKUP_OCPREG_SPARE		0x4ae0c10c
 extern reg omap5430_control_wkup_ocpreg_spare;
 #define OMAP5430_CONTROL_PROT_EMIF1_SDRAM_CONFIG	0x4ae0c110
@@ -90,6 +92,18 @@ extern reg omap5430_control_wkup_std_fuse_die_id_2;
 extern reg omap5430_control_wkup_std_fuse_die_id_3;
 #define OMAP5430_CONTROL_WKUP_STD_FUSE_PROD_ID_0	0x4ae0c214
 extern reg omap5430_control_wkup_std_fuse_prod_id_0;
+#define OMAP5430_CONTROL_WKUP_LDOVBB_MM_VOLTAGE_CTRL		0x4ae0c314
+extern reg omap5430_control_wkup_ldovbb_mm_voltage_ctrl;
+#define OMAP5430_CONTROL_WKUP_LDOVBB_MPU_VOLTAGE_CTRL		0x4ae0c318
+extern reg omap5430_control_wkup_ldovbb_mpu_voltage_ctrl;
+#define OMAP5430_CONTROL_WKUP_LDOSRAM_MM_VOLTAGE_CTRL		0x4ae0c31c
+extern reg omap5430_control_wkup_ldosram_mm_voltage_ctrl;
+#define OMAP5430_CONTROL_WKUP_LDOSRAM_MPU_VOLTAGE_CTRL		0x4ae0c324
+extern reg omap5430_control_wkup_ldosram_mpu_voltage_ctrl;
+#define OMAP5430_CONTROL_WKUP_LDOSRAM_CORE_VOLTAGE_CTRL		0x4ae0c328
+extern reg omap5430_control_wkup_ldosram_core_voltage_ctrl;
+#define OMAP5430_CONTROL_WKUP_LDOSRAM_MPU_LVT_VOLTAGE_CTRL	0x4ae0c338
+extern reg omap5430_control_wkup_ldosram_mpu_lvt_voltage_ctrl;
 #define OMAP5430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_0	0x4ae0c460
 extern reg omap5430_control_wkup_conf_debug_sel_tst_0;
 #define OMAP5430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_1	0x4ae0c464
@@ -154,7 +168,27 @@ extern reg omap5430_control_wkup_conf_debug_sel_tst_29;
 extern reg omap5430_control_wkup_conf_debug_sel_tst_30;
 #define OMAP5430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_31	0x4ae0c4dc
 extern reg omap5430_control_wkup_conf_debug_sel_tst_31;
-#define OMAP5430_CTRL_MODULE_WKUP_MOD_REGCOUNT		53
+#define OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_0			0x4ae0c5dc
+extern reg omap5430_control_wkup_conf_xbar_sel_0;
+#define OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_4			0x4ae0c5e0
+extern reg omap5430_control_wkup_conf_xbar_sel_4;
+#define OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_8			0x4ae0c5e4
+extern reg omap5430_control_wkup_conf_xbar_sel_8;
+#define OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_12			0x4ae0c5e8
+extern reg omap5430_control_wkup_conf_xbar_sel_12;
+#define OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_16			0x4ae0c5ec
+extern reg omap5430_control_wkup_conf_xbar_sel_16;
+#define OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_20			0x4ae0c5f0
+extern reg omap5430_control_wkup_conf_xbar_sel_20;
+#define OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_24			0x4ae0c5f4
+extern reg omap5430_control_wkup_conf_xbar_sel_24;
+#define OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_28			0x4ae0c5f8
+extern reg omap5430_control_wkup_conf_xbar_sel_28;
+#define OMAP5430_CONTROL_WKUP_CONF_XBAR_BYPASS			0x4ae0c5fc
+extern reg omap5430_control_wkup_conf_xbar_bypass;
+#define OMAP5430ES1_CTRL_MODULE_WKUP_MOD_REGCOUNT		53
+extern reg *omap5430es1_ctrl_module_wkup_mod[OMAP5430ES1_CTRL_MODULE_WKUP_MOD_REGCOUNT + 1];
+#define OMAP5430_CTRL_MODULE_WKUP_MOD_REGCOUNT			68
 extern reg *omap5430_ctrl_module_wkup_mod[OMAP5430_CTRL_MODULE_WKUP_MOD_REGCOUNT + 1];
 
 

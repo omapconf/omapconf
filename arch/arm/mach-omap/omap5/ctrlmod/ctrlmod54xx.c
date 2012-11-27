@@ -62,6 +62,13 @@
 #endif
 
 
+reg **ctrlmod54xxes1_mods[CTRLMOD54XX_MODS_COUNT] = {
+	(reg **) &omap5430es1_ctrl_module_core_mod,
+	(reg **) &omap5430es1_ctrl_module_core_pad_mod,
+	(reg **) &omap5430es1_ctrl_module_wkup_mod,
+	(reg **) &omap5430_ctrl_module_wkup_pad_mod};
+
+
 reg **ctrlmod54xx_mods[CTRLMOD54XX_MODS_COUNT] = {
 	(reg **) &omap5430_ctrl_module_core_mod,
 	(reg **) &omap5430_ctrl_module_core_pad_mod,
@@ -165,7 +172,10 @@ int ctrlmod54xx_dump(FILE *stream, ctrlmod54xx_mod_id id)
 		if ((id != CTRLMOD54XX_MODS_COUNT) && (mid != id))
 			continue;
 		else {
-			mod = ctrlmod54xx_mods[mid];
+			if (cpu_revision_get() == REV_ES1_0)
+				mod = ctrlmod54xxes1_mods[mid];
+			else
+				mod = ctrlmod54xx_mods[mid];
 			for (i = 0; mod[i] != NULL; i++) {
 				r = mod[i];
 				/* Read register */
@@ -222,6 +232,14 @@ int ctrlmod54xx_io_audit(FILE *stream, unsigned int *err_nbr,
 	*err_nbr = 0;
 	*wng_nbr = 0;
 
+	if (cpu_revision_get() != REV_ES1_0) {
+		fprintf(stream,
+			"No golden settings available for OMAP5430 ES2.x, sorry...\n\n");
+		status = (char *) warning;
+		(*wng_nbr)++;
+		return OMAPCONF_ERR_CPU;
+	}
+
 	for (j = 0; j < 4; j++) {
 		autoadjust_table_init(table);
 		row = 0;
@@ -229,34 +247,64 @@ int ctrlmod54xx_io_audit(FILE *stream, unsigned int *err_nbr,
 		case 0:
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
 				"CONTROL MODULE CORE registers AUDIT");
-			golden_values = (ctrlmod54xx_golden_item *)
-				ctrlmod_core54xx_golden_values;
-			ctrlmod_regs = omap5430_ctrl_module_core_mod;
-			max = OMAP5430_CTRL_MODULE_CORE_MOD_REGCOUNT;
+			if (cpu_revision_get() == REV_ES1_0) {
+				golden_values = (ctrlmod54xx_golden_item *)
+					ctrlmod_core54xxes1_golden_values;
+				ctrlmod_regs = omap5430es1_ctrl_module_core_mod;
+				max = OMAP5430ES1_CTRL_MODULE_CORE_MOD_REGCOUNT;
+			} else { /* FIXME WHEN ES2.0 targets available */
+				golden_values = (ctrlmod54xx_golden_item *)
+					ctrlmod_core54xxes1_golden_values;
+				ctrlmod_regs = omap5430_ctrl_module_core_mod;
+				max = OMAP5430_CTRL_MODULE_CORE_MOD_REGCOUNT;
+			}
 			break;
 		case 1:
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
 				"CONTROL MODULE CORE PADCONF Registers AUDIT");
-			golden_values = (ctrlmod54xx_golden_item *)
-				ctrlmod_core_pad54xx_golden_values;
-			ctrlmod_regs = omap5430_ctrl_module_core_pad_mod;
-			max = OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT;
+			if (cpu_revision_get() == REV_ES1_0) {
+				golden_values = (ctrlmod54xx_golden_item *)
+					ctrlmod_core_pad54xxes1_golden_values;
+				ctrlmod_regs =
+					omap5430es1_ctrl_module_core_pad_mod;
+				max = OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT;
+			} else {
+				golden_values = (ctrlmod54xx_golden_item *)
+					ctrlmod_core_pad54xxes1_golden_values;
+				ctrlmod_regs =
+					omap5430_ctrl_module_core_pad_mod;
+				max = OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT;
+			}
 			break;
 		case 2:
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
 				"CONTROL MODULE WKUP Registers AUDIT");
-			golden_values = (ctrlmod54xx_golden_item *)
-				ctrlmod_wkup54xx_golden_values;
-			ctrlmod_regs = omap5430_ctrl_module_wkup_mod;
-			max = OMAP5430_CTRL_MODULE_WKUP_MOD_REGCOUNT;
+			if (cpu_revision_get() == REV_ES1_0) {
+				golden_values = (ctrlmod54xx_golden_item *)
+					ctrlmod_wkup54xxes1_golden_values;
+				ctrlmod_regs = omap5430es1_ctrl_module_wkup_mod;
+				max = OMAP5430ES1_CTRL_MODULE_WKUP_MOD_REGCOUNT;
+			} else { /* FIXME WHEN ES2.0 targets available */
+				golden_values = (ctrlmod54xx_golden_item *)
+					ctrlmod_wkup54xxes1_golden_values;
+				ctrlmod_regs = omap5430_ctrl_module_wkup_mod;
+				max = OMAP5430ES1_CTRL_MODULE_WKUP_MOD_REGCOUNT;
+			}
 			break;
 		case 3:
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
 				"CONTROL MODULE WKUP PADCONF Registers AUDIT");
-			golden_values = (ctrlmod54xx_golden_item *)
-				ctrlmod_wkup_pad54xx_golden_values;
-			ctrlmod_regs = omap5430_ctrl_module_wkup_pad_mod;
-			max = OMAP5430_CTRL_MODULE_WKUP_PAD_MOD_REGCOUNT;
+			if (cpu_revision_get() == REV_ES1_0) {
+				golden_values = (ctrlmod54xx_golden_item *)
+					ctrlmod_wkup_pad54xxes1_golden_values;
+				ctrlmod_regs = omap5430_ctrl_module_wkup_pad_mod;
+				max = OMAP5430_CTRL_MODULE_WKUP_PAD_MOD_REGCOUNT;
+			} else { /* FIXME WHEN ES2.0 targets available */
+				golden_values = (ctrlmod54xx_golden_item *)
+					ctrlmod_wkup_pad54xxes1_golden_values;
+				ctrlmod_regs = omap5430_ctrl_module_wkup_pad_mod;
+				max = OMAP5430_CTRL_MODULE_WKUP_PAD_MOD_REGCOUNT;
+			}
 			break;
 
 		}
@@ -356,8 +404,10 @@ int ctrlmod54xx_export(FILE *fp, ctrlmod54xx_mod_id id)
 	CHECK_NULL_ARG(fp, OMAPCONF_ERR_ARG);
 	CHECK_ARG_LESS_THAN(id, CTRLMOD54XX_MODS_COUNT, OMAPCONF_ERR_ARG);
 
-	mod = ctrlmod54xx_mods[id];
-
+	if (cpu_revision_get() == REV_ES1_0)
+		mod = ctrlmod54xxes1_mods[id];
+	else
+		mod = ctrlmod54xx_mods[id];
 	fprintf(fp, "          <submodule id=\"%u\" name=\"%s\">\n",
 		id, ctrlmod54xx_mod_name_get(id));
 
@@ -393,7 +443,10 @@ int ctrlmod54xx_import(FILE *fp, ctrlmod54xx_mod_id id)
 	CHECK_NULL_ARG(fp, OMAPCONF_ERR_ARG);
 	CHECK_ARG_LESS_THAN(id, CTRLMOD54XX_MODS_COUNT, OMAPCONF_ERR_ARG);
 
-	mod = ctrlmod54xx_mods[id];
+	if (cpu_revision_get() == REV_ES1_0)
+		mod = ctrlmod54xxes1_mods[id];
+	else
+		mod = ctrlmod54xx_mods[id];
 	rewind(fp);
 
 	/* Search for the module tag */

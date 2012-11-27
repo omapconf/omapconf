@@ -46,7 +46,7 @@
 #include <lib.h>
 
 
-const ctrlmod54xx_golden_item ctrlmod_core54xx_golden_values[OMAP5430_CTRL_MODULE_CORE_MOD_REGCOUNT] = {
+const ctrlmod54xx_golden_item ctrlmod_core54xxes1_golden_values[OMAP5430ES1_CTRL_MODULE_CORE_MOD_REGCOUNT] = {
 	{DATA_IGNORE, 0xDEADBEEF}, /* omap5430_control_core_revision */ /* FIXME */
 	{DATA_IGNORE, 0xDEADBEEF}, /* omap5430_control_core_hwinfo */ /* FIXME */
 	{DATA_IGNORE, 0xDEADBEEF}, /* omap5430_control_core_sysconfig */ /* FIXME */
@@ -238,7 +238,7 @@ const ctrlmod54xx_golden_item ctrlmod_core54xx_golden_values[OMAP5430_CTRL_MODUL
 	{DATA_IGNORE, 0xDEADBEEF} }; /* omap5430_control_core_conf_debug_sel_tst_47 */ /* FIXME */
 
 
-const ctrlmod54xx_golden_item ctrlmod_core_pad54xx_golden_values[OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT] = {
+const ctrlmod54xx_golden_item ctrlmod_core_pad54xxes1_golden_values[OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT] = {
 	{DATA_IGNORE, 0xDEADBEEF}, /* omap5430_control_core_pad_revision */
 	{DATA_IGNORE, 0xDEADBEEF}, /* omap5430_control_core_pad_hwinfo */
 	{DATA_IGNORE, 0xDEADBEEF}, /* omap5430_control_core_pad_sysconfig */
@@ -403,7 +403,7 @@ const ctrlmod54xx_golden_item ctrlmod_core_pad54xx_golden_values[OMAP5430_CTRL_M
 	{DATA_IGNORE, 0xDEADBEEF} }; /* omap5430_control_srcomp_code_latch */ /* FIXME */
 
 
-const ctrlmod54xx_golden_item ctrlmod_wkup54xx_golden_values[OMAP5430_CTRL_MODULE_WKUP_MOD_REGCOUNT] = {
+const ctrlmod54xx_golden_item ctrlmod_wkup54xxes1_golden_values[OMAP5430ES1_CTRL_MODULE_WKUP_MOD_REGCOUNT] = {
 	{DATA_IGNORE, 0xDEADBEEF}, /* omap5430_control_wkup_revision */ /* FIXME */
 	{DATA_IGNORE, 0xDEADBEEF}, /* omap5430_control_wkup_hwinfo */ /* FIXME */
 	{DATA_IGNORE, 0xDEADBEEF}, /* omap5430_control_wkup_sysconfig */ /* FIXME */
@@ -459,7 +459,7 @@ const ctrlmod54xx_golden_item ctrlmod_wkup54xx_golden_values[OMAP5430_CTRL_MODUL
 	{DATA_IGNORE, 0xDEADBEEF} }; /* omap5430_control_wkup_conf_debug_sel_tst_31 */ /* FIXME */
 
 
-const ctrlmod54xx_golden_item ctrlmod_wkup_pad54xx_golden_values[OMAP5430_CTRL_MODULE_WKUP_PAD_MOD_REGCOUNT] = {
+const ctrlmod54xx_golden_item ctrlmod_wkup_pad54xxes1_golden_values[OMAP5430_CTRL_MODULE_WKUP_PAD_MOD_REGCOUNT] = {
 	{DATA_IGNORE, 0xDEADBEEF}, /* omap5430_control_wkup_pad_revision */ /* FIXME */
 	{DATA_IGNORE, 0xDEADBEEF}, /* omap5430_control_wkup_pad_hwinfo */ /* FIXME */
 	{DATA_IGNORE, 0xDEADBEEF}, /* omap5430_control_wkup_pad_sysconfig */ /* FIXME */

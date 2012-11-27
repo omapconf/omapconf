@@ -61,13 +61,13 @@ typedef struct {
 
 
 extern const ctrlmod54xx_golden_item
-	ctrlmod_core54xx_golden_values[OMAP5430_CTRL_MODULE_CORE_MOD_REGCOUNT];
+	ctrlmod_core54xxes1_golden_values[OMAP5430ES1_CTRL_MODULE_CORE_MOD_REGCOUNT];
 extern const ctrlmod54xx_golden_item
-	ctrlmod_core_pad54xx_golden_values[OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT];
+	ctrlmod_core_pad54xxes1_golden_values[OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT];
 extern const ctrlmod54xx_golden_item
-	ctrlmod_wkup54xx_golden_values[OMAP5430_CTRL_MODULE_WKUP_MOD_REGCOUNT];
+	ctrlmod_wkup54xxes1_golden_values[OMAP5430ES1_CTRL_MODULE_WKUP_MOD_REGCOUNT];
 extern const ctrlmod54xx_golden_item
-	ctrlmod_wkup_pad54xx_golden_values[OMAP5430_CTRL_MODULE_WKUP_PAD_MOD_REGCOUNT];
+	ctrlmod_wkup_pad54xxes1_golden_values[OMAP5430_CTRL_MODULE_WKUP_PAD_MOD_REGCOUNT];
 
 
 #endif

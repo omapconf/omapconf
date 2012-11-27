@@ -62,6 +62,12 @@ reg omap5430_control_wkup_sysconfig = {
 	0xDEADBEEF,
 	0};
 
+reg omap5430_control_wkup_prot_ctrl = {
+	"CONTROL_WKUP_PROT_CTRL",
+	OMAP5430_CONTROL_WKUP_PROT_CTRL,
+	0xDEADBEEF,
+	0};
+
 reg omap5430_control_wkup_ocpreg_spare = {
 	"CONTROL_WKUP_OCPREG_SPARE",
 	OMAP5430_CONTROL_WKUP_OCPREG_SPARE,
@@ -167,6 +173,42 @@ reg omap5430_control_wkup_std_fuse_die_id_3 = {
 reg omap5430_control_wkup_std_fuse_prod_id_0 = {
 	"CONTROL_WKUP_STD_FUSE_PROD_ID_0",
 	OMAP5430_CONTROL_WKUP_STD_FUSE_PROD_ID_0,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_control_wkup_ldovbb_mm_voltage_ctrl = {
+	"CONTROL_WKUP_LDOVBB_MM_VOLTAGE_CTRL",
+	OMAP5430_CONTROL_WKUP_LDOVBB_MM_VOLTAGE_CTRL,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_control_wkup_ldovbb_mpu_voltage_ctrl = {
+	"CONTROL_WKUP_LDOVBB_MPU_VOLTAGE_CTRL",
+	OMAP5430_CONTROL_WKUP_LDOVBB_MPU_VOLTAGE_CTRL,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_control_wkup_ldosram_mm_voltage_ctrl = {
+	"CONTROL_WKUP_LDOSRAM_MM_VOLTAGE_CTRL",
+	OMAP5430_CONTROL_WKUP_LDOSRAM_MM_VOLTAGE_CTRL,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_control_wkup_ldosram_mpu_voltage_ctrl = {
+	"CONTROL_WKUP_LDOSRAM_MPU_VOLTAGE_CTRL",
+	OMAP5430_CONTROL_WKUP_LDOSRAM_MPU_VOLTAGE_CTRL,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_control_wkup_ldosram_core_voltage_ctrl = {
+	"CONTROL_WKUP_LDOSRAM_CORE_VOLTAGE_CTRL",
+	OMAP5430_CONTROL_WKUP_LDOSRAM_CORE_VOLTAGE_CTRL,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_control_wkup_ldosram_mpu_lvt_voltage_ctrl = {
+	"CONTROL_WKUP_LDOSRAM_MPU_LVT_VOLTAGE_CTRL",
+	OMAP5430_CONTROL_WKUP_LDOSRAM_MPU_LVT_VOLTAGE_CTRL,
 	0xDEADBEEF,
 	0};
 
@@ -362,7 +404,61 @@ reg omap5430_control_wkup_conf_debug_sel_tst_31 = {
 	0xDEADBEEF,
 	0};
 
-reg *omap5430_ctrl_module_wkup_mod[OMAP5430_CTRL_MODULE_WKUP_MOD_REGCOUNT + 1] = {
+reg omap5430_control_wkup_conf_xbar_sel_0 = {
+	"CONTROL_WKUP_CONF_XBAR_SEL_0",
+	OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_0,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_control_wkup_conf_xbar_sel_4 = {
+	"CONTROL_WKUP_CONF_XBAR_SEL_4",
+	OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_4,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_control_wkup_conf_xbar_sel_8 = {
+	"CONTROL_WKUP_CONF_XBAR_SEL_8",
+	OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_8,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_control_wkup_conf_xbar_sel_12 = {
+	"CONTROL_WKUP_CONF_XBAR_SEL_12",
+	OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_12,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_control_wkup_conf_xbar_sel_16 = {
+	"CONTROL_WKUP_CONF_XBAR_SEL_16",
+	OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_16,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_control_wkup_conf_xbar_sel_20 = {
+	"CONTROL_WKUP_CONF_XBAR_SEL_20",
+	OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_20,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_control_wkup_conf_xbar_sel_24 = {
+	"CONTROL_WKUP_CONF_XBAR_SEL_24",
+	OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_24,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_control_wkup_conf_xbar_sel_28 = {
+	"CONTROL_WKUP_CONF_XBAR_SEL_28",
+	OMAP5430_CONTROL_WKUP_CONF_XBAR_SEL_28,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_control_wkup_conf_xbar_bypass = {
+	"CONTROL_WKUP_CONF_XBAR_BYPASS",
+	OMAP5430_CONTROL_WKUP_CONF_XBAR_BYPASS,
+	0xDEADBEEF,
+	0};
+
+reg *omap5430es1_ctrl_module_wkup_mod[OMAP5430ES1_CTRL_MODULE_WKUP_MOD_REGCOUNT + 1] = {
 	&omap5430_control_wkup_revision,
 	&omap5430_control_wkup_hwinfo,
 	&omap5430_control_wkup_sysconfig,
@@ -418,3 +514,73 @@ reg *omap5430_ctrl_module_wkup_mod[OMAP5430_CTRL_MODULE_WKUP_MOD_REGCOUNT + 1] =
 	&omap5430_control_wkup_conf_debug_sel_tst_31,
 	NULL};
 
+reg *omap5430_ctrl_module_wkup_mod[OMAP5430_CTRL_MODULE_WKUP_MOD_REGCOUNT + 1] = {
+	&omap5430_control_wkup_revision,
+	&omap5430_control_wkup_hwinfo,
+	&omap5430_control_wkup_sysconfig,
+	&omap5430_control_wkup_prot_ctrl,
+	&omap5430_control_wkup_ocpreg_spare,
+	&omap5430_control_prot_emif1_sdram_config,
+	&omap5430_control_prot_emif1_lpddr2_nvm_config,
+	&omap5430_control_prot_emif2_sdram_config,
+	&omap5430_control_prot_emif2_lpddr2_nvm_config2,
+	&omap5430_control_std_fuse_usb_conf,
+	&omap5430_control_std_fuse_conf,
+	&omap5430_control_emif1_sdram_config_ext,
+	&omap5430_control_emif2_sdram_config_ext,
+	&omap5430_control_emif1_sdram_config_ext_1,
+	&omap5430_control_emif2_sdram_config_ext_2,
+	&omap5430_control_wkup_std_fuse_die_id_0,
+	&omap5430_control_wkup_id_code,
+	&omap5430_control_wkup_std_fuse_die_id_1,
+	&omap5430_control_wkup_std_fuse_die_id_2,
+	&omap5430_control_wkup_std_fuse_die_id_3,
+	&omap5430_control_wkup_std_fuse_prod_id_0,
+	&omap5430_control_wkup_ldovbb_mm_voltage_ctrl,
+	&omap5430_control_wkup_ldovbb_mpu_voltage_ctrl,
+	&omap5430_control_wkup_ldosram_mm_voltage_ctrl,
+	&omap5430_control_wkup_ldosram_mpu_voltage_ctrl,
+	&omap5430_control_wkup_ldosram_core_voltage_ctrl,
+	&omap5430_control_wkup_ldosram_mpu_lvt_voltage_ctrl,
+	&omap5430_control_wkup_conf_debug_sel_tst_0,
+	&omap5430_control_wkup_conf_debug_sel_tst_1,
+	&omap5430_control_wkup_conf_debug_sel_tst_2,
+	&omap5430_control_wkup_conf_debug_sel_tst_3,
+	&omap5430_control_wkup_conf_debug_sel_tst_4,
+	&omap5430_control_wkup_conf_debug_sel_tst_5,
+	&omap5430_control_wkup_conf_debug_sel_tst_6,
+	&omap5430_control_wkup_conf_debug_sel_tst_7,
+	&omap5430_control_wkup_conf_debug_sel_tst_8,
+	&omap5430_control_wkup_conf_debug_sel_tst_9,
+	&omap5430_control_wkup_conf_debug_sel_tst_10,
+	&omap5430_control_wkup_conf_debug_sel_tst_11,
+	&omap5430_control_wkup_conf_debug_sel_tst_12,
+	&omap5430_control_wkup_conf_debug_sel_tst_13,
+	&omap5430_control_wkup_conf_debug_sel_tst_14,
+	&omap5430_control_wkup_conf_debug_sel_tst_15,
+	&omap5430_control_wkup_conf_debug_sel_tst_16,
+	&omap5430_control_wkup_conf_debug_sel_tst_17,
+	&omap5430_control_wkup_conf_debug_sel_tst_18,
+	&omap5430_control_wkup_conf_debug_sel_tst_19,
+	&omap5430_control_wkup_conf_debug_sel_tst_20,
+	&omap5430_control_wkup_conf_debug_sel_tst_21,
+	&omap5430_control_wkup_conf_debug_sel_tst_22,
+	&omap5430_control_wkup_conf_debug_sel_tst_23,
+	&omap5430_control_wkup_conf_debug_sel_tst_24,
+	&omap5430_control_wkup_conf_debug_sel_tst_25,
+	&omap5430_control_wkup_conf_debug_sel_tst_26,
+	&omap5430_control_wkup_conf_debug_sel_tst_27,
+	&omap5430_control_wkup_conf_debug_sel_tst_28,
+	&omap5430_control_wkup_conf_debug_sel_tst_29,
+	&omap5430_control_wkup_conf_debug_sel_tst_30,
+	&omap5430_control_wkup_conf_debug_sel_tst_31,
+	&omap5430_control_wkup_conf_xbar_sel_0,
+	&omap5430_control_wkup_conf_xbar_sel_4,
+	&omap5430_control_wkup_conf_xbar_sel_8,
+	&omap5430_control_wkup_conf_xbar_sel_12,
+	&omap5430_control_wkup_conf_xbar_sel_16,
+	&omap5430_control_wkup_conf_xbar_sel_20,
+	&omap5430_control_wkup_conf_xbar_sel_24,
+	&omap5430_control_wkup_conf_xbar_sel_28,
+	&omap5430_control_wkup_conf_xbar_bypass,
+	NULL};

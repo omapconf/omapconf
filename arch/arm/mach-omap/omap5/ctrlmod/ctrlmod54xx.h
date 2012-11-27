@@ -56,6 +56,7 @@ typedef enum {
 	CTRLMOD54XX_MODS_COUNT = 4
 } ctrlmod54xx_mod_id;
 
+extern reg **ctrlmod54xxes1_mods[CTRLMOD54XX_MODS_COUNT];
 extern reg **ctrlmod54xx_mods[CTRLMOD54XX_MODS_COUNT];
 
 int ctrlmod54xx_dump(FILE *stream, ctrlmod54xx_mod_id id);

@@ -254,6 +254,12 @@ extern reg omap5430_control_core_pad0_mcspi1_cs1_pad1_i2c5_scl;
 extern reg omap5430_control_core_pad0_i2c5_sda_pad1_perslimbus2_clock;
 #define OMAP5430_CONTROL_CORE_PAD0_PERSLIMBUS2_DATA_PAD1_UART6_TX		0x4a0029cc
 extern reg omap5430_control_core_pad0_perslimbus2_data_pad1_uart6_tx;
+/* ES2.0 */
+#define OMAP5430_CONTROL_CORE_PAD0_I2C5_SDA_PAD1_GPIO5_145			0x4a0029c8
+extern reg omap5430_control_core_pad0_i2c5_sda_pad1_gpio5_145;
+#define OMAP5430_CONTROL_CORE_PAD0_GPIO5_146_PAD1_UART6_TX			0x4a0029cc
+extern reg omap5430_control_core_pad0_gpio5_146_pad1_uart6_tx;
+
 #define OMAP5430_CONTROL_CORE_PAD0_UART6_RX_PAD1_UART6_CTS			0x4a0029d0
 extern reg omap5430_control_core_pad0_uart6_rx_pad1_uart6_cts;
 #define OMAP5430_CONTROL_CORE_PAD0_UART6_RTS_PAD1_UART3_CTS_RCTX		0x4a0029d4
@@ -372,7 +378,12 @@ extern reg omap5430_control_srcomp_east_side;
 extern reg omap5430_control_srcomp_west_side;
 #define OMAP5430_CONTROL_SRCOMP_CODE_LATCH					0x4a002e84
 extern reg omap5430_control_srcomp_code_latch;
+/* ES2.0 */
+#define OMAP5430_CONTROL_DDRIO_EXT_0						0x4a002e88
+extern reg omap5430_control_ddrio_ext_0;
+
 #define OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT				162
+extern reg *omap5430es1_ctrl_module_core_pad_mod[OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT + 1];
 extern reg *omap5430_ctrl_module_core_pad_mod[OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT + 1];
 
 
