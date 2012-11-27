@@ -50,6 +50,7 @@
 #include <stdio.h>
 
 
+const char *emif54xx_mod_name_get(emif54xx_mod_id id);
 int emif54xx_dump(FILE *stream, emif54xx_mod_id id);
 int emif54xx_export(FILE *fp, emif54xx_mod_id id);
 int emif54xx_import(FILE *fp, emif54xx_mod_id id);

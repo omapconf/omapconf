@@ -57,6 +57,31 @@
 #endif
 
 
+const char *emif54xx_mods_name[EMIF54XX_MODS_COUNT] = {
+	"EMIF1",
+	"EMIF2"};
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		emif54xx_mod_name_get
+ * @BRIEF		return EMIF module name
+ * @RETURNS		EMIF module name
+ *			NULL in case of incorrect id
+ * @param[in]		id: EMIF module ID
+ * @DESCRIPTION		return EMIF module name
+ *//*------------------------------------------------------------------------ */
+const char *emif54xx_mod_name_get(emif54xx_mod_id id)
+{
+	if (id >= EMIF54XX_MODS_COUNT) {
+		fprintf(stderr, "%s(): id (%u) >= EMIF54XX_MODS_COUNT (%u)!\n",
+			__func__, id, EMIF54XX_MODS_COUNT);
+		return NULL;
+	}
+
+	return emif54xx_mods_name[id];
+}
+
+
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		emif54xx_dump
  * @BRIEF		dump selected registers
@@ -126,7 +151,10 @@ int emif54xx_dump(FILE *stream, emif54xx_mod_id id)
 				return 0;
 			}
 
-			mod = emif54xx_mods[mid];
+			if (cpu_revision_get() == REV_ES1_0)
+				mod = emif54xxes1_mods[mid];
+			else
+				mod = emif54xx_mods[mid];
 			for (i = 0; mod[i] != NULL; i++) {
 				r = mod[i];
 				/* Read register */
@@ -193,15 +221,25 @@ int emif54xx_export(FILE *fp, emif54xx_mod_id id)
 		return 0;
 	}
 
-	mod = emif54xx_mods[id];
+	if (cpu_revision_get() == REV_ES1_0)
+		mod = emif54xxes1_mods[id];
+	else
+		mod = emif54xx_mods[id];
 
 	fprintf(fp, "          <submodule id=\"%u\" name=\"%s\">\n",
 		id, emif54xx_mod_name_get(id));
 
-	for (i = 0; i < OMAP5430_EMIF1_MOD_REGCOUNT; i++)
-		fprintf(fp, "            <register id=\"%u\" name=\"%s\" "
-			"addr=\"0x%08X\" data=\"0x%08X\" />\n", i,
-			(mod[i])->name, (mod[i])->addr, reg_read(mod[i]));
+	if (cpu_revision_get() == REV_ES1_0) {
+		for (i = 0; i < OMAP5430ES1_EMIF1_MOD_REGCOUNT; i++)
+			fprintf(fp, "            <register id=\"%u\" name=\"%s\" "
+				"addr=\"0x%08X\" data=\"0x%08X\" />\n", i,
+				(mod[i])->name, (mod[i])->addr, reg_read(mod[i]));
+	} else {
+		for (i = 0; i < OMAP5430_EMIF1_MOD_REGCOUNT; i++)
+			fprintf(fp, "            <register id=\"%u\" name=\"%s\" "
+				"addr=\"0x%08X\" data=\"0x%08X\" />\n", i,
+				(mod[i])->name, (mod[i])->addr, reg_read(mod[i]));
+	}
 
 	fprintf(fp, "          </submodule>\n");
 
@@ -225,13 +263,16 @@ int emif54xx_import(FILE *fp, emif54xx_mod_id id)
 	reg **mod;
 	char line[256], sline[256];
 	char *xml_entry;
-	int ret, i, n;
+	int ret, i, n, regcount;
 
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(fp, OMAPCONF_ERR_ARG);
 	CHECK_ARG_LESS_THAN(id, EMIF54XX_MODS_COUNT, OMAPCONF_ERR_ARG);
 
-	mod = emif54xx_mods[id];
+	if (cpu_revision_get() == REV_ES1_0)
+		mod = emif54xxes1_mods[id];
+	else
+		mod = emif54xx_mods[id];
 	rewind(fp);
 
 	/* Search for the EMIF module tag */
@@ -241,7 +282,12 @@ int emif54xx_import(FILE *fp, emif54xx_mod_id id)
 		if (strstr(line, sline) == NULL)
 			continue;
 		/* Import register content */
-		for (i = 0; i < OMAP5430_EMIF1_MOD_REGCOUNT; i++) {
+		if (cpu_revision_get() == REV_ES1_0) {
+			regcount = OMAP5430ES1_EMIF1_MOD_REGCOUNT;
+		} else { /* FIXME WITH ES2 */
+			regcount = OMAP5430_EMIF1_MOD_REGCOUNT;
+		}
+		for (i = 0; i < regcount; i++) {
 			if (fgets(line, sizeof(line), fp) == NULL)
 				return OMAPCONF_ERR_UNEXPECTED;
 			line[strlen(line) - 1] = '\0'; /* remove ending '\n' */

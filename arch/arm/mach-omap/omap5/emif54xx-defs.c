@@ -2,7 +2,7 @@
  *
  * @Component			OMAPCONF
  * @Filename			emif54xx-defs.c
- * @Description			OMAP5 EMIF Register Address Definitions
+ * @Description			OMAP5 ES2 EMIF Register Address Definitions
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2012
  * @Copyright			Texas Instruments Incorporated
@@ -43,8 +43,6 @@
 
 
 #include <emif54xx-defs.h>
-#include <lib.h>
-
 
 reg omap5430_emif1_emif_revision = {
 	"EMIF_REVISION",
@@ -118,18 +116,6 @@ reg omap5430_emif1_emif_sdram_timing_3_shadow = {
 	0xDEADBEEF,
 	0};
 
-reg omap5430_emif1_emif_lpddr2_nvm_timing = {
-	"EMIF_LPDDR2_NVM_TIMING",
-	OMAP5430_EMIF1_EMIF_LPDDR2_NVM_TIMING,
-	0xDEADBEEF,
-	0};
-
-reg omap5430_emif1_emif_lpddr2_nvm_timing_shadow = {
-	"EMIF_LPDDR2_NVM_TIMING_SHADOW",
-	OMAP5430_EMIF1_EMIF_LPDDR2_NVM_TIMING_SHADOW,
-	0xDEADBEEF,
-	0};
-
 reg omap5430_emif1_emif_power_management_control = {
 	"EMIF_POWER_MANAGEMENT_CONTROL",
 	OMAP5430_EMIF1_EMIF_POWER_MANAGEMENT_CONTROL,
@@ -142,9 +128,9 @@ reg omap5430_emif1_emif_power_management_control_shadow = {
 	0xDEADBEEF,
 	0};
 
-reg omap5430_emif1_emif_lpddr2_mode_data = {
-	"EMIF_LPDDR2_MODE_DATA",
-	OMAP5430_EMIF1_EMIF_LPDDR2_MODE_DATA,
+reg omap5430_emif1_emif_lpddr2_mode_reg_data = {
+	"EMIF_LPDDR2_MODE_REG_DATA",
+	OMAP5430_EMIF1_EMIF_LPDDR2_MODE_REG_DATA,
 	0xDEADBEEF,
 	0};
 
@@ -199,6 +185,12 @@ reg omap5430_emif1_emif_performance_counter_master_region_select = {
 reg omap5430_emif1_emif_performance_counter_time = {
 	"EMIF_PERFORMANCE_COUNTER_TIME",
 	OMAP5430_EMIF1_EMIF_PERFORMANCE_COUNTER_TIME,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_misc_reg = {
+	"EMIF_MISC_REG",
+	OMAP5430_EMIF1_EMIF_MISC_REG,
 	0xDEADBEEF,
 	0};
 
@@ -310,9 +302,315 @@ reg omap5430_emif1_emif_ddr_phy_control_1_shadow = {
 	0xDEADBEEF,
 	0};
 
-reg omap5430_emif1_emif_ddr_phy_control_2 = {
-	"EMIF_DDR_PHY_CONTROL_2",
-	OMAP5430_EMIF1_EMIF_DDR_PHY_CONTROL_2,
+reg omap5430_emif1_emif_read_write_execution_threshold = {
+	"EMIF_READ_WRITE_EXECUTION_THRESHOLD",
+	OMAP5430_EMIF1_EMIF_READ_WRITE_EXECUTION_THRESHOLD,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_phy_status_1 = {
+	"EMIF_PHY_STATUS_1",
+	OMAP5430_EMIF1_EMIF_PHY_STATUS_1,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_phy_status_20 = {
+	"EMIF_PHY_STATUS_20",
+	OMAP5430_EMIF1_EMIF_PHY_STATUS_20,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_phy_status_21 = {
+	"EMIF_PHY_STATUS_21",
+	OMAP5430_EMIF1_EMIF_PHY_STATUS_21,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_1 = {
+	"EMIF_EXT_PHY_CONTROL_1",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_1,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_1_shadow = {
+	"EMIF_EXT_PHY_CONTROL_1_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_1_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_2 = {
+	"EMIF_EXT_PHY_CONTROL_2",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_2,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_2_shadow = {
+	"EMIF_EXT_PHY_CONTROL_2_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_2_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_3 = {
+	"EMIF_EXT_PHY_CONTROL_3",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_3,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_3_shadow = {
+	"EMIF_EXT_PHY_CONTROL_3_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_3_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_4 = {
+	"EMIF_EXT_PHY_CONTROL_4",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_4,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_4_shadow = {
+	"EMIF_EXT_PHY_CONTROL_4_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_4_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_5 = {
+	"EMIF_EXT_PHY_CONTROL_5",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_5,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_5_shadow = {
+	"EMIF_EXT_PHY_CONTROL_5_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_5_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_6 = {
+	"EMIF_EXT_PHY_CONTROL_6",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_6,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_6_shadow = {
+	"EMIF_EXT_PHY_CONTROL_6_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_6_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_7 = {
+	"EMIF_EXT_PHY_CONTROL_7",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_7,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_7_shadow = {
+	"EMIF_EXT_PHY_CONTROL_7_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_7_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_8 = {
+	"EMIF_EXT_PHY_CONTROL_8",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_8,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_8_shadow = {
+	"EMIF_EXT_PHY_CONTROL_8_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_8_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_9 = {
+	"EMIF_EXT_PHY_CONTROL_9",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_9,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_9_shadow = {
+	"EMIF_EXT_PHY_CONTROL_9_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_9_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_10 = {
+	"EMIF_EXT_PHY_CONTROL_10",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_10,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_10_shadow = {
+	"EMIF_EXT_PHY_CONTROL_10_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_10_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_11 = {
+	"EMIF_EXT_PHY_CONTROL_11",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_11,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_11_shadow = {
+	"EMIF_EXT_PHY_CONTROL_11_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_11_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_12 = {
+	"EMIF_EXT_PHY_CONTROL_12",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_12,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_12_shadow = {
+	"EMIF_EXT_PHY_CONTROL_12_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_12_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_13 = {
+	"EMIF_EXT_PHY_CONTROL_13",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_13,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_13_shadow = {
+	"EMIF_EXT_PHY_CONTROL_13_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_13_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_14 = {
+	"EMIF_EXT_PHY_CONTROL_14",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_14,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_14_shadow = {
+	"EMIF_EXT_PHY_CONTROL_14_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_14_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_15 = {
+	"EMIF_EXT_PHY_CONTROL_15",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_15,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_15_shadow = {
+	"EMIF_EXT_PHY_CONTROL_15_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_15_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_16 = {
+	"EMIF_EXT_PHY_CONTROL_16",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_16,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_16_shadow = {
+	"EMIF_EXT_PHY_CONTROL_16_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_16_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_17 = {
+	"EMIF_EXT_PHY_CONTROL_17",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_17,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_17_shadow = {
+	"EMIF_EXT_PHY_CONTROL_17_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_17_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_18 = {
+	"EMIF_EXT_PHY_CONTROL_18",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_18,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_18_shadow = {
+	"EMIF_EXT_PHY_CONTROL_18_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_18_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_19 = {
+	"EMIF_EXT_PHY_CONTROL_19",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_19,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_19_shadow = {
+	"EMIF_EXT_PHY_CONTROL_19_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_19_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_20 = {
+	"EMIF_EXT_PHY_CONTROL_20",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_20,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_20_shadow = {
+	"EMIF_EXT_PHY_CONTROL_20_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_20_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_21 = {
+	"EMIF_EXT_PHY_CONTROL_21",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_21,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_21_shadow = {
+	"EMIF_EXT_PHY_CONTROL_21_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_21_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_22 = {
+	"EMIF_EXT_PHY_CONTROL_22",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_22,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_22_shadow = {
+	"EMIF_EXT_PHY_CONTROL_22_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_22_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_23 = {
+	"EMIF_EXT_PHY_CONTROL_23",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_23,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_23_shadow = {
+	"EMIF_EXT_PHY_CONTROL_23_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_23_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_24 = {
+	"EMIF_EXT_PHY_CONTROL_24",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_24,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif1_emif_ext_phy_control_24_shadow = {
+	"EMIF_EXT_PHY_CONTROL_24_SHADOW",
+	OMAP5430_EMIF1_EMIF_EXT_PHY_CONTROL_24_SHADOW,
 	0xDEADBEEF,
 	0};
 
@@ -329,11 +627,9 @@ reg *omap5430_emif1_mod[OMAP5430_EMIF1_MOD_REGCOUNT + 1] = {
 	&omap5430_emif1_emif_sdram_timing_2_shadow,
 	&omap5430_emif1_emif_sdram_timing_3,
 	&omap5430_emif1_emif_sdram_timing_3_shadow,
-	&omap5430_emif1_emif_lpddr2_nvm_timing,
-	&omap5430_emif1_emif_lpddr2_nvm_timing_shadow,
 	&omap5430_emif1_emif_power_management_control,
 	&omap5430_emif1_emif_power_management_control_shadow,
-	&omap5430_emif1_emif_lpddr2_mode_data,
+	&omap5430_emif1_emif_lpddr2_mode_reg_data,
 	&omap5430_emif1_emif_lpddr2_mode_reg_config,
 	&omap5430_emif1_emif_ocp_config,
 	&omap5430_emif1_emif_ocp_config_value_1,
@@ -343,6 +639,7 @@ reg *omap5430_emif1_mod[OMAP5430_EMIF1_MOD_REGCOUNT + 1] = {
 	&omap5430_emif1_emif_performance_counter_config,
 	&omap5430_emif1_emif_performance_counter_master_region_select,
 	&omap5430_emif1_emif_performance_counter_time,
+	&omap5430_emif1_emif_misc_reg,
 	&omap5430_emif1_emif_dll_calib_ctrl,
 	&omap5430_emif1_emif_dll_calib_ctrl_shadow,
 	&omap5430_emif1_emif_system_ocp_interrupt_raw_status,
@@ -361,7 +658,58 @@ reg *omap5430_emif1_mod[OMAP5430_EMIF1_MOD_REGCOUNT + 1] = {
 	&omap5430_emif1_emif_read_write_leveling_control,
 	&omap5430_emif1_emif_ddr_phy_control_1,
 	&omap5430_emif1_emif_ddr_phy_control_1_shadow,
-	&omap5430_emif1_emif_ddr_phy_control_2,
+	&omap5430_emif1_emif_read_write_execution_threshold,
+	&omap5430_emif1_emif_phy_status_1,
+	&omap5430_emif1_emif_phy_status_20,
+	&omap5430_emif1_emif_phy_status_21,
+	&omap5430_emif1_emif_ext_phy_control_1,
+	&omap5430_emif1_emif_ext_phy_control_1_shadow,
+	&omap5430_emif1_emif_ext_phy_control_2,
+	&omap5430_emif1_emif_ext_phy_control_2_shadow,
+	&omap5430_emif1_emif_ext_phy_control_3,
+	&omap5430_emif1_emif_ext_phy_control_3_shadow,
+	&omap5430_emif1_emif_ext_phy_control_4,
+	&omap5430_emif1_emif_ext_phy_control_4_shadow,
+	&omap5430_emif1_emif_ext_phy_control_5,
+	&omap5430_emif1_emif_ext_phy_control_5_shadow,
+	&omap5430_emif1_emif_ext_phy_control_6,
+	&omap5430_emif1_emif_ext_phy_control_6_shadow,
+	&omap5430_emif1_emif_ext_phy_control_7,
+	&omap5430_emif1_emif_ext_phy_control_7_shadow,
+	&omap5430_emif1_emif_ext_phy_control_8,
+	&omap5430_emif1_emif_ext_phy_control_8_shadow,
+	&omap5430_emif1_emif_ext_phy_control_9,
+	&omap5430_emif1_emif_ext_phy_control_9_shadow,
+	&omap5430_emif1_emif_ext_phy_control_10,
+	&omap5430_emif1_emif_ext_phy_control_10_shadow,
+	&omap5430_emif1_emif_ext_phy_control_11,
+	&omap5430_emif1_emif_ext_phy_control_11_shadow,
+	&omap5430_emif1_emif_ext_phy_control_12,
+	&omap5430_emif1_emif_ext_phy_control_12_shadow,
+	&omap5430_emif1_emif_ext_phy_control_13,
+	&omap5430_emif1_emif_ext_phy_control_13_shadow,
+	&omap5430_emif1_emif_ext_phy_control_14,
+	&omap5430_emif1_emif_ext_phy_control_14_shadow,
+	&omap5430_emif1_emif_ext_phy_control_15,
+	&omap5430_emif1_emif_ext_phy_control_15_shadow,
+	&omap5430_emif1_emif_ext_phy_control_16,
+	&omap5430_emif1_emif_ext_phy_control_16_shadow,
+	&omap5430_emif1_emif_ext_phy_control_17,
+	&omap5430_emif1_emif_ext_phy_control_17_shadow,
+	&omap5430_emif1_emif_ext_phy_control_18,
+	&omap5430_emif1_emif_ext_phy_control_18_shadow,
+	&omap5430_emif1_emif_ext_phy_control_19,
+	&omap5430_emif1_emif_ext_phy_control_19_shadow,
+	&omap5430_emif1_emif_ext_phy_control_20,
+	&omap5430_emif1_emif_ext_phy_control_20_shadow,
+	&omap5430_emif1_emif_ext_phy_control_21,
+	&omap5430_emif1_emif_ext_phy_control_21_shadow,
+	&omap5430_emif1_emif_ext_phy_control_22,
+	&omap5430_emif1_emif_ext_phy_control_22_shadow,
+	&omap5430_emif1_emif_ext_phy_control_23,
+	&omap5430_emif1_emif_ext_phy_control_23_shadow,
+	&omap5430_emif1_emif_ext_phy_control_24,
+	&omap5430_emif1_emif_ext_phy_control_24_shadow,
 	NULL};
 
 reg omap5430_emif2_emif_revision = {
@@ -436,18 +784,6 @@ reg omap5430_emif2_emif_sdram_timing_3_shadow = {
 	0xDEADBEEF,
 	0};
 
-reg omap5430_emif2_emif_lpddr2_nvm_timing = {
-	"EMIF_LPDDR2_NVM_TIMING",
-	OMAP5430_EMIF2_EMIF_LPDDR2_NVM_TIMING,
-	0xDEADBEEF,
-	0};
-
-reg omap5430_emif2_emif_lpddr2_nvm_timing_shadow = {
-	"EMIF_LPDDR2_NVM_TIMING_SHADOW",
-	OMAP5430_EMIF2_EMIF_LPDDR2_NVM_TIMING_SHADOW,
-	0xDEADBEEF,
-	0};
-
 reg omap5430_emif2_emif_power_management_control = {
 	"EMIF_POWER_MANAGEMENT_CONTROL",
 	OMAP5430_EMIF2_EMIF_POWER_MANAGEMENT_CONTROL,
@@ -460,9 +796,9 @@ reg omap5430_emif2_emif_power_management_control_shadow = {
 	0xDEADBEEF,
 	0};
 
-reg omap5430_emif2_emif_lpddr2_mode_data = {
-	"EMIF_LPDDR2_MODE_DATA",
-	OMAP5430_EMIF2_EMIF_LPDDR2_MODE_DATA,
+reg omap5430_emif2_emif_lpddr2_mode_reg_data = {
+	"EMIF_LPDDR2_MODE_REG_DATA",
+	OMAP5430_EMIF2_EMIF_LPDDR2_MODE_REG_DATA,
 	0xDEADBEEF,
 	0};
 
@@ -517,6 +853,12 @@ reg omap5430_emif2_emif_performance_counter_master_region_select = {
 reg omap5430_emif2_emif_performance_counter_time = {
 	"EMIF_PERFORMANCE_COUNTER_TIME",
 	OMAP5430_EMIF2_EMIF_PERFORMANCE_COUNTER_TIME,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_misc_reg = {
+	"EMIF_MISC_REG",
+	OMAP5430_EMIF2_EMIF_MISC_REG,
 	0xDEADBEEF,
 	0};
 
@@ -628,9 +970,315 @@ reg omap5430_emif2_emif_ddr_phy_control_1_shadow = {
 	0xDEADBEEF,
 	0};
 
-reg omap5430_emif2_emif_ddr_phy_control_2 = {
-	"EMIF_DDR_PHY_CONTROL_2",
-	OMAP5430_EMIF2_EMIF_DDR_PHY_CONTROL_2,
+reg omap5430_emif2_emif_read_write_execution_threshold = {
+	"EMIF_READ_WRITE_EXECUTION_THRESHOLD",
+	OMAP5430_EMIF2_EMIF_READ_WRITE_EXECUTION_THRESHOLD,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_phy_status_1 = {
+	"EMIF_PHY_STATUS_1",
+	OMAP5430_EMIF2_EMIF_PHY_STATUS_1,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_phy_status_20 = {
+	"EMIF_PHY_STATUS_20",
+	OMAP5430_EMIF2_EMIF_PHY_STATUS_20,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_phy_status_21 = {
+	"EMIF_PHY_STATUS_21",
+	OMAP5430_EMIF2_EMIF_PHY_STATUS_21,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_1 = {
+	"EMIF_EXT_PHY_CONTROL_1",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_1,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_1_shadow = {
+	"EMIF_EXT_PHY_CONTROL_1_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_1_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_2 = {
+	"EMIF_EXT_PHY_CONTROL_2",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_2,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_2_shadow = {
+	"EMIF_EXT_PHY_CONTROL_2_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_2_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_3 = {
+	"EMIF_EXT_PHY_CONTROL_3",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_3,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_3_shadow = {
+	"EMIF_EXT_PHY_CONTROL_3_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_3_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_4 = {
+	"EMIF_EXT_PHY_CONTROL_4",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_4,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_4_shadow = {
+	"EMIF_EXT_PHY_CONTROL_4_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_4_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_5 = {
+	"EMIF_EXT_PHY_CONTROL_5",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_5,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_5_shadow = {
+	"EMIF_EXT_PHY_CONTROL_5_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_5_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_6 = {
+	"EMIF_EXT_PHY_CONTROL_6",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_6,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_6_shadow = {
+	"EMIF_EXT_PHY_CONTROL_6_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_6_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_7 = {
+	"EMIF_EXT_PHY_CONTROL_7",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_7,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_7_shadow = {
+	"EMIF_EXT_PHY_CONTROL_7_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_7_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_8 = {
+	"EMIF_EXT_PHY_CONTROL_8",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_8,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_8_shadow = {
+	"EMIF_EXT_PHY_CONTROL_8_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_8_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_9 = {
+	"EMIF_EXT_PHY_CONTROL_9",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_9,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_9_shadow = {
+	"EMIF_EXT_PHY_CONTROL_9_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_9_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_10 = {
+	"EMIF_EXT_PHY_CONTROL_10",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_10,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_10_shadow = {
+	"EMIF_EXT_PHY_CONTROL_10_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_10_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_11 = {
+	"EMIF_EXT_PHY_CONTROL_11",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_11,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_11_shadow = {
+	"EMIF_EXT_PHY_CONTROL_11_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_11_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_12 = {
+	"EMIF_EXT_PHY_CONTROL_12",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_12,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_12_shadow = {
+	"EMIF_EXT_PHY_CONTROL_12_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_12_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_13 = {
+	"EMIF_EXT_PHY_CONTROL_13",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_13,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_13_shadow = {
+	"EMIF_EXT_PHY_CONTROL_13_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_13_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_14 = {
+	"EMIF_EXT_PHY_CONTROL_14",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_14,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_14_shadow = {
+	"EMIF_EXT_PHY_CONTROL_14_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_14_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_15 = {
+	"EMIF_EXT_PHY_CONTROL_15",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_15,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_15_shadow = {
+	"EMIF_EXT_PHY_CONTROL_15_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_15_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_16 = {
+	"EMIF_EXT_PHY_CONTROL_16",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_16,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_16_shadow = {
+	"EMIF_EXT_PHY_CONTROL_16_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_16_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_17 = {
+	"EMIF_EXT_PHY_CONTROL_17",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_17,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_17_shadow = {
+	"EMIF_EXT_PHY_CONTROL_17_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_17_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_18 = {
+	"EMIF_EXT_PHY_CONTROL_18",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_18,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_18_shadow = {
+	"EMIF_EXT_PHY_CONTROL_18_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_18_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_19 = {
+	"EMIF_EXT_PHY_CONTROL_19",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_19,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_19_shadow = {
+	"EMIF_EXT_PHY_CONTROL_19_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_19_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_20 = {
+	"EMIF_EXT_PHY_CONTROL_20",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_20,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_20_shadow = {
+	"EMIF_EXT_PHY_CONTROL_20_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_20_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_21 = {
+	"EMIF_EXT_PHY_CONTROL_21",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_21,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_21_shadow = {
+	"EMIF_EXT_PHY_CONTROL_21_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_21_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_22 = {
+	"EMIF_EXT_PHY_CONTROL_22",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_22,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_22_shadow = {
+	"EMIF_EXT_PHY_CONTROL_22_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_22_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_23 = {
+	"EMIF_EXT_PHY_CONTROL_23",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_23,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_23_shadow = {
+	"EMIF_EXT_PHY_CONTROL_23_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_23_SHADOW,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_24 = {
+	"EMIF_EXT_PHY_CONTROL_24",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_24,
+	0xDEADBEEF,
+	0};
+
+reg omap5430_emif2_emif_ext_phy_control_24_shadow = {
+	"EMIF_EXT_PHY_CONTROL_24_SHADOW",
+	OMAP5430_EMIF2_EMIF_EXT_PHY_CONTROL_24_SHADOW,
 	0xDEADBEEF,
 	0};
 
@@ -647,11 +1295,9 @@ reg *omap5430_emif2_mod[OMAP5430_EMIF2_MOD_REGCOUNT + 1] = {
 	&omap5430_emif2_emif_sdram_timing_2_shadow,
 	&omap5430_emif2_emif_sdram_timing_3,
 	&omap5430_emif2_emif_sdram_timing_3_shadow,
-	&omap5430_emif2_emif_lpddr2_nvm_timing,
-	&omap5430_emif2_emif_lpddr2_nvm_timing_shadow,
 	&omap5430_emif2_emif_power_management_control,
 	&omap5430_emif2_emif_power_management_control_shadow,
-	&omap5430_emif2_emif_lpddr2_mode_data,
+	&omap5430_emif2_emif_lpddr2_mode_reg_data,
 	&omap5430_emif2_emif_lpddr2_mode_reg_config,
 	&omap5430_emif2_emif_ocp_config,
 	&omap5430_emif2_emif_ocp_config_value_1,
@@ -661,6 +1307,7 @@ reg *omap5430_emif2_mod[OMAP5430_EMIF2_MOD_REGCOUNT + 1] = {
 	&omap5430_emif2_emif_performance_counter_config,
 	&omap5430_emif2_emif_performance_counter_master_region_select,
 	&omap5430_emif2_emif_performance_counter_time,
+	&omap5430_emif2_emif_misc_reg,
 	&omap5430_emif2_emif_dll_calib_ctrl,
 	&omap5430_emif2_emif_dll_calib_ctrl_shadow,
 	&omap5430_emif2_emif_system_ocp_interrupt_raw_status,
@@ -679,35 +1326,62 @@ reg *omap5430_emif2_mod[OMAP5430_EMIF2_MOD_REGCOUNT + 1] = {
 	&omap5430_emif2_emif_read_write_leveling_control,
 	&omap5430_emif2_emif_ddr_phy_control_1,
 	&omap5430_emif2_emif_ddr_phy_control_1_shadow,
-	&omap5430_emif2_emif_ddr_phy_control_2,
+	&omap5430_emif2_emif_read_write_execution_threshold,
+	&omap5430_emif2_emif_phy_status_1,
+	&omap5430_emif2_emif_phy_status_20,
+	&omap5430_emif2_emif_phy_status_21,
+	&omap5430_emif2_emif_ext_phy_control_1,
+	&omap5430_emif2_emif_ext_phy_control_1_shadow,
+	&omap5430_emif2_emif_ext_phy_control_2,
+	&omap5430_emif2_emif_ext_phy_control_2_shadow,
+	&omap5430_emif2_emif_ext_phy_control_3,
+	&omap5430_emif2_emif_ext_phy_control_3_shadow,
+	&omap5430_emif2_emif_ext_phy_control_4,
+	&omap5430_emif2_emif_ext_phy_control_4_shadow,
+	&omap5430_emif2_emif_ext_phy_control_5,
+	&omap5430_emif2_emif_ext_phy_control_5_shadow,
+	&omap5430_emif2_emif_ext_phy_control_6,
+	&omap5430_emif2_emif_ext_phy_control_6_shadow,
+	&omap5430_emif2_emif_ext_phy_control_7,
+	&omap5430_emif2_emif_ext_phy_control_7_shadow,
+	&omap5430_emif2_emif_ext_phy_control_8,
+	&omap5430_emif2_emif_ext_phy_control_8_shadow,
+	&omap5430_emif2_emif_ext_phy_control_9,
+	&omap5430_emif2_emif_ext_phy_control_9_shadow,
+	&omap5430_emif2_emif_ext_phy_control_10,
+	&omap5430_emif2_emif_ext_phy_control_10_shadow,
+	&omap5430_emif2_emif_ext_phy_control_11,
+	&omap5430_emif2_emif_ext_phy_control_11_shadow,
+	&omap5430_emif2_emif_ext_phy_control_12,
+	&omap5430_emif2_emif_ext_phy_control_12_shadow,
+	&omap5430_emif2_emif_ext_phy_control_13,
+	&omap5430_emif2_emif_ext_phy_control_13_shadow,
+	&omap5430_emif2_emif_ext_phy_control_14,
+	&omap5430_emif2_emif_ext_phy_control_14_shadow,
+	&omap5430_emif2_emif_ext_phy_control_15,
+	&omap5430_emif2_emif_ext_phy_control_15_shadow,
+	&omap5430_emif2_emif_ext_phy_control_16,
+	&omap5430_emif2_emif_ext_phy_control_16_shadow,
+	&omap5430_emif2_emif_ext_phy_control_17,
+	&omap5430_emif2_emif_ext_phy_control_17_shadow,
+	&omap5430_emif2_emif_ext_phy_control_18,
+	&omap5430_emif2_emif_ext_phy_control_18_shadow,
+	&omap5430_emif2_emif_ext_phy_control_19,
+	&omap5430_emif2_emif_ext_phy_control_19_shadow,
+	&omap5430_emif2_emif_ext_phy_control_20,
+	&omap5430_emif2_emif_ext_phy_control_20_shadow,
+	&omap5430_emif2_emif_ext_phy_control_21,
+	&omap5430_emif2_emif_ext_phy_control_21_shadow,
+	&omap5430_emif2_emif_ext_phy_control_22,
+	&omap5430_emif2_emif_ext_phy_control_22_shadow,
+	&omap5430_emif2_emif_ext_phy_control_23,
+	&omap5430_emif2_emif_ext_phy_control_23_shadow,
+	&omap5430_emif2_emif_ext_phy_control_24,
+	&omap5430_emif2_emif_ext_phy_control_24_shadow,
 	NULL};
+
 
 
 reg **emif54xx_mods[EMIF54XX_MODS_COUNT] = {
 	(reg **) &omap5430_emif1_mod,
 	(reg **) &omap5430_emif2_mod};
-
-
-const char *emif54xx_mods_name[EMIF54XX_MODS_COUNT] = {
-	"EMIF1",
-	"EMIF2"};
-
-
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		emif54xx_mod_name_get
- * @BRIEF		return EMIF module name
- * @RETURNS		EMIF module name
- *			NULL in case of incorrect id
- * @param[in]		id: EMIF module ID
- * @DESCRIPTION		return EMIF module name
- *//*------------------------------------------------------------------------ */
-const char *emif54xx_mod_name_get(emif54xx_mod_id id)
-{
-	if (id >= EMIF54XX_MODS_COUNT) {
-		fprintf(stderr, "%s(): id (%u) >= EMIF54XX_MODS_COUNT (%u)!\n",
-			__func__, id, EMIF54XX_MODS_COUNT);
-		return NULL;
-	}
-
-	return emif54xx_mods_name[id];
-}

@@ -218,6 +218,7 @@ OMAP5SOURCES=\
 		arch/arm/mach-omap/omap5/temp54xx.c\
 		arch/arm/mach-omap/omap5/sysconfig54xx-defs.c\
 		arch/arm/mach-omap/omap5/hwobs54xx.c\
+		arch/arm/mach-omap/omap5/emif54xxes1-defs.c\
 		arch/arm/mach-omap/omap5/emif54xx-defs.c\
 		arch/arm/mach-omap/omap5/emif54xx.c\
 		arch/arm/mach-omap/omap5/ctt54xx.c\
