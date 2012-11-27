@@ -182,8 +182,6 @@ extern reg omap5430_unipro1_sysconfig;
 #define OMAP5430_DISPC_L3_MAIN_DISPC_SYSCONFIG			0x58001010
 extern reg omap5430_dispc_l3_main_dispc_sysconfig;
 /* OMAP5_BB2D */
-#define OMAP5430_BB2D_SYSCONFIG_PM				0x4A06D004
-extern reg omap5430_bb2d_sysconfig_pm;
 
 /* Voltage dom.: CORE, Power dom.: L3INIT, Clock domain = L3INIT */
 /* OMAP5_HSI */

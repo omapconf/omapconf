@@ -573,7 +573,7 @@ reg *mod54xx_sysconfig_table[MOD54XX_ID_MAX] = {
 	&omap5430_unipro1_sysconfig, /* OMAP5_UNIPRO1 */
 	/* Voltage dom.: CORE, Power dom.: DSS, Clock domain = DSS */
 	&omap5430_dispc_l3_main_dispc_sysconfig, /* OMAP5_DSS */
-	&omap5430_bb2d_sysconfig_pm, /* OMAP5_BB2D */
+	NULL, /* OMAP5_BB2D */
 	/* Voltage dom.: CORE, Power dom.: L3INIT, Clock domain = L3INIT */
 	&omap5430_hsi_sysconfig, /* OMAP5_HSI */
 	NULL, /* OMAP5_IEEE1500_2_OCP */

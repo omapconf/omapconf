@@ -1455,7 +1455,7 @@ void mod54xx_init(void)
 		mod.pwrdm = PWRDM_DSS;
 		mod.voltdm = VDD_CORE;
 		mod.clk = (int) CLK54XX_DSS_L3_GICLK;
-		mod.sysconfig = &omap5430_bb2d_sysconfig_pm;
+		mod.sysconfig = NULL;
 		mod.clkctrl = &omap5430es1_cm_dss_bb2d_clkctrl;
 		mod.context = &omap5430es1_rm_dss_bb2d_context;
 		genlist_init(&(mod.mod_opp_list));
@@ -1471,7 +1471,7 @@ void mod54xx_init(void)
 		opp.name = OPP_SB;
 		opp.rate = -1;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-		mod.properties = MOD_HAS_STANDBY_STATUS | MOD_HAS_SYSCONFIG | MOD_HAS_IDLE_MODE3 | MOD_HAS_SMART_IDLE_WAKEUP_MODE | MOD_HAS_STANDBY_MODE5 | MOD_HAS_SMART_STANDBY_WAKEUP_MODE;
+		mod.properties = 0;
 		genlist_addtail(&mod54xx_list, (void *) &mod, sizeof(mod_info));
 	}
 

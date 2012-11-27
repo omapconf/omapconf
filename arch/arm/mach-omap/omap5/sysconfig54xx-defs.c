@@ -280,11 +280,6 @@ reg omap5430_dispc_l3_main_dispc_sysconfig = {
 	0};
 
 /* OMAP5_BB2D */
-reg omap5430_bb2d_sysconfig_pm = {
-	"BB2D_SYSCONFIG_PM",
-	OMAP5430_BB2D_SYSCONFIG_PM,
-	0xDEADBEEF,
-	0};
 
 /* Voltage dom.: CORE, Power dom.: L3INIT, Clock domain = L3INIT */
 /* OMAP5_HSI */
