@@ -59,7 +59,7 @@
 #include <lib.h>
 #include <common/cpuinfo.h>
 #include <prm44xx.h>
-#include <cm54xxes1-defs.h>
+#include <cm54xx-defs.h>
 #include <timr44xx.h>
 #include <timr54xx.h>
 #include <mem.h>
@@ -1040,8 +1040,8 @@ void nosleep_32k_enable(void)
 	if (cpu_is_omap54xx()) {
 		if (cpu_revision_get() == REV_ES1_0)
 			reg_clk = OMAP5430ES1_CM_WKUPAON_CLKSTCTRL;
-		else /* FIXME when ES2 ready */
-			reg_clk = OMAP5430ES1_CM_WKUPAON_CLKSTCTRL;
+		else
+			reg_clk = OMAP5430_CM_WKUPAON_CLKSTCTRL;
 	} else if (cpu_is_omap44xx()) {
 		reg_clk = OMAP4430_CM_WKUP_CLKSTCTRL;
 	}
@@ -1059,8 +1059,8 @@ void nosleep_32k_disable(void)
 	if (cpu_is_omap54xx()) {
 		if (cpu_revision_get() == REV_ES1_0)
 			reg_clk = OMAP5430ES1_CM_WKUPAON_CLKSTCTRL;
-		else /* FIXME when ES2 ready */
-			reg_clk = OMAP5430ES1_CM_WKUPAON_CLKSTCTRL;
+		else
+			reg_clk = OMAP5430_CM_WKUPAON_CLKSTCTRL;
 	} else if (cpu_is_omap44xx()) {
 		reg_clk = OMAP4430_CM_WKUP_CLKSTCTRL;
 	}
@@ -1077,8 +1077,8 @@ void omapconf_emu_enable_domain(void)
 	} else if (cpu_is_omap54xx()) {
 		if (cpu_revision_get() == REV_ES1_0)
 			mem_write(OMAP5430ES1_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x1);
-		else /* FIXME when ES2 ready */
-			mem_write(OMAP5430ES1_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x1);
+		else
+			mem_write(OMAP5430_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x1);
 	}
 }
 
@@ -1089,8 +1089,8 @@ void omapconf_emu_disable_domain(void)
 	} else if (cpu_is_omap54xx()) {
 		if (cpu_revision_get() == REV_ES1_0)
 			mem_write(OMAP5430ES1_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x0);
-		else /* FIXME when ES2 ready */
-			mem_write(OMAP5430ES1_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x0);
+		else
+			mem_write(OMAP5430_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x0);
 	}
 }
 

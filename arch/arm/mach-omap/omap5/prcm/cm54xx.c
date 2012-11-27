@@ -94,8 +94,8 @@ unsigned int cm54xx_is_profiling_running(void)
 
 	if (cpu_revision_get() == REV_ES1_0)
 		cm_clkctrl_reg = &omap5430es1_cm_cm_core_aon_profiling_clkctrl;
-	else /* FIXME when ES2 ready */
-		cm_clkctrl_reg = &omap5430es1_cm_cm_core_aon_profiling_clkctrl;
+	else
+		cm_clkctrl_reg = &omap5430_cm_cm_core_aon_profiling_clkctrl;
 
 	if (cm_clkctrl_reg == NULL) {
 		dprintf("%s(): cm_clkctrl_reg == NULL!!!\n", __func__);
@@ -164,8 +164,8 @@ int cm54xx_dump(FILE *stream, cm54xx_mod_id id)
 		else {
 			if (cpu_revision_get() == REV_ES1_0)
 				mod = cm54xxes1_mods[mid];
-			else /* FIXME when ES2 ready */
-				mod = cm54xxes1_mods[mid];
+			else
+				mod = cm54xx_mods[mid];
 			for (i = 0; mod[i] != NULL; i++) {
 				r = mod[i];
 				/* Read register */
@@ -212,8 +212,8 @@ int cm54xx_export(FILE *fp, cm54xx_mod_id id)
 
 	if (cpu_revision_get() == REV_ES1_0)
 		mod = cm54xxes1_mods[id];
-	else /* FIXME when ES2 ready */
-		mod = cm54xxes1_mods[id];
+	else
+		mod = cm54xx_mods[id];
 
 	if ((id == CM54XX_INSTR_CM_CORE) && !cm54xx_is_profiling_running()) {
 		dprintf("%s(%s): CM module is not accessible, "
@@ -260,8 +260,8 @@ int cm54xx_import(FILE *fp, cm54xx_mod_id id)
 
 	if (cpu_revision_get() == REV_ES1_0)
 		mod = cm54xxes1_mods[id];
-	else /* FIXME when ES2 ready */
-		mod = cm54xxes1_mods[id];
+	else
+		mod = cm54xx_mods[id];
 	rewind(fp);
 
 	/* Search for the CM module tag */

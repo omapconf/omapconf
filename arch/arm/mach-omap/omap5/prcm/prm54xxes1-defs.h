@@ -45,8 +45,9 @@
 #ifndef __PRM54XXES1_DEFS_H__
 #define __PRM54XXES1_DEFS_H__
 
+
 #include <reg.h>
-#include <stdio.h>
+
 
 #define OMAP5430ES1_PM_DSS_PWRSTCTRL				0x4ae07100
 extern reg omap5430es1_pm_dss_pwrstctrl;
@@ -322,7 +323,7 @@ extern reg omap5430es1_rm_abe_timer8_context;
 extern reg omap5430es1_pm_abe_wd_timer3_wkdep;
 #define OMAP5430ES1_RM_ABE_WD_TIMER3_CONTEXT			0x4ae0658c
 extern reg omap5430es1_rm_abe_wd_timer3_context;
-#define OMAP5430ES1_ABE_PRM_MOD_REGCOUNT				27
+#define OMAP5430ES1_ABE_PRM_MOD_REGCOUNT			27
 extern reg *omap5430es1_abe_prm_mod[OMAP5430ES1_ABE_PRM_MOD_REGCOUNT + 1];
 
 #define OMAP5430ES1_PM_GPU_PWRSTCTRL				0x4ae07200
@@ -331,7 +332,7 @@ extern reg omap5430es1_pm_gpu_pwrstctrl;
 extern reg omap5430es1_pm_gpu_pwrstst;
 #define OMAP5430ES1_RM_GPU_GPU_CONTEXT				0x4ae07224
 extern reg omap5430es1_rm_gpu_gpu_context;
-#define OMAP5430ES1_GPU_PRM_MOD_REGCOUNT				3
+#define OMAP5430ES1_GPU_PRM_MOD_REGCOUNT			3
 extern reg *omap5430es1_gpu_prm_mod[OMAP5430ES1_GPU_PRM_MOD_REGCOUNT + 1];
 
 #define OMAP5430ES1_PM_COREAON_SMARTREFLEX_MPU_WKDEP		0x4ae06628
@@ -398,7 +399,7 @@ extern reg omap5430es1_rm_iva_rstst;
 extern reg omap5430es1_rm_iva_iva_context;
 #define OMAP5430ES1_RM_IVA_SL2_CONTEXT				0x4ae06f2c
 extern reg omap5430es1_rm_iva_sl2_context;
-#define OMAP5430ES1_IVA_PRM_MOD_REGCOUNT				6
+#define OMAP5430ES1_IVA_PRM_MOD_REGCOUNT			6
 extern reg *omap5430es1_iva_prm_mod[OMAP5430ES1_IVA_PRM_MOD_REGCOUNT + 1];
 
 #define OMAP5430ES1_PM_EMU_PWRSTCTRL				0x4ae07900
@@ -407,7 +408,7 @@ extern reg omap5430es1_pm_emu_pwrstctrl;
 extern reg omap5430es1_pm_emu_pwrstst;
 #define OMAP5430ES1_RM_EMU_DEBUGSS_CONTEXT			0x4ae07924
 extern reg omap5430es1_rm_emu_debugss_context;
-#define OMAP5430ES1_EMU_PRM_MOD_REGCOUNT				3
+#define OMAP5430ES1_EMU_PRM_MOD_REGCOUNT			3
 extern reg *omap5430es1_emu_prm_mod[OMAP5430ES1_EMU_PRM_MOD_REGCOUNT + 1];
 
 #define OMAP5430ES1_PM_MPU_PWRSTCTRL				0x4ae06300
@@ -416,7 +417,7 @@ extern reg omap5430es1_pm_mpu_pwrstctrl;
 extern reg omap5430es1_pm_mpu_pwrstst;
 #define OMAP5430ES1_RM_MPU_MPU_CONTEXT				0x4ae06324
 extern reg omap5430es1_rm_mpu_mpu_context;
-#define OMAP5430ES1_MPU_PRM_MOD_REGCOUNT				3
+#define OMAP5430ES1_MPU_PRM_MOD_REGCOUNT			3
 extern reg *omap5430es1_mpu_prm_mod[OMAP5430ES1_MPU_PRM_MOD_REGCOUNT + 1];
 
 #define OMAP5430ES1_PM_L3INIT_PWRSTCTRL				0x4ae07300
@@ -722,6 +723,6 @@ typedef enum {
 
 extern reg **prm54xxes1_mods[PRM54XX_MODS_COUNT + 1];
 
-extern const char *prm54xxes1_mods_name[PRM54XX_MODS_COUNT];
+extern const char *prm54xx_mods_name[PRM54XX_MODS_COUNT];
 
 #endif

@@ -46,7 +46,7 @@
 #include <vp.h>
 #include <lib.h>
 #include <cpuinfo.h>
-#include <prm54xxes1-defs.h>
+#include <prm54xx-defs.h>
 #include <voltdm54xx.h>
 
 
@@ -79,14 +79,14 @@ int vp54xx_config_show(FILE *stream)
 		vp_regs[0].vp_voltage = reg_read(&omap5430es1_prm_vp_mpu_voltage);
 		vp_regs[0].vp_vstepmax = reg_read(&omap5430es1_prm_vp_mpu_vstepmax);
 		vp_regs[0].vp_vstepmin = reg_read(&omap5430es1_prm_vp_mpu_vstepmin);
-	} else { /* FIXME when ES2 ready */
+	} else {
 		vp_regs[0].vdd_id = (unsigned int) VDD54XX_MPU;
-		vp_regs[0].vp_config = reg_read(&omap5430es1_prm_vp_mpu_config);
-		vp_regs[0].vp_status = reg_read(&omap5430es1_prm_vp_mpu_status);
-		vp_regs[0].vp_vlimitto = reg_read(&omap5430es1_prm_vp_mpu_vlimitto);
-		vp_regs[0].vp_voltage = reg_read(&omap5430es1_prm_vp_mpu_voltage);
-		vp_regs[0].vp_vstepmax = reg_read(&omap5430es1_prm_vp_mpu_vstepmax);
-		vp_regs[0].vp_vstepmin = reg_read(&omap5430es1_prm_vp_mpu_vstepmin);
+		vp_regs[0].vp_config = reg_read(&omap5430_prm_vp_mpu_config);
+		vp_regs[0].vp_status = reg_read(&omap5430_prm_vp_mpu_status);
+		vp_regs[0].vp_vlimitto = reg_read(&omap5430_prm_vp_mpu_vlimitto);
+		vp_regs[0].vp_voltage = reg_read(&omap5430_prm_vp_mpu_voltage);
+		vp_regs[0].vp_vstepmax = reg_read(&omap5430_prm_vp_mpu_vstepmax);
+		vp_regs[0].vp_vstepmin = reg_read(&omap5430_prm_vp_mpu_vstepmin);
 	}
 
 	/* Store VP MM registers */
@@ -98,14 +98,14 @@ int vp54xx_config_show(FILE *stream)
 		vp_regs[1].vp_voltage = reg_read(&omap5430es1_prm_vp_mm_voltage);
 		vp_regs[1].vp_vstepmax = reg_read(&omap5430es1_prm_vp_mm_vstepmax);
 		vp_regs[1].vp_vstepmin = reg_read(&omap5430es1_prm_vp_mm_vstepmin);
-	} else { /* FIXME when ES2 ready */
+	} else {
 		vp_regs[1].vdd_id = (unsigned int) VDD54XX_MM;
-		vp_regs[1].vp_config = reg_read(&omap5430es1_prm_vp_mm_config);
-		vp_regs[1].vp_status = reg_read(&omap5430es1_prm_vp_mm_status);
-		vp_regs[1].vp_vlimitto = reg_read(&omap5430es1_prm_vp_mm_vlimitto);
-		vp_regs[1].vp_voltage = reg_read(&omap5430es1_prm_vp_mm_voltage);
-		vp_regs[1].vp_vstepmax = reg_read(&omap5430es1_prm_vp_mm_vstepmax);
-		vp_regs[1].vp_vstepmin = reg_read(&omap5430es1_prm_vp_mm_vstepmin);
+		vp_regs[1].vp_config = reg_read(&omap5430_prm_vp_mm_config);
+		vp_regs[1].vp_status = reg_read(&omap5430_prm_vp_mm_status);
+		vp_regs[1].vp_vlimitto = reg_read(&omap5430_prm_vp_mm_vlimitto);
+		vp_regs[1].vp_voltage = reg_read(&omap5430_prm_vp_mm_voltage);
+		vp_regs[1].vp_vstepmax = reg_read(&omap5430_prm_vp_mm_vstepmax);
+		vp_regs[1].vp_vstepmin = reg_read(&omap5430_prm_vp_mm_vstepmin);
 	}
 
 	/* Store VP CORE registers */
@@ -117,14 +117,14 @@ int vp54xx_config_show(FILE *stream)
 		vp_regs[2].vp_voltage = reg_read(&omap5430es1_prm_vp_core_voltage);
 		vp_regs[2].vp_vstepmax = reg_read(&omap5430es1_prm_vp_core_vstepmax);
 		vp_regs[2].vp_vstepmin = reg_read(&omap5430es1_prm_vp_core_vstepmin);
-	} else { /* FIXME when ES2 ready */
+	} else {
 		vp_regs[2].vdd_id = (unsigned int) VDD54XX_CORE;
-		vp_regs[2].vp_config = reg_read(&omap5430es1_prm_vp_core_config);
-		vp_regs[2].vp_status = reg_read(&omap5430es1_prm_vp_core_status);
-		vp_regs[2].vp_vlimitto = reg_read(&omap5430es1_prm_vp_core_vlimitto);
-		vp_regs[2].vp_voltage = reg_read(&omap5430es1_prm_vp_core_voltage);
-		vp_regs[2].vp_vstepmax = reg_read(&omap5430es1_prm_vp_core_vstepmax);
-		vp_regs[2].vp_vstepmin = reg_read(&omap5430es1_prm_vp_core_vstepmin);
+		vp_regs[2].vp_config = reg_read(&omap5430_prm_vp_core_config);
+		vp_regs[2].vp_status = reg_read(&omap5430_prm_vp_core_status);
+		vp_regs[2].vp_vlimitto = reg_read(&omap5430_prm_vp_core_vlimitto);
+		vp_regs[2].vp_voltage = reg_read(&omap5430_prm_vp_core_voltage);
+		vp_regs[2].vp_vstepmax = reg_read(&omap5430_prm_vp_core_vstepmax);
+		vp_regs[2].vp_vstepmin = reg_read(&omap5430_prm_vp_core_vstepmin);
 	}
 
 	return vp_config_show(stream, vp_regs);

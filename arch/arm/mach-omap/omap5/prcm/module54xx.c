@@ -4313,7 +4313,10 @@ reg *mod54xx_cm_clkctrl_reg_get(mod54xx_id id)
 		return NULL;
 	CHECK_ARG_LESS_THAN(id, MOD54XX_ID_MAX, NULL);
 
-	return mod54xx_cm_clkctrl_reg_table[id];
+	if (cpu_revision_get() == REV_ES1_0)
+		return mod54xxes1_cm_clkctrl_reg_table[id];
+	else
+		return mod54xx_cm_clkctrl_reg_table[id];
 }
 
 
@@ -4331,7 +4334,10 @@ reg *mod54xx_rm_context_reg_get(mod54xx_id id)
 		return NULL;
 	CHECK_ARG_LESS_THAN(id, MOD54XX_ID_MAX, NULL);
 
-	return mod54xx_rm_context_reg_table[id];
+	if (cpu_revision_get() == REV_ES1_0)
+		return mod54xx_rm_context_reg_table[id];
+	else
+		return mod54xxes1_rm_context_reg_table[id];
 }
 
 

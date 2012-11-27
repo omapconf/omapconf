@@ -48,7 +48,7 @@
 #include <lib.h>
 #include <mem.h>
 #include <cpuinfo.h>
-#include <prm54xxes1-defs.h>
+#include <prm54xx-defs.h>
 #include <clock54xx.h>
 
 
@@ -96,11 +96,11 @@ int abb54xx_dump(FILE *stream)
 		abb_mpu_ctrl_reg = &omap5430es1_prm_abbldo_mpu_ctrl;
 		abb_mm_setup_reg = &omap5430es1_prm_abbldo_mm_setup;
 		abb_mm_ctrl_reg = &omap5430es1_prm_abbldo_mm_ctrl;
-	} else { /* FIXME when ES2 ready */
-		abb_mpu_setup_reg = &omap5430es1_prm_abbldo_mpu_setup;
-		abb_mpu_ctrl_reg = &omap5430es1_prm_abbldo_mpu_ctrl;
-		abb_mm_setup_reg = &omap5430es1_prm_abbldo_mm_setup;
-		abb_mm_ctrl_reg = &omap5430es1_prm_abbldo_mm_ctrl;
+	} else {
+		abb_mpu_setup_reg = &omap5430_prm_abbldo_mpu_setup;
+		abb_mpu_ctrl_reg = &omap5430_prm_abbldo_mpu_ctrl;
+		abb_mm_setup_reg = &omap5430_prm_abbldo_mm_setup;
+		abb_mm_ctrl_reg = &omap5430_prm_abbldo_mm_ctrl;
 	}
 
 	/* Show register name, addr & content (hex) */
@@ -159,11 +159,11 @@ int abb54xx_config_show(FILE *stream)
 		abb_mpu_ctrl = reg_read(&omap5430es1_prm_abbldo_mpu_ctrl);
 		abb_mm_setup = reg_read(&omap5430es1_prm_abbldo_mm_setup);
 		abb_mm_ctrl = reg_read(&omap5430es1_prm_abbldo_mm_ctrl);
-	} else { /* FIXME when ES2 ready */
-		abb_mpu_setup = reg_read(&omap5430es1_prm_abbldo_mpu_setup);
-		abb_mpu_ctrl = reg_read(&omap5430es1_prm_abbldo_mpu_ctrl);
-		abb_mm_setup = reg_read(&omap5430es1_prm_abbldo_mm_setup);
-		abb_mm_ctrl = reg_read(&omap5430es1_prm_abbldo_mm_ctrl);
+	} else {
+		abb_mpu_setup = reg_read(&omap5430_prm_abbldo_mpu_setup);
+		abb_mpu_ctrl = reg_read(&omap5430_prm_abbldo_mpu_ctrl);
+		abb_mm_setup = reg_read(&omap5430_prm_abbldo_mm_setup);
+		abb_mm_ctrl = reg_read(&omap5430_prm_abbldo_mm_ctrl);
 	}
 
 	sysclk_rate = clk54xx_sysclk_rate_get();

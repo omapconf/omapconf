@@ -56,7 +56,9 @@ extern const clkdm54xx_id mod54xx_clkdm_table[MOD54XX_ID_MAX];
 
 extern const unsigned int mod54xx_properties_table[MOD54XX_ID_MAX];
 extern reg *mod54xx_sysconfig_table[MOD54XX_ID_MAX];
+extern reg *mod54xxes1_cm_clkctrl_reg_table[MOD54XX_ID_MAX];
 extern reg *mod54xx_cm_clkctrl_reg_table[MOD54XX_ID_MAX];
+extern reg *mod54xxes1_rm_context_reg_table[MOD54XX_ID_MAX];
 extern reg *mod54xx_rm_context_reg_table[MOD54XX_ID_MAX];
 extern const double mod54xx_por_rates_table[MOD54XX_ID_MAX][OPP_MAX];
 

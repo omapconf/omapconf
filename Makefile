@@ -167,6 +167,7 @@ OMAP5SOURCES=\
 		arch/arm/mach-omap/omap5/prcm/cm54xx-defs.c\
 		arch/arm/mach-omap/omap5/prcm/cm54xx.c\
 		arch/arm/mach-omap/omap5/prcm/prm54xxes1-defs.c\
+		arch/arm/mach-omap/omap5/prcm/prm54xx-defs.c\
 		arch/arm/mach-omap/omap5/prcm/prm54xx.c\
 		arch/arm/mach-omap/omap5/prcm/clock54xx.c\
 		arch/arm/mach-omap/omap5/prcm/abb54xx.c\

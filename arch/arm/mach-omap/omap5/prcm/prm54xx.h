@@ -47,7 +47,7 @@
 
 
 #include <stdio.h>
-#include <prm54xxes1-defs.h>
+#include <prm54xx-defs.h>
 
 
 const char *prm54xx_mod_name_get(prm54xx_mod_id id);

@@ -89,7 +89,7 @@ static const char
 	"NONE (PRCM)"};
 
 
-static reg *clkdm54xxes1_cm_clkstctrl_table[CLKDM54XX_ID_MAX] = { /* FIXME when ES2 ready */
+static reg *clkdm54xxes1_cm_clkstctrl_table[CLKDM54XX_ID_MAX] = {
 	&omap5430es1_cm_emu_clkstctrl, /* CLKDM54XX_EMU */
 	&omap5430es1_cm_wkupaon_clkstctrl, /* CLKDM54XX_WKUPAON */
 	&omap5430es1_cm_coreaon_clkstctrl, /* CLKDM54XX_COREAON */
@@ -113,6 +113,33 @@ static reg *clkdm54xxes1_cm_clkstctrl_table[CLKDM54XX_ID_MAX] = { /* FIXME when 
 	&omap5430es1_cm_gpu_clkstctrl, /* GPU */
 	&omap5430es1_cm_iva_clkstctrl, /* IVA */
 	&omap5430es1_cm_mpu_clkstctrl, /* MPU */
+	NULL}; /* CLKDM54XX_NONE */
+
+
+static reg *clkdm54xx_cm_clkstctrl_table[CLKDM54XX_ID_MAX] = {
+	&omap5430_cm_emu_clkstctrl, /* CLKDM54XX_EMU */
+	&omap5430_cm_wkupaon_clkstctrl, /* CLKDM54XX_WKUPAON */
+	&omap5430_cm_coreaon_clkstctrl, /* CLKDM54XX_COREAON */
+	&omap5430_cm_cam_clkstctrl, /* CLKDM54XX_CAM */
+	&omap5430_cm_l4cfg_clkstctrl, /* CLKDM54XX_L4_CFG */
+	&omap5430_cm_emif_clkstctrl, /* EMIF */
+	&omap5430_cm_ipu_clkstctrl, /* IPU */
+	&omap5430_cm_l3main2_clkstctrl, /* L3_MAIN2 */
+	&omap5430_cm_l3instr_clkstctrl, /* L3_INSTR */
+	&omap5430_cm_l3main1_clkstctrl, /* L3_MAIN1 */
+	&omap5430_cm_c2c_clkstctrl, /* C2C */
+	&omap5430_cm_dma_clkstctrl, /* DMA */
+	&omap5430_cm_mipiext_clkstctrl, /* MIPIEXT */
+	&omap5430_cm_dss_clkstctrl, /* DSS */
+	&omap5430_cm_custefuse_clkstctrl, /* CUST_EFUSE */
+	&omap5430_cm_l3init_clkstctrl, /* L3_INIT */
+	&omap5430_cm_l4per_clkstctrl, /* L4_PER */
+	NULL /* FIXME &OMAP5430_CM_L4SEC_CLKSTCTRL*/, /* L4_SEC */
+	&omap5430_cm_abe_clkstctrl, /* ABE */
+	&omap5430_cm_dsp_clkstctrl, /* DSP */
+	&omap5430_cm_gpu_clkstctrl, /* GPU */
+	&omap5430_cm_iva_clkstctrl, /* IVA */
+	&omap5430_cm_mpu_clkstctrl, /* MPU */
 	NULL}; /* CLKDM54XX_NONE */
 
 
@@ -514,8 +541,8 @@ reg *clkdm54xx_clkstctrl_reg_get(clkdm54xx_id id)
 
 	if (cpu_revision_get() == REV_ES1_0)
 		return clkdm54xxes1_cm_clkstctrl_table[id];
-	else /* FIXME when ES2 ready */
-		return clkdm54xxes1_cm_clkstctrl_table[id];
+	else
+		return clkdm54xx_cm_clkstctrl_table[id];
 }
 
 
@@ -535,9 +562,9 @@ clkdm_ctrl_mode clkdm54xx_ctrl_mode_get(clkdm54xx_id id)
 	if (cpu_revision_get() == REV_ES1_0)
 		return clkdm_ctrl_mode_get(
 			clkdm54xxes1_cm_clkstctrl_table[id]);
-	else /* FIXME when ES2 ready */
+	else
 		return clkdm_ctrl_mode_get(
-			clkdm54xxes1_cm_clkstctrl_table[id]);
+			clkdm54xx_cm_clkstctrl_table[id]);
 }
 
 

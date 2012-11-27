@@ -74,10 +74,7 @@ const char *prm54xx_mod_name_get(prm54xx_mod_id id)
 		return NULL;
 	}
 
-	if (cpu_revision_get() == REV_ES1_0)
-		return prm54xxes1_mods_name[id];
-	else /* FIXME when ES2 ready */
-		return prm54xxes1_mods_name[id];
+	return prm54xx_mods_name[id];
 }
 
 
@@ -97,8 +94,8 @@ unsigned int prm54xx_is_profiling_running(void)
 
 	if (cpu_revision_get() == REV_ES1_0)
 		cm_clkctrl_reg = &omap5430es1_cm_prm_profiling_clkctrl;
-	else /* FIXME when ES2 ready */
-		cm_clkctrl_reg = &omap5430es1_cm_prm_profiling_clkctrl;
+	else
+		cm_clkctrl_reg = &omap5430_cm_prm_profiling_clkctrl;
 
 	if (cm_clkctrl_reg == NULL) {
 		dprintf("%s(): cm_clkctrl_reg == NULL!!!\n", __func__);
@@ -168,7 +165,7 @@ int prm54xx_dump(FILE *stream, prm54xx_mod_id id)
 			if (cpu_revision_get() == REV_ES1_0)
 				mod = prm54xxes1_mods[mid];
 			else
-				mod = prm54xxes1_mods[mid]; /* FIXME when ES2 ready */
+				mod = prm54xx_mods[mid];
 			for (i = 0; mod[i] != NULL; i++) {
 				r = mod[i];
 				/* Read register */
@@ -216,7 +213,7 @@ int prm54xx_export(FILE *fp, prm54xx_mod_id id)
 	if (cpu_revision_get() == REV_ES1_0)
 		mod = prm54xxes1_mods[id];
 	else
-		mod = prm54xxes1_mods[id]; /* FIXME when ES2 ready */
+		mod = prm54xx_mods[id];
 
 	if ((id == PRM54XX_INSTR_PRM) && !prm54xx_is_profiling_running()) {
 		dprintf("%s(%s): PRM module is not accessible, "
@@ -264,7 +261,7 @@ int prm54xx_import(FILE *fp, prm54xx_mod_id id)
 	if (cpu_revision_get() == REV_ES1_0)
 		mod = prm54xxes1_mods[id];
 	else
-		mod = prm54xxes1_mods[id]; /* FIXME when ES2 ready */
+		mod = prm54xx_mods[id];
 	rewind(fp);
 
 	/* Search for the PRM module tag */

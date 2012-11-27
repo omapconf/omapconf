@@ -42,9 +42,9 @@
  */
 
 
-#include <prm54xx.h>
-#include <lib.h>
-#include <autoadjust_table.h>
+#include <prm54xxes1-defs.h>
+#include <stdio.h>
+
 
 reg omap5430es1_pm_dss_pwrstctrl = {
 	"PM_DSS_PWRSTCTRL",
@@ -2188,7 +2188,7 @@ reg **prm54xxes1_mods[PRM54XX_MODS_COUNT + 1] = {
 	NULL};
 
 
-const char *prm54xxes1_mods_name[PRM54XX_MODS_COUNT] = {
+const char *prm54xx_mods_name[PRM54XX_MODS_COUNT] = {
 	"PRM DSS",
 	"PRM WKUPAON",
 	"PRM OCP SOCKET",
