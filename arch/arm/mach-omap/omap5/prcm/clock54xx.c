@@ -72,6 +72,7 @@ static const char
 	"COREAON_32K_GFCLK",
 	"PER_32K_GFCLK",
 	"ABE_32K_CLK",
+	"MMC1_32K_GFCLK", /* ES2.0 only */
 	/* SYS CLKS */
 	"SYS_CLKIN",
 	"SYS_CLK",
@@ -110,13 +111,16 @@ static const char
 	"CORE_X2_CLK",
 	"CORE_USB_OTG_SS_LFPS_TX_CLK",
 	"CORE_GPU_CLK",
+	"CORE_C2C_CLK", /* ES2.0 only */
 	"CORE_IPU_ISS_BOOST_CLK",
 	"CORE_ISS_MAIN_CLK",
+	"BB2D_GFCLK", /* ES2.0 only */
 	/* DPLL PER OUTPUTS */
 	"FUNC_96M_AON_CLK",
 	"FUNC_192M_FCLK",
 	"PER_DPLL_SCRM_CLK",
 	"FUNC_128M_CLK",
+	"FUNC_256M_CLK", /* ES2.0 only */
 	"DSS_GFCLK",
 	"PER_GPU_CLK",
 	/* DPLL MPU OUTPUTS */
@@ -172,6 +176,7 @@ static const char
 	"CORE_TS_GFCLK",
 	"COREAON_TS_GFCLK",
 	"L3INSTR_DLL_AGING_GCLK",
+	"L3INSTR_TS_GFCLK",
 	/* PRM TIMER Clocks */
 	"TIMER1_GFCLK",
 	"TIMER2_GFCLK",
@@ -240,6 +245,12 @@ static const char
 	"PER_24M_GFCLK",
 	"HSI_GFCLK",
 	"PER_12M_GFCLK",
+	"C2C_GFCLK", /* ES2.0 only */
+	"C2C_ICLK", /* ES2.0 only */
+	"C2C_GICLK", /* ES2.0 only */
+	"EMIF_LL_GCLK", /* ES2.0 only */
+	"GPU_L3_GICLK", /* ES2.0 only */
+	"DSS_L4_GICLK", /* ES2.0 only */
 	"FIXME"
 };
 
@@ -249,6 +260,7 @@ static const char
 	"sys_32k_ck",
 	"UNKNOWN",
 	"secure_32k_clk_src_ck",
+	"UNKNOWN",
 	"UNKNOWN",
 	"UNKNOWN",
 	"UNKNOWN",
@@ -294,8 +306,11 @@ static const char
 	"UNKNOWN",
 	"UNKNOWN",
 	"UNKNOWN",
+	"UNKNOWN",
+	"UNKNOWN",
 	/* DPLL PER OUTPUTS */
 	"func_96m_fclk",
+	"UNKNOWN",
 	"UNKNOWN",
 	"UNKNOWN",
 	"UNKNOWN",
@@ -422,6 +437,12 @@ static const char
 	"UNKNOWN",
 	"hsi_fclk",
 	"UNKNOWN",
+	"UNKNOWN",
+	"UNKNOWN",
+	"UNKNOWN",
+	"UNKNOWN",
+	"UNKNOWN",
+	"UNKNOWN",
 	"FIXME"
 };
 
@@ -491,7 +512,10 @@ double clk54xx_sysclk_rate_get(void)
 	}
 
 	if (!mem_fake_access_get()) {
-		val = reg_read(&omap5430_cm_clksel_sys);
+		if (cpu_revision_get() == REV_ES1_0)
+			val = reg_read(&omap5430es1_cm_clksel_sys);
+		else
+			val = reg_read(&omap5430_cm_clksel_sys);
 		val &= 0x7;
 	} else {
 		val = SYSCLK54XX_19_2_MHZ; /* PoR */
@@ -712,6 +736,7 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 	case CLK54XX_COREAON_32K_GFCLK:
 	case CLK54XX_PER_32K_GFCLK:
 	case CLK54XX_ABE_32K_CLK:
+	case CLK54XX_MMC1_32K_GFCLK:
 		src_clk_id = CLK54XX_FUNC_32K_CLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
@@ -759,7 +784,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_ABE_DPLL_CLK:
-		reg_val = reg_read(&omap5430_cm_clksel_abe_pll_ref);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_clksel_abe_pll_ref);
+		else
+			reg_val = reg_read(&omap5430_cm_clksel_abe_pll_ref);
 		if (extract_bit(reg_val, 0) == 1)
 			src_clk_id = CLK54XX_FUNC_32K_CLK;
 		else
@@ -772,7 +800,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_ABE_DPLL_BYPASS_CLK:
-		reg_val = reg_read(&omap5430_cm_clksel_wkupaon);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_clksel_wkupaon);
+		else
+			reg_val = reg_read(&omap5430_cm_clksel_wkupaon);
 		if (extract_bit(reg_val, 0) == 1)
 			src_clk_id = CLK54XX_FUNC_32K_CLK;
 		else
@@ -789,7 +820,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		src_clk_id = CLK54XX_SYS_CLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
-		reg_val = reg_read(&omap5430_cm_clksel_abe_dss_sys);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_clksel_abe_dss_sys);
+		else
+			reg_val = reg_read(&omap5430_cm_clksel_abe_dss_sys);
 		if (extract_bit(reg_val, 0) == 1)
 			div = 2.0;
 		else
@@ -800,7 +834,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	/* DPLL ABE OUTPUTS */
-	case CLK54XX_PER_ABE_X1_GFCLK:
+	case CLK54XX_PER_ABE_X1_GFCLK: /* ES1.0 only */
+		if (cpu_revision_get() != REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING: CLK54XX_PER_ABE_X1_GFCLK clock signal does not exist on ES2.x!!!\n", __func__);
 		src_clk_speed = dpll54xx_output_rate_get(
 			DPLL54XX_ABE, DPLL54XX_CLKOUT_M2, ignore);
 		out_clk_speed = src_clk_speed;
@@ -874,6 +911,17 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 			src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
+	case CLK54XX_CORE_C2C_CLK: /* ES2.0 only */
+		if (cpu_revision_get() == REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING: CLK54XX_CORE_C2C_CLK clock signal does not exist on ES1.0!!!\n", __func__);
+		src_clk_speed = dpll54xx_output_rate_get(
+			DPLL54XX_CORE, DPLL54XX_CLKOUTX2_H21, ignore);
+		out_clk_speed = src_clk_speed;
+		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_CORE CLKOUTX2_H21",
+			src_clk_speed, out_clk_speed);
+		return out_clk_speed;
+
 	case CLK54XX_CORE_IPU_ISS_BOOST_CLK:
 		src_clk_speed = dpll54xx_output_rate_get(
 			DPLL54XX_CORE, DPLL54XX_CLKOUTX2_H22, ignore);
@@ -887,6 +935,17 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 			DPLL54XX_CORE, DPLL54XX_CLKOUTX2_H23, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_CORE CLKOUTX2_H23",
+			src_clk_speed, out_clk_speed);
+		return out_clk_speed;
+
+	case CLK54XX_BB2D_GFCLK: /* ES2.0 only */
+		if (cpu_revision_get() == REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING: CLK54XX_BB2D_GFCLK clock signal does not exist on ES1.0!!!\n", __func__);
+		src_clk_speed = dpll54xx_output_rate_get(
+			DPLL54XX_CORE, DPLL54XX_CLKOUTX2_H24, ignore);
+		out_clk_speed = src_clk_speed;
+		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_CORE CLKOUTX2_H24",
 			src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 	/* END OF DPLL CORE OUTPUTS */
@@ -917,6 +976,28 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_FUNC_128M_CLK:
+		if (cpu_revision_get() == REV_ES1_0) {
+			src_clk_speed = dpll54xx_output_rate_get(
+				DPLL54XX_PER, DPLL54XX_CLKOUTX2_H11, ignore);
+			out_clk_speed = src_clk_speed;
+			DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_PER CLKOUTX2_H11",
+				src_clk_speed, out_clk_speed);
+			return out_clk_speed;
+		} else {
+			src_clk_id = CLK54XX_FUNC_256M_CLK;
+			src_clk_speed = clk54xx_rate_get(src_clk_id,
+				ignore);
+			div = 2.0;
+			out_clk_speed = src_clk_speed / div;
+			DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
+				out_clk_speed);
+			return out_clk_speed;
+		}
+
+	case CLK54XX_FUNC_256M_CLK: /* ES2.0 only */
+		if (cpu_revision_get() == REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING: CLK54XX_FUNC_256M_CLK clock signal does not exist on ES1.0!!!\n", __func__);
 		src_clk_speed = dpll54xx_output_rate_get(
 			DPLL54XX_PER, DPLL54XX_CLKOUTX2_H11, ignore);
 		out_clk_speed = src_clk_speed;
@@ -1027,7 +1108,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		src_clk_id = CLK54XX_CORE_X2_CLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
-		reg_val = reg_read(&omap5430_cm_bypclk_dpll_mpu);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_bypclk_dpll_mpu);
+		else
+			reg_val = reg_read(&omap5430_cm_bypclk_dpll_mpu);
 		div = (double) (1 << extract_bitfield(reg_val, 0, 2));
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
@@ -1038,7 +1122,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		src_clk_id = CLK54XX_CORE_X2_CLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
-		reg_val = reg_read(&omap5430_cm_bypclk_dpll_iva);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_bypclk_dpll_iva);
+		else
+			reg_val = reg_read(&omap5430_cm_bypclk_dpll_iva);
 		div = (double) (1 << extract_bitfield(reg_val, 0, 2));
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
@@ -1098,18 +1185,24 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		src_clk_id = CLK54XX_CORE_CLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
-		reg_val = reg_read(&omap5430_cm_clksel_core);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_clksel_core);
+		else
+			reg_val = reg_read(&omap5430_cm_clksel_core);
 		div = (double) (1 << extract_bit(reg_val, 4));
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
 			out_clk_speed);
 		return out_clk_speed;
 
+	case CLK54XX_C2C_L3_GICLK:  /* ES1.0 only */
+		if (cpu_revision_get() != REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING: CLK54XX_C2C_L3_GICLK clock signal does not exist on ES2.x!!!\n", __func__);
 	case CLK54XX_CM_CORE_AON_PROFILING_L3_GICLK:
 	case CLK54XX_EMIF_L3_GICLK:
 	case CLK54XX_L4SEC_L3_GICLK:
 	case CLK54XX_CAM_L3_GICLK:
-	case CLK54XX_C2C_L3_GICLK:
 	case CLK54XX_DMA_L3_GICLK:
 	case CLK54XX_L3INSTR_L3_GICLK:
 	case CLK54XX_L3MAIN1_L3_GICLK:
@@ -1129,7 +1222,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		src_clk_id = CLK54XX_L3_ICLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
-		reg_val = reg_read(&omap5430_cm_clksel_core);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_clksel_core);
+		else
+			reg_val = reg_read(&omap5430_cm_clksel_core);
 		div = (double) (1 << extract_bit(reg_val, 8));
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
@@ -1157,7 +1253,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_WKUPAON_ICLK:
-		reg_val = reg_read(&omap5430_cm_clksel_wkupaon);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_clksel_wkupaon);
+		else
+			reg_val = reg_read(&omap5430_cm_clksel_wkupaon);
 		if (extract_bit(reg_val, 0) == 1)
 			src_clk_id = CLK54XX_ABE_LP_CLK;
 		else
@@ -1200,13 +1299,30 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 			out_clk_speed);
 		return out_clk_speed;
 
-	case CLK54XX_CORE_TS_GFCLK:
+	case CLK54XX_CORE_TS_GFCLK: /* ES1.0 only */
 	case CLK54XX_COREAON_TS_GFCLK:
+		if (cpu_revision_get() != REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING: CORE[AON]_TS_GFCLK clock signal does not exist on ES2.x!!!\n", __func__);
 	case CLK54XX_L3INSTR_DLL_AGING_GCLK:
 		src_clk_id = CLK54XX_WKUPAON_ICLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
-		reg_val = reg_read(&omap5430_cm_coreaon_bandgap_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_coreaon_bandgap_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_l3instr_ctrl_module_bandgap_clkctrl);
+		div = (double) (8 << extract_bitfield(reg_val, 24, 2));
+		out_clk_speed = src_clk_speed / div;
+		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
+			out_clk_speed);
+		return out_clk_speed;
+
+	case CLK54XX_L3INSTR_TS_GFCLK:
+		src_clk_id = CLK54XX_WKUPAON_ICLK;
+		src_clk_speed = clk54xx_rate_get(src_clk_id,
+			ignore);
+		reg_val = reg_read(&omap5430_cm_l3instr_ctrl_module_bandgap_clkctrl);
 		div = (double) (8 << extract_bitfield(reg_val, 24, 2));
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
@@ -1215,7 +1331,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 
 	/* PRM TIMER Clocks */
 	case CLK54XX_TIMER1_GFCLK:
-		reg_val = reg_read(&omap5430_cm_wkupaon_timer1_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_wkupaon_timer1_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_wkupaon_timer1_clkctrl);
 		if (extract_bit(reg_val, 24) == 1)
 			src_clk_id = CLK54XX_SYS_32K;
 		else
@@ -1228,7 +1347,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_TIMER2_GFCLK:
-		reg_val = reg_read(&omap5430_cm_l4per_timer2_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_l4per_timer2_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_l4per_timer2_clkctrl);
 		if (extract_bit(reg_val, 24) == 1)
 			src_clk_id = CLK54XX_SYS_32K;
 		else
@@ -1241,7 +1363,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_TIMER3_GFCLK:
-		reg_val = reg_read(&omap5430_cm_l4per_timer3_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_l4per_timer3_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_l4per_timer3_clkctrl);
 		if (extract_bit(reg_val, 24) == 1)
 			src_clk_id = CLK54XX_SYS_32K;
 		else
@@ -1254,7 +1379,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_TIMER4_GFCLK:
-		reg_val = reg_read(&omap5430_cm_l4per_timer4_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_l4per_timer4_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_l4per_timer4_clkctrl);
 		if (extract_bit(reg_val, 24) == 1)
 			src_clk_id = CLK54XX_SYS_32K;
 		else
@@ -1267,7 +1395,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_TIMER9_GFCLK:
-		reg_val = reg_read(&omap5430_cm_l4per_timer9_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_l4per_timer9_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_l4per_timer9_clkctrl);
 		if (extract_bit(reg_val, 24) == 1)
 			src_clk_id = CLK54XX_SYS_32K;
 		else
@@ -1280,7 +1411,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_TIMER10_GFCLK:
-		reg_val = reg_read(&omap5430_cm_l4per_timer10_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_l4per_timer10_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_l4per_timer10_clkctrl);
 		if (extract_bit(reg_val, 24) == 1)
 			src_clk_id = CLK54XX_SYS_32K;
 		else
@@ -1293,7 +1427,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_TIMER11_GFCLK:
-		reg_val = reg_read(&omap5430_cm_l4per_timer11_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_l4per_timer11_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_l4per_timer11_clkctrl);
 		if (extract_bit(reg_val, 24) == 1)
 			src_clk_id = CLK54XX_SYS_32K;
 		else
@@ -1310,7 +1447,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		src_clk_id = CLK54XX_L3INIT_480M_GFCLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
-		reg_val = reg_read(&omap5430_cm_clksel_usb_60mhz);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_clksel_usb_60mhz);
+		else
+			reg_val = reg_read(&omap5430_cm_clksel_usb_60mhz);
 		if (extract_bit(reg_val, 0) == 1)
 			div = 8.0;
 		else
@@ -1358,7 +1498,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return 60.0;
 
 	case CLK54XX_UTMI_P1_GFCLK:
-		reg_val = reg_read(&omap5430_cm_l3init_usb_host_hs_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_l3init_usb_host_hs_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_l3init_usb_host_hs_clkctrl);
 		if (extract_bit(reg_val, 24) == 1)
 			src_clk_id = CLK54XX_XCLK_60M_HSP1;
 		else
@@ -1371,7 +1514,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_UTMI_P2_GFCLK:
-		reg_val = reg_read(&omap5430_cm_l3init_usb_host_hs_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_l3init_usb_host_hs_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_l3init_usb_host_hs_clkctrl);
 		if (extract_bit(reg_val, 25) == 1)
 			src_clk_id = CLK54XX_XCLK_60M_HSP2;
 		else
@@ -1422,7 +1568,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		src_clk_id = CLK54XX_DPLL_ABE_X2_FCLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
-		reg_val = reg_read(&omap5430_cm_clksel_abe);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_clksel_abe);
+		else
+			reg_val = reg_read(&omap5430_cm_clksel_abe);
 		div = (double) (1 << extract_bitfield(reg_val, 0, 2));
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
@@ -1433,7 +1582,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		src_clk_id = CLK54XX_ABE_CLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
-		reg_val = reg_read(&omap5430_cm_abe_aess_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_aess_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_aess_clkctrl);
 		div = (double) (1 << extract_bit(reg_val, 24));
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
@@ -1444,7 +1596,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		src_clk_id = CLK54XX_AESS_FCLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
-		reg_val = reg_read(&omap5430_cm_abe_aess_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_aess_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_aess_clkctrl);
 		div = (double) (1 << extract_bit(reg_val, 24));
 		/* From TRM: ABE_ICLK2 depends on the divider settings of
 		 * the AESS_FCLK and is always divided by 2 of the ABE_CLK.
@@ -1467,7 +1622,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_TIMER5_GFCLK:
-		reg_val = reg_read(&omap5430_cm_abe_timer5_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_timer5_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_timer5_clkctrl);
 		if (extract_bit(reg_val, 24) == 1)
 			src_clk_id = CLK54XX_ABE_32K_CLK;
 		else
@@ -1480,7 +1638,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_TIMER6_GFCLK:
-		reg_val = reg_read(&omap5430_cm_abe_timer6_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_timer6_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_timer6_clkctrl);
 		if (extract_bit(reg_val, 24) == 1)
 			src_clk_id = CLK54XX_ABE_32K_CLK;
 		else
@@ -1493,7 +1654,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_TIMER7_GFCLK:
-		reg_val = reg_read(&omap5430_cm_abe_timer7_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_timer7_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_timer7_clkctrl);
 		if (extract_bit(reg_val, 24) == 1)
 			src_clk_id = CLK54XX_ABE_32K_CLK;
 		else
@@ -1506,7 +1670,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_TIMER8_GFCLK:
-		reg_val = reg_read(&omap5430_cm_abe_timer8_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_timer8_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_timer8_clkctrl);
 		if (extract_bit(reg_val, 24) == 1)
 			src_clk_id = CLK54XX_ABE_32K_CLK;
 		else
@@ -1519,7 +1686,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_MCBSP1_INT_GFCLK:
-		reg_val = reg_read(&omap5430_cm_abe_mcbsp1_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_mcbsp1_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_mcbsp1_clkctrl);
 		switch (extract_bitfield(reg_val, 26, 2)) {
 		case 0:
 			src_clk_id = CLK54XX_ABE_24M_FCLK;
@@ -1545,7 +1715,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_MCBSP1_GFCLK:
-		reg_val = reg_read(&omap5430_cm_abe_mcbsp1_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_mcbsp1_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_mcbsp1_clkctrl);
 		switch (extract_bitfield(reg_val, 24, 2)) {
 		case 0:
 			src_clk_id = CLK54XX_MCBSP1_INT_GFCLK;
@@ -1571,7 +1744,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_MCBSP2_INT_GFCLK:
-		reg_val = reg_read(&omap5430_cm_abe_mcbsp2_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_mcbsp2_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_mcbsp2_clkctrl);
 		switch (extract_bitfield(reg_val, 26, 2)) {
 		case 0:
 			src_clk_id = CLK54XX_ABE_24M_FCLK;
@@ -1597,7 +1773,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_MCBSP2_GFCLK:
-		reg_val = reg_read(&omap5430_cm_abe_mcbsp2_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_mcbsp2_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_mcbsp2_clkctrl);
 		switch (extract_bitfield(reg_val, 24, 2)) {
 		case 0:
 			src_clk_id = CLK54XX_MCBSP2_INT_GFCLK;
@@ -1623,7 +1802,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_MCBSP3_INT_GFCLK:
-		reg_val = reg_read(&omap5430_cm_abe_mcbsp3_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_mcbsp3_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_mcbsp3_clkctrl);
 		switch (extract_bitfield(reg_val, 26, 2)) {
 		case 0:
 			src_clk_id = CLK54XX_ABE_24M_FCLK;
@@ -1649,7 +1831,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_MCBSP3_GFCLK:
-		reg_val = reg_read(&omap5430_cm_abe_mcbsp3_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_mcbsp3_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_mcbsp3_clkctrl);
 		switch (extract_bitfield(reg_val, 24, 2)) {
 		case 0:
 			src_clk_id = CLK54XX_MCBSP3_INT_GFCLK;
@@ -1675,7 +1860,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_MCASP1_INT_GFCLK:
-		reg_val = reg_read(&omap5430_cm_abe_mcasp_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_mcasp_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_mcasp_clkctrl);
 		switch (extract_bitfield(reg_val, 26, 2)) {
 		case 0:
 			src_clk_id = CLK54XX_ABE_24M_FCLK;
@@ -1701,7 +1889,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_MCASP1_GFCLK:
-		reg_val = reg_read(&omap5430_cm_abe_mcasp_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_mcasp_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_mcasp_clkctrl);
 		switch (extract_bitfield(reg_val, 24, 2)) {
 		case 0:
 			src_clk_id = CLK54XX_MCASP1_INT_GFCLK;
@@ -1727,7 +1918,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_DMIC_INT_GFCLK:
-		reg_val = reg_read(&omap5430_cm_abe_dmic_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_dmic_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_dmic_clkctrl);
 		switch (extract_bitfield(reg_val, 26, 2)) {
 		case 0:
 			src_clk_id = CLK54XX_ABE_24M_FCLK;
@@ -1753,7 +1947,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_DMIC_GFCLK:
-		reg_val = reg_read(&omap5430_cm_abe_dmic_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_abe_dmic_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_abe_dmic_clkctrl);
 		switch (extract_bitfield(reg_val, 24, 2)) {
 		case 0:
 			src_clk_id = CLK54XX_DMIC_INT_GFCLK;
@@ -1780,7 +1977,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 
 	/* CM_CORE Clocks */
 	case CLK54XX_GPU_HYD_GCLK:
-		reg_val = reg_read(&omap5430_cm_gpu_gpu_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_gpu_gpu_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_gpu_gpu_clkctrl);
 		if (extract_bit(reg_val, 25) == 1)
 			src_clk_id = CLK54XX_PER_GPU_CLK;
 		else
@@ -1793,7 +1993,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_GPU_CORE_GCLK:
-		reg_val = reg_read(&omap5430_cm_gpu_gpu_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_gpu_gpu_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_gpu_gpu_clkctrl);
 		if (extract_bit(reg_val, 24) == 1)
 			src_clk_id = CLK54XX_PER_GPU_CLK;
 		else
@@ -1809,14 +2012,20 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		src_clk_id = CLK54XX_FUNC_128M_CLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
-		reg_val = reg_read(&omap5430_cm_cam_fdif_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_cam_fdif_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_cam_fdif_clkctrl);
 		div = (double) (1 << extract_bit(reg_val, 24));
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
 			out_clk_speed);
 		return out_clk_speed;
 
-	case CLK54XX_PER_ABE_24M_FCLK:
+	case CLK54XX_PER_ABE_24M_FCLK: /* ES1.0 only */
+		if (cpu_revision_get() != REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING: CLK54XX_PER_ABE_24M_FCLK clock signal does not exist on ES2.x!!!\n", __func__);
 		src_clk_id = CLK54XX_PER_ABE_X1_GFCLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
@@ -1846,7 +2055,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 			out_clk_speed);
 		return out_clk_speed;
 
-	case CLK54XX_FUNC_24M_FCLK:
+	case CLK54XX_FUNC_24M_FCLK: /* ES1.0 only */
+		if (cpu_revision_get() != REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING: CLK54XX_FUNC_24M_FCLK clock signal does not exist on ES2.x!!!\n", __func__);
 		src_clk_id = CLK54XX_FUNC_192M_FCLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
@@ -1860,7 +2072,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		src_clk_id = CLK54XX_FUNC_192M_FCLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
-		reg_val = reg_read(&omap5430_cm_l3init_hsi_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_l3init_hsi_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_l3init_hsi_clkctrl);
 		div = (double) (1 << extract_bit(reg_val, 24));
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
@@ -1878,7 +2093,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_MMC1_GFCLK:
-		reg_val = reg_read(&omap5430_cm_l3init_mmc1_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_l3init_mmc1_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_l3init_mmc1_clkctrl);
 		if (extract_bit(reg_val, 24) == 1)
 			src_clk_id = CLK54XX_FUNC_192M_FCLK;
 		else
@@ -1886,7 +2104,6 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
 
-		reg_val = reg_read(&omap5430_cm_l3init_mmc1_clkctrl);
 		div = (double) (1 << extract_bit(reg_val, 25));
 		out_clk_speed = src_clk_speed / div;
 
@@ -1895,7 +2112,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK54XX_MMC2_GFCLK:
-		reg_val = reg_read(&omap5430_cm_l3init_mmc2_clkctrl);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_l3init_mmc2_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_l3init_mmc2_clkctrl);
 		if (extract_bit(reg_val, 24) == 1)
 			src_clk_id = CLK54XX_FUNC_192M_FCLK;
 		else
@@ -1903,7 +2123,6 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
 
-		reg_val = reg_read(&omap5430_cm_l3init_mmc2_clkctrl);
 		div = (double) (1 << extract_bit(reg_val, 25));
 		out_clk_speed = src_clk_speed / div;
 
@@ -1911,7 +2130,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 			out_clk_speed);
 		return out_clk_speed;
 
-	case CLK54XX_PER_ABE_24M_GFCLK:
+	case CLK54XX_PER_ABE_24M_GFCLK: /* ES1.0 only */
+		if (cpu_revision_get() != REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING: CLK54XX_PER_ABE_24M_GFCLK clock signal does not exist on ES2.x!!!\n", __func__);
 		src_clk_id = CLK54XX_PER_ABE_24M_FCLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
@@ -1938,7 +2160,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 			out_clk_speed);
 		return out_clk_speed;
 
-	case CLK54XX_PER_24M_GFCLK:
+	case CLK54XX_PER_24M_GFCLK: /* ES1.0 only */
+		if (cpu_revision_get() != REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING: CLK54XX_PER_24M_GFCLK clock signal does not exist on ES2.x!!!\n", __func__);
 		src_clk_id = CLK54XX_FUNC_24M_FCLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
 			ignore);
@@ -1965,6 +2190,68 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 			out_clk_speed);
 		return out_clk_speed;
 
+	case CLK54XX_C2C_ICLK: /* ES2.0 only */
+		if (cpu_revision_get() == REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING: CLK54XX_C2C_ICLK clock signal does not exist on ES1.0!!!\n", __func__);
+		src_clk_id = CLK54XX_CORE_C2C_CLK;
+		src_clk_speed = clk54xx_rate_get(src_clk_id,
+			ignore);
+		div = 2.0;
+		out_clk_speed = src_clk_speed / div;
+		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
+			out_clk_speed);
+		return out_clk_speed;
+
+	case CLK54XX_C2C_GICLK:/* ES2.0 only */
+		if (cpu_revision_get() == REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING: CLK54XX_C2C_GICLK clock signal does not exist on ES1.0!!!\n", __func__);
+		src_clk_id = CLK54XX_C2C_ICLK;
+		src_clk_speed = clk54xx_rate_get(src_clk_id,
+			ignore);
+		out_clk_speed = src_clk_speed;
+		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
+			out_clk_speed);
+		return out_clk_speed;
+
+	case CLK54XX_EMIF_LL_GCLK: /* ES2.0 only */
+		if (cpu_revision_get() == REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING:CLK54XX_EMIF_LL_GCLK  clock signal does not exist on ES1.0!!!\n", __func__);
+		reg_val = reg_read(&omap5430_cm_emif_emif1_clkctrl);
+		if (extract_bit(reg_val, 24) == 1)
+			src_clk_id = CLK54XX_L3_ICLK;
+		else
+			src_clk_id = CLK54XX_C2C_ICLK;
+		src_clk_speed = clk54xx_rate_get(src_clk_id,
+			ignore);
+
+		div = (double) (1 << extract_bit(reg_val, 25));
+		out_clk_speed = src_clk_speed / div;
+
+		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
+			out_clk_speed);
+		return out_clk_speed;
+
+	case CLK54XX_GPU_L3_GICLK: /* ES2.0 only */
+		if (cpu_revision_get() == REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING: CLK54XX_GPU_L3_GICLK clock signal does not exist on ES1.0!!!\n", __func__);
+		src_clk_id = CLK54XX_L3_ICLK;
+		src_clk_speed = clk54xx_rate_get(src_clk_id,
+			ignore);
+		if (cpu_revision_get() == REV_ES1_0)
+			reg_val = reg_read(&omap5430es1_cm_gpu_gpu_clkctrl);
+		else
+			reg_val = reg_read(&omap5430_cm_gpu_gpu_clkctrl);
+		div = (double) (1 << extract_bit(reg_val, 26));
+		out_clk_speed = src_clk_speed / div;
+
+		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
+			out_clk_speed);
+		return out_clk_speed;
+
 	/* L4 Clocks */
 	case CLK54XX_CM_CORE_AON_PROFILING_L4_GICLK:
 		src_clk_id = CLK54XX_L4_ROOT_CLK;
@@ -1975,6 +2262,10 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 			out_clk_speed);
 		return out_clk_speed;
 
+	case CLK54XX_DSS_L4_GICLK: /* ES2.0 only */
+		if (cpu_revision_get() == REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING: CLK54XX_DSS_L4_GICLK clock signal does not exist on ES1.0!!!\n", __func__);
 	case CLK54XX_L4PER_L4_GICLK:
 	case CLK54XX_L4SEC_L4_GICLK:
 	case CLK54XX_C2C_L4_GICLK:

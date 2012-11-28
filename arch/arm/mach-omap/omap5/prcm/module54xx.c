@@ -48,8 +48,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <cpuinfo.h>
-#include <cm54xxes1-defs.h>
-#include <prm54xxes1-defs.h>
+#include <cm54xx-defs.h>
+#include <prm54xx-defs.h>
 #include <sysconfig54xx-defs.h>
 #include <module.h>
 #include <clockdomain.h>
@@ -513,43 +513,16 @@ void mod54xx_init(void)
 		mod.clkdm = CLKDM_COREAON;
 		mod.pwrdm = PWRDM_COREAON;
 		mod.voltdm = VDD_CORE;
-		mod.clk = (int) CLK54XX_ID_MAX; /* FIXME */
-		mod.sysconfig = NULL; /* FIXME */
-		mod.clkctrl = NULL; /* FIXME */
-		mod.context = NULL; /* FIXME */
-		genlist_init(&(mod.mod_opp_list));
-		opp.name = OPP_LOW;
-		opp.rate = -1; /* FIXME */
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-		opp.name = OPP_NOM;
-		opp.rate = -1; /* FIXME */
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-		opp.name = OPP_HIGH;
-		opp.rate = -1; /* FIXME */
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-		opp.name = OPP_SB;
-		opp.rate = -1; /* FIXME */
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-		mod.properties = 0; /* FIXME */
-		genlist_addtail(&mod54xx_list, (void *) &mod, sizeof(mod_info));
-	}
-
-	if (cpu_revision_get() == REV_ES1_0) {
-		mod.name = MOD_USB_PHY_CORE;
-		mod.id = (int) OMAP5_USB_PHY_CORE;
-		mod.clkdm = CLKDM_COREAON;
-		mod.pwrdm = PWRDM_COREAON;
-		mod.voltdm = VDD_CORE;
-		mod.clk = (int) CLK54XX_COREAON_32K_GFCLK;
+		mod.clk = (int) CLK54XX_COREAON_IO_SRCOMP_GFCLK;
 		mod.sysconfig = NULL;
-		mod.clkctrl = &omap5430es1_cm_coreaon_usb_phy_core_clkctrl;
+		mod.clkctrl = &omap5430es1_cm_coreaon_io_srcomp_clkctrl;
 		mod.context = NULL;
 		genlist_init(&(mod.mod_opp_list));
 		opp.name = OPP_LOW;
 		opp.rate = -1;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 		opp.name = OPP_NOM;
-		opp.rate = 32;
+		opp.rate = 19200;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 		opp.name = OPP_HIGH;
 		opp.rate = -1;
@@ -559,32 +532,38 @@ void mod54xx_init(void)
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 		mod.properties = MOD_HAS_NO_IDLE_STATUS;
 		genlist_addtail(&mod54xx_list, (void *) &mod, sizeof(mod_info));
+	}
+
+	if (cpu_revision_get() == REV_ES1_0) {
+		mod.name = MOD_USB_PHY_CORE;
+		mod.id = (int) OMAP5_USB_PHY_CORE;
+		mod.clkctrl = &omap5430es1_cm_coreaon_usb_phy_core_clkctrl;
 	} else {
 		mod.name = MOD_USB2PHY;
 		mod.id = (int) OMAP5_USB2PHY;
-		mod.clkdm = CLKDM_COREAON;
-		mod.pwrdm = PWRDM_COREAON;
-		mod.voltdm = VDD_CORE;
-		mod.clk = (int) CLK54XX_ID_MAX; /* FIXME */
-		mod.sysconfig = NULL; /* FIXME */
-		mod.clkctrl = NULL; /* FIXME */
-		mod.context = NULL; /* FIXME */
-		genlist_init(&(mod.mod_opp_list));
-		opp.name = OPP_LOW;
-		opp.rate = -1; /* FIXME */
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-		opp.name = OPP_NOM;
-		opp.rate = -1; /* FIXME */
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-		opp.name = OPP_HIGH;
-		opp.rate = -1; /* FIXME */
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-		opp.name = OPP_SB;
-		opp.rate = -1; /* FIXME */
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-		mod.properties = 0;  /* FIXME */
-		genlist_addtail(&mod54xx_list, (void *) &mod, sizeof(mod_info));
+		mod.clkctrl = &omap5430_cm_coreaon_usb_phy_core_clkctrl;
 	}
+	mod.clkdm = CLKDM_COREAON;
+	mod.pwrdm = PWRDM_COREAON;
+	mod.voltdm = VDD_CORE;
+	mod.clk = (int) CLK54XX_COREAON_32K_GFCLK;
+	mod.sysconfig = NULL;
+	mod.context = NULL;
+	genlist_init(&(mod.mod_opp_list));
+	opp.name = OPP_LOW;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_NOM;
+	opp.rate = 32;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_HIGH;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_SB;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	mod.properties = MOD_HAS_NO_IDLE_STATUS;
+	genlist_addtail(&mod54xx_list, (void *) &mod, sizeof(mod_info));
 
 	/* Voltage dom.: CORE, Power dom.: CAM, Clock domain = CAM */
 	mod.name = MOD_FDIF;
@@ -1165,24 +1144,24 @@ void mod54xx_init(void)
 		mod.clkdm = CLKDM_L3_INSTR;
 		mod.pwrdm = PWRDM_CORE;
 		mod.voltdm = VDD_CORE;
-		mod.clk = (int) CLK54XX_ID_MAX; /* FIXME */
-		mod.sysconfig = NULL; /* FIXME */
-		mod.clkctrl = NULL; /* FIXME */
-		mod.context = NULL; /* FIXME */
+		mod.clk = (int) CLK54XX_L3INSTR_TS_GFCLK;
+		mod.sysconfig = NULL;
+		mod.clkctrl = NULL;
+		mod.context = NULL;
 		genlist_init(&(mod.mod_opp_list));
 		opp.name = OPP_LOW;
-		opp.rate = -1; /* FIXME */
+		opp.rate = -1;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 		opp.name = OPP_NOM;
-		opp.rate = -1; /* FIXME */
+		opp.rate = 1200;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 		opp.name = OPP_HIGH;
-		opp.rate = -1; /* FIXME */
+		opp.rate = -1;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 		opp.name = OPP_SB;
-		opp.rate = -1; /* FIXME */
+		opp.rate = -1;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-		mod.properties = 0; /* FIXME */
+		mod.properties = 0;
 		genlist_addtail(&mod54xx_list, (void *) &mod, sizeof(mod_info));
 	}
 
@@ -1218,10 +1197,17 @@ void mod54xx_init(void)
 	mod.clkdm = CLKDM_C2C;
 	mod.pwrdm = PWRDM_CORE;
 	mod.voltdm = VDD_CORE;
-	mod.clk = (int) CLK54XX_C2C_L3_GICLK;
-	mod.sysconfig = &omap5430_c2c_sysconfig;
-	mod.clkctrl = &omap5430es1_cm_c2c_c2c_clkctrl;
-	mod.context = &omap5430es1_rm_c2c_c2c_context;
+	if (cpu_revision_get() == REV_ES1_0) {
+		mod.clk = (int) CLK54XX_C2C_L3_GICLK;
+		mod.sysconfig = &omap5430_c2c_sysconfig;
+		mod.clkctrl = &omap5430es1_cm_c2c_c2c_clkctrl;
+		mod.context = &omap5430es1_rm_c2c_c2c_context;
+	} else {
+		mod.clk = (int) CLK54XX_C2C_GFCLK;
+		mod.sysconfig = &omap5430_c2c_sysconfig;
+		mod.clkctrl = &omap5430_cm_c2c_c2c_clkctrl;
+		mod.context = &omap5430_rm_c2c_c2c_context;
+	}
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
 	opp.rate = 133000;
@@ -1454,7 +1440,7 @@ void mod54xx_init(void)
 		mod.clkdm = CLKDM_DSS;
 		mod.pwrdm = PWRDM_DSS;
 		mod.voltdm = VDD_CORE;
-		mod.clk = (int) CLK54XX_DSS_L3_GICLK;
+		mod.clk = (int) CLK54XX_BB2D_GFCLK;
 		mod.sysconfig = NULL;
 		mod.clkctrl = &omap5430es1_cm_dss_bb2d_clkctrl;
 		mod.context = &omap5430es1_rm_dss_bb2d_context;
