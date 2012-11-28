@@ -84,7 +84,9 @@ extern const char
 extern const dpll_clk_sources dpll54xx_sources[DPLL54XX_ID_MAX];
 
 extern dpll54xx_audited_settings
-	*dpll54xx_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
+	*dpll54xxes1_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
+extern dpll54xx_audited_settings
+	*dpll54xxes2_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
 
 extern dpll54xx_audited_settings
 	*dpll54xx_golden_settings_38_4MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];

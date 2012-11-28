@@ -1470,19 +1470,35 @@ int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
 		}
 
 		if (sysclk == 19.2) {
-			if ((dpll54xx_audited_settings **)
-				dpll54xx_golden_settings_19_2MHz_table[id] == NULL) {
-				if (stream != NULL)
-					fprintf(stream,
-						"WARNING: golden settings not "
-						"available for %s.\n\n",
-						dpll54xx_name_get(id));
-				(*err_nbr)++;
-				ret = 0;
-				goto dpll54xx_audit_end;
+			if (cpu_revision_get() == REV_ES1_0) {
+				if ((dpll54xx_audited_settings **)
+					dpll54xxes1_golden_settings_19_2MHz_table[id] == NULL) {
+					if (stream != NULL)
+						fprintf(stream,
+							"WARNING: golden settings not "
+							"available for %s.\n\n",
+							dpll54xx_name_get(id));
+					(*err_nbr)++;
+					ret = 0;
+					goto dpll54xx_audit_end;
+				}
+				golden_settings =
+					dpll54xxes1_golden_settings_19_2MHz_table[id][opp];
+			} else {
+				if ((dpll54xx_audited_settings **)
+					dpll54xxes2_golden_settings_19_2MHz_table[id] == NULL) {
+					if (stream != NULL)
+						fprintf(stream,
+							"WARNING: golden settings not "
+							"available for %s.\n\n",
+							dpll54xx_name_get(id));
+					(*err_nbr)++;
+					ret = 0;
+					goto dpll54xx_audit_end;
+				}
+				golden_settings =
+					dpll54xxes2_golden_settings_19_2MHz_table[id][opp];
 			}
-			golden_settings =
-				dpll54xx_golden_settings_19_2MHz_table[id][opp];
 		} else if (sysclk == 38.4) {
 			if ((dpll54xx_audited_settings **)
 				dpll54xx_golden_settings_38_4MHz_table[id] == NULL) {

@@ -72,7 +72,7 @@ dpll54xx_audited_settings dpll54xx_MPU_golden_settings_19_2MHz_dpll_casc = {
 	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0} };
 
 
-dpll54xx_audited_settings dpll54xx_MPU_golden_settings_19_2MHz_opp_low = {
+dpll54xx_audited_settings dpll54xxes1_MPU_golden_settings_19_2MHz_opp_low = {
 	/* Common DPLL type A & B */
 	.status = DPLL_STATUS_LOCKED,
 	.mode = DPLL_LOCK,
@@ -98,7 +98,7 @@ dpll54xx_audited_settings dpll54xx_MPU_golden_settings_19_2MHz_opp_low = {
 	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0} };
 
 
-dpll54xx_audited_settings dpll54xx_MPU_golden_settings_19_2MHz_opp_nom = {
+dpll54xx_audited_settings dpll54xxes1_MPU_golden_settings_19_2MHz_opp_nom = {
 	/* Common DPLL type A & B */
 	.status = DPLL_STATUS_LOCKED,
 	.mode = DPLL_LOCK,
@@ -124,7 +124,7 @@ dpll54xx_audited_settings dpll54xx_MPU_golden_settings_19_2MHz_opp_nom = {
 	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0} };
 
 
-dpll54xx_audited_settings dpll54xx_MPU_golden_settings_19_2MHz_opp_high = {
+dpll54xx_audited_settings dpll54xxes1_MPU_golden_settings_19_2MHz_opp_high = {
 	/* Common DPLL type A & B */
 	.status = DPLL_STATUS_LOCKED,
 	.mode = DPLL_LOCK,
@@ -150,7 +150,7 @@ dpll54xx_audited_settings dpll54xx_MPU_golden_settings_19_2MHz_opp_high = {
 	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0} };
 
 
-dpll54xx_audited_settings dpll54xx_MPU_golden_settings_19_2MHz_opp_speedbin = {
+dpll54xx_audited_settings dpll54xxes1_MPU_golden_settings_19_2MHz_opp_speedbin = {
 	/* Common DPLL type A & B */
 	.status = DPLL_STATUS_LOCKED,
 	.mode = DPLL_LOCK,
@@ -161,6 +161,110 @@ dpll54xx_audited_settings dpll54xx_MPU_golden_settings_19_2MHz_opp_speedbin = {
 	.fdpll = 1200,
 	.M2 = 1,
 	.M2_rate = 1200,
+	/* DPLL type A only */
+	.dcc_en = 1,
+	.regm4xen = 0,
+	.X2_M2_rate = -1,
+	.M3 = -1,
+	.X2_M3_rate = -1.0,
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	/* OMAP5 ONLY */
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0} };
+
+
+dpll54xx_audited_settings dpll54xxes2_MPU_golden_settings_19_2MHz_opp_low = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 19.2,
+	.M = 125,
+	.N = 1,
+	.fdpll = 2400,
+	.M2 = 2,
+	.M2_rate = 600,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1,
+	.M3 = -1,
+	.X2_M3_rate = -1.0,
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	/* OMAP5 ONLY */
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0} };
+
+
+dpll54xx_audited_settings dpll54xxes2_MPU_golden_settings_19_2MHz_opp_nom = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 19.2,
+	.M = 125,
+	.N = 1,
+	.fdpll = 2400,
+	.M2 = 1,
+	.M2_rate = 1200,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1,
+	.M3 = -1,
+	.X2_M3_rate = -1.0,
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	/* OMAP5 ONLY */
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0} };
+
+
+dpll54xx_audited_settings dpll54xxes2_MPU_golden_settings_19_2MHz_opp_high = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 19.2,
+	.M = 177,
+	.N = 1,
+	.fdpll = 1699,
+	.M2 = 1,
+	.M2_rate = 1699,
+	/* DPLL type A only */
+	.dcc_en = 1,
+	.regm4xen = 0,
+	.X2_M2_rate = -1,
+	.M3 = -1,
+	.X2_M3_rate = -1.0,
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	/* OMAP5 ONLY */
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0} };
+
+
+dpll54xx_audited_settings dpll54xxes2_MPU_golden_settings_19_2MHz_opp_speedbin = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 19.2,
+	.M = 625,
+	.N = 5,
+	.fdpll = 2000,
+	.M2 = 1,
+	.M2_rate = 2000,
 	/* DPLL type A only */
 	.dcc_en = 1,
 	.regm4xen = 0,
@@ -280,7 +384,7 @@ dpll54xx_audited_settings dpll54xx_IVA_golden_settings_19_2MHz_opp_high = {
 	.hsdiv_rate = {531.2, 531.2, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0} };
 
 
-dpll54xx_audited_settings dpll54xx_CORE_golden_settings_19_2MHz_dpll_casc = {
+dpll54xx_audited_settings dpll54xxes1_CORE_golden_settings_19_2MHz_dpll_casc = {
 	/* Common DPLL type A & B */
 	.status = DPLL_STATUS_BYPASSED,
 	.mode = DPLL_LOW_POWER_BYPASS,
@@ -306,7 +410,7 @@ dpll54xx_audited_settings dpll54xx_CORE_golden_settings_19_2MHz_dpll_casc = {
 	.hsdiv_rate = {196.608, 196.608, 196.608, 196.608, -1.0, 196.608, 196.608, -1.0} };
 
 
-dpll54xx_audited_settings dpll54xx_CORE_golden_settings_19_2MHz_opp_low = {
+dpll54xx_audited_settings dpll54xxes1_CORE_golden_settings_19_2MHz_opp_low = {
 	/* Common DPLL type A & B */
 	.status = DPLL_STATUS_LOCKED,
 	.mode = DPLL_LOCK,
@@ -332,7 +436,7 @@ dpll54xx_audited_settings dpll54xx_CORE_golden_settings_19_2MHz_opp_low = {
 	.hsdiv_rate = {266.0, 266.0, 34.323, 212.8, -1.0, 212.8, 152.0, -1.0} };
 
 
-dpll54xx_audited_settings dpll54xx_CORE_golden_settings_19_2MHz_opp_nom = {
+dpll54xx_audited_settings dpll54xxes1_CORE_golden_settings_19_2MHz_opp_nom = {
 	/* Common DPLL type A & B */
 	.status = DPLL_STATUS_LOCKED,
 	.mode = DPLL_LOCK,
@@ -356,6 +460,110 @@ dpll54xx_audited_settings dpll54xx_CORE_golden_settings_19_2MHz_opp_nom = {
 	/* OMAP5 ONLY */
 	.hsdiv_div = {8, 4, 62, 5, -1, 5, 7, -1},
 	.hsdiv_rate = {266.0, 532.0, 34.323, 425.6, -1.0, 425.6, 304.0, -1.0} };
+
+
+dpll54xx_audited_settings dpll54xxes2_CORE_golden_settings_19_2MHz_dpll_casc = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_BYPASSED,
+	.mode = DPLL_LOW_POWER_BYPASS,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = -1.0,
+	.M = -1,
+	.N = -1,
+	.fdpll = -1.0,
+	.M2 = -1,
+	.M2_rate = 196.608,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1,
+	.M3 = -1,
+	.X2_M3_rate = 196.608,
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	/* OMAP5 ONLY */
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {196.608, 196.608, 196.608, 196.608, -1.0, 196.608, 196.608, -1.0} };
+
+
+dpll54xx_audited_settings dpll54xxes2_CORE_golden_settings_19_2MHz_opp_low = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 19.2,
+	.M = 665,
+	.N = 11,
+	.fdpll = 2128.0,
+	.M2 = 4,
+	.M2_rate = 266.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1,
+	.M3 = 8,
+	.X2_M3_rate = 266.0,
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	/* OMAP5 ONLY */
+	.hsdiv_div = {8, 8, 62, 10, 12, 10, 14, 12},
+	.hsdiv_rate = {266.0, 266.0, 34.323, 212.8, 177.3, 212.8, 152.0, 177.3} };
+
+
+dpll54xx_audited_settings dpll54xxes2_CORE_golden_settings_19_2MHz_opp_nom = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 19.2,
+	.M = 665,
+	.N = 11,
+	.fdpll = 2128.0,
+	.M2 = 2,
+	.M2_rate = 532.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1,
+	.M3 = 5,
+	.X2_M3_rate = 425.6,
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	/* OMAP5 ONLY */
+	.hsdiv_div = {8, 4, 62, 5, 6, 5, 7, 6},
+	.hsdiv_rate = {266.0, 532.0, 34.323, 425.6, 354.6, 425.6, 304.0, 354.6} };
+
+
+dpll54xx_audited_settings dpll54xxes2_CORE_golden_settings_19_2MHz_opp_hi = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 19.2,
+	.M = 665,
+	.N = 11,
+	.fdpll = 2128.0,
+	.M2 = 2,
+	.M2_rate = 532.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1,
+	.M3 = 5,
+	.X2_M3_rate = 425.6,
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	/* OMAP5 ONLY */
+	.hsdiv_div = {8, 4, 62, 63, 6, 5, 7, 6},
+	.hsdiv_rate = {266.0, 532.0, 34.323, 532.0, 354.6, 425.6, 304.0, 354.6} };
 
 
 dpll54xx_audited_settings dpll54xx_PER_golden_settings_19_2MHz_dpll_casc = {
@@ -384,7 +592,7 @@ dpll54xx_audited_settings dpll54xx_PER_golden_settings_19_2MHz_dpll_casc = {
 	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0} };
 
 
-dpll54xx_audited_settings dpll54xx_PER_golden_settings_19_2MHz_opp_low = {
+dpll54xx_audited_settings dpll54xxes1_PER_golden_settings_19_2MHz_opp_low = {
 	/* Common DPLL type A & B */
 	.status = DPLL_STATUS_LOCKED,
 	.mode = DPLL_LOCK,
@@ -410,7 +618,7 @@ dpll54xx_audited_settings dpll54xx_PER_golden_settings_19_2MHz_opp_low = {
 	.hsdiv_rate = {128.0, 192.0, -1.0, 192.0, -1.0, -1.0, -1.0, -1.0} };
 
 
-dpll54xx_audited_settings dpll54xx_PER_golden_settings_19_2MHz_opp_nom = {
+dpll54xx_audited_settings dpll54xxes1_PER_golden_settings_19_2MHz_opp_nom = {
 	/* Common DPLL type A & B */
 	.status = DPLL_STATUS_LOCKED,
 	.mode = DPLL_LOCK,
@@ -434,6 +642,58 @@ dpll54xx_audited_settings dpll54xx_PER_golden_settings_19_2MHz_opp_nom = {
 	/* OMAP5 ONLY */
 	.hsdiv_div = {6, 4, -1, 2, -1, -1, -1, -1},
 	.hsdiv_rate = {128.0, 192.0, -1.0, 384.0, -1.0, -1.0, -1.0, -1.0} };
+
+
+dpll54xx_audited_settings dpll54xxes2_PER_golden_settings_19_2MHz_opp_low = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 19.2,
+	.M = 20,
+	.N = 0,
+	.fdpll = 768.0,
+	.M2 = 4,
+	.M2_rate = 96.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = 192.0,
+	.M3 = 4,
+	.X2_M3_rate = 192.0,
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	/* OMAP5 ONLY */
+	.hsdiv_div = {6, 4, -1, 4, -1, -1, -1, -1},
+	.hsdiv_rate = {256.0, 192.0, -1.0, 192.0, -1.0, -1.0, -1.0, -1.0} };
+
+
+dpll54xx_audited_settings dpll54xxes2_PER_golden_settings_19_2MHz_opp_nom = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 19.2,
+	.M = 20,
+	.N = 0,
+	.fdpll = 768.0,
+	.M2 = 4,
+	.M2_rate = 96.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = 192.0,
+	.M3 = 3,
+	.X2_M3_rate = 256.0,
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	/* OMAP5 ONLY */
+	.hsdiv_div = {6, 4, -1, 2, -1, -1, -1, -1},
+	.hsdiv_rate = {256.0, 192.0, -1.0, 384.0, -1.0, -1.0, -1.0, -1.0} };
 
 
 dpll54xx_audited_settings dpll54xx_ABE_golden_settings_19_2MHz_dpll_casc = {
@@ -462,7 +722,7 @@ dpll54xx_audited_settings dpll54xx_ABE_golden_settings_19_2MHz_dpll_casc = {
 	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0} };
 
 
-dpll54xx_audited_settings dpll54xx_ABE_golden_settings_19_2MHz = {
+dpll54xx_audited_settings dpll54xxes1_ABE_golden_settings_19_2MHz = {
 	/* Common DPLL type A & B */
 	.status = DPLL_STATUS_LOCKED,
 	.mode = DPLL_LOCK,
@@ -473,6 +733,32 @@ dpll54xx_audited_settings dpll54xx_ABE_golden_settings_19_2MHz = {
 	.fdpll = 196.608,
 	.M2 = 1,
 	.M2_rate = 98.304,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 1,
+	.X2_M2_rate = 196.608,
+	.M3 = 1,
+	.X2_M3_rate = 196.608,
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	/* OMAP5 ONLY */
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0} };
+
+
+dpll54xx_audited_settings dpll54xxes2_ABE_golden_settings_19_2MHz = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 0.032768,
+	.M = 750,
+	.N = 0,
+	.fdpll = 196.608,
+	.M2 = 1,
+	.M2_rate = -1.0,
 	/* DPLL type A only */
 	.dcc_en = 0,
 	.regm4xen = 1,
@@ -644,30 +930,73 @@ dpll54xx_audited_settings dpll54xx_UNIPRO2_golden_settings_19_2MHz = {
 	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0} };
 
 
-dpll54xx_audited_settings *dpll54xx_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX] = {
+dpll54xx_audited_settings *dpll54xxes1_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX] = {
 	{&dpll54xx_MPU_golden_settings_19_2MHz_dpll_casc,
-		&dpll54xx_MPU_golden_settings_19_2MHz_opp_low,
-		&dpll54xx_MPU_golden_settings_19_2MHz_opp_nom,
-		&dpll54xx_MPU_golden_settings_19_2MHz_opp_high,
-		&dpll54xx_MPU_golden_settings_19_2MHz_opp_speedbin},
+		&dpll54xxes1_MPU_golden_settings_19_2MHz_opp_low,
+		&dpll54xxes1_MPU_golden_settings_19_2MHz_opp_nom,
+		&dpll54xxes1_MPU_golden_settings_19_2MHz_opp_high,
+		&dpll54xxes1_MPU_golden_settings_19_2MHz_opp_speedbin},
 	{&dpll54xx_IVA_golden_settings_19_2MHz_dpll_casc,
 		&dpll54xx_IVA_golden_settings_19_2MHz_opp_low,
 		&dpll54xx_IVA_golden_settings_19_2MHz_opp_nom,
 		&dpll54xx_IVA_golden_settings_19_2MHz_opp_high,
 		NULL},
-	{&dpll54xx_CORE_golden_settings_19_2MHz_dpll_casc,
-		&dpll54xx_CORE_golden_settings_19_2MHz_opp_low,
-		&dpll54xx_CORE_golden_settings_19_2MHz_opp_nom,
+	{&dpll54xxes1_CORE_golden_settings_19_2MHz_dpll_casc,
+		&dpll54xxes1_CORE_golden_settings_19_2MHz_opp_low,
+		&dpll54xxes1_CORE_golden_settings_19_2MHz_opp_nom,
 		NULL,
 		NULL},
 	{&dpll54xx_PER_golden_settings_19_2MHz_dpll_casc,
-		&dpll54xx_PER_golden_settings_19_2MHz_opp_low,
-		&dpll54xx_PER_golden_settings_19_2MHz_opp_nom,
+		&dpll54xxes1_PER_golden_settings_19_2MHz_opp_low,
+		&dpll54xxes1_PER_golden_settings_19_2MHz_opp_nom,
 		NULL,
 		NULL},
 	{&dpll54xx_ABE_golden_settings_19_2MHz_dpll_casc,
-		&dpll54xx_ABE_golden_settings_19_2MHz,
-		&dpll54xx_ABE_golden_settings_19_2MHz,
+		&dpll54xxes1_ABE_golden_settings_19_2MHz,
+		&dpll54xxes1_ABE_golden_settings_19_2MHz,
+		NULL,
+		NULL},
+	{&dpll54xx_USB_golden_settings_19_2MHz_dpll_casc,
+		&dpll54xx_USB_golden_settings_19_2MHz,
+		&dpll54xx_USB_golden_settings_19_2MHz,
+		NULL,
+		NULL},
+	{&dpll54xx_UNIPRO1_golden_settings_19_2MHz_dpll_casc,
+		&dpll54xx_UNIPRO1_golden_settings_19_2MHz,
+		&dpll54xx_UNIPRO1_golden_settings_19_2MHz,
+		NULL,
+		NULL},
+	{&dpll54xx_UNIPRO2_golden_settings_19_2MHz_dpll_casc,
+		&dpll54xx_UNIPRO2_golden_settings_19_2MHz,
+		&dpll54xx_UNIPRO2_golden_settings_19_2MHz,
+		NULL,
+		NULL} };
+
+
+dpll54xx_audited_settings *dpll54xxes2_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX] = {
+	{&dpll54xx_MPU_golden_settings_19_2MHz_dpll_casc,
+		&dpll54xxes2_MPU_golden_settings_19_2MHz_opp_low,
+		&dpll54xxes2_MPU_golden_settings_19_2MHz_opp_nom,
+		&dpll54xxes2_MPU_golden_settings_19_2MHz_opp_high,
+		&dpll54xxes2_MPU_golden_settings_19_2MHz_opp_speedbin},
+	{&dpll54xx_IVA_golden_settings_19_2MHz_dpll_casc,
+		&dpll54xx_IVA_golden_settings_19_2MHz_opp_low,
+		&dpll54xx_IVA_golden_settings_19_2MHz_opp_nom,
+		&dpll54xx_IVA_golden_settings_19_2MHz_opp_high,
+		NULL},
+	{&dpll54xxes2_CORE_golden_settings_19_2MHz_dpll_casc,
+		&dpll54xxes2_CORE_golden_settings_19_2MHz_opp_low,
+		&dpll54xxes2_CORE_golden_settings_19_2MHz_opp_nom,
+		&dpll54xxes2_CORE_golden_settings_19_2MHz_opp_hi,
+		NULL},
+	{&dpll54xx_PER_golden_settings_19_2MHz_dpll_casc,
+		&dpll54xxes2_PER_golden_settings_19_2MHz_opp_low,
+		&dpll54xxes2_PER_golden_settings_19_2MHz_opp_nom,
+		NULL,
+		NULL},
+	{&dpll54xx_ABE_golden_settings_19_2MHz_dpll_casc,
+		&dpll54xxes2_ABE_golden_settings_19_2MHz,
+		&dpll54xxes2_ABE_golden_settings_19_2MHz,
 		NULL,
 		NULL},
 	{&dpll54xx_USB_golden_settings_19_2MHz_dpll_casc,
