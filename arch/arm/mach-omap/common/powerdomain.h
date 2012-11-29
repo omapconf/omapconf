@@ -48,6 +48,8 @@
 
 #include <reg.h>
 #include <genlist.h>
+#include <pwrdm.h>
+#include <stdio.h>
 
 
 #define PWRDM_EMU			((const char *) "EMU")
@@ -76,14 +78,26 @@ typedef struct {
 	reg *pwrstctrl;
 	reg *pwrstst;
 	int properties;
-} pwrdm_info;
+} powerdm_info;
 
 
-void pwrdm_init(void);
-void pwrdm_deinit(void);
+void powerdm_init(void);
+void powerdm_deinit(void);
 
-int pwrdm_count_get(void);
-const genlist *pwrdm_list_get(void);
+int powerdm_count_get(void);
+const genlist *powerdm_list_get(void);
+
+int powerdm_id_get(const char *powerdm);
+const char *powerdm_voltdm_get(const char *powerdm);
+reg *powerdm_pwrstctrl_reg_get(const char *powerdm);
+reg *powerdm_pwrstst_reg_get(const char *powerdm);
+pwrdm_state powerdm_target_logic_ret_state_get(const char *powerdm);
+pwrdm_state powerdm_logic_state_get(const char *powerdm);
+pwrdm_state powerdm_state_get(const char *powerdm, pwrdm_state_type type);
+unsigned int powerdm_in_transition(const char *powerdm);
+
+int powerdm_config_show(FILE *stream, const char *powerdm);
+
 
 
 #endif

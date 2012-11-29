@@ -1199,8 +1199,8 @@ main_exit:
 		voltdm_deinit();
 		temp_sensor_deinit();
 		mod_deinit();
-		pwrdm_deinit();
-		clkdm_deinit();
+		powerdm_deinit();
+		clockdm_deinit();
 	}
 
 	return ret;
