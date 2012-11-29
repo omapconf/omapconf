@@ -42,6 +42,7 @@
  */
 
 
+#include <module.h>
 #include <module44xx.h>
 #include <module44xx-data.h>
 #include <sysconfig44xx.h>
@@ -130,7 +131,15 @@ void mod44xx_init(void)
  *//*------------------------------------------------------------------------ */
 void mod44xx_deinit(void)
 {
+	int i, count;
+	mod_info mod;
+
 	if (mod44xx_init_done) {
+		count = genlist_getcount(&mod44xx_list);
+		for (i = 0; i < count; i++) {
+			genlist_get(&mod44xx_list, i, (mod_info *) &mod);
+			genlist_free(&(mod.mod_opp_list));
+		}
 		genlist_free(&mod44xx_list);
 		mod44xx_init_done = 0;
 	}

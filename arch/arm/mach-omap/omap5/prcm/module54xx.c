@@ -3406,7 +3406,15 @@ void mod54xx_init(void)
  *//*------------------------------------------------------------------------ */
 void mod54xx_deinit(void)
 {
+	int i, count;
+	mod_info mod;
+
 	if (mod54xx_init_done) {
+		count = genlist_getcount(&mod54xx_list);
+		for (i = 0; i < count; i++) {
+			genlist_get(&mod54xx_list, i, (mod_info *) &mod);
+			genlist_free(&(mod.mod_opp_list));
+		}
 		genlist_free(&mod54xx_list);
 		mod54xx_init_done = 0;
 	}
