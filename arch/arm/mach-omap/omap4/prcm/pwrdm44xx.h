@@ -88,5 +88,9 @@ int pwrdm_states_get(char *name, char pwst[6], char pwtgst[6]);
 int pwrdm44xx_get_state(pwrdm44xx_id pd_id,
 	pwrdm_state *state);
 
+int pwrdm44xx_config_show(FILE *stream, const char name[11],
+	unsigned int pm_pwstctrl_addr, unsigned int pm_pwstctrl,
+	unsigned int pm_pwstst_addr, unsigned int pm_pwstst);
+
 
 #endif
