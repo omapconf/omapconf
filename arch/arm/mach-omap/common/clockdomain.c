@@ -171,7 +171,7 @@ int clockdm_count_get(void)
  * @FUNCTION		_clockdm_info_get
  * @BRIEF		return the saved informations of a given clock domain.
  * @RETURNS		0 in case of success
- *			-1 in case of error (not found)
+ *			-1 in case of error
  * @param[in]		clockdm: clock domain name
  * @param[in,out]	data:clock domain details
  * @DESCRIPTION		return the saved informations of a given clock domain.
@@ -180,6 +180,9 @@ static int _clockdm_info_get(const char *clockdm, clockdm_info *data)
 {
 	const genlist *clkdm_list;
 	int i, count;
+
+	CHECK_NULL_ARG(clockdm, -1);
+	CHECK_NULL_ARG(data, -1);
 
 	clkdm_list = clockdm_list_get();
 	count = genlist_getcount((genlist *) clkdm_list);
@@ -200,7 +203,7 @@ static int _clockdm_info_get(const char *clockdm, clockdm_info *data)
  * @FUNCTION		clockdm_id_get
  * @BRIEF		return the unique ID of a given clock domain.
  * @RETURNS		>= 0 clock domain ID
- *			-1 in case of error (not found)
+ *			-1 in case of error
  * @param[in]		clockdm: clock domain name
  * @DESCRIPTION		return the unique ID of a given clock domain.
  *//*------------------------------------------------------------------------ */
@@ -208,6 +211,8 @@ int clockdm_id_get(const char *clockdm)
 {
 	int id;
 	clockdm_info data;
+
+	CHECK_NULL_ARG(clockdm, -1);
 
 	id = _clockdm_info_get(clockdm, &data);
 	if (id == 0)
@@ -222,7 +227,7 @@ int clockdm_id_get(const char *clockdm)
  * @FUNCTION		clockdm_powerdm_get
  * @BRIEF		return the power domain name a clock domain is part of
  * @RETURNS		power domain name on success.
- *			NULL in case of error (not found)
+ *			NULL in case of error
  * @param[in]		clockdm: clock domain name
  * @DESCRIPTION		return the power domain name a clock domain is part of
  *//*------------------------------------------------------------------------ */
@@ -230,6 +235,8 @@ const char *clockdm_powerdm_get(const char *clockdm)
 {
 	int ret;
 	clockdm_info data;
+
+	CHECK_NULL_ARG(clockdm, NULL);
 
 	ret = _clockdm_info_get(clockdm, &data);
 	if (ret != 0) {
@@ -256,6 +263,8 @@ const char *clockdm_voltdm_get(const char *clockdm)
 	int ret;
 	clockdm_info data;
 
+	CHECK_NULL_ARG(clockdm, NULL);
+
 	ret = _clockdm_info_get(clockdm, &data);
 	if (ret != 0) {
 		dprintf("%s(%s): could not retrieve clockdm_info struct!\n",
@@ -281,6 +290,8 @@ reg *clockdm_clkstctrl_get(const char *clockdm)
 	int ret;
 	clockdm_info data;
 
+	CHECK_NULL_ARG(clockdm, NULL);
+
 	ret = _clockdm_info_get(clockdm, &data);
 	if (ret != 0) {
 		dprintf("%s(%s): could not retrieve clockdm_info struct!\n",
@@ -303,7 +314,7 @@ reg *clockdm_clkstctrl_get(const char *clockdm)
  * @FUNCTION		clockdm_status_get
  * @BRIEF		return the status of a given clock domain
  * @RETURNS		clock domain status on success
- *			CLKDM_STATUS_MAX in case of error (not found)
+ *			CLKDM_STATUS_MAX in case of error
  * @param[in]		clockdm: clock domain name
  * @DESCRIPTION		return the status of a given clock domain
  *//*------------------------------------------------------------------------ */
@@ -311,6 +322,8 @@ clkdm_status clockdm_status_get(const char *clockdm)
 {
 	reg *clkstctrl;
 	clkdm_status st;
+
+	CHECK_NULL_ARG(clockdm, CLKDM_STATUS_MAX);
 
 	clkstctrl = clockdm_clkstctrl_get(clockdm);
 	if (clkstctrl != NULL) {
@@ -330,7 +343,7 @@ clkdm_status clockdm_status_get(const char *clockdm)
  * @FUNCTION		clockdm_ctrl_mode_get
  * @BRIEF		return the control mode of a given clock domain
  * @RETURNS		control mode on success
- *			CLKM_CTRL_MODE_MAX in case of error (not found)
+ *			CLKM_CTRL_MODE_MAX in case of error
  * @param[in]		clockdm: clock domain name
  * @DESCRIPTION		return the control mode of a given clock domain
  *//*------------------------------------------------------------------------ */
@@ -338,6 +351,8 @@ clkdm_ctrl_mode clockdm_ctrl_mode_get(const char *clockdm)
 {
 	reg *clkstctrl;
 	clkdm_ctrl_mode mode;
+
+	CHECK_NULL_ARG(clockdm, CLKM_CTRL_MODE_MAX);
 
 	clkstctrl = clockdm_clkstctrl_get(clockdm);
 	if (clkstctrl != NULL) {
