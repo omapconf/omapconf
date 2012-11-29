@@ -153,7 +153,7 @@ genlist clkdm44xx_list;
  *//*------------------------------------------------------------------------ */
 void clkdm44xx_init(void)
 {
-	clkdm_info clkdm;
+	clockdm_info clkdm;
 
 	if (clkdm44xx_init_done)
 		return;

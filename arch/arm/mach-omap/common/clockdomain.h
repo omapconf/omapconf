@@ -48,6 +48,7 @@
 
 #include <reg.h>
 #include <genlist.h>
+#include <clkdm.h>
 
 
 #define CLKDM_EMU			((const char *) "EMU")
@@ -80,19 +81,26 @@
 typedef struct {
 	const char *name;
 	int id;
-	const char *pwrdm;
+	const char *powerdm;
 	const char *voltdm;
 	reg *clkstctrl;
 	int properties;
-} clkdm_info;
+} clockdm_info;
 
 
-void clkdm_init(void);
-void clkdm_deinit(void);
+void clockdm_init(void);
+void clockdm_deinit(void);
 
-int clkdm_count_get(void);
-const genlist *clkdm_list_get(void);
+int clockdm_count_get(void);
+const genlist *clockdm_list_get(void);
 
+int clockdm_id_get(const char *clockdm);
+const char *clockdm_powerdm_get(const char *clockdm);
+const char *clockdm_voltdm_get(const char *clockdm);
+reg *clockdm_clkstctrl_get(const char *clockdm);
+
+clkdm_status clockdm_status_get(const char *clockdm);
+clkdm_ctrl_mode clockdm_ctrl_mode_get(const char *clockdm);
 
 
 #endif
