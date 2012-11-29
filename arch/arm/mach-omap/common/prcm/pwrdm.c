@@ -65,6 +65,13 @@ static const char
 	"ON"};
 
 
+static const char
+	pwrdm_state_type_names[PWRDM_STATE_TYPE_MAX][PWRDM_STATE_MAX_NAME_LENGTH] = {
+	"PREVIOUS",
+	"CURRENT",
+	"TARGET"};
+
+
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		pwrdm_state_name_get
  * @BRIEF		return power domain state name
@@ -78,6 +85,22 @@ const char *pwrdm_state_name_get(pwrdm_state st)
 	CHECK_ARG_LESS_THAN(st, PWRDM_STATE_MAX, NULL);
 
 	return pwrdm_state_names[st];
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		pwrdm_state_type_name_get
+ * @BRIEF		return power domain state type name
+ * @RETURNS		power domain state type name on success
+ *			NULL in case of error
+ * @param[in]		type: valid power domain state type
+ * @DESCRIPTION		return power domain state type name
+ *//*------------------------------------------------------------------------ */
+const char *pwrdm_state_type_name_get(pwrdm_state_type type)
+{
+	CHECK_ARG_LESS_THAN(type, PWRDM_STATE_TYPE_MAX, NULL);
+
+	return pwrdm_state_type_names[type];
 }
 
 
@@ -139,8 +162,9 @@ pwrdm_state pwrdm_target_logic_ret_state_get(reg *pm_pwrstctrl)
 		st = PWRDM_RET_STATE;
 	else
 		st = PWRDM_OFF_STATE;
-	dprintf("%s(%s): addr=0x%08X val=0x%08X LOGICRETSTATE "
-		"(bit 2)=%u logic target RET state=%s\n", __func__,
+	dprintf(
+		"%s(%s): addr=0x%08X val=0x%08X LOGICRETSTATE (bit 2)=%u logic target RET state=%s\n",
+		__func__,
 		pm_pwrstctrl->name, pm_pwrstctrl->addr, val,
 		extract_bit(val, 2), pwrdm_state_name_get(st));
 
@@ -171,8 +195,9 @@ pwrdm_state pwrdm_logic_state_get(reg *pm_pwrstst)
 		st = PWRDM_ON_STATE;
 	else
 		st = PWRDM_OFF_STATE;
-	dprintf("%s(%s): addr=0x%08X val=0x%08X LOGICRETSTATE "
-		"(bit 2)=%u logic state=%s\n", __func__,
+	dprintf(
+		"%s(%s): addr=0x%08X val=0x%08X LOGICRETSTATE (bit 2)=%u logic state=%s\n",
+		__func__,
 		pm_pwrstst->name, pm_pwrstst->addr, val,
 		extract_bit(val, 2), pwrdm_state_name_get(st));
 

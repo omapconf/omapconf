@@ -78,6 +78,7 @@ pwrdm_state pwrdm_target_logic_ret_state_get(reg *pm_pwrstctrl);
 pwrdm_state pwrdm_logic_state_get(reg *pm_pwrstst);
 unsigned int pwrdm_in_transition(reg *pm_pwrstst);
 const char *pwrdm_state_name_get(pwrdm_state st);
+const char *pwrdm_state_type_name_get(pwrdm_state_type type);
 
 /* FIXME: DEPRECATED FUNCTION. Update OMAP4 code to use new functions ... */
 int pwrdm_state2string(char s[6], pwrdm_state powerstate);
