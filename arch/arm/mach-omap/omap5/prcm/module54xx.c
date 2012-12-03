@@ -1651,7 +1651,7 @@ void mod54xx_init(void)
 		opp.name = OPP_SB;
 		opp.rate = -1;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-		mod.properties = 0;
+		mod.properties = MOD_HAS_STANDBY_STATUS;
 		genlist_addtail(&mod54xx_list, (void *) &mod, sizeof(mod_info));
 	}
 
@@ -5251,10 +5251,17 @@ int mod54xx_config_show(FILE *stream, mod54xx_id id)
 		break;
 
 	case OMAP5_IO_SRCOMP_WKUP:
-		fprintf(stream, "| %-32s | %-35s |\n",
-			"Optional functional clock",
-			((extract_bit(cm_clkctrl, 8) == 1) ?
-				"Enabled" : "Disabled"));
+		if (cpu_revision_get() == REV_ES1_0)
+			fprintf(stream, "| %-32s | %-35s |\n",
+				"Optional functional clock",
+				((extract_bit(cm_clkctrl, 8) == 1) ?
+					"Enabled" : "Disabled"));
+		else
+			fprintf(stream, "| %-32s | %-35s |\n",
+				"Functional clock",
+				((extract_bit(cm_clkctrl, 8) == 1) ?
+					"Enabled" : "Disabled"));
+
 		break;
 
 	/* HS/EMU ONLY */
@@ -5269,6 +5276,12 @@ int mod54xx_config_show(FILE *stream, mod54xx_id id)
 		break;
 
 	case OMAP5_BANDGAPTS:
+		if (cpu_revision_get() != REV_ES1_0) {
+			fprintf(stderr,
+				"omapconf: %s(): BANDGAPTS does not exist anymore on ES2.x!\n",
+				__func__);
+			break;
+		}
 		rate = clk54xx_rate_get(CLK54XX_WKUPAON_GICLK, 0);
 		rate /= (double)
 			(1 << (3 + extract_bitfield(cm_clkctrl, 24, 2)));
@@ -5285,13 +5298,39 @@ int mod54xx_config_show(FILE *stream, mod54xx_id id)
 		break;
 
 	case OMAP5_IO_SRCOMP_CORE:
+		if (cpu_revision_get() == REV_ES1_0)
+			fprintf(stream, "| %-32s | %-35s |\n",
+				"Optional functional clock",
+				((extract_bit(cm_clkctrl, 8) == 1) ?
+					"Enabled" : "Disabled"));
+		else
+			fprintf(stream, "| %-32s | %-35s |\n",
+				"Functional clock",
+				((extract_bit(cm_clkctrl, 8) == 1) ?
+					"Enabled" : "Disabled"));
+
+		break;
+
+	case OMAP5_USB_PHY_CORE:
+		if (cpu_revision_get() != REV_ES1_0) {
+			fprintf(stderr,
+				"omapconf: %s(): USB_PHY_CORE does not exist anymore on ES2.x!\n",
+				__func__);
+			break;
+		}
 		fprintf(stream, "| %-32s | %-35s |\n",
 			"Optional functional clock",
 			((extract_bit(cm_clkctrl, 8) == 1) ?
 				"Enabled" : "Disabled"));
 		break;
 
-	case OMAP5_USB_PHY_CORE:
+	case OMAP5_USB2PHY:
+		if (cpu_revision_get() == REV_ES1_0) {
+			fprintf(stderr,
+				"omapconf: %s(): USB2PHY does not exist on ES1.0!\n",
+				__func__);
+			break;
+		}
 		fprintf(stream, "| %-32s | %-35s |\n",
 			"Optional functional clock",
 			((extract_bit(cm_clkctrl, 8) == 1) ?
@@ -5328,10 +5367,18 @@ int mod54xx_config_show(FILE *stream, mod54xx_id id)
 	/* Voltage dom.: CORE: Power dom.: CORE: Clock domain = EMIF */
 	case OMAP5_PHY_EMIF:
 	case OMAP5_DMM:
-	case OMAP5_EMIF1:
 	case OMAP5_EMIF2:
 	case OMAP5_EMIF_OCP_FW:
 		break;
+
+	case OMAP5_EMIF1:
+		if (cpu_revision_get() == REV_ES1_0)
+			break;
+		fprintf(stream, "| %-32s | %-35s |\n",
+			"EMIF_LL_GCLK Clock Source",
+			((extract_bit(cm_clkctrl, 24) == 1) ?
+				"Same as LLI" : "Same as C2C"));
+
 
 	case OMAP5_DLL_EMIF:
 		fprintf(stream, "| %-32s | %-35s |\n",
@@ -5354,6 +5401,16 @@ int mod54xx_config_show(FILE *stream, mod54xx_id id)
 	case OMAP5_L3_MAIN3_INTERCONNECT:
 	case OMAP5_L3_INSTR_INTERCONNECT:
 	case OMAP5_OCP_WP_NOC:
+		break;
+
+	case OMAP5_CTRL_MODULE_BANDGAP:
+		rate = clk54xx_rate_get(CLK54XX_WKUPAON_ICLK, 0);
+		rate /= (double)
+			(1 << (3 + extract_bitfield(cm_clkctrl, 24, 2)));
+		sprintf(s, "%lfMHz (WKUPAON_ICLK / %-2u)", rate,
+			1 << (3 + extract_bitfield(cm_clkctrl, 24, 2)));
+		fprintf(stream, "| %-32s | %-35s |\n",
+			"TS F-Clock Rate (MHz)", s);
 		break;
 
 	/* Voltage dom.: CORE: Power dom.: CORE: Clock domain = L3_MAIN1 */
@@ -5387,6 +5444,12 @@ int mod54xx_config_show(FILE *stream, mod54xx_id id)
 		break;
 
 	case OMAP5_UNIPRO1:
+		if (cpu_revision_get() != REV_ES1_0) {
+			fprintf(stderr,
+				"omapconf: %s(): UNIPRO1 does not exist anymore on ES2.x!\n",
+				__func__);
+			break;
+		}
 		fprintf(stream, "| %-32s | %-35s |\n",
 			"Internal Timer Clock Ratio",
 			((extract_bit(cm_clkctrl, 24) == 1) ?
@@ -5436,6 +5499,13 @@ int mod54xx_config_show(FILE *stream, mod54xx_id id)
 		fprintf(stream, "| %-32s | %-35s |\n", "FCLK Source",
 			((extract_bit(cm_clkctrl, 24) == 1) ?
 				"DPLL_PER 192MHz" : "DPLL_PER 128MHz"));
+
+		if (cpu_revision_get() != REV_ES1_0) {
+			fprintf(stream, "| %-32s | %-35s |\n",
+				"Optional 32K Functional clocks:",
+				((extract_bit(cm_clkctrl, 8) == 1) ?
+					"Enabled" : "Disabled"));
+		}
 		break;
 
 	case OMAP5_MMC2:
@@ -5532,7 +5602,11 @@ int mod54xx_config_show(FILE *stream, mod54xx_id id)
 				"= L3INIT_L3_GICLK / 1"));
 		break;
 
-	/* Voltage dom.: CORE: Power dom.: L4_PER: Clock domain = L4_PER */
+	/* ES1.0:
+	 *   Voltage dom.: CORE: Power dom.: L4_PER: Clock domain = L4_PER
+	 * ES2.0:
+	 *   Voltage dom.: CORE: Power dom.: CORE: Clock domain = L4_PER
+	 */
 	case OMAP5_TIMER10:
 	case OMAP5_TIMER11:
 	case OMAP5_TIMER2:
@@ -5581,6 +5655,12 @@ int mod54xx_config_show(FILE *stream, mod54xx_id id)
 		break;
 
 	case OMAP5_SLIMBUS2:
+		if (cpu_revision_get() != REV_ES1_0) {
+			fprintf(stderr,
+				"omapconf: %s(): SLIMBUS2 does not exist anymore on ES2.x!\n",
+				__func__);
+			break;
+		}
 		fprintf(stream, "| %-32s | %-35s |\n",
 			"Optional functional clocks:", "");
 		fprintf(stream, "| %-32s | %-35s |\n", "  SLIMBUS",
@@ -5690,6 +5770,11 @@ int mod54xx_config_show(FILE *stream, mod54xx_id id)
 
 	/* Voltage dom.: MM: Power dom.: GPU: Clock domain = GPU */
 	case OMAP5_GPU:
+		if (cpu_revision_get() != REV_ES1_0)
+			fprintf(stream, "| %-32s | %-35s |\n",
+				"GPU_SYS_CLK Ratio",
+				((extract_bit(cm_clkctrl, 26) == 1) ?
+					"L3_ICLK / 2" : "L3_ICLK / 1"));
 		fprintf(stream, "| %-32s | %-35s |\n", "GPU_HYD_GCLK Source",
 			((extract_bit(cm_clkctrl, 25) == 1) ?
 				"DPLL_PER HS Div." : "DPLL_CORE HS Div."));
@@ -5703,7 +5788,7 @@ int mod54xx_config_show(FILE *stream, mod54xx_id id)
 	case OMAP5_SL2:
 		break;
 
-	/* Voltage dom.: MPU: Power dom.: MPUAON Clock domain = MPU */
+	/* Voltage dom.: MPU: Power dom.: MPU Clock domain = MPU */
 	case OMAP5_MPU:
 		fprintf(stream, "| %-32s | %-35s |\n",
 			"MPU-ABE SS Bridge Ratio",

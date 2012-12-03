@@ -803,7 +803,7 @@ pwrdm54xx_config_show_mem:
 		st_curr = (pwrdm_state) extract_bitfield(pm_pwrstst, 10, 2);
 		st_tgt = (pwrdm_state) extract_bit(pm_pwrstctrl, 11);
 		fprintf(stream, "| %-32s | %-7s | %-7s |         |\n",
-			"    IPU S$", pwrdm_state_name_get(st_curr),
+			"    IPU UNICACHE", pwrdm_state_name_get(st_curr),
 			pwrdm_state_name_get(st_tgt));
 
 		st_curr = (pwrdm_state) extract_bitfield(pm_pwrstst, 8, 2);
@@ -849,9 +849,12 @@ pwrdm54xx_config_show_mem:
 			pwrdm_state_name_get(st_tgt));
 		break;
 	case PWRDM54XX_L4_PER:
-		if (cpu_revision_get() != REV_ES1_0)
+		if (cpu_revision_get() != REV_ES1_0) {
+			fprintf(stderr,
+				"omapconf: %s(): L4_PER removed from ES2.x!\n",
+				__func__);
 			break;
-
+		}
 		fprintf(stream, "| %-32s | %-7s | %-7s |         |\n",
 			"Memory", "", "");
 		st_curr = (pwrdm_state) extract_bitfield(pm_pwrstst, 6, 2);
