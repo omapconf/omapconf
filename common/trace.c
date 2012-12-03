@@ -963,6 +963,7 @@ uint64_t trace_geninput_file2int(char *file_path)
  * @BRIEF		Configure the performance trace
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_NOT_AVAILABLE
  * @param[in]		filename: name for the config file
  *			(default: trace_config.dat)
  * @DESCRIPTION		Configure the performance trace
@@ -998,6 +999,12 @@ int trace_perf_setup(const char *filename)
 	/* if file doesn't exist, create a default */
 	if (fp == NULL) {
 		fp = fopen(filename, "w");
+		if (fp == NULL) {
+			fprintf(stderr,
+				"omapconf: could not open %s with write permissions. Please check file permissions or move it to a R/W folder.\n\n",
+				filename);
+			return OMAPCONF_ERR_NOT_AVAILABLE;
+		}
 		trace_default_cfg_create(fp);
 		fclose(fp);
 		fp = fopen(filename, "r"); /* reopen the new file for reading */
