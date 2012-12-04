@@ -99,5 +99,8 @@ unsigned int powerdm_in_transition(const char *powerdm);
 int powerdm_config_show(FILE *stream, const char *powerdm);
 
 
+void powerdm_emu_enable(void);
+void powerdm_emu_disable(void);
+
 
 #endif

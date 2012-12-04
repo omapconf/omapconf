@@ -50,6 +50,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <cpuinfo.h>
+#include <cm44xx.h>
+#include <emu44xx.h>
+#include <cm54xx-defs.h>
+#include <emu54xx.h>
 
 
 /* #define PWRDM_DEBUG */
@@ -501,5 +505,51 @@ int powerdm_config_show(FILE *stream, const char *powerdm)
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
 		return OMAPCONF_ERR_CPU;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		powerdm_emu_enable
+ * @BRIEF		Power ON EMU domain and clocks.
+ * @DESCRIPTION		Power ON EMU domain and clocks.
+ *//*------------------------------------------------------------------------ */
+void powerdm_emu_enable(void)
+{
+	if (cpu_is_omap44xx()) {
+		mem_write(OMAP4430_CM_L3INSTR_L3_3_CLKCTRL, 0x1);
+	} else if (cpu_is_omap54xx()) {
+		if (cpu_revision_get() == REV_ES1_0)
+			mem_write(OMAP5430ES1_CM_L3INSTR_L3_MAIN_3_CLKCTRL,
+				0x1);
+		else
+			mem_write(OMAP5430_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x1);
+	} else {
+		fprintf(stderr,
+			"omapconf: %s(): warning: cpu not supported, skipping it.\n",
+			__func__);
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		powerdm_emu_disable
+ * @BRIEF		Power OFF EMU domain and clocks.
+ * @DESCRIPTION		Power OFF EMU domain and clocks.
+ *//*------------------------------------------------------------------------ */
+void powerdm_emu_disable(void)
+{
+	if (cpu_is_omap44xx()) {
+		mem_write(OMAP4430_CM_L3INSTR_L3_3_CLKCTRL, 0);
+	} else if (cpu_is_omap54xx()) {
+		if (cpu_revision_get() == REV_ES1_0)
+			mem_write(OMAP5430ES1_CM_L3INSTR_L3_MAIN_3_CLKCTRL,
+				0x0);
+		else
+			mem_write(OMAP5430_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x0);
+	} else {
+		fprintf(stderr,
+			"omapconf: %s(): warning: cpu not supported, skipping it.\n",
+			__func__);
 	}
 }

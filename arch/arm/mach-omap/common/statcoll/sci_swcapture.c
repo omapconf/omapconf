@@ -53,9 +53,8 @@
 #include <signal.h>
 
 #include "sci.h"
-#include <emu44xx.h>
+#include <powerdomain.h>
 #include <cm44xx.h>
-#include <emu54xx.h>
 #include <lib.h>
 #include <common/cpuinfo.h>
 #include <prm44xx.h>
@@ -156,8 +155,6 @@ static psci_usecase_key my_usecase_key[8] = {NULL, NULL, NULL, NULL, NULL, NULL,
 void sci_errhandler(psci_handle phandle, const char * func, enum sci_err err);
 void nosleep_32k_enable(void);
 void nosleep_32k_disable(void);
-void omapconf_emu_enable_domain(void);
-void omapconf_emu_disable_domain(void);
 
 // Generic handling of sample array
 #define SAMPLE_SIZE (1 + num_use_cases) // sample contains 1 timestamp + x counters
@@ -252,7 +249,7 @@ void sci_killhandler(void)
 
 	sci_global_disable(psci_hdl);
 	sci_close(&psci_hdl);
-	omapconf_emu_disable_domain();
+	powerdm_emu_disable();
 }
 
 
@@ -833,7 +830,7 @@ int statcoll_main(int argc, char **argv)
 		printf("WARNING: MAX_ITERATIONS(%d) exceeded\n", option_iterations);
 	}
 
-	omapconf_emu_enable_domain();
+	powerdm_emu_enable();
 
 	/////////////////////////////////////////////////////
 	//Make sure DebugSS is powered up and enabled      //
@@ -864,6 +861,7 @@ int statcoll_main(int argc, char **argv)
 		{
 			printf ("Error - func missmatch with device %d %d\n", plib_func_id, pmod_func_id);
 			sci_close(&psci_hdl);
+			powerdm_emu_disable();
 			exit(-1);
 		}
 	}
@@ -1069,28 +1067,3 @@ void nosleep_32k_disable(void)
 	reg = reg | nosleep_32k_reg;
 	mem_write(reg_clk, reg);
 }
-
-void omapconf_emu_enable_domain(void)
-{
-	if (cpu_is_omap44xx()) {
-		mem_write(OMAP4430_CM_L3INSTR_L3_3_CLKCTRL, 0x1);
-	} else if (cpu_is_omap54xx()) {
-		if (cpu_revision_get() == REV_ES1_0)
-			mem_write(OMAP5430ES1_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x1);
-		else
-			mem_write(OMAP5430_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x1);
-	}
-}
-
-void omapconf_emu_disable_domain(void)
-{
-	if (cpu_is_omap44xx()) {
-		mem_write(OMAP4430_CM_L3INSTR_L3_3_CLKCTRL, 0);
-	} else if (cpu_is_omap54xx()) {
-		if (cpu_revision_get() == REV_ES1_0)
-			mem_write(OMAP5430ES1_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x0);
-		else
-			mem_write(OMAP5430_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x0);
-	}
-}
-
