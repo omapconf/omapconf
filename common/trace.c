@@ -56,7 +56,9 @@
 #include <module54xx.h>
 #include <emif44xx.h>
 #include <autoadjust_table.h>
-
+#include "sci.h"
+#include <powerdomain.h>
+#include <mem.h>
 
 
 /* #define TRACE_DEBUG */
@@ -65,6 +67,36 @@
 #else
 #define dprintf(format, ...)
 #endif
+
+
+static struct sci_config_sdram my_config_emif1 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,	{ { SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE } } };
+static struct sci_config_sdram my_config_emif2 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,	{ { SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE } } };
+static struct sci_config_sdram my_config_emif3 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,	{ { SCI_MASTID_ALL, 0xff, SCI_RD_ONLY, SCI_ERR_DONTCARE } } };
+static struct sci_config_sdram my_config_emif4 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,	{ { SCI_MASTID_ALL, 0xff, SCI_RD_ONLY, SCI_ERR_DONTCARE } } };
+static struct sci_config_sdram my_config_emif5 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,	{ { SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE } } };
+static struct sci_config_sdram my_config_emif6 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,	{ { SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE } } };
+static struct sci_config_sdram my_config_emif7 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 0,	{ { SCI_MASTID_ALL, 0xff, SCI_RD_OR_WR_DONTCARE, SCI_ERR_DONTCARE } } };
+static struct sci_config_sdram my_config_emif8 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 0,	{ { SCI_MASTID_ALL, 0xff, SCI_RD_OR_WR_DONTCARE, SCI_ERR_DONTCARE } } };
+
+static struct sci_config_sdram *pmy_cfg[] =  {
+	&my_config_emif1,
+	&my_config_emif2,
+	&my_config_emif3,
+	&my_config_emif4,
+	&my_config_emif5,
+	&my_config_emif6,
+	&my_config_emif7,
+	&my_config_emif8};
+
+static unsigned int num_use_cases = 4;
+static unsigned int valid_usecase_cnt = 0;
+static psci_handle psci_hdl = NULL;
+static psci_usecase_key my_usecase_key[8] = {
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+static uint32_t *sci_cntrs_buf[8];
+static double *emif_bw[2];
+static double emif_bw_min[2], emif_bw_max[2], emif_bw_avg[2];
+static void trace_bw_deinit(void);
 
 
 /* Max number of Generic Input Files */
@@ -81,6 +113,7 @@ static const char
 	"CPU Frequency",
 	"GPU Frequency",
 	"L3 Frequency",
+	"EMIF Bandwidth",
 	"EMIF Data Bus Load",
 	"Bandgap Temperature",
 	"PCB Temperature",
@@ -101,6 +134,7 @@ static const char
 	"MHz",
 	"MHz",
 	"MHz",
+	"MB/s",
 	"%",
 	"C",
 	"C",
@@ -1128,6 +1162,241 @@ int trace_perf_setup(const char *filename)
 
 
 /* ------------------------------------------------------------------------*//**
+ * @FUNCTION		trace_bw_errhandler
+ * @BRIEF		SCI lib error handler
+ * @param[in]		phandle: phandle
+ * @param[in]		func: failing func
+ * @param[in]		err: err number from lib
+ * @DESCRIPTION		SCI lib error handler
+ *//*------------------------------------------------------------------------ */
+static void trace_bw_errhandler(psci_handle phandle,
+	const char *func, enum sci_err err)
+{
+	printf("SCILib failure %d in function: %s\n", err, func);
+	phandle = phandle;
+
+	trace_bw_deinit();
+	exit(-2);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		trace_bw_init
+ * @BRIEF		Allocate buffers and enable EMU HW used for
+ *				EMIF bandwidth monitoring.
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_NOT_AVAILABLE
+ *			OMAPCONF_ERR_INTERNAL
+ * @param[in]		sample_count: number of data samples to be collected
+ * @DESCRIPTION		Free allocated buffers and release EMU HW used for
+ *				EMIF bandwidth monitoring.
+ *//*------------------------------------------------------------------------ */
+static int trace_bw_init(unsigned int sample_count)
+{
+	uint32_t plib_major_ver;
+	uint32_t plib_minor_ver;
+	uint32_t plib_func_id;
+	uint32_t pmod_func_id;
+	unsigned int i, j;
+	struct sci_config my_sci_config;
+	enum sci_err my_sci_err;
+
+	if (cpu_is_omap4430() || cpu_is_omap4460()) {
+		printf(
+			"omapconf: warning: EMIF BW not available on OMAP44[30-60], skipping it.\n");
+		return OMAPCONF_ERR_CPU;
+	} else if (!cpu_is_omap4470() && !cpu_is_omap54xx()) {
+		printf(
+			"omapconf: warning: CPU not yet supported, skipping it.\n");
+		return OMAPCONF_ERR_CPU;
+	}
+
+	for (i = 0; i < 2; i++) {
+		emif_bw_min[i] = 1000000.0; /* MB/s */
+		emif_bw_max[i] = 0.0;
+		emif_bw_avg[i] = 0.0;
+	}
+
+	/* Allocated needed buffers */
+	for (i = 0; i < 2; i++)
+		emif_bw[i] = NULL;
+	for (i = 0; i < 2; i++) {
+		emif_bw[i] = malloc(sample_count * sizeof(double));
+		if (emif_bw[i] == NULL) {
+			fprintf(stderr,
+				"omapconf: could not allocate buffer for emif_bw[%d]!\n",
+				i);
+			for (j = 0; j <= i; j++) {
+				if (emif_bw[i] != NULL)
+					free(emif_bw[i]);
+			}
+			return OMAPCONF_ERR_NOT_AVAILABLE;
+		}
+	}
+
+	for (i = 0; i < 8; i++)
+		sci_cntrs_buf[i] = NULL;
+	for (i = 0; i < 8; i++) {
+		sci_cntrs_buf[i] = malloc(sample_count * sizeof(uint32_t));
+		if (sci_cntrs_buf[i] == NULL) {
+			fprintf(stderr,
+				"omapconf: could not allocate buffer for sci_cntrs_buf[%d]!\n",
+				i);
+			for (j = 0; j <= i; j++) {
+				if (sci_cntrs_buf[i] != NULL)
+					free(sci_cntrs_buf[i]);
+			}
+			return OMAPCONF_ERR_NOT_AVAILABLE;
+		}
+	}
+
+	/* Enable needed HW (statistical collectors) */
+	powerdm_emu_enable();
+	my_sci_config.errhandler = trace_bw_errhandler;
+	my_sci_config.data_options = 0; /* Disable options */
+	my_sci_config.trigger_enable = false;
+	my_sci_config.sdram_msg_rate = 1;
+	my_sci_config.mstr_msg_rate = 1;
+	my_sci_config.mode = SCI_MODE_DUMP;
+	my_sci_err = sci_open(&psci_hdl, &my_sci_config);
+	if (my_sci_err != SCI_SUCCESS) {
+		fprintf(stderr,
+			"omapconf: could not configure SCI (%d)!\n",
+			my_sci_err);
+		powerdm_emu_disable();
+		return OMAPCONF_ERR_INTERNAL;
+	}
+
+	sci_get_version(psci_hdl, &plib_major_ver,
+		&plib_minor_ver, &plib_func_id,
+		&pmod_func_id);
+	if (plib_func_id != pmod_func_id) {
+		fprintf(stderr,
+			"omapconf: Error - func missmatch with device %d %d\n",
+			plib_func_id,
+			pmod_func_id);
+		sci_close(&psci_hdl);
+		powerdm_emu_disable();
+		return OMAPCONF_ERR_INTERNAL;
+	}
+
+	/* Program counters to collect EMIF data */
+	for (i = 0; i < num_use_cases; i++) {
+		my_sci_err = sci_reg_usecase_sdram(
+			psci_hdl, pmy_cfg[i],
+			&my_usecase_key[i]);
+		if (my_sci_err != SCI_SUCCESS)
+			break;
+		valid_usecase_cnt++;
+	}
+
+	/* Reset Counters */
+	sci_global_disable(psci_hdl);
+
+	return 0;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		trace_bw_deinit
+ * @BRIEF		Free allocated buffers and release EMU HW used for
+ *				EMIF bandwidth monitoring.
+ * @DESCRIPTION		Free allocated buffers and release EMU HW used for
+ *				EMIF bandwidth monitoring.
+ *//*------------------------------------------------------------------------ */
+static void trace_bw_deinit(void)
+{
+	unsigned int i;
+
+	/* Free allocated buffers */
+	for (i = 0; i < 2; i++) {
+		if (emif_bw[i] != NULL)
+			free(emif_bw[i]);
+	}
+
+	for (i = 0; i < 8; i++) {
+		if (sci_cntrs_buf[i] != NULL)
+			free(sci_cntrs_buf[i]);
+	}
+
+	/* Release HW */
+	for (i = 0; i < valid_usecase_cnt; i++)
+		sci_remove_usecase(psci_hdl, &my_usecase_key[i]);
+
+	sci_global_disable(psci_hdl);
+	sci_close(&psci_hdl);
+	powerdm_emu_disable();
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		trace_bw_capture
+ * @BRIEF		Collect data for EMIF bandwidth monitoring from
+ *				HW counters.
+ * @param[in]		index: sample number
+ * @DESCRIPTION		Collect data for EMIF bandwidth monitoring from
+ *				HW counters.
+ *//*------------------------------------------------------------------------ */
+static void trace_bw_capture(unsigned int index)
+{
+	uint32_t sci_cntrs[8];
+	unsigned short i;
+
+	/* Dump counters */
+	sci_global_enable(psci_hdl);
+	sci_dump_sdram_cntrs(num_use_cases, sci_cntrs);
+
+	/* Save counters in buffer */
+	dprintf("%s():\n", __func__);
+	for (i = 0; i < 8; i++) {
+		sci_cntrs_buf[i][index] = sci_cntrs[i];
+		dprintf("buf[%d][%d]=%u ", i, index, sci_cntrs_buf[i][index]);
+	}
+	dprintf("\n\n");
+
+	/* Reset counters */
+	sci_global_disable(psci_hdl);
+	sci_global_enable(psci_hdl);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		trace_bw_process
+ * @BRIEF		Post-process data collected for
+ *				EMIF bandwidth monitoring.
+ * @param[in]		sample_count: number of samples collected
+ * @param[in]		sampling_rate: sampling rate at which data
+ *				were collected(in second)
+ * @DESCRIPTION		Post-process data collected for
+ *			EMIF bandwidth monitoring (convert to MB/s, compute
+ *				average, detect min/max values).
+ *//*------------------------------------------------------------------------ */
+static void trace_bw_process(unsigned int sample_count, double sampling_rate)
+{
+	unsigned int i, j;
+
+	dprintf("%s():\n", __func__);
+	for (i = 1; i < sample_count; i++) {
+		for (j = 0; j < 2; j++) {
+			emif_bw[j][i] = ((double) sci_cntrs_buf[2 * j][i] +
+				(double) sci_cntrs_buf[(2 * j) + 1][i]) /
+					(1000000.0 * sampling_rate);
+			if (emif_bw[j][i] < emif_bw_min[j])
+				emif_bw_min[j] = emif_bw[j][i];
+			if (emif_bw[j][i] > emif_bw_max[j])
+				emif_bw_max[j] = emif_bw[j][i];
+			emif_bw_avg[j] = avg_recalc(
+				emif_bw_avg[j], emif_bw[j][i], i - 1);
+		}
+		dprintf(
+			"emif_bw[0][%d]=%.2lf MB/s (W), emif_bw[0][%d]=%.2lf MB/s (R)\n",
+			i, emif_bw[0][i], i, emif_bw[1][i]);
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
  * @FUNCTION		trace_perf_capture
  * @BRIEF		perform performance trace
  * @RETURNS		0 in case of success
@@ -1135,6 +1404,7 @@ int trace_perf_setup(const char *filename)
  *			OMAPCONF_ERR_ARG
  *			OMAPCONF_ERR_NOT_AVAILABLE
  *			OMAPCONF_ERR_UNEXPECTED
+ *			OMAPCONF_ERR_INTERNAL
  * @param[in]		cfgfile: Name of the config file
  *			(default: trace_config.dat)
  * @param[in]		prefix: prefix to be added to default output file names
@@ -1208,7 +1478,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	unsigned int *emif_cycles = NULL;
 	unsigned int *emif_busy_cycles = NULL;
 	unsigned int emif_delta_cycles, emif_delta_busy_cycles;
-	double emif_load, emif_load_min, emif_load_max,	emif_load_avg;
+	double emif_load, emif_load_min, emif_load_max, emif_load_avg;
 	int *bandgap_temp = NULL;
 	int bandgap_temp_min, bandgap_temp_max;
 	double bandgap_temp_avg;
@@ -1489,6 +1759,15 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		}
 	}
 
+	if (p_flags[EMIF_BW]) {
+		ret = trace_bw_init(sample_cnt);
+		if (ret != 0) {
+			printf(
+				"omapconf: warning: EMIF BW not available (CPU not supported), skipping it.\n");
+			p_flags[EMIF_BW] = 0;
+		}
+	}
+
 	if (p_flags[L3_FREQ]) {
 		if (cpu_is_omap44xx() || cpu_is_omap54xx()) {
 			l3_freq = malloc(sample_cnt * sizeof(int));
@@ -1540,7 +1819,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 
 	if (p_flags[HOTSPOT_MPU_TEMP]) {
 		if ((cpu_is_omap44xx() || cpu_is_omap54xx()) &&
-			(temp_sensor_get(TEMP_SENSOR_HOTSPOT_MPU) != TEMP_ABSOLUTE_ZERO)) {
+			(temp_sensor_get(TEMP_SENSOR_HOTSPOT_MPU) !=
+				TEMP_ABSOLUTE_ZERO)) {
 			hotspot_mpu_temp = malloc(sample_cnt * sizeof(int));
 			if (hotspot_mpu_temp == NULL) {
 				fprintf(stderr,
@@ -1707,6 +1987,9 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				emif_cycles[sample]);
 		}
 
+		if (p_flags[EMIF_BW])
+			trace_bw_capture(sample);
+
 		if (p_flags[L3_FREQ]) {
 			/* Get L3 frequency (MHz) */
 			if (cpu_is_omap44xx())
@@ -1818,6 +2101,9 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 
 	printf("Sampling done, processing and saving data...\n");
 
+	if (p_flags[EMIF_BW])
+		trace_bw_process(sample_cnt, sampling_rate);
+
 	/* Open trace output file */
 	fp = workdir_fopen(trace_perf_file, "w");
 	if (fp == NULL) {
@@ -1860,14 +2146,23 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	fprintf(fp, "# Columns:\n");
 	fprintf(fp, "# 01: Timestamp (unit: s)\n");
 	for (i = 0; i < NUM_ITEMS; i++) {
-		if (i == CPU1_ONLINE_TIME)
+		if (i == CPU1_ONLINE_TIME) {
 			continue;
-		if (i < CPU1_ONLINE_TIME)
+		} else if (i < CPU1_ONLINE_TIME) {
 			fprintf(fp, "# %02d: %s (unit: %s)\n", i + 2,
 				traceables_names[i], traceables_unit[i]);
-		else
+		} else if (i < EMIF_BW) {
 			fprintf(fp, "# %02d: %s (unit: %s)\n", i + 1,
 				traceables_names[i], traceables_unit[i]);
+		} else if (i == EMIF_BW) {
+			fprintf(fp, "# %02d: %s (WRITE) (unit: %s)\n", i + 1,
+				traceables_names[i], traceables_unit[i]);
+			fprintf(fp, "# %02d: %s (READ) (unit: %s)\n", i + 2,
+				traceables_names[i], traceables_unit[i]);
+		} else {
+			fprintf(fp, "# %02d: %s (unit: %s)\n", i + 2,
+				traceables_names[i], traceables_unit[i]);
+		}
 	}
 	/* Geninput Names */
 	for (i = 0; i < geninput_num; i++)
@@ -1989,6 +2284,15 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				l3_freq_min = l3_freq[sample];
 			if (l3_freq[sample] > l3_freq_max)
 				l3_freq_max = l3_freq[sample];
+		} else {
+			fputs(", NA", fp);
+		}
+
+		if (p_flags[EMIF_BW]) {
+			sprintf(s, "%.2lf", emif_bw[0][sample]);
+			fprintf(fp, ", %s", s);
+			sprintf(s, "%.2lf", emif_bw[1][sample]);
+			fprintf(fp, ", %s", s);
 		} else {
 			fputs(", NA", fp);
 		}
@@ -2374,7 +2678,29 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			emif_load_avg);
 		row++;
 	}
-	if ((p_flags[L3_FREQ]) || (p_flags[CORE_TEMP]) || (p_flags[EMIF_LOAD]))
+	if (p_flags[EMIF_BW]) {
+		strncpy(table[row][0], "Total EMIF Bandwidth (WRITE)",
+			TABLE_MAX_ELT_LEN);
+		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.2lf MB/s",
+			emif_bw_min[0]);
+		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.2lf MB/s",
+			emif_bw_max[0]);
+		snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2lf MB/s",
+			emif_bw_avg[0]);
+		row++;
+		strncpy(table[row][0], "Total EMIF Bandwidth (READ)",
+			TABLE_MAX_ELT_LEN);
+		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.2lf MB/s",
+			emif_bw_min[1]);
+		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.2lf MB/s",
+			emif_bw_max[1]);
+		snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2lf MB/s",
+			emif_bw_avg[1]);
+		row++;
+	}
+
+	if ((p_flags[L3_FREQ]) || (p_flags[CORE_TEMP]) || (p_flags[EMIF_LOAD]) ||
+		(p_flags[EMIF_BW]))
 		row++;
 
 	if (p_flags[BANDGAP_TEMP]) {
@@ -2479,11 +2805,14 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	printf("Generating GNUPlot script files...\n");
 	/* Compute charts height, depending on traced items */
 	chart_count = 0;
-	if (p_flags[CPU0_LOAD] || p_flags[CPU1_LOAD] || p_flags[TOTAL_CPU_LOAD])
+	if (p_flags[CPU0_LOAD] || p_flags[CPU1_LOAD] || p_flags[TOTAL_CPU_LOAD]
+		|| p_flags[EMIF_LOAD] || p_flags[EMIF_BW])
 		chart_count++;
 	if (p_flags[CPU_FREQ] || p_flags[GPU_FREQ] || p_flags[L3_FREQ])
 		chart_count++;
-	if (p_flags[BANDGAP_TEMP] || p_flags[PCB_TEMP] || p_flags[HOTSPOT_MPU_TEMP])
+	if (p_flags[BANDGAP_TEMP] || p_flags[PCB_TEMP] ||
+		p_flags[HOTSPOT_MPU_TEMP] || MPU_TEMP || GPU_TEMP ||
+		CORE_TEMP || CASE_TEMP)
 		chart_count++;
 	for (i = 0; i < geninput_num; i++) {
 		if (geninput_flags[i]) {
@@ -2586,7 +2915,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		}
 
 		if (p_flags[CPU0_LOAD] || p_flags[CPU1_LOAD] ||
-			p_flags[TOTAL_CPU_LOAD] || p_flags[EMIF_LOAD]) {
+			p_flags[TOTAL_CPU_LOAD] || p_flags[EMIF_LOAD] ||
+			p_flags[EMIF_BW]) {
 			/* Plot EMIF, CPU, CPU0, CPU1 Loads over Time */
 			fprintf(fp, "set size 1.0,%.2lf\n", height);
 			fprintf(fp, "set origin 0,%.2lf\n",
@@ -2594,20 +2924,37 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			fprintf(fp, "set title 'EMIF/CPU Load(s) over Time'\n");
 			fprintf(fp, "set ylabel \"Load (%%)\"\n");
 
-			if (p_flags[EMIF_LOAD]) {
+			if (p_flags[EMIF_BW]) {
+				if (p_flags[CPU0_LOAD] || p_flags[CPU1_LOAD] ||
+					p_flags[TOTAL_CPU_LOAD]) {
+					fprintf(fp,
+						"plot '%s' using 1:%d ls 5 notitle with lines,\\\n",
+						trace_perf_file, EMIF_BW  + 1);
+					fprintf(fp,
+						"     '%s' using 1:%d ls 7 notitle with lines,\\\n",
+						trace_perf_file, EMIF_BW  + 2);
+				} else {
+					fprintf(fp,
+						"plot '%s' using 1:%d ls 5 notitle with lines,\\\n",
+						trace_perf_file, EMIF_BW + 1);
+					fprintf(fp,
+						"     '%s' using 1:%d ls 7 notitle with lines;\n",
+						trace_perf_file, EMIF_BW + 2);
+				}
+			} else if (p_flags[EMIF_LOAD]) {
 				if (p_flags[CPU0_LOAD] || p_flags[CPU1_LOAD] ||
 					p_flags[TOTAL_CPU_LOAD])
 					fprintf(fp,
 						"plot '%s' using 1:%d ls 7 notitle with lines,\\\n",
-						trace_perf_file, EMIF_LOAD + 1);
+						trace_perf_file, EMIF_LOAD + 3);
 				else
 					fprintf(fp,
 						"plot '%s' using 1:%d ls 7 notitle with lines;\n",
-						trace_perf_file, EMIF_LOAD + 1);
+						trace_perf_file, EMIF_LOAD + 3);
 			}
 
 			if (p_flags[TOTAL_CPU_LOAD]) {
-				if (p_flags[EMIF_LOAD])
+				if (p_flags[EMIF_LOAD] || p_flags[EMIF_BW])
 					fprintf(fp, "     ");
 				else
 					fprintf(fp, "plot ");
@@ -2670,12 +3017,12 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 					fprintf(fp,
 						"plot '%s' using 1:%d ls 7 title 'Bandgap' with lines,\\\n",
 						trace_perf_file,
-						BANDGAP_TEMP + 1);
+						BANDGAP_TEMP + 2);
 				else
 					fprintf(fp,
 						"plot '%s' using 1:%d ls 7 title 'Bandgap' with lines;\n",
 						trace_perf_file,
-						BANDGAP_TEMP + 1);
+						BANDGAP_TEMP + 2);
 			}
 
 			if (p_flags[PCB_TEMP]) {
@@ -2689,11 +3036,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 					p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"     '%s' using 1:%d ls 3 title 'PCB' with lines,\\\n",
-						trace_perf_file, PCB_TEMP + 1);
+						trace_perf_file, PCB_TEMP + 2);
 				else
 					fprintf(fp,
 						"     '%s' using 1:%d ls 3 title 'PCB' with lines;\n",
-						trace_perf_file, PCB_TEMP + 1);
+						trace_perf_file, PCB_TEMP + 2);
 			}
 
 			if (p_flags[MPU_TEMP]) {
@@ -2706,11 +3053,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 					p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"     '%s' using 1:%d ls 1 title 'MPU' with lines,\\\n",
-						trace_perf_file, MPU_TEMP + 1);
+						trace_perf_file, MPU_TEMP + 2);
 				else
 					fprintf(fp,
 						"     '%s' using 1:%d ls 1 title 'MPU' with lines;\n",
-						trace_perf_file, MPU_TEMP + 1);
+						trace_perf_file, MPU_TEMP + 2);
 			}
 
 			if (p_flags[GPU_TEMP]) {
@@ -2724,11 +3071,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 					p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"     '%s' using 1:%d ls 2 title 'GPU' with lines,\\\n",
-						trace_perf_file, GPU_TEMP + 1);
+						trace_perf_file, GPU_TEMP + 2);
 				else
 					fprintf(fp,
 						"     '%s' using 1:%d ls 2 title 'GPU' with lines;\n",
-						trace_perf_file, GPU_TEMP + 1);
+						trace_perf_file, GPU_TEMP + 2);
 			}
 
 			if (p_flags[CORE_TEMP]) {
@@ -2742,11 +3089,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				if (p_flags[CASE_TEMP] || p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"     '%s' using 1:%d ls 7 title 'CORE' with lines,\\\n",
-						trace_perf_file, CORE_TEMP + 1);
+						trace_perf_file, CORE_TEMP + 2);
 				else
 					fprintf(fp,
 						"     '%s' using 1:%d ls 7 title 'CORE' with lines;\n",
-						trace_perf_file, CORE_TEMP + 1);
+						trace_perf_file, CORE_TEMP + 2);
 			}
 
 			if (p_flags[CASE_TEMP]) {
@@ -2761,11 +3108,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				if (p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"     '%s' using 1:%d ls 5 title 'CASE' with lines,\\\n",
-						trace_perf_file, CASE_TEMP + 1);
+						trace_perf_file, CASE_TEMP + 2);
 				else
 					fprintf(fp,
 						"     '%s' using 1:%d ls 5 title 'CASE' with lines;\n",
-						trace_perf_file, CASE_TEMP + 1);
+						trace_perf_file, CASE_TEMP + 2);
 			}
 
 			if (p_flags[HOTSPOT_MPU_TEMP]) {
@@ -2780,7 +3127,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 					fprintf(fp, "plot ");
 				fprintf(fp,
 					"     '%s' using 1:%d ls 1 title 'MPU HotSpot' with lines;\n",
-					trace_perf_file, HOTSPOT_MPU_TEMP + 1);
+					trace_perf_file, HOTSPOT_MPU_TEMP + 2);
 			}
 			fprintf(fp, "\n");
 			chart_count++;
@@ -2866,7 +3213,6 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	ret = 0;
 
 trace_perf_capture_err:
-
 	/* Free allocated buffers */
 	for (cpu = 0; cpu < 2; cpu++) {
 		if (idle[cpu] != NULL)
@@ -2886,6 +3232,8 @@ trace_perf_capture_err:
 		free(emif_busy_cycles);
 	if (emif_cycles != NULL)
 		free(emif_cycles);
+	if (p_flags[EMIF_BW])
+		trace_bw_deinit();
 	if (l3_freq != NULL)
 		free(l3_freq);
 	if (bandgap_temp != NULL)

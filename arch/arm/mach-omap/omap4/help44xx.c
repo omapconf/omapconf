@@ -383,7 +383,7 @@ void help44xx(help_category cat, char *context)
 		printf(
 			"\n\tomapconf trace perf [-d <delay>] [-t <duration>] [-s <rate>] [-p <prefix>] [-c <cfgfile>]\n");
 		printf(
-			"\t    Capture predefined items (CPUs Load, MPU/GPU/L3 OPP Changes, EMIF data bus load & temperatures (bandgap, PCB, hotspot) or custom (user defined) items over time.\n");
+			"\t    Capture predefined items (CPUs Load, MPU/GPU/L3 OPP Changes, EMIF data bus load (4430, 4460) or EMIF bandwidth (4470), & temperatures (bandgap, PCB, hotspot) or custom (user defined) items over time.\n");
 		printf(
 			"\t    Trace customization is done via trace configuration file, built using the trace configurator.\n");
 		printf(
