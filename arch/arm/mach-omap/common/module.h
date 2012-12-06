@@ -249,6 +249,7 @@ int module_clk_rate_get(const char *mod, unsigned short ignore);
 int module_por_clk_rate_get(const char *mod, const char *opp);
 
 int module_status_show(FILE *stream);
-
+int module_clk_rate_audit(FILE *stream,
+	unsigned int *err_nbr, unsigned int *wng_nbr);
 
 #endif

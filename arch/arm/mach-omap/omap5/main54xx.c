@@ -260,13 +260,8 @@ int main54xx_audit(int argc, char *argv[])
 		ret = main54xx_dpll_audit(argc - 1, argv + 1);
 	} else if (strcmp(argv[0], "clkspeed") == 0) {
 		if (argc == 1)
-			ret = audit54xx_clkspeed(stdout, 0, &err_nbr, &wng_nbr);
-		else if ((argc == 2) &&
-			(strcmp(argv[1], "-k") == 0))
-			ret = audit54xx_clkspeed(stdout, 1, &err_nbr, &wng_nbr);
-		else if ((argc == 2) &&
-			(strcmp(argv[1], "-kernel") == 0))
-			ret = audit54xx_clkspeed(stdout, 1, &err_nbr, &wng_nbr);
+			ret = module_clk_rate_audit(
+				stdout, &err_nbr, &wng_nbr);
 		else
 			goto main54xx_audit_err_arg;
 	} else if (strcmp(argv[0], "io") == 0) {

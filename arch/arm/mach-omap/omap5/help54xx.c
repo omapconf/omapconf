@@ -535,11 +535,8 @@ void help54xx(help_category cat, char *context)
 			"audited. Disabled modules will be discarded "
 			"(as not accessible).\n");
 
-		printf("\n\tomapconf audit clkspeed [-k, -kernel]\n");
-		printf("\t    Audit modules clock speed at the current "
-			"OPerating Points (OPP).\n");
-		printf("\t    Use option '-k' or '-kernel' to also audit "
-			"kernel clock framework (skipped by default).\n");
+		printf("\n\tomapconf audit clkspeed\n");
+		printf("\t    Audit modules clock speed at the current OPerating Points (OPP).\n");
 
 		printf("\n\tomapconf audit statdep\n");
 		printf("\t    Audit clock domain static dependencies "

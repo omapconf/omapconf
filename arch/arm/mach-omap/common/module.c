@@ -50,6 +50,7 @@
 #include <cpuinfo.h>
 #include <opp.h>
 #include <voltdomain.h>
+#include <cpufreq.h>
 
 
 /* #define MODULE_DEBUG */
@@ -967,6 +968,293 @@ int module_status_show(FILE *stream)
 	}
 	fprintf(stream,
 		"|---------------------------------------------------------------------------------------------------------------------------------------------------------------|\n");
+
+	return 0;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		module_clk_rate_audit
+ * @BRIEF		Modules functional clock rate audit.
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_INTERNAL
+ * @param[in,out]	stream: output file - NULL: no output (silent)
+ * @param[in,out]	err_nbr: pointer to return audit error number
+ * @param[in,out]	wng_nbr: pointer to return audit warning number
+ * @DESCRIPTION		Modules functional clock rate audit.
+ *//*------------------------------------------------------------------------ */
+int module_clk_rate_audit(FILE *stream,
+	unsigned int *err_nbr, unsigned int *wng_nbr)
+{
+	const char *opp;
+	int mod_count, m;
+	const genlist *mod_list;
+	mod_info mod;
+
+	double speed_curr = 0.0, speed_por = 0.0;
+	const char pass1[10] = "pass (1)";
+	const char fail2[10] = "FAIL (2)";
+	const char fail3[10] = "FAIL (3)";
+	const char warning4[10] = "warn (4)";
+	const char warning5[10] = "warn (5)";
+	const char warning6[10] = "warn (6)";
+	const char warning7[10] = "warn (7)";
+	const char ignore8[10] = "ign. (8)";
+	const char warning9[10] = "warn (9)";
+	const char fixme[10] = "FIXME";
+	char *status;
+	char s_speed_curr[16], s_speed_por[16];
+	char src_clk_name[CLK54XX_MAX_NAME_LENGTH];
+	char opp_name[OPP_MAX_NAME_LENGTH];
+	char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH];
+	char prev_gov2[CPUFREQ_GOV_MAX_NAME_LENGTH];
+	mod_module_mode mmode;
+
+	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
+	CHECK_NULL_ARG(err_nbr, OMAPCONF_ERR_ARG);
+	CHECK_NULL_ARG(wng_nbr, OMAPCONF_ERR_ARG);
+
+	*err_nbr = 0;
+	*wng_nbr = 0;
+
+	/* Switch to userspace governor temporarily,
+	 * so that OPP cannot change during audit and does not false it.
+	 */
+	cpufreq_scaling_governor_set("userspace", prev_gov);
+
+	/* Retrieve module domain list and count */
+	mod_list = module_list_get();
+	if (mod_list == NULL) {
+		fprintf(stderr,
+			"omapconf: %s(): failed to retrieve MODULE List!\n",
+			__func__);
+		(*wng_nbr)++;
+		goto module_clk_rate_audit_end;
+	}
+	mod_count = module_count_get();
+	if (mod_count <= 0) {
+		fprintf(stderr,
+			"omapconf: %s(): failed to retrieve MODULE count!\n",
+			__func__);
+		(*wng_nbr)++;
+		goto module_clk_rate_audit_end;
+	}
+
+	if (stream == NULL)
+		goto module_clk_rate_audit_loop;
+
+	fprintf(stream,
+		"|----------------------------------------------------------------------------------------------------------|\n");
+	fprintf(stream, "| %-21s | %-24s | %-9s | %-27s | %-11s |\n",
+		"  CLOCK SPEED AUDIT", "", "", "     Clock Rate (MHz)",
+		"");
+	fprintf(stream,
+		"| %-21s | %-24s | %-9s | %-12s | %-12s | %-11s |\n",
+		"Module", "Source Clock", "OPP", "Current", "Expected",
+		"STATUS");
+	fprintf(stream,
+		"|----------------------------------------------------------------------------------------------------------|\n");
+
+module_clk_rate_audit_loop:
+	for (m = 0; m < mod_count; m++) {
+		genlist_get((genlist *) mod_list, m,
+			(void *) &mod);
+		dprintf("\n\n%s():Auditing module %s\n", __func__, mod.name);
+
+		/* Filter based on module name */
+		if (cpu_is_gp_device()) {
+			if ((strcmp(mod.name, MOD_TIMER12) == 0) ||
+				(strcmp(mod.name, MOD_WD_TIMER1) == 0) ||
+				(strcmp(mod.name, MOD_DMA_CRYPTO) == 0) ||
+				(strcmp(mod.name, MOD_AES1) == 0) ||
+				(strcmp(mod.name, MOD_AES2) == 0) ||
+				(strcmp(mod.name, MOD_SHA2MD5) == 0) ||
+				(strcmp(mod.name, MOD_RNG) == 0) ||
+				(strcmp(mod.name, MOD_DES3DES) == 0) ||
+				(strcmp(mod.name, MOD_PKA) == 0)) {
+				dprintf("\tGP device, skip it.\n");
+				continue;
+			}
+		}
+
+		/* init variables */
+		status = (char *) fixme;
+		speed_curr = -1.0;
+		snprintf(s_speed_curr, 16, "%s", "NOT FOUND");
+		snprintf(src_clk_name, CLK54XX_MAX_NAME_LENGTH, "%s",
+			"NOT FOUND");
+		strcpy(opp_name, "NOT FOUND");
+		speed_por = -2.0;
+		snprintf(s_speed_por, 16, "%s", "NOT FOUND");
+
+		/* Get module's functional source clock */
+		if (mod.clk < 0) {
+			dprintf("%s(): src_clk not found!\n", __func__);
+			status = (char *) warning4;
+			(*wng_nbr)++;
+			goto module_clk_rate_audit_opp_fill;
+		}
+		snprintf(src_clk_name, CLK54XX_MAX_NAME_LENGTH, "%s",
+			clk54xx_name_get(mod.clk)); /* FIXME */
+
+		/* Get module's functional clock rate*/
+		speed_curr =
+			(double) module_clk_rate_get(mod.name, 1) / 1000.0;
+		if (speed_curr < 0.0) {
+			dprintf("%s(): speed not found!\n", __func__);
+			status = (char *) warning5;
+			(*wng_nbr)++;
+			goto module_clk_rate_audit_opp_fill;
+		}
+		dprintf("%s(): speed=%lfMHz\n", __func__, speed_curr);
+		mhz2string(speed_curr, s_speed_curr);
+
+		/* Get OPP */
+		opp = opp_get(mod.voltdm, 1);
+		if (opp == NULL) {
+			dprintf("%s(): opp not found!\n", __func__);
+			status = (char *) fail3;
+			(*err_nbr)++;
+			goto module_clk_rate_audit_opp_fill;
+		}
+		strncpy(opp_name, opp, OPP_MAX_NAME_LENGTH);
+
+		/*
+		 * Get Plan Of Record (POR) module's functional
+		 * source clock rate
+		 */
+
+		if ((strcmp(mod.name, MOD_TIMER2) == 0) ||
+			(strcmp(mod.name, MOD_TIMER3) == 0) ||
+			(strcmp(mod.name, MOD_TIMER4) == 0) ||
+			(strcmp(mod.name, MOD_TIMER5) == 0) ||
+			(strcmp(mod.name, MOD_TIMER6) == 0) ||
+			(strcmp(mod.name, MOD_TIMER7) == 0) ||
+			(strcmp(mod.name, MOD_TIMER8) == 0) ||
+			(strcmp(mod.name, MOD_TIMER9) == 0) ||
+			(strcmp(mod.name, MOD_TIMER10) == 0) ||
+			(strcmp(mod.name, MOD_TIMER11) == 0) ||
+			(strcmp(mod.name, MOD_MCASP) == 0) ||
+			(strcmp(mod.name, MOD_MCBSP1) == 0) ||
+			(strcmp(mod.name, MOD_MCBSP2) == 0) ||
+			(strcmp(mod.name, MOD_MCBSP3) == 0) ||
+			(strcmp(mod.name, MOD_SLIMBUS1) == 0) ||
+			(strcmp(mod.name, MOD_SLIMBUS2) == 0)) {
+			/*
+			 * These modules are out of interest or
+			 * there is no mandatory clock speed
+			 */
+			snprintf(s_speed_por, 16, "%s", "Undefined");
+			status = (char *) ignore8;
+			goto module_clk_rate_audit_opp_fill;
+		}
+
+		mmode = module_mode_get(mod.name);
+		speed_por = (double) module_por_clk_rate_get(
+			mod.name, opp) / 1000.0;
+		if (speed_por < 0.0) {
+			dprintf("\tWarning: %s POR speed not yet defined!\n",
+				mod.name);
+			status = (char *) warning6;
+			(*wng_nbr)++;
+			goto module_clk_rate_audit_opp_fill;
+		}
+		dprintf("\tPOR rate is %lfMHz\n", speed_por);
+		snprintf(s_speed_por, 16, "%.3lf", speed_por);
+
+		/* Keep only 1 decimal for comparison */
+		if (speed_curr > 1.0)
+			speed_curr = (double) ((int)
+				(speed_curr * 10.0)) / 10.0;
+		dprintf("%s(): rounded current speed=%lfMHz\n",
+			__func__, speed_curr);
+		if (speed_por > 1.0)
+			speed_por = (double) ((int)
+				(speed_por * 10.0)) / 10.0;
+		dprintf("%s(): rounded POR     speed=%lfMHz\n",
+			__func__, speed_por);
+
+		if (speed_curr == speed_por) {
+			status = (char *) pass1;
+			dprintf("%s(): pass!\n", __func__);
+		} else if (mmode == MOD_DISABLED_MODE) {
+			/*
+			 * may not be a true failure when
+			 * module is disabled (not configured).
+			 * Does not impact power.
+			 */
+			dprintf("%s(): disabled module.\n",
+				__func__);
+			status = (char *) warning7;
+			(*wng_nbr)++;
+		} else if (speed_curr == 0.0) {
+			dprintf("%s(): speed_curr == 0.0.\n",
+				__func__);
+			status = (char *) warning7;
+			(*wng_nbr)++;
+		} else if (speed_curr < speed_por) {
+			dprintf("%s(): curr < por.\n",
+				__func__);
+			status = (char *) warning9;
+			(*wng_nbr)++;
+		} else {
+			dprintf("%s(): FAILED!\n", __func__);
+			status = (char *) fail2;
+			(*err_nbr)++;
+		}
+
+module_clk_rate_audit_opp_fill:
+		if (stream == NULL)
+			break;
+
+		fprintf(stream,
+			"| %-21s | %-24s | %-9s | %-12s | %-12s | %-11s |\n",
+			mod.name, src_clk_name, opp_name, s_speed_curr,
+			s_speed_por, status);
+	}
+
+	if (stream == NULL)
+		goto module_clk_rate_audit_end;
+
+	fprintf(stream,
+		"|----------------------------------------------------------------------------------------------------------|\n\n");
+
+	fprintf(stream,
+		"Notes:\n");
+	fprintf(stream,
+		"  (1)  Current module rate IS the expected (PoR) one.\n");
+	fprintf(stream,
+		"  (2)  Current module rate is NOT the expected (PoR) one.\n");
+	fprintf(stream,
+		"  (3)  Current OPP could not be detected.\n");
+	fprintf(stream,
+		"  (4)  Current module source clock could not be retrieved.\n");
+	fprintf(stream,
+		"  (5)  Current module source clock rate could not be retrieved.\n");
+	fprintf(stream,
+		"  (6)  Current module source clock PoR rate could not be retrieved.\n");
+	fprintf(stream,
+		"  (7)  Clock rate does no match PoR rate, but module is disabled (no power impact).\n");
+	fprintf(stream,
+		"  (8)  Optional module, not used on reference platform.\n");
+	fprintf(stream,
+		"  (9)  Current module rate is lower than the expected (PoR) one.\n");
+
+	if (*err_nbr == 0)
+		fprintf(stream,
+			"\nSUCCESS! Clock Speed audit completed with 0 error (%d warning(s))\n\n",
+			*wng_nbr);
+	else
+		fprintf(stream,
+			"\nFAILED! Clock Speed audit completed with %d error and %d warning.\n\n",
+			*err_nbr, *wng_nbr);
+
+module_clk_rate_audit_end:
+	/* Restore CPUFreq governor */
+	cpufreq_scaling_governor_set(prev_gov, prev_gov2);
 
 	return 0;
 }

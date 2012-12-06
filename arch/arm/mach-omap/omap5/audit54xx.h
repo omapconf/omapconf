@@ -51,8 +51,6 @@
 #include <voltdm54xx.h>
 
 
-int audit54xx_clkspeed(FILE *stream, unsigned short clkfwk_audit,
-	unsigned int *err_nbr, unsigned int *wng_nbr);
 int audit54xx_sysconfig(FILE *stream, unsigned int *err_nbr,
 	unsigned int *wng_nbr);
 int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
