@@ -51,6 +51,7 @@
 #include <opp.h>
 #include <voltdomain.h>
 #include <cpufreq.h>
+#include <autoadjust_table.h>
 
 
 /* #define MODULE_DEBUG */
@@ -1255,6 +1256,324 @@ module_clk_rate_audit_opp_fill:
 module_clk_rate_audit_end:
 	/* Restore CPUFreq governor */
 	cpufreq_scaling_governor_set(prev_gov, prev_gov2);
+
+	return 0;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		module_sysconfig_audit
+ * @BRIEF		Modules SYSCONFIG registers audit.
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_REG_ACCESS
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_INTERNAL
+ * @param[in,out]	stream: output file - NULL: no output (silent)
+ * @param[in,out]	err_nbr: pointer to return audit error number
+ * @param[in,out]	wng_nbr: pointer to return audit warning number
+ * @DESCRIPTION		Modules SYSCONFIG registers audit.
+ *//*------------------------------------------------------------------------ */
+int module_sysconfig_audit(FILE *stream, unsigned int *err_nbr,
+	unsigned int *wng_nbr)
+{
+	int mod_count, m;
+	const genlist *mod_list;
+	mod_info mod;
+	const char pass[5] = "Pass";
+	const char fail[5] = "FAIL";
+	const char ignore[12] = "Ignored (1)";
+	const char warning[8] = "Warning";
+	mod_autoidle_mode autoidle_mode;
+	mod_idle_mode idle_mode;
+	mod_standby_mode standby_mode;
+	mod_clock_activity_mode clock_activity_mode;
+	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
+	unsigned int row;
+	char element[TABLE_MAX_ELT_LEN];
+
+	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
+	CHECK_NULL_ARG(err_nbr, OMAPCONF_ERR_ARG);
+	CHECK_NULL_ARG(wng_nbr, OMAPCONF_ERR_ARG);
+
+	*err_nbr = 0;
+	*wng_nbr = 0;
+
+	/* Retrieve module domain list and count */
+	mod_list = module_list_get();
+	if (mod_list == NULL) {
+		fprintf(stderr,
+			"omapconf: %s(): failed to retrieve MODULE List!\n",
+			__func__);
+		(*wng_nbr)++;
+		goto module_sysconfig_audit_end;
+	}
+	mod_count = module_count_get();
+	if (mod_count <= 0) {
+		fprintf(stderr,
+			"omapconf: %s(): failed to retrieve MODULE count!\n",
+			__func__);
+		(*wng_nbr)++;
+		goto module_sysconfig_audit_end;
+	}
+
+	autoadjust_table_init(table);
+
+	row = 0;
+	strncpy(table[row][0], "MODULES SYSCONFIG AUDIT", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][1], "AUTOIDLE Mode", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][2], "IDLE Mode", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][3], "STANDBY Mode", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][4], "CLOCK ACTIVITY Mode", TABLE_MAX_ELT_LEN);
+	row++;
+
+	for (m = 0; m < mod_count; m++) {
+		genlist_get((genlist *) mod_list, m,
+			(void *) &mod);
+		dprintf("\n%s(): Module #%d name = %s\n", __func__, mod.name);
+
+		autoadjust_table_strncpy(table, row, 0, (char *) mod.name);
+		if (mod.sysconfig == NULL) {
+			dprintf("\t%s(): no sysconfig\n", __func__);
+			continue;
+		}
+
+		if (!module_is_accessible(mod.name)) {
+			dprintf("\t%s(): module is not accessible\n", __func__);
+			autoadjust_table_strncpy(table, row, 1,
+				(char *) ignore);
+			autoadjust_table_strncpy(table, row, 2,
+				(char *) ignore);
+			autoadjust_table_strncpy(table, row, 3,
+				(char *) ignore);
+			autoadjust_table_strncpy(table, row, 4,
+				(char *) ignore);
+			row++;
+			continue;
+		}
+
+		/* Audit module's autoidle bit (if any) */
+		autoidle_mode = module_autoidle_mode_get(mod.name);
+		if (autoidle_mode == MOD_AUTOIDLE_MODE_MAX) {
+			dprintf("\t%s(): module does not have autoidle bit\n",
+				__func__);
+			goto module_sysconfig_audit_idle_mode;
+		}
+		dprintf("\t%s(): autoidle=%u (%s)\n", __func__, autoidle_mode,
+			mod_autoidle_mode_name_get(autoidle_mode));
+		if (autoidle_mode == MOD_AUTOGATING) {
+			autoadjust_table_strncpy(table, row, 1, (char *) pass);
+		} else {
+			snprintf(element, TABLE_MAX_ELT_LEN, "%s (%s)",
+				fail, mod_autoidle_mode_name_get(
+					autoidle_mode));
+			autoadjust_table_strncpy(table, row, 1, element);
+			(*err_nbr)++;
+		}
+
+module_sysconfig_audit_idle_mode:
+		/* Audit module's IDLE mode */
+		idle_mode = module_idle_mode_get(mod.name);
+		if (idle_mode == MOD_IDLE_MODE_MAX) {
+			dprintf("\t%s(): module does not have idle mode\n",
+				__func__);
+			goto module_sysconfig_audit_standby_mode;
+		}
+		dprintf("\t%s(): idle mode=%u (%s)\n", __func__, idle_mode,
+			mod_idle_mode_name_get(idle_mode));
+		switch (idle_mode) {
+		case MOD_SMART_IDLE_WAKEUP:
+			autoadjust_table_strncpy(table, row, 2, (char *) pass);
+			break;
+		case MOD_SMART_IDLE:
+			if (!mod54xx_has_smart_idle_wakeup_mode(mod.id)) { /* FIXME */
+				autoadjust_table_strncpy(table, row, 2,
+					(char *) pass);
+			} else {
+				snprintf(element, TABLE_MAX_ELT_LEN,
+					"%s (%s) (3)", fail,
+					mod_idle_mode_name_get(idle_mode));
+				autoadjust_table_strncpy(table, row, 2,
+					element);
+				(*err_nbr)++;
+			}
+			break;
+		case MOD_FORCE_IDLE:
+			snprintf(element, TABLE_MAX_ELT_LEN, "%s (%s)",
+				warning, mod_idle_mode_name_get(idle_mode));
+			autoadjust_table_strncpy(table, row, 2,	element);
+			(*wng_nbr)++;
+			break;
+		default:
+			if ((strcmp(mod.name, MOD_UART1) == 0) ||
+				(strcmp(mod.name, MOD_UART2) == 0) ||
+				(strcmp(mod.name, MOD_UART3) == 0) ||
+				(strcmp(mod.name, MOD_UART4) == 0) ||
+				(strcmp(mod.name, MOD_UART5) == 0) ||
+				(strcmp(mod.name, MOD_UART6) == 0)) {
+				/*
+				 * UART IP idle management is buggy
+				 * (cf errata). When active,
+				 * must be used in no-idle mode.
+				 */
+				autoadjust_table_strncpy(table, row, 2,
+					(char *) pass);
+			} else {
+				snprintf(element, TABLE_MAX_ELT_LEN,
+					"%s (%s)", fail, mod_idle_mode_name_get(
+						idle_mode));
+				autoadjust_table_strncpy(table, row, 2,
+					element);
+				(*err_nbr)++;
+			}
+		}
+
+module_sysconfig_audit_standby_mode:
+		/* Audit module's STANDBY mode */
+		standby_mode = module_standby_mode_get(mod.name);
+		if (standby_mode == MOD_STANDBY_MODE_MAX) {
+			goto module_sysconfig_audit_clock_activity_mode;
+			dprintf("\t%s(): module does not have standby mode\n",
+				__func__);
+		}
+		dprintf("\t%s(): standby mode=%u (%s)\n", __func__,
+			standby_mode, mod_standby_mode_name_get(standby_mode));
+		switch (standby_mode) {
+		case MOD_STANDBY_MODE_RESERVED:
+			autoadjust_table_strncpy(table, row, 3, (char *) pass);
+			break;
+		case MOD_SMART_STANDBY:
+			if (!mod54xx_has_smart_standby_wakeup_mode(mod.id)) { /* FIXME */
+				autoadjust_table_strncpy(table, row, 2,
+					(char *) pass);
+			} else {
+				snprintf(element, TABLE_MAX_ELT_LEN,
+					"%s (%s) (4)", fail,
+					mod_standby_mode_name_get(idle_mode));
+				autoadjust_table_strncpy(table, row, 2,
+					element);
+				(*err_nbr)++;
+			}
+			break;
+		case MOD_FORCE_STANDBY:
+			snprintf(element, TABLE_MAX_ELT_LEN, "%s (%s)",
+				warning, mod_standby_mode_name_get(
+					standby_mode));
+			autoadjust_table_strncpy(table, row, 3, element);
+			(*wng_nbr)++;
+			break;
+		default:
+			snprintf(element, TABLE_MAX_ELT_LEN, "%s (%s)",
+				fail, mod_standby_mode_name_get(standby_mode));
+			autoadjust_table_strncpy(table, row, 3,	element);
+			(*err_nbr)++;
+		}
+
+module_sysconfig_audit_clock_activity_mode:
+		/* Audit module's CLOCK ACTIVITY mode */
+		clock_activity_mode = module_clock_activity_mode_get(mod.name);
+		if (clock_activity_mode == MOD_CLOCK_ACTIVITY_MODE_MAX) {
+			dprintf(
+				"\t%s(): module does not have clock activity mode\n",
+				__func__);
+			goto module_sysconfig_audit_next_row;
+		}
+		dprintf("\t%s(): clock activity mode=%u (%s)\n",
+			__func__, clock_activity_mode,
+			mod_clock_activity_mode_name_get(clock_activity_mode));
+		switch (clock_activity_mode) {
+		case MOD_FCLK_AUTO_ICLK_AUTO:
+			/*
+			 * Functional clock can be switched-off.
+			 * L4 clock can be switched-off.
+			 */
+			autoadjust_table_strncpy(table, row, 4,	(char *) pass);
+			break;
+		case MOD_FCLK_AUTO_ICLK_ON:
+			/*
+			 * Functional clock can be switched-off.
+			 * L4 clock is maintained during wake-up period.
+			 */
+		case MOD_FCLK_ON_ICLK_AUTO:
+			/*
+			 * Functional clock is maintained during wake-up
+			 * period.
+			 * L4 clock can be switched-off.
+			 */
+			snprintf(element, TABLE_MAX_ELT_LEN, "%s (%s)",
+				warning, mod_clock_activity_mode_name_get(
+					clock_activity_mode));
+			autoadjust_table_strncpy(table, row, 4,	element);
+			(*wng_nbr)++;
+			break;
+		case MOD_FCLK_ON_ICLK_ON:
+			/*
+			 * Functional clock is maintained during wake-up
+			 * period.
+			 * L4 clock is maintained during wake-up period.
+			 */
+		default:
+			snprintf(element, TABLE_MAX_ELT_LEN, "%s (%s)",
+				fail, mod_clock_activity_mode_name_get(
+					clock_activity_mode));
+			autoadjust_table_strncpy(table, row, 4,	element);
+			(*err_nbr)++;
+		}
+module_sysconfig_audit_next_row:
+		row++;
+	}
+
+	if (stream != NULL) {
+		autoadjust_table_fprint(stream, table, row, 5);
+		fprintf(stream,
+			"NB:\n");
+		fprintf(stream,
+			"  (1) - Show 'Ignored' when module is disabled (registers not accessible).\n");
+		fprintf(stream,
+			"  (2) - Show empty cell(s) when module does not feature this mode.\n");
+		fprintf(stream,
+			"  - AUTOIDLE MODE:\n");
+		fprintf(stream,
+			"    - Report Pass if enabled, FAIL otherwise.\n");
+		fprintf(stream,
+			"  - IDLE MODE:\n");
+		fprintf(stream,
+			"    - Report Pass if set to \"Smart-Idle\" or \"Smart-Idle Wakeup\" (when available).\n");
+		fprintf(stream,
+			"      - (3) Modules featuring \"Smart-Idle Wakeup\" mode must be programmed in this mode. Audit will report FAIL even with \"Smart-Idle\" mode.\n");
+		fprintf(stream,
+			"    - Report Warning (with setting) in case of \"Force-Idle\" mode.\n");
+		fprintf(stream,
+			"    - Report FAIL (with incorrect setting) otherwise.\n");
+		fprintf(stream,
+			"  - STANDBY MODE:\n");
+		fprintf(stream,
+			"    - Report Pass if set to \"Smart-Standby\" or \"Smart-Standby Wakeup\" (when available).\n");
+		fprintf(stream,
+			"      - (4) Modules featuring \"Smart-Standby Wakeup\" mode must be programmed in this mode. Audit will report FAIL even with \"Smart-Standby\" mode.\n");
+		fprintf(stream,
+			"    - Report Warning (with setting) in case of \"Force-Standby\" mode.\n");
+		fprintf(stream,
+			"    - Report FAIL (with incorrect setting) otherwise.\n");
+		fprintf(stream,
+			"  - CLOCKACTIVITY MODE:\n");
+		fprintf(stream,
+			"    - Report Pass if both I-CLK and F-CLK are set to AUTO mode.\n");
+		fprintf(stream,
+			"    - Report Warning if one of I-CLK or F-CLK is set to ON mode.\n");
+		fprintf(stream,
+			"    - Report FAIL (with incorrect setting) otherwise.\n\n");
+
+module_sysconfig_audit_end:
+		if (*err_nbr == 0) {
+			fprintf(stream,
+				"SUCCESS! Modules SYSCONFIG registers audit completed with 0 error (%d warning(s))\n\n",
+				*wng_nbr);
+		} else {
+			fprintf(stream,
+				"FAILED! Modules SYSCONFIG registers audit completed with %d error and %d warning.\n\n",
+				*err_nbr, *wng_nbr);
+		}
+	}
 
 	return 0;
 }

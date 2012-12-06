@@ -267,7 +267,7 @@ int main54xx_audit(int argc, char *argv[])
 	} else if (strcmp(argv[0], "io") == 0) {
 		ret = ctrlmod54xx_io_audit(stdout, &err_nbr, &wng_nbr);
 	} else if (strcmp(argv[0], "sysconfig") == 0) {
-		ret = audit54xx_sysconfig(stdout, &err_nbr, &wng_nbr);
+		ret = module_sysconfig_audit(stdout, &err_nbr, &wng_nbr);
 	} else if (strcmp(argv[0], "statdep") == 0) {
 		ret = clkdmdep54xx_audit(stdout, &err_nbr, &wng_nbr);
 	} else if (strcmp(argv[0], "perf") == 0) {
