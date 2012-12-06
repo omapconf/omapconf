@@ -1,3 +1,35 @@
+v1.60:
+-------
+	- [MODULE][SYSCONFIG][AUDIT] reworked sysconfig audit
+	- [MODULE][CLKSPEED][AUDIT] reworked clkspeed audit
+	- [OMAP5][MODULE] rework "show opp" and "show pwst" to use new generic frameworks
+	- [VOLTDM] handle new OMAP543x ES2.0 voltage domain status registers
+	- [TRACE][OMAP4470][OMAP5] add EMIF total read and write bandwidth item to trace perf
+	- [PWRDM][EMU] move EMU domain enable/disable functions to powerdomain lib
+	- [TRACE][PERF][SETUP] fix segfault when default setup file cannot be created
+	- [OMAP5][PRCM] handle ES2.0 module changes in CM_xyz_CLKCTRL registers
+	- [OMAP5][PRCM] handle ES2.0 changes in CM_xyz_CLKSTCTRL registers
+	- [OMAP5][MODULE] handle OMAP543x ES2.x PRCM registers changes in module info list
+	- [OMAP5][MODULE][OPP] handle OMAP543x ES2.0 MPU and GPU frequency changes
+	- [OMAP5][PRCM][CLOCK] handle OMAP543x ES2.0 clock tree changes
+	- [OMAP5][DPLL] handle OMAP543x ES2.0 DPLLs changes
+	- [OMAP5][CTRLMOD] handle OMAP543x ES2.0 Control Module changes
+	- [OMAP5][EMIF] handle OMAP543x ES2.0 EMIF changes
+	- [OMAP5][SYSCONFIG][MODULE] fix BB2D sysconfig register
+	- [OMAP5][PRCM] handle OMAP543x ES2.0 PRM changes
+	- [OMAP5][PRCM] handle OMAP543x ES2.0 CM changes
+	- [OMAP5][MODULE] handle added/removed modules in OMAP543x ES2.0
+	- [OMAP5][MODULE] fix missing PoR OPP rate for GPIO modules
+	- [OMAP5] handle no L4PER power domain in OMAP543x ES2.0
+	- [OMAP5][CPUDETECT] allow user to select forced OMAP543x ES1.0 or ES2.0
+	- [OMAP5] OMAP543x ES2.0 DIEID detection
+	- [REGRESSIONTESTSUITE] add EMIF test, remove kernel clock test, do not use register import
+	- [MODULE] introduce generic module layer
+	- [PWRDM] introduce generic power domain layer
+	- [CLKDM] introduce generic clock domain layer
+	- [I2C] update to I2C Tools library v3.1.0
+
+
 v1.52:
 -------
 	- [OMAP5][CLKSPEED][AUDIT] fix missing BANDGAPTS expected clock rate
