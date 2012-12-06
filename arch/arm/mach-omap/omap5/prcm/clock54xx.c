@@ -2190,6 +2190,18 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 			out_clk_speed);
 		return out_clk_speed;
 
+	case CLK54XX_C2C_GFCLK: /* ES2.0 only */
+		if (cpu_revision_get() == REV_ES1_0)
+			fprintf(stderr,
+				"%s(): WARNING: CLK54XX_C2C_GFCLK clock signal does not exist on ES1.0!!!\n", __func__);
+		src_clk_id = CLK54XX_CORE_C2C_CLK;
+		src_clk_speed = clk54xx_rate_get(src_clk_id,
+			ignore);
+		out_clk_speed = src_clk_speed;
+		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
+			out_clk_speed);
+		return out_clk_speed;
+
 	case CLK54XX_C2C_ICLK: /* ES2.0 only */
 		if (cpu_revision_get() == REV_ES1_0)
 			fprintf(stderr,

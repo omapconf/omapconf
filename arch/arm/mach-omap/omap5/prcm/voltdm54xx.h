@@ -47,6 +47,7 @@
 
 
 #include <lib.h>
+#include <genlist.h>
 
 
 typedef enum {
@@ -67,6 +68,12 @@ typedef enum {
 	OPP54XX_ID_MAX
 } opp54xx_id;
 
+
+void voltdm54xx_init(void);
+void voltdm54xx_deinit(void);
+
+const genlist *voltdm54xx_list_get(void);
+int voltdm54xx_count_get(void);
 
 const char *voltdm54xx_name_get(voltdm54xx_id id);
 opp54xx_id opp54xx_s2id(char *s);

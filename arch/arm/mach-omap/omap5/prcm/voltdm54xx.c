@@ -56,6 +56,7 @@
 #include <autoadjust_table.h>
 #include <reg.h>
 #include <pmic.h>
+#include <prm54xx-defs.h>
 
 
 /* #define VOLTDM54XX_DEBUG */
@@ -90,6 +91,115 @@ static const double
 	{0.94, 0.95, 1.04, 1.22, -1.0}, /* VDD_MPU */
 	{0.94, 0.95, 1.04, 1.22, -1.0}, /* VDD_MM */
 	{0.94, 0.95, 1.04, -1.0, -1.0} }; /* VDD_CORE */
+
+
+static unsigned short voltdm54xx_init_done = 0;
+genlist voltdm54xx_list;
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		voltdm54xx_init
+ * @BRIEF		initialize internal data
+ * @DESCRIPTION		initialize internal data (architecture dependent)
+ *//*------------------------------------------------------------------------ */
+void voltdm54xx_init(void)
+{
+	voltdm_info voltdm;
+
+	if (voltdm54xx_init_done)
+		return;
+
+	genlist_init(&voltdm54xx_list);
+
+	voltdm.name = VDD_WKUP;
+	voltdm.id = (int) VDD54XX_WKUP;
+	if (cpu_revision_get() == REV_ES1_0)
+		voltdm.voltst = NULL; /* Not present on ES1.0 */
+	else
+		voltdm.voltst = &omap5430_prm_voltst_mpu;
+	genlist_addtail(
+		&voltdm54xx_list, (void *) &voltdm, sizeof(voltdm_info));
+
+	voltdm.name = VDD_MPU;
+	voltdm.id = (int) VDD54XX_MPU;
+	if (cpu_revision_get() == REV_ES1_0)
+		voltdm.voltst = NULL; /* Not present on ES1.0 */
+	else
+		voltdm.voltst = &omap5430_prm_voltst_mpu;
+	genlist_addtail(
+		&voltdm54xx_list, (void *) &voltdm, sizeof(voltdm_info));
+
+	voltdm.name = VDD_MM;
+	voltdm.id = (int) VDD54XX_MM;
+	if (cpu_revision_get() == REV_ES1_0)
+		voltdm.voltst = NULL; /* Not present on ES1.0 */
+	else
+		voltdm.voltst = &omap5430_prm_voltst_mpu;
+	genlist_addtail(
+		&voltdm54xx_list, (void *) &voltdm, sizeof(voltdm_info));
+
+	voltdm.name = VDD_CORE;
+	voltdm.id = (int) VDD54XX_CORE;
+	voltdm.voltst = NULL;
+	genlist_addtail(
+		&voltdm54xx_list, (void *) &voltdm, sizeof(voltdm_info));
+
+	voltdm54xx_init_done = 1;
+	dprintf("%s(): init done.\n", __func__);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		voltdm54xx_deinit
+ * @BRIEF		free dynamically allocated internal data.
+ * @DESCRIPTION		free dynamically allocated internal data.
+ *			MUST BE CALLED AT END OF EXECUTION.
+ *//*------------------------------------------------------------------------ */
+void voltdm54xx_deinit(void)
+{
+	if (voltdm54xx_init_done) {
+		genlist_free(&voltdm54xx_list);
+		voltdm54xx_init_done = 0;
+
+	}
+	dprintf("%s(): deinit done.\n", __func__);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		voltdm54xx_list_get
+ * @BRIEF		return the list of voltage domains
+ * @RETURNS		list of voltage domains in case of success
+ *			NULL in case of error
+ * @DESCRIPTION		return the list of voltage domains
+ *//*------------------------------------------------------------------------ */
+const genlist *voltdm54xx_list_get(void)
+{
+	voltdm54xx_init();
+
+	return (const genlist *) &voltdm54xx_list;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		voltdm54xx_count_get
+ * @BRIEF		return the number of voltage domains
+ * @RETURNS		number of voltage domains (> 0) in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ * @DESCRIPTION		return the number of voltage domains
+ *//*------------------------------------------------------------------------ */
+int voltdm54xx_count_get(void)
+{
+	int count;
+
+	voltdm54xx_init();
+
+	count = genlist_getcount(&voltdm54xx_list);
+
+	dprintf("%s() = %d\n", __func__, count);
+	return count;
+}
 
 
 /* ------------------------------------------------------------------------*//**

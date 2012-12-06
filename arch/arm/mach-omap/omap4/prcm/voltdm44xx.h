@@ -46,6 +46,9 @@
 #define __VOLTDM44XX_H__
 
 
+#include <genlist.h>
+
+
 #define VOLTDM44XX_MAX_NAME_LENGTH	12
 #define OPP44XX_MAX_NAME_LENGTH	16
 
@@ -93,6 +96,11 @@ char *voltdm44xx_get_name(voltdm44xx_id id,
 
 voltdm44xx_id voltdm44xx_s2id(char *s);
 
+void voltdm44xx_init(void);
+void voltdm44xx_deinit(void);
+
+const genlist *voltdm44xx_list_get(void);
+int voltdm44xx_count_get(void);
 
 double voltdm44xx_retention_voltage_get(voltdm44xx_id id);
 double voltdm44xx_por_retention_voltage_get(voltdm44xx_id id);
