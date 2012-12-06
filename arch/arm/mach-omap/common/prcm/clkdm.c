@@ -119,13 +119,13 @@ clkdm_ctrl_mode clkdm_ctrl_mode_get(reg *cm_clkstctrl)
  * @FUNCTION		clkdm_status_name_get
  * @BRIEF		return clock domain status name
  * @RETURNS		clock domain status name on success
- *			NULL in case of error
+ *			"FIXME" in case of error
  * @param[in]		st: valid clock domain status
  * @DESCRIPTION		return clock domain status name
  *//*------------------------------------------------------------------------ */
 const char *clkdm_status_name_get(clkdm_status st)
 {
-	CHECK_ARG_LESS_THAN(st, CLKDM_STATUS_MAX, NULL);
+	CHECK_ARG_LESS_THAN(st, CLKDM_STATUS_MAX, "FIXME");
 
 	return clkdm_status_names[st];
 }

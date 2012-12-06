@@ -257,7 +257,7 @@ int pwrdm_state2string(char s[6], pwrdm_state powerstate)
 		strcpy(s, "ON");
 		break;
 	default:
-		strcpy(s, "");
+		strcpy(s, "FIXME");
 		return OMAPCONF_ERR_ARG;
 	}
 
