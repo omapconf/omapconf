@@ -62,8 +62,11 @@
 #include <trace.h>
 #include <mem.h>
 #include <opp.h>
-#include <voltdm.h>
+#include <voltdomain.h>
 #include <temperature.h>
+#include <module.h>
+#include <powerdomain.h>
+#include <clockdomain.h>
 
 
 /* #define DEBUG */
@@ -1191,9 +1194,14 @@ main_exit:
 	mem_unmap();
 
 	/* Deinitializations */
-	opp_deinit();
-	voltdm_deinit();
-	temp_sensor_deinit();
+	if (cpu_get() != OMAP_MAX) {
+		opp_deinit();
+		voltdm_deinit();
+		temp_sensor_deinit();
+		module_deinit();
+		powerdm_deinit();
+		clockdm_deinit();
+	}
 
 	return ret;
 }

@@ -237,12 +237,12 @@ void help(help_category cat)
 	if ((cat == HELP_ALL) || (cat == HELP_FORCEDETECT)) {
 		printf("\n\t--force <cpu>\n");
 		printf("\t    Force CPU detection.\n");
-		printf("\t    Supported supported <cpu>: omap4430, omap4460, "
-			"omap4470, omap5430, omap5432.\n");
+		printf(
+			"\t    Supported supported <cpu>: omap4430, omap4460, omap4470, omap5430es1, omap5432es1, omap5430, omap5432.\n");
 
 	}
 
-	if (cat != HELP_USAGE)
+	if ((cat != HELP_USAGE) && (cat != HELP_FORCEDETECT))
 		printf("\nCOMMANDS\n");
 
 	if ((cat == HELP_ALL) || (cat == HELP_RW)) {

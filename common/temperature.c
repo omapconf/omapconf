@@ -50,7 +50,7 @@
 #include <autoadjust_table.h>
 #include <string.h>
 #include <emif.h>
-#include <voltdm.h>
+#include <voltdomain.h>
 
 
 /* #define TEMPERATURE_DEBUG */
