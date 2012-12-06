@@ -51,24 +51,27 @@
 #include <clkdm.h>
 
 
+#define CLKDM_MAX_NAME_LENGTH		16
+
+
 #define CLKDM_EMU			((const char *) "EMU")
 #define CLKDM_WKUPAON			((const char *) "WKUPAON")
 #define CLKDM_COREAON			((const char *) "COREAON")
 #define CLKDM_CAM			((const char *) "CAM")
-#define CLKDM_L4_CFG			((const char *) "L4_CFG")
+#define CLKDM_L4_CFG			((const char *) "L4CFG")
 #define CLKDM_EMIF			((const char *) "EMIF")
 #define CLKDM_IPU			((const char *) "IPU")
-#define CLKDM_L3_MAIN2			((const char *) "L3_MAIN2")
-#define CLKDM_L3_INSTR			((const char *) "L3_INSTR")
-#define CLKDM_L3_MAIN1			((const char *) "L3_MAIN1")
+#define CLKDM_L3_MAIN2			((const char *) "L3MAIN2")
+#define CLKDM_L3_INSTR			((const char *) "L3INSTR")
+#define CLKDM_L3_MAIN1			((const char *) "L3MAIN1")
 #define CLKDM_C2C			((const char *) "C2C")
 #define CLKDM_DMA			((const char *) "DMA")
 #define CLKDM_MIPIEXT			((const char *) "MIPIEXT")
 #define CLKDM_DSS			((const char *) "DSS")
-#define CLKDM_CUST_EFUSE		((const char *) "CUST_EFUSE")
-#define CLKDM_L3_INIT			((const char *) "L3_INIT")
-#define CLKDM_L4_PER			((const char *) "L4_PER")
-#define CLKDM_L4_SEC			((const char *) "L4_SEC")
+#define CLKDM_CUST_EFUSE		((const char *) "CUSTEFUSE")
+#define CLKDM_L3_INIT			((const char *) "L3INIT")
+#define CLKDM_L4_PER			((const char *) "L4PER")
+#define CLKDM_L4_SEC			((const char *) "L4SEC")
 #define CLKDM_ABE			((const char *) "ABE")
 #define CLKDM_DSP			((const char *) "DSP")
 #define CLKDM_GPU			((const char *) "GPU")
