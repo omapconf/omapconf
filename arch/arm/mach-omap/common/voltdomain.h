@@ -47,6 +47,8 @@
 
 
 #include <genlist.h>
+#include <reg.h>
+
 
 #define VOLTDM_MAX_NAME_LENGTH		16
 
@@ -57,8 +59,18 @@
 #define VDD_CORE	((const char *) "VDD_CORE") /* Common */
 
 
+typedef struct {
+	const char *name;
+	int id;
+	reg *voltst;
+} voltdm_info;
+
+
 void voltdm_init(void);
 void voltdm_deinit(void);
+
+const genlist *voltdm_list_get(void);
+int voltdm_count_get(void);
 
 int voltdm_s2id(const char *voltdm);
 

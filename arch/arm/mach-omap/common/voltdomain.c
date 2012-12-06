@@ -59,10 +59,6 @@
 #endif
 
 
-genlist voltdm_list;
-static unsigned short voltdm_init_done = 0;
-
-
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		voltdm_init
  * @BRIEF		initialize internal data
@@ -70,44 +66,39 @@ static unsigned short voltdm_init_done = 0;
  *//*------------------------------------------------------------------------ */
 void voltdm_init(void)
 {
-	if (!voltdm_init_done) {
-		if (cpu_is_omap44xx()) {
-			genlist_init(&voltdm_list);
-			genlist_addtail(&voltdm_list,
-				(void *) VDD_WKUP,
-				(1 + strlen(VDD_WKUP)) * sizeof(char));
-			genlist_addtail(&voltdm_list,
-				(void *) VDD_MPU,
-				(1 + strlen(VDD_MPU)) * sizeof(char));
-			genlist_addtail(&voltdm_list,
-				(void *) VDD_IVA,
-				(1 + strlen(VDD_IVA)) * sizeof(char));
-			genlist_addtail(&voltdm_list,
-				(void *) VDD_CORE,
-				(1 + strlen(VDD_CORE)) * sizeof(char));
-		} else if (cpu_is_omap54xx()) {
-			genlist_init(&voltdm_list);
-			genlist_addtail(&voltdm_list,
-				(void *) VDD_WKUP,
-				(1 + strlen(VDD_WKUP)) * sizeof(char));
-			genlist_addtail(&voltdm_list,
-				(void *) VDD_MPU,
-				(1 + strlen(VDD_MPU)) * sizeof(char));
-			genlist_addtail(&voltdm_list,
-				(void *) VDD_MM,
-				(1 + strlen(VDD_MM)) * sizeof(char));
-			genlist_addtail(&voltdm_list,
-				(void *) VDD_CORE,
-				(1 + strlen(VDD_CORE)) * sizeof(char));
-		} else {
-			fprintf(stderr,
-				"omapconf: %s(): cpu not supported!!!\n",
-				__func__);
-		}
+	#ifdef VOLTDM_DEBUG
+	int i, count;
+	const genlist *voltdm_list;
+	voltdm_info voltdm;
+	#endif
 
-		voltdm_init_done = 1;
-		dprintf("%s(): init done.\n", __func__);
+	if (cpu_is_omap44xx()) {
+		voltdm44xx_init();
+	} else if (cpu_is_omap54xx()) {
+		voltdm54xx_init();
+	} else {
+		fprintf(stderr,
+			"omapconf: %s(): cpu not supported!!!\n", __func__);
 	}
+
+	#ifdef VOLTDM_DEBUG
+	voltdm_list = voltdm_list_get();
+	count = genlist_getcount((genlist *) voltdm_list);
+	printf("Voltage Domain List:\n");
+	for (i = 0; i < count; i++) {
+		genlist_get((genlist *) voltdm_list, i,
+			(voltdm_info *) &voltdm);
+		printf(" %s:\n", voltdm.name);
+		printf("  ID:%d\n", voltdm.id);
+		if (voltdm.voltst == NULL)
+			printf("  Status Register: does not exist\n");
+		else
+			printf("  Status Register: %s\n",
+				reg_name_get(voltdm.voltst));
+		printf("\n\n");
+	}
+	printf("Voltage Domain count: %d\n\n", count);
+	#endif
 }
 
 
@@ -119,13 +110,14 @@ void voltdm_init(void)
  *//*------------------------------------------------------------------------ */
 void voltdm_deinit(void)
 {
-	if (voltdm_init_done) {
-		genlist_free(&voltdm_list);
-		genlist_free(&voltdm_list);
-		genlist_free(&voltdm_list);
-		genlist_free(&voltdm_list);
+	if (cpu_is_omap44xx()) {
+		voltdm44xx_deinit();
+	} else if (cpu_is_omap54xx()) {
+		voltdm54xx_deinit();
+	} else {
+		fprintf(stderr,
+			"omapconf: %s(): cpu not supported!!!\n", __func__);
 	}
-	dprintf("%s(): deinit done.\n", __func__);
 }
 
 
@@ -138,10 +130,10 @@ void voltdm_deinit(void)
  *//*------------------------------------------------------------------------ */
 const genlist *voltdm_list_get(void)
 {
-	voltdm_init();
-
-	if (cpu_is_omap44xx() || cpu_is_omap54xx()) {
-		return (const genlist *) &voltdm_list;
+	if (cpu_is_omap44xx()) {
+		return voltdm44xx_list_get();
+	} else if (cpu_is_omap54xx()) {
+		return voltdm54xx_list_get();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -207,9 +199,9 @@ int voltdm_s2id(const char *voltdm)
 int voltdm_count_get(void)
 {
 	if (cpu_is_omap44xx()) {
-		return (int) OMAP4_VD_ID_MAX;
+		return voltdm44xx_count_get();
 	} else if (cpu_is_omap54xx()) {
-		return (int) VDD54XX_ID_MAX;
+		return voltdm54xx_count_get();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);

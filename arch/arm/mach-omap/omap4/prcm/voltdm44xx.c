@@ -141,6 +141,105 @@ static const double
 	{0.9622, 0.9622, 0.9622, 1.1255, 1.2534, 1.253, 1.1274} }; /* VDD_CORE */
 
 
+static unsigned short voltdm44xx_init_done = 0;
+genlist voltdm44xx_list;
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		voltdm44xx_init
+ * @BRIEF		initialize internal data
+ * @DESCRIPTION		initialize internal data (architecture dependent)
+ *//*------------------------------------------------------------------------ */
+void voltdm44xx_init(void)
+{
+	voltdm_info voltdm;
+
+	if (voltdm44xx_init_done)
+		return;
+
+	genlist_init(&voltdm44xx_list);
+
+	voltdm.name = VDD_WKUP;
+	voltdm.id = (int) OMAP4_LDO_WKUP;
+	voltdm.voltst = NULL; /* Not present on OMAP4 */
+	genlist_addtail(
+		&voltdm44xx_list, (void *) &voltdm, sizeof(voltdm_info));
+
+	voltdm.name = VDD_MPU;
+	voltdm.id = (int) OMAP4_VDD_MPU;
+	voltdm.voltst = NULL; /* Not present on OMAP4 */
+	genlist_addtail(
+		&voltdm44xx_list, (void *) &voltdm, sizeof(voltdm_info));
+
+	voltdm.name = VDD_IVA;
+	voltdm.id = (int) OMAP4_VDD_IVA;
+	voltdm.voltst = NULL; /* Not present on OMAP4 */
+	genlist_addtail(
+		&voltdm44xx_list, (void *) &voltdm, sizeof(voltdm_info));
+
+	voltdm.name = VDD_CORE;
+	voltdm.id = (int) OMAP4_VDD_CORE;
+	voltdm.voltst = NULL; /* Not present on OMAP4 */
+	genlist_addtail(
+		&voltdm44xx_list, (void *) &voltdm, sizeof(voltdm_info));
+
+	voltdm44xx_init_done = 1;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		voltdm44xx_deinit
+ * @BRIEF		free dynamically allocated internal data.
+ * @DESCRIPTION		free dynamically allocated internal data.
+ *			MUST BE CALLED AT END OF EXECUTION.
+ *//*------------------------------------------------------------------------ */
+void voltdm44xx_deinit(void)
+{
+	if (voltdm44xx_init_done) {
+		genlist_free(&voltdm44xx_list);
+		voltdm44xx_init_done = 0;
+
+	}
+	dprintf("%s(): deinit done.\n", __func__);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		voltdm44xx_list_get
+ * @BRIEF		return the list of voltage domains
+ * @RETURNS		list of voltage domains in case of success
+ *			NULL in case of error
+ * @DESCRIPTION		return the list of voltage domains
+ *//*------------------------------------------------------------------------ */
+const genlist *voltdm44xx_list_get(void)
+{
+	voltdm44xx_init();
+
+	return (const genlist *) &voltdm44xx_list;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		voltdm44xx_count_get
+ * @BRIEF		return the number of voltage domains
+ * @RETURNS		number of voltage domains (> 0) in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ * @DESCRIPTION		return the number of voltage domains
+ *//*------------------------------------------------------------------------ */
+int voltdm44xx_count_get(void)
+{
+	int count;
+
+	voltdm44xx_init();
+
+	count = genlist_getcount(&voltdm44xx_list);
+
+	dprintf("%s() = %d\n", __func__, count);
+	return count;
+}
+
+
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		voltdm44xx_get_name
  * @BRIEF		return voltage domain name
