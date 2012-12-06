@@ -1389,12 +1389,13 @@ void mod54xx_init(void)
 	mod.clkdm = CLKDM_C2C;
 	mod.pwrdm = PWRDM_CORE;
 	mod.voltdm = VDD_CORE;
-	mod.clk = (int) CLK54XX_C2C_L3_GICLK;
 	mod.sysconfig = NULL;
 	if (cpu_revision_get() == REV_ES1_0) {
+		mod.clk = (int) CLK54XX_C2C_L3_GICLK;
 		mod.clkctrl = &omap5430es1_cm_c2c_c2c_ocp_fw_clkctrl;
 		mod.context = &omap5430es1_rm_c2c_c2c_ocp_fw_context;
 	} else {
+		mod.clk = (int) CLK54XX_C2C_GICLK;
 		mod.clkctrl = &omap5430_cm_c2c_c2c_ocp_fw_clkctrl;
 		mod.context = &omap5430_rm_c2c_c2c_ocp_fw_context;
 	}
