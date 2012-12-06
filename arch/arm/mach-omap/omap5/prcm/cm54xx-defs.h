@@ -667,4 +667,8 @@ extern reg *omap5430_dsp_cm_core_aon_mod[OMAP5430_DSP_CM_CORE_AON_MOD_REGCOUNT +
 extern reg **cm54xx_mods[CM54XX_MODS_COUNT + 1];
 
 
+extern const dpll_settings_regs dpll54xx_regs[DPLL54XX_ID_MAX];
+extern const reg *dpll54xx_hsdiv_regs[DPLL54XX_ID_MAX][HSDIV54XX_ID_MAX];
+
+
 #endif

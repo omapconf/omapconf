@@ -2014,7 +2014,7 @@ const char *cm54xx_mods_name[CM54XX_MODS_COUNT] = {
 	"CM CORE AON DSP"};
 
 
-const dpll_settings_regs dpll54xx_regs[DPLL54XX_ID_MAX] = {
+const dpll_settings_regs dpll54xxes1_regs[DPLL54XX_ID_MAX] = {
 	{&omap5430es1_cm_clkmode_dpll_mpu,
 		&omap5430es1_cm_idlest_dpll_mpu,
 		&omap5430es1_cm_autoidle_dpll_mpu,
@@ -2097,7 +2097,7 @@ const dpll_settings_regs dpll54xx_regs[DPLL54XX_ID_MAX] = {
 		&omap5430es1_cm_clkdcoldo_dpll_unipro2} };
 
 
-const reg *dpll54xx_hsdiv_regs[DPLL54XX_ID_MAX][HSDIV54XX_ID_MAX] = {
+const reg *dpll54xxes1_hsdiv_regs[DPLL54XX_ID_MAX][HSDIV54XX_ID_MAX] = {
 	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 	{&omap5430es1_cm_div_h11_dpll_iva, &omap5430es1_cm_div_h12_dpll_iva,
 		NULL, NULL, NULL, NULL, NULL, NULL},

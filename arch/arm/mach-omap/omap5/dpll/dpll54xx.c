@@ -44,7 +44,7 @@
 
 #include <dpll54xx.h>
 #include <dpll54xx-data.h>
-#include <cm54xxes1-defs.h>
+#include <cm54xx-defs.h>
 #include <clock54xx.h>
 #include <voltdm54xx.h>
 #include <autoadjust_table.h>
@@ -232,7 +232,10 @@ int dpll54xx_dump(FILE *stream, dpll54xx_id id)
 			strncpy(table[row][2], "Reg. Value", TABLE_MAX_ELT_LEN);
 			row++;
 
-			dpll_regs = dpll54xx_regs[dpll_id];
+			if (cpu_revision_get() == REV_ES1_0)
+				dpll_regs = dpll54xxes1_regs[dpll_id];
+			else
+				dpll_regs = dpll54xx_regs[dpll_id];
 			for (i = 0; i < 10; i++) {
 				switch (i) {
 				case 0:
@@ -288,7 +291,10 @@ int dpll54xx_dump(FILE *stream, dpll54xx_id id)
 			}
 
 			for (i = HSDIV54XX_H11; i < HSDIV54XX_ID_MAX; i++) {
-				r = (reg *) dpll54xx_hsdiv_regs[dpll_id][i];
+				if (cpu_revision_get() == REV_ES1_0)
+					r = (reg *) dpll54xxes1_hsdiv_regs[dpll_id][i];
+				else
+					r = (reg *) dpll54xx_hsdiv_regs[dpll_id][i];
 
 				/* FIXME: import/export not yet implement */
 				if (r == NULL)
@@ -662,8 +668,13 @@ int dpll54xx_settings_extract(dpll54xx_settings *settings,
 	dprintf("\n\n### %s() EXTRACTING %s SETTINGS (IGNORE=%u) ###\n",
 		__func__, dpll54xx_name_get(id), ignore);
 
-	dpll_regs = (dpll_settings_regs *) &(dpll54xx_regs[id]);
-	hsdiv_regs = (reg **) dpll54xx_hsdiv_regs[id];
+	if (cpu_revision_get() == REV_ES1_0) {
+		dpll_regs = (dpll_settings_regs *) &(dpll54xxes1_regs[id]);
+		hsdiv_regs = (reg **) dpll54xxes1_hsdiv_regs[id];
+	} else {
+		dpll_regs = (dpll_settings_regs *) &(dpll54xx_regs[id]);
+		hsdiv_regs = (reg **) dpll54xx_hsdiv_regs[id];
+	}
 
 	ret = dpll_settings_extract(id, type, dpll_regs, &(settings->dpll));
 	if (ret != 0)
@@ -1177,9 +1188,15 @@ int dpll54xx_show(FILE *stream)
 
 		strncpy(table[row][0], "Bypass Clock Divider",
 			TABLE_MAX_ELT_LEN);
-		if (dpll54xx_regs[id].cm_bypclk_dpll != NULL)
-			snprintf(table[row][id + 1], TABLE_MAX_ELT_LEN,
-			"%u", settings->dpll.bypass_clk_div);
+		if (cpu_revision_get() == REV_ES1_0) {
+			if (dpll54xxes1_regs[id].cm_bypclk_dpll != NULL)
+				snprintf(table[row][id + 1], TABLE_MAX_ELT_LEN,
+				"%u", settings->dpll.bypass_clk_div);
+		} else {
+			if (dpll54xx_regs[id].cm_bypclk_dpll != NULL)
+				snprintf(table[row][id + 1], TABLE_MAX_ELT_LEN,
+				"%u", settings->dpll.bypass_clk_div);
+		}
 		row++;
 
 		strncpy(table[row][0], "REGM4XEN Mode",
@@ -1319,8 +1336,8 @@ int dpll54xx_show(FILE *stream)
 		}
 
 		for (hsdiv_id = HSDIV54XX_H11; hsdiv_id < HSDIV54XX_ID_MAX; hsdiv_id++) {
-			if ((hsdiv_id == HSDIV54XX_H21) ||
-				(hsdiv_id == HSDIV54XX_H24))
+			if ((cpu_revision_get() == REV_ES1_0) &&
+				((hsdiv_id == HSDIV54XX_H21) || (hsdiv_id == HSDIV54XX_H24)))
 				/* Never used */
 				continue;
 

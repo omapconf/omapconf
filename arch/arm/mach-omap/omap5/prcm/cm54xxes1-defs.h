@@ -694,8 +694,9 @@ typedef enum {
 	HSDIV54XX_ID_MAX
 } hsdiv54xx_id;
 
-extern const dpll_settings_regs dpll54xx_regs[DPLL54XX_ID_MAX];
-extern const reg *dpll54xx_hsdiv_regs[DPLL54XX_ID_MAX][HSDIV54XX_ID_MAX];
+
+extern const dpll_settings_regs dpll54xxes1_regs[DPLL54XX_ID_MAX];
+extern const reg *dpll54xxes1_hsdiv_regs[DPLL54XX_ID_MAX][HSDIV54XX_ID_MAX];
 
 
 #endif
