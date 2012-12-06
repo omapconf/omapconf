@@ -52,15 +52,18 @@
 #include <stdio.h>
 
 
+#define PWRDM_MAX_NAME_LENGTH		16
+
+
 #define PWRDM_EMU			((const char *) "EMU")
 #define PWRDM_WKUPAON			((const char *) "WKUPAON")
 #define PWRDM_COREAON			((const char *) "COREAON")
 #define PWRDM_CAM			((const char *) "CAM")
 #define PWRDM_CORE			((const char *) "CORE")
 #define PWRDM_DSS			((const char *) "DSS")
-#define PWRDM_CUST_EFUSE		((const char *) "CUST_EFUSE")
-#define PWRDM_L3_INIT			((const char *) "L3_INIT")
-#define PWRDM_L4_PER			((const char *) "L4_PER")
+#define PWRDM_CUST_EFUSE		((const char *) "CUSTEFUSE")
+#define PWRDM_L3_INIT			((const char *) "L3INIT")
+#define PWRDM_L4_PER			((const char *) "L4PER")
 #define PWRDM_ABE			((const char *) "ABE")
 #define PWRDM_DSP			((const char *) "DSP")
 #define PWRDM_GPU			((const char *) "GPU")
