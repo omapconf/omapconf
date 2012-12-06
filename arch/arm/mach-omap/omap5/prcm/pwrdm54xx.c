@@ -71,7 +71,7 @@ const char
 	"CAM",
 	"CORE",
 	"DSS",
-	"CUST_EFUSE",
+	"CUSTEFUSE",
 	"L3INIT",
 	"L4PER",
 	"ABE",
