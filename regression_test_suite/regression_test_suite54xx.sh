@@ -16,7 +16,7 @@
 # NOTES: ---
 # AUTHOR: Patrick Titiano
 # COMPANY: Texas Instruments France
-VERSION=1.01
+VERSION=1.02
 # CREATED: 2011-12-22
 # REVISION: ---
 #===================================================================================
@@ -55,8 +55,8 @@ function compare {
 		echo "compare: $new_omapconf_bin $1 > $logfile_new"
 	fi
 
-	$ref_omapconf_bin --force omap5430 --norw --import regression_test_suite54xx_ref_settings.xml $1 &> $logfile_ref
-	$new_omapconf_bin --force omap5430 --norw --import regression_test_suite54xx_ref_settings.xml $1 &> $logfile_new
+	$ref_omapconf_bin $1 &> $logfile_ref
+	$new_omapconf_bin $1 &> $logfile_new
 
 	# First line of log file will always be different (contains OMAPCONF/CHIPS/BUILD revision numbers).
 	# busybox diff doesn't support -I option.
@@ -247,8 +247,9 @@ if  [ $all_tests = 1 ] || [ $tests = dpll ]; then
 	echo | tee -a $logfile
 fi
 
-# Test PRCM DUMP function(s)
+
 if  [ $all_tests = 1 ] || [ $tests = prcm ]; then
+# Test PRCM DUMP function(s)
 	for pwrdm in MPU CORE DSP DSS CAM GPU IVA L4PER ABE L3INIT DEV EMU INSTR CKGEN WKUPAON COREAON ALL
 	do
 		compare "dump prcm $pwrdm" "DUMP PRCM $pwrdm" 0
@@ -381,6 +382,12 @@ if  [ $all_tests = 1 ] || [ $tests = prcm ] || [ $tests = abb ]; then
 fi
 
 
+# Test EMIF function(s)
+if  [ $all_tests = 1 ] || [ $tests = emif ]; then
+	compare "dump emif" "DUMP EMIF" 1
+fi
+
+
 # Test ABE function(s)
 if  [ $all_tests = 1 ] || [ $tests = abe ]; then
 	compare "dump abe" "ABE DUMP" 0
@@ -419,7 +426,6 @@ if  [ $all_tests = 1 ] || [ $tests = audit ]; then
 		compare "audit dpll -o nom -d core" "AUDIT DPLL $opp CORE FORCED OPP NOM" 0
 		compare "audit dpll -o all -d all" "AUDIT DPLL $opp ALL" 0
 		compare "audit clkspeed" "AUDIT CLKSPEED $opp" 0
-		compare "audit clkspeed -k" "AUDIT CLKSPEED & KERNEL  $opp" 0
 	done
 
 	compare "audit sysconfig" "AUDIT SYSCONFIG" 0 "audit sysconfig"

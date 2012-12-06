@@ -64,6 +64,7 @@ typedef enum {
 	CPU_FREQ,
 	GPU_FREQ,
 	L3_FREQ,
+	EMIF_BW,
 	/* OMAP4 Specific */
 	EMIF_LOAD,
 	BANDGAP_TEMP,
