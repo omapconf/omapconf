@@ -1198,7 +1198,7 @@ main_exit:
 		opp_deinit();
 		voltdm_deinit();
 		temp_sensor_deinit();
-		mod_deinit();
+		module_deinit();
 		powerdm_deinit();
 		clockdm_deinit();
 	}

@@ -48,6 +48,8 @@
 
 #include <genlist.h>
 #include <reg.h>
+#include <prcm-module.h>
+#include <stdio.h>
 
 
 #define MOD_UNKNOWN			((const char *) "UNKNOWN")
@@ -227,11 +229,26 @@ typedef struct {
 } mod_opp;
 
 
-void mod_init(void);
-void mod_deinit(void);
+void module_init(void);
+void module_deinit(void);
 
-int mod_count_get(void);
-const genlist *mod_list_get(void);
+int module_count_get(void);
+const genlist *module_list_get(void);
+
+int module_id_get(const char *mod);
+unsigned short int module_is_accessible(const char *mod);
+mod_module_mode module_mode_get(const char *mod);
+mod_autoidle_mode module_autoidle_mode_get(const char *mod);
+mod_idle_mode module_idle_mode_get(const char *mod);
+mod_idle_status module_idle_status_get(const char *mod);
+mod_standby_mode module_standby_mode_get(const char *mod);
+mod_standby_status module_standby_status_get(const char *mod);
+mod_clock_activity_mode module_clock_activity_mode_get(const char *mod);
+int module_context_is_lost(const char *mod);
+int module_clk_rate_get(const char *mod, unsigned short ignore);
+int module_por_clk_rate_get(const char *mod, const char *opp);
+
+int module_status_show(FILE *stream);
 
 
 #endif

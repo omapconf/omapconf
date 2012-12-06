@@ -56,7 +56,7 @@
 #include <sr54xx.h>
 #include <dpll54xx.h>
 #include <voltdm54xx.h>
-#include <module54xx.h>
+#include <module.h>
 #include <audit54xx.h>
 #include <ctrlmod54xx.h>
 #include <temp54xx.h>
@@ -659,7 +659,7 @@ int main54xx_show(int argc, char *argv[])
 			return err_arg_too_many_msg_show(HELP_SOC_OPP);
 	} else if (strcmp(argv[0], "pwst") == 0) {
 		if (argc == 1)
-			return lib54xx_pwst_show(stdout);
+			return module_status_show(stdout);
 		else
 			return err_arg_too_many_msg_show(HELP_SOC_PWST);
 	} else if (strcmp(argv[0], "temp") == 0) {

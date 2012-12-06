@@ -136,6 +136,24 @@ typedef enum {
 } mod_interface_type;
 
 
+unsigned int mod_is_accessible(unsigned int cm_clkctrl);
+mod_module_mode mod_module_mode_get(unsigned int cm_clkctrl);
+mod_idle_status mod_idle_status_get(
+	unsigned int cm_clkctrl, unsigned int properties);
+mod_standby_status mod_standby_status_get(
+	unsigned int cm_clkctrl, unsigned int properties);
+
+mod_autoidle_mode mod_autoidle_mode_get(
+	unsigned int sysconfig, unsigned int properties);
+mod_idle_mode mod_idle_mode_get(
+	unsigned int sysconfig, unsigned int properties);
+mod_standby_mode mod_standby_mode_get(
+	unsigned int sysconfig, unsigned int properties);
+mod_clock_activity_mode mod_clock_activity_mode_get(
+	unsigned int sysconfig, unsigned int properties);
+
+int mod_context_is_lost(unsigned int rm_context);
+
 const char *mod_module_mode_name_get(mod_module_mode mode);
 const char *mod_autoidle_mode_name_get(mod_autoidle_mode mode);
 const char *mod_idle_mode_name_get(mod_idle_mode mode);
@@ -143,12 +161,6 @@ const char *mod_standby_mode_name_get(mod_standby_mode mode);
 const char *mod_clock_activity_mode_name_get(mod_clock_activity_mode mode);
 const char *mod_idle_status_name_get(mod_idle_status status);
 const char *mod_standby_status_name_get(mod_standby_status status);
-unsigned int mod_is_accessible(unsigned int cm_clkctrl);
-
-int mod_id_get(const char *mod);
-int mod_clk_rate_get(const char *mod);
-int mod_por_clk_rate_get(const char *mod, const char *opp);
-mod_module_mode mod_mode_get(const char *mod);
 
 
 #endif
