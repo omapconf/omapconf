@@ -46,10 +46,11 @@
 #include <sr54xx.h>
 #include <sr.h>
 #include <vp.h>
+#include <module.h>
 #include <vp54xx.h>
 #include <vc54xx.h>
-#include <module54xx.h>
 #include <prm54xx.h>
+#include <module54xx.h>
 #include <lib.h>
 #include <autoadjust_table.h>
 #include <help.h>
@@ -95,32 +96,32 @@ const char *sr54xx_mod_name_get(sr54xx_mod_id id)
  *//*------------------------------------------------------------------------ */
 unsigned int sr54xx_is_accessible(sr54xx_mod_id id)
 {
-	mod54xx_id module_id;
+	const char *mod_name;
 
 	if (!cpu_is_omap54xx())
 		return 0;
 
 	switch (id) {
 	case SR54XX_SMARTREFLEX_MPU:
-		module_id = OMAP5_SMARTREFLEX_MPU;
+		mod_name = MOD_SMARTREFLEX_MPU;
 		break;
 	case SR54XX_SMARTREFLEX_MM:
-		module_id = OMAP5_SMARTREFLEX_MM;
+		mod_name = MOD_SMARTREFLEX_MM;
 		break;
 	case SR54XX_SMARTREFLEX_CORE:
-		module_id = OMAP5_SMARTREFLEX_CORE;
+		mod_name = MOD_SMARTREFLEX_CORE;
 		break;
 	default:
 		return 0;
 	}
 
-	if (mod54xx_is_accessible(module_id) == 1) {
+	if (module_is_accessible(mod_name) == 1) {
 		dprintf("%s(%s): SR module is accessible\n", __func__,
-			sr54xx_mod_name_get(id));
+			mod_name);
 		return 1;
 	} else {
 		dprintf("%s(%s): SR module is NOT accessible\n", __func__,
-			sr54xx_mod_name_get(id));
+			mod_name);
 		return 0;
 	}
 }
@@ -414,15 +415,15 @@ int sr54xx_module_config_show(FILE *stream)
 {
 	sr_registers sr_regs[3];
 	unsigned int i;
-	mod54xx_id sr_mods[3] = {
-		OMAP5_SMARTREFLEX_MPU,
-		OMAP5_SMARTREFLEX_MM,
-		OMAP5_SMARTREFLEX_CORE};
+	const char *sr_mod_names[3] = {
+		MOD_SMARTREFLEX_MPU,
+		MOD_SMARTREFLEX_MM,
+		MOD_SMARTREFLEX_CORE};
 
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 
 	for (i = 0; i < 3; i++) {
-		if (mod54xx_is_accessible(sr_mods[i]) != 1) {
+		if (module_is_accessible(sr_mod_names[i]) != 1) {
 			sr_regs[i].accessible = 0;
 			continue;
 		}
@@ -525,7 +526,7 @@ int sr54xx_convergence_status_show(FILE *stream)
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 
 	/* Read [SR-VP]_MPU registers (if accessible) */
-	if (mod54xx_is_accessible(OMAP5_SMARTREFLEX_MPU) != 1) {
+	if (module_is_accessible(MOD_SMARTREFLEX_MPU) != 1) {
 		sr_status_regs[0].enabled = 0;
 	} else {
 		sr_status_regs[0].enabled = 1;
@@ -540,7 +541,7 @@ int sr54xx_convergence_status_show(FILE *stream)
 	}
 
 	/* Read [SR-VP]_MM registers (if accessible) */
-	if (mod54xx_is_accessible(OMAP5_SMARTREFLEX_MM) != 1) {
+	if (module_is_accessible(MOD_SMARTREFLEX_MM) != 1) {
 		sr_status_regs[1].enabled = 0;
 	} else {
 		sr_status_regs[1].enabled = 1;
@@ -555,7 +556,7 @@ int sr54xx_convergence_status_show(FILE *stream)
 	}
 
 	/* Read [SR-VP]_CORE registers (if accessible) */
-	if (mod54xx_is_accessible(OMAP5_SMARTREFLEX_CORE) != 1) {
+	if (module_is_accessible(MOD_SMARTREFLEX_CORE) != 1) {
 		sr_status_regs[2].enabled = 0;
 	} else {
 		sr_status_regs[2].enabled = 1;
