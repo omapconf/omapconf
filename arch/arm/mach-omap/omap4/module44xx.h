@@ -363,5 +363,9 @@ int mod44xx_get_por_clk_speed(mod44xx_id module_id,
 int mod44xx_get_clk_speed(mod44xx_id module_id,
 	clock44xx_id *src_clk_id, opp44xx_id *opp_id, double *speed);
 
+int mod44xx_config_show(FILE *stream, const char name[11],
+	unsigned int cm_clkctrl_addr, unsigned int cm_clkctrl,
+	unsigned int rm_context_addr, unsigned int rm_context);
+
 
 #endif
