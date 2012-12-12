@@ -74,13 +74,13 @@ static const char
  * @FUNCTION		clkdm_ctrl_mode_name_get
  * @BRIEF		return clock domain transition control mode name
  * @RETURNS		clock domain transition control mode name on success
- *			NULL in case of error
+ *			"FIXME" in case of error
  * @param[in]		mode: valid clock domain transition control mode
  * @DESCRIPTION		return clock domain transition control mode name
  *//*------------------------------------------------------------------------ */
 const char *clkdm_ctrl_mode_name_get(clkdm_ctrl_mode mode)
 {
-	CHECK_ARG_LESS_THAN(mode, CLKM_CTRL_MODE_MAX, NULL);
+	CHECK_ARG_LESS_THAN(mode, CLKM_CTRL_MODE_MAX, "FIXME");
 
 	return clkdm_ctrl_mode_names[mode];
 }
@@ -91,25 +91,17 @@ const char *clkdm_ctrl_mode_name_get(clkdm_ctrl_mode mode)
  * @BRIEF		return clock domain transition control mode
  * @RETURNS		clock domain transition control mode on success
  *			CLKM_CTRL_MODE_MAX in case of error
- * @param[in]		cm_clkstctrl: CM_xyz_CLKSTCTRL register
+ * @param[in]		cm_clkstctrl: CM_xyz_CLKSTCTRL register content
  * @DESCRIPTION		return clock domain transition control mode
  *//*------------------------------------------------------------------------ */
-clkdm_ctrl_mode clkdm_ctrl_mode_get(reg *cm_clkstctrl)
+clkdm_ctrl_mode clkdm_ctrl_mode_get(unsigned int cm_clkstctrl)
 {
 	clkdm_ctrl_mode mode;
-	unsigned int val;
-
-	CHECK_NULL_ARG(cm_clkstctrl, CLKM_CTRL_MODE_MAX);
-
-	/* Retrieve registers content */
-	val = reg_read(cm_clkstctrl);
-	dprintf("%s(%s): addr=0x%08X val=0x%08X\n", __func__,
-		cm_clkstctrl->name, cm_clkstctrl->addr, val);
 
 	/* Retrieve clock domain transition control mode */
-	mode = (clkdm_ctrl_mode) extract_bitfield(val, 0, 2);
-	dprintf("%s(%s): mode=%u (%s)\n", __func__, cm_clkstctrl->name,
-		mode, clkdm_ctrl_mode_name_get(mode));
+	mode = (clkdm_ctrl_mode) extract_bitfield(cm_clkstctrl, 0, 2);
+	dprintf("%s(): cm_clkstctrl=0x%08X => mode=%u (%s) (bit [1-0])\n",
+		__func__, cm_clkstctrl,	mode, clkdm_ctrl_mode_name_get(mode));
 
 	return mode;
 }
@@ -136,28 +128,23 @@ const char *clkdm_status_name_get(clkdm_status st)
  * @BRIEF		return clock domain status
  * @RETURNS		clock domain status on success
  *			CLKDM_STATUS_MAX in case of error
- * @param[in]		cm_clkstctrl: CM_xyz_CLKSTCTRL register
+ * @param[in]		cm_clkstctrl: CM_xyz_CLKSTCTRL register content
  * @DESCRIPTION		return clock domain status
  *//*------------------------------------------------------------------------ */
-clkdm_status clkdm_status_get(reg *cm_clkstctrl)
+clkdm_status clkdm_status_get(unsigned int cm_clkstctrl)
 {
 	clkdm_status clkdmst;
 	unsigned int val;
 
-	CHECK_NULL_ARG(cm_clkstctrl, CLKDM_STATUS_MAX);
-
-	/* Retrieve registers content */
-	val = reg_read(cm_clkstctrl);
-
 	/* Retrieve clock domain status */
-	val = extract_bitfield(val, 8, 24);
+	val = extract_bitfield(cm_clkstctrl, 8, 24);
 	if (val == 0)
 		clkdmst = CLKDM_GATED;
 	else
 		clkdmst = CLKDM_RUNNING;
-	dprintf("%s(%s): addr=0x%08X val=0x%08X clkst = %u (%s)\n", __func__,
-		reg_name_get(cm_clkstctrl), reg_addr_get(cm_clkstctrl), val,
-		clkdmst, clkdm_status_name_get(clkdmst));
+	dprintf("%s(): cm_clkstctrl=0x%08X => clkst=%u (%s) (bits [31-8])\n",
+		__func__, cm_clkstctrl, clkdmst,
+		clkdm_status_name_get(clkdmst));
 
 	return clkdmst;
 }

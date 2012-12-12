@@ -320,16 +320,18 @@ reg *clockdm_clkstctrl_get(const char *clockdm)
  *//*------------------------------------------------------------------------ */
 clkdm_status clockdm_status_get(const char *clockdm)
 {
-	reg *clkstctrl;
+	reg *clkstctrl_reg;
+	unsigned int clkstctrl;
 	clkdm_status st;
 
 	CHECK_NULL_ARG(clockdm, CLKDM_STATUS_MAX);
 
-	clkstctrl = clockdm_clkstctrl_get(clockdm);
-	if (clkstctrl != NULL) {
+	clkstctrl_reg = clockdm_clkstctrl_get(clockdm);
+	if (clkstctrl_reg != NULL) {
+		clkstctrl = reg_read(clkstctrl_reg);
 		st = clkdm_status_get(clkstctrl);
 		dprintf("%s(%s): CM_CLKSTCTRL=%s status=%s\n", __func__,
-			clockdm, reg_name_get(clkstctrl),
+			clockdm, reg_name_get(clkstctrl_reg),
 			clkdm_status_name_get(st));
 		return st;
 	} else {
@@ -349,20 +351,85 @@ clkdm_status clockdm_status_get(const char *clockdm)
  *//*------------------------------------------------------------------------ */
 clkdm_ctrl_mode clockdm_ctrl_mode_get(const char *clockdm)
 {
-	reg *clkstctrl;
+	reg *clkstctrl_reg;
+	unsigned int clkstctrl;
 	clkdm_ctrl_mode mode;
 
 	CHECK_NULL_ARG(clockdm, CLKM_CTRL_MODE_MAX);
 
-	clkstctrl = clockdm_clkstctrl_get(clockdm);
-	if (clkstctrl != NULL) {
+	clkstctrl_reg = clockdm_clkstctrl_get(clockdm);
+	if (clkstctrl_reg != NULL) {
+		clkstctrl = reg_read(clkstctrl_reg);
 		mode = clkdm_ctrl_mode_get(clkstctrl);
 		dprintf("%s(%s): CM_CLKSTCTRL=%s ctrl mode=%s\n", __func__,
-			clockdm, reg_name_get(clkstctrl),
+			clockdm, reg_name_get(clkstctrl_reg),
 			clkdm_ctrl_mode_name_get(mode));
 		return mode;
 	} else {
 		dprintf("%s(%s): CM_CLKSTCTRL==NULL\n", __func__, clockdm);
 		return CLKM_CTRL_MODE_MAX;
 	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		clockdm_config_show
+ * @BRIEF		display clock domain configuration
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_NOT_AVAILABLE
+ * @param[in,out]	stream: output file
+ * @param[in]		clockdm: clock domain name
+ * @DESCRIPTION		display clock domain configuration
+ *//*------------------------------------------------------------------------ */
+int clockdm_config_show(FILE *stream, const char *clockdm)
+{
+	clockdm_info data;
+	unsigned int cm_clkstctrl;
+	char s[64];
+	int ret;
+
+	CHECK_NULL_ARG(stream, OMAPCONF_ERR_ARG);
+	CHECK_NULL_ARG(clockdm, OMAPCONF_ERR_ARG);
+
+	ret = _clockdm_info_get(clockdm, &data);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve clockdm_info struct!\n",
+			__func__, clockdm);
+		return OMAPCONF_ERR_NOT_AVAILABLE;
+	}
+
+	/* Read CLKSTCTRL register if not NULL */
+	if (data.clkstctrl == NULL) /* Nothing to show */
+		return 0;
+	cm_clkstctrl = reg_read(data.clkstctrl);
+
+	/* Decode and display clock domain's configuration */
+	fprintf(stream,
+		"|----------------------------------------------------------------|\n");
+	strcpy(s, data.name);
+	strcat(s, " Clock Domain Configuration");
+	fprintf(stream, "| %-62s |\n", s);
+	fprintf(stream,
+		"|--------------------------------------|-------------------------|\n");
+	fprintf(stream, "| %-36s | %-23s |\n", "Clock State Transition control",
+		clkdm_ctrl_mode_name_get(clkdm_ctrl_mode_get(cm_clkstctrl)));
+
+	if (cpu_is_omap44xx()) {
+		fprintf(stderr,
+			"omapconf: %s(): cpu not supported!!!\n", __func__);
+		ret = OMAPCONF_ERR_CPU; /* FIXME */
+	} else if (cpu_is_omap54xx()) {
+		ret = clkdm54xx_config_show(stream, data);
+	} else {
+		fprintf(stderr,
+			"omapconf: %s(): cpu not supported!!!\n", __func__);
+		ret = OMAPCONF_ERR_CPU;
+	}
+
+	fprintf(stream,
+		"|----------------------------------------------------------------|\n\n");
+
+	return ret;
 }

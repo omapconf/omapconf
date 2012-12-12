@@ -295,7 +295,7 @@ voltdm44xx_id clkdm44xx_get_voltdm(clkdm44xx_id id)
 int clkdm44xx_get_status(clkdm44xx_id cd_id, clkdm_status *clkst)
 {
 	unsigned int *cm_clkstctrl_addr;
-	reg cm_clkstctrl;
+	unsigned int cm_clkstctrl;
 
 	#ifdef CLKDM44XX_DEBUG
 	char clkdm_name[CLKDM44XX_MAX_NAME_LENGTH];
@@ -311,18 +311,19 @@ int clkdm44xx_get_status(clkdm44xx_id cd_id, clkdm_status *clkst)
 	cm_clkstctrl_addr = (unsigned int *)
 		clkdm44xx_cm_clkstctrl_addr_table[cd_id];
 	if (cm_clkstctrl_addr == NULL) {
-		dprintf("%s(%u (%s)): no CM_xyz_CLKSTCTRL register, "
-			"return CLKDM_RUNNING\n", __func__,
-			cd_id, clkdm44xx_get_name(cd_id, clkdm_name));
+		dprintf(
+			"%s(%u (%s)): no CM_xyz_CLKSTCTRL register, return CLKDM_RUNNING\n",
+			__func__, cd_id,
+			clkdm44xx_get_name(cd_id, clkdm_name));
 		*clkst = CLKDM_RUNNING;
 		return 0;
 	}
+	if (mem_read((unsigned int) cm_clkstctrl_addr, &cm_clkstctrl) != 0) {
+		*clkst = CLKDM_STATUS_MAX;
+		return OMAPCONF_ERR_REG_ACCESS;
+	}
 
-	strcpy(cm_clkstctrl.name, "DUMMY CM_CLKSTCTRL");
-	cm_clkstctrl.addr = (unsigned int) cm_clkstctrl_addr;
-	cm_clkstctrl.data = 0xDEADBEEF;
-	cm_clkstctrl.data_valid = 0;
-	*clkst = clkdm_status_get(&cm_clkstctrl);
+	*clkst = clkdm_status_get(cm_clkstctrl);
 	if (*clkst == CLKDM_STATUS_MAX)
 		return OMAPCONF_ERR_ARG;
 	else

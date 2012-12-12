@@ -48,12 +48,12 @@
 #include <stdlib.h>
 #include <cpuinfo.h>
 #include <cpufreq.h>
+#include <module.h>
 #include <lib.h>
 #include <lib44xx.h>
 #include <temperature.h>
 #include <temp54xx.h>
 #include <clock44xx.h>
-#include <module54xx.h>
 #include <emif44xx.h>
 #include <autoadjust_table.h>
 #include "sci.h"
@@ -1964,8 +1964,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 						OMAP4_MPU_DPLL_CLK, 0);
 			else
 				cpu_freq[sample] =
-					(int) mod54xx_clk_rate_get(
-						OMAP5_MPU, 0);
+					module_clk_rate_get(MOD_MPU, 0) / 1000;
 			dprintf("%s(): cpu_freq = %uMHz\n", __func__,
 				cpu_freq[sample]);
 		}
@@ -1998,8 +1997,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 						OMAP4_L3_ICLK, 0);
 			else
 				l3_freq[sample] =
-					(unsigned int) mod54xx_clk_rate_get(
-						OMAP5_L3_MAIN1_INTERCONNECT, 0);
+					module_clk_rate_get(MOD_L3_MAIN1_INTERCONNECT, 0) / 1000;
 			dprintf("%s(): l3_freq = %uMHz\n",
 				__func__, l3_freq[sample]);
 		}
@@ -2012,8 +2010,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 						OMAP4_GFX_FCLK, 0);
 			else
 				gpu_freq[sample] =
-					(unsigned int) mod54xx_clk_rate_get(
-						OMAP5_GPU, 0);
+					module_clk_rate_get(MOD_GPU, 0) / 1000;
 			dprintf("%s(): gpu_freq = %uMHz\n",
 				__func__, gpu_freq[sample]);
 		}

@@ -54,6 +54,7 @@
 #include <ctrlmod54xx.h>
 #include <dpll54xx.h>
 #include <opp.h>
+#include <voltdomain.h>
 
 
 /* #define AUDIT54XX_DEBUG */
@@ -98,9 +99,10 @@ int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH] = "";
 	char prev_gov2[CPUFREQ_GOV_MAX_NAME_LENGTH] = "";
-	opp54xx_id opp;
-	double freq_mpu;
+	int freq_mpu, count, i;
 	unsigned int _err_nbr = 0, _wng_nbr = 0;
+	const genlist *opp_list;
+	opp_t opp;
 
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 	CHECK_ARG_LESS_THAN(dpll_id, DPLL54XX_ID_MAX + 1, OMAPCONF_ERR_ARG);
@@ -135,13 +137,13 @@ int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
 			goto audit54xx_dpll_end;
 
 		if (*err_nbr == 0)
-			sprintf(s, "SUCCESS! DPLL Configuration audit "
-				"completed with 0 error (%u warning(s))"
-				".\n\n", *wng_nbr);
+			sprintf(s,
+				"SUCCESS! DPLL Configuration audit completed with 0 error (%u warning(s)).\n\n",
+				*wng_nbr);
 		else
-			sprintf(s, "FAILED! DPLL Configuration audit "
-				"completed with %u error(s) and %u "
-				"warning(s).\n\n", *err_nbr, *wng_nbr);
+			sprintf(s,
+				"FAILED! DPLL Configuration audit completed with %u error(s) and %u warning(s).\n\n",
+				*err_nbr, *wng_nbr);
 
 		if (stream != NULL) {
 			fprintf(stream, "Audit details saved in %s file.\n\n\n",
@@ -159,8 +161,16 @@ int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
 		goto audit54xx_dpll_end;
 	}
 
+	/* Retrieve MPU OPPs */
+	opp_list = opp_list_get(VDD_MPU);
+	if (opp_list == NULL) {
+		ret = OMAPCONF_ERR_NOT_AVAILABLE;
+		goto audit54xx_dpll_end;
+	}
+
 	/* Retrieve number of available MPU OPPs */
-	if (cpufreq_opp_nbr_get() == 0) {
+	count = opp_count_get(VDD_MPU);
+	if (count <= 0) {
 		ret = OMAPCONF_ERR_NOT_AVAILABLE;
 		goto audit54xx_dpll_end;
 	}
@@ -172,27 +182,32 @@ int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
 	autoadjust_table_strncpy(table, row, 1, "Audit STATUS");
 	row++;
 
-	for (opp = OPP54XX_LOW; (unsigned int) opp <= cpufreq_opp_nbr_get();
-		opp++) {
+	for (i = 0; i < count; i++) {
 		_err_nbr = 0;
 		_wng_nbr = 0;
 
 		/* Set MPU OPP */
-		freq_mpu = mod54xx_por_clk_rate_get(OMAP5_MPU, opp);
+		ret = genlist_get((genlist *) opp_list, i, (void *) &opp);
+		if (ret != 0) {
+			ret = OMAPCONF_ERR_INTERNAL;
+			goto audit54xx_dpll_end;
+		}
+
+		freq_mpu = module_por_clk_rate_get(MOD_MPU, opp.name);
 		if (freq_mpu < 0) {
 			err_internal_msg_show();
 			goto audit54xx_dpll_end;
 		}
-		ret = cpufreq_set((unsigned int) (freq_mpu * 1000));
+		ret = cpufreq_set((unsigned int) freq_mpu);
 		if (ret != 0) {
 			err_internal_msg_show();
 			goto audit54xx_dpll_end;
 		}
 
 		fprintf(fp, "DPLLs Configuration Audit at MPU %s:\n\n",
-			opp54xx_name_get(opp));
+			opp.name);
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "At MPU %s",
-			opp54xx_name_get(opp));
+			opp.name);
 
 		/* Run audit at this OPP */
 		ret = dpll54xx_audit(dpll_id, OPP54XX_ID_MAX, fp,
@@ -217,26 +232,26 @@ int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
 
 	/* Report final audit status */
 	autoadjust_table_fprint(fp, table, row, 2);
-	sprintf(s, "NB: DPLL IVA may not have been audited accross all "
-		"IVA OPPs (no kernel interface to control IVA OPP "
-		"available).\n\n");
+	sprintf(s,
+		"NB: DPLL IVA may not have been audited accross all IVA OPPs (no kernel interface to control IVA OPP available).\n\n");
 	fputs(s, fp);
 	if (stream != NULL) {
 		autoadjust_table_fprint(stream, table, row, 2);
 		fputs(s, stream);
 	}
 	if (*err_nbr == 0)
-		sprintf(s, "\nSUCCESS! DPLLs Configuration "
-			"audit completed with 0 error (%u warning(s))"
-			".\n\n\n", *wng_nbr);
+		sprintf(s,
+			"\nSUCCESS! DPLLs Configuration audit completed with 0 error (%u warning(s)).\n\n\n",
+			*wng_nbr);
 	else
-		sprintf(s, "\nFAILED! DPLLs Configuration "
-			"audit completed with %u error(s) and %u "
-			"warning(s).\n\n\n", *err_nbr, *wng_nbr);
+		sprintf(s,
+			"\nFAILED! DPLLs Configuration audit completed with %u error(s) and %u warning(s).\n\n\n",
+			*err_nbr, *wng_nbr);
 	fputs(s, fp);
 	if (stream != NULL) {
-		fprintf(stream, "DPLLs Configuration audit details saved "
-			"in %s file.\n", logfilename);
+		fprintf(stream,
+			"DPLLs Configuration audit details saved in %s file.\n",
+			logfilename);
 		fputs(s, stream);
 	}
 

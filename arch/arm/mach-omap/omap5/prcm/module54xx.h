@@ -216,42 +216,7 @@ void mod54xx_deinit(void);
 const genlist *mod54xx_list_get(void);
 int mod54xx_count_get(void);
 
-const char *mod54xx_name_get(mod54xx_id id);
-clkdm54xx_id mod54xx_clkdm_get(mod54xx_id id);
-pwrdm54xx_id mod54xx_pwrdm_get(mod54xx_id id);
-voltdm54xx_id mod54xx_voltdm_get(mod54xx_id id);
-
-unsigned int mod54xx_has_sysconfig_register(mod54xx_id id);
-unsigned int mod54xx_has_autoidle_bit(mod54xx_id id);
-unsigned int mod54xx_has_idle_mode(mod54xx_id id);
-unsigned int mod54xx_has_idle_status(mod54xx_id id);
-unsigned int mod54xx_has_smart_idle_wakeup_mode(mod54xx_id id);
-unsigned int mod54xx_has_enawakeup_bit(mod54xx_id id);
-unsigned int mod54xx_has_standby_mode(mod54xx_id id);
-unsigned int mod54xx_has_standby_status(mod54xx_id id);
-unsigned int mod54xx_has_smart_standby_wakeup_mode(mod54xx_id id);
-unsigned int mod54xx_has_clock_activity_mode(mod54xx_id id);
-
-reg *mod54xx_cm_clkctrl_reg_get(mod54xx_id id);
-reg *mod54xx_rm_context_reg_get(mod54xx_id id);
-reg *mod54xx_sysconfig_reg_get(mod54xx_id id);
-mod_module_mode mod54xx_mode_get(mod54xx_id id);
-unsigned short int mod54xx_is_accessible(mod54xx_id id);
-mod_autoidle_mode mod54xx_autoidle_mode_get(mod54xx_id id);
-mod_idle_mode mod54xx_idle_mode_get(mod54xx_id id);
-mod_idle_status mod54xx_idle_status_get(mod54xx_id id);
-mod_standby_mode mod54xx_standby_mode_get(mod54xx_id id);
-mod_standby_status mod54xx_standby_status_get(mod54xx_id id);
-mod_clock_activity_mode mod54xx_clock_activity_mode_get(mod54xx_id id);
-int mod54xx_context_is_lost(mod54xx_id id);
-
-clk54xx_id mod54xx_clk_get(mod54xx_id id);
-double mod54xx_clk_rate_get(mod54xx_id id, unsigned short ignore);
-int mod54xx_opp_clk_rate_get(mod54xx_id module_id,
-	clk54xx_id *src_clk_id, opp54xx_id *opp_id, double *rate);
-double mod54xx_por_clk_rate_get(mod54xx_id id, opp54xx_id opp);
-
-int mod54xx_config_show(FILE *stream, mod54xx_id id);
+int mod54xx_config_show(FILE *stream, mod54xx_id id, unsigned int cm_clkctrl);
 
 
 #endif

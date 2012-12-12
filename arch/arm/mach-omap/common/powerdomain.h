@@ -94,8 +94,10 @@ int powerdm_id_get(const char *powerdm);
 const char *powerdm_voltdm_get(const char *powerdm);
 reg *powerdm_pwrstctrl_reg_get(const char *powerdm);
 reg *powerdm_pwrstst_reg_get(const char *powerdm);
+unsigned int powerdm_has_logic_ret_state_ctrl_bit(const char *powerdm);
 pwrdm_state powerdm_target_logic_ret_state_get(const char *powerdm);
 pwrdm_state powerdm_logic_state_get(const char *powerdm);
+unsigned int powerdm_has_last_power_state(const char *powerdm);
 pwrdm_state powerdm_state_get(const char *powerdm, pwrdm_state_type type);
 unsigned int powerdm_in_transition(const char *powerdm);
 
