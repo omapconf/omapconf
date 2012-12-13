@@ -95,5 +95,8 @@ voltdm44xx_id clkdm44xx_get_voltdm(clkdm44xx_id id);
 int clkdm44xx_get_status(clkdm44xx_id cd_id,
 	clkdm_status *clkst);
 
+int clkdm44xx_config_show(FILE *stream, const char name[11],
+	unsigned int cm_clkstctrl_addr,	unsigned int cm_clkstctrl);
+
 
 #endif

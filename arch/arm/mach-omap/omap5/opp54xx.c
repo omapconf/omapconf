@@ -48,6 +48,7 @@
 #include <lib.h>
 #include <cpuinfo.h>
 #include <genlist.h>
+#include <module.h>
 #include <opp54xx.h>
 #include <clock54xx.h>
 #include <module54xx.h>
@@ -285,7 +286,7 @@ const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 {
 	const char *opp_name = NULL;
 	int opp_id;
-	mod54xx_id module_id;
+	const char *module_name;
 	double rate = 0.0, rate_por = 0.0;
 	double rate_dsp = 0.0, rate_dsp_por = 0.0;
 	double rate_gpu = 0.0, rate_gpu_por = 0.0;
@@ -302,19 +303,19 @@ const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 	 */
 	switch (vdd_id) {
 	case VDD54XX_WKUP:
-		module_id = OMAP5_L4WKUP_INTERCONNECT;
+		module_name = MOD_L4_WKUP_INTERCONNECT;
 		break;
 
 	case VDD54XX_MPU:
-		module_id = OMAP5_MPU;
+		module_name = MOD_MPU;
 		break;
 
 	case VDD54XX_MM:
-		module_id = OMAP5_IVA;
+		module_name = MOD_IVA;
 		break;
 
 	case VDD54XX_CORE:
-		module_id = OMAP5_L3_MAIN1_INTERCONNECT;
+		module_name = MOD_L3_MAIN1_INTERCONNECT;
 		break;
 
 	default:
@@ -326,16 +327,16 @@ const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 	 * reported speed will be 0 and OPP cannot be detected.
 	 * Hence, ignore DPLL status.
 	 */
-	rate = mod54xx_clk_rate_get(module_id, 1);
+	rate = (double) module_clk_rate_get(module_name, 1) / 1000.0;
 	if (rate < 0.0) {
 		dprintf("%s(): could not retrieve clock speed!\n", __func__);
 		goto opp54xx_by_rate_get_end;
 	}
 	dprintf("%s(%s): %s rate is %lfMHz\n", __func__,
 		voltdm54xx_name_get(vdd_id),
-		clk54xx_name_get(mod54xx_clk_get(module_id)), rate);
+		clk54xx_name_get(module_clk_get(module_name)), rate);
 	if (vdd_id == VDD54XX_MM) {
-		rate_dsp = mod54xx_clk_rate_get(OMAP5_DSP, 1);
+		rate_dsp = (double) module_clk_rate_get(MOD_DSP, 1) / 1000.0;
 		if (rate_dsp < 0.0) {
 			dprintf("%s(): could not retrieve clock speed!\n",
 				__func__);
@@ -343,7 +344,7 @@ const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 		}
 		dprintf("%s(%s): DSP rate is %lfMHz\n", __func__,
 			voltdm54xx_name_get(vdd_id), rate_dsp);
-		rate_gpu = mod54xx_clk_rate_get(OMAP5_GPU, 1);
+		rate_gpu = (double) module_clk_rate_get(MOD_GPU, 1) / 1000.0;
 		if (rate_gpu < 0.0) {
 			dprintf("%s(): could not retrieve clock speed!\n",
 				__func__);
@@ -382,20 +383,20 @@ const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 			goto opp54xx_by_rate_get_end;
 		}
 
-		rate_por = mod54xx_por_clk_rate_get(module_id, opp_id);
+		rate_por = (double) module_por_clk_rate_get(module_name, opp.name) / 1000.0;
 		if (rate_por < 0) {
 			dprintf(
 				"%s(): could not get %s %s POR speed! (%d)\n",
-				__func__, mod54xx_name_get(module_id),
+				__func__, module_name,
 				opp.name, ret);
 			goto opp54xx_by_rate_get_end;
 		}
 		dprintf("%s(%s): %s POR rate for %s is %lf\n",
 			__func__, voltdm54xx_name_get(vdd_id),
-			mod54xx_name_get(module_id), opp.name, rate_por);
+			module_name, opp.name, rate_por);
 		if (vdd_id == VDD54XX_MM) {
 			rate_dsp_por =
-				mod54xx_por_clk_rate_get(OMAP5_DSP, opp_id);
+				(double) module_por_clk_rate_get(MOD_DSP, opp.name) / 1000.0;
 			if (rate_dsp_por < 0) {
 				dprintf(
 					"%s(): could not get DSP %s POR speed! (%d)\n",
@@ -406,7 +407,7 @@ const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 				__func__, voltdm54xx_name_get(vdd_id),
 				opp.name, rate_dsp_por);
 			rate_gpu_por =
-				mod54xx_por_clk_rate_get(OMAP5_GPU, opp_id);
+				(double) module_por_clk_rate_get(MOD_GPU, opp.name) / 1000.0;
 			if (rate_gpu_por < 0) {
 				dprintf(
 					"%s(): could not get GPU %s POR speed! (%d)\n",

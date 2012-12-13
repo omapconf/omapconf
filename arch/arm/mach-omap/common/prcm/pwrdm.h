@@ -52,7 +52,7 @@
 #define PWRDM_STATE_MAX_NAME_LENGTH	8
 
 
-#define PWRDM_HAS_LAST_STATE			(1 << 0)
+#define PWRDM_HAS_LAST_STATE			(1 << 0) /* bits [25-24] */
 #define PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT	(1 << 1) /* bit 2 */
 
 

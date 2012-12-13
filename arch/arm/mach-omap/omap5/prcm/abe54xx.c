@@ -45,7 +45,7 @@
 #include <abe54xx.h>
 #include <prm54xx.h>
 #include <cm54xx.h>
-#include <clkdm54xx.h>
+#include <clockdomain.h>
 #include <lib54xx.h>
 #include <cpuinfo.h>
 #include <help.h>
@@ -233,11 +233,10 @@ int abe54xx_atc_status_show(FILE *stream)
 	unsigned int reg_addr;
 	clkdm_status clkst;
 
-	clkst = clkdm54xx_status_get(CLKDM54XX_ABE);
+	clkst = clockdm_status_get("CLKDM_ABE");
 	if (clkst != CLKDM_RUNNING) {
 		fprintf(stream,
-			"ABE clocks are not running, cannot proceed further"
-			".\n\n");
+			"ABE clocks are not running, cannot proceed further.\n\n");
 		return 0;
 	}
 
@@ -262,7 +261,8 @@ int abe54xx_atc_status_show(FILE *stream)
 	for (i = 0; i < OMAP_ABE_ATC_LIST_SIZE; i++) {
 		/* Read ATC descriptor */
 		reg_addr = OMAP_ABE_DMEM_ADDR + atc54xx_list[i].offset;
-		ret = mem_address_range_read(reg_addr, (unsigned int *)(&atc[0]), 2);
+		ret = mem_address_range_read(
+			reg_addr, (unsigned int *)(&atc[0]), 2);
 		if (ret)
 			return ret;
 

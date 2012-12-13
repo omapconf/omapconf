@@ -210,6 +210,421 @@ static int _module_info_get(const char *mod, mod_info *data)
 
 
 /* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_module_properties_get
+ * @BRIEF		return the properties of a given module.
+ * @RETURNS		>= 0 module properties
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_NOT_AVAILABLE
+ * @param[in]		mod: module name
+ * @param[in,out]	properties: module properties
+ * @DESCRIPTION		return the properties of a given module.
+ *//*------------------------------------------------------------------------ */
+static int _module_properties_get(const char *mod, unsigned int *properties)
+{
+	const genlist *mod_list;
+	mod_info data;
+	int i, count;
+
+	CHECK_NULL_ARG(mod, OMAPCONF_ERR_ARG);
+	CHECK_NULL_ARG(properties, OMAPCONF_ERR_ARG);
+
+	mod_list = module_list_get();
+	count = genlist_getcount((genlist *) mod_list);
+	for (i = 0; i < count; i++) {
+		genlist_get((genlist *) mod_list, i, (void *) &data);
+		if (strcmp(data.name, mod) == 0) {
+			*properties = data.properties;
+			dprintf("%s(%s): properties found (%u).\n",
+				__func__, mod, *properties);
+			return 0;
+		}
+	}
+
+	*properties = 0;
+	dprintf("%s(%s): not found!\n", __func__, mod);
+	return OMAPCONF_ERR_NOT_AVAILABLE;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		module_has_sysconfig_register
+ * @BRIEF		return 1 if module has a SYSCONFIG register.
+ * @RETURNS		1 if module has a SYSCONFIG register.
+ *			0 if not available or in case of error.
+ * @param[in]		id: valid module ID
+ * @DESCRIPTION		return 1 if module has a SYSCONFIG register.
+ *			(not all modules feature it).
+ *			Return 0 if not available or in case of error.
+ *			Does not make any access to any register.
+ *//*------------------------------------------------------------------------ */
+unsigned int module_has_sysconfig_register(const char *mod)
+{
+	int ret;
+	unsigned int properties;
+
+	CHECK_NULL_ARG(mod, 0);
+
+	ret = _module_properties_get(mod, &properties);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve properties!!! (%d)\n",
+			__func__, mod, ret);
+		return 0;
+	}
+
+	if ((properties & MOD_HAS_SYSCONFIG) != 0) {
+		dprintf("%s(%s): HAS SYSCONFIG register\n", __func__, mod);
+		return 1;
+	} else {
+		dprintf("%s(%s): does NOT have SYSCONFIG register\n",
+			__func__, mod);
+		return 0;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		module_has_autoidle_bit
+ * @BRIEF		return 1 if module has autoidle bit in sysconfig.
+ * @RETURNS		1 if module has autoidle bit in sysconfig register.
+ *			0 if not available or in case of error.
+ * @param[in]		id: valid module ID
+ * @DESCRIPTION		return 1 if module has autoidle bit in sysconfig.
+ *			(not all modules feature it).
+ *			Return 0 if not available or in case of error.
+ *			Does not make any access to any register.
+ *//*------------------------------------------------------------------------ */
+unsigned int module_has_autoidle_bit(const char *mod)
+{
+	int ret;
+	unsigned int properties;
+
+	CHECK_NULL_ARG(mod, 0);
+
+	ret = _module_properties_get(mod, &properties);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve properties!!! (%d)\n",
+			__func__, mod, ret);
+		return 0;
+	}
+
+	if ((properties & MOD_HAS_AUTOIDLE_BIT0) != 0) {
+		dprintf("%s(%s):  HAS autoidle bit (0)\n", __func__, mod);
+		return 1;
+	} else if ((properties & MOD_HAS_AUTOIDLE_BIT8) != 0) {
+		dprintf("%s(%s):  HAS autoidle bit (8)\n", __func__, mod);
+		return 1;
+	} else {
+		dprintf("%s(%s):  does NOT have autoidle bit\n", __func__, mod);
+		return 0;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		module_has_idle_mode
+ * @BRIEF		return 1 if module has idle mode in sysconfig register.
+ * @RETURNS		1 if module has idle mode in sysconfig register.
+ *			0 if not available or in case of error.
+ * @param[in]		id: valid module ID
+ * @DESCRIPTION		return 1 if module has idle mode in sysconfig register.
+ *			(not all modules feature it).
+ *			Return 0 if not available or in case of error.
+ *			Does not make any access to any register.
+ *//*------------------------------------------------------------------------ */
+unsigned int module_has_idle_mode(const char *mod)
+{
+	int ret;
+	unsigned int properties;
+
+	CHECK_NULL_ARG(mod, 0);
+
+	ret = _module_properties_get(mod, &properties);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve properties!!! (%d)\n",
+			__func__, mod, ret);
+		return 0;
+	}
+
+	if ((properties & MOD_HAS_IDLE_MODE1) != 0) {
+		dprintf("%s(%s): HAS idle mode (1-0)\n", __func__, mod);
+		return 1;
+	} else if ((properties & MOD_HAS_IDLE_MODE3) != 0) {
+		dprintf("%s(%s): HAS idle mode (3-2)\n", __func__, mod);
+		return 1;
+	} else if ((properties & MOD_HAS_IDLE_MODE4) != 0) {
+		dprintf("%s(%s): HAS idle mode (4-3)\n", __func__, mod);
+		return 1;
+	} else {
+		dprintf("%s(%s): does NOT have idle mode\n", __func__, mod);
+		return 0;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		module_has_idle_status
+ * @BRIEF		return 1 if module has idle mode in sysconfig register.
+ * @RETURNS		1 if module has idle status in CM_CLKCTRL register.
+ *			0 if not available or in case of error.
+ * @param[in]		id: valid module ID
+ * @DESCRIPTION		return 1 if module has idle mode in sysconfig register.
+ *			(not all modules feature it).
+ *			Return 0 if not available or in case of error.
+ *			Does not make any access to any register.
+ *//*------------------------------------------------------------------------ */
+unsigned int module_has_idle_status(const char *mod)
+{
+	int ret;
+	unsigned int properties;
+
+	CHECK_NULL_ARG(mod, 0);
+
+	ret = _module_properties_get(mod, &properties);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve properties!!! (%d)\n",
+			__func__, mod, ret);
+		return 0;
+	}
+
+	if ((properties & MOD_HAS_NO_IDLE_STATUS) != 0) {
+		dprintf("%s(%s): HAS NO idle status\n", __func__, mod);
+		return 0;
+	} else {
+		dprintf("%s(%s): HAS idle status\n", __func__, mod);
+		return 1;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		module_has_smart_idle_wakeup_mode
+ * @BRIEF		return 1 if module implements "smart-idle wakeup" mode
+ * @RETURNS		1 if module implements "smart-idle wakeup" mode.
+ *			0 if not available or in case of error.
+ * @param[in]		id: valid module ID
+ * @DESCRIPTION		return 1 if module implements "smart-idle wakeup" mode
+ *			(not all modules feature it).
+ *			Return 0 if not available or in case of error.
+ *			Does not make any access to any register.
+ *//*------------------------------------------------------------------------ */
+unsigned int module_has_smart_idle_wakeup_mode(const char *mod)
+{
+	int ret;
+	unsigned int properties;
+
+	CHECK_NULL_ARG(mod, 0);
+
+	ret = _module_properties_get(mod, &properties);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve properties!!! (%d)\n",
+			__func__, mod, ret);
+		return 0;
+	}
+
+	if ((properties & MOD_HAS_SMART_IDLE_WAKEUP_MODE) != 0) {
+		dprintf("%s(%s): HAS smart-idle wakeup mode\n", __func__, mod);
+		return 1;
+	} else {
+		dprintf("%s(%s): does NOT have smart-idle wakeup mode\n",
+			__func__, mod);
+		return 0;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		module_has_enawakeup_bit
+ * @BRIEF		return 1 if module has ENAWAKEUP bit in sysconfig
+ * @RETURNS		1 if module has ENAWAKEUP bit in sysconfig register.
+ *			0 if not available or in case of error.
+ * @param[in]		id: valid module ID
+ * @DESCRIPTION		return 1 if module has ENAWAKEUP bit in sysconfig
+ *			(not all modules feature it).
+ *			Return 0 if not available or in case of error.
+ *			Does not make any access to any register.
+ *//*------------------------------------------------------------------------ */
+unsigned int module_has_enawakeup_bit(const char *mod)
+{
+	int ret;
+	unsigned int properties;
+
+	CHECK_NULL_ARG(mod, 0);
+
+	ret = _module_properties_get(mod, &properties);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve properties!!! (%d)\n",
+			__func__, mod, ret);
+		return 0;
+	}
+
+	if ((properties & MOD_HAS_ENAWAKEUP_BIT) != 0) {
+		dprintf("%s(%s): HAS ENAWAKEUP bit\n", __func__, mod);
+		return 1;
+	} else {
+		dprintf("%s(%s): does NOT have ENAWAKEUP bit\n", __func__, mod);
+		return 0;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		module_has_standby_mode
+ * @BRIEF		return 1 if module has STANDBY mode in sysconfig
+ * @RETURNS		1 if module has STANDBY mode in sysconfig register.
+ *			0 if not available or in case of error.
+ * @param[in]		id: valid module ID
+ * @DESCRIPTION		return 1 if module has STANDBY mode in sysconfig
+ *			(not all modules feature it).
+ *			Return 0 if not available or in case of error.
+ *			Does not make any access to any register.
+ *//*------------------------------------------------------------------------ */
+unsigned int module_has_standby_mode(const char *mod)
+{
+	int ret;
+	unsigned int properties;
+
+	CHECK_NULL_ARG(mod, 0);
+
+	ret = _module_properties_get(mod, &properties);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve properties!!! (%d)\n",
+			__func__, mod, ret);
+		return 0;
+	}
+
+	if ((properties & MOD_HAS_STANDBY_MODE5) != 0) {
+		dprintf("%s(%s): HAS STANDBY mode (5-4)\n", __func__, mod);
+		return 1;
+	} else if ((properties & MOD_HAS_STANDBY_MODE13) != 0) {
+		dprintf("%s(%s): HAS STANDBY mode (13-12)\n", __func__, mod);
+		return 1;
+	} else {
+		dprintf("%s(%s): does NOT have STANDBY mode\n", __func__, mod);
+		return 0;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		module_has_standby_status
+ * @BRIEF		return 1 if module has STANDBY status field in
+ *			CM_xyz_CLKCTRL register.
+ * @RETURNS		1 if module has STANDBY status field in
+ *			CM_xyz_CLKCTRL register.
+ *			0 if not available or in case of error.
+ * @param[in]		id: valid module ID
+ * @DESCRIPTION		return 1 if module has STANDBY status field in
+ *			CM_xyz_CLKCTRL register.
+ *			(not all modules feature it).
+ *			Return 0 if not available or in case of error.
+ *			Does not make any access to any register.
+ *//*------------------------------------------------------------------------ */
+unsigned int module_has_standby_status(const char *mod)
+{
+	int ret;
+	unsigned int properties;
+
+	CHECK_NULL_ARG(mod, 0);
+
+	ret = _module_properties_get(mod, &properties);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve properties!!! (%d)\n",
+			__func__, mod, ret);
+		return 0;
+	}
+
+	if ((properties & MOD_HAS_STANDBY_STATUS) != 0) {
+		dprintf("%s(%s): HAS STANDBY status\n", __func__, mod);
+		return 1;
+	} else {
+		dprintf("%s(%s): does NOT have STANDBY status\n",
+			__func__, mod);
+		return 0;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		module_has_smart_standby_wakeup_mode
+ * @BRIEF		return 1 if module implements "smart-standby wakeup"
+ *			mode
+ * @RETURNS		1 if module implements "smart-standby wakeup" mode.
+ *			0 if not available or in case of error.
+ * @param[in]		id: valid module ID
+ * @DESCRIPTION		return 1 if module implements "smart-standby wakeup"
+ *			mode
+ *			(not all modules feature it).
+ *			Return 0 if not available or in case of error.
+ *			Does not make any access to any register.
+ *//*------------------------------------------------------------------------ */
+unsigned int module_has_smart_standby_wakeup_mode(const char *mod)
+{
+	int ret;
+	unsigned int properties;
+
+	CHECK_NULL_ARG(mod, 0);
+
+	ret = _module_properties_get(mod, &properties);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve properties!!! (%d)\n",
+			__func__, mod, ret);
+		return 0;
+	}
+
+	if ((properties & MOD_HAS_SMART_STANDBY_WAKEUP_MODE) != 0) {
+		dprintf("%s(%s): HAS smart-standby wakeup mode\n",
+			__func__, mod);
+		return 1;
+	} else {
+		dprintf(
+			"%s(%s): does NOT have smart-standby wakeup mode\n",
+			__func__, mod);
+		return 0;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		module_has_clock_activity_mode
+ * @BRIEF		check if omap module has clock activity mode in
+ *			sysconfig register
+ * @RETURNS		1 if omap module has clock activity mode in
+ *			sysconfig register.
+ *			0 if not available or in case of error.
+ * @param[in]		id: valid module ID
+ * @DESCRIPTION		check if omap module has clock activity mode in
+ *			sysconfig register
+ *			(not all modules feature it).
+ *			Return 0 if not available or in case of error.
+ *			Does not make any access to any register.
+ *//*------------------------------------------------------------------------ */
+unsigned int module_has_clock_activity_mode(const char *mod)
+{
+	int ret;
+	unsigned int properties;
+
+	CHECK_NULL_ARG(mod, 0);
+
+	ret = _module_properties_get(mod, &properties);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve properties!!! (%d)\n",
+			__func__, mod, ret);
+		return 0;
+	}
+
+	if ((properties & MOD_HAS_CLOCK_ACTIVITY_MODE) != 0) {
+		dprintf("%s(%s): HAS clock activity mode\n", __func__,
+			mod);
+		return 1;
+	} else {
+		dprintf("%s(%s): does NOT have clock activity mode\n",
+			__func__, mod);
+		return 0;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
  * @FUNCTION		module_id_get
  * @BRIEF		return the unique ID of a given module.
  * @RETURNS		>= 0 module ID
@@ -513,7 +928,7 @@ int module_context_is_lost(const char *mod)
 	int ret;
 	mod_info data;
 	unsigned int rm_context;
-	unsigned short lost;
+	short lost;
 
 	CHECK_NULL_ARG(mod, -1);
 
@@ -671,6 +1086,40 @@ module_por_clk_rate_get_end:
 
 
 /* ------------------------------------------------------------------------*//**
+ * @FUNCTION		module_clk_get
+ * @BRIEF		return module functional clock ID
+ * @RETURNS		module functional clock source in case of success (>= 0)
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_NOT_AVAILABLE
+ * @param[in]		id: valid module ID
+ * @DESCRIPTION		return module functional clock ID
+ *//*------------------------------------------------------------------------ */
+int module_clk_get(const char *mod)
+{
+	mod_info data;
+	int ret, clk_id;
+
+	CHECK_NULL_ARG(mod, OMAPCONF_ERR_ARG);
+
+	ret = _module_info_get(mod, &data);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve mod_info struct!\n",
+			__func__, mod);
+		clk_id = OMAPCONF_ERR_NOT_AVAILABLE;
+	} else if (data.clk < 0) {
+		dprintf("%s(%s): could not retrieve module clock ID!\n",
+			__func__, mod);
+		clk_id = OMAPCONF_ERR_NOT_AVAILABLE;
+	} else {
+		clk_id = data.clk;
+	}
+
+	dprintf("%s(%s)=%d KHz\n", __func__, mod, clk_id);
+	return clk_id;
+}
+
+
+/* ------------------------------------------------------------------------*//**
  * @FUNCTION		module_clk_rate_get
  * @BRIEF		return the module functional clock rate, in KHz.
  * @RETURNS		module functional clock rate, in KHz.
@@ -742,9 +1191,6 @@ int module_status_show(FILE *stream)
 	const genlist *mod_list;
 	mod_info mod;
 	int v, p, c, m;
-
-
-
 	mod_idle_status idlest;
 	mod_standby_status stbyst;
 	char s_idlest[MODULE_MODES_MAX_NAME_LENGTH];
@@ -832,7 +1278,7 @@ int module_status_show(FILE *stream)
 	fprintf(stream,
 		"|---------------------------------------------------------------------------------------------------------------------------------------------------------------|\n");
 	fprintf(stream,
-		"| OMAP5 Power Status                                                                                                                                            |\n");
+		"| OMAP Power Status                                                                                                                                            |\n");
 	fprintf(stream,
 		"|---------------------------------------------------------------------------------------------------------------------------------------------------------------|\n");
 	fprintf(stream,
@@ -846,7 +1292,10 @@ int module_status_show(FILE *stream)
 		genlist_get((genlist *) voltdm_list, v, (void *) &voltdm);
 
 		opp = opp_get(voltdm.name, 1);
-		strncpy(s_current_opp, opp, OPP_MAX_NAME_LENGTH);
+		if (opp != NULL)
+			strncpy(s_current_opp, opp, OPP_MAX_NAME_LENGTH);
+		else
+			strncpy(s_current_opp, "NOT FOUND", OPP_MAX_NAME_LENGTH);
 
 		volt = (double) voltdm_voltage_get(voltdm.name) / 1000000.0;
 		if (volt > 0)
@@ -1329,7 +1778,7 @@ int module_sysconfig_audit(FILE *stream, unsigned int *err_nbr,
 	for (m = 0; m < mod_count; m++) {
 		genlist_get((genlist *) mod_list, m,
 			(void *) &mod);
-		dprintf("\n%s(): Module #%d name = %s\n", __func__, mod.name);
+		dprintf("\n%s(): Module name = %s\n", __func__, mod.name);
 
 		autoadjust_table_strncpy(table, row, 0, (char *) mod.name);
 		if (mod.sysconfig == NULL) {
@@ -1385,7 +1834,7 @@ module_sysconfig_audit_idle_mode:
 			autoadjust_table_strncpy(table, row, 2, (char *) pass);
 			break;
 		case MOD_SMART_IDLE:
-			if (!mod54xx_has_smart_idle_wakeup_mode(mod.id)) { /* FIXME */
+			if (!module_has_smart_idle_wakeup_mode(mod.name)) {
 				autoadjust_table_strncpy(table, row, 2,
 					(char *) pass);
 			} else {
@@ -1442,7 +1891,7 @@ module_sysconfig_audit_standby_mode:
 			autoadjust_table_strncpy(table, row, 3, (char *) pass);
 			break;
 		case MOD_SMART_STANDBY:
-			if (!mod54xx_has_smart_standby_wakeup_mode(mod.id)) { /* FIXME */
+			if (!module_has_smart_standby_wakeup_mode(mod.name)) {
 				autoadjust_table_strncpy(table, row, 2,
 					(char *) pass);
 			} else {
@@ -1574,6 +2023,129 @@ module_sysconfig_audit_end:
 				*err_nbr, *wng_nbr);
 		}
 	}
+
+	return 0;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		module_config_show
+ * @BRIEF		analyze module power configuration
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_NOT_AVAILABLE
+ * @param[in,out]	stream: output file
+ * @param[in]		mod: module name
+ * @DESCRIPTION		analyze module power configuration
+ *//*------------------------------------------------------------------------ */
+int module_config_show(FILE *stream, const char *mod)
+{
+	int ret;
+	mod_info data;
+
+	unsigned int cm_clkctrl, rm_context;
+	char s[72];
+	mod_idle_status idlest;
+	mod_standby_status standbyst;
+	double rate;
+
+	CHECK_NULL_ARG(mod, OMAPCONF_ERR_ARG);
+	CHECK_CPU(54xx, OMAPCONF_ERR_NOT_AVAILABLE);
+
+	ret = _module_info_get(mod, &data);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve mod_info struct!\n",
+			__func__, mod);
+		return OMAPCONF_ERR_NOT_AVAILABLE;
+	}
+
+	if (data.clkctrl == NULL) {
+		/* Nothing to show */
+		return 0;
+	}
+
+	/* Read register */
+	cm_clkctrl = reg_read(data.clkctrl);
+
+	/* Decode and display module's power configuration */
+	fprintf(stream,
+		"|------------------------------------------------------------------------|\n");
+	strcpy(s, data.name);
+	strcat(s, " Module Configuration");
+	fprintf(stream,
+		"| %-70s |\n", s);
+	fprintf(stream,
+		"|----------------------------------|-------------------------------------|\n");
+
+	/* F-Clock Source & Rate */
+	if (data.clk >= 0) {
+		fprintf(stream,
+			"| %-32s | %-35s |\n", "Source Clock",
+			clk54xx_name_get(data.clk)); /* FIXME */
+
+		rate = (double) module_clk_rate_get(data.name, 1) / 1000.0;
+		if (rate < 0.0)
+			strcpy(s, "Unknown");
+		else
+			sprintf(s, "%.3lfMHz", rate);
+		fprintf(stream, "| %-32s | %-35s |\n", "Source Clock Rate", s);
+	} else {
+		fprintf(stream, "| %-32s | %-35s |\n", "Source Clock",
+			"Unknown");
+		fprintf(stream, "| %-32s | %-35s |\n", "Source Clock Rate",
+			"Unknown");
+	}
+
+	/* Module Mode */
+	fprintf(stream, "| %-32s | %-35s |\n", "Mode",
+		mod_module_mode_name_get(module_mode_get(data.name)));
+
+	/* Idle Status */
+	idlest = module_idle_status_get(data.name);
+	if (idlest == MOD_IDLE_STATUS_MAX)
+		fprintf(stream, "| %-32s | %-35s |\n", "Idle Status",
+			"Not Available (does not exist)");
+	else
+		fprintf(stream, "| %-32s | %-35s |\n", "Idle Status",
+			mod_idle_status_name_get(idlest));
+
+	/* Standby Status */
+	standbyst = module_standby_status_get(data.name);
+	if (standbyst == MOD_STANDBY_STATUS_MAX)
+		fprintf(stream, "| %-32s | %-35s |\n", "Standby Status",
+			"Not Available (does not exist)");
+	else
+		fprintf(stream, "| %-32s | %-35s |\n", "Standby Status",
+			mod_standby_status_name_get(standbyst));
+
+	/* FCLK Source / Optional Clocks (architecture-specific) */
+	if (cpu_is_omap44xx()) {
+		rm_context = reg_read(data.context);
+		ret = mod44xx_config_show(stream, data.name,
+			reg_addr_get(data.clkctrl), cm_clkctrl,
+			reg_addr_get(data.context), rm_context);
+	} else if (cpu_is_omap54xx()) {
+		ret = mod54xx_config_show(stream, data.id, cm_clkctrl);
+	} else {
+		dprintf("omapconf: %s(): cpu not yet supported.\n",
+			__func__);
+		fprintf(stream, "| %-32s | %-35s |\n",
+			"Func. / Opt. Clocks", "UNKNOWN ARCH.");
+	}
+
+	/* Module Context */
+	ret = module_context_is_lost(data.name);
+	if (ret == -1)
+		fprintf(stream, "| %-32s | %-35s |\n", "Context",
+			"Not Available (does not exist)");
+	else if (ret == 0)
+		fprintf(stream, "| %-32s | %-35s |\n", "Context", "Retained");
+	else
+		fprintf(stream, "| %-32s | %-35s |\n", "Context", "Lost");
+
+
+	fprintf(stream,
+		"|------------------------------------------------------------------------|\n\n");
 
 	return 0;
 }

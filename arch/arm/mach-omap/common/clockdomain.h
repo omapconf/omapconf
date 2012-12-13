@@ -49,6 +49,7 @@
 #include <reg.h>
 #include <genlist.h>
 #include <clkdm.h>
+#include <stdio.h>
 
 
 #define CLKDM_MAX_NAME_LENGTH		16
@@ -104,6 +105,8 @@ reg *clockdm_clkstctrl_get(const char *clockdm);
 
 clkdm_status clockdm_status_get(const char *clockdm);
 clkdm_ctrl_mode clockdm_ctrl_mode_get(const char *clockdm);
+
+int clockdm_config_show(FILE *stream, const char *clockdm);
 
 
 #endif

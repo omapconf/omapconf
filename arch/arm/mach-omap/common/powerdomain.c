@@ -96,8 +96,7 @@ void powerdm_init(void)
 	for (i = 0; i < count; i++) {
 		genlist_get((genlist *) pwrdm_list, i, (powerdm_info *) &pwrdm);
 		printf(" %s:\n", pwrdm.name);
-		printf("  ID:%d (%s)\n", pwrdm.id,
-			pwrdm54xx_name_get(pwrdm.id));
+		printf("  ID:%d\n", pwrdm.id);
 		printf("  VoltDM: %s\n", pwrdm.voltdm);
 		printf("  PWRSTCTRL REG: %s\n", (pwrdm.pwrstctrl)->name);
 		printf("  PWRSTST REG: %s\n", (pwrdm.pwrstst)->name);
@@ -202,6 +201,82 @@ static int _powerdm_info_get(const char *powerdm, powerdm_info *data)
 	return -1;
 }
 
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		powerdm_has_last_power_state
+ * @BRIEF		return 1 if power domain has LASTPOWERSTATEENTERED
+ * @RETURNS		1 if power domain has a LASTPOWERSTATEENTERED bitfield.
+ *			0 if not available or in case of error.
+ * @param[in]		powerdm: power domain name
+ * @DESCRIPTION		return 1 if power domain has LASTPOWERSTATEENTERED
+ *			in PM_xyz_PWRSTST register (not all power domains
+ *			feature it).
+ *			Return 0 if not available or in case of error.
+ *			Does not make any access to any register.
+ *//*------------------------------------------------------------------------ */
+unsigned int powerdm_has_last_power_state(const char *powerdm)
+{
+	int ret;
+	powerdm_info data;
+
+	CHECK_NULL_ARG(powerdm, 0);
+
+	ret = _powerdm_info_get(powerdm, &data);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve powerdm_info struct!\n",
+			__func__, powerdm);
+		return 0;
+	}
+
+	if ((data.properties & PWRDM_HAS_LAST_STATE) != 0) {
+		dprintf("%s(%s): HAS LASTPOWERSTATEENTERED bitfield\n",
+			__func__, powerdm);
+		return 1;
+	} else {
+		dprintf(
+			"%s(%s): does NOT have LASTPOWERSTATEENTERED bitfield\n",
+			__func__, powerdm);
+		return 0;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		powerdm_has_logic_ret_state_ctrl_bit
+ * @BRIEF		return 1 if power domain has LOGICRETSTATE bitfield
+ * @RETURNS		1 if power domain has a LOGICRETSTATE bitfield.
+ *			0 if not available or in case of error.
+ * @param[in]		powerdm: power domain name
+ * @DESCRIPTION		return 1 if power domain has LOGICRETSTATE bitfield
+ *			in PM_xyz_PWRSTCTRL register (not all power domains
+ *			feature it).
+ *			Return 0 if not available or in case of error.
+ *			Does not make any access to any register.
+ *//*------------------------------------------------------------------------ */
+unsigned int powerdm_has_logic_ret_state_ctrl_bit(const char *powerdm)
+{
+	int ret;
+	powerdm_info data;
+
+	CHECK_NULL_ARG(powerdm, 0);
+
+	ret = _powerdm_info_get(powerdm, &data);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve powerdm_info struct!\n",
+			__func__, powerdm);
+		return 0;
+	}
+
+	if ((data.properties & PWRDM_HAS_LOGIC_RET_STATE_CTRL_BIT) != 0) {
+		dprintf("%s(%s): HAS LOGICRETSTATE bitfield\n",
+			__func__, powerdm);
+		return 1;
+	} else {
+		dprintf("%s(%s): does NOT have LOGICRETSTATE bitfield\n",
+			__func__, powerdm);
+		return 0;
+	}
+}
 
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		powerdm_id_get
@@ -337,7 +412,7 @@ pwrdm_state powerdm_target_logic_ret_state_get(const char *powerdm)
 
 	CHECK_NULL_ARG(powerdm, PWRDM_STATE_MAX);
 
-	if (!pwrdm54xx_has_logic_ret_state_ctrl_bit(powerdm_id_get(powerdm))) {
+	if (!powerdm_has_logic_ret_state_ctrl_bit(powerdm)) {
 		dprintf("%s(%s): domain doesn't have RET state control bit.\n",
 			__func__, powerdm);
 		return PWRDM_STATE_MAX;
@@ -479,33 +554,95 @@ unsigned int powerdm_in_transition(const char *powerdm)
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_NOT_AVAILABLE
  * @param[in,out]	stream: output file
  * @param[in]		powerdm: power domain name
  * @DESCRIPTION		decode and display power domain configuration
  *//*------------------------------------------------------------------------ */
 int powerdm_config_show(FILE *stream, const char *powerdm)
 {
+	int ret;
+	powerdm_info data;
+	pwrdm_state st_last, st_curr, st_tgt;
 	reg *pm_pwrstctrl;
 	reg *pm_pwrstst;
+	char s[64];
+	char s1[32], s2[32];
 
 	CHECK_NULL_ARG(stream, OMAPCONF_ERR_ARG);
 	CHECK_NULL_ARG(powerdm, OMAPCONF_ERR_ARG);
 
+	ret = _powerdm_info_get(powerdm, &data);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve powerdm_info struct!\n",
+			__func__, powerdm);
+		return OMAPCONF_ERR_NOT_AVAILABLE;
+	}
+
+	fprintf(stream,
+		"|----------------------------------------------------------------|\n");
+	strcpy(s, powerdm);
+	strcat(s, " Power Domain Configuration");
+	fprintf(stream, "| %-62s |\n", s);
+	fprintf(stream,
+		"|----------------------------------------------------------------|\n");
+	fprintf(stream, "| %-32s | %-7s | %-7s | %-7s |\n", "Power State",
+		"Current", "Target", "Last");
+	fprintf(stream,
+		"|----------------------------------|---------|---------|---------|\n");
+
+	st_last = powerdm_state_get(powerdm, PWRDM_STATE_PREVIOUS);
+	st_curr = powerdm_state_get(powerdm, PWRDM_STATE_CURRENT);
+	st_tgt = powerdm_state_get(powerdm, PWRDM_STATE_TARGET);
+	fprintf(stream, "| %-32s | %-7s | %-7s | %-7s |\n",
+		"Domain", pwrdm_state_name_get(st_curr),
+		pwrdm_state_name_get(st_tgt), pwrdm_state_name_get(st_last));
+
+	if ((!powerdm_has_logic_ret_state_ctrl_bit(powerdm)) &&
+		(data.pwrstst == NULL))
+		goto powerdm_config_show_mem;
+
+	st_tgt = powerdm_target_logic_ret_state_get(powerdm);
+	if (st_tgt != PWRDM_STATE_MAX)
+		strcpy(s1, pwrdm_state_name_get(st_tgt));
+	else
+		strcpy(s1, "");
+	st_curr = powerdm_logic_state_get(powerdm);
+	if (st_curr != PWRDM_STATE_MAX)
+		strcpy(s2, pwrdm_state_name_get(st_curr));
+	else
+		strcpy(s2, "");
+	fprintf(stream, "| %-32s | %-7s | %-7s |         |\n", "Logic", s2, s1);
+
+powerdm_config_show_mem:
 	if (cpu_is_omap44xx()) {
 		pm_pwrstctrl = powerdm_pwrstctrl_reg_get(powerdm);
 		pm_pwrstst = powerdm_pwrstst_reg_get(powerdm);
-		return pwrdm44xx_config_show(stream, powerdm,
+		ret = pwrdm44xx_config_show(stream, powerdm,
 			reg_addr_get(pm_pwrstctrl),
 			reg_read(pm_pwrstctrl),
 			reg_addr_get(pm_pwrstst),
 			reg_read(pm_pwrstst));
 	} else if (cpu_is_omap54xx()) {
-		return pwrdm54xx_config_show(stream, powerdm_id_get(powerdm));
+		ret = pwrdm54xx_config_show(stream, data);
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
-		return OMAPCONF_ERR_CPU;
+		ret = OMAPCONF_ERR_CPU;
 	}
+
+	if (data.pwrstst != NULL) {
+		fprintf(stream,
+			"|----------------------------------------------------------------|\n");
+
+		fprintf(stream, "| %-32s | %-27s |\n",
+			"Ongoing Power Transition?",
+			((powerdm_in_transition(powerdm) == 1) ? "YES" : "NO"));
+	}
+	fprintf(stream,
+		"|----------------------------------------------------------------|\n\n");
+
+	return ret;
 }
 
 

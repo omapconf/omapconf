@@ -59,13 +59,6 @@ int reg44xx_addr_find(char *name, unsigned int* addr);
 int cpu44xx_power_state_get(unsigned int cpu,
 	pwrdm_state *state);
 
-int clkdm44xx_config_show(FILE *stream, const char name[11],
-	unsigned int cm_clkstctrl_addr,	unsigned int cm_clkstctrl);
-int mod44xx_config_show(FILE *stream, const char name[11],
-	unsigned int cm_clkctrl_addr, unsigned int cm_clkctrl,
-	unsigned int rm_context_addr, unsigned int rm_context);
-
-
 int power44xx_status_show(void);
 
 

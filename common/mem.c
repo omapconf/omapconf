@@ -183,6 +183,11 @@ int mem_read(unsigned int addr, unsigned int *val)
 		return MEM_ERR_ARG;
 	}
 
+	if (mem_read_trace) {
+		printf("omapconf: reading address 0x%08X ...", addr);
+		fflush(stdin);
+	}
+
 	if (mem_fake_access_get()) {
 		*val = (unsigned int) addr;
 		ret = 0;
@@ -192,8 +197,10 @@ int mem_read(unsigned int addr, unsigned int *val)
 			ret = MEM_ERR_ACCESS;
 	}
 
-	if (mem_read_trace)
-		printf("omapconf: read 0x%08X at address 0x%08X\n", *val, addr);
+	if (mem_read_trace) {
+		printf("done => 0x%08X\n", *val);
+		fflush(stdin);
+	}
 
 	return ret;
 }
@@ -219,6 +226,12 @@ int mem_write(unsigned int addr, unsigned int val)
 		return MEM_ERR_ARG;
 	}
 
+	if (mem_write_trace) {
+		printf("omapconf: writing 0x%08X at address 0x%08X...",
+			val, addr);
+		fflush(stdin);
+	}
+
 	if (!mem_fake_access_get()) {
 		ret = lmem_write(addr, val);
 		if (ret != 0)
@@ -227,9 +240,10 @@ int mem_write(unsigned int addr, unsigned int val)
 		ret = 0;
 	}
 
-	if (mem_write_trace)
-		printf("omapconf: wrote 0x%08X at address 0x%08X\n",
-			val, addr);
+	if (mem_write_trace) {
+		printf("OK\n");
+		fflush(stdin);
+	}
 
 	return ret;
 }

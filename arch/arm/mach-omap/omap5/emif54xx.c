@@ -46,7 +46,7 @@
 #include <autoadjust_table.h>
 #include <lib.h>
 #include <cpuinfo.h>
-#include <module54xx.h>
+#include <module.h>
 
 
 /* #define EMIF54XX_DEBUG */
@@ -135,10 +135,10 @@ int emif54xx_dump(FILE *stream, emif54xx_mod_id id)
 		else {
 			switch (mid) {
 			case EMIF54XX_EMIF1:
-				accessible = mod54xx_is_accessible(OMAP5_EMIF1);
+				accessible = module_is_accessible(MOD_EMIF1);
 				break;
 			case EMIF54XX_EMIF2:
-				accessible = mod54xx_is_accessible(OMAP5_EMIF2);
+				accessible = module_is_accessible(MOD_EMIF2);
 				break;
 			default:
 				accessible = 0;
@@ -206,10 +206,10 @@ int emif54xx_export(FILE *fp, emif54xx_mod_id id)
 
 	switch (id) {
 	case EMIF54XX_EMIF1:
-		accessible = mod54xx_is_accessible(OMAP5_EMIF1);
+		accessible = module_is_accessible(MOD_EMIF1);
 		break;
 	case EMIF54XX_EMIF2:
-		accessible = mod54xx_is_accessible(OMAP5_EMIF2);
+		accessible = module_is_accessible(MOD_EMIF2);
 		break;
 	default: /* should not happen as already checked just before ... */
 		return OMAPCONF_ERR_INTERNAL;
