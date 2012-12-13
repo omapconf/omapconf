@@ -51,7 +51,7 @@
 #include <pmic.h>
 #include <voltdm44xx.h>
 #include <clock44xx.h>
-#include <module54xx.h>
+#include <module.h>
 #include <voltdm54xx.h>
 #include <vp.h>
 
@@ -1162,7 +1162,8 @@ int sr_config_show(FILE *stream, sr_registers sr_regs[3])
 		else
 			sr_sysclk = sys_clk;
 	} else {
-		sr_sysclk = mod54xx_clk_rate_get(OMAP5_SMARTREFLEX_MPU, 0);
+		sr_sysclk =
+			(double) module_clk_rate_get(MOD_SMARTREFLEX_MPU, 0) / 1000.0;
 	}
 	dprintf("%s(): sr_sysclk = %lfMHz\n", __func__, sr_sysclk);
 
@@ -1644,7 +1645,8 @@ int sr_config_audit(FILE *stream, const char *sr_name, const char *opp_name,
 		else
 			sr_sysclk = sys_clk;
 	} else {
-		sr_sysclk = mod54xx_clk_rate_get(OMAP5_SMARTREFLEX_MPU, 0);
+		sr_sysclk =
+			(double) module_clk_rate_get(MOD_SMARTREFLEX_MPU, 0) / 1000.0;
 	}
 	dprintf("%s(): sr_sysclk = %lfMHz\n", __func__, sr_sysclk);
 

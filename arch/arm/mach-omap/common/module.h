@@ -235,6 +235,19 @@ void module_deinit(void);
 int module_count_get(void);
 const genlist *module_list_get(void);
 
+
+unsigned int module_has_sysconfig_register(const char *mod);
+unsigned int module_has_autoidle_bit(const char *mod);
+unsigned int module_has_idle_mode(const char *mod);
+unsigned int module_has_idle_status(const char *mod);
+unsigned int module_has_smart_idle_wakeup_mode(const char *mod);
+unsigned int module_has_enawakeup_bit(const char *mod);
+unsigned int module_has_standby_mode(const char *mod);
+unsigned int module_has_standby_status(const char *mod);
+unsigned int module_has_smart_standby_wakeup_mode(const char *mod);
+unsigned int module_has_clock_activity_mode(const char *mod);
+
+
 int module_id_get(const char *mod);
 unsigned short int module_is_accessible(const char *mod);
 mod_module_mode module_mode_get(const char *mod);
@@ -245,6 +258,7 @@ mod_standby_mode module_standby_mode_get(const char *mod);
 mod_standby_status module_standby_status_get(const char *mod);
 mod_clock_activity_mode module_clock_activity_mode_get(const char *mod);
 int module_context_is_lost(const char *mod);
+int module_clk_get(const char *mod);
 int module_clk_rate_get(const char *mod, unsigned short ignore);
 int module_por_clk_rate_get(const char *mod, const char *opp);
 
@@ -253,5 +267,7 @@ int module_clk_rate_audit(FILE *stream,
 	unsigned int *err_nbr, unsigned int *wng_nbr);
 int module_sysconfig_audit(FILE *stream, unsigned int *err_nbr,
 	unsigned int *wng_nbr);
+int module_config_show(FILE *stream, const char *mod);
+
 
 #endif

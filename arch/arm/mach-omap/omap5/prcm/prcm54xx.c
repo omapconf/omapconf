@@ -70,6 +70,9 @@
 #include <module54xx.h>
 #include <abb54xx.h>
 #include <clkdm_dependency54xx.h>
+#include <powerdomain.h>
+#include <clockdomain.h>
+#include <module.h>
 
 
 /* #define PRCM54XX_DEBUG */
@@ -102,8 +105,123 @@ typedef enum {
 } prcm54xx_index;
 
 
-static prcm54xx_index prcm54xx_s2idx(char *s);
-static pwrdm54xx_id prcm54xx_idx2pwrdmid(prcm54xx_index idx);
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_powerdm_name_get
+ * @BRIEF		convert user argument string (argv[]) into power domain
+ *			name.
+ * @RETURNS		power domain name in case of success
+ *			NULL if no match found
+ * @param[in]		s: user argument string (argv[])
+ * @DESCRIPTION		convert user argument string (argv[]) into power domain
+ *			name.
+ *//*------------------------------------------------------------------------ */
+static const char *_prcm54xx_powerdm_name_get(const char *s)
+{
+	if (s == NULL) {
+		return NULL;
+	} else if (strcasecmp(s, "emu") == 0) {
+		return PWRDM_EMU;
+	} else if (strcasecmp(s, "wkupaon") == 0) {
+		return PWRDM_WKUPAON;
+	} else if (strcasecmp(s, "coreaon") == 0) {
+		return PWRDM_COREAON;
+	} else if (strcasecmp(s, "cam") == 0) {
+		return PWRDM_CAM;
+	} else if (strcasecmp(s, "core") == 0) {
+		return PWRDM_CORE;
+	} else if (strcasecmp(s, "dss") == 0) {
+		return PWRDM_DSS;
+	} else if (strcasecmp(s, "l3init") == 0) {
+		return PWRDM_L3_INIT;
+	} else if (strcasecmp(s, "l4per") == 0) {
+		if (cpu_revision_get() == REV_ES1_0)
+			return PWRDM_L4_PER;
+		else
+			return NULL;
+	} else if (strcasecmp(s, "abe") == 0) {
+		return PWRDM_ABE;
+	} else if (strcasecmp(s, "dsp") == 0) {
+		return PWRDM_DSP;
+	} else if (strcasecmp(s, "gpu") == 0) {
+		return PWRDM_GPU;
+	} else if (strcasecmp(s, "iva") == 0) {
+		return PWRDM_IVA;
+	} else if (strcasecmp(s, "mpu") == 0) {
+		return PWRDM_MPU;
+	} else {
+		return NULL;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_clockdm_name_get
+ * @BRIEF		retrieve clock domain name matching
+ *			user argument string (i.e. argv[])
+ * @RETURNS		clock domain name on success
+ *			NULL if no match found
+ * @param[in]		s: user argument string (argv[])
+ *			List of recognized strings: "emu", "wkupaon", "coreaon",
+ *			"cam", "l4cfg", "emif", "ipu", "l3main2", "l3instr",
+ *			"l3main1", "c2c", "dma", "mipiext", "dss", "custefuse",
+ *			"l3init", "l4per", "l4sec", "abe", "dsp", "gpu, "iva",
+ *			"mpu"
+ * @DESCRIPTION		retrieve clock domain name matching
+ *			user argument string (i.e. argv[])
+ *//*------------------------------------------------------------------------ */
+static const char *_prcm54xx_clockdm_name_get(const char *s)
+{
+	if (s == NULL)
+		return NULL;
+	else if (strcasecmp(s, "emu") == 0)
+		return CLKDM_EMU;
+	else if (strcasecmp(s, "wkupaon") == 0)
+		return CLKDM_WKUPAON;
+	else if (strcasecmp(s, "coreaon") == 0)
+		return CLKDM_COREAON;
+	else if (strcasecmp(s, "cam") == 0)
+		return CLKDM_CAM;
+	else if (strcasecmp(s, "l4cfg") == 0)
+		return CLKDM_L4_CFG;
+	else if (strcasecmp(s, "emif") == 0)
+		return CLKDM_EMIF;
+	else if (strcasecmp(s, "ipu") == 0)
+		return CLKDM_IPU;
+	else if (strcasecmp(s, "l3main2") == 0)
+		return CLKDM_L3_MAIN2;
+	else if (strcasecmp(s, "l3instr") == 0)
+		return CLKDM_L3_INSTR;
+	else if (strcasecmp(s, "l3main1") == 0)
+		return CLKDM_L3_MAIN1;
+	else if (strcasecmp(s, "c2c") == 0)
+		return CLKDM_C2C;
+	else if (strcasecmp(s, "dma") == 0)
+		return CLKDM_DMA;
+	else if (strcasecmp(s, "mipiext") == 0)
+		return CLKDM_MIPIEXT;
+	else if (strcasecmp(s, "dss") == 0)
+		return CLKDM_DSS;
+	else if (strcasecmp(s, "custefuse") == 0)
+		return CLKDM_CUST_EFUSE;
+	else if (strcasecmp(s, "l3init") == 0)
+		return CLKDM_L3_INIT;
+	else if (strcasecmp(s, "l4per") == 0)
+		return CLKDM_L4_PER;
+	else if (strcasecmp(s, "l4sec") == 0)
+		return CLKDM_L4_SEC;
+	else if (strcasecmp(s, "abe") == 0)
+		return CLKDM_ABE;
+	else if (strcasecmp(s, "dsp") == 0)
+		return CLKDM_DSP;
+	else if (strcasecmp(s, "gpu") == 0)
+		return CLKDM_GPU;
+	else if (strcasecmp(s, "iva") == 0)
+		return CLKDM_IVA;
+	else if (strcasecmp(s, "mpu") == 0)
+		return CLKDM_MPU;
+	else
+		return NULL;
+}
 
 
 /* ------------------------------------------------------------------------*//**
@@ -114,122 +232,198 @@ static pwrdm54xx_id prcm54xx_idx2pwrdmid(prcm54xx_index idx);
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
  *			OMAPCONF_ERR_UNEXPECTED
+ *			OMAPCONF_ERR_INTERNAL
  * @param[in]		stream: output file
- * @param[in]		pwrdm_s: power domain name, as supported by
- *			prcm54xx_s2idx()
- *			If pwrdm_s == NULL, show all power domains
- *			configuration.
- * @param[in]		clkdm_s = clock domain name, as supported
- *			by clkdm54xx_s2id()
- *			If clkdm_s == NULL, show all inner clock domains
- *			configuration.
+ * @param[in]		powerdm_u: power domain name, as user argument (argv[])
+ *				If powerdm_u == NULL, show all power domains
+ *				configuration.
+ * @param[in]		clockdm_u = clock domain name, as user argument (argv[])
+ *				If clockdm_u == NULL, show inner clock domain(s)
+ *				configuration.
  * @DESCRIPTION		show configuration of a given power domain and
  *			included clock domains
  *//*------------------------------------------------------------------------ */
-int prcm54xx_pwrdm_config_show(FILE *stream, char *pwrdm_s, char *clkdm_s)
+int prcm54xx_pwrdm_config_show(FILE *stream,
+	const char *powerdm_u, const char *clockdm_u)
 {
-	int ret;
-	pwrdm54xx_id pwrdm_id, pwrdm_id_start, pwrdm_id_end;
-	clkdm54xx_id clkdm_id, clkdm_id_start, clkdm_id_end;
-	mod54xx_id mod_id;
-	prcm54xx_index idx;
+	int ret, all;
+	const genlist *pwrdm_list;
+	powerdm_info pwrdm;
+	const char *powerdm = NULL;
+	int p, pwrdm_count;
+	const genlist *clkdm_list;
+	clockdm_info clkdm;
+	const char *clockdm = NULL;
+	int c, clkdm_count;
+	const genlist *mod_list;
+	mod_info mod;
+	int m, mod_count;
 
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(stream, OMAPCONF_ERR_ARG);
 
-	if ((pwrdm_s == NULL) && (clkdm_s == NULL)) {
+	/* Retrieve power & clock domain names from user arguments */
+	dprintf("%s(): powerdm_u=%s clockdm_u=%s\n", __func__,
+		powerdm_u, clockdm_u);
+	all = 0;
+	if ((powerdm_u == NULL) && (clockdm_u == NULL)) {
 		/* no power domain provided, select all */
-		pwrdm_id_start = PWRDM54XX_EMU;
-		pwrdm_id_end = PWRDM54XX_ID_MAX;
-		clkdm_id_start = CLKDM54XX_EMU;
-		clkdm_id_end = CLKDM54XX_ID_MAX;
-	} else if ((pwrdm_s != NULL) && (clkdm_s == NULL)) {
+		all = 1;
+	} else if ((powerdm_u != NULL) && (clockdm_u == NULL)) {
 		/* only power domain provided, show all inner clock domains */
-		idx = prcm54xx_s2idx(pwrdm_s);
-		if (idx == PRCM54XX_IDX_MAX)
-			return err_arg_msg_show(HELP_PRCM);
-
-		if (idx == PRCM54XX_IDX_ALL) {
-			pwrdm_id_start = PWRDM54XX_EMU;
-			pwrdm_id_end = PWRDM54XX_ID_MAX;
-			clkdm_id_start = CLKDM54XX_EMU;
-			clkdm_id_end = CLKDM54XX_ID_MAX;
+		if (strcmp(powerdm_u, "all") == 0) {
+			all = 1;
 		} else {
-			pwrdm_id_start = prcm54xx_idx2pwrdmid(idx);
-			if (pwrdm_id_start == PWRDM54XX_ID_MAX)
+			powerdm = _prcm54xx_powerdm_name_get(powerdm_u);
+			if (powerdm == NULL)
 				return err_arg_msg_show(HELP_PRCM);
-
-			pwrdm_id_end = (pwrdm54xx_id) (pwrdm_id_start + 1);
-			clkdm_id_start = CLKDM54XX_EMU;
-			clkdm_id_end = CLKDM54XX_ID_MAX;
 		}
-	} else if ((pwrdm_s != NULL) && (clkdm_s != NULL)) {
+	} else if ((powerdm_u != NULL) && (clockdm_u != NULL)) {
 		/* power domain & clock domain provided */
-		idx = prcm54xx_s2idx(pwrdm_s);
-		if (idx == PRCM54XX_IDX_MAX)
+		if (strcmp(powerdm_u, "all") == 0) {
+			all = 1;
+		} else {
+			powerdm = _prcm54xx_powerdm_name_get(powerdm_u);
+			if (powerdm == NULL)
+				return err_arg_msg_show(HELP_PRCM);
+		}
+
+		clockdm = _prcm54xx_clockdm_name_get(clockdm_u);
+		if (clockdm == NULL)
 			return err_arg_msg_show(HELP_PRCM);
-
-		pwrdm_id_start = prcm54xx_idx2pwrdmid(idx);
-		if (pwrdm_id_start == PWRDM54XX_ID_MAX)
-			return err_arg_msg_show(HELP_PRCM);
-
-		pwrdm_id_end = (pwrdm54xx_id) (pwrdm_id_start + 1);
-
-		clkdm_id_start = clkdm54xx_s2id(clkdm_s);
-		if (clkdm_id_start == CLKDM54XX_ID_MAX)
-			return err_arg_msg_show(HELP_PRCM);
-
-		if (clkdm54xx_pwrdm_get(clkdm_id_start) != pwrdm_id_start) {
+		if (strcmp(clockdm_powerdm_get(clockdm), powerdm) != 0) {
 			printf(
-				"omapconf: clock domain '\"%s\"' is not part of '\"%s\"' power domain!!!\n\n",
-				clkdm_s, pwrdm_s);
+				"omapconf: clock domain '%s' is not part of '%s' power domain!!!\n\n",
+				clockdm, powerdm);
 			return err_arg_msg_show(HELP_PRCM);
 		}
-		clkdm_id_end = (clkdm54xx_id) (clkdm_id_start + 1);
 	} else {
-		/* pwrdm is missing */
+		/* power domain is missing */
 		fprintf(stderr,
 			"omapconf: clkdm '%s' provided without pwrdm?!\n\n",
-			clkdm_s);
+			clockdm_u);
 		return OMAPCONF_ERR_UNEXPECTED;
 	}
+	dprintf("%s(): powerdm=%s clockdm=%s all=%d\n", __func__,
+		powerdm, clockdm, all);
 
-	/* Display power domain(s) configuration */
-	for (pwrdm_id = pwrdm_id_start; pwrdm_id < pwrdm_id_end; pwrdm_id++) {
-		switch (pwrdm_id) {
-		case PWRDM54XX_WKUPAON:
-		case PWRDM54XX_COREAON:
-		case PWRDM54XX_MMAON:
-		case PWRDM54XX_MPUAON:
-			break;
-		case PWRDM54XX_L4_PER:
-			if (cpu_revision_get() != REV_ES1_0)
+	/* Retrieve power domains list and count */
+	pwrdm_list = powerdm_list_get();
+	if (pwrdm_list == NULL) {
+		fprintf(stderr,
+			"omapconf: %s(): could not retrieve power domains list?!\n",
+			__func__);
+		return OMAPCONF_ERR_UNEXPECTED;
+	}
+	pwrdm_count = genlist_getcount((genlist *) pwrdm_list);
+	if (pwrdm_count == 0) {
+		fprintf(stderr,
+			"omapconf: %s(): empty power domains list?!\n",
+			__func__);
+		return OMAPCONF_ERR_UNEXPECTED;
+	}
+	dprintf("%s(): power domains list retrieved.\n", __func__);
+
+	/* Retrieve clock domains list and count */
+	clkdm_list = clockdm_list_get();
+	if (clkdm_list == NULL) {
+		fprintf(stderr,
+			"omapconf: %s(): could not retrieve clock domains list?!\n",
+			__func__);
+		return OMAPCONF_ERR_UNEXPECTED;
+	}
+	clkdm_count = genlist_getcount((genlist *) clkdm_list);
+	if (clkdm_count == 0) {
+		fprintf(stderr,
+			"omapconf: %s(): empty clock domains list?!\n",
+			__func__);
+		return OMAPCONF_ERR_UNEXPECTED;
+	}
+	dprintf("%s(): clock domains list retrieved.\n", __func__);
+
+	/* Retrieve modules list and count */
+	mod_list = module_list_get();
+	if (mod_list == NULL) {
+		fprintf(stderr,
+			"omapconf: %s(): could not retrieve modules list?!\n",
+			__func__);
+		return OMAPCONF_ERR_UNEXPECTED;
+	}
+	mod_count = genlist_getcount((genlist *) mod_list);
+	if (mod_count == 0) {
+		fprintf(stderr,
+			"omapconf: %s(): empty modules list?!\n",
+			__func__);
+		return OMAPCONF_ERR_UNEXPECTED;
+	}
+	dprintf("%s(): modules list retrieved.\n", __func__);
+
+	for (p = 0; p < pwrdm_count; p++) {
+		genlist_get((genlist *) pwrdm_list, p, (powerdm_info *) &pwrdm);
+		if ((all == 1) || (strcmp(pwrdm.name, powerdm) == 0)) {
+			dprintf("%s(): %s power domain config:\n",
+				__func__, pwrdm.name);
+			switch (pwrdm.id) {
+			case PWRDM54XX_WKUPAON:
+			case PWRDM54XX_COREAON:
+			case PWRDM54XX_MMAON:
+			case PWRDM54XX_MPUAON:
+				dprintf("%s(): powerdm %s skipped.\n",
+					__func__, pwrdm.name);
 				break;
-		default:
-			ret = pwrdm54xx_config_show(stream,
-				(pwrdm54xx_id) pwrdm_id);
-			if (ret != 0)
-				return ret;
-			break;
-		}
-
-		/* Display inner clock domain(s) configuration */
-		for (clkdm_id = clkdm_id_start; clkdm_id < clkdm_id_end;
-			clkdm_id++) {
-			if (clkdm54xx_pwrdm_get(clkdm_id) != pwrdm_id)
-				continue;
-			ret = clkdm54xx_config_show(stream, clkdm_id);
-			if (ret != 0)
-				return ret;
-
-			/* Display inner module(s) configuration */
-			for (mod_id = OMAP5_DEBUGSS; mod_id < MOD54XX_ID_MAX;
-				mod_id++) {
-				if (mod54xx_clkdm_get(mod_id) != clkdm_id)
-					continue;
-				ret = mod54xx_config_show(stream, mod_id);
+			case PWRDM54XX_L4_PER:
+				if (cpu_revision_get() != REV_ES1_0) {
+					fprintf(stderr,
+						"omapconf: %s(): powerdm %s does not exist on ES1.0.\n",
+						__func__, pwrdm.name);
+					return OMAPCONF_ERR_INTERNAL;
+				}
+			default:
+				ret = powerdm_config_show(stream, pwrdm.name);
 				if (ret != 0)
 					return ret;
+				break;
+			}
+
+			/* Display inner clock domain(s) configuration */
+			for (c = 0; c < clkdm_count; c++) {
+				genlist_get((genlist *) clkdm_list, c,
+					(clockdm_info *) &clkdm);
+				dprintf("%s(): %s clock domain config:\n",
+					__func__, clkdm.name);
+				if ((clockdm != NULL) &&
+					(strcmp(clkdm.name, clockdm) != 0)) {
+					dprintf(
+						"%s(): clockdm %s skipped (not matching)\n",
+						__func__, clkdm.name);
+					continue;
+				} else if (strcmp(clkdm.powerdm, pwrdm.name) != 0) {
+					dprintf(
+						"%s(): clockdm %s skipped (not included)\n",
+						__func__, clkdm.name);
+					continue;
+				}
+				ret = clockdm_config_show(stream, clkdm.name);
+				if (ret != 0)
+					return ret;
+
+				/* Display inner module(s) configuration */
+				for (m = 0; m < mod_count; m++) {
+					genlist_get((genlist *) mod_list, m,
+						(mod_info *) &mod);
+					dprintf("%s(): %s module config:\n",
+						__func__, mod.name);
+					if (strcmp(mod.clkdm, clkdm.name) != 0) {
+						dprintf(
+							"%s(): module %s skipped (not part of domain)\n",
+						__func__, mod.name);
+						continue;
+					}
+					ret = module_config_show(
+						stream, mod.name);
+					if (ret != 0)
+						return ret;
+				}
 			}
 		}
 	}
@@ -348,129 +542,6 @@ int prcm54xx_config_show(FILE *stream, int argc, char *argv[])
 			return err_arg_too_many_msg_show(HELP_PRCM);
 		}
 	}
-}
-
-
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		prcm54xx_s2idx
- * @BRIEF		convert string to valid PRCM index
- * @RETURNS		valid PRCM index
- *			PRCM54XX_IDX_MAX if no valid PRCM index corresponding
- *			to string s
- * @param[in]		s: string
- * @DESCRIPTION		convert string to valid PRCM index
- *//*------------------------------------------------------------------------ */
-prcm54xx_index prcm54xx_s2idx(char *s)
-{
-	if (strcmp(s, "all") == 0)
-		return PRCM54XX_IDX_ALL;
-	else if (strcmp(s, "emu") == 0)
-		return PRCM54XX_IDX_EMU;
-	else if (strcmp(s, "wkupaon") == 0)
-		return PRCM54XX_IDX_WKUPAON;
-	else if (strcmp(s, "coreaon") == 0)
-		return PRCM54XX_IDX_COREAON;
-	else if (strcmp(s, "cam") == 0)
-		return PRCM54XX_IDX_CAM;
-	else if (strcmp(s, "core") == 0)
-		return PRCM54XX_IDX_CORE;
-	else if (strcmp(s, "dev") == 0)
-		return PRCM54XX_IDX_DEV;
-	else if (strcmp(s, "core") == 0)
-		return PRCM54XX_IDX_CORE;
-	else if (strcmp(s, "ckgen") == 0)
-		return PRCM54XX_IDX_CKGEN;
-	else if (strcmp(s, "instr") == 0)
-		return PRCM54XX_IDX_INSTR;
-	else if (strcmp(s, "dss") == 0)
-		return PRCM54XX_IDX_DSS;
-	else if (strcmp(s, "l3init") == 0)
-		return PRCM54XX_IDX_L3INIT;
-	else if (strcmp(s, "l4per") == 0)
-		return PRCM54XX_IDX_L4PER;
-	else if (strcmp(s, "abe") == 0)
-		return PRCM54XX_IDX_ABE;
-	else if (strcmp(s, "dsp") == 0)
-		return PRCM54XX_IDX_DSP;
-	else if (strcmp(s, "gpu") == 0)
-		return PRCM54XX_IDX_GPU;
-	else if (strcmp(s, "iva") == 0)
-		return PRCM54XX_IDX_IVA;
-	else if (strcmp(s, "mpu") == 0)
-		return PRCM54XX_IDX_MPU;
-	else
-		return PRCM54XX_IDX_MAX;
-}
-
-
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		prcm54xx_idx2pwrdmid
- * @BRIEF		convert PRCM index into valid power domain ID
- * @RETURNS		valid power domain ID
- *			PWRDM54XX_ID_MAX if no match found
- * @param[in]		idx: PRCM index
- * @DESCRIPTION		convert PRCM index into valid power domain ID
- *//*------------------------------------------------------------------------ */
-pwrdm54xx_id prcm54xx_idx2pwrdmid(prcm54xx_index idx)
-{
-	pwrdm54xx_id id;
-
-	switch (idx) {
-	case PRCM54XX_IDX_EMU:
-		id = PWRDM54XX_EMU;
-		break;
-	case PRCM54XX_IDX_WKUPAON:
-		id = PWRDM54XX_WKUPAON;
-		break;
-	case PRCM54XX_IDX_COREAON:
-		id = PWRDM54XX_COREAON;
-		break;
-	case PRCM54XX_IDX_CAM:
-		id = PWRDM54XX_CAM;
-		break;
-	case PRCM54XX_IDX_CORE:
-		id = PWRDM54XX_CORE;
-		break;
-	case PRCM54XX_IDX_DSS:
-		id = PWRDM54XX_DSS;
-		break;
-	case PRCM54XX_IDX_L3INIT:
-		id = PWRDM54XX_L3_INIT;
-		break;
-	case PRCM54XX_IDX_L4PER:
-		if (cpu_revision_get() == REV_ES1_0)
-			id = PWRDM54XX_L4_PER;
-		else
-			id = PWRDM54XX_ID_MAX;
-		break;
-	case PRCM54XX_IDX_ABE:
-		id = PWRDM54XX_ABE;
-		break;
-	case PRCM54XX_IDX_DSP:
-		id = PWRDM54XX_DSP;
-		break;
-	case PRCM54XX_IDX_GPU:
-		id = PWRDM54XX_GPU;
-		break;
-	case PRCM54XX_IDX_IVA:
-		id = PWRDM54XX_IVA;
-		break;
-	case PRCM54XX_IDX_MPU:
-		id = PWRDM54XX_MPU;
-		break;
-
-	case PRCM54XX_IDX_DEV:
-	case PRCM54XX_IDX_CKGEN:
-	case PRCM54XX_IDX_INSTR:
-	default:
-		/*
-		 * does not exist (not a power domain, but PRCM module).
-		 */
-		id = PWRDM54XX_ID_MAX;
-	}
-
-	dprintf("%s(%u)=%s\n", __func__, idx, pwrdm54xx_name_get(id));
-	return id;
 }
 
 

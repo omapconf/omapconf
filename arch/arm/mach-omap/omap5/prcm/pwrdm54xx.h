@@ -46,6 +46,7 @@
 #define __PWRDM54XX_H__
 
 
+#include <powerdomain.h>
 #include <pwrdm.h>
 #include <voltdm54xx.h>
 #include <genlist.h>
@@ -81,22 +82,7 @@ void pwrdm54xx_deinit(void);
 int pwrdm54xx_count_get(void);
 const genlist *pwrdm54xx_list_get(void);
 
-
-const char *pwrdm54xx_name_get(pwrdm54xx_id id);
-voltdm54xx_id pwrdm54xx_voltdm_get(pwrdm54xx_id id);
-unsigned int pwrdm54xx_properties_get(pwrdm54xx_id id);
-unsigned int pwrdm54xx_has_pwrstctrl_reg(pwrdm54xx_id id);
-reg *pwrdm54xx_pwrstctrl_reg_get(pwrdm54xx_id id);
-unsigned int pwrdm54xx_has_pwrstst_reg(pwrdm54xx_id id);
-reg *pwrdm54xx_pwrstst_reg_get(pwrdm54xx_id id);
-unsigned int pwrdm54xx_has_last_power_state(pwrdm54xx_id id);
-unsigned int pwrdm54xx_has_logic_ret_state_ctrl_bit(pwrdm54xx_id id);
-pwrdm_state pwrdm54xx_target_logic_ret_state_get(pwrdm54xx_id id);
-pwrdm_state pwrdm54xx_logic_state_get(pwrdm54xx_id id);
-pwrdm_state pwrdm54xx_state_get(pwrdm54xx_id id, pwrdm_state_type type);
-unsigned int pwrdm54xx_in_transition(pwrdm54xx_id id);
-
-int pwrdm54xx_config_show(FILE *stream, pwrdm54xx_id id);
+int pwrdm54xx_config_show(FILE *stream, powerdm_info pwrdm);
 
 
 #endif

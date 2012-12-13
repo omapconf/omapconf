@@ -45,6 +45,8 @@
 #include <module.h>
 #include <module44xx.h>
 #include <module44xx-data.h>
+#include <cm44xx.h>
+#include <prm44xx.h>
 #include <sysconfig44xx.h>
 #include <lib.h>
 #include <mem.h>
@@ -1536,3 +1538,775 @@ mod44xx_get_clk_speed_end:
 #define dprintf(format, ...)
 #endif
 #endif
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		mod44xx_config_show
+ * @BRIEF		analyze module power configuration
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in]		stream: output file
+ * @param[in]		name: module's name
+ * @param[in]		cm_clkctrl_addr: module's CM CLKCTRL register addr
+ * @param[in]		cm_clkctrl: module's CM CLKCTRL register content
+ * @param[in]		rm_context_addr: module's RM CONTEXT register addr
+ * @param[in]		rm_context: module's RM CONTEXT register content
+ * @DESCRIPTION		analyze module power configuration
+ *//*------------------------------------------------------------------------ */
+int mod44xx_config_show(FILE *stream, const char name[11],
+	unsigned int cm_clkctrl_addr, unsigned int cm_clkctrl,
+	unsigned int rm_context_addr, unsigned int rm_context)
+{
+	unsigned int cm_alwon_usbphy_clkctrl;
+	unsigned int tmp;
+
+	if (!cpu_is_omap44xx()) {
+		fprintf(stderr, "%s(): incorrect CPU!!!\n", __func__);
+		return OMAPCONF_ERR_CPU;
+	}
+
+	dprintf("mod44xx_config_show(): name=%s\n", name);
+	dprintf("mod44xx_config_show(): "
+		"cm_clkctrl_addr=0x%08X\n", cm_clkctrl_addr);
+	dprintf("mod44xx_config_show(): "
+		"cm_clkctrl=0x%08X\n", cm_clkctrl);
+	dprintf("mod44xx_config_show(): "
+		"rm_context_addr=0x%08X\n", rm_context_addr);
+	dprintf("mod44xx_config_show(): "
+		"rm_context=0x%08X\n\n", rm_context);
+
+	fprintf(stream, "|---------------------------------------------------"
+		"-------|\n");
+	fprintf(stream, "| %-10s Module Configuration                        "
+		"  |\n", name);
+	fprintf(stream, "|--------------------------------|------------------"
+		"-------|\n");
+	/* Module Mode */
+	switch (cm_clkctrl_addr) {
+	case OMAP4430_CM_MEMIF_DLL_CLKCTRL:
+	case OMAP4430_CM_WKUP_BANDGAP_CLKCTRL:
+		break;
+	default:
+		fprintf(stream, "| %-30s | %-23s |\n", "Mode",
+			mod_module_mode_name_get((mod_module_mode)
+				extract_bitfield(cm_clkctrl, 0, 2)));
+		break;
+	}
+
+	/* FCLK Source / Optional Clocks */
+	switch (cm_clkctrl_addr) {
+	case OMAP4430_CM_MPU_MPU_CLKCTRL:
+		if (!cpu_is_omap4430()) {
+			tmp = (unsigned int) clk44xx_get_clock_speed(
+				OMAP4_MPU_DPLL_CLK, 0);
+			tmp /= 4 << extract_bit(cm_clkctrl, 25);
+			fprintf(stream, "| %-30s | %dMHz (MPU CLK / %1d)    "
+				"|\n", "MPU->ABE Async Bridge Speed", tmp,
+				4 << extract_bit(cm_clkctrl, 25));
+			tmp = (unsigned int) clk44xx_get_clock_speed(
+				OMAP4_MPU_DPLL_CLK, 0);
+			tmp /= 4 << extract_bit(cm_clkctrl, 24);
+			fprintf(stream, "| %-30s | %dMHz (MPU CLK / %1d)    "
+				"|\n", "EOCP_MA_ICLK Speed", tmp,
+				4 << extract_bit(cm_clkctrl, 24));
+		}
+		break;
+	case OMAP4430_CM1_ABE_DMIC_CLKCTRL:
+	case OMAP4430_CM1_ABE_MCBSP1_CLKCTRL:
+	case OMAP4430_CM1_ABE_MCBSP2_CLKCTRL:
+	case OMAP4430_CM1_ABE_MCBSP3_CLKCTRL:
+		switch (extract_bitfield(cm_clkctrl, 24, 2)) {
+		case 0:
+			switch (extract_bitfield(cm_clkctrl, 26, 2)) {
+			case 0:
+				fprintf(stream, "| %-30s | %-23s |\n",
+					"FCLK Source", "24MHz from DPLL_ABE");
+				break;
+			case 1:
+				fprintf(stream, "| %-30s | %-23s |\n",
+					"FCLK Source", "ABE_SYSCLK");
+				break;
+			case 2:
+				fprintf(stream, "| %-30s | %-23s |\n",
+					"FCLK Source", "24MHz from DPLL_PER");
+				break;
+			default:
+				fprintf(stream, "| %-30s | %-23s |\n",
+					"FCLK Source", "Reserved!");
+				break;
+			}
+			break;
+		case 1:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"FCLK Source", "CLKS pad");
+			break;
+		case 2:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"FCLK Source", "Audio SLIMBUS pad");
+			break;
+		default:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"FCLK Source", "Reserved!");
+			break;
+		}
+		break;
+	case OMAP4430_CM1_ABE_SLIMBUS_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n",
+			"Optional functional clock", "");
+		fprintf(stream, "| %-30s | %-23s |\n", "  SLIMBUS",
+			((extract_bit(cm_clkctrl, 11) == 1) ?
+			"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  FCLK2",
+			((extract_bit(cm_clkctrl, 10) == 1) ?
+			"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  FCLK1",
+			((extract_bit(cm_clkctrl, 9) == 1) ?
+				"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  FCLK0",
+			((extract_bit(cm_clkctrl, 8) == 1) ?
+				"Enabled" : "Disabled"));
+		break;
+	case OMAP4430_CM1_ABE_AESS_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n",
+			"Optional functional clock", "");
+		fprintf(stream, "| %-30s | = ABE_CLK / %-4d        |\n",
+			"  AESS_FCLK",
+			(1 << extract_bit(cm_clkctrl, 24)));
+		break;
+	case OMAP4430_CM1_ABE_TIMER5_CLKCTRL:
+	case OMAP4430_CM1_ABE_TIMER6_CLKCTRL:
+	case OMAP4430_CM1_ABE_TIMER7_CLKCTRL:
+	case OMAP4430_CM1_ABE_TIMER8_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n", "FCLK Source",
+			((extract_bit(cm_clkctrl, 24) == 1) ?
+			"ABE_ALWON_32K_CLK" : "ABE_SYSCLK"));
+		break;
+	case OMAP4430_CM_DSS_DSS_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n",
+				"Optional functional clock", "");
+		if (!cpu_is_omap4470())
+			fprintf(stream, "| %-30s | %-23s |\n", "  TV",
+				((extract_bit(cm_clkctrl, 11) == 1) ?
+				"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  SYS",
+			((extract_bit(cm_clkctrl, 10) == 1) ?
+			"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  48MHz",
+			((extract_bit(cm_clkctrl, 9) == 1) ?
+				"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  DSS",
+			((extract_bit(cm_clkctrl, 8) == 1) ?
+				"Enabled" : "Disabled"));
+		break;
+
+	case OMAP4430_CM_DSS_BB2D_CLKCTRL:
+		fprintf(stream, "| %-30s | %-21s   |\n", "BB2D_FCLK Source",
+			((extract_bit(cm_clkctrl, 24) == 1) ?
+			"DPLL_PER" : "DPLL_CORE"));
+		break;
+
+	case OMAP4430_CM_CAM_ISS_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n",
+			"Optional functional clock", "");
+		fprintf(stream, "| %-30s | %-23s |\n",
+			"  CAM_PHY_CTRL_GCLK 96Mhz",
+			((extract_bit(cm_clkctrl, 8) == 1) ?
+				"Enabled" : "Disabled"));
+		break;
+	case OMAP4430_CM_CAM_FDIF_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n",
+			"Optional functional clock", "");
+		fprintf(stream, "| %-30s | = FUNC_128_CLK / %-4d   |\n",
+			"  FDIF_FCLK",
+			(1 << extract_bitfield(cm_clkctrl, 24, 2)));
+		break;
+	case OMAP4430_CM_GFX_GFX_CLKCTRL:
+		if (cpu_is_omap4430() && (cpu_revision_get() == REV_ES1_0))
+			fprintf(stream, "| %-30s | = 192MHz / %-10d   |\n",
+			"PER_GFX_FCLK",
+				(1 << extract_bitfield(cm_clkctrl, 25, 2)));
+		fprintf(stream, "| %-30s | = %-19s   |\n", "GFX_FCLK",
+			((extract_bit(cm_clkctrl, 24) == 1) ?
+			"DPLL_PER" : "DPLL_CORE"));
+		break;
+	case OMAP4430_CM_L4PER_DMTIMER10_CLKCTRL:
+	case OMAP4430_CM_L4PER_DMTIMER11_CLKCTRL:
+	case OMAP4430_CM_WKUP_TIMER1_CLKCTRL:
+	case OMAP4430_CM_L4PER_DMTIMER2_CLKCTRL:
+	case OMAP4430_CM_L4PER_DMTIMER3_CLKCTRL:
+	case OMAP4430_CM_L4PER_DMTIMER4_CLKCTRL:
+	case OMAP4430_CM_L4PER_DMTIMER9_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n", "FCLK Source",
+			((extract_bit(cm_clkctrl, 24) == 1) ?
+				"32KHz" : "SYS_CLK"));
+		break;
+	case OMAP4430_CM_WKUP_GPIO1_CLKCTRL:
+	case OMAP4430_CM_L4PER_GPIO2_CLKCTRL:
+	case OMAP4430_CM_L4PER_GPIO3_CLKCTRL:
+	case OMAP4430_CM_L4PER_GPIO4_CLKCTRL:
+	case OMAP4430_CM_L4PER_GPIO5_CLKCTRL:
+	case OMAP4430_CM_L4PER_GPIO6_CLKCTRL:
+	case OMAP4430_CM_WKUP_BANDGAP_CLKCTRL:
+		if (cpu_is_omap4430()) {
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"Optional functional clock",
+				((extract_bit(cm_clkctrl, 8) == 1) ?
+					"Enabled" : "Disabled"));
+		} else {
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"TS F-Clock",
+				((extract_bit(cm_clkctrl, 8) == 1) ?
+					"Enabled" : "Disabled"));
+			tmp = (unsigned int) clk44xx_get_clock_speed(
+				OMAP4_L4WKUP_ICLK, 0);
+			tmp /= (1 << (3 + extract_bitfield(cm_clkctrl, 24, 2)));
+			fprintf(stream, "| %-30s | %dMHz (L4WKUP_ICLK / %-2d) "
+				"|\n", "TS F-Clock Speed",
+				tmp,
+				1 << (3 + extract_bitfield(cm_clkctrl, 24, 2)));
+		}
+		break;
+	case OMAP4430_CM_L4PER_MCBSP4_CLKCTRL:
+		if (extract_bit(cm_clkctrl, 24) == 1) {
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"FCLK Source", "CLKS Pad");
+		} else {
+			fprintf(stream, "| %-30s | %-23s |\n", "FCLK Source",
+				((extract_bit(cm_clkctrl, 25) == 1) ?
+				"DPLL_ABE 96MHz" : "DPLL_PER 96MHz"));
+		}
+
+		break;
+	case OMAP4430_CM_L4PER_SLIMBUS2_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n",
+			"Optional functional clock", "");
+		fprintf(stream, "| %-30s | %-23s |\n", "  SLIMBUS",
+			((extract_bit(cm_clkctrl, 10) == 1) ?
+			"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  PER_ABE_24M_FCLK",
+			((extract_bit(cm_clkctrl, 9) == 1) ?
+				"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  PER_24MC_FCLK",
+			((extract_bit(cm_clkctrl, 8) == 1) ?
+				"Enabled" : "Disabled"));
+		break;
+	case OMAP4430_CM_MEMIF_DLL_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n", "Optional DLL_CLK FCLK",
+			((extract_bit(cm_clkctrl, 8) == 1) ?
+				"Enabled" : "Disabled"));
+		break;
+	case OMAP4430_CM_WKUP_USIM_CLKCTRL:
+		fprintf(stream, "| %-30s | = CM2 128MHz / %-2s       |\n",
+			"USIM FCLK",
+			((extract_bit(cm_clkctrl, 24) == 1) ? "18" : "14"));
+		break;
+	case OMAP4430_CM_L3INIT_MMC1_CLKCTRL:
+	case OMAP4430_CM_L3INIT_MMC2_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n", "FCLK Source",
+			((extract_bit(cm_clkctrl, 24) == 1) ?
+			"96MHz from DPLL_PER" : "64MHz from DPLL_PER"));
+		break;
+	case OMAP4430_CM_L3INIT_HSI_CLKCTRL:
+		switch (extract_bitfield(cm_clkctrl, 24, 2)) {
+		case 0:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"FCLK Source", "192MHz / 1");
+			break;
+		case 1:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"FCLK Source", "192MHz / 2");
+			break;
+		case 2:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"FCLK Source", "192MHz / 4");
+			break;
+		default:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"FCLK Source", "Reserved!!!");
+		}
+		break;
+	case OMAP4430_CM_L3INIT_UNIPRO1_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n",
+			"Optional UNIPRO TX PHY clock",
+			((extract_bit(cm_clkctrl, 8) == 1) ?
+				"Enabled" : "Disabled"));
+		break;
+	case OMAP4430_CM_L3INIT_USB_HOST_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n", "UTMI Port2 Source",
+			((extract_bit(cm_clkctrl, 25) == 1) ?
+			"external PHY" : "internal"));
+		fprintf(stream, "| %-30s | %-23s |\n", "UTMI Port1 Source",
+			((extract_bit(cm_clkctrl, 24) == 1) ?
+			"external PHY" : "internal"));
+
+		fprintf(stream, "| %-30s | %-23s |\n", "SAR MODE",
+			((extract_bit(cm_clkctrl, 4) == 1) ?
+				"Enabled" : "Disabled"));
+
+		fprintf(stream, "| %-30s | %-23s |\n",
+			"Optional functional clock", "");
+		fprintf(stream, "| %-30s | %-23s |\n", "  FUNC48MCLK",
+			((extract_bit(cm_clkctrl, 15) == 1) ?
+				"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  HSIC480M_P2_CLK",
+			((extract_bit(cm_clkctrl, 14) == 1) ?
+				"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  HSIC480M_P1_CLK",
+			((extract_bit(cm_clkctrl, 13) == 1) ?
+				"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  HSIC60M_P2_CLK",
+			((extract_bit(cm_clkctrl, 12) == 1) ?
+				"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  HSIC60M_P1_CLK",
+			((extract_bit(cm_clkctrl, 11) == 1) ?
+				"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  UTMI_P3_CLK",
+			((extract_bit(cm_clkctrl, 10) == 1) ?
+				"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  UTMI_P2_CLK",
+			((extract_bit(cm_clkctrl, 9) == 1) ?
+				"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  UTMI_P1_CLK",
+			((extract_bit(cm_clkctrl, 8) == 1) ?
+				"Enabled" : "Disabled"));
+		break;
+	case OMAP4430_CM_L3INIT_USB_OTG_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n", "60MHz Source CLK",
+			((extract_bit(cm_clkctrl, 24) == 1) ?
+			"external ULPI PHY" : "on die UTMI PHY"));
+
+		fprintf(stream, "| %-30s | %-23s |\n",
+			"Optional XCLK (60MHz) clock",
+			((extract_bit(cm_clkctrl, 8) == 1) ?
+				"Enabled" : "Disabled"));
+		break;
+	case OMAP4430_CM_L3INIT_USB_TLL_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n", "SAR MODE",
+			((extract_bit(cm_clkctrl, 4) == 1) ?
+				"Enabled" : "Disabled"));
+
+		fprintf(stream, "| %-30s | %-23s |\n",
+			"Optional functional clock", "");
+		fprintf(stream, "| %-30s | %-23s |\n", "  USB_CH2_CLK",
+			((extract_bit(cm_clkctrl, 10) == 1) ?
+				"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  USB_CH1_CLK",
+			((extract_bit(cm_clkctrl, 9) == 1) ?
+				"Enabled" : "Disabled"));
+		fprintf(stream, "| %-30s | %-23s |\n", "  USB_CH0_CLK",
+			((extract_bit(cm_clkctrl, 8) == 1) ?
+				"Enabled" : "Disabled"));
+		break;
+	case OMAP4430_CM_L3INIT_USBPHYOCP2SCP_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n",
+			"Optional functional clock", "");
+		if (cpu_is_omap4430() && (cpu_revision_get() == REV_ES1_0)) {
+			fprintf(stream, "| %-30s | %-23s |\n", "  32KHz clock",
+				((extract_bit(cm_clkctrl, 9) == 1) ?
+					"Enabled" : "Disabled"));
+		} else {
+			if (mem_read(OMAP4430_CM_ALWON_USBPHY_CLKCTRL,
+				&cm_alwon_usbphy_clkctrl) != 0)
+				return OMAPCONF_ERR_REG_ACCESS;
+			fprintf(stream, "| %-30s | %-23s |\n", "  32KHz clock",
+				((extract_bit(cm_alwon_usbphy_clkctrl, 8)
+					== 1) ? "Enabled" : "Disabled"));
+		}
+		fprintf(stream, "| %-30s | %-23s |\n", "  PHY_48M",
+			((extract_bit(cm_clkctrl, 8) == 1) ?
+				"Enabled" : "Disabled"));
+		break;
+	case OMAP4430_CM_EMU_DEBUGSS_CLKCTRL:
+		switch (extract_bitfield(cm_clkctrl, 20, 2)) {
+		case 0:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"STM source clock", "SYS_CLK");
+			break;
+		case 1:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"STM source clock", "CORE_DPLL_EMU_CLK");
+			break;
+		case 2:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"STM source clock", "PER_DPLL_EMU_CLK");
+			break;
+		default:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"STM source clock", "Reserved!!!");
+		}
+		switch (extract_bitfield(cm_clkctrl, 27, 3)) {
+		case 1:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"STM clock division", "STM source / 1");
+			break;
+		case 2:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"STM clock division", "STM source / 2");
+			break;
+		case 4:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"STM clock division", "STM source / 4");
+			break;
+		default:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"STM clock division", "Reserved!!!");
+		}
+		switch (extract_bitfield(cm_clkctrl, 22, 2)) {
+		case 0:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"TRACE source clock", "SYS_CLK");
+			break;
+		case 1:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"TRACE source clock", "CORE_DPLL_EMU_CLK");
+			break;
+		case 2:
+			if (cpu_is_omap4430() &&
+				(cpu_revision_get() == REV_ES1_0))
+				fprintf(stream, "| %-30s | %-23s |\n",
+					"TRACE source clock",
+					"PER_DPLL_EMU_CLK");
+			else
+				fprintf(stream, "| %-30s | %-23s |\n",
+				"TRACE source clock", "Reserved!!!");
+			break;
+		default:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"TRACE source clock", "Reserved!!!");
+		}
+		switch (extract_bitfield(cm_clkctrl, 24, 3)) {
+		case 1:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"TRACE clock division", "TRACE source / 1");
+			break;
+		case 2:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"TRACE clock division", "TRACE source / 2");
+			break;
+		case 4:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"TRACE clock division", "TRACE source / 4");
+			break;
+		default:
+			fprintf(stream, "| %-30s | %-23s |\n",
+				"TRACE clock division", "Reserved!!!");
+		}
+		break;
+	default:
+		break;
+	}
+
+	/* Idle Status */
+	switch (cm_clkctrl_addr) {
+	case OMAP4430_CM_MEMIF_DLL_CLKCTRL:
+	case OMAP4430_CM_WKUP_BANDGAP_CLKCTRL:
+		break;
+	default:
+		fprintf(stream, "| %-30s | %-23s |\n", "Idle Status",
+			mod_idle_status_name_get((mod_idle_status)
+				extract_bitfield(cm_clkctrl, 16, 2)));
+		break;
+	}
+
+	/* Standby Status */
+	switch (cm_clkctrl_addr) {
+	case OMAP4430_CM_IVAHD_SL2_CLKCTRL:
+	case OMAP4430_CM_MPU_M3_MPU_M3_CLKCTRL:
+	case OMAP4430_CM_SDMA_SDMA_CLKCTRL:
+	case OMAP4430_CM_C2C_C2C_CLKCTRL:
+	case OMAP4430_CM1_ABE_AESS_CLKCTRL:
+	case OMAP4430_CM_L3INIT_MMC1_CLKCTRL:
+	case OMAP4430_CM_L3INIT_MMC2_CLKCTRL:
+	case OMAP4430_CM_L3INIT_HSI_CLKCTRL:
+	case OMAP4430_CM_L3INIT_UNIPRO1_CLKCTRL:
+	case OMAP4430_CM_L3INIT_USB_HOST_CLKCTRL:
+	case OMAP4430_CM_L3INIT_USB_OTG_CLKCTRL:
+	case OMAP4430_CM_L3INIT_P1500_CLKCTRL:
+	case OMAP4430_CM_L3INIT_USB_HOST_FS_CLKCTRL:
+	case OMAP4430_CM_EMU_DEBUGSS_CLKCTRL:
+		fprintf(stream, "| %-30s | %-23s |\n", "Standby Status",
+			((extract_bit(cm_clkctrl, 18) == 1) ?
+				"Standby" : "Not in Standby"));
+		break;
+	default:
+		break;
+	}
+
+
+	switch (rm_context_addr) {
+	case 0: /* no context register */
+		break;
+	default:
+		fprintf(stream, "| %-30s | %-23s |\n", "Last Context", "");
+		break;
+	}
+
+	switch (rm_context_addr) {
+	case OMAP4430_RM_MPU_MPU_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  RAM",
+			((extract_bit(rm_context, 10) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_DSP_DSP_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  EDMA",
+			((extract_bit(rm_context, 10) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	default:
+		break;
+	}
+
+	switch (rm_context_addr) {
+	case OMAP4430_RM_IVAHD_IVAHD_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  HWA",
+			((extract_bit(rm_context, 10) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	default:
+		break;
+	}
+
+	switch (rm_context_addr) {
+	case OMAP4430_RM_MPU_MPU_CONTEXT:
+	case OMAP4430_RM_DSP_DSP_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  L2$",
+			((extract_bit(rm_context, 9) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_IVAHD_IVAHD_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  TCM2",
+			((extract_bit(rm_context, 9) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_MPU_M3_MPU_M3_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  L2RAM",
+			((extract_bit(rm_context, 9) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_MEMIF_DMM_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  CORE_NRET_BANK",
+			((extract_bit(rm_context, 9) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	default:
+		break;
+	}
+
+	switch (rm_context_addr) {
+	case OMAP4430_RM_WKUP_SARRAM_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  WKUP_BANK",
+			((extract_bit(rm_context, 8) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_MPU_MPU_CONTEXT:
+		if (cpu_is_omap4430())
+			fprintf(stream, "| %-30s | %-23s |\n", "  L1$",
+				((extract_bit(rm_context, 8) == 1) ?
+					"LOST" : "RETAINED"));
+		else
+			fprintf(stream, "| %-30s | %-23s |\n", "  L1$", "");
+		break;
+	case OMAP4430_RM_DSP_DSP_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  L1$",
+			((extract_bit(rm_context, 8) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_DSS_DSS_CONTEXT:
+	/*
+	 * case OMAP4430_RM_DSS_DEISS_CONTEXT:
+	 * module not implemented in 44xx,
+	 * at same address as OMAP4430_RM_DSS_BB2D_CONTEXT in 4470
+	 * causing duplicate case value ...
+	 */
+	case OMAP4430_RM_DSS_BB2D_CONTEXT:
+	case OMAP4430_RM_CAM_ISS_CONTEXT:
+	case OMAP4430_RM_CAM_FDIF_CONTEXT:
+	case OMAP4430_RM_GFX_GFX_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  MEM",
+			((extract_bit(rm_context, 8) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_IVAHD_IVAHD_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  TCM1",
+			((extract_bit(rm_context, 8) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_IVAHD_SL2_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  SL2",
+			((extract_bit(rm_context, 8) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_L4PER_MCBSP4_CONTEXT:
+	case OMAP4430_RM_L4PER_MMCSD3_CONTEXT:
+	case OMAP4430_RM_L4PER_MMCSD4_CONTEXT:
+	case OMAP4430_RM_L4PER_SLIMBUS2_CONTEXT:
+	case OMAP4430_RM_L4PER_MMCSD5_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  NONRETAINED_BANK",
+			((extract_bit(rm_context, 8) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_L4PER_UART1_CONTEXT:
+	case OMAP4430_RM_L4PER_UART2_CONTEXT:
+	case OMAP4430_RM_L4PER_UART3_CONTEXT:
+	case OMAP4430_RM_L4PER_UART4_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  RETAINED_BANK",
+			((extract_bit(rm_context, 8) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_L3_2_OCMC_RAM_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  OCM RAM",
+			((extract_bit(rm_context, 8) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_MPU_M3_MPU_M3_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  Unicache",
+			((extract_bit(rm_context, 8) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_SDMA_SDMA_CONTEXT:
+	case OMAP4430_RM_MEMIF_DMM_CONTEXT:
+	case OMAP4430_RM_C2C_MODEM_ICR_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  CORE_OTHER_BANK",
+			((extract_bit(rm_context, 8) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_L3INSTR_OCP_WP1_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  CORE_NRET_BANK",
+			((extract_bit(rm_context, 8) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_ABE_AESS_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  AESSMEM",
+			((extract_bit(rm_context, 8) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_ABE_PDM_CONTEXT:
+	case OMAP4430_RM_ABE_DMIC_CONTEXT:
+	case OMAP4430_RM_ABE_MCBSP1_CONTEXT:
+	case OMAP4430_RM_ABE_MCBSP2_CONTEXT:
+	case OMAP4430_RM_ABE_MCBSP3_CONTEXT:
+	case OMAP4430_RM_ABE_SLIMBUS_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  PERIPHMEM",
+			((extract_bit(rm_context, 8) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_L3INIT_MMC1_CONTEXT:
+	case OMAP4430_RM_L3INIT_MMC2_CONTEXT:
+	case OMAP4430_RM_L3INIT_HSI_CONTEXT:
+	case OMAP4430_RM_L3INIT_UNIPRO1_CONTEXT:
+	case OMAP4430_RM_L3INIT_USB_OTG_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  L3INIT_BANK1",
+			((extract_bit(rm_context, 8) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_EMU_DEBUGSS_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  EMU_BANK",
+			((extract_bit(rm_context, 8) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	default:
+		break;
+	}
+
+	/* RFF-based */
+	switch (rm_context_addr) {
+	case OMAP4430_RM_DSP_DSP_CONTEXT:
+	case OMAP4430_RM_DSS_DSS_CONTEXT:
+	case OMAP4430_RM_L4PER_L4_PER_CONTEXT:
+	case OMAP4430_RM_L4PER_GPIO2_CONTEXT:
+	case OMAP4430_RM_L4PER_GPIO3_CONTEXT:
+	case OMAP4430_RM_L4PER_GPIO4_CONTEXT:
+	case OMAP4430_RM_L4PER_GPIO5_CONTEXT:
+	case OMAP4430_RM_L4PER_GPIO6_CONTEXT:
+	case OMAP4430_RM_L4PER_I2C1_CONTEXT:
+	case OMAP4430_RM_L4PER_UART1_CONTEXT:
+	case OMAP4430_RM_L4PER_UART2_CONTEXT:
+	case OMAP4430_RM_L4PER_UART3_CONTEXT:
+	case OMAP4430_RM_L4PER_UART4_CONTEXT:
+	case OMAP4430_RM_L3_1_L3_1_CONTEXT:
+	case OMAP4430_RM_L3_2_L3_2_CONTEXT:
+	case OMAP4430_RM_L3_2_GPMC_CONTEXT:
+	case OMAP4430_RM_MPU_M3_MPU_M3_CONTEXT:
+	case OMAP4430_RM_SDMA_SDMA_CONTEXT:
+	case OMAP4430_RM_MEMIF_DMM_CONTEXT:
+	case OMAP4430_RM_MEMIF_EMIF_FW_CONTEXT:
+	case OMAP4430_RM_MEMIF_EMIF_1_CONTEXT:
+	case OMAP4430_RM_MEMIF_EMIF_2_CONTEXT:
+	case OMAP4430_RM_C2C_C2C_CONTEXT:
+	case OMAP4430_RM_C2C_MODEM_ICR_CONTEXT:
+	case OMAP4430_RM_C2C_C2C_FW_CONTEXT:
+	case OMAP4430_RM_L4CFG_L4_CFG_CONTEXT:
+	case OMAP4430_RM_L4CFG_HW_SEM_CONTEXT:
+	case OMAP4430_RM_L4CFG_MAILBOX_CONTEXT:
+	case OMAP4430_RM_L3INSTR_L3_3_CONTEXT:
+	case OMAP4430_RM_L3INSTR_OCP_WP1_CONTEXT:
+	case OMAP4430_RM_L3INIT_MMC1_CONTEXT:
+	case OMAP4430_RM_L3INIT_MMC2_CONTEXT:
+	case OMAP4430_RM_L3INIT_HSI_CONTEXT:
+	case OMAP4430_RM_L3INIT_USB_HOST_CONTEXT:
+	case OMAP4430_RM_L3INIT_USB_OTG_CONTEXT:
+	case OMAP4430_RM_L3INIT_USB_TLL_CONTEXT:
+	case OMAP4430_RM_L3INIT_USB_HOST_FS_CONTEXT:
+		fprintf(stream, "| %-30s | %-23s |\n", "  RFF-Based",
+			((extract_bit(rm_context, 1) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	case OMAP4430_RM_MPU_MPU_CONTEXT:
+		if (!cpu_is_omap4430())
+			fprintf(stream, "| %-30s | %-23s |\n", "  RFF-Based",
+				((extract_bit(rm_context, 1) == 1) ?
+					"LOST" : "RETAINED"));
+		break;
+	default:
+		break;
+	}
+
+	/* DFF-based */
+	switch (rm_context_addr) {
+	case OMAP4430_RM_L4PER_GPIO2_CONTEXT:
+	case OMAP4430_RM_L4PER_GPIO3_CONTEXT:
+	case OMAP4430_RM_L4PER_GPIO4_CONTEXT:
+	case OMAP4430_RM_L4PER_GPIO5_CONTEXT:
+	case OMAP4430_RM_L4PER_GPIO6_CONTEXT:
+	case OMAP4430_RM_L4PER_I2C1_CONTEXT:
+	case OMAP4430_RM_L4PER_UART1_CONTEXT:
+	case OMAP4430_RM_L4PER_UART2_CONTEXT:
+	case OMAP4430_RM_L4PER_UART3_CONTEXT:
+	case OMAP4430_RM_L4PER_UART4_CONTEXT:
+	case OMAP4430_RM_L3_2_GPMC_CONTEXT:
+	case OMAP4430_RM_SDMA_SDMA_CONTEXT:
+	case OMAP4430_RM_C2C_MODEM_ICR_CONTEXT:
+	case OMAP4430_RM_L4CFG_HW_SEM_CONTEXT:
+	case OMAP4430_RM_L4CFG_MAILBOX_CONTEXT:
+	case OMAP4430_RM_L3INIT_MMC1_CONTEXT:
+	case OMAP4430_RM_L3INIT_MMC2_CONTEXT:
+	case OMAP4430_RM_L3INIT_HSI_CONTEXT:
+	case OMAP4430_RM_L3INIT_USB_HOST_CONTEXT:
+	case OMAP4430_RM_L3INIT_USB_OTG_CONTEXT:
+	case OMAP4430_RM_L3INIT_USB_TLL_CONTEXT:
+	case OMAP4430_RM_L3INIT_USB_HOST_FS_CONTEXT:
+	case 0:
+		break;
+	case OMAP4430_RM_MEMIF_EMIF_1_CONTEXT:
+	case OMAP4430_RM_MEMIF_EMIF_2_CONTEXT:
+		if ((cpu_is_omap4430() && (cpu_revision_get() != REV_ES1_0))
+			|| cpu_is_omap4460() || cpu_is_omap4470()) {
+			fprintf(stream, "| %-30s | %-23s |\n", "  DFF-based",
+				((extract_bit(rm_context, 0) == 1) ?
+					"LOST" : "RETAINED"));
+		}
+		break;
+	default:
+
+		fprintf(stream, "| %-30s | %-23s |\n", "  DFF-based",
+			((extract_bit(rm_context, 0) == 1) ?
+				"LOST" : "RETAINED"));
+		break;
+	}
+	fprintf(stream, "|----------------------------------------------------"
+		"------|\n");
+	fprintf(stream, "\n");
+
+	return 0;
+}

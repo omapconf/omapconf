@@ -43,11 +43,11 @@
 
 
 #include <cam44xx.h>
-#include <lib44xx.h>
 #include <help.h>
 #include <cm44xx.h>
 #include <prm44xx.h>
 #include <pwrdm44xx.h>
+#include <module44xx.h>
 #include <lib.h>
 #include <mem.h>
 #include <cpuinfo.h>

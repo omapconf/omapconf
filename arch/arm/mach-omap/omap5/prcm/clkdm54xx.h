@@ -90,16 +90,10 @@ void clkdm54xx_deinit(void);
 int clkdm54xx_count_get(void);
 const genlist *clkdm54xx_list_get(void);
 
-
 const char *clkdm54xx_name_get(clkdm54xx_id id);
-pwrdm54xx_id clkdm54xx_pwrdm_get(clkdm54xx_id id);
-voltdm54xx_id clkdm54xx_voltdm_get(clkdm54xx_id id);
-
-clkdm_ctrl_mode clkdm54xx_ctrl_mode_get(clkdm54xx_id id);
-clkdm_status clkdm54xx_status_get(clkdm54xx_id id);
 
 clkdm54xx_id clkdm54xx_s2id(char *s);
-int clkdm54xx_config_show(FILE *stream, clkdm54xx_id id);
+int clkdm54xx_config_show(FILE *stream, clockdm_info clkdm);
 
 
 #endif

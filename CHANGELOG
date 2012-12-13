@@ -1,3 +1,12 @@
+v1.61:
+-------
+	- [OMAP5][CLKDM][PWRDM][MODULE] complete migration to generic layers and fix some ES2.0 bugs
+	- [OMAP5][EMIF][MODULE] call genric module_xyz() functions instead of OMAP5-specific mod54xx_xyz() ones
+	- [OMAP5][SR][MODULE] call generic module_xyz() functions instead of OMAP5-specific mod54xx_xyz() ones
+	- [DEBUG] better trace memory reads and writes
+	- [OMAP4][CLKDM][PWRDM] move xyz_config_show to respective libraries
+
+
 v1.60:
 -------
 	- [MODULE][SYSCONFIG][AUDIT] reworked sysconfig audit

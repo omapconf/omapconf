@@ -45,7 +45,7 @@
 #include <alwon44xx.h>
 #include <cm44xx.h>
 #include <prm44xx.h>
-#include <lib44xx.h>
+#include <module44xx.h>
 #include <help.h>
 #include <lib.h>
 #include <mem.h>

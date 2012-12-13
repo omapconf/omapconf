@@ -196,7 +196,6 @@ OMAP5SOURCES=\
 		arch/arm/mach-omap/omap5/prcm/voltdm54xx.c\
 		arch/arm/mach-omap/omap5/prcm/pwrdm54xx.c\
 		arch/arm/mach-omap/omap5/prcm/clkdm54xx.c\
-		arch/arm/mach-omap/omap5/prcm/module54xx-data.c\
 		arch/arm/mach-omap/omap5/prcm/module54xx.c\
 		arch/arm/mach-omap/omap5/dpll/dpll54xx.c\
 		arch/arm/mach-omap/omap5/dpll/dpll54xx-data.c\
