@@ -88,7 +88,7 @@ const reg *clkdmdep54xx_register_get(clkdm54xx_id id, clkdmdep_type type)
 			reg_name_get((reg *) clkdmdep54xx_reg_table[id][type]),
 			reg_addr_get((reg *) clkdmdep54xx_reg_table[id][type]));
 
-		return clkdmdep54xxes1_reg_table[id][type];
+		return clkdmdep54xx_reg_table[id][type];
 	}
 }
 
