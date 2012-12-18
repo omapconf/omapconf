@@ -85,15 +85,29 @@ void opp54xx_init(void)
 {
 	opp_t opp;
 
-	static const opp_t mpu_opp_low = {OPP_LOW,	950000,  400000};
-	static const opp_t mpu_opp_nom = {OPP_NOM,	1040000, 800000};
-	static const opp_t mpu_opp_high = {OPP_HIGH,	1220000, 1100000};
+	/* ES1.0 */
+	static const opp_t mpu_opp_low_es1  = {OPP_LOW,	 950000,  400000};
+	static const opp_t mpu_opp_nom_es1  = {OPP_NOM,	 1040000, 800000};
+	static const opp_t mpu_opp_high_es1 = {OPP_HIGH, 1220000, 1100000};
 
-	static const opp_t mm_opp_low = {OPP_LOW,	950000,  177333};
-	static const opp_t mm_opp_nom = {OPP_NOM,	1040000, 354667};
-	static const opp_t mm_opp_high = {OPP_HIGH,	1220000, 532000};
+	static const opp_t mm_opp_low_es1 =  {OPP_LOW,	950000,  177333};
+	static const opp_t mm_opp_nom_es1 =  {OPP_NOM,	1040000, 354667};
+	static const opp_t mm_opp_high_es1 = {OPP_HIGH,	1220000, 532000};
 
-	static const opp_t core_opp_low = {OPP_LOW,	950000,  133000};
+	static const opp_t core_opp_low_es1 = {OPP_LOW,	950000,  133000};
+	static const opp_t core_opp_nom_es1 = {OPP_NOM,	1040000, 2660000};
+
+	/* ES2.0 */
+	static const opp_t mpu_opp_low  = {OPP_LOW,	880000,  500000};
+	static const opp_t mpu_opp_nom  = {OPP_NOM,	1060000, 1100000};
+	static const opp_t mpu_opp_high = {OPP_HIGH,	1250000, 1500000};
+	static const opp_t mpu_opp_sb =   {OPP_SB,	1290000, 1700000};
+
+	static const opp_t mm_opp_low =  {OPP_LOW,	880000,  195000};
+	static const opp_t mm_opp_nom =  {OPP_NOM,	1030000, 389000};
+	static const opp_t mm_opp_high = {OPP_HIGH,	1120000, 532000};
+
+	static const opp_t core_opp_low = {OPP_LOW,	880000,  133000};
 	static const opp_t core_opp_nom = {OPP_NOM,	1040000, 2660000};
 
 	#ifdef OPP54XX_DEBUG
@@ -110,26 +124,51 @@ void opp54xx_init(void)
 			(void *) &opp, sizeof(opp_t));
 
 		genlist_init(&vdd54xx_mpu_opp_list);
-		genlist_addtail(&vdd54xx_mpu_opp_list,
-			(void *) &mpu_opp_low, sizeof(opp_t));
-		genlist_addtail(&vdd54xx_mpu_opp_list,
-			(void *) &mpu_opp_nom, sizeof(opp_t));
-		genlist_addtail(&vdd54xx_mpu_opp_list,
-			(void *) &mpu_opp_high, sizeof(opp_t));
+		if (cpu_revision_get() == REV_ES1_0) {
+			genlist_addtail(&vdd54xx_mpu_opp_list,
+				(void *) &mpu_opp_low_es1, sizeof(opp_t));
+			genlist_addtail(&vdd54xx_mpu_opp_list,
+				(void *) &mpu_opp_nom_es1, sizeof(opp_t));
+			genlist_addtail(&vdd54xx_mpu_opp_list,
+				(void *) &mpu_opp_high_es1, sizeof(opp_t));
 
-		genlist_init(&vdd54xx_mm_opp_list);
-		genlist_addtail(&vdd54xx_mm_opp_list,
-			(void *) &mm_opp_low, sizeof(opp_t));
-		genlist_addtail(&vdd54xx_mm_opp_list,
-			(void *) &mm_opp_nom, sizeof(opp_t));
-		genlist_addtail(&vdd54xx_mm_opp_list,
-			(void *) &mm_opp_high, sizeof(opp_t));
+			genlist_init(&vdd54xx_mm_opp_list);
+			genlist_addtail(&vdd54xx_mm_opp_list,
+				(void *) &mm_opp_low_es1, sizeof(opp_t));
+			genlist_addtail(&vdd54xx_mm_opp_list,
+				(void *) &mm_opp_nom_es1, sizeof(opp_t));
+			genlist_addtail(&vdd54xx_mm_opp_list,
+				(void *) &mm_opp_high_es1, sizeof(opp_t));
 
-		genlist_init(&vdd54xx_core_opp_list);
-		genlist_addtail(&vdd54xx_core_opp_list,
-			(void *) &core_opp_low, sizeof(opp_t));
-		genlist_addtail(&vdd54xx_core_opp_list,
-			(void *) &core_opp_nom, sizeof(opp_t));
+			genlist_init(&vdd54xx_core_opp_list);
+			genlist_addtail(&vdd54xx_core_opp_list,
+				(void *) &core_opp_low_es1, sizeof(opp_t));
+			genlist_addtail(&vdd54xx_core_opp_list,
+				(void *) &core_opp_nom_es1, sizeof(opp_t));
+		} else {
+			genlist_addtail(&vdd54xx_mpu_opp_list,
+				(void *) &mpu_opp_low, sizeof(opp_t));
+			genlist_addtail(&vdd54xx_mpu_opp_list,
+				(void *) &mpu_opp_nom, sizeof(opp_t));
+			genlist_addtail(&vdd54xx_mpu_opp_list,
+				(void *) &mpu_opp_high, sizeof(opp_t));
+			genlist_addtail(&vdd54xx_mpu_opp_list,
+				(void *) &mpu_opp_sb, sizeof(opp_t));
+
+			genlist_init(&vdd54xx_mm_opp_list);
+			genlist_addtail(&vdd54xx_mm_opp_list,
+				(void *) &mm_opp_low, sizeof(opp_t));
+			genlist_addtail(&vdd54xx_mm_opp_list,
+				(void *) &mm_opp_nom, sizeof(opp_t));
+			genlist_addtail(&vdd54xx_mm_opp_list,
+				(void *) &mm_opp_high, sizeof(opp_t));
+
+			genlist_init(&vdd54xx_core_opp_list);
+			genlist_addtail(&vdd54xx_core_opp_list,
+				(void *) &core_opp_low, sizeof(opp_t));
+			genlist_addtail(&vdd54xx_core_opp_list,
+				(void *) &core_opp_nom, sizeof(opp_t));
+		}
 
 		opp54xx_init_done = 1;
 		#ifdef OPP54XX_DEBUG
