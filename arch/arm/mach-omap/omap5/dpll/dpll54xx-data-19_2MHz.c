@@ -562,7 +562,7 @@ dpll54xx_audited_settings dpll54xxes2_CORE_golden_settings_19_2MHz_opp_hi = {
 	.selfreqdco = -1,
 	.clkdcoldo_rate = -1.0,
 	/* OMAP5 ONLY */
-	.hsdiv_div = {8, 4, 62, 2, 6, 5, 7, 6},
+	.hsdiv_div = {8, 4, 62, 4, 6, 5, 7, 6},
 	.hsdiv_rate = {265.919, 531.838, 34.312, 531.838, 354.56, 425.472, 303.909, 354.56} };
 
 
