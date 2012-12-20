@@ -1573,10 +1573,10 @@ void mod54xx_init(void)
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	} else {
 		opp.name = OPP_LOW;
-		opp.rate = 132959;
+		opp.rate = 177279;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 		opp.name = OPP_NOM;
-		opp.rate = 265919;
+		opp.rate = 354559;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	}
 	opp.name = OPP_HIGH;
@@ -1614,10 +1614,10 @@ void mod54xx_init(void)
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	} else {
 		opp.name = OPP_LOW;
-		opp.rate = 132959;
+		opp.rate = 88639;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 		opp.name = OPP_NOM;
-		opp.rate = 265919;
+		opp.rate = 177279;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	}
 	opp.name = OPP_HIGH;
@@ -4122,7 +4122,7 @@ void mod54xx_init(void)
 	opp.rate = 465919;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
-	opp.rate = 532000;
+	opp.rate = 531199;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	opp.name = OPP_SB;
 	opp.rate = -1;
@@ -4167,7 +4167,7 @@ void mod54xx_init(void)
 		opp.rate = 425471;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 		opp.name = OPP_HIGH;
-		opp.rate = 532000;
+		opp.rate = 531839;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 		opp.name = OPP_SB;
 		opp.rate = -1;
@@ -4199,7 +4199,7 @@ void mod54xx_init(void)
 	opp.rate = 388266;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
-	opp.rate = 532000;
+	opp.rate = 531199;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	opp.name = OPP_SB;
 	opp.rate = -1;
@@ -4230,7 +4230,7 @@ void mod54xx_init(void)
 	opp.rate = 388266;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
-	opp.rate = 532000;
+	opp.rate = 531199;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	opp.name = OPP_SB;
 	opp.rate = -1;
