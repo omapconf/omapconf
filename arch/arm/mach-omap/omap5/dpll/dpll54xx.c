@@ -577,8 +577,12 @@ m3_rate_bp_calc:
 			dprintf("%s(): %s locked, X2_M2=%lfMHz\n", __func__,
 				dpll54xx_name_get((settings->dpll).id),
 				(settings->dpll).MN.X2_M2_rate);
-			(settings->dpll).MN.M2_rate =
-				(settings->dpll).MN.X2_M2_rate / 2.0;
+			if ((settings->dpll).DCC.en == 0)
+				(settings->dpll).MN.M2_rate =
+					(settings->dpll).MN.X2_M2_rate / 2.0;
+			else
+				(settings->dpll).MN.M2_rate =
+					(settings->dpll).MN.X2_M2_rate;
 			dprintf("%s(): %s locked, M2=%lfMHz\n", __func__,
 				dpll54xx_name_get((settings->dpll).id),
 				(settings->dpll).MN.M2_rate);
