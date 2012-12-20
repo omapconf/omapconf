@@ -646,25 +646,25 @@ int opp_show(FILE *stream)
 			dprintf("      Voltage (2): %dV\n", volt2);
 
 			if (strcmp(voltdm.name, VDD_MPU) == 0) {
-				found = ((rate_mpu == rate_mpu_por) &&
+				found = (((rate_mpu / 1000) == (rate_mpu_por / 1000)) &&
 					(strcmp(opp_s, opp_s2) == 0) &&
 					(volt == volt2));
 			} else if (strcmp(voltdm.name, VDD_IVA) == 0) {
 				found = ((strcmp(opp_s, opp_s2) == 0) &&
 					(volt == volt2) &&
-					(((unsigned int) rate_dsp == (unsigned int) rate_dsp_por) ||
-						((unsigned int) rate_iva == (unsigned int) rate_iva_por) ||
-						((unsigned int) rate_aess == (unsigned int) rate_aess_por)));
+					(((rate_dsp / 1000) == (rate_dsp_por / 1000)) ||
+						((rate_iva / 1000) == (rate_iva_por / 1000)) ||
+						((rate_aess / 1000) == (rate_aess_por / 1000))));
 			} else if (strcmp(voltdm.name, VDD_MM) == 0) {
 				found = ((strcmp(opp_s, opp_s2) == 0) &&
 					(volt == volt2) &&
-					((rate_dsp == rate_dsp_por) ||
-						(rate_iva == rate_iva_por) ||
-						(rate_gpu == rate_gpu_por)));
+					(((rate_dsp / 1000) == (rate_dsp_por / 1000)) ||
+						((rate_iva / 1000) == (rate_iva_por / 1000)) ||
+						((rate_gpu / 1000) == (rate_gpu_por / 1000))));
 			} else if (strcmp(voltdm.name, VDD_CORE) == 0) {
 				found = ((strcmp(opp_s, opp_s2) == 0) &&
 					(volt == volt2) &&
-					(rate_l3 == rate_l3_por));
+					((rate_l3 / 1000) == (rate_l3_por / 1000)));
 			}
 			dprintf("      found=%u\n", found);
 
