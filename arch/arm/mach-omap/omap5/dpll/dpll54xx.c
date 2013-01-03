@@ -46,13 +46,14 @@
 #include <dpll54xx-data.h>
 #include <cm54xx-defs.h>
 #include <clock54xx.h>
-#include <voltdm54xx.h>
+#include <voltdomain.h>
 #include <autoadjust_table.h>
 #include <stdio.h>
 #include <lib.h>
 #include <help.h>
 #include <cpuinfo.h>
 #include <string.h>
+#include <opp.h>
 
 
 /* #define DPLL54XX_DEBUG */
@@ -1415,7 +1416,8 @@ int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
 	hsdiv54xx_id hsdiv_id;
 	dpll54xx_settings *settings;
 	dpll54xx_audited_settings *golden_settings;
-	opp54xx_id opp_mpu, opp_mm, opp_core, opp;
+	const char *opp_s;
+	int opp_mpu, opp_mm, opp_core, opp;
 	double sysclk;
 
 	CHECK_ARG_LESS_THAN(dpll_id, DPLL54XX_ID_MAX + 1, OMAPCONF_ERR_ARG);
@@ -1436,19 +1438,29 @@ int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
 		opp_core = opp_id;
 		(*wng_nbr)++;
 	} else {
-		opp_mpu = voltdm54xx_opp_get(VDD54XX_MPU);
-		opp_mm = voltdm54xx_opp_get(VDD54XX_MM);
-		opp_core = voltdm54xx_opp_get(VDD54XX_CORE);
-		if ((opp_mpu == OPP54XX_ID_MAX) || (opp_mm == OPP54XX_ID_MAX)
-			|| (opp_core == OPP54XX_ID_MAX)) {
+		opp_s = opp_get(VDD_MPU, 1);
+		if (opp_s == NULL)
+			opp_mpu = OPP54XX_ID_MAX;
+		else
+			opp_mpu = opp_s2id(opp_s);
+		opp_s = opp_get(VDD_MM, 1);
+		if (opp_s == NULL)
+			opp_mm = OPP54XX_ID_MAX;
+		else
+			opp_mm = opp_s2id(opp_s);
+		opp_s = opp_get(VDD_CORE, 1);
+		if (opp_s == NULL)
+			opp_core = OPP54XX_ID_MAX;
+		else
+			opp_core = opp_s2id(opp_s);
+
+		if ((opp_mpu == OPP54XX_ID_MAX) || (opp_mm == OPP54XX_ID_MAX) ||
+			(opp_core == OPP54XX_ID_MAX)) {
 			if (stream != NULL) {
 				fprintf(stream,
-					"Sorry, OPP could not be detected"
-					", audit cannot be completed.\n");
-				fprintf(stream, "Option \"-opp "
-					"[dpll_casc|low|nom|high|speedbin]\""
-					" may be considered until OPP correctly"
-					" setup.\n\n");
+					"Sorry, OPP could not be detected, audit cannot be completed.\n");
+				fprintf(stream,
+					"Option \"-opp [dpll_casc|low|nom|high|speedbin]\" may be considered until OPP correctly setup.\n\n");
 			}
 			(*err_nbr)++;
 			ret = 0;
