@@ -302,68 +302,6 @@ const char *opp54xx_name_get(opp54xx_id id)
 
 
 /* ------------------------------------------------------------------------*//**
- * @FUNCTION		voltdm54xx_opp_get
- * @BRIEF		find the current voltage domain OPP
- * @RETURNS		valid OPP ID in case of success
- *			OPP54XX_ID_MAX in case of error
- * @param[in]		id: voltage domain ID
- * @DESCRIPTION		find the current voltage domain OPP
- *//*------------------------------------------------------------------------ */
-opp54xx_id voltdm54xx_opp_get(voltdm54xx_id id)
-{
-	opp54xx_id opp_id;
-	double volt = 0.0, volt_por = 0.0;
-
-	CHECK_CPU(54xx, OPP54XX_ID_MAX);
-	CHECK_ARG_LESS_THAN(id, VDD54XX_ID_MAX, OPP54XX_ID_MAX);
-
-	if (id == VDD54XX_WKUP) {
-		/* Only 1 OPP for WKUP voltage domain */
-		opp_id = OPP54XX_NOM;
-	} else {
-		/*
-		 * In VDD_MM there are 3 independent modules (GPU, IVA, DSP)
-		 * that may be running at different clock rates.
-		 * Furthermore, these modules may or may not be running, so
-		 * module's clock rate may not be relevant.
-		 * Use nominal voltage instead.
-		 */
-		volt = voltdm54xx_nominal_voltage_get(id);
-		if (volt < 0.0)
-			return OPP54XX_ID_MAX;
-
-		dprintf("%s(%s): nominal voltage is %lfV\n", __func__,
-			voltdm54xx_name_get(id), volt);
-
-		for (opp_id = OPP54XX_DPLL_CASC; opp_id < OPP54XX_ID_MAX;
-			opp_id++) {
-			volt_por = voltdm54xx_por_nominal_voltage_get(
-				id, opp_id);
-			if (volt_por < 0.0)
-				return OPP54XX_ID_MAX;
-			dprintf("%s(%s): POR nominal voltage for %s is %lfV\n",
-				__func__, voltdm54xx_name_get(id),
-				opp54xx_name_get(opp_id), volt_por);
-			if (volt == volt_por)
-				break;
-		}
-	}
-
-	#ifdef VOLTDM54XX_DEBUG
-	if (opp_id != OPP54XX_ID_MAX) {
-		dprintf("%s(%s): OPP found: %s\n", __func__,
-			voltdm54xx_name_get(id), opp54xx_name_get(opp_id));
-	} else {
-		dprintf("%s(%s): OPP not found!\n", __func__,
-			voltdm54xx_name_get(id));
-	}
-	#endif
-
-	return opp_id;
-}
-
-
-/* ------------------------------------------------------------------------*//**
  * @FUNCTION		vr54xx_vsel2uv
  * @BRIEF		for a given rail, convert SMPS vsel command into voltage
  *			in microvolts.
