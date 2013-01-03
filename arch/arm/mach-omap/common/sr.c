@@ -52,8 +52,9 @@
 #include <voltdm44xx.h>
 #include <clock44xx.h>
 #include <module.h>
-#include <voltdm54xx.h>
+#include <voltdomain.h>
 #include <vp.h>
+#include <opp.h>
 
 
 /* #define SR_DEBUG */
@@ -1480,6 +1481,7 @@ sr_config_show_errgen:
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_NOT_AVAILABLE
  * @param[in]		stream: output file (NULL: no output (silent))
  * @param[in]		sr_regs: SR registers content for the 3 SR instances
  *			(MPU, IVA/MM, CORE)
@@ -1488,15 +1490,18 @@ sr_config_show_errgen:
 int sr_convergence_status_show(FILE *stream, sr_status_registers sr_regs[3])
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
-	unsigned int i, row, maxrow;
+	int v, row, maxrow;
 	double volt, freq_error, delta_vdd, vp_offset, vp_gain;
 	signed char vp_offset_raw, vp_gain_raw;
 	static const char mode_table[2][16] = {
 		"Disabled      ",
 		"Enabled       "};
 	unsigned char mode;
-	unsigned int opp;
+	const char *opp;
 	char s_opp[16];
+	int voltdm_count;
+	const genlist *voltdm_list;
+	voltdm_info voltdm;
 
 	if (!cpu_is_omap44xx() & !cpu_is_omap54xx()) {
 		fprintf(stderr, "%s(): cpu not supported!!!\n", __func__);
@@ -1515,74 +1520,90 @@ int sr_convergence_status_show(FILE *stream, sr_status_registers sr_regs[3])
 	autoadjust_table_strncpy(table, row, 3, "SR CORE");
 	row++;
 
-	for (i = 0; i < 3; i++) {
+
+	/* Retrieve voltage domain list and count */
+	voltdm_list = voltdm_list_get();
+	if (voltdm_list == NULL) {
+		fprintf(stderr,
+			"omapconf: %s(): failed to retrieve VDD List!\n",
+			__func__);
+		return OMAPCONF_ERR_NOT_AVAILABLE;
+	}
+
+	voltdm_count = voltdm_count_get();
+	if (voltdm_count <= 0) {
+		fprintf(stderr,
+			"omapconf: %s(): failed to retrieve VDD count!\n",
+			__func__);
+		return OMAPCONF_ERR_NOT_AVAILABLE;
+	}
+
+	/* Browse voltage domains, skipping WKUP */
+	for (v = 0; v < voltdm_count - 1; v++) {
+		/* Get voltage domain details */
+		genlist_get((genlist *) voltdm_list, v + 1, (void *) &voltdm);
+
+		/* Save max number of row */
 		if (row > maxrow)
 			maxrow = row;
 		row = 1;
+
+		/* Show module status */
 		autoadjust_table_strncpy(table, row, 0, "SR Module");
-		if (sr_regs[i].enabled == 0) {
-			autoadjust_table_strncpy(table, row, i + 1, "Disabled");
+		if (sr_regs[v].enabled == 0) {
+			autoadjust_table_strncpy(table, row, v + 1, "Disabled");
 			row++;
 			continue;
 		}
-		mode = sr_is_enabled(sr_regs[i].srconfig);
-		autoadjust_table_strncpy(table, row, i + 1,
+		mode = sr_is_enabled(sr_regs[v].srconfig);
+		autoadjust_table_strncpy(table, row, v + 1,
 			(char *) mode_table[mode]);
 		row++;
 
+		/* Show OPP */
 		autoadjust_table_strncpy(table, row, 0, "OPP");
-		if (cpu_is_omap44xx()) {
-			voltdm44xx_get_opp((voltdm44xx_id) i + 1, &opp);
-			voltdm44xx_opp2string(s_opp, opp,
-				(voltdm44xx_id) i + 1);
-		} else if (cpu_is_omap54xx()) {
-			opp = voltdm54xx_opp_get((voltdm54xx_id) i + 1);
-			strncpy(s_opp, opp54xx_name_get(opp), 16);
-		}
-		autoadjust_table_strncpy(table, row, i + 1, s_opp);
-		row++;
-		autoadjust_table_strncpy(table, row, 0, "Converged?");
-		if (sr_has_converged(
-			sr_regs[i].errconfig, sr_regs[i].senerror) == 1)
-			autoadjust_table_strncpy(table, row, i + 1, "YES");
+		opp = opp_get(voltdm.name, 1);
+		if (opp != NULL)
+			strncpy(s_opp, opp, OPP_MAX_NAME_LENGTH);
 		else
-			autoadjust_table_strncpy(table, row, i + 1, "NO");
+			strncpy(s_opp, "NOT FOUND", OPP_MAX_NAME_LENGTH);
+		autoadjust_table_strncpy(table, row, v + 1, s_opp);
 		row++;
 
+		/* Show convergence status */
+		autoadjust_table_strncpy(table, row, 0, "Converged?");
+		if (sr_has_converged(
+			sr_regs[v].errconfig, sr_regs[v].senerror) == 1)
+			autoadjust_table_strncpy(table, row, v + 1, "YES");
+		else
+			autoadjust_table_strncpy(table, row, v + 1, "NO");
+		row++;
+
+		/* Show voltage error */
 		autoadjust_table_strncpy(table, row, 0,
 			"Voltage Error (%, mV)");
 		freq_error = sr_avg_sensor_error_percentage_get(
-			sr_regs[i].senerror);
-		vp_error_offset_get(sr_regs[i].vp_config,
+			sr_regs[v].senerror);
+		vp_error_offset_get(sr_regs[v].vp_config,
 			&vp_offset_raw, &vp_offset);
-		vp_error_gain_get(sr_regs[i].vp_config, i + 1,
+		vp_error_gain_get(sr_regs[v].vp_config, v + 1,
 			&vp_gain_raw, &vp_gain);
 		delta_vdd = sr_delta_vdd_get(freq_error, vp_offset, vp_gain);
-		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
+		snprintf(table[row][v + 1], TABLE_MAX_ELT_LEN,
 			"%.1lf%% (%.3lfmV)", freq_error, delta_vdd);
 		row++;
 
+		/* Show converged voltage */
 		autoadjust_table_strncpy(table, row, 0,
 			"Converged Voltage (V)");
-		if (cpu_is_omap44xx()) {
-			if (voltdm44xx_get_voltage((voltdm44xx_id) i + 1,
-				&volt) == 0)
-				snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-					"%.6lfV", volt);
-			else
-				snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-					"NA");
-		} else if (cpu_is_omap54xx()) {
-			volt = voltdm54xx_voltage_get((voltdm54xx_id) i + 1);
-			if (volt > 0.0)
-				snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-					"%.6lfV", volt);
-			else
-				snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-					"NA");
-		}
+		volt = (double) voltdm_voltage_get(voltdm.name) / 1000000.0;
+		if (volt >= 0)
+			snprintf(table[row][v + 1], TABLE_MAX_ELT_LEN,
+				"%.6lfV", volt);
+		else
+			snprintf(table[row][v + 1], TABLE_MAX_ELT_LEN,
+				"NA");
 		row++;
-
 	}
 
 	if (stream != NULL)
