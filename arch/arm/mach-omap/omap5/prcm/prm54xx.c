@@ -197,6 +197,7 @@ prm54xx_dump_end:
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_INTERNAL
  * @param[in,out]	fp: output file stream (opened for write operations)
  * @param[in]		id: PRM module ID
  * @DESCRIPTION		export module register content to file, in XML format.
@@ -209,16 +210,29 @@ int prm54xx_export(FILE *fp, prm54xx_mod_id id)
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(fp, OMAPCONF_ERR_ARG);
 	CHECK_ARG_LESS_THAN(id, PRM54XX_MODS_COUNT, OMAPCONF_ERR_ARG);
+	if ((cpu_revision_get() != REV_ES1_0) &&
+		(id == PRM54XX_L4PER_PRM)) {
+		fprintf(stderr, "omapconf: %s(): L4_PER does not exist!!!\n",
+			__func__);
+		return OMAPCONF_ERR_ARG;
+	}
+
+	dprintf("%s(): exporting PRM %s (%u) module ...\n", __func__,
+		prm54xx_mod_name_get(id), id);
 
 	if (cpu_revision_get() == REV_ES1_0)
 		mod = prm54xxes1_mods[id];
 	else
 		mod = prm54xx_mods[id];
+	if (mod == NULL) {
+		fprintf(stderr, "omapconf: %s(): mod == NULL!!!\n", __func__);
+		return OMAPCONF_ERR_INTERNAL;
+	}
 
 	if ((id == PRM54XX_INSTR_PRM) && !prm54xx_is_profiling_running()) {
-		dprintf("%s(%s): PRM module is not accessible, "
-			"don't export registers\n", __func__,
-			prm54xx_mod_name_get(id));
+		dprintf(
+			"%s(%s): PRM module is not accessible, don't export registers\n",
+			__func__, prm54xx_mod_name_get(id));
 		return 0;
 	}
 
@@ -226,13 +240,16 @@ int prm54xx_export(FILE *fp, prm54xx_mod_id id)
 		id, prm54xx_mod_name_get(id));
 
 	for (i = 0; mod[i] != NULL; i++)
-		fprintf(fp, "            <register id=\"%u\" name=\"%s\" "
-			"addr=\"0x%08X\" data=\"0x%08X\" />\n", i,
-			reg_name_get(mod[i]), reg_addr_get(mod[i]),
+		fprintf(fp,
+			"            <register id=\"%u\" name=\"%s\" addr=\"0x%08X\" data=\"0x%08X\" />\n",
+			i, reg_name_get(mod[i]), reg_addr_get(mod[i]),
 			reg_read(mod[i]));
 
 	fprintf(fp, "          </submodule>\n");
+	fflush(fp);
 
+	dprintf("%s(): PRM %s (%u) module exported.\n", __func__,
+		cm54xx_mod_name_get(id), id);
 	return 0;
 }
 
@@ -289,8 +306,9 @@ int prm54xx_import(FILE *fp, prm54xx_mod_id id)
 				return OMAPCONF_ERR_UNEXPECTED;
 			}
 			if (n != i) {
-				dprintf("%s(%u (%s)): register id does not "
-					"match! (n=%u, i=%u)\n", __func__, id,
+				dprintf(
+					"%s(%u (%s)): register id does not match! (n=%u, i=%u)\n",
+					__func__, id,
 					prm54xx_mod_name_get(id), n, i);
 				return OMAPCONF_ERR_UNEXPECTED;
 			}
