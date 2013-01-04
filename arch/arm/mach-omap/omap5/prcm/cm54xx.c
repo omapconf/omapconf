@@ -83,22 +83,47 @@ const char *cm54xx_mod_name_get(cm54xx_mod_id id)
  * @BRIEF		return 1 if profiling module (CMI) is running,
  *			0 otherwise
  * @RETURNS		1 if profiling module (CMI) is running, 0 otherwise
- * @param[in]		none
+ * @param[in]		id: instrumentation ID
+ *			(CM54XX_INSTR_CM_CORE or CM54XX_INSTR_CM_CORE_AON)
  * @DESCRIPTION		return 1 if profiling module (CMI) is running,
  *			0 otherwise
  *//*------------------------------------------------------------------------ */
-unsigned int cm54xx_is_profiling_running(void)
+unsigned int cm54xx_is_profiling_running(cm54xx_mod_id id)
 {
 	reg *cm_clkctrl_reg;
 	unsigned int cm_clkctrl;
 
-	if (cpu_revision_get() == REV_ES1_0)
-		cm_clkctrl_reg = &omap5430es1_cm_cm_core_aon_profiling_clkctrl;
-	else
-		cm_clkctrl_reg = &omap5430_cm_cm_core_aon_profiling_clkctrl;
+	if (cpu_revision_get() == REV_ES1_0) {
+		if (id == CM54XX_INSTR_CM_CORE_AON) {
+			cm_clkctrl_reg =
+				&omap5430es1_cm_cm_core_aon_profiling_clkctrl;
+		} else if (id == CM54XX_INSTR_CM_CORE) {
+			cm_clkctrl_reg =
+				&omap5430es1_cm_cm_core_profiling_clkctrl;
+		} else {
+			fprintf(stderr,
+				"%s(): called with incorrect ID (%s)!!!\n",
+				__func__, cm54xx_mod_name_get(id));
+			return 0;
+		}
+	} else {
+		if (id == CM54XX_INSTR_CM_CORE_AON) {
+			cm_clkctrl_reg =
+				&omap5430_cm_cm_core_aon_profiling_clkctrl;
+		} else if (id == CM54XX_INSTR_CM_CORE) {
+			cm_clkctrl_reg =
+				&omap5430_cm_cm_core_profiling_clkctrl;
+		} else {
+			fprintf(stderr,
+				"%s(): called with incorrect ID (%s)!!!\n",
+				__func__, cm54xx_mod_name_get(id));
+			return 0;
+		}
+	}
 
 	if (cm_clkctrl_reg == NULL) {
-		dprintf("%s(): cm_clkctrl_reg == NULL!!!\n", __func__);
+		fprintf(stderr, "omapconf: %s(): cm_clkctrl_reg == NULL!!!\n",
+			__func__);
 		return 0;
 	}
 
@@ -197,6 +222,7 @@ cm54xx_dump_end:
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_INTERNAL
  * @param[in,out]	fp: output file stream (opened for write operations)
  * @param[in]		id: CM module ID
  * @DESCRIPTION		export module register content to file, in XML format.
@@ -210,15 +236,36 @@ int cm54xx_export(FILE *fp, cm54xx_mod_id id)
 	CHECK_NULL_ARG(fp, OMAPCONF_ERR_ARG);
 	CHECK_ARG_LESS_THAN(id, CM54XX_MODS_COUNT, OMAPCONF_ERR_ARG);
 
+	if ((cpu_revision_get() != REV_ES1_0) &&
+		(id == CM54XX_L4PER_CM_CORE)) {
+		fprintf(stderr, "omapconf: %s(): L4_PER does not exist!!!\n",
+			__func__);
+		return OMAPCONF_ERR_ARG;
+	}
+
+	dprintf("%s(): exporting CM %s (%u) module ...\n", __func__,
+		cm54xx_mod_name_get(id), id);
+
 	if (cpu_revision_get() == REV_ES1_0)
 		mod = cm54xxes1_mods[id];
 	else
 		mod = cm54xx_mods[id];
+	if (mod == NULL) {
+		fprintf(stderr, "omapconf: %s(): mod == NULL!!!\n", __func__);
+		return OMAPCONF_ERR_INTERNAL;
+	}
 
-	if ((id == CM54XX_INSTR_CM_CORE) && !cm54xx_is_profiling_running()) {
-		dprintf("%s(%s): CM module is not accessible, "
-			"don't export registers\n", __func__,
-			cm54xx_mod_name_get(id));
+	if ((id == CM54XX_INSTR_CM_CORE) &&
+		!cm54xx_is_profiling_running(CM54XX_INSTR_CM_CORE)) {
+		dprintf(
+			"%s(%s): CM module is not accessible, don't export registers\n",
+			__func__, cm54xx_mod_name_get(id));
+		return 0;
+	} else if ((id == CM54XX_INSTR_CM_CORE_AON) &&
+		!cm54xx_is_profiling_running(CM54XX_INSTR_CM_CORE_AON)) {
+		dprintf(
+			"%s(%s): CM module is not accessible, don't export registers\n",
+			__func__, cm54xx_mod_name_get(id));
 		return 0;
 	}
 
@@ -226,13 +273,16 @@ int cm54xx_export(FILE *fp, cm54xx_mod_id id)
 		id, cm54xx_mod_name_get(id));
 
 	for (i = 0; mod[i] != NULL; i++)
-		fprintf(fp, "            <register id=\"%u\" name=\"%s\" "
-			"addr=\"0x%08X\" data=\"0x%08X\" />\n",
+		fprintf(fp,
+			"            <register id=\"%u\" name=\"%s\" addr=\"0x%08X\" data=\"0x%08X\" />\n",
 			i, reg_name_get(mod[i]), reg_addr_get(mod[i]),
 			reg_read(mod[i]));
 
 	fprintf(fp, "          </submodule>\n");
+	fflush(fp);
 
+	dprintf("%s(): CM %s (%u) module exported.\n", __func__,
+		cm54xx_mod_name_get(id), id);
 	return 0;
 }
 
@@ -289,8 +339,9 @@ int cm54xx_import(FILE *fp, cm54xx_mod_id id)
 				return OMAPCONF_ERR_UNEXPECTED;
 			}
 			if (n != i) {
-				dprintf("%s(%u (%s)): register id does not "
-					"match! (n=%u, i=%u)\n", __func__, id,
+				dprintf(
+					"%s(%u (%s)): register id does not match! (n=%u, i=%u)\n",
+					__func__, id,
 					cm54xx_mod_name_get(id), n, i);
 				return OMAPCONF_ERR_UNEXPECTED;
 			}
