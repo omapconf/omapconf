@@ -70,33 +70,37 @@ inline int instr54xx_dump(FILE *stream)
 {
 	int ret;
 
-	#if 0
-	/*
-	 * FIXME: may not be accessible (clock not always running).
-	 * Disable it temporarily until module & clock status checking APIs
-	 * available in omapconf.
-	 */
-	ret = prm54xx_dump(stdout, PRM54XX_INSTR_PRM);
-	if (ret != 0)
-		return ret;
-	#endif
+	if (prm54xx_is_profiling_running()) {
+		ret = prm54xx_dump(stdout, PRM54XX_INSTR_PRM);
+		if (ret != 0)
+			return ret;
+	} else {
+		printf(
+			"omapconf: PMI module is not accessible, skipping it.\n\n");
+	}
+
 	ret = cm54xx_dump(stream, CM54XX_INTRCONN_SOCKET_CM_CORE_AON);
 	if (ret != 0)
 		return ret;
+	if (cm54xx_is_profiling_running(CM54XX_INSTR_CM_CORE_AON)) {
+		ret = cm54xx_dump(stdout, CM54XX_INSTR_CM_CORE_AON);
+		if (ret != 0)
+			return ret;
+	} else {
+		printf(
+			"omapconf: CMI_AON module is not accessible, skipping it.\n\n");
+	}
+
 	ret = cm54xx_dump(stream, CM54XX_INTRCONN_SOCKET_CM_CORE);
-	#if 0
 	if (ret != 0)
 		return ret;
-	/*
-	 * FIXME: may not be accessible (clock not always running).
-	 * Disable it temporarily until module & clock status checking APIs
-	 * available in omapconf.
-	 */
-	ret = cm54xx_dump(stdout, CM54XX_INSTR_CM_CORE_AON);
-	if (ret != 0)
-		return ret;
-	return cm54xx_dump(stdout, CM54XX_INSTR_CM_CORE);
-	#else
+	if (cm54xx_is_profiling_running(CM54XX_INSTR_CM_CORE)) {
+		ret = cm54xx_dump(stdout, CM54XX_INSTR_CM_CORE);
+	} else {
+		printf(
+			"omapconf: CMI module is not accessible, skipping it.\n\n");
+		ret = 0;
+	}
+
 	return ret;
-	#endif
 }
