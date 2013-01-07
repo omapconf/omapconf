@@ -176,22 +176,6 @@ OMAP5SOURCES=\
 		arch/arm/mach-omap/omap5/prcm/clkdm_dependency54xx.c\
 		arch/arm/mach-omap/omap5/prcm/clkdm_dependency54xxes1-data.c\
 		arch/arm/mach-omap/omap5/prcm/clkdm_dependency54xx-data.c\
-		arch/arm/mach-omap/omap5/prcm/dss54xx.c\
-		arch/arm/mach-omap/omap5/prcm/wkupaon54xx.c\
-		arch/arm/mach-omap/omap5/prcm/cam54xx.c\
-		arch/arm/mach-omap/omap5/prcm/dsp54xx.c\
-		arch/arm/mach-omap/omap5/prcm/abe54xx.c\
-		arch/arm/mach-omap/omap5/prcm/gpu54xx.c\
-		arch/arm/mach-omap/omap5/prcm/coreaon54xx.c\
-		arch/arm/mach-omap/omap5/prcm/iva54xx.c\
-		arch/arm/mach-omap/omap5/prcm/mpu54xx.c\
-		arch/arm/mach-omap/omap5/prcm/l3init54xx.c\
-		arch/arm/mach-omap/omap5/prcm/core54xx.c\
-		arch/arm/mach-omap/omap5/prcm/l4per54xx.c\
-		arch/arm/mach-omap/omap5/prcm/prmdevice54xx.c\
-		arch/arm/mach-omap/omap5/prcm/emu54xx.c\
-		arch/arm/mach-omap/omap5/prcm/ckgen54xx.c\
-		arch/arm/mach-omap/omap5/prcm/instr54xx.c\
 		arch/arm/mach-omap/omap5/prcm/prcm54xx.c\
 		arch/arm/mach-omap/omap5/prcm/voltdm54xx.c\
 		arch/arm/mach-omap/omap5/prcm/pwrdm54xx.c\
@@ -207,6 +191,7 @@ OMAP5SOURCES=\
 		arch/arm/mach-omap/omap5/ctrlmod/ctrlmod_wkup_pad54xx-defs.c\
 		arch/arm/mach-omap/omap5/ctrlmod/ctrlmod54xx.c\
 		arch/arm/mach-omap/omap5/ctrlmod/ctrlmod54xx-data.c\
+		arch/arm/mach-omap/omap5/abe54xx.c\
 		arch/arm/mach-omap/omap5/cpuinfo54xx.c\
 		arch/arm/mach-omap/omap5/main54xx.c\
 		arch/arm/mach-omap/omap5/sr54xx-defs.c\

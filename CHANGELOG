@@ -1,3 +1,25 @@
+v1.62:
+-------
+	- [OMAP5][CPU] fix OMAP5 silicon type detection
+	- [OMAP5][CPU] add OMAP543x ES2.x max cpu speed
+	- [OMAP5][PRCM] move all *_dump() functions to prcm54xx.c
+	- [OMAP5][PRCM][DUMP] dump PMI/CMI/CMI_AON registers
+	- [OMAP5][PRCM] fix code check instrumentation status
+	- [OMAP5][PRCM] fix ES1.0 module pointer used with ES2.x devices
+	- [OMAP5][PRCM][EXPORT] fix do not export removed L4_PER domain on OMAP543x ES2.x
+	- [OMAP5][DPLL][AUDIT] avoid use of legacy APIs to retrieve current OPP
+	- [OMAP5][DPLL] fix DPLL CORE HS_DIV14 divider for OMAP5430 ES2.0 OPP_HI
+	- [OMAP5][DPLL] fix DPLL lock frequency and output rates when DCC is enabled
+	- [OMAP5][DPLL] update OMAP5430 ES2.0 DPLL golden settings
+	- [OMAP][SR] use generic functions to retrieve OPP and voltage in sr_convergence_status_show()
+	- [OMAP5][MODULE] fix OMAP5430 ES2.0 PoR clock rates for DSP, GPU, IVA, SL2, C2C modules
+	- [OMAP5][MODULE] handle ES1.0/ES2.0 differences in modules list
+	- [OMAP5][CLKDMDEP] fix incorrect register table used for ES2.0
+	- [OMAP5][OPP] add OMAP5430 ES2.0 OPP definitions
+	- [OPP] round clock rates to MHz during comparisons in opp_show
+	- [OPP] avoid cpufreq_interactive_input_connect message to be printed in OPP table
+
+
 v1.61:
 -------
 	- [OMAP5][CLKDM][PWRDM][MODULE] complete migration to generic layers and fix some ES2.0 bugs

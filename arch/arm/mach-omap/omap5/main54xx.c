@@ -340,7 +340,7 @@ int main54xx_dump(int argc, char *argv[])
 		}
 	} else if (strcmp(argv[0], "abe") == 0) {
 		if (argc == 1) {
-			return abe54xx_dump(stdout);
+			return prcm54xx_dump("abe");
 		} else {
 			return err_arg_too_many_msg_show(HELP_ABE);
 		}
@@ -694,10 +694,11 @@ int main54xx_show(int argc, char *argv[])
 		}
 	} else if (strcmp(argv[0], "abe") == 0) {
 		if (argc == 1) {
-			return abe54xx_power_config_show(stdout);
+			return prcm54xx_config_show(stdout, 1, argv);
 		} else if (argc == 2) {
 			if (strcmp(argv[1], "cfg") == 0)
-				return abe54xx_power_config_show(stdout);
+				return prcm54xx_config_show(
+					stdout, 1, argv);
 			else if (strcmp(argv[1], "atc") == 0)
 				return abe54xx_atc_status_show(stdout);
 			else

@@ -53,7 +53,7 @@ const char *cm54xx_mod_name_get(cm54xx_mod_id id);
 int cm54xx_dump(FILE *stream, cm54xx_mod_id id);
 int cm54xx_export(FILE *fp, cm54xx_mod_id id);
 int cm54xx_import(FILE *fp, cm54xx_mod_id id);
-unsigned int cm54xx_is_profiling_running(void);
+unsigned int cm54xx_is_profiling_running(cm54xx_mod_id id);
 
 
 #endif

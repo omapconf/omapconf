@@ -47,6 +47,7 @@
 #include <lib.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <cpufreq.h>
 
 
 /* #define CPUID54XX_DEBUG */
@@ -73,19 +74,36 @@ unsigned int cpu54xx_silicon_max_speed_get(void)
 	switch (cpu_get()) {
 	case OMAP_5430:
 	case OMAP_5432:
-		switch (cpu_silicon_type_get()) {
-		case LOW_PERF_SI:
-			max_speed = 800;
-			break;
-		case STANDARD_PERF_SI:
-			max_speed = 1000;
-			break;
-		case HIGH_PERF_SI:
-			max_speed = 1200;
-			break;
-		default:
-			max_speed = 0;
-			break;
+		if (cpufreq_opp_nbr_get() == 4) {
+			switch (cpu_revision_get()) {
+			case REV_ES1_0:
+				max_speed = 1200;
+				break;
+			case REV_ES2_0:
+				max_speed = 1700;
+				break;
+			default:
+				fprintf(stderr,
+					"omapconf: %s(): warning: unknown revision!\n",
+					__func__);
+				max_speed = 0;
+				break;
+			}
+		} else {
+			switch (cpu_revision_get()) {
+			case REV_ES1_0:
+				max_speed = 1100;
+				break;
+			case REV_ES2_0:
+				max_speed = 1500;
+				break;
+			default:
+				fprintf(stderr,
+					"omapconf: %s(): warning: unknown revision!\n",
+					__func__);
+				max_speed = 0;
+				break;
+			}
 		}
 		break;
 

@@ -80,8 +80,6 @@ opp54xx_id opp54xx_s2id(char *s);
 const char *voltdm54xx_id2s(voltdm54xx_id id);
 const char *opp54xx_name_get(opp54xx_id id);
 
-opp54xx_id voltdm54xx_opp_get(voltdm54xx_id id);
-
 double voltdm54xx_voltage_get(voltdm54xx_id id);
 int voltdm54xx_voltage_set(voltdm54xx_id id, unsigned long uv);
 

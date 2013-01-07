@@ -2062,7 +2062,7 @@ reg **cm54xx_mods[CM54XX_MODS_COUNT + 1] = {
 	(reg **) &omap5430_ckgen_cm_core_mod,
 	NULL,
 	(reg **) &omap5430_l3init_cm_core_mod,
-	(reg **) &omap5430es1_wkupaon_cm_mod,
+	(reg **) &omap5430_wkupaon_cm_mod,
 	(reg **) &omap5430_intrconn_socket_cm_core_aon_mod,
 	(reg **) &omap5430_iva_cm_core_mod,
 	(reg **) &omap5430_coreaon_cm_core_mod,
