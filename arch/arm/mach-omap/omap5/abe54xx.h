@@ -1,8 +1,8 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			l3init54xx.c
- * @Description			OMAP5 L3INIT PRCM Definitions & Functions
+ * @Filename			abe54xx.h
+ * @Description			OMAP5 ABE Definitions & Functions
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2011
  * @Copyright			Texas Instruments Incorporated
@@ -42,36 +42,14 @@
  */
 
 
-#include <l3init54xx.h>
-#include <prm54xx.h>
-#include <cm54xx.h>
+#ifndef __ABE54XX_H__
+#define __ABE54XX_H__
 
 
-/* #define L3INIT54XX_DEBUG */
-#ifdef L3INIT54XX_DEBUG
-#define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
-#else
-#define dprintf(format, ...)
+#include <stdio.h>
+
+
+int abe54xx_atc_status_show(FILE *stream);
+
+
 #endif
-
-
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		l3init54xx_dump
- * @BRIEF		dump L3INIT PRCM registers
- * @RETURNS		0 in case of success
- *			OMAPCONF_ERR_CPU
- *			OMAPCONF_ERR_ARG
- *			OMAPCONF_ERR_REG_ACCESS
- * @param[in,out]	stream: output stream
- * @DESCRIPTION		dump L3INIT PRCM registers and pretty-print it
- *			in selected output stream.
- *//*------------------------------------------------------------------------ */
-inline int l3init54xx_dump(FILE *stream)
-{
-	int ret;
-
-	ret = prm54xx_dump(stream, PRM54XX_L3INIT_PRM);
-	if (ret != 0)
-		return ret;
-	return cm54xx_dump(stream, CM54XX_L3INIT_CM_CORE);
-}

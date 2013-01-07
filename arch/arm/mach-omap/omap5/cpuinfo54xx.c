@@ -47,6 +47,7 @@
 #include <lib.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <cpufreq.h>
 
 
 /* #define CPUID54XX_DEBUG */

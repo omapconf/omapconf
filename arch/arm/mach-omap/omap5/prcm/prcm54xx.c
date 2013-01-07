@@ -49,22 +49,7 @@
 #include <cpuinfo.h>
 #include <prm54xx.h>
 #include <cm54xx.h>
-#include <dss54xx.h>
-#include <emu54xx.h>
-#include <wkupaon54xx.h>
-#include <cam54xx.h>
-#include <dsp54xx.h>
-#include <prmdevice54xx.h>
-#include <ckgen54xx.h>
-#include <instr54xx.h>
 #include <abe54xx.h>
-#include <gpu54xx.h>
-#include <coreaon54xx.h>
-#include <iva54xx.h>
-#include <mpu54xx.h>
-#include <l3init54xx.h>
-#include <core54xx.h>
-#include <l4per54xx.h>
 #include <pwrdm54xx.h>
 #include <clkdm54xx.h>
 #include <module54xx.h>
@@ -221,6 +206,403 @@ static const char *_prcm54xx_clockdm_name_get(const char *s)
 		return CLKDM_MPU;
 	else
 		return NULL;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_emu_dump
+ * @BRIEF		dump EMU PRCM registers
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump EMU PRCM registers and pretty-print it
+ *			in selected output stream.
+ *//*------------------------------------------------------------------------ */
+static inline int _prcm54xx_emu_dump(FILE *stream)
+{
+	int ret;
+
+	ret = prm54xx_dump(stream, PRM54XX_EMU_PRM);
+	if (ret != 0)
+		return ret;
+	return cm54xx_dump(stream, CM54XX_EMU_CM);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_wkupaon_dump
+ * @BRIEF		dump WKUPAON PRCM registers
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump WKUPAON PRCM registers and pretty-print it
+ *			in selected output stream.
+ *//*------------------------------------------------------------------------ */
+static int _prcm54xx_wkupaon_dump(FILE *stream)
+{
+	int ret;
+
+	ret = prm54xx_dump(stream, PRM54XX_WKUPAON_PRM);
+	if (ret != 0)
+		return ret;
+	return cm54xx_dump(stream, CM54XX_WKUPAON_CM);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_coreaon_dump
+ * @BRIEF		dump COREAON PRCM registers
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump COREAON PRCM registers and pretty-print it
+ *			in selected output stream.
+ *//*------------------------------------------------------------------------ */
+static inline int _prcm54xx_coreaon_dump(FILE *stream)
+{
+	int ret;
+
+	ret = prm54xx_dump(stream, PRM54XX_COREAON_PRM);
+	if (ret != 0)
+		return ret;
+	return cm54xx_dump(stream, CM54XX_COREAON_CM_CORE);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_cam_dump
+ * @BRIEF		dump CAM PRCM registers and pretty-print it
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump CAM PRCM registers and pretty-print it
+ *			in selected output stream.
+ *//*------------------------------------------------------------------------ */
+static inline int _prcm54xx_cam_dump(FILE *stream)
+{
+	int ret;
+
+	ret = prm54xx_dump(stream, PRM54XX_CAM_PRM);
+	if (ret != 0)
+		return ret;
+	return cm54xx_dump(stream, CM54XX_CAM_CM_CORE);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_core_dump
+ * @BRIEF		dump CORE PRCM registers
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump CORE PRCM registers and pretty-print it
+ *			in selected output stream.
+ *//*------------------------------------------------------------------------ */
+static inline int _prcm54xx_core_dump(FILE *stream)
+{
+	int ret;
+
+	ret = prm54xx_dump(stream, PRM54XX_CORE_PRM);
+	if (ret != 0)
+		return ret;
+	return cm54xx_dump(stream, CM54XX_CORE_CM_CORE);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_prmdev_dump
+ * @BRIEF		dump PRM DEVICE PRCM registers
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump PRM DEVICE PRCM registers and pretty-print it
+ *			in selected output stream.
+ *//*------------------------------------------------------------------------ */
+static inline int _prcm54xx_prmdev_dump(FILE *stream)
+{
+	int ret;
+
+	ret = prm54xx_dump(stream, PRM54XX_CUSTEFUSE_PRM);
+	if (ret != 0)
+		return ret;
+	ret = cm54xx_dump(stream, CM54XX_CUSTEFUSE_CM_CORE);
+	if (ret != 0)
+		return ret;
+	return prm54xx_dump(stream, PRM54XX_DEVICE_PRM);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_ckgen_dump
+ * @BRIEF		dump CKGEN PRCM registers
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump CKGEN PRCM registers and pretty-print it
+ *			in selected output stream.
+ *//*------------------------------------------------------------------------ */
+static inline int _prcm54xx_ckgen_dump(FILE *stream)
+{
+	int ret;
+
+	ret = prm54xx_dump(stream, PRM54XX_CKGEN_PRM);
+	if (ret != 0)
+		return ret;
+	ret = cm54xx_dump(stream, CM54XX_CKGEN_CM_CORE_AON);
+	if (ret != 0)
+		return ret;
+	return cm54xx_dump(stream, CM54XX_CKGEN_CM_CORE);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_instr_dump
+ * @BRIEF		dump INSTR PRCM registers
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump INSTR PRCM registers and pretty-print it
+ *			in selected output stream.
+ *//*------------------------------------------------------------------------ */
+static inline int _prcm54xx_instr_dump(FILE *stream)
+{
+	int ret;
+
+	if (prm54xx_is_profiling_running()) {
+		ret = prm54xx_dump(stdout, PRM54XX_INSTR_PRM);
+		if (ret != 0)
+			return ret;
+	} else {
+		printf(
+			"omapconf: PMI module is not accessible, skipping it.\n\n");
+	}
+
+	ret = cm54xx_dump(stream, CM54XX_INTRCONN_SOCKET_CM_CORE_AON);
+	if (ret != 0)
+		return ret;
+	if (cm54xx_is_profiling_running(CM54XX_INSTR_CM_CORE_AON)) {
+		ret = cm54xx_dump(stdout, CM54XX_INSTR_CM_CORE_AON);
+		if (ret != 0)
+			return ret;
+	} else {
+		printf(
+			"omapconf: CMI_AON module is not accessible, skipping it.\n\n");
+	}
+
+	ret = cm54xx_dump(stream, CM54XX_INTRCONN_SOCKET_CM_CORE);
+	if (ret != 0)
+		return ret;
+	if (cm54xx_is_profiling_running(CM54XX_INSTR_CM_CORE)) {
+		ret = cm54xx_dump(stdout, CM54XX_INSTR_CM_CORE);
+	} else {
+		printf(
+			"omapconf: CMI module is not accessible, skipping it.\n\n");
+		ret = 0;
+	}
+
+	return ret;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_dss_dump
+ * @BRIEF		dump DSS PRCM registers and pretty-print it
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump DSS PRCM registers and pretty-print it
+ *			in selected output stream
+ *//*------------------------------------------------------------------------ */
+static inline int _prcm54xx_dss_dump(FILE *stream)
+{
+	int ret;
+
+	ret = prm54xx_dump(stream, PRM54XX_DSS_PRM);
+	if (ret != 0)
+		return ret;
+	return cm54xx_dump(stream, CM54XX_DSS_CM_CORE);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_l3init_dump
+ * @BRIEF		dump L3INIT PRCM registers
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump L3INIT PRCM registers and pretty-print it
+ *			in selected output stream.
+ *//*------------------------------------------------------------------------ */
+static inline int _prcm54xx_l3init_dump(FILE *stream)
+{
+	int ret;
+
+	ret = prm54xx_dump(stream, PRM54XX_L3INIT_PRM);
+	if (ret != 0)
+		return ret;
+	return cm54xx_dump(stream, CM54XX_L3INIT_CM_CORE);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		l4per54xx_dump
+ * @BRIEF		dump L4PER PRCM registers
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump L4PER PRCM registers and pretty-print it
+ *			in selected output stream.
+ *//*------------------------------------------------------------------------ */
+static inline int _prcm54xx_l4per_dump(FILE *stream)
+{
+	int ret;
+
+	ret = prm54xx_dump(stream, PRM54XX_L4PER_PRM);
+	if (ret != 0)
+		return ret;
+	return cm54xx_dump(stream, CM54XX_L4PER_CM_CORE);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_dsp_dump
+ * @BRIEF		dump DSP PRCM registers and pretty-print it
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump DSP PRCM registers and pretty-print it
+ *//*------------------------------------------------------------------------ */
+static inline int _prcm54xx_dsp_dump(FILE *stream)
+{
+	int ret;
+
+	ret = prm54xx_dump(stream, PRM54XX_DSP_PRM);
+	if (ret != 0)
+		return ret;
+	return cm54xx_dump(stream, CM54XX_DSP_CM_CORE_AON);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_gpu_dump
+ * @BRIEF		dump GPU PRCM registers
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump GPU PRCM registers and pretty-print it
+ *			in selected output stream.
+ *//*------------------------------------------------------------------------ */
+static inline int _prcm54xx_gpu_dump(FILE *stream)
+{
+	int ret;
+
+	ret = prm54xx_dump(stream, PRM54XX_GPU_PRM);
+	if (ret != 0)
+		return ret;
+	return cm54xx_dump(stream, CM54XX_GPU_CM_CORE);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_iva_dump
+ * @BRIEF		dump IVA PRCM registers
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump IVA PRCM registers and pretty-print it
+ *			in selected output stream.
+ *//*------------------------------------------------------------------------ */
+static inline int _prcm54xx_iva_dump(FILE *stream)
+{
+	int ret;
+
+	ret = prm54xx_dump(stream, PRM54XX_IVA_PRM);
+	if (ret != 0)
+		return ret;
+	return cm54xx_dump(stream, CM54XX_IVA_CM_CORE);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_mpu_dump
+ * @BRIEF		dump MPU PRCM registers
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump MPU PRCM registers and pretty-print it
+ *			in selected output stream.
+ *//*------------------------------------------------------------------------ */
+static inline int _prcm54xx_mpu_dump(FILE *stream)
+{
+	int ret;
+
+	ret = prm54xx_dump(stream, PRM54XX_OCP_SOCKET_PRM);
+	if (ret != 0)
+		return ret;
+	ret = prm54xx_dump(stream, PRM54XX_PRCM_MPU_PRM_C0);
+	if (ret != 0)
+		return ret;
+	ret = prm54xx_dump(stream, PRM54XX_PRCM_MPU_PRM_C1);
+	if (ret != 0)
+		return ret;
+	ret = prm54xx_dump(stream, PRM54XX_MPU_PRM);
+	if (ret != 0)
+		return ret;
+	return cm54xx_dump(stream, CM54XX_MPU_CM_CORE_AON);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		_prcm54xx_abe_dump
+ * @BRIEF		dump ABE PRCM registers
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in,out]	stream: output stream
+ * @DESCRIPTION		dump ABE PRCM registers and pretty-print it
+ *			in selected output stream.
+ *//*------------------------------------------------------------------------ */
+static inline int _prcm54xx_abe_dump(FILE *stream)
+{
+	int ret;
+
+	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
+	CHECK_NULL_ARG(stream, OMAPCONF_ERR_ARG);
+	ret = prm54xx_dump(stdout, PRM54XX_ABE_PRM);
+	if (ret != 0)
+		return ret;
+	return cm54xx_dump(stdout, CM54XX_ABE_CM_CORE_AON);
 }
 
 
@@ -565,59 +947,59 @@ int prcm54xx_dump(char *s)
 
 	if ((s == NULL) || (strcmp(s, "all") == 0)) {
 		/* ALL */
-		ret = emu54xx_dump(stdout);
-		ret |= wkupaon54xx_dump(stdout);
-		ret |= coreaon54xx_dump(stdout);
-		ret |= cam54xx_dump(stdout);
-		ret |= core54xx_dump(stdout);
-		ret |= prmdev54xx_dump(stdout);
-		ret |= ckgen54xx_dump(stdout);
-		ret |= instr54xx_dump(stdout);
-		ret |= dss54xx_dump(stdout);
-		ret |= l3init54xx_dump(stdout);
+		ret = _prcm54xx_emu_dump(stdout);
+		ret |= _prcm54xx_wkupaon_dump(stdout);
+		ret |= _prcm54xx_coreaon_dump(stdout);
+		ret |= _prcm54xx_cam_dump(stdout);
+		ret |= _prcm54xx_core_dump(stdout);
+		ret |= _prcm54xx_prmdev_dump(stdout);
+		ret |= _prcm54xx_ckgen_dump(stdout);
+		ret |= _prcm54xx_instr_dump(stdout);
+		ret |= _prcm54xx_dss_dump(stdout);
+		ret |= _prcm54xx_l3init_dump(stdout);
 		if (cpu_revision_get() == REV_ES1_0)
-			ret |= l4per54xx_dump(stdout);
-		ret |= abe54xx_dump(stdout);
-		ret |= dsp54xx_dump(stdout);
-		ret |= gpu54xx_dump(stdout);
-		ret |= iva54xx_dump(stdout);
-		ret |= mpu54xx_dump(stdout);
+			ret |= _prcm54xx_l4per_dump(stdout);
+		ret |= _prcm54xx_abe_dump(stdout);
+		ret |= _prcm54xx_dsp_dump(stdout);
+		ret |= _prcm54xx_gpu_dump(stdout);
+		ret |= _prcm54xx_iva_dump(stdout);
+		ret |= _prcm54xx_mpu_dump(stdout);
 		return ret;
 	} else if (strcmp(s, "emu") == 0) {
-		return emu54xx_dump(stdout);
+		return _prcm54xx_emu_dump(stdout);
 	} else if (strcmp(s, "wkupaon") == 0) {
-		return wkupaon54xx_dump(stdout);
+		return _prcm54xx_wkupaon_dump(stdout);
 	} else if (strcmp(s, "coreaon") == 0) {
-		return coreaon54xx_dump(stdout);
+		return _prcm54xx_coreaon_dump(stdout);
 	} else if (strcmp(s, "cam") == 0) {
-		return cam54xx_dump(stdout);
+		return _prcm54xx_cam_dump(stdout);
 	} else if (strcmp(s, "core") == 0) {
-		return core54xx_dump(stdout);
+		return _prcm54xx_core_dump(stdout);
 	} else if (strcmp(s, "dev") == 0) {
-		return prmdev54xx_dump(stdout);
+		return _prcm54xx_prmdev_dump(stdout);
 	} else if (strcmp(s, "ckgen") == 0) {
-		return ckgen54xx_dump(stdout);
+		return _prcm54xx_ckgen_dump(stdout);
 	} else if (strcmp(s, "instr") == 0) {
-		return instr54xx_dump(stdout);
+		return _prcm54xx_instr_dump(stdout);
 	} else if (strcmp(s, "dss") == 0) {
-		return dss54xx_dump(stdout);
+		return _prcm54xx_dss_dump(stdout);
 	} else if (strcmp(s, "l3init") == 0) {
-		return l3init54xx_dump(stdout);
+		return _prcm54xx_l3init_dump(stdout);
 	} else if (strcmp(s, "l4per") == 0) {
 		if (cpu_revision_get() == REV_ES1_0)
-			return l4per54xx_dump(stdout);
+			return _prcm54xx_l4per_dump(stdout);
 		else
 			return err_arg_msg_show(HELP_PRCM);
 	} else if (strcmp(s, "abe") == 0) {
-		return abe54xx_dump(stdout);
+		return _prcm54xx_abe_dump(stdout);
 	} else if (strcmp(s, "dsp") == 0) {
-		return dsp54xx_dump(stdout);
+		return _prcm54xx_dsp_dump(stdout);
 	} else if (strcmp(s, "gpu") == 0) {
-		return gpu54xx_dump(stdout);
+		return _prcm54xx_gpu_dump(stdout);
 	} else if (strcmp(s, "iva") == 0) {
-		return iva54xx_dump(stdout);
+		return _prcm54xx_iva_dump(stdout);
 	} else if (strcmp(s, "mpu") == 0) {
-		return mpu54xx_dump(stdout);
+		return _prcm54xx_mpu_dump(stdout);
 	} else if (strcmp(s, "dep") == 0) {
 		return clkdmdep54xx_dump(stdout);
 	} else if (strcmp(s, "abb") == 0) {
