@@ -2,7 +2,7 @@
  *
  * @Component			OMAPCONF
  * @Filename			abe54xx.c
- * @Description			OMAP5 PRCM ABE Definitions & Functions
+ * @Description			OMAP5 ABE Definitions & Functions
  * @Author			Patrick Titiano (p-titiano@ti.com)
  * @Date			2011
  * @Copyright			Texas Instruments Incorporated
@@ -43,13 +43,10 @@
 
 
 #include <abe54xx.h>
-#include <prm54xx.h>
-#include <cm54xx.h>
 #include <clockdomain.h>
 #include <lib54xx.h>
 #include <cpuinfo.h>
 #include <help.h>
-#include <prcm54xx.h>
 #include <mem.h>
 #include <string.h>
 #include <unistd.h>
@@ -162,57 +159,6 @@ struct atc_item atc54xx_list[OMAP_ABE_ATC_LIST_SIZE] = {
 		.offset = 0x0138,
 	}
 };
-
-
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		abe54xx_power_config_show
- * @BRIEF		analyze ABE power configuration
- * @RETURNS		0 in case of success
- *			OMAPCONF_ERR_CPU
- *			OMAPCONF_ERR_REG_ACCESS
- * @param[in,out]	stream: output file stream
- * @DESCRIPTION		analyze ABE power configuration
- *//*------------------------------------------------------------------------ */
-int abe54xx_power_config_show(FILE *stream)
-{
-	char *argv[1];
-	int ret;
-
-	argv[0] = (char *) malloc(4 * sizeof(char));
-	if (argv[0] == NULL) {
-		fprintf(stderr,
-			"Could not allocate memory for buffer, abort.\n");
-		return OMAPCONF_ERR_FULL;
-	}
-	strcpy(argv[0], "abe");
-	ret = prcm54xx_config_show(stream, 1, argv);
-	free(argv[0]);
-	return ret;
-}
-
-
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		abe54xx_dump
- * @BRIEF		dump ABE PRCM registers
- * @RETURNS		0 in case of success
- *			OMAPCONF_ERR_CPU
- *			OMAPCONF_ERR_ARG
- *			OMAPCONF_ERR_REG_ACCESS
- * @param[in,out]	stream: output stream
- * @DESCRIPTION		dump ABE PRCM registers and pretty-print it
- *			in selected output stream.
- *//*------------------------------------------------------------------------ */
-inline int abe54xx_dump(FILE *stream)
-{
-	int ret;
-
-	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
-	CHECK_NULL_ARG(stream, OMAPCONF_ERR_ARG);
-	ret = prm54xx_dump(stdout, PRM54XX_ABE_PRM);
-	if (ret != 0)
-		return ret;
-	return cm54xx_dump(stdout, CM54XX_ABE_CM_CORE_AON);
-}
 
 
 /* ------------------------------------------------------------------------*//**

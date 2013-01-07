@@ -461,17 +461,22 @@ double dpll_lock_freq_calc(dpll_settings *settings)
 	CHECK_NULL_ARG(settings, 0.0);
 
 	if (settings->type == DPLL_TYPE_A) {
-		if (settings->regm4xen == 0)
-			settings->fdpll =
-				(settings->fref * 2.0 * (double) (settings->MN).M) /
-				((double) (settings->MN).N + 1.0);
-		else
+		if (settings->regm4xen == 1)
 			settings->fdpll =
 				(settings->fref * 8.0 * (double) (settings->MN).M) /
 				((double) (settings->MN).N + 1.0);
-		dprintf("%s(%u): type=A regm4xen=%u fref=%lfMHz M=%u N=%u => "
-			"fdpll=%lfMHz\n", __func__, settings->id,
-			settings->regm4xen, settings->fref, (settings->MN).M,
+		else if ((settings->DCC).en == 1)
+			settings->fdpll =
+				(settings->fref * 1.0 * (double) (settings->MN).M) /
+				((double) (settings->MN).N + 1.0);
+		else
+			settings->fdpll =
+				(settings->fref * 2.0 * (double) (settings->MN).M) /
+				((double) (settings->MN).N + 1.0);
+		dprintf(
+			"%s(%u): type=A regm4xen=%u DCC_EN=%u fref=%lfMHz M=%u N=%u => fdpll=%lfMHz\n",
+			__func__, settings->id, settings->regm4xen,
+			(settings->DCC).en, settings->fref, (settings->MN).M,
 			(settings->MN).N, settings->fdpll);
 	} else {
 		settings->fdpll =

@@ -95,7 +95,8 @@ typedef enum {
 	LOW_PERF_SI = 0,
 	STANDARD_PERF_SI = 1,
 	HIGH_PERF_SI = 2,
-	SILICON_TYPE_MAX = 3
+	SPEEDBIN_SI = 3,
+	SILICON_TYPE_MAX = 4
 } silicon_type;
 
 

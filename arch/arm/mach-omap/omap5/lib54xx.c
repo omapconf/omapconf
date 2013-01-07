@@ -366,7 +366,6 @@ int lib54xx_export(char *file)
 	fprintf(fp,
 		"<omapconf_export export_date=\"%s\" omapconf_version=\"%u.%u\" omapconf_builddate=\"%s\">\n",
 		export_date, OMAPCONF_REV_MAJOR, OMAPCONF_REV_MINOR, builddate);
-
 	release_details_get(version, type, date);
 	if (os_is_android())
 		fprintf(fp,
@@ -392,14 +391,24 @@ int lib54xx_export(char *file)
 
 	/* Export PRM registers */
 	fprintf(fp, "        <module name=\"PRM\">\n");
-	for (i = 0; i < PRM54XX_MODS_COUNT; i++)
+	for (i = 0; i < PRM54XX_MODS_COUNT; i++) {
+		if ((cpu_revision_get() != REV_ES1_0) &&
+			(i == PRM54XX_L4PER_PRM))
+				/* L4_PER does not exist on ES2.x */
+				continue;
 		prm54xx_export(fp, (prm54xx_mod_id) i);
+	}
 	fprintf(fp, "        </module>\n");
 
 	/* Export CM registers */
 	fprintf(fp, "        <module name=\"CM\">\n");
-	for (i = 0; i < CM54XX_MODS_COUNT; i++)
+	for (i = 0; i < CM54XX_MODS_COUNT; i++) {
+		if ((cpu_revision_get() != REV_ES1_0) &&
+			(i == CM54XX_L4PER_CM_CORE))
+			/* Does not exist on ES2.x */
+			continue;
 		cm54xx_export(fp, (cm54xx_mod_id) i);
+	}
 	fprintf(fp, "        </module>\n");
 
 	/* Export Smart-Reflex registers */

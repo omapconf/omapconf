@@ -53,7 +53,6 @@
 #include <cm44xx.h>
 #include <emu44xx.h>
 #include <cm54xx-defs.h>
-#include <emu54xx.h>
 
 
 /* #define PWRDM_DEBUG */

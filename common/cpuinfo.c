@@ -138,6 +138,7 @@ static const char
 	"LOW",
 	"STANDARD",
 	"HIGH",
+	"SPEEDBIN",
 	"UNKNOWN"
 };
 
@@ -873,21 +874,33 @@ int cpu_detect(void)
 	dprintf("%s(): Device Type is %s\n", __func__,
 		cpu_device_type_gets(dev_type_s));
 
-
 	/* Retrieve silicon performance type from EFuse */
-	if (mem_read(CONTROL_STD_FUSE_PROD_ID_1, &prod_id_1) != 0) {
-		fprintf(stderr,
-			"omapconf (%s()): could not read CONTROL_STD_FUSE_PROD_ID_1 register!\n",
-			__func__);
-		return OMAPCONF_ERR_REG_ACCESS;
+	if (cpu_is_omap44xx()) {
+		if (mem_read(CONTROL_STD_FUSE_PROD_ID_1, &prod_id_1) != 0) {
+			fprintf(stderr,
+				"omapconf (%s()): could not read CONTROL_STD_FUSE_PROD_ID_1 register!\n",
+				__func__);
+			return OMAPCONF_ERR_REG_ACCESS;
+		}
+		dprintf("%s(): CONTROL_STD_FUSE_PROD_ID_1 = 0x%08X\n",
+			__func__, prod_id_1);
+		si_type = (silicon_type) extract_bitfield(prod_id_1, 16, 2);
+	} else {
+		if (cpu_revision_get() == REV_ES1_0) {
+			if (cpu_silicon_max_speed_get() != 1200)
+				cpu_silicon_type_set(STANDARD_PERF_SI);
+			else
+				cpu_silicon_type_set(SPEEDBIN_SI);
+		} else {
+			if (cpu_silicon_max_speed_get() != 1700)
+				cpu_silicon_type_set(STANDARD_PERF_SI);
+			else
+				cpu_silicon_type_set(SPEEDBIN_SI);
+		}
 	}
-	dprintf("%s(): CONTROL_STD_FUSE_PROD_ID_1 = 0x%08X\n",
-		__func__, prod_id_1);
-	si_type = (silicon_type) extract_bitfield(prod_id_1, 16, 2);
 	dprintf("%s(): Silicon performance type is %s (%uMHz)\n",
 		__func__, cpu_silicon_type_gets(s),
 		cpu_silicon_max_speed_get());
-
 
 	/* Set CPU full name */
 	cpu_full_name_set();
