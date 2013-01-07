@@ -17,6 +17,7 @@ v1.62:
 	- [OMAP5][CLKDMDEP] fix incorrect register table used for ES2.0
 	- [OMAP5][OPP] add OMAP5430 ES2.0 OPP definitions
 	- [OPP] round clock rates to MHz during comparisons in opp_show
+	- [OPP] avoid cpufreq_interactive_input_connect message to be printed in OPP table
 
 
 v1.61:

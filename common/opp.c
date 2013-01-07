@@ -56,6 +56,7 @@
 #include <prcm-module.h>
 #include <module.h>
 #include <opp54xx.h>
+#include <unistd.h>
 
 
 /* #define OPP_DEBUG */
@@ -951,7 +952,13 @@ int opp_show(FILE *stream)
 	fprintf(stream, "Notes:\n");
 	fprintf(stream,
 		"  (1) Module is disabled, rate may not be relevant.\n\n");
+	fflush(stream);
 
+	/*
+	 * Avoid cpufreq_interactive_input_connect message to be printed in
+	 * the middle of the OPP table...
+	 */
+	usleep(150000);
 	/* Restore CPUFreq governor */
 	cpufreq_scaling_governor_set(prev_gov, prev_gov2);
 
