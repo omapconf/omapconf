@@ -1148,7 +1148,14 @@ int module_clk_rate_get(const char *mod, unsigned short ignore)
 			__func__, mod);
 		rate_khz = OMAPCONF_ERR_NOT_AVAILABLE;
 	} else {
-		rate_mhz = clk54xx_rate_get(data.clk, ignore);
+		if (cpu_is_omap44xx()) {
+			rate_mhz = clk44xx_get_clock_speed(data.clk, ignore);
+		} else if (cpu_is_omap54xx()) {
+			rate_mhz = clk54xx_rate_get(data.clk, ignore);
+		} else {
+			rate_khz = OMAPCONF_ERR_CPU;
+			goto module_clk_rate_get_end;
+		}
 		if (rate_mhz < 0.0) {
 			rate_khz = (int) rate_mhz;
 			dprintf(
@@ -1159,6 +1166,7 @@ int module_clk_rate_get(const char *mod, unsigned short ignore)
 		}
 	}
 
+module_clk_rate_get_end:
 	dprintf("%s(%s)=%d KHz\n", __func__, mod, rate_khz);
 	return rate_khz;
 }
