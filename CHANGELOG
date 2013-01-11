@@ -1,3 +1,9 @@
+v1.63:
+-------
+	- [OMAP4][OPP] Fix clock rates not displayed (always 0) in "show opp" command
+	- [OMAP4][MODULE] introduce module list for OMAP44[30-60-70]
+
+
 v1.62:
 -------
 	- [OMAP5][CPU] fix OMAP5 silicon type detection
