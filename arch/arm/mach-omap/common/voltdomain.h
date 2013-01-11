@@ -52,6 +52,7 @@
 
 #define VOLTDM_MAX_NAME_LENGTH		16
 
+#define VDD_LDO_WKUP	((const char *) "LDO_WKUP") /* OMAP4 */
 #define VDD_WKUP	((const char *) "VDD_WKUP") /* Common */
 #define VDD_MPU		((const char *) "VDD_MPU") /* Common */
 #define VDD_IVA		((const char *) "VDD_IVA") /* OMAP4 */

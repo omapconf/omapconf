@@ -55,6 +55,7 @@
 #include <clock44xx.h>
 #include <prcm-module.h>
 #include <module.h>
+#include <module44xx.h>
 #include <opp54xx.h>
 #include <unistd.h>
 
@@ -549,27 +550,36 @@ int opp_show(FILE *stream)
 				rate_aess_por = -1;
 				rate_gpu_por = -1;
 				rate_dsp = module_clk_rate_get(MOD_DSP, 1);
-				rate_iva = module_clk_rate_get(MOD_IVA, 1);
-				if (cpu_is_omap44xx())
-					rate_aess =
-						module_clk_rate_get(MOD_AESS, 1);
-				else if (cpu_is_omap54xx())
-					rate_gpu =
-						module_clk_rate_get(MOD_GPU, 1);
+				if (cpu_is_omap44xx()) {
+					rate_iva = module_clk_rate_get(
+						MOD_IVAHD, 1);
+					rate_aess = module_clk_rate_get(
+						MOD_AESS, 1);
+				} else if (cpu_is_omap54xx()) {
+					rate_iva = module_clk_rate_get(
+						MOD_IVA, 1);
+					rate_gpu = module_clk_rate_get(
+						MOD_GPU, 1);
+				}
 
 				if (strcmp(opp_s, OPP_UNKNOWN) != 0) {
 					rate_dsp_por = module_por_clk_rate_get(
 						MOD_DSP, opp_s);
-					rate_iva_por = module_por_clk_rate_get(
-						MOD_IVA, opp_s);
-					if (cpu_is_omap44xx())
+					if (cpu_is_omap44xx()) {
+						rate_iva_por =
+							module_por_clk_rate_get(
+								MOD_IVAHD, opp_s);
 						rate_aess_por =
 							module_por_clk_rate_get(
 								MOD_AESS, opp_s);
-					else if (cpu_is_omap54xx())
+					} else if (cpu_is_omap54xx()) {
+						rate_iva_por =
+							module_por_clk_rate_get(
+								MOD_IVA, opp_s);
 						rate_gpu_por =
 							module_por_clk_rate_get(
 								MOD_GPU, opp_s);
+					}
 				}
 				dprintf(
 					"      DSP Rate: %dMHz, POR Rate: %dMHz\n",
@@ -600,13 +610,17 @@ int opp_show(FILE *stream)
 					rate_l3, rate_l3_por);
 
 				rate_emif = module_clk_rate_get(MOD_EMIF1, 1);
-				rate_lpddr2 = module_clk_rate_get(
-					MOD_PHY_EMIF, 1);
+				if (cpu_is_omap44xx())
+					rate_lpddr2 = module_clk_rate_get(
+						MOD_DDRPHY, 1) / 2;
+				else
+					rate_lpddr2 = module_clk_rate_get(
+						MOD_PHY_EMIF, 1);
 				rate_l4 = module_clk_rate_get(
 					MOD_L4_CFG_INTERCONNECT, 1);
 				if (cpu_is_omap44xx())
 					rate_gpu =
-						module_clk_rate_get(MOD_GPU, 1);
+						module_clk_rate_get(MOD_SGX, 1);
 				else if (cpu_is_omap54xx())
 					rate_aess = module_clk_rate_get(
 						MOD_AESS, 1);
@@ -617,8 +631,14 @@ int opp_show(FILE *stream)
 						module_clk_rate_get(MOD_CAL, 1);
 				else
 					rate_cal = -1;
-				rate_ipu = module_clk_rate_get(MOD_IPU, 1);
-				rate_dss = module_clk_rate_get(MOD_DSS, 1);
+				if (cpu_is_omap44xx())
+					rate_ipu = module_clk_rate_get(MOD_MPU_M3, 1);
+				else
+					rate_ipu = module_clk_rate_get(MOD_IPU, 1);
+				if (cpu_is_omap44xx())
+					rate_dss = module_clk_rate_get(MOD_DISPC, 1);
+				else
+					rate_dss = module_clk_rate_get(MOD_DSS, 1);
 				rate_hsi = module_clk_rate_get(MOD_HSI, 1);
 				if (cpu_is_omap4470() || cpu_is_omap54xx())
 					rate_bb2d = module_clk_rate_get(
@@ -723,7 +743,10 @@ int opp_show(FILE *stream)
 		} else if ((strcmp(voltdm.name, VDD_IVA) == 0) ||
 			(strcmp(voltdm.name, VDD_MM) == 0)) {
 			strncpy(table[row][0], "  IVA", TABLE_MAX_ELT_LEN);
-			mmode = module_mode_get("IVA");
+			if (cpu_is_omap44xx())
+				mod44xx_get_mode(OMAP4_IVAHD, &mmode); /* FIXME */
+			else
+				mmode = module_mode_get(MOD_IVA);
 			if (mmode == MOD_DISABLED_MODE)
 				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)", rate_iva / 1000);
@@ -735,7 +758,7 @@ int opp_show(FILE *stream)
 			if (cpu_is_omap44xx()) {
 				strncpy(table[row][0], "  AESS",
 					TABLE_MAX_ELT_LEN);
-				mmode = module_mode_get(MOD_AESS);
+				mod44xx_get_mode(OMAP4_AESS, &mmode); /* FIXME */
 				if (mmode == MOD_DISABLED_MODE)
 					snprintf(table[row][3],
 						TABLE_MAX_ELT_LEN,
@@ -763,7 +786,10 @@ int opp_show(FILE *stream)
 			}
 
 			strncpy(table[row][0], "  DSP", TABLE_MAX_ELT_LEN);
-			mmode = module_mode_get(MOD_DSP);
+			if (cpu_is_omap44xx())
+				mod44xx_get_mode(OMAP4_DSP, &mmode); /* FIXME */
+			else
+				mmode = module_mode_get(MOD_DSP);
 			if (mmode == MOD_DISABLED_MODE)
 				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)", rate_dsp / 1000);
@@ -796,7 +822,7 @@ int opp_show(FILE *stream)
 			if (cpu_is_omap44xx()) {
 				strncpy(table[row][0], "  GPU",
 					TABLE_MAX_ELT_LEN);
-				mmode = module_mode_get(MOD_GPU);
+				mod44xx_get_mode(OMAP4_GFX, &mmode); /* FIXME */
 				if (mmode == MOD_DISABLED_MODE)
 					snprintf(table[row][3],
 						TABLE_MAX_ELT_LEN,
@@ -824,7 +850,10 @@ int opp_show(FILE *stream)
 			}
 
 			strncpy(table[row][0], "  FDIF", TABLE_MAX_ELT_LEN);
-			mmode = module_mode_get(MOD_FDIF);
+			if (cpu_is_omap44xx())
+				mod44xx_get_mode(OMAP4_FDIF, &mmode); /* FIXME */
+			else
+				mmode = module_mode_get(MOD_FDIF);
 			if (mmode == MOD_DISABLED_MODE)
 				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)", rate_fdif / 1000);
@@ -851,7 +880,10 @@ int opp_show(FILE *stream)
 			}
 
 			strncpy(table[row][0], "  IPU", TABLE_MAX_ELT_LEN);
-			mmode = module_mode_get(MOD_IPU);
+			if (cpu_is_omap44xx())
+				mod44xx_get_mode(OMAP4_MPU_M3, &mmode); /* FIXME */
+			else
+				mmode = module_mode_get(MOD_IPU);
 			if (mmode == MOD_DISABLED_MODE)
 				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)", rate_ipu / 1000);
@@ -888,7 +920,10 @@ int opp_show(FILE *stream)
 			}
 
 			strncpy(table[row][0], "  ISS", TABLE_MAX_ELT_LEN);
-			mmode = module_mode_get(MOD_ISS);
+			if (cpu_is_omap44xx())
+				mod44xx_get_mode(OMAP4_ISS, &mmode); /* FIXME */
+			else
+				mmode = module_mode_get(MOD_ISS);
 			if (mmode == MOD_DISABLED_MODE)
 				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)", rate_iss / 1000);
@@ -898,7 +933,10 @@ int opp_show(FILE *stream)
 			row++;
 
 			strncpy(table[row][0], "  DSS", TABLE_MAX_ELT_LEN);
-			mmode = module_mode_get(MOD_DSS);
+			if (cpu_is_omap44xx())
+				mod44xx_get_mode(OMAP4_DISPC, &mmode); /* FIXME */
+			else
+				mmode = module_mode_get(MOD_DSS);
 			if (mmode == MOD_DISABLED_MODE)
 				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)", rate_dss / 1000);
@@ -911,7 +949,10 @@ int opp_show(FILE *stream)
 				(cpu_is_omap54xx() && (cpu_revision_get() != REV_ES1_0))) {
 				strncpy(table[row][0], "  BB2D",
 					TABLE_MAX_ELT_LEN);
-				mmode = module_mode_get(MOD_BB2D);
+				if (cpu_is_omap44xx())
+					mod44xx_get_mode(OMAP4_BB2D, &mmode); /* FIXME */
+				else
+					mmode = module_mode_get(MOD_BB2D);
 				if (mmode == MOD_DISABLED_MODE)
 					snprintf(table[row][3],
 						TABLE_MAX_ELT_LEN,
@@ -925,7 +966,10 @@ int opp_show(FILE *stream)
 			}
 
 			strncpy(table[row][0], "  HSI", TABLE_MAX_ELT_LEN);
-			mmode = module_mode_get(MOD_HSI);
+			if (cpu_is_omap44xx())
+				mod44xx_get_mode(OMAP4_HSI, &mmode); /* FIXME */
+			else
+				mmode = module_mode_get(MOD_HSI);
 			if (mmode == MOD_DISABLED_MODE)
 				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)", rate_hsi / 1000);
@@ -935,7 +979,10 @@ int opp_show(FILE *stream)
 			row++;
 
 			strncpy(table[row][0], "  C2C", TABLE_MAX_ELT_LEN);
-			mmode = module_mode_get(MOD_C2C);
+			if (cpu_is_omap44xx())
+				mod44xx_get_mode(OMAP4_C2C, &mmode); /* FIXME */
+			else
+				mmode = module_mode_get(MOD_C2C);
 			if (mmode == MOD_DISABLED_MODE)
 				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
 					"(%-4d MHz) (1)", rate_c2c / 1000);

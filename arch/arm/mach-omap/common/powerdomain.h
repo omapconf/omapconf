@@ -56,8 +56,10 @@
 
 
 #define PWRDM_EMU			((const char *) "EMU")
+#define PWRDM_WKUP			((const char *) "WKUP")
 #define PWRDM_WKUPAON			((const char *) "WKUPAON")
 #define PWRDM_COREAON			((const char *) "COREAON")
+#define PWRDM_ALWON_CORE		((const char *) "ALWON_CORE")
 #define PWRDM_CAM			((const char *) "CAM")
 #define PWRDM_CORE			((const char *) "CORE")
 #define PWRDM_DSS			((const char *) "DSS")
@@ -67,8 +69,11 @@
 #define PWRDM_ABE			((const char *) "ABE")
 #define PWRDM_DSP			((const char *) "DSP")
 #define PWRDM_GPU			((const char *) "GPU")
+#define PWRDM_SGX			((const char *) "SGX")
 #define PWRDM_MMAON			((const char *) "MMAON")
 #define PWRDM_IVA			((const char *) "IVA")
+#define PWRDM_IVA_HD			((const char *) "IVAHD")
+#define PWRDM_ALWON_IVA			((const char *) "ALWON_IVA")
 #define PWRDM_MPUAON			((const char *) "MPUAON")
 #define PWRDM_MPU			((const char *) "MPU")
 #define PWRDM_UNKNOWN			((const char *) "UNKNOWN")

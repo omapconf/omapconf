@@ -51,13 +51,15 @@
 #include <voltdm44xx.h>
 #include <prcm-module.h>
 
+
 #define MOD44XX_MAX_NAME_LENGTH			21
+
 
 typedef enum {
 	/*
 	 * Voltage domain: LDO_WKUP, Power domain: WKUP,
 	 * Functional clock domain = WKUP */
-	OMAP4_L4WKUP,
+	OMAP4_L4_WKUP_INTERCONNECT,
 	OMAP4_CONTROL_GEN_WKUP,
 	OMAP4_CONTROL_PADCONF_WKUP,
 	OMAP4_GPIO1,
