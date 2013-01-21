@@ -63,8 +63,12 @@ DEF_INC_PATH = -I. -Icommon -Ipmic -Iaudioic -Ilinux -Ii2c-tools\
 	-Iarch/arm/mach-omap/omap5/ctrlmod
 
 
+STATIC_BUILD ?= -static
+
+
 MYCFLAGS+=$(CFLAGS) -D_OMAP5430 -D_SC_VER_1_16 -c -Wall -Wextra\
-	-Wno-missing-field-initializers -I$(DEF_INC) $(DEF_INC_PATH) -static
+	-Wno-missing-field-initializers -I$(DEF_INC) $(DEF_INC_PATH)\
+	$(STATIC_BUILD)
 
 
 DESTDIR ?= target
@@ -286,7 +290,7 @@ all: 		$(SOURCES) $(ALLOBJECTS) $(EXECUTABLE)
 
 
 $(EXECUTABLE):	$(ALLOBJECTS)
-		$(CC) -static $(LDFLAGS) $(ALLOBJECTS) -lrt -o $@
+		$(CC) $(STATIC_BUILD) $(LDFLAGS) $(ALLOBJECTS) -lrt -o $@
 		rm -f builddate.c
 
 
