@@ -219,7 +219,6 @@ OMAP5OBJECTS=	$(OMAP5SOURCES:.c=.o)
 
 SOURCES=\
 		omapconf.c\
-		builddate.c\
 		common/lib.c\
 		common/reg.c\
 		common/autoadjust_table.c\
@@ -284,14 +283,14 @@ EXECUTABLE=	omapconf
 
 
 
-all: 		$(SOURCES) $(ALLOBJECTS) $(EXECUTABLE)
+all: 		$(EXECUTABLE)
 
 
 
 
-$(EXECUTABLE):	$(ALLOBJECTS)
-		$(CC) $(STATIC_BUILD) $(LDFLAGS) $(ALLOBJECTS) -lrt -o $@
-		rm -f builddate.c
+$(EXECUTABLE):	$(ALLOBJECTS) builddate.o
+		$(CC) $(STATIC_BUILD) $(LDFLAGS) $(ALLOBJECTS) builddate.o \
+		-lrt -o $@
 
 
 
@@ -302,28 +301,28 @@ $(EXECUTABLE):	$(ALLOBJECTS)
 
 
 
-builddate.c:
+builddate.c:	$(ALLOBJECTS)
 		echo 'char *builddate="'`date`'";' > builddate.c
 
 
 
 
 
-install: 	omapconf
+install: 	$(EXECUTABLE)
 		install -d $(DESTDIR)
 		install omapconf $(DESTDIR)
 
 
 
 
-install_android: omapconf
+install_android: $(EXECUTABLE)
 		adb push omapconf /data/
 
 
 
 
 clean:
-		rm -f omapconf *.o builddate.c
+		rm -f $(EXECUTABLE) *.o builddate.c
 		rm -f $(OBJECTS)
 		rm -f $(LINUXOBJECTS)
 		rm -f $(OMAPOBJECTS)
