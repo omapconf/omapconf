@@ -53,7 +53,7 @@
 #include <string.h>
 #include <pmic.h>
 
-/* #define OPP44XX_DEBUG */
+#define OPP44XX_DEBUG
 #ifdef OPP44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
@@ -741,8 +741,8 @@ const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id)
 			(opp_id == OMAP447X_OPP100_LOW)) {
 			/* for opp_id == OMAP447X_OPP100_LOW
 			 * and opp_id == OMAP447X_OPP119_LOW
-			 * L3 clock frequencies are equal.
-			 * Use GFX clock frequencies to distinguish.
+			 * L3 clock frequency is identical.
+			 * Use GFX clock frequency to distinguish.
 			 */
 			ret = mod44xx_get_por_clk_speed(OMAP4_GFX,
 					OMAP447X_OPP119_LOW, &gpu_rate_por);
@@ -776,8 +776,8 @@ const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id)
 			(opp_id == OMAP447X_OPP50_HIGH)) {
 			/* for opp_id == OMAP447X_OPP50_HIGH
 			 * and opp_id == OMAP447X_OPP100_HIGH
-			 * L3 clock frequencies are equal.
-			 * Use DSS clock frequencies to distinguish.
+			 * L3 clock frequency is identical.
+			 * Use DSS clock frequency to distinguish.
 			 */
 			ret = mod44xx_get_por_clk_speed(OMAP4_DISPC,
 					OMAP447X_OPP50_HIGH, &dss_rate_por);
@@ -805,6 +805,41 @@ const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id)
 				goto opp44xx_by_rate_get_end;
 			} else {
 				opp_name = OPP_100_HIGH;
+				goto opp44xx_by_rate_get_end;
+			}
+		} else if (cpu_is_omap4460() && (vdd_id == OMAP4_VDD_CORE) &&
+			(opp_id == OMAP4_OPP100)) {
+			/* for opp_id == OMAP4_OPP_100
+			 * and opp_id == OMAP4_OPP_119
+			 * L3 clock frequencies are equal.
+			 * Use GPU clock frequency to distinguish.
+			 */
+			ret = mod44xx_get_por_clk_speed(OMAP4_GFX,
+					OMAP4_OPP_119, &gpu_rate_por);
+			if (ret != 0) {
+				dprintf(
+					"%s(): could not get GPU OMAP4_OPP_119 POR speed! (%d)\n",
+					__func__, ret);
+				goto opp44xx_by_rate_get_end;
+			}
+			dprintf(
+				"%s(): GPU POR Speed for OMAP4_OPP_119 is %lfMHz\n",
+				__func__, gpu_rate_por);
+
+			gpu_rate = clk44xx_get_clock_speed(OMAP4_GFX_FCLK, 1);
+			if (gpu_rate < 0.0) {
+				dprintf(
+					"%s(): could not retrieve GPU clock rate!\n",
+					__func__);
+					goto opp44xx_by_rate_get_end;
+			}
+			dprintf("%s(): GPU speed is %lfMHz\n",
+				__func__, gpu_rate);
+			if ((int) gpu_rate == (int) gpu_rate_por) {
+				opp_name = OPP_119;
+				goto opp44xx_by_rate_get_end;
+			} else {
+				opp_name = OPP_100;
 				goto opp44xx_by_rate_get_end;
 			}
 		} else {
