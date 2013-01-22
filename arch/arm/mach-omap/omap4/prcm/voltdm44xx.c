@@ -102,6 +102,7 @@ const char
 	"OPP_TURBO",
 	"OPP_NITRO",
 	"OPP_NITRO_SB",
+	"OPP119",
 	"UNKNOWN"};
 
 
