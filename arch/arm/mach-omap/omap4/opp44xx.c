@@ -53,7 +53,7 @@
 #include <string.h>
 #include <pmic.h>
 
-#define OPP44XX_DEBUG
+/* #define OPP44XX_DEBUG */
 #ifdef OPP44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
@@ -734,6 +734,15 @@ const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id)
 			mod44xx_get_name(module_id, mname),
 			opp.name, rate_por);
 
+		if (cpu_is_omap4460() && (vdd_id == OMAP4_VDD_IVA) &&
+			((int) rate == 124)) {
+			/*
+			 * Hack for Galaxy Nexus, observed with pastry
+			 * Jelly Bean 4.2.1 (may/may not apply to other pastry)
+			 */
+			opp_name = OPP_50;
+			goto opp44xx_by_rate_get_end;
+		}
 		if ((int) rate_por != (int) rate)
 			continue;
 
