@@ -68,7 +68,7 @@ typedef enum {
 	OMAP4_OPP_TURBO,
 	OMAP4_OPP_NITRO,
 	OMAP4_OPP_NITRO_SB,
-	OMAP4_DUMMY, /* for OMAP447X_OPP100_HIGH introduction ... */
+	OMAP4_OPP_119,
 	OPP44XX_ID_MAX
 } opp44xx_id;
 

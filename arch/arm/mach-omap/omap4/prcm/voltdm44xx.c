@@ -102,6 +102,7 @@ const char
 	"OPP_TURBO",
 	"OPP_NITRO",
 	"OPP_NITRO_SB",
+	"OPP119",
 	"UNKNOWN"};
 
 
@@ -579,6 +580,17 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 		dprintf("%s(): %s POR Speed for %s is %lf\n", __func__,
 			mod44xx_get_name(module_id, mname), s_opp, speed_por);
 
+		if (cpu_is_omap4460() && (id == OMAP4_VDD_IVA) &&
+			((int) speed_curr == 124)) {
+			/*
+			 * Hack for Galaxy Nexus, observed with pastry
+			 * Jelly Bean 4.2.1 (may/may not apply to other pastry)
+			 */
+			*opp = OMAP4_OPP50;
+			dprintf("%s(): %s OPP found: %s\n", __func__,
+				voltdm44xx_get_name(id, vname), s_opp);
+			return 0;
+		}
 		if ((int) speed_por != (int) speed_curr)
 			continue;
 

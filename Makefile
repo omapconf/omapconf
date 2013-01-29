@@ -63,8 +63,12 @@ DEF_INC_PATH = -I. -Icommon -Ipmic -Iaudioic -Ilinux -Ii2c-tools\
 	-Iarch/arm/mach-omap/omap5/ctrlmod
 
 
+STATIC_BUILD ?= -static
+
+
 MYCFLAGS+=$(CFLAGS) -D_OMAP5430 -D_SC_VER_1_16 -c -Wall -Wextra\
-	-Wno-missing-field-initializers -I$(DEF_INC) $(DEF_INC_PATH) -static
+	-Wno-missing-field-initializers -I$(DEF_INC) $(DEF_INC_PATH)\
+	$(STATIC_BUILD)
 
 
 DESTDIR ?= target
@@ -215,7 +219,6 @@ OMAP5OBJECTS=	$(OMAP5SOURCES:.c=.o)
 
 SOURCES=\
 		omapconf.c\
-		builddate.c\
 		common/lib.c\
 		common/reg.c\
 		common/autoadjust_table.c\
@@ -269,7 +272,8 @@ I2COBJECTS=	$(I2CSOURCES:.c=.o)
 
 
 
-ALLOBJECTS=	$(OBJECTS) $(OMAPOBJECTS) $(OMAP4OBJECTS) $(OMAP5OBJECTS) $(LINUXOBJECTS) $(PMICOBJECTS) $(AUDIOICOBJECTS) $(I2COBJECTS)
+ALLOBJECTS=	$(OBJECTS) $(OMAPOBJECTS) $(OMAP4OBJECTS) $(OMAP5OBJECTS)\
+		$(LINUXOBJECTS) $(PMICOBJECTS) $(AUDIOICOBJECTS) $(I2COBJECTS)
 
 
 
@@ -279,14 +283,14 @@ EXECUTABLE=	omapconf
 
 
 
-all: 		$(SOURCES) $(ALLOBJECTS) $(EXECUTABLE)
+all: 		$(EXECUTABLE)
 
 
 
 
-$(EXECUTABLE):	$(ALLOBJECTS)
-		$(CC) -static $(LDFLAGS) $(ALLOBJECTS) -lrt -o $@
-		rm -f builddate.c
+$(EXECUTABLE):	$(ALLOBJECTS) builddate.o
+		$(CC) $(STATIC_BUILD) $(LDFLAGS) $(ALLOBJECTS) builddate.o \
+		-lrt -o $@
 
 
 
@@ -297,28 +301,28 @@ $(EXECUTABLE):	$(ALLOBJECTS)
 
 
 
-builddate.c:
+builddate.c:	$(ALLOBJECTS)
 		echo 'char *builddate="'`date`'";' > builddate.c
 
 
 
 
 
-install: 	omapconf
+install: 	$(EXECUTABLE)
 		install -d $(DESTDIR)
 		install omapconf $(DESTDIR)
 
 
 
 
-install_android: omapconf
+install_android: $(EXECUTABLE)
 		adb push omapconf /data/
 
 
 
 
 clean:
-		rm -f omapconf *.o builddate.c
+		rm -f $(EXECUTABLE) *.o builddate.c
 		rm -f $(OBJECTS)
 		rm -f $(LINUXOBJECTS)
 		rm -f $(OMAPOBJECTS)

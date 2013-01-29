@@ -57,7 +57,13 @@ Build instructions (other Linux Distributions):
 To only build the output binary file:
 	# make CROSS_COMPILE=arm-none-linux-gnueabi- omapconf
 
-NB: CROSS_COMPILE variable must be set to point to the correct compiler.
+NB:
+	- CROSS_COMPILE variable must be set to point to the correct compiler.
+	- By default, omapconf is statically built, to ease sharing.
+	  In case it is not needed or size matters, it is possible to build it dynamically, by setting variable STATIC_BUILD to "".
+	  # export STATIC_BUILD=
+	  or
+	  # make CROSS_COMPILE=arm-none-linux-gnueabi- STATIC_BUILD= omapconf
 
 To build and install ompaconf:
 
