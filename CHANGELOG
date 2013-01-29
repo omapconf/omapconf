@@ -1,3 +1,12 @@
+v1.64:
+-------
+	- [OMAP4460][OPP][HACK] Hack for Samsung Galaxy Nexus to detect VDD_IVA OPP50
+	- [OMAP4460][OPP] Defined and added detected of OMAP4460 VDD_CORE OPP119
+	- [README] Updated README with static/dynamic build instructions
+	- [Makefile] Fixed builddate dependency
+	- [Makefile] Added STATIC_BUILD option
+
+
 v1.63:
 -------
 	- [OMAP4][OPP] Fix clock rates not displayed (always 0) in "show opp" command
