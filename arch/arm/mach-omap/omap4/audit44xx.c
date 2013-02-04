@@ -838,6 +838,7 @@ int sysconfig_audit44xx(FILE *stream, unsigned int *err_nbr,
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row;
 	char mod_name[MOD44XX_MAX_NAME_LENGTH];
+	char pwst[6], pwtgst[6];
 
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(err_nbr, OMAPCONF_ERR_ARG);
@@ -919,6 +920,27 @@ int sysconfig_audit44xx(FILE *stream, unsigned int *err_nbr,
 			 * probability of bus error */
 			dprintf("\tDISPC, skipped.\n");
 			continue;
+
+		case OMAP4_DSI1:
+		case OMAP4_DSI2:
+		case OMAP4_HDMI:
+		case OMAP4_RFBI:
+			/* HACK Galaxy Nexus JOP40D: when display if OFF, power
+			 * domain is put in RET but DISPC is left in
+			 * "Enabled (EXPLICITLY)" mode, causing faulty attempt
+			 * to access an idle module.
+			 */
+			if (pwrdm_states_get("DSS", pwst, pwtgst) != 0) {
+				fprintf(stderr,
+					"omapconf: %s(): could not retrieve DSS power domain status!!!\n",
+					__func__);
+				continue;
+			} else if (strcmp(pwst, "ON") != 0) {
+				dprintf("\t%s skipped.\n", mod44xx_get_name(i, mod_name));
+				continue;
+			} else {
+				goto sysconfig_audit44xx_default;
+			}
 
 		case OMAP4_BB2D:
 			if (!cpu_is_omap4470())
