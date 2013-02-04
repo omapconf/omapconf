@@ -826,6 +826,11 @@ int main44xx_trace(int argc, char *argv[])
 	} else if (strcmp(argv[1], "counters") == 0) {
 		return counters44xx_main(argc - 1, argv + 1);
 	} else if (strcmp(argv[1], "pwrdm") == 0) {
+		if (cpu_device_type_get() == DEV_HS) {
+			printf(
+				"omapconf: this function is not available on HS device, sorry.\n\n");
+			return 0;
+		}
 		if (argc == 2) {
 			return trace44xx_pwrdm(
 				PERF_TRACE_DEFAULT_DURATION);
@@ -840,6 +845,11 @@ int main44xx_trace(int argc, char *argv[])
 			return err_arg_too_many_msg_show(HELP_TRACE);
 		}
 	} else if (strcmp(argv[1], "opp") == 0) {
+		if (cpu_device_type_get() == DEV_HS) {
+			printf(
+				"omapconf: this function is not available on HS device, sorry.\n\n");
+			return 0;
+		}
 		if (argc == 2) {
 			return trace44xx_opp(
 				PERF_TRACE_DEFAULT_DURATION);
