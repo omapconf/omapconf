@@ -59,6 +59,7 @@
 #include "sci.h"
 #include <powerdomain.h>
 #include <mem.h>
+#include <unistd.h>
 
 
 /* #define TRACE_DEBUG */
@@ -1431,6 +1432,10 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		"perf_trace_create_jpg.plt";
 	char trace_perf_jpg_file[256] =
 		"perf_trace.jpg";
+	#ifdef TRACE_DEBUG
+	char *cwd;
+	#endif
+
 	unsigned int sample_cnt;
 	int ret;
 	unsigned int sample, file;
@@ -1549,24 +1554,42 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		trace_perf_jpg_script_file);
 	dprintf("  trace_perf_jpg_file=%s\n\n", trace_perf_jpg_file);
 
+	/*
+	 * Change the default working directory, the current one may not be
+	 * writable. Use "/data" as known to be writable (or remountable).
+	 */
+	chdir("/data");
+	#ifdef TRACE_DEBUG
+	cwd = getcwd(NULL, 0);
+	printf("%s(): current working directory is %s\n", __func__, cwd);
+	free(cwd);
+	#endif
+
 	/* Read the config file into an array of flags */
 	ret = trace_config_read(cfgfile, p_flags);
 	if ((ret == -1) &&
 		(strcmp(cfgfile, trace_perf_default_cfgfile) == 0)) {
 		printf(
-			"\nWarning: default configuration file not found. Creating it.\n");
+			"\nomapconf: default configuration file ('%s') not found. Creating it.\n",
+			cfgfile);
 		fp = fopen(cfgfile, "w");
+		if (fp == NULL) {
+			fprintf(stderr,
+				"omapconf: %s(): could not create configuration file ('%s') with write permission!\n",
+				__func__, cfgfile);
+			return OMAPCONF_ERR_NOT_AVAILABLE;
+		}
 		trace_default_cfg_create(fp);
 		fclose(fp);
 		ret = trace_config_read(cfgfile, p_flags);
 	} else if (ret == -1) {
 		fprintf(stderr,
-			"omapconf: error could not open '%s' file!!!\n\n",
+			"omapconf: error could not open configuration file ('%s') file!!!\n\n",
 			cfgfile);
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	} else if (ret < 0) {
 		fprintf(stderr,
-			"omapconf: error reading trace perf config file (%s, %d)!!!\n\n",
+			"omapconf: error reading trace perf configuration file ('%s', %d)!!!\n\n",
 			cfgfile, ret);
 		return OMAPCONF_ERR_UNEXPECTED;
 	}
