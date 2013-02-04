@@ -219,7 +219,55 @@ void trace_default_cfg_create(FILE *fp)
 
 	for (i = 0; i < NUM_ITEMS; i++) {
 		fputs("## Description\n", fp);
-		fprintf(fp, "%s | y\n\n", traceables_names[i]);
+		switch (i) {
+		case EMIF_LOAD:
+		case BANDGAP_TEMP:
+		case PCB_TEMP:
+			if (cpu_is_omap44xx())
+				fprintf(fp, "%s | y\n\n", traceables_names[i]);
+			else
+				fprintf(fp, "%s | n\n\n", traceables_names[i]);
+			break;
+
+		case HOTSPOT_MPU_TEMP:
+			if (cpu_is_omap44xx() &&
+				(temp_sensor_get(TEMP_SENSOR_HOTSPOT_MPU) !=
+					TEMP_ABSOLUTE_ZERO))
+				fprintf(fp, "%s | y\n\n", traceables_names[i]);
+			else
+				fprintf(fp, "%s | n\n\n", traceables_names[i]);
+			break;
+
+		case MPU_TEMP:
+		case GPU_TEMP:
+		case CORE_TEMP:
+		case CASE_TEMP:
+			if (cpu_is_omap54xx())
+				fprintf(fp, "%s | y\n\n", traceables_names[i]);
+			else
+				fprintf(fp, "%s | n\n\n", traceables_names[i]);
+			break;
+
+		case CPU_FREQ:
+		case GPU_FREQ:
+		case L3_FREQ:
+			if (cpu_is_omap54xx() || cpu_is_omap44xx())
+				fprintf(fp, "%s | y\n\n", traceables_names[i]);
+			else
+				fprintf(fp, "%s | n\n\n", traceables_names[i]);
+			break;
+
+		case EMIF_BW:
+			if (cpu_is_omap54xx() || cpu_is_omap4470())
+				fprintf(fp, "%s | y\n\n", traceables_names[i]);
+			else
+				fprintf(fp, "%s | n\n\n", traceables_names[i]);
+			break;
+
+		default:
+			fprintf(fp, "%s | y\n\n", traceables_names[i]);
+			break;
+		}
 	}
 
 	dprintf("%s(): done.\n", __func__);
