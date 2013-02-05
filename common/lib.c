@@ -229,11 +229,16 @@ pmic_detection_err:
 	fprintf(stream, "  UNKNOWN POWER IC\n");
 
 audioic_detect:
-	chip_rev = twl6040_chip_revision_get();
-	if (chip_rev >= 0.0)
-		fprintf(stream, "  TWL6040  ES%1.1f\n\n", chip_rev);
-	else
-		fprintf(stream, "  UNKNOWN AUDIO IC\n\n");
+	if (strstr(product_name, "Kindle") == NULL) {
+		/* Kindle Fire products do not use Phoenix Audio */
+		chip_rev = twl6040_chip_revision_get();
+		if (chip_rev >= 0.0)
+			fprintf(stream, "  TWL6040  ES%1.1f\n\n", chip_rev);
+		else
+			fprintf(stream, "  UNKNOWN AUDIO IC\n\n");
+	} else {
+		fprintf(stream, "\n");
+	}
 }
 
 
