@@ -122,13 +122,18 @@ void chips_info_show(FILE *stream, unsigned short die_id)
 	double pmic_eprom_revision[PMIC_SMPS_MAX_NUMBER];
 	unsigned int die_id_3, die_id_2, die_id_1, die_id_0;
 	char s_die_id[CPU_DIE_ID_LENGTH];
+	char product_name[256];
 
 	if (stream == NULL) {
 		fprintf(stderr, "%s(): stream == NULL!!!\n", __func__);
 		return;
 	}
 
-	fprintf(stream, "HW Platform Revision:\n");
+	fprintf(stream, "HW Platform:\n");
+	android_product_name_get(product_name);
+	if (product_name != NULL)
+		fprintf(stream, "  %s\n",
+			android_product_name_get(product_name));
 
 	cpu_gets(name);
 	if (strcmp(name, "UNKNOWN") != 0) {

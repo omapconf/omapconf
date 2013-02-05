@@ -205,8 +205,8 @@ android_pastry_id android_pastry_get(void)
 			__func__);
 		ret = sscanf(line, "ro.build.version.release=%u.%u.%u",
 			&version, &rev_major, &rev_minor);
-		dprintf("%s(): sscanf()=%u,"
-			" version=%u rev_major=%u rev_minor=%u\n",
+		dprintf(
+			"%s(): sscanf()=%u, version=%u rev_major=%u rev_minor=%u\n",
 			__func__, ret, version, rev_major, rev_minor);
 		if (ret < 2) {
 			pastry_id = PASTRY_UNKNOWN;
@@ -234,4 +234,56 @@ android_pastry_id android_pastry_get(void)
 	dprintf("%s(): eof reached! pastry is %s (%u)\n", __func__,
 		android_pastry_name_get(pastry_id), pastry_id);
 	return pastry_id;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		android_product_name_get
+ * @BRIEF		retrieve the product name, parsing "/system/build.prop".
+ * @RETURNS		product name
+ *			NULL if OS is not Android or in case of error
+ * @DESCRIPTION		retrieve the product name, parsing "/system/build.prop".
+ *//*------------------------------------------------------------------------ */
+char *android_product_name_get(char product_name[256])
+{
+	FILE *fp = NULL;
+	char line[256];
+	char *pname;
+
+	CHECK_NULL_ARG(product_name, NULL);
+	if (!os_is_android())
+		return NULL;
+
+	fp = fopen("/system/build.prop", "r");
+	if (fp == NULL) {
+		fprintf(stderr,
+			"omapconf: %s(): could not open '/system/build.prop'?!\n",
+			__func__);
+		return NULL;
+	}
+
+	/* Retrieve pastry */
+	while (fgets(line, 256, fp) != NULL) {
+		/* Remove endind '\n' */
+		line[strlen(line) - 1] = '\0';
+		dprintf("%s(): line=%s len=%u\n", __func__, line, strlen(line));
+		/* Looking for the "ro.build.version.release" property line */
+		if (strstr(line, "ro.product.name=") == NULL)
+			continue;
+		fclose(fp);
+		dprintf("%s(): ro.product.name line found.\n", __func__);
+		pname = strchr(line, '=');
+		pname += sizeof(char);
+		if (pname == NULL) {
+			dprintf("%s(): '=' not found?!\n", __func__);
+			return NULL;
+		}
+		strncpy(product_name, pname, 256);
+		dprintf("%s(): product_name='%s'\n", __func__, product_name);
+		return product_name;
+	}
+
+	fclose(fp);
+	dprintf("%s(): eof reached!\n", __func__);
+	return NULL;
 }
