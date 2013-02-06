@@ -102,6 +102,74 @@ void omapconf_revision_show(FILE *stream)
 
 
 /* ------------------------------------------------------------------------*//**
+ * @FUNCTION		linux_product_name_get
+ * @BRIEF		retrieve the product name, parsing "/proc/cpuinfo".
+ * @RETURNS		product name
+ *			NULL if not found
+ * @DESCRIPTION		retrieve the product name, parsing "/proc/cpuinfo".
+ *//*------------------------------------------------------------------------ */
+static char *linux_product_name_get(char product_name[256])
+{
+	FILE *fp = NULL;
+	char line[256];
+	char *pname;
+
+	CHECK_NULL_ARG(product_name, NULL);
+	if (os_is_android())
+		return NULL;
+
+	fp = fopen("/proc/cpuinfo", "r");
+	if (fp == NULL) {
+		fprintf(stderr,
+			"omapconf: %s(): could not open '/proc/cpuinfo'?!\n",
+			__func__);
+		return NULL;
+	}
+
+	/* Retrieve pastry */
+	while (fgets(line, 256, fp) != NULL) {
+		/* Remove endind '\n' */
+		line[strlen(line) - 1] = '\0';
+		dprintf("%s(): line=%s len=%u\n", __func__, line, strlen(line));
+		/* Looking for the "Hardware" property line */
+		if (strstr(line, "Hardware") == NULL)
+			continue;
+		fclose(fp);
+		dprintf("%s(): Hardware line found.\n", __func__);
+		pname = strchr(line, ':');
+		pname += 2 * sizeof(char);
+		if (pname == NULL) {
+			dprintf("%s(): '=' not found?!\n", __func__);
+			return NULL;
+		}
+		strncpy(product_name, pname, 256);
+		dprintf("%s(): product_name='%s'\n", __func__, product_name);
+		return product_name;
+	}
+
+	fclose(fp);
+	dprintf("%s(): eof reached!\n", __func__);
+	return NULL;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		product_name_get
+ * @BRIEF		retrieve the product name
+ * @RETURNS		product name
+ *			NULL if not found
+ * @DESCRIPTION		retrieve the product name.
+ *//*------------------------------------------------------------------------ */
+char *product_name_get(char product_name[256])
+{
+	if (os_is_android())
+		return android_product_name_get(product_name);
+	else
+		return linux_product_name_get(product_name);
+}
+
+
+/* ------------------------------------------------------------------------*//**
  * @FUNCTION		chips_info_show
  * @BRIEF		show chips revision (OMAP, PMIC, AUDIO IC)
  * @RETURNS		none
@@ -130,10 +198,8 @@ void chips_info_show(FILE *stream, unsigned short die_id)
 	}
 
 	fprintf(stream, "HW Platform:\n");
-	android_product_name_get(product_name);
-	if (product_name != NULL)
-		fprintf(stream, "  %s\n",
-			android_product_name_get(product_name));
+	if (product_name_get(product_name) != NULL)
+		fprintf(stream, "  %s\n", product_name);
 
 	cpu_gets(name);
 	if (strcmp(name, "UNKNOWN") != 0) {
