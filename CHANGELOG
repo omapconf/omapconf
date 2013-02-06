@@ -1,3 +1,18 @@
+v1.65:
+-------
+	- [OMAPCONF] display product name in omapconf header
+	- [TRACE][PERF] create specific default trace configuration file per known architecture
+	- [TRACE][PERF] fixed default writable working directory for configuration file
+	- [OMAP5][DPLL] handled OMAP543x ES2.x DPLL_CORE H14 special divider (GPU clock)
+	- [OMAP4460][GALAXY NEXUS][TEMP] handled JOP40D specific file name for bandgap temperature sensor
+	- [OMAP4460][GALAXY NEXUS][AUDIT][SYSCONFIG][HACK] skip DSS modules when DSS domain is not ON
+	- [OMAP4460][KINDLE] removed twl603x_smps_offset_get() VDD_MPU error message
+	- [OMAP4460][KINDLE] no Phoenix Audio chip on Kindle Fire products
+	- [OMAP4][TRACE][OPP][PWRDM] do not run on HS device (not allowed)
+	- [OMAP4][SYSCONFIG][MODULE] fixed use L3 address instead of L4_PER address for DSS modules
+	- [OMAP4][MODULE] fixed DSI[1-2] doesn't have smart-idle wakeup mode
+
+
 v1.64:
 -------
 	- [OMAP4460][OPP][HACK] Hack for Samsung Galaxy Nexus to detect VDD_IVA OPP50
