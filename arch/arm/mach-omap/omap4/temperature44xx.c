@@ -161,17 +161,27 @@ int temp44xx_get(temp44xx_sensor_id id)
 		"/sys/kernel/debug/emif.2/mr4",
 		"/sys/devices/platform/omap/omap_i2c.4/i2c-4/4-0048/temp1_input"}; /* 4470 */
 
-	static const char **sensor_filenames_list[4] = {
+	static const char *sensor_filenames5[TEMP44XX_ID_MAX] = {
+		"/sys/devices/platform/omap/omap_temp_sensor.0/temperature", /* Android Galaxy Nexus JOP40D */
+		"/sys/devices/platform/omap/omap_temp_sensor.0/hotspot_temp",
+		"/sys/devices/platform/omap/omap_emif.0/temperature", /* Android */
+		"/sys/devices/platform/omap/omap_emif.0/temperature", /* Android */
+		"/sys/devices/platform/omap/omap_emif.1/temperature", /* Android */
+		"/sys/devices/platform/omap/omap_emif.1/temperature", /* Android */
+		"/sys/devices/platform/omap/pcb_temp_sensor.0/temp1_input"}; /* 4460 */
+
+	static const char **sensor_filenames_list[5] = {
 		sensor_filenames1,
 		sensor_filenames2,
 		sensor_filenames3,
-		sensor_filenames4};
+		sensor_filenames4,
+		sensor_filenames5};
 
 	CHECK_CPU(44xx, TEMP_ABSOLUTE_ZERO);
 	CHECK_ARG_LESS_THAN(id, TEMP44XX_ID_MAX, TEMP_ABSOLUTE_ZERO);
 
 	/* Open file exported by temp. sensor driver (if loaded) */
-	for (i = 0; i < 4; i++) {
+	for (i = 0; i < 5; i++) {
 		dprintf("%s(): i=%u id=%u filename=%s\n", __func__, i, id,
 			(char *) sensor_filenames_list[i][id]);
 		fp = fopen((char *) sensor_filenames_list[i][id], "r");

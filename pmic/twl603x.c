@@ -50,6 +50,7 @@
 #include <cpuinfo.h>
 #include <twl603x_lib.h>
 #include <help.h>
+#include <lib_android.h>
 
 
 /* #define TWL603X_DEBUG */
@@ -432,6 +433,7 @@ unsigned long twl603x_smps_offset_get(voltdm44xx_id vdd_id)
 {
 	int ret;
 	unsigned int val;
+	char product_name[256];
 
 	if (twl603x_is_twl6035())
 		return TWL6035_VOFFSET_UV;
@@ -462,9 +464,13 @@ unsigned long twl603x_smps_offset_get(voltdm44xx_id vdd_id)
 
 	switch (vdd_id) {
 	case OMAP4_VDD_MPU:
-		if (cpu_is_omap4460())
-			fprintf(stderr, "%s(%u): invalid vdd_id! omap4460 uses "
-			"TPS62361 for VDD_MPU\n", __func__, vdd_id);
+		if (cpu_is_omap4460()) {
+			android_product_name_get(product_name);
+			if (strstr(product_name, "Kindle") == NULL)
+				fprintf(stderr,
+					"%s(%u): invalid vdd_id! omap4460 uses TPS62361 for VDD_MPU\n",
+					__func__, vdd_id);
+		}
 		val &= 0x08;
 		break;
 	case OMAP4_VDD_IVA:

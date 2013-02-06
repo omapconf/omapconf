@@ -51,7 +51,7 @@
 #define TRACE_PERF_DEFAULT_DELAY_TIME		0 /* second */
 #define TRACE_PERF_DEFAULT_SAMPLING_RATE	((double) 0.1) /* second */
 #define TRACE_PERF_MIN_SAMPLING_RATE		((double) 0.1) /* second */
-static const char trace_perf_default_cfgfile[32] = "trace_perf_config.dat";
+static const char trace_perf_default_cfgfile[32] = "./trace_perf_config.dat";
 
 
 typedef enum {

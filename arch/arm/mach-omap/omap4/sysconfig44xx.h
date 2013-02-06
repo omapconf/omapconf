@@ -170,11 +170,11 @@
 #define	OMAP4430_FDIF_SYSCONFIG				(unsigned int*) 0x4A10A010 /* dual */
 
 /* Voltage domain: VDD_CORE, Power domain: DSS, Functional clock domain = DSS */
-#define	OMAP4430_DISPC_SYSCONFIG			(unsigned int*) 0x48041010 /* dual */
-#define	OMAP4430_DSI1_SYSCONFIG				(unsigned int*) 0x48044010 /* slave */
-#define	OMAP4430_DSI2_SYSCONFIG				(unsigned int*) 0x48045010 /* slave */
-#define OMAP4430_HDMI_WP_SYSCONFIG			(unsigned int*) 0x48046010 /* slave */
-#define	OMAP4430_RFBI_SYSCONFIG				(unsigned int*) 0x48042010 /* slave */
+#define	OMAP4430_DISPC_SYSCONFIG			(unsigned int*) 0x58001010 /* dual */
+#define	OMAP4430_DSI1_SYSCONFIG				(unsigned int*) 0x58004010 /* slave */
+#define	OMAP4430_DSI2_SYSCONFIG				(unsigned int*) 0x58005010 /* slave */
+#define OMAP4430_HDMI_WP_SYSCONFIG			(unsigned int*) 0x58006010 /* slave */
+#define	OMAP4430_RFBI_SYSCONFIG				(unsigned int*) 0x58002010 /* slave */
 
 /* Voltage domain: VDD_CORE, Power domain: GFX, Functional clock domain = GFX */
 #define	OMAP4430_GFX_SYSCONFIG				(unsigned int*) 0x5600FE10 /* dual */

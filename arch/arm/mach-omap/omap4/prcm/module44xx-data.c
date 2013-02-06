@@ -406,8 +406,8 @@ const short int mod44xx_has_smart_idle_wakeup_table[OMAP4_MODULE_ID_MAX] = {
 	0, /* OMAP4_SIMCOP_ROT */
 	0, /* OMAP4_FDIF */
 	0, /* OMAP4_DISPC */
-	1, /* OMAP4_DSI1 */
-	1, /* OMAP4_DSI2 */
+	0, /* OMAP4_DSI1 */
+	0, /* OMAP4_DSI2 */
 	1, /* OMAP4_HDMI */
 	0, /* OMAP4_RFBI */
 	0, /* OMAP4_BB2D, */
@@ -4104,7 +4104,7 @@ void mod44xx_init(void)
 		opp.rate = 170666;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	}
-	mod.properties = MOD_INTERFACE_SLAVE | MOD_HAS_SMART_IDLE_WAKEUP_MODE | MOD_HAS_CLOCK_ACTIVITY_MODE;
+	mod.properties = MOD_INTERFACE_SLAVE | MOD_HAS_CLOCK_ACTIVITY_MODE;
 	genlist_addtail(&mod44xx_list, (void *) &mod, sizeof(mod_info));
 
 	mod.id = (int) OMAP4_DSI2;
@@ -4157,7 +4157,7 @@ void mod44xx_init(void)
 		opp.rate = 170666;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	}
-	mod.properties = MOD_INTERFACE_SLAVE | MOD_HAS_SMART_IDLE_WAKEUP_MODE | MOD_HAS_CLOCK_ACTIVITY_MODE;
+	mod.properties = MOD_INTERFACE_SLAVE | MOD_HAS_CLOCK_ACTIVITY_MODE;
 	genlist_addtail(&mod44xx_list, (void *) &mod, sizeof(mod_info));
 
 	mod.id = (int) OMAP4_HDMI;

@@ -355,19 +355,24 @@ void help44xx(help_category cat, char *context)
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_TRACE)) {
-		printf("\n\tomapconf trace pwrdm [<duration>] ### EXPERIMENTAL "
-			"###\n");
-		printf("\t    Collect via PMI power domain transitions trace & "
-			"statistics.\n");
-		printf("\t    Use optional <duration> to select trace length "
-			"(in seconds, default: 10s).\n");
+		printf(
+			"\n\tomapconf trace pwrdm [<duration>] ### EXPERIMENTAL ###\n");
+		printf(
+			"\t    Collect via PMI power domain transitions trace & statistics.\n");
+		printf(
+			"\t    Use optional <duration> to select trace length (in seconds, default: 10s).\n");
+		printf(
+			"\t    NB: this function is not available on HS device.\n");
 
-		printf("\n\tomapconf trace opp [<duration>] ### EXPERIMENTAL "
-			"###\n");
-		printf("\t    Collect via PMI OPP changes trace & statistics."
-			"\n");
-		printf("\t    Use optional <duration> to select trace length "
-			"(in seconds, default: 10s).\n");
+		printf(
+			"\n\tomapconf trace opp [<duration>] ### EXPERIMENTAL ###\n");
+		printf(
+			"\t    Collect via PMI OPP changes trace & statistics.\n");
+		printf(
+			"\t    Use optional <duration> to select trace length (in seconds, default: 10s).\n");
+		printf(
+			"\t    NB: this function is not available on HS device.\n");
+
 
 		printf("\n\tomapconf trace perf setup [<cfgfile>]\n");
 		printf(
