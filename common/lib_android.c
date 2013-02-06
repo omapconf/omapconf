@@ -267,11 +267,11 @@ char *android_product_name_get(char product_name[256])
 		/* Remove endind '\n' */
 		line[strlen(line) - 1] = '\0';
 		dprintf("%s(): line=%s len=%u\n", __func__, line, strlen(line));
-		/* Looking for the "ro.build.version.release" property line */
-		if (strstr(line, "ro.product.name=") == NULL)
+		/* Looking for the "ro.product.model" property line */
+		if (strstr(line, "ro.product.model=") == NULL)
 			continue;
 		fclose(fp);
-		dprintf("%s(): ro.product.name line found.\n", __func__);
+		dprintf("%s(): ro.product.model line found.\n", __func__);
 		pname = strchr(line, '=');
 		pname += sizeof(char);
 		if (pname == NULL) {
@@ -279,6 +279,12 @@ char *android_product_name_get(char product_name[256])
 			return NULL;
 		}
 		strncpy(product_name, pname, 256);
+		if (strcmp(product_name, "KFTT") == 0)
+			strcpy(product_name, "Amazon Kindle Fire HD 7\"");
+		else if (strcmp(product_name, "KFJWI") == 0)
+			strcpy(product_name, "Amazon Kindle Fire HD 8.9\"");
+		else if (strcmp(product_name, "Galaxy Nexus") == 0)
+			strcpy(product_name, "Samsung Galaxy Nexus");
 		dprintf("%s(): product_name='%s'\n", __func__, product_name);
 		return product_name;
 	}
