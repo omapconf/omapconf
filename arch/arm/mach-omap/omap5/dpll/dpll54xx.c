@@ -475,8 +475,25 @@ int hsdiv54xx_rates_calc(dpll54xx_settings *settings,
 		for (i = 0; i < HSDIV54XX_ID_MAX; i++) {
 			if ((settings->hsdiv)[i].present == 0)
 				continue;
-			(settings->hsdiv)[i].rate = (settings->dpll).fdpll /
-				(double) (settings->hsdiv)[i].div;
+			/*
+			 * Some 'nice' ES2.x HW hacks to handle ...
+			 * There is an additional divider by 2,
+			 * and special value '63' is actually a divider by 2.5.
+			 */
+			if ((cpu_revision_get() != REV_ES1_0) &&
+					((settings->dpll).id == DPLL54XX_CORE) &&
+					(i == HSDIV54XX_H14)) {
+				if ((settings->hsdiv)[i].div != 63)
+					(settings->hsdiv)[i].rate = (settings->dpll).fdpll /
+						(double) (settings->hsdiv)[i].div / 2.0;
+				else
+					(settings->hsdiv)[i].rate = (settings->dpll).fdpll /
+						2.5 / 2.0;
+			} else {
+				(settings->hsdiv)[i].rate = (settings->dpll).fdpll /
+					(double) (settings->hsdiv)[i].div;
+			}
+
 			dprintf("%s(): %s locked, %s=%lfMHz\n", __func__,
 				dpll54xx_name_get((settings->dpll).id),
 				hsdiv54xx_name_get(i),
@@ -1360,10 +1377,31 @@ int dpll54xx_show(FILE *stream)
 					"Enabled" : "Gated", TABLE_MAX_ELT_LEN);
 				strncpy(table[row][0], "  Clock Divider",
 					TABLE_MAX_ELT_LEN);
-				snprintf(table[row++][id + 1],
-					TABLE_MAX_ELT_LEN,
-					"%u",
-					(settings->hsdiv)[hsdiv_id].div);
+				/*
+				 * Some 'nice' ES2.x HW hacks to handle ...
+				 * There is an additional divider by 2,
+				 * and special value '63' is actually a divider
+				 * by 2.5.
+				 */
+				if ((cpu_revision_get() != REV_ES1_0) &&
+					(id == DPLL54XX_CORE) &&
+					(hsdiv_id == HSDIV54XX_H14)) {
+					if ((settings->hsdiv)[hsdiv_id].div != 63)
+						snprintf(table[row++][id + 1],
+							TABLE_MAX_ELT_LEN,
+							"%u (%u*2)",
+							2 * (settings->hsdiv)[hsdiv_id].div,
+							(settings->hsdiv)[hsdiv_id].div);
+					else
+						snprintf(table[row++][id + 1],
+							TABLE_MAX_ELT_LEN,
+							"2.5 (63)");
+				} else {
+					snprintf(table[row++][id + 1],
+						TABLE_MAX_ELT_LEN,
+						"%u",
+						(settings->hsdiv)[hsdiv_id].div);
+				}
 				strncpy(table[row][0], "  Clock Speed (MHz)",
 					TABLE_MAX_ELT_LEN);
 				if (settings->status == DPLL_STATUS_LOCKED)
