@@ -1522,20 +1522,40 @@ void mod54xx_init(void)
 		mod.context = &omap5430_rm_l3main1_l3_main_1_context;
 	}
 	genlist_init(&(mod.mod_opp_list));
-	if (cpu_revision_get() == REV_ES1_0) {
+	if (cpu_get() == OMAP_5430) {
+		if (cpu_revision_get() == REV_ES1_0) {
+			opp.name = OPP_LOW;
+			opp.rate = 133000;
+			genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+				sizeof(mod_opp));
+			opp.name = OPP_NOM;
+			opp.rate = 266000;
+			genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+				sizeof(mod_opp));
+		} else {
+			opp.name = OPP_LOW;
+			opp.rate = 132959;
+			genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+				sizeof(mod_opp));
+			opp.name = OPP_NOM;
+			opp.rate = 265919;
+			genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+				sizeof(mod_opp));
+		}
+	} else {
+		/* DDR on 5432 does not support DVFS. Only OPP_NOM is used.
+		 * OPP_LOW is still created (because opp54xx_by_rate_get()
+		 * browse OPP from lowest to highest, and would return failure
+		 * if not listed or with '-1' rate.
+		 */
 		opp.name = OPP_LOW;
 		opp.rate = 133000;
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+		genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+			sizeof(mod_opp));
 		opp.name = OPP_NOM;
 		opp.rate = 266000;
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-	} else {
-		opp.name = OPP_LOW;
-		opp.rate = 132959;
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-		opp.name = OPP_NOM;
-		opp.rate = 265919;
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+		genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+			sizeof(mod_opp));
 	}
 	opp.name = OPP_HIGH;
 	opp.rate = -1;
@@ -4146,32 +4166,59 @@ void mod54xx_init(void)
 		mod.context = &omap5430_rm_gpu_gpu_context;
 	}
 	genlist_init(&(mod.mod_opp_list));
-	if (cpu_revision_get() == REV_ES1_0) {
-		opp.name = OPP_LOW;
-		opp.rate = 177333;
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-		opp.name = OPP_NOM;
-		opp.rate = 354666;
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-		opp.name = OPP_HIGH;
-		opp.rate = 532000;
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-		opp.name = OPP_SB;
-		opp.rate = -1;
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	if (cpu_get() == OMAP_5430) {
+		if (cpu_revision_get() == REV_ES1_0) {
+			opp.name = OPP_LOW;
+			opp.rate = 177333;
+			genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+				sizeof(mod_opp));
+			opp.name = OPP_NOM;
+			opp.rate = 354666;
+			genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+				sizeof(mod_opp));
+			opp.name = OPP_HIGH;
+			opp.rate = 532000;
+			genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+				sizeof(mod_opp));
+			opp.name = OPP_SB;
+			opp.rate = -1;
+			genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+				sizeof(mod_opp));
+		} else {
+			opp.name = OPP_LOW;
+			opp.rate = 212735;
+			genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+				sizeof(mod_opp));
+			opp.name = OPP_NOM;
+			opp.rate = 425471;
+			genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+				sizeof(mod_opp));
+			opp.name = OPP_HIGH;
+			opp.rate = 531839;
+			genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+				sizeof(mod_opp));
+			opp.name = OPP_SB;
+			opp.rate = -1;
+			genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+				sizeof(mod_opp));
+		}
 	} else {
 		opp.name = OPP_LOW;
 		opp.rate = 212735;
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+		genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+			sizeof(mod_opp));
 		opp.name = OPP_NOM;
 		opp.rate = 425471;
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+		genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+			sizeof(mod_opp));
 		opp.name = OPP_HIGH;
-		opp.rate = 531839;
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+		opp.rate = 532000;
+		genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+			sizeof(mod_opp));
 		opp.name = OPP_SB;
 		opp.rate = -1;
-		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+		genlist_addtail(&(mod.mod_opp_list), (void *) &opp,
+			sizeof(mod_opp));
 	}
 	mod.properties = MOD_HAS_STANDBY_STATUS | MOD_HAS_SYSCONFIG | MOD_HAS_IDLE_MODE3 | MOD_HAS_STANDBY_MODE5;
 	genlist_addtail(&mod54xx_list, (void *) &mod, sizeof(mod_info));
