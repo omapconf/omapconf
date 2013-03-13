@@ -744,7 +744,7 @@ dpll54xx_audited_settings dpll54xxes2_PER_golden_settings_19_2MHz_opp_nom = {
 	.selfreqdco = -1,
 	.clkdcoldo_rate = -1.0,
 	/* OMAP5 ONLY */
-	.hsdiv_div = {6, 4, -1, 2, -1, -1, -1, -1},
+	.hsdiv_div = {3, 4, -1, 2, -1, -1, -1, -1},
 	.hsdiv_rate = {256.0, 192.0, -1.0, 384.0, -1.0, -1.0, -1.0, -1.0} };
 
 
@@ -805,18 +805,18 @@ dpll54xx_audited_settings dpll54xxes2_ABE_golden_settings_19_2MHz = {
 	.status = DPLL_STATUS_LOCKED,
 	.mode = DPLL_LOCK,
 	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
-	.fref = 0.032768,
-	.M = 750,
-	.N = 0,
-	.fdpll = 196.608,
+	.fref = 19.2,
+	.M = 46,
+	.N = 8,
+	.fdpll = 196.267,
 	.M2 = 1,
-	.M2_rate = -1.0,
+	.M2_rate = 98.133,
 	/* DPLL type A only */
 	.dcc_en = 0,
-	.regm4xen = 1,
-	.X2_M2_rate = 196.608,
+	.regm4xen = 0,
+	.X2_M2_rate = 196.267,
 	.M3 = 1,
-	.X2_M3_rate = 196.608,
+	.X2_M3_rate = 196.267,
 	/* DPLL type B only */
 	.sd_div = -1,
 	.selfreqdco = -1,

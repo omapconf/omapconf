@@ -7557,10 +7557,10 @@ void mod5432_init(void)
 	}
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
-	opp.rate = 98304;
+	opp.rate = 98133;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	opp.name = OPP_NOM;
-	opp.rate = 196608;
+	opp.rate = 196266;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = -1;
@@ -7617,10 +7617,10 @@ void mod5432_init(void)
 	mod.context = NULL;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_LOW;
-	opp.rate = 49152;
+	opp.rate = 49066;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	opp.name = OPP_NOM;
-	opp.rate = 98304;
+	opp.rate = 98133;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = -1;
