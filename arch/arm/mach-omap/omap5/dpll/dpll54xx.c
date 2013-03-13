@@ -1546,8 +1546,7 @@ int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
 					dpll54xxes1_golden_settings_19_2MHz_table[id] == NULL) {
 					if (stream != NULL)
 						fprintf(stream,
-							"WARNING: golden settings not "
-							"available for %s.\n\n",
+							"WARNING: golden settings not available for %s.\n\n",
 							dpll54xx_name_get(id));
 					(*err_nbr)++;
 					ret = 0;
@@ -1555,13 +1554,12 @@ int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
 				}
 				golden_settings =
 					dpll54xxes1_golden_settings_19_2MHz_table[id][opp];
-			} else {
+			} else if (cpu_is_omap5430()) {
 				if ((dpll54xx_audited_settings **)
 					dpll54xxes2_golden_settings_19_2MHz_table[id] == NULL) {
 					if (stream != NULL)
 						fprintf(stream,
-							"WARNING: golden settings not "
-							"available for %s.\n\n",
+							"WARNING: golden settings not available for %s.\n\n",
 							dpll54xx_name_get(id));
 					(*err_nbr)++;
 					ret = 0;
@@ -1569,6 +1567,34 @@ int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
 				}
 				golden_settings =
 					dpll54xxes2_golden_settings_19_2MHz_table[id][opp];
+			} else if (strcmp(opp_get(VDD_MM, 1), OPP_HIGH) == 0) {
+				/* 5432 + VDD_MM == OPP_HIGH */
+				if ((dpll54xx_audited_settings **)
+					dpll5432es2_vdd_mm_hi_golden_settings_19_2MHz_table[id] == NULL) {
+					if (stream != NULL)
+						fprintf(stream,
+							"WARNING: golden settings not available for %s.\n\n",
+							dpll54xx_name_get(id));
+					(*err_nbr)++;
+					ret = 0;
+					goto dpll54xx_audit_end;
+				}
+				golden_settings =
+					dpll5432es2_vdd_mm_hi_golden_settings_19_2MHz_table[id][opp];
+			} else {
+				/* 5432 + VDD_MM == OPP_NOM */
+				if ((dpll54xx_audited_settings **)
+					dpll5432es2_golden_settings_19_2MHz_table[id] == NULL) {
+					if (stream != NULL)
+						fprintf(stream,
+							"WARNING: golden settings not available for %s.\n\n",
+							dpll54xx_name_get(id));
+					(*err_nbr)++;
+					ret = 0;
+					goto dpll54xx_audit_end;
+				}
+				golden_settings =
+					dpll5432es2_golden_settings_19_2MHz_table[id][opp];
 			}
 		} else if (sysclk == 38.4) {
 			if ((dpll54xx_audited_settings **)
