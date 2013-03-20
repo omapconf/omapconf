@@ -1,3 +1,11 @@
+v1.66:
+-------
+	- [OMAP5432][AUDIT][DPLL][CLKSPEED] DPLL ABE running from 19.2M clock instead of 32K
+	- [OMAP5432][DPLL] update OMAP5432 DPLL CORE OPP_NOM golden settings
+	- [OMAP5432][MODULE] fix L3-derived expected clock rates
+	- [OMAP5432][OPP] fix OPP detection
+
+
 v1.65:
 -------
 	- [OMAPCONF] display product name in omapconf header
