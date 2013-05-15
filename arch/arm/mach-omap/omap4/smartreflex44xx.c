@@ -202,10 +202,10 @@ int sr44xx_dump(void)
 		ret = dumpregs(prcm_sr_mpu_reg_table);
 		if (ret != 0)
 			return ret;
-		ret = dumpregs(prcm_sr_vp_mpu_reg_table);
-		if (ret != 0)
-			return ret;
 	}
+	ret = dumpregs(prcm_sr_vp_mpu_reg_table);
+	if (ret != 0)
+		return ret;
 
 	if (mod44xx_is_accessible(OMAP4_SMARTREFLEX_IVA) != 1) {
 		printf("SR_IVA not accessible.\n");
@@ -213,10 +213,10 @@ int sr44xx_dump(void)
 		ret = dumpregs(prcm_sr_iva_reg_table);
 		if (ret != 0)
 			return ret;
-		ret = dumpregs(prcm_sr_vp_iva_reg_table);
-		if (ret != 0)
-			return ret;
 	}
+	ret = dumpregs(prcm_sr_vp_iva_reg_table);
+	if (ret != 0)
+		return ret;
 
 	if (mod44xx_is_accessible(OMAP4_SMARTREFLEX_CORE) != 1) {
 		printf("SR_CORE not accessible.\n");
@@ -224,10 +224,10 @@ int sr44xx_dump(void)
 		ret = dumpregs(prcm_sr_core_reg_table);
 		if (ret != 0)
 			return ret;
-		ret = dumpregs(prcm_sr_vp_core_reg_table);
-		if (ret != 0)
-			return ret;
 	}
+	ret = dumpregs(prcm_sr_vp_core_reg_table);
+	if (ret != 0)
+		return ret;
 
 	return dumpregs(prcm_sr_vc_reg_table);
 }
