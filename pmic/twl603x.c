@@ -205,11 +205,11 @@ unsigned short twl603x_is_twl6030(void)
 		return twl603x_data.chip_type == TWL6030;
 	}
 
-	ret = i2cget(1, 0x49, 0x02, &val2);
+	ret = i2cget(TWL6030_I2C_BUS, 0x49, 0x02, &val2);
 	if (ret != 0)
 		goto twl603x_is_twl6030_end;
 
-	ret = i2cget(1, 0x49, 0x03, &val1);
+	ret = i2cget(TWL6030_I2C_BUS, 0x49, 0x03, &val1);
 	if (ret != 0)
 		goto twl603x_is_twl6030_end;
 
@@ -242,11 +242,11 @@ unsigned short twl603x_is_twl6032(void)
 		return twl603x_data.chip_type == TWL6032;
 	}
 
-	ret = i2cget(1, 0x49, 0x02, &val2);
+	ret = i2cget(TWL6030_I2C_BUS, 0x49, 0x02, &val2);
 	if (ret != 0)
 		goto twl603x_is_twl6032_end;
 
-	ret = i2cget(1, 0x49, 0x03, &val1);
+	ret = i2cget(TWL6030_I2C_BUS, 0x49, 0x03, &val1);
 	if (ret != 0)
 		goto twl603x_is_twl6032_end;
 
@@ -279,11 +279,11 @@ unsigned short twl603x_is_twl6034(void)
 		return twl603x_data.chip_type == TWL6034;
 	}
 
-	ret = i2cget(1, 0x49, 0x02, &val2);
+	ret = i2cget(TWL6030_I2C_BUS, 0x49, 0x02, &val2);
 	if (ret != 0)
 		goto twl603x_is_twl6034_end;
 
-	ret = i2cget(1, 0x49, 0x03, &val1);
+	ret = i2cget(TWL6030_I2C_BUS, 0x49, 0x03, &val1);
 	if (ret != 0)
 		goto twl603x_is_twl6034_end;
 
@@ -316,11 +316,11 @@ unsigned short twl603x_is_twl6035(void)
 		return twl603x_data.chip_type == TWL6035;
 	}
 
-	ret = i2cget(1, 0x49, 0x02, &val2);
+	ret = i2cget(TWL6030_I2C_BUS, 0x49, 0x02, &val2);
 	if (ret != 0)
 		goto twl603x_is_twl6035_end;
 
-	ret = i2cget(1, 0x49, 0x03, &val1);
+	ret = i2cget(TWL6030_I2C_BUS, 0x49, 0x03, &val1);
 	if (ret != 0)
 		goto twl603x_is_twl6035_end;
 	if ((val1 == 0xC0) && (val2 == 0x35))
@@ -356,7 +356,7 @@ float twl603x_chip_revision_get(void)
 	if (twl603x_data.chip_revision > 0)
 		goto twl603x_chip_revision_get_end;
 
-	ret = i2cget(1, 0x4A, 0x87, &rev);
+	ret = i2cget(TWL6030_I2C_BUS, 0x4A, 0x87, &rev);
 	if (ret != 0) {
 		fprintf(stderr, "%s(): could not read register! (%d)\n",
 			__func__, ret);
@@ -403,7 +403,7 @@ float twl603x_eprom_revision_get(void)
 	if (twl603x_data.eprom_revision > 0)
 		goto twl603x_eprom_revision_get_end;
 
-	ret = i2cget(1, 0x4A, 0xDF, &rev);
+	ret = i2cget(TWL6030_I2C_BUS, 0x4A, 0xDF, &rev);
 	if (ret != 0) {
 		fprintf(stderr, "%s(): could not read register! (%d)\n",
 			__func__, ret);
@@ -453,7 +453,7 @@ unsigned long twl603x_smps_offset_get(voltdm44xx_id vdd_id)
 		goto twl603x_smps_offset_get_end;
 	}
 
-	ret = i2cget(1, 0x48, 0xE0, &val);
+	ret = i2cget(TWL6030_I2C_BUS, 0x48, 0xE0, &val);
 	if (ret != 0) {
 		fprintf(stderr, "%s(%u): could not read register! (%d)\n",
 			__func__, vdd_id, ret);
