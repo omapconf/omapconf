@@ -61,6 +61,7 @@
 
 #define TPS62361_VDCDC1_MIN	500000
 #define TPS62361_VDCDC1_STEP	10000
+#define TPS62361_PFM_FLAG	0x80
 
 
 
@@ -191,6 +192,7 @@ unsigned long tps62361_vsel_to_uv(unsigned char vsel)
 {
 	unsigned long uv;
 
+	vsel &= ~TPS62361_PFM_FLAG;
 	uv = TPS62361_VDCDC1_MIN + (TPS62361_VDCDC1_STEP * vsel);
 	dprintf("%s(%d)=%lduV\n", __func__, vsel, uv);
 	return uv;
