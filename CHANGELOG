@@ -1,3 +1,10 @@
+v1.67:
+-------
+	- [OMAP4][SR] Always dump SR VP registers (always clocked) 
+	- [OMAP4][I2C] Use macro for I2C bus number instead of hard-coded value
+	- [OMAP4460][PMIC][TPS62361] Mask PFM flag to avoid potential weird voltage
+
+
 v1.66:
 -------
 	- [OMAP5432][AUDIT][DPLL][CLKSPEED] DPLL ABE running from 19.2M clock instead of 32K
