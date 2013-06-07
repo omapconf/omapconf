@@ -8,3 +8,5 @@ builddate.c
 Module.symvers
 Module.markers
 modules.order
+cscope.out
+tags
