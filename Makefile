@@ -271,6 +271,9 @@ I2COBJECTS=	$(I2CSOURCES:.c=.o)
 
 
 
+ALLSOURCES=	$(SOURCES) $(OMAPSOURCES) $(OMAP4SOURCES) $(OMAP5SOURCES)\
+		$(LINUXSOURCES) $(PMICSOURCES) $(AUDIOICSOURCES) $(I2CSOURCES)
+
 
 ALLOBJECTS=	$(OBJECTS) $(OMAPOBJECTS) $(OMAP4OBJECTS) $(OMAP5OBJECTS)\
 		$(LINUXOBJECTS) $(PMICOBJECTS) $(AUDIOICOBJECTS) $(I2COBJECTS)
@@ -281,7 +284,7 @@ ALLOBJECTS=	$(OBJECTS) $(OMAPOBJECTS) $(OMAP4OBJECTS) $(OMAP5OBJECTS)\
 EXECUTABLE=	omapconf
 
 
-
+.PHONY:	tags cscope
 
 all: 		$(EXECUTABLE)
 
@@ -319,6 +322,13 @@ install_android: $(EXECUTABLE)
 		adb push omapconf /data/
 
 
+tags: $(ALLSOURCES)
+	ctags $(ALLSOURCES) $(shell find . -iname "*.h")
+
+
+
+cscope: $(ALLSOURCES)
+	cscope -b $(ALLSOURCES)  $(shell find . -iname "*.h")
 
 
 clean:
@@ -331,3 +341,4 @@ clean:
 		rm -f $(PMICOBJECTS)
 		rm -f $(AUDIOICOBJECTS)
 		rm -f $(I2COBJECTS)
+		rm -f tags cscope.out
