@@ -585,7 +585,7 @@ void iss_csi2_check(struct iss_csi2_regs *csi2)
 		printf("\t\t\tWARNING: No data lanes enabled.\n");
 
 	printf("\tAutomatic switch between ULP and ON is %s\n",
-		csi2->complexio_cfg.pwr_auto ? "disabled" : "enabled");
+	        csi2->complexio_cfg.pwr_auto ? "enabled" : "disabled");
 
 	printf("\tComplexIO power state is: ");
 	switch (csi2->complexio_cfg.pwr_status) {
