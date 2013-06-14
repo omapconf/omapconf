@@ -263,7 +263,6 @@ int pmic_detect(void)
 {
 	unsigned short is_twl6030, is_twl6032, is_twl6034, is_twl6035,
 		tps62361_present;
-
 	if (pmic_detection_done())
 		return 0;
 
@@ -336,6 +335,22 @@ int pmic_detect(void)
 		}
 		break;
 
+	case DRA_7XX:
+		if (0) {
+		/* FIXME: implement correct assignment when data is ready
+		 *	pmic_chip[PMIC_SMPS_MPU] =
+		 *	pmic_chip_revision[PMIC_SMPS_MPU] =
+		 *	pmic_eprom_revision[PMIC_SMPS_MPU] =
+		 */
+		} else {
+			pmic_chip[PMIC_SMPS_MPU] = PMIC_ID_MAX;
+                        pmic_chip_revision[PMIC_SMPS_MPU] =
+				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+                        pmic_eprom_revision[PMIC_SMPS_MPU] =
+				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+		}
+		break;
+
 	default:
 		pmic_chip[PMIC_SMPS_MPU] = PMIC_ID_MAX;
 			pmic_chip_revision[PMIC_SMPS_MPU] =
@@ -402,6 +417,22 @@ int pmic_detect(void)
 		}
 		break;
 
+	case DRA_7XX:
+		if (0) {
+		/* FIXME: implement correct assignment when data is ready
+		 *	pmic_chip[PMIC_SMPS_MM] =
+		 *	pmic_chip_revision[PMIC_SMPS_MM] =
+		 *	pmic_eprom_revision[PMIC_SMPS_MM] =
+		 */
+		} else {
+			pmic_chip[PMIC_SMPS_MM] = PMIC_ID_MAX;
+                        pmic_chip_revision[PMIC_SMPS_MM] =
+				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+                        pmic_eprom_revision[PMIC_SMPS_MM] =
+				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+		}
+		break;
+
 	default:
 		pmic_chip[PMIC_SMPS_MM] = PMIC_ID_MAX;
 			pmic_chip_revision[PMIC_SMPS_MM] =
@@ -464,6 +495,22 @@ int pmic_detect(void)
 			pmic_chip_revision[PMIC_SMPS_CORE] =
 				(double) OMAPCONF_ERR_NOT_AVAILABLE;
 			pmic_eprom_revision[PMIC_SMPS_CORE] =
+				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+		}
+		break;
+
+	case DRA_7XX:
+		if (0) {
+		/* FIXME: implement correct assignment when data is ready
+		 *	pmic_chip[PMIC_SMPS_CORE] =
+		 *	pmic_chip_revision[PMIC_SMPS_CORE] =
+		 *	pmic_eprom_revision[PMIC_SMPS_CORE] =
+		 */
+		} else {
+			pmic_chip[PMIC_SMPS_CORE] = PMIC_ID_MAX;
+                        pmic_chip_revision[PMIC_SMPS_CORE] =
+				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+                        pmic_eprom_revision[PMIC_SMPS_CORE] =
 				(double) OMAPCONF_ERR_NOT_AVAILABLE;
 		}
 		break;

@@ -114,6 +114,8 @@ void voltdm_deinit(void)
 		voltdm44xx_deinit();
 	} else if (cpu_is_omap54xx()) {
 		voltdm54xx_deinit();
+	} else if (cpu_is_dra7xx()) {
+		/* FIXME: Here adds voltdm_dra7xx(); */
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
