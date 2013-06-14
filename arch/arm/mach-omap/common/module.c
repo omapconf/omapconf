@@ -127,6 +127,8 @@ void module_deinit(void)
 		mod44xx_deinit();
 	} else if (cpu_is_omap54xx()) {
 		mod54xx_deinit();
+	} else if (cpu_is_dra7xx()) {
+		/* FIXME: Here adds mod_dra7xx_deinit(); */
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);

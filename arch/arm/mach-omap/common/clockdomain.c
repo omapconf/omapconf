@@ -117,6 +117,8 @@ void clockdm_deinit(void)
 		clkdm44xx_deinit();
 	} else if (cpu_is_omap54xx()) {
 		clkdm54xx_deinit();
+	} else if (cpu_is_dra7xx()) {
+		/* FIXME: Here adds clkdm_dra7xx_deinit(); */
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);

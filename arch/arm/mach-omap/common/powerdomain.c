@@ -119,6 +119,8 @@ void powerdm_deinit(void)
 		pwrdm44xx_deinit();
 	} else if (cpu_is_omap54xx()) {
 		pwrdm54xx_deinit();
+	} else if (cpu_is_dra7xx()) {
+		/* FIXME: Here adds pwrdm_dra7xx_deinit(); */
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);

@@ -60,7 +60,8 @@ DEF_INC_PATH = -I. -Icommon -Ipmic -Iaudioic -Ilinux -Ii2c-tools\
 	-Iarch/arm/mach-omap/omap5\
 	-Iarch/arm/mach-omap/omap5/prcm\
 	-Iarch/arm/mach-omap/omap5/dpll\
-	-Iarch/arm/mach-omap/omap5/ctrlmod
+	-Iarch/arm/mach-omap/omap5/ctrlmod\
+	-Iarch/arm/mach-omap/dra7
 
 
 STATIC_BUILD ?= -static
@@ -217,6 +218,14 @@ OMAP5OBJECTS=	$(OMAP5SOURCES:.c=.o)
 
 
 
+DRA7SOURCES=\
+		arch/arm/mach-omap/dra7/cpuinfo_dra7xx.c
+
+DRA7OBJECTS=	$(DRA7SOURCES:.c=.o)
+
+
+
+
 SOURCES=\
 		omapconf.c\
 		common/lib.c\
@@ -271,9 +280,14 @@ I2COBJECTS=	$(I2CSOURCES:.c=.o)
 
 
 
+ALLSOURCES=	$(SOURCES) $(OMAPSOURCES) $(OMAP4SOURCES) $(OMAP5SOURCES)\
+		$(DRA7SOURCES) $(LINUXSOURCES) $(PMICSOURCES)\
+		$(AUDIOICSOURCES) $(I2CSOURCES)
+
 
 ALLOBJECTS=	$(OBJECTS) $(OMAPOBJECTS) $(OMAP4OBJECTS) $(OMAP5OBJECTS)\
-		$(LINUXOBJECTS) $(PMICOBJECTS) $(AUDIOICOBJECTS) $(I2COBJECTS)
+		$(DRA7OBJECTS) $(LINUXOBJECTS) $(PMICOBJECTS)\
+		$(AUDIOICOBJECTS) $(I2COBJECTS)
 
 
 
@@ -281,7 +295,7 @@ ALLOBJECTS=	$(OBJECTS) $(OMAPOBJECTS) $(OMAP4OBJECTS) $(OMAP5OBJECTS)\
 EXECUTABLE=	omapconf
 
 
-
+.PHONY:	tags cscope
 
 all: 		$(EXECUTABLE)
 
@@ -319,6 +333,12 @@ install_android: $(EXECUTABLE)
 		adb push omapconf /data/
 
 
+tags: $(ALLSOURCES)
+	ctags $(ALLSOURCES)
+
+
+cscope: $(ALLSOURCES)
+	cscope -b $(ALLSOURCES)
 
 
 clean:
@@ -328,6 +348,8 @@ clean:
 		rm -f $(OMAPOBJECTS)
 		rm -f $(OMAP4OBJECTS)
 		rm -f $(OMAP5OBJECTS)
+		rm -f $(DRA7OBJECTS)
 		rm -f $(PMICOBJECTS)
 		rm -f $(AUDIOICOBJECTS)
 		rm -f $(I2COBJECTS)
+		rm -f tags cscope.out
