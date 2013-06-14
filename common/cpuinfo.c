@@ -95,52 +95,51 @@ static unsigned short cpu_forced;
 
 static omap_chip cpu;
 static const char cpu_name[OMAP_MAX + 1][CPU_NAME_MAX_LENGTH] = {
-	"OMAP4430",
-	"OMAP4460",
-	"OMAP4470",
-	"OMAP5430",
-	"OMAP5432",
-	"UNKNOWN"};
+	[OMAP_4430] = "OMAP4430",
+	[OMAP_4460] = "OMAP4460",
+	[OMAP_4470] = "OMAP4470",
+	[OMAP_5430] = "OMAP5430",
+	[OMAP_5432] = "OMAP5432",
+	[OMAP_MAX]  = "UNKNOWN"};
 static char cpu_full_name[CPU_FULL_NAME_MAX_LENGTH];
 
 
 static omap_device_type cpu_type;
 static const char
 	cpu_device_type[DEV_TYPE_MAX + 1][CPU_DEVICE_TYPE_MAX_NAME_LENGTH] = {
-	"GP",
-	"EMU",
-	"HS",
-	"TEST",
-	"UNKNOWN"};
+	[DEV_GP] = "GP",
+	[DEV_EMU] = "EMU",
+	[DEV_HS] = "HS",
+	[DEV_TEST] = "TEST",
+	[DEV_TYPE_MAX] = "UNKNOWN"};
 
 
 static omap_chip_revision cpu_rev;
 static const char cpu_revision[REV_ES_MAX + 1][CPU_REVISION_MAX_NAME_LENGTH] = {
-	"1.0",
-	"1.1",
-	"1.2",
-	"1.3",
-	"2.0",
-	"2.1",
-	"2.2",
-	"2.3",
-	"3.0",
-	"3.1",
-	"3.2",
-	"3.3",
-	"UNKNOWN"};
+	[REV_ES1_0] = "1.0",
+	[REV_ES1_1] = "1.1",
+	[REV_ES1_2] = "1.2",
+	[REV_ES1_3] = "1.3",
+	[REV_ES2_0] = "2.0",
+	[REV_ES2_1] = "2.1",
+	[REV_ES2_2] = "2.2",
+	[REV_ES2_3] = "2.3",
+	[REV_ES3_0] = "3.0",
+	[REV_ES3_1] = "3.1",
+	[REV_ES3_2] = "3.2",
+	[REV_ES3_3] = "3.3",
+	[REV_ES_MAX] = "UNKNOWN"};
 
 
 static silicon_type si_type;
 static const char
 	silicon_type_table[SILICON_TYPE_MAX + 1]
 	[CPU_SI_TYPE_MAX_NAME_LENGTH] = {
-	"LOW",
-	"STANDARD",
-	"HIGH",
-	"SPEEDBIN",
-	"UNKNOWN"
-};
+	[LOW_PERF_SI] = "LOW",
+	[STANDARD_PERF_SI] = "STANDARD",
+	[HIGH_PERF_SI] = "HIGH",
+	[SPEEDBIN_SI] = "SPEEDBIN",
+	[SILICON_TYPE_MAX] = "UNKNOWN"};
 
 
 static char cpu_online_file[36] =
