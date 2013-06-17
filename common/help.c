@@ -46,6 +46,7 @@
 #include <help44xx.h>
 #include <lib.h>
 #include <help54xx.h>
+#include <help_dra7xx.h>
 #include <stdio.h>
 #include <cpuinfo.h>
 
@@ -326,6 +327,10 @@ void help(help_category cat)
 	/* OMAP5-specific commands */
 	if (cpu_is_omap54xx())
 		help54xx(cat, "None");
+
+	/* DRA7-specific commands */
+	if (cpu_is_dra7xx())
+		help_dra7xx(cat, "None");
 
 	if (cat == HELP_ALL) {
 		printf("\nREPORTING BUGS\n");
