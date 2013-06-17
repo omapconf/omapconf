@@ -61,6 +61,7 @@ typedef enum {
 	OMAP_4470,
 	OMAP_5430,
 	OMAP_5432,
+	DRA_7XX,
 	OMAP_MAX
 } omap_chip;
 
@@ -124,6 +125,8 @@ char *cpu_die_id_get(unsigned int *die_id_3, unsigned int *die_id_2,
 	char die_id[CPU_DIE_ID_LENGTH]);
 
 omap_chip cpu_get(void);
+unsigned int cpu_is_adas(void);
+unsigned int cpu_is_dra7xx(void);
 unsigned int cpu_is_omap44xx(void);
 unsigned int cpu_is_omap4430(void);
 unsigned int cpu_is_omap4460(void);
