@@ -45,6 +45,7 @@
 #include <cpuinfo.h>
 #include <cpuinfo44xx.h>
 #include <cpuinfo54xx.h>
+#include <cpuinfo_dra7xx.h>
 #include <lib.h>
 #include <mem.h>
 #include <stdio.h>
@@ -60,19 +61,31 @@
 #endif
 
 
-/* Identification Registers */
+/* Identification Registers for OMAP4 & OMAP5 */
 #define CONTROL_STD_FUSE_DIE_ID_0			0x4A002200
 #define ID_CODE						0x4A002204
 #define CONTROL_STD_FUSE_DIE_ID_1			0x4A002208
 #define CONTROL_STD_FUSE_DIE_ID_2			0x4A00220C
 #define CONTROL_STD_FUSE_DIE_ID_3			0x4A002210
 #define CONTROL_STD_FUSE_PROD_ID_0			0x4A002214
+
+/* FOR OMAP4 ONLY */
 #define CONTROL_STD_FUSE_PROD_ID_1			0x4A002218
 
-#define OMAP44XX_STATUS					0x4A0022C4
+/* Identification Registers for DRA7xx */
+#define DRA7_CONTROL_STD_FUSE_DIE_ID_0			0x4AE0C200
+#define DRA7_ID_CODE					0x4AE0C204
+#define DRA7_CONTROL_STD_FUSE_DIE_ID_1			0x4AE0C208
+#define DRA7_CONTROL_STD_FUSE_DIE_ID_2			0x4AE0C20C
+#define DRA7_CONTROL_STD_FUSE_DIE_ID_3			0x4AE0C210
+#define DRA7_CONTROL_STD_FUSE_PROD_ID_0			0x4AE0C214
 
+#define OMAP44XX_STATUS					0x4A0022C4
+#define OMAP54XX_STATUS					0x4A002134
 
 /* ID Codes */
+#define DRA7XX_ES_1_0_ID_CODE				0x0B99002F
+
 #define OMAP5432_ES_2_0_ID_CODE				0x1B99802F
 #define OMAP5432_ES_1_0_ID_CODE				0x0B99802F
 #define OMAP5430_ES_2_0_ID_CODE				0x1B94202F
@@ -95,12 +108,13 @@ static unsigned short cpu_forced;
 
 static omap_chip cpu;
 static const char cpu_name[OMAP_MAX + 1][CPU_NAME_MAX_LENGTH] = {
-	"OMAP4430",
-	"OMAP4460",
-	"OMAP4470",
-	"OMAP5430",
-	"OMAP5432",
-	"UNKNOWN"};
+	[OMAP_4430]="OMAP4430",
+	[OMAP_4460]="OMAP4460",
+	[OMAP_4470]="OMAP4470",
+	[OMAP_5430]="OMAP5430",
+	[OMAP_5432]="OMAP5432",
+	[DRA_7XX]  ="DRA7XX",
+	[OMAP_MAX] ="UNKNOWN"};
 static char cpu_full_name[CPU_FULL_NAME_MAX_LENGTH];
 
 
@@ -116,19 +130,19 @@ static const char
 
 static omap_chip_revision cpu_rev;
 static const char cpu_revision[REV_ES_MAX + 1][CPU_REVISION_MAX_NAME_LENGTH] = {
-	"1.0",
-	"1.1",
-	"1.2",
-	"1.3",
-	"2.0",
-	"2.1",
-	"2.2",
-	"2.3",
-	"3.0",
-	"3.1",
-	"3.2",
-	"3.3",
-	"UNKNOWN"};
+	[REV_ES1_0] ="1.0",
+	[REV_ES1_1] ="1.1",
+	[REV_ES1_2] ="1.2",
+	[REV_ES1_3] ="1.3",
+	[REV_ES2_0] ="2.0",
+	[REV_ES2_1] ="2.1",
+	[REV_ES2_2] ="2.2",
+	[REV_ES2_3] ="2.3",
+	[REV_ES3_0] ="3.0",
+	[REV_ES3_1] ="3.1",
+	[REV_ES3_2] ="3.2",
+	[REV_ES3_3] ="3.3",
+	[REV_ES_MAX]="UNKNOWN"};
 
 
 static silicon_type si_type;
@@ -216,6 +230,20 @@ char *cpu_gets(char s[CPU_NAME_MAX_LENGTH])
 	if (omap > OMAP_MAX)
 		omap = OMAP_MAX;
 	return strcpy(s, cpu_name[omap]);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		cpu_is_dra7xx
+ * @BRIEF		check if cpu is DRA7xx
+ * @RETURNS		1 if cpu is DRA7xx
+ *			0 if cpu is NOT DRA7xx
+ * @param[in]		none
+ * @DESCRIPTION		check if cpu is DRA7xx
+ *//*------------------------------------------------------------------------ */
+unsigned int cpu_is_dra7xx(void)
+{
+	return cpu == DRA_7XX;
 }
 
 
@@ -606,6 +634,8 @@ unsigned int cpu_silicon_max_speed_get(void)
 		max_speed = cpu44xx_silicon_max_speed_get();
 	} else if (cpu_is_omap54xx()) {
 		max_speed = cpu54xx_silicon_max_speed_get();
+	} else if (cpu_is_dra7xx()) {
+		max_speed = cpu_dra7xx_silicon_max_speed_get();
 	} else {
 		dprintf("%s(): unknown architecture!\n", __func__);
 		max_speed = 0;
@@ -618,7 +648,7 @@ unsigned int cpu_silicon_max_speed_get(void)
 
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		cpu_die_id_get
- * @BRIEF		return OMAP DIE ID (4x 32-bit integers, string).
+ * @BRIEF		return SoC DIE ID (4x 32-bit integers, string).
  * @RETURNS		OMAP DIE ID string (as "DIEID3-DIEID2-DIEID1-DIEID0")
  *			NULL in case of error
  * @param[in,out]	die_id_3: DIE ID (part 3, MSB)
@@ -626,24 +656,40 @@ unsigned int cpu_silicon_max_speed_get(void)
  * @param[in,out]	die_id_1: DIE ID (part 1)
  * @param[in,out]	die_id_0: DIE ID (part 0, LSB)
  * @param[in,out]	die_id: DIE ID string ("DIEID3-DIEID2-DIEID1-DIEID0")
- * @DESCRIPTION		return OMAP DIE ID (4x 32-bit integers, string).
+ * @DESCRIPTION		return SoC DIE ID (4x 32-bit integers, string).
  *//*------------------------------------------------------------------------ */
 char *cpu_die_id_get(unsigned int *die_id_3, unsigned int *die_id_2,
 	unsigned int *die_id_1, unsigned int *die_id_0,
 	char die_id[CPU_DIE_ID_LENGTH])
-{
+{	unsigned int die_id_add_3;
+	unsigned int die_id_add_2;
+	unsigned int die_id_add_1;
+	unsigned int die_id_add_0;
+
 	CHECK_NULL_ARG(die_id, NULL);
 
-	if (mem_read(CONTROL_STD_FUSE_DIE_ID_3, die_id_3) != 0)
+	if (cpu_get() == DRA_7XX) {
+		die_id_add_3 = DRA7_CONTROL_STD_FUSE_DIE_ID_3;
+		die_id_add_2 = DRA7_CONTROL_STD_FUSE_DIE_ID_2;
+		die_id_add_1 = DRA7_CONTROL_STD_FUSE_DIE_ID_1;
+		die_id_add_0 = DRA7_CONTROL_STD_FUSE_DIE_ID_0;
+	} else {
+		die_id_add_3 = CONTROL_STD_FUSE_DIE_ID_3;
+		die_id_add_2 = CONTROL_STD_FUSE_DIE_ID_2;
+		die_id_add_1 = CONTROL_STD_FUSE_DIE_ID_1;
+		die_id_add_0 = CONTROL_STD_FUSE_DIE_ID_0;
+	}
+
+	if (mem_read(die_id_add_3, die_id_3) != 0)
 		return NULL;
 	dprintf("%s(): die_id_3 = 0x%08X\n", __func__, *die_id_3);
-	if (mem_read(CONTROL_STD_FUSE_DIE_ID_2, die_id_2) != 0)
+	if (mem_read(die_id_add_2, die_id_2) != 0)
 		return NULL;
 	dprintf("%s(): die_id_2 = 0x%08X\n", __func__, *die_id_2);
-	if (mem_read(CONTROL_STD_FUSE_DIE_ID_1, die_id_1) != 0)
+	if (mem_read(die_id_add_1, die_id_1) != 0)
 		return NULL;
 	dprintf("%s(): die_id_1 = 0x%08X\n", __func__, *die_id_1);
-	if (mem_read(CONTROL_STD_FUSE_DIE_ID_0, die_id_0) != 0)
+	if (mem_read(die_id_add_0, die_id_0) != 0)
 		return NULL;
 	dprintf("%s(): die_id_0 = 0x%08X\n", __func__, *die_id_0);
 
@@ -755,6 +801,8 @@ int cpu_detect(void)
 	unsigned int id_code;
 	unsigned int status;
 	unsigned int prod_id_1;
+	int ret;
+	unsigned char status_bit_start;
 
 	#ifdef CPUID_DEBUG
 	char s[CPU_FULL_NAME_MAX_LENGTH];
@@ -846,19 +894,42 @@ int cpu_detect(void)
 		}
 		break;
 	default:
-		dprintf("%s(): OMAP ID CODE not recognized! (0x%08X)\n",
-			__func__, id_code);
-		return OMAPCONF_ERR_CPU;
+		/* Retrieve DRA7 chip & ES in default case */
+		if (mem_read(DRA7_ID_CODE, &id_code) != 0)
+			return OMAPCONF_ERR_REG_ACCESS;
+		dprintf("%s(): ID_CODE = 0x%08X\n", __func__, id_code);
+
+		switch (id_code) {
+		case DRA7XX_ES_1_0_ID_CODE:
+			cpu_set(DRA_7XX);
+			cpu_revision_set(REV_ES1_0);
+			break;
+		default:
+			dprintf("%s(): OMAP ID CODE not recognized! (0x%08X)\n",
+				__func__, id_code);
+			return OMAPCONF_ERR_CPU;
+		}
 	}
 	dprintf("%s(): Chip is %s ES%s\n", __func__,
 		cpu_gets(s), cpu_revision_gets(rev_s));
 
 
 	/* Retrieve device type */
-	if (mem_read(OMAP44XX_STATUS, &status) != 0)
+	if (cpu_is_omap44xx()) {
+		ret = mem_read(OMAP44XX_STATUS, &status);
+		status_bit_start = 8;
+	} else if (cpu_is_omap54xx() || cpu_is_dra7xx()) {
+		ret = mem_read(OMAP54XX_STATUS, &status);
+		status_bit_start = 6;
+	} else {
+		ret = -1;
+	}
+
+
+	if (ret)
 		return OMAPCONF_ERR_REG_ACCESS;
 	dprintf("%s(): OMAP44XX_STATUS = 0x%08X\n", __func__, status);
-	switch (extract_bitfield(status, 8, 2)) {
+	switch (extract_bitfield(status, status_bit_start, 2)) {
 	case 3:
 		cpu_device_type_set(DEV_GP);
 		break;
@@ -885,7 +956,7 @@ int cpu_detect(void)
 		dprintf("%s(): CONTROL_STD_FUSE_PROD_ID_1 = 0x%08X\n",
 			__func__, prod_id_1);
 		si_type = (silicon_type) extract_bitfield(prod_id_1, 16, 2);
-	} else {
+	} else if (cpu_is_omap54xx()) {
 		if (cpu_revision_get() == REV_ES1_0) {
 			if (cpu_silicon_max_speed_get() != 1200)
 				cpu_silicon_type_set(STANDARD_PERF_SI);
@@ -897,6 +968,10 @@ int cpu_detect(void)
 			else
 				cpu_silicon_type_set(SPEEDBIN_SI);
 		}
+	} else if (cpu_is_dra7xx()) {
+		/* TBD: implement true detection when ID data is available */
+		cpu_silicon_type_set(STANDARD_PERF_SI);
+
 	}
 	dprintf("%s(): Silicon performance type is %s (%uMHz)\n",
 		__func__, cpu_silicon_type_gets(s),
