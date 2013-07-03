@@ -70,7 +70,7 @@
 #define CONTROL_STD_FUSE_PROD_ID_1			0x4A002218
 
 #define OMAP44XX_STATUS					0x4A0022C4
-
+#define OMAP54XX_STATUS					0x4A002134
 
 /* ID Codes */
 #define OMAP5432_ES_2_0_ID_CODE				0x1B99802F
@@ -755,6 +755,8 @@ int cpu_detect(void)
 	unsigned int id_code;
 	unsigned int status;
 	unsigned int prod_id_1;
+	int ret;
+	unsigned char status_bit_start;
 
 	#ifdef CPUID_DEBUG
 	char s[CPU_FULL_NAME_MAX_LENGTH];
@@ -855,10 +857,21 @@ int cpu_detect(void)
 
 
 	/* Retrieve device type */
-	if (mem_read(OMAP44XX_STATUS, &status) != 0)
+	if (cpu_is_omap44xx()) {
+		ret = mem_read(OMAP44XX_STATUS, &status);
+		status_bit_start = 8;
+	} else if (cpu_is_omap54xx()) {
+		ret = mem_read(OMAP54XX_STATUS, &status);
+		status_bit_start = 6;
+	} else {
+		ret = -1;
+	}
+
+
+	if (ret)
 		return OMAPCONF_ERR_REG_ACCESS;
 	dprintf("%s(): OMAP44XX_STATUS = 0x%08X\n", __func__, status);
-	switch (extract_bitfield(status, 8, 2)) {
+	switch (extract_bitfield(status, status_bit_start, 2)) {
 	case 3:
 		cpu_device_type_set(DEV_GP);
 		break;
