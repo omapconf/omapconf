@@ -44,6 +44,7 @@
 
 #include <main_dra7xx.h>
 #include <dpll_dra7xx.h>
+#include <ctt_dra7xx.h>
 #include <lib.h>
 #include <help.h>
 #include <stdlib.h>
@@ -134,6 +135,8 @@ int main_dra7xx_legacy(int argc, char *argv[])
 		ret = prcm_dra7xx_dump(argv[2]);
 	} else if (strcmp(argv[0], "dpll") == 0) {
 		ret = dpll_dra7xx_main(argc - 1, argv + 1);
+	} else if (strcmp(argv[0], "ctt") == 0) {
+		ret = ctt_dra7xx_main(argc - 1, argv + 1);
 	} else {
 		ret = err_unknown_argument_msg_show(argv[0]);
 		goto main_dra7xx_legacy_end;
@@ -184,6 +187,35 @@ int main_dra7xx_show(int argc, char *argv[])
 
 
 /* ------------------------------------------------------------------------*//**
+ * @FUNCTION		main_dra7xx_export
+ * @BRIEF		Export OMAP configuration into format and destination
+ *			provided in argv.
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_REG_ACCESS
+ *			OMAPCONF_ERR_INTERNAL
+ * @param[in]		argc: shell input argument number
+ * @param[in]		argv: shell input argument(s)
+ * @DESCRIPTION		Export OMAP configuration into format and destination
+ *			provided in argv.
+ *//*------------------------------------------------------------------------ */
+static int main_dra7xx_export(int argc, char *argv[])
+{
+	if (strcmp(argv[0], "ctt") == 0) {
+		if (argc == 1)
+			return ctt_dra7xx_dump();
+		else if (argc == 2)
+			return ctt_dra7xx_rd1_export(argv[1]);
+		else
+			return err_arg_too_many_msg_show(HELP_EXPORT);
+	} else {
+		return err_arg_msg_show(HELP_EXPORT);
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
  * @FUNCTION		main_dra7xx
  * @BRIEF		DRA7 functions main entry point
  * @RETURNS		0 in case of success
@@ -215,6 +247,8 @@ int main_dra7xx(int argc, char *argv[])
 		ret = main_dra7xx_dump(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "show") == 0)
 		ret = main_dra7xx_show(argc - 1, argv + 1);
+	else if (strcmp(argv[0], "export") == 0)
+		ret = main_dra7xx_export(argc - 1, argv + 1);
 	else
 		ret = main_dra7xx_legacy(argc, argv);
 

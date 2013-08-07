@@ -66,6 +66,19 @@ void help_dra7xx(help_category cat, char *context)
 	}
 
 	/* DRA7-specific commands */
+	if ((cat == HELP_ALL) || (cat == HELP_EXPORT)) {
+		printf("\n\tomapconf export ctt [<filename>]\n");
+		printf("\t    Export PRCM registers to "
+			"<filename> or stdout if omitted.\n");
+
+		printf("\n\tomapconf ctt dump (alternative call of omapconf-export-ctt)\n");
+		printf("\t    Export PRCM registers to stdout.\n");
+
+		printf("\n\tomapconf ctt rd1\n");
+		printf("\t    Export PRCM registers in rd1 format for Clock "
+			"Tree Tool (CTT, <http://omappedia.org/wiki/CTT>).\n");
+	}
+
 	if ((cat == HELP_ALL) || (cat == HELP_DPLL)) {
 		printf("\n\tomapconf dump dpll [<dpll>]\n");
 		printf("\t    RAW dump of <dpll> registers ('all' assumed if "
