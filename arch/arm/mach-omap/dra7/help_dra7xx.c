@@ -72,6 +72,10 @@ void help_dra7xx(help_category cat, char *context)
 			"omitted).\n");
 		printf("\t    Supported <dpll>: all, abe, core, ddr, dsp, eve, "
 			"gmac, gpu, iva, mpu, pcieref, per, usb.\n");
+
+		printf("\n\tomapconf show dpll [cfg]\n");
+		printf("\t    Print the complete configuration of all DPLL "
+			"([cfg] may be omitted).\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_PRCM)) {

@@ -51,8 +51,59 @@
 #include <stdio.h>
 
 
+typedef struct {
+	hsdiv_dra7xx_id id;
+	unsigned short present;	/* 0 if no CM_DIV_Hmn_DPLL_xyz, 1 otherwise */
+	unsigned short status;	/* CM_DIV_Hmn_DPLL_xyz.CLKST */
+	unsigned int div;	/* CM_DIV_Hmn_DPLL_xyz.DIVHS */
+	double rate;		/* CLKOUTX2_Hmn rate in MHz */
+} hsdiv_dra7xx_settings;
+
+
+typedef struct {
+	dpll_settings dpll;
+	dpll_status status;
+	hsdiv_dra7xx_settings hsdiv[HSDIV_DRA7XX_ID_MAX];
+} dpll_dra7xx_settings;
+
+
+typedef enum {
+	DPLL_DRA7XX_CLKOUT_M2,
+	DPLL_DRA7XX_CLKOUTX2_M2,
+	DPLL_DRA7XX_CLKOUTX2_M3,
+	DPLL_DRA7XX_CLKOUTX2_H11,
+	DPLL_DRA7XX_CLKOUTX2_H12,
+	DPLL_DRA7XX_CLKOUTX2_H13,
+	DPLL_DRA7XX_CLKOUTX2_H14,
+	DPLL_DRA7XX_CLKOUTX2_H21,
+	DPLL_DRA7XX_CLKOUTX2_H22,
+	DPLL_DRA7XX_CLKOUTX2_H23,
+	DPLL_DRA7XX_CLKOUTX2_H24,
+	DPLL_DRA7XX_CLKOUTX2_M2_LDO,
+	DPLL_DRA7XX_CLK_DCO_LDO,
+	DPLL_DRA7XX_OUTPUT_ID_MAX
+} dpll_dra7xx_output_id;
+
+
+int dpll_dra7xx_init(void);
+int dpll_dra7xx_free(void);
+
+int dpll_dra7xx_settings_extract(dpll_dra7xx_settings *settings,
+	unsigned int id, unsigned short ignore);
+
+dpll_dra7xx_settings *dpll_dra7xx_settings_get(
+	unsigned int id, unsigned short ignore);
+
+dpll_status dpll_dra7xx_status_get(dpll_dra7xx_id id);
+
+double dpll_dra7xx_output_rate_get(
+	dpll_dra7xx_id id, dpll_dra7xx_output_id out_id, unsigned short ignore);
+
+int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *stream);
+int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *stream);
 dpll_dra7xx_id dpll_dra7xx_s2id(char *s);
 int dpll_dra7xx_dump(FILE *stream, dpll_dra7xx_id id);
+int dpll_dra7xx_show(FILE *stream);
 int dpll_dra7xx_main(int argc, char *argv[]);
 
 

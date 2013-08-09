@@ -148,6 +148,42 @@ main_dra7xx_legacy_end:
 
 
 /* ------------------------------------------------------------------------*//**
+ * @FUNCTION		main_dra7xx_show
+ * @BRIEF		show some DRA7 information,
+ *			which category is found in argv
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG in case of incorrect format
+ * @param[in]		argc: shell input argument number
+ * @param[in]		argv: shell input argument(s)
+ * @DESCRIPTION		show some DRA7 information,
+ *			which category is found in argv
+ *//*------------------------------------------------------------------------ */
+int main_dra7xx_show(int argc, char *argv[])
+{
+	CHECK_NULL_ARG(argv, OMAPCONF_ERR_ARG);
+
+	if (argc < 1) {
+		help(HELP_USAGE);
+		return OMAPCONF_ERR_ARG;
+	} else if (strcmp(argv[0], "dpll") == 0) {
+		if (argc == 1) {
+			return dpll_dra7xx_show(stdout);
+		} else if (argc == 2) {
+			if (strcmp(argv[1], "cfg") == 0)
+				return dpll_dra7xx_show(stdout);
+			else
+				return err_arg_msg_show(HELP_DPLL);
+		} else {
+			return err_arg_too_many_msg_show(HELP_DPLL);
+		}
+	} else {
+		return err_unknown_argument_msg_show(argv[0]);
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
  * @FUNCTION		main_dra7xx
  * @BRIEF		DRA7 functions main entry point
  * @RETURNS		0 in case of success
@@ -172,9 +208,13 @@ int main_dra7xx(int argc, char *argv[])
 	if (argc < 1)
 		goto main_dra7xx_err_arg;
 
+	/* Initializations */
+	dpll_dra7xx_init();
 
 	if (strcmp(argv[0], "dump") == 0)
 		ret = main_dra7xx_dump(argc - 1, argv + 1);
+	else if (strcmp(argv[0], "show") == 0)
+		ret = main_dra7xx_show(argc - 1, argv + 1);
 	else
 		ret = main_dra7xx_legacy(argc, argv);
 
@@ -185,6 +225,8 @@ main_dra7xx_err_arg:
 	ret = OMAPCONF_ERR_ARG;
 
 main_dra7xx_end:
+	/* Deinitializations */
+	dpll_dra7xx_free();
 
 	return ret;
 }
