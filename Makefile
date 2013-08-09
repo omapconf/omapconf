@@ -62,7 +62,8 @@ DEF_INC_PATH = -I. -Icommon -Ipmic -Iaudioic -Ilinux -Ii2c-tools\
 	-Iarch/arm/mach-omap/omap5/dpll\
 	-Iarch/arm/mach-omap/omap5/ctrlmod\
 	-Iarch/arm/mach-omap/dra7\
-	-Iarch/arm/mach-omap/dra7/prcm
+	-Iarch/arm/mach-omap/dra7/prcm\
+	-Iarch/arm/mach-omap/dra7/dpll
 
 
 STATIC_BUILD ?= -static
@@ -226,6 +227,8 @@ DRA7SOURCES=\
 		arch/arm/mach-omap/dra7/prcm/prm_dra7xx-defs.c\
 		arch/arm/mach-omap/dra7/prcm/cm_dra7xx.c\
 		arch/arm/mach-omap/dra7/prcm/cm_dra7xx-defs.c\
+		arch/arm/mach-omap/dra7/dpll/dpll_dra7xx.c\
+		arch/arm/mach-omap/dra7/dpll/dpll_dra7xx-data.c\
 		arch/arm/mach-omap/dra7/cpuinfo_dra7xx.c\
 		arch/arm/mach-omap/dra7/help_dra7xx.c\
 		arch/arm/mach-omap/dra7/main_dra7xx.c

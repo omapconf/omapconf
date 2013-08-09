@@ -43,6 +43,7 @@
 
 
 #include <main_dra7xx.h>
+#include <dpll_dra7xx.h>
 #include <lib.h>
 #include <help.h>
 #include <stdlib.h>
@@ -75,6 +76,7 @@
  *//*------------------------------------------------------------------------ */
 int main_dra7xx_dump(int argc, char *argv[])
 {
+	dpll_dra7xx_id dpll_id;
 	CHECK_NULL_ARG(argv, OMAPCONF_ERR_ARG);
 
 	if (argc < 1) {
@@ -85,6 +87,21 @@ int main_dra7xx_dump(int argc, char *argv[])
 			return prcm_dra7xx_dump(NULL);
 		else if (argc == 2)
 			return prcm_dra7xx_dump(argv[1]);
+		else
+			return err_arg_too_many_msg_show(HELP_PRCM);
+	} else if (strcmp(argv[0], "dpll") == 0) {
+		if (argc == 1)
+			return dpll_dra7xx_dump(stdout, DPLL_DRA7XX_ID_MAX);
+		else if (argc == 2) {
+			if (strcmp(argv[1], "all") == 0)
+				dpll_id = DPLL_DRA7XX_ID_MAX;
+			else {
+				dpll_id = dpll_dra7xx_s2id(argv[1]);
+				if (dpll_id == DPLL_DRA7XX_ID_MAX)
+					return err_arg_msg_show(HELP_DPLL);
+			}
+			return dpll_dra7xx_dump(stdout, dpll_id);
+		}
 		else
 			return err_arg_too_many_msg_show(HELP_PRCM);
 	} else {
@@ -115,6 +132,8 @@ int main_dra7xx_legacy(int argc, char *argv[])
 	} else if ((argc == 3) && (strcmp(argv[0], "prcm") == 0) &&
 		(strcmp(argv[1], "dump") == 0)) {
 		ret = prcm_dra7xx_dump(argv[2]);
+	} else if (strcmp(argv[0], "dpll") == 0) {
+		ret = dpll_dra7xx_main(argc - 1, argv + 1);
 	} else {
 		ret = err_unknown_argument_msg_show(argv[0]);
 		goto main_dra7xx_legacy_end;

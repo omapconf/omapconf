@@ -1050,5 +1050,35 @@ typedef enum {
 extern reg **cm_dra7xx_mods[CM_DRA7XX_MODS_COUNT + 1];
 extern const char *cm_dra7xx_mods_name[CM_DRA7XX_MODS_COUNT];
 
+typedef enum {
+	DPLL_DRA7XX_MPU,
+	DPLL_DRA7XX_IVA,
+	DPLL_DRA7XX_CORE,
+	DPLL_DRA7XX_PER,
+	DPLL_DRA7XX_ABE,
+	DPLL_DRA7XX_EVE,
+	DPLL_DRA7XX_DSP,
+	DPLL_DRA7XX_GMAC,
+	DPLL_DRA7XX_GPU,
+	DPLL_DRA7XX_DDR,
+	DPLL_DRA7XX_USB,
+	DPLL_DRA7XX_PCIE_REF,
+	DPLL_DRA7XX_ID_MAX = 12
+} dpll_dra7xx_id;
+
+typedef enum {
+	HSDIV_DRA7XX_H11,
+	HSDIV_DRA7XX_H12,
+	HSDIV_DRA7XX_H13,
+	HSDIV_DRA7XX_H14,
+	HSDIV_DRA7XX_H21,
+	HSDIV_DRA7XX_H22,
+	HSDIV_DRA7XX_H23,
+	HSDIV_DRA7XX_H24,
+	HSDIV_DRA7XX_ID_MAX = 8
+} hsdiv_dra7xx_id;
+
+extern const dpll_settings_regs dpll_dra7xx_regs[DPLL_DRA7XX_ID_MAX];
+extern const reg *dpll_dra7xx_hsdiv_regs[DPLL_DRA7XX_ID_MAX][HSDIV_DRA7XX_ID_MAX];
 
 #endif

@@ -1,9 +1,9 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			help_dra7xx.c
- * @Description			Help for DRA7 specific functions
- * @Author			Jin Zheng <j-zheng@ti.com>
+ * @Filename			dpll_dra7xx.h
+ * @Description			DRA7 DPLL Definitions & Functions
+ * @Author			Jin Zheng (j-zheng@ti.com)
  * @Date			2013
  * @Copyright			Texas Instruments Incorporated
  *
@@ -42,44 +42,18 @@
  */
 
 
-#include <help_dra7xx.h>
+#ifndef __DPLL_DRA7XX_H__
+#define __DPLL_DRA7XX_H__
+
+
+#include <dpll.h>
+#include <cm_dra7xx-defs.h>
 #include <stdio.h>
-#include <cpuinfo.h>
 
 
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		help_dra7xx
- * @BRIEF		display help for DRA7-specific functions
- * @param[in]		cat: help category to display
- * @DESCRIPTION		display help for DRA7-specific functions
- *//*------------------------------------------------------------------------ */
-void help_dra7xx(help_category cat, char *context)
-{
-	if (cat >= HELP_CATEGORY_MAX) {
-		fprintf(stderr, "%s(): incorrect category!!! (%u)\n",
-			__func__, cat);
-		return;
-	}
-	if (context == NULL) {
-		fprintf(stderr, "%s(): context == NULL!!!\n", __func__);
-		return;
-	}
+dpll_dra7xx_id dpll_dra7xx_s2id(char *s);
+int dpll_dra7xx_dump(FILE *stream, dpll_dra7xx_id id);
+int dpll_dra7xx_main(int argc, char *argv[]);
 
-	/* DRA7-specific commands */
-	if ((cat == HELP_ALL) || (cat == HELP_DPLL)) {
-		printf("\n\tomapconf dump dpll [<dpll>]\n");
-		printf("\t    RAW dump of <dpll> registers ('all' assumed if "
-			"omitted).\n");
-		printf("\t    Supported <dpll>: all, abe, core, ddr, dsp, eve, "
-			"gmac, gpu, iva, mpu, pcieref, per, usb.\n");
-	}
 
-	if ((cat == HELP_ALL) || (cat == HELP_PRCM)) {
-		printf("\n\tomapconf dump prcm [<pwrdm>]\n");
-		printf("\t    Dump PRCM Registers related to <pwrdm> power"
-			" domain ('all' assumed if omitted).\n");
-		printf("\t    Supported <pwrdm>: all, cam, core, coreaon, "
-			"ckgen, dev, dsp, dss, emu, eve, gpu, instr, ipu, "
-			"iva, l3init, l4per, mpu, rtc, vpe, wkupaon.\n");
-	}
-}
+#endif
