@@ -307,6 +307,7 @@ int dpll_settings_extract(unsigned int id, dpll_type type,
 	dprintf("%s(): DPLL reg: %s = 0x%08X\n", __func__,
 		(dpll_regs->cm_clksel_dpll)->name, val);
 
+	settings->bypass_clk = extract_bit(val, 23);
 	if (settings->type == DPLL_TYPE_A) {
 		(settings->MN).N = extract_bitfield(val, 0, 7);
 		(settings->MN).M = extract_bitfield(val, 8, 11);
@@ -318,7 +319,6 @@ int dpll_settings_extract(unsigned int id, dpll_type type,
 			(settings->DCC).en = 0;
 			(settings->DCC).count = 0;
 		}
-		settings->bypass_clk = extract_bit(val, 23);
 	} else {
 		(settings->MN).N = extract_bitfield(val, 0, 8);
 		(settings->MN).M = extract_bitfield(val, 8, 12);
