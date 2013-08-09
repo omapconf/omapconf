@@ -82,26 +82,26 @@ static unsigned short pmic_single_chip_flag = 1;
 
 
 static const char pmic_names[PMIC_ID_MAX + 1][PMIC_NAME_MAX_LENGTH] = {
-	"TWL6030",
-	"TWL6032",
-	"TPS62361",
-	"TWL6034",
-	"TWL6035",
-	"FIXME"};
+	[PMIC_TWL6030] = "TWL6030",
+	[PMIC_TWL6032] = "TWL6032",
+	[PMIC_TPS62361] = "TPS62361",
+	[PMIC_TWL6034] = "TWL6034",
+	[PMIC_TWL6035] = "TWL6035",
+	[PMIC_ID_MAX] = "FIXME"};
 
 
 static const char smps44xx_names[PMIC_SMPS_ID_MAX + 1][PMIC_NAME_MAX_LENGTH] = {
-	"VDD_MPU",
-	"VDD_IVA",
-	"VDD_CORE",
-	"FIXME"};
+	[PMIC_SMPS_MPU] = "VDD_MPU",
+	[PMIC_SMPS_MM] = "VDD_IVA",
+	[PMIC_SMPS_CORE] = "VDD_CORE",
+	[PMIC_SMPS_ID_MAX] = "FIXME"};
 
 
 static const char smps54xx_names[PMIC_SMPS_ID_MAX + 1][PMIC_NAME_MAX_LENGTH] = {
-	"VDD_MPU",
-	"VDD_MM",
-	"VDD_CORE",
-	"FIXME"};
+	[PMIC_SMPS_MPU] = "VDD_MPU",
+	[PMIC_SMPS_MM] = "VDD_IVA",
+	[PMIC_SMPS_CORE] = "VDD_CORE",
+	[PMIC_SMPS_ID_MAX] = "FIXME"};
 
 
 /* ------------------------------------------------------------------------*//**
