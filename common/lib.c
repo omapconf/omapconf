@@ -269,7 +269,7 @@ void chips_info_show(FILE *stream, unsigned short die_id)
 	if (pmic_eprom_revision[PMIC_SMPS_MPU] >= 0.0)
 		fprintf(stream, "(EPROM rev%1.1f)\n",
 			pmic_eprom_revision[PMIC_SMPS_MPU]);
-	else if (pmic_is_tps62361(PMIC_SMPS_MPU))
+	else if (pmic_is_tps62361(PMIC_SMPS_MPU) || pmic_is_tps659038(PMIC_SMPS_MPU))
 		fprintf(stream, "\n");
 	else
 		fprintf(stream, "(EPROM rev UNKNOWN)\n");
