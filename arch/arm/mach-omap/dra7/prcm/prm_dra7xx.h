@@ -1,9 +1,9 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			help_dra7xx.c
- * @Description			Help for DRA7 specific functions
- * @Author			Jin Zheng <j-zheng@ti.com>
+ * @Filename			prm_dra7xx.h
+ * @Description			DRA7 PRM Registers Functions
+ * @Author			Jin Zheng (j-zheng@ti.com)
  * @Date			2013
  * @Copyright			Texas Instruments Incorporated
  *
@@ -42,36 +42,17 @@
  */
 
 
-#include <help_dra7xx.h>
+#ifndef __PRM_DRA7XX_H__
+#define __PRM_DRA7XX_H__
+
+
 #include <stdio.h>
-#include <cpuinfo.h>
+#include <prm_dra7xx-defs.h>
 
 
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		help_dra7xx
- * @BRIEF		display help for DRA7-specific functions
- * @param[in]		cat: help category to display
- * @DESCRIPTION		display help for DRA7-specific functions
- *//*------------------------------------------------------------------------ */
-void help_dra7xx(help_category cat, char *context)
-{
-	if (cat >= HELP_CATEGORY_MAX) {
-		fprintf(stderr, "%s(): incorrect category!!! (%u)\n",
-			__func__, cat);
-		return;
-	}
-	if (context == NULL) {
-		fprintf(stderr, "%s(): context == NULL!!!\n", __func__);
-		return;
-	}
+const char *prm_dra7xx_mod_name_get(prm_dra7xx_mod_id id);
+int prm_dra7xx_dump(FILE *stream, prm_dra7xx_mod_id id);
+unsigned int prm_dra7xx_is_profiling_running(void);
 
-	/* DRA7-specific commands */
-	if ((cat == HELP_ALL) || (cat == HELP_PRCM)) {
-		printf("\n\tomapconf dump prcm [<pwrdm>]\n");
-		printf("\t    Dump PRCM Registers related to <pwrdm> power"
-			" domain ('all' assumed if omitted).\n");
-		printf("\t    Supported <pwrdm>: all, cam, core, coreaon, "
-			"ckgen, dev, dsp, dss, emu, eve, gpu, instr, ipu, "
-			"iva, l3init, l4per, mpu, rtc, vpe, wkupaon.\n");
-	}
-}
+
+#endif
