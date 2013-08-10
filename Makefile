@@ -269,7 +269,7 @@ PMICOBJECTS=	$(PMICSOURCES:.c=.o)
 
 
 
-AUDIOICSOURCES=	audioic/twl6040.c audioic/twl6040_lib.c
+AUDIOICSOURCES=	audioic/twl6040.c audioic/twl6040_lib.c audioic/tlv320aic3x.c
 
 AUDIOICOBJECTS=	$(AUDIOICSOURCES:.c=.o)
 

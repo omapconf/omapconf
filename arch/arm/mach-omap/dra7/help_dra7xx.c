@@ -45,6 +45,7 @@
 #include <help_dra7xx.h>
 #include <stdio.h>
 #include <cpuinfo.h>
+#include <tlv320aic3x.h>
 
 
 /* ------------------------------------------------------------------------*//**
@@ -98,5 +99,17 @@ void help_dra7xx(help_category cat, char *context)
 		printf("\t    Supported <pwrdm>: all, cam, core, coreaon, "
 			"ckgen, dev, dsp, dss, emu, eve, gpu, instr, ipu, "
 			"iva, l3init, l4per, mpu, rtc, vpe, wkupaon.\n");
+	}
+
+	if ((cat == HELP_ALL) || (cat == HELP_AUDIOIC)) {
+		printf("\n\tomapconf dump audioic\n");
+		printf("\t    Dump tlv320aic3106 (Audio IC) registers.\n");
+		printf("\t    Default audioic is in bus %u with address 0x%02x\n",
+		       TLV320AIC3X_I2C_DFLT_BUS, TLV320AIC3X_I2C_VALID_ADDR1);
+
+		printf("\n\tomapconf dump audioic 'bus' 0x'chip\n");
+		printf("\t    Dump tlv320aic3106 (Audio IC) registers:\n");
+		printf("\t    'i2cbus' is decimal value.\n");
+		printf("\t    'chip-address' is hexadecimal value.\n");
 	}
 }

@@ -53,6 +53,7 @@
 #include <string.h>
 #include <cpuinfo.h>
 #include <prcm_dra7xx.h>
+#include <audioic/tlv320aic3x.h>
 
 
 /* #define MAIN_DRA7XX_DEBUG */
@@ -105,6 +106,11 @@ int main_dra7xx_dump(int argc, char *argv[])
 		}
 		else
 			return err_arg_too_many_msg_show(HELP_PRCM);
+	} else if (strcmp(argv[0], "audioic") == 0) {
+		if (argc == 1 || argc == 3)
+			return tlv320aic3x_dumpregs(argc, argv);
+		else
+			return err_arg_too_many_msg_show(HELP_AUDIOIC);
 	} else {
 		return err_unknown_argument_msg_show(argv[0]);
 	}
@@ -137,6 +143,8 @@ int main_dra7xx_legacy(int argc, char *argv[])
 		ret = dpll_dra7xx_main(argc - 1, argv + 1);
 	} else if (strcmp(argv[0], "ctt") == 0) {
 		ret = ctt_dra7xx_main(argc - 1, argv + 1);
+	} else if (strcmp(argv[0], "audioic") == 0) {
+		ret = tlv320aic3x_main(argc - 1, argv + 1);
 	} else {
 		ret = err_unknown_argument_msg_show(argv[0]);
 		goto main_dra7xx_legacy_end;
