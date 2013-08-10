@@ -227,6 +227,7 @@ DRA7SOURCES=\
 		arch/arm/mach-omap/dra7/prcm/prm_dra7xx-defs.c\
 		arch/arm/mach-omap/dra7/prcm/cm_dra7xx.c\
 		arch/arm/mach-omap/dra7/prcm/cm_dra7xx-defs.c\
+		arch/arm/mach-omap/dra7/prcm/voltdm_dra7xx.c\
 		arch/arm/mach-omap/dra7/prcm/clock_dra7xx.c\
 		arch/arm/mach-omap/dra7/dpll/dpll_dra7xx.c\
 		arch/arm/mach-omap/dra7/dpll/dpll_dra7xx-data.c\

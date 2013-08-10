@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			voltdomain.h
- * @Description			Generic Voltage Domain Definitions & APIs
- * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2012
+ * @Filename			voltdm_dra7xx.h
+ * @Description			DRA7 Voltage Domain Definitions & APIs
+ * @Author			Jin Zheng (j-zheng@ti.com)
+ * @Date			2013
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2013 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,50 +42,48 @@
  */
 
 
-#ifndef __VOLTDOMAIN_H__
-#define __VOLTDOMAIN_H__
+#ifndef __VOLTDM_DRA7XX_H__
+#define __VOLTDM_DRA7XX_H__
 
 
+#include <lib.h>
 #include <genlist.h>
-#include <reg.h>
 
 
-#define VOLTDM_MAX_NAME_LENGTH		16
-
-#define VDD_LDO_WKUP	((const char *) "LDO_WKUP") /* OMAP4 */
-#define VDD_WKUP	((const char *) "VDD_WKUP") /* OMAP4 & OMAP5 */
-#define VDD_MPU		((const char *) "VDD_MPU") /* Common */
-#define VDD_IVA		((const char *) "VDD_IVA") /* OMAP4 & DRA7 */
-#define VDD_MM		((const char *) "VDD_MM") /* OMAP5 */
-#define VDD_CORE	((const char *) "VDD_CORE") /* Common */
-#define VDD_RTC		((const char *) "VDD_RTC") /* DRA7 */
-#define VDD_GPU		((const char *) "VDD_GPU") /* DRA7 */
-#define VDD_DSPEVE	((const char *) "VDD_DSPEVE") /* DRA7 */
+typedef enum {
+	VDD_DRA7XX_CORE,
+	VDD_DRA7XX_MPU,
+	VDD_DRA7XX_IVA,
+	VDD_DRA7XX_DSPEVE,
+	VDD_DRA7XX_GPU,
+	VDD_DRA7XX_RTC,
+	VDD_DRA7XX_ID_MAX
+} voltdm_dra7xx_id;
 
 
-typedef struct {
-	const char *name;
-	int id;
-	reg *voltst;
-} voltdm_info;
+typedef enum {
+	OPP_DRA7XX_NOM,
+	OPP_DRA7XX_OD,
+	OPP_DRA7XX_HIGH,
+	OPP_DRA7XX_ID_MAX
+} opp_dra7xx_id;
 
 
-void voltdm_init(void);
-void voltdm_deinit(void);
+void voltdm_dra7xx_init(void);
+void voltdm_dra7xx_deinit(void);
 
-const genlist *voltdm_list_get(void);
-int voltdm_count_get(void);
+const genlist *voltdm_dra7xx_list_get(void);
+int voltdm_dra7xx_count_get(void);
 
-int voltdm_s2id(const char *voltdm);
+const char *voltdm_dra7xx_name_get(voltdm_dra7xx_id id);
+opp_dra7xx_id opp_dra7xx_s2id(char *s);
+const char *voltdm_dra7xx_id2s(voltdm_dra7xx_id id);
+const char *opp_dra7xx_name_get(opp_dra7xx_id id);
 
-int voltdm_count_get(void);
-const genlist *voltdm_list_get(void);
+double voltdm_dra7xx_voltage_get(voltdm_dra7xx_id id);
+int voltdm_dra7xx_voltage_set(voltdm_dra7xx_id id, unsigned long uv);
 
-int voltdm_voltage_get(const char *voltdm);
-int voltdm_voltage_set(const char *voltdm, int uv);
-
-int voltdm_nominal_voltage_get(const char *voltdm);
-int voltdm_por_nominal_voltage_get(const char *voltdm, const char *opp);
+double voltdm_dra7xx_por_nominal_voltage_get(voltdm_dra7xx_id id, opp_dra7xx_id opp_id);
 
 
 #endif

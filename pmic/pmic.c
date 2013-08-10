@@ -54,6 +54,7 @@
 #include <help.h>
 #include <voltdm44xx.h>
 #include <voltdm54xx.h>
+#include <voltdm_dra7xx.h>
 
 
 /* #define PMIC_DEBUG */
@@ -183,6 +184,36 @@ pmic_smps_id vdd_id2smps_id(unsigned short vdd_id)
 			strncpy(smps_name, smps_name_get(smps_id), 16);
 		}
 		break;
+	case DRA_7XX:
+		strncpy(vdd_name, voltdm_dra7xx_name_get(vdd_id), 16);
+		if (vdd_id > VDD_DRA7XX_RTC) {
+			fprintf(stderr, "%s(): incorrect vdd_id! (%u)\n",
+				__func__, vdd_id);
+			smps_id =  PMIC_SMPS_ID_MAX;
+			strncpy(smps_name, "FIXME", 16);
+		} else {
+			switch (vdd_id) {
+			case VDD_DRA7XX_MPU:
+				smps_id = PMIC_SMPS_MPU;
+				break;
+			case VDD_DRA7XX_CORE:
+				smps_id = PMIC_SMPS_CORE;
+				break;
+			case VDD_DRA7XX_IVA:
+				smps_id = PMIC_SMPS_MM;
+				break;
+			case VDD_DRA7XX_DSPEVE:
+				smps_id = PMIC_SMPS_DSPEVE;
+				break;
+			case VDD_DRA7XX_GPU:
+				smps_id = PMIC_SMPS_GPU;
+				break;
+			default:
+				smps_id = PMIC_SMPS_ID_MAX;
+			}
+			strncpy(smps_name, smps_name_get(smps_id), 16);
+		}
+		break;
 
 	default:
 		fprintf(stderr, "%s(): unsupported CPU! (%s)\n",
@@ -237,6 +268,36 @@ unsigned short smps_id2vdd_id(pmic_smps_id smps_id)
 
 		} else {
 			vdd_id = smps_id + 1;
+			strncpy(name, voltdm54xx_name_get(vdd_id), 16);
+		}
+		break;
+	case DRA_7XX:
+		if (smps_id > PMIC_SMPS_ID_MAX) {
+			fprintf(stderr, "%s(): incorrect smps_id! (%u)\n",
+				__func__, smps_id);
+			vdd_id =  (unsigned short) VDD_DRA7XX_ID_MAX;
+			strncpy(name, "FIXME", 16);
+
+		} else {
+			switch (smps_id) {
+			case PMIC_SMPS_MPU:
+				vdd_id = VDD_DRA7XX_MPU;
+				break;
+			case PMIC_SMPS_CORE:
+				vdd_id = VDD_DRA7XX_CORE;
+				break;
+			case PMIC_SMPS_MM:
+				vdd_id = VDD_DRA7XX_IVA;
+				break;
+			case PMIC_SMPS_DSPEVE:
+				vdd_id = VDD_DRA7XX_DSPEVE;
+				break;
+			case PMIC_SMPS_GPU:
+				vdd_id = VDD_DRA7XX_GPU;
+				break;
+			default:
+				vdd_id = VDD_DRA7XX_ID_MAX;
+			}
 			strncpy(name, voltdm54xx_name_get(vdd_id), 16);
 		}
 		break;
