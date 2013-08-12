@@ -101,6 +101,15 @@ void help_dra7xx(help_category cat, char *context)
 			"iva, l3init, l4per, mpu, rtc, vpe, wkupaon.\n");
 	}
 
+	if ((cat == HELP_ALL) || (cat == HELP_TEMPERATURE)) {
+		printf("\n\tomapconf show temp [<sensor>]\n");
+		printf("\t    Print temperature reported by thermal driver, in celcius degrees.\n");
+		printf("\t    Supported <sensor>: mpu, gpu, core, dspeve, iva,  all.\n");
+		printf("\t    If <sensor> is omitted or <sensor> = all, all"
+			"available sensors will be printed in a table, with both"
+			"celcius and fahrenheit degrees.\n");
+	}
+
 	if ((cat == HELP_ALL) || (cat == HELP_HWTEMPERATURE)) {
 		printf("\n\tomapconf show hwtemp [<sensor>]\n");
 		printf("\t    Print temperature reported by <sensor>, in celcius degrees.\n");

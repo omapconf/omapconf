@@ -45,6 +45,7 @@
 #include <temperature.h>
 #include <temp54xx.h>
 #include <hwtemp54xx.h>
+#include <temp_dra7xx.h>
 #include <hwtemp_dra7xx.h>
 #include <temperature44xx.h>
 #include <cpuinfo.h>
@@ -204,6 +205,27 @@ const char *temp_sensor_voltdm2sensor(const char *voltdm)
 			break;
 		case VDD54XX_CORE:
 			sensor = TEMP_SENSOR_CORE;
+			break;
+		default:
+			sensor = NULL;
+
+		}
+	} else if (cpu_is_dra7xx()) {
+		switch (vdd_id) {
+		case VDD_DRA7XX_MPU:
+			sensor = TEMP_SENSOR_MPU;
+			break;
+		case VDD_DRA7XX_GPU:
+			sensor = TEMP_SENSOR_GPU;
+			break;
+		case VDD_DRA7XX_CORE:
+			sensor = TEMP_SENSOR_CORE;
+			break;
+		case VDD_DRA7XX_IVA:
+			sensor = TEMP_SENSOR_IVA;
+			break;
+		case VDD_DRA7XX_DSPEVE:
+			sensor = TEMP_SENSOR_DSPEVE;
 			break;
 		default:
 			sensor = NULL;
@@ -479,6 +501,8 @@ int temp_sensor_get(const char *sensor)
 		temp = temp44xx_get(id);
 	} else if (cpu_is_omap54xx()) {
 		temp = temp54xx_get(id);
+	} else if (cpu_is_dra7xx()) {
+		temp = temp_dra7xx_get(id);
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);

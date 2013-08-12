@@ -235,6 +235,7 @@ DRA7SOURCES=\
 		arch/arm/mach-omap/dra7/dpll/dpll_dra7xx-data.c\
 		arch/arm/mach-omap/dra7/ctrlmod/ctrlmod_core_dra7xx-defs.c\
 		arch/arm/mach-omap/dra7/hwtemp_dra7xx.c\
+		arch/arm/mach-omap/dra7/temp_dra7xx.c\
 		arch/arm/mach-omap/dra7/cpuinfo_dra7xx.c\
 		arch/arm/mach-omap/dra7/help_dra7xx.c\
 		arch/arm/mach-omap/dra7/ctt_dra7xx.c\
