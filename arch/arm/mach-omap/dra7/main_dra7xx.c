@@ -54,6 +54,7 @@
 #include <cpuinfo.h>
 #include <prcm_dra7xx.h>
 #include <temperature.h>
+#include <opp.h>
 #include <audioic/tlv320aic3x.h>
 
 
@@ -215,6 +216,11 @@ int main_dra7xx_show(int argc, char *argv[])
 		} else {
 			return err_arg_too_many_msg_show(HELP_DPLL);
 		}
+	} else if (strcmp(argv[0], "opp") == 0) {
+		if (argc == 1)
+			return opp_show(stdout);
+		else
+			return err_arg_too_many_msg_show(HELP_SOC_OPP);
 	} else {
 		return err_unknown_argument_msg_show(argv[0]);
 	}

@@ -709,6 +709,11 @@ mod_module_mode module_mode_get(const char *mod)
 
 	CHECK_NULL_ARG(mod, MOD_MODULE_MODE_MAX);
 
+	if (cpu_is_omap44xx()) {
+		mod44xx_get_mode(mod44xx_get_id(mod), &mmode);
+		return mmode;
+	}
+
 	ret = _module_info_get(mod, &data);
 	if (ret != 0) {
 		dprintf("%s(%s): could not retrieve mod_info struct!\n",

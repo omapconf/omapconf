@@ -119,6 +119,13 @@ void help_dra7xx(help_category cat, char *context)
 			"celcius and fahrenheit degrees.\n");
 	}
 
+	if ((cat == HELP_ALL) || (cat == HELP_SOC_OPP)) {
+		printf("\n\tomapconf show opp\n");
+		printf("\t    Print DRA7 current OPerating Points (OPP) "
+			"(voltage, frequency) for MPU/IVA/GPU/DSPEVE/CORE voltage "
+			"domains), including main modules frequencies.\n");
+	}
+
 	if ((cat == HELP_ALL) || (cat == HELP_AUDIOIC)) {
 		printf("\n\tomapconf dump audioic\n");
 		printf("\t    Dump tlv320aic3106 (Audio IC) registers.\n");
