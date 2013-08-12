@@ -45,6 +45,7 @@
 #include <temperature.h>
 #include <temp54xx.h>
 #include <hwtemp54xx.h>
+#include <hwtemp_dra7xx.h>
 #include <temperature44xx.h>
 #include <cpuinfo.h>
 #include <lib.h>
@@ -122,6 +123,17 @@ void temp_sensor_init(void)
 			genlist_addtail(&temp_sensor_list,
 				(void *) TEMP_SENSOR_CHARGER,
 				(1 + strlen(TEMP_SENSOR_CHARGER)) * sizeof(char));
+		} else if (cpu_is_dra7xx()) {
+			genlist_addtail(&temp_sensor_list, (void *) TEMP_SENSOR_MPU,
+				(1 + strlen(TEMP_SENSOR_MPU)) * sizeof(char));
+			genlist_addtail(&temp_sensor_list, (void *) TEMP_SENSOR_GPU,
+				(1 + strlen(TEMP_SENSOR_GPU)) * sizeof(char));
+			genlist_addtail(&temp_sensor_list, (void *) TEMP_SENSOR_CORE,
+				(1 + strlen(TEMP_SENSOR_CORE)) * sizeof(char));
+			genlist_addtail(&temp_sensor_list, (void *) TEMP_SENSOR_IVA,
+				(1 + strlen(TEMP_SENSOR_IVA)) * sizeof(char));
+			genlist_addtail(&temp_sensor_list, (void *) TEMP_SENSOR_DSPEVE,
+				(1 + strlen(TEMP_SENSOR_DSPEVE)) * sizeof(char));
 		} else {
 			fprintf(stderr,
 				"omapconf: %s(): cpu not supported!!!\n",
@@ -225,6 +237,8 @@ int temp_sensor_count_get(void)
 		count = genlist_getcount(&temp_sensor_list);
 	} else if (cpu_is_omap54xx()) {
 		count = genlist_getcount(&temp_sensor_list);
+	} else if (cpu_is_dra7xx()) {
+		count = genlist_getcount(&temp_sensor_list);
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -250,6 +264,8 @@ const genlist *temp_sensor_list_get(void)
 	if (cpu_is_omap44xx()) {
 		return (const genlist *) &temp_sensor_list;
 	} else if (cpu_is_omap54xx()) {
+		return (const genlist *) &temp_sensor_list;
+	} else if (cpu_is_dra7xx()) {
 		return (const genlist *) &temp_sensor_list;
 	} else {
 		fprintf(stderr,
@@ -313,6 +329,19 @@ int temp_sensor_s2id(const char *sensor)
 			id = (int) TEMP54XX_CHARGER;
 		else
 			id = OMAPCONF_ERR_ARG;
+	} else if (cpu_is_dra7xx()) {
+		if (strcasecmp(sensor, TEMP_SENSOR_MPU) == 0)
+			id = (int) HWTEMP_DRA7XX_MPU;
+		else if (strcasecmp(sensor, TEMP_SENSOR_GPU) == 0)
+			id = (int) HWTEMP_DRA7XX_GPU;
+		else if (strcasecmp(sensor, TEMP_SENSOR_CORE) == 0)
+			id = (int) HWTEMP_DRA7XX_CORE;
+		else if (strcasecmp(sensor, TEMP_SENSOR_IVA) == 0)
+			id = (int) HWTEMP_DRA7XX_IVA;
+		else if (strcasecmp(sensor, TEMP_SENSOR_DSPEVE) == 0)
+			id = (int) HWTEMP_DRA7XX_DSPEVE;
+		else
+			id = OMAPCONF_ERR_ARG;
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -349,6 +378,19 @@ int hwtemp_sensor_s2id(const char *sensor)
 			id = (int) HWTEMP54XX_GPU;
 		else if (strcasecmp(sensor, TEMP_SENSOR_CORE) == 0)
 			id = (int) HWTEMP54XX_CORE;
+		else
+			id = OMAPCONF_ERR_ARG;
+	} else if (cpu_is_dra7xx()) {
+		if (strcasecmp(sensor, TEMP_SENSOR_MPU) == 0)
+			id = (int) HWTEMP_DRA7XX_MPU;
+		else if (strcasecmp(sensor, TEMP_SENSOR_GPU) == 0)
+			id = (int) HWTEMP_DRA7XX_GPU;
+		else if (strcasecmp(sensor, TEMP_SENSOR_CORE) == 0)
+			id = (int) HWTEMP_DRA7XX_CORE;
+		else if (strcasecmp(sensor, TEMP_SENSOR_IVA) == 0)
+			id = (int) HWTEMP_DRA7XX_IVA;
+		else if (strcasecmp(sensor, TEMP_SENSOR_DSPEVE) == 0)
+			id = (int) HWTEMP_DRA7XX_DSPEVE;
 		else
 			id = OMAPCONF_ERR_ARG;
 	} else {
@@ -468,6 +510,8 @@ int hwtemp_sensor_get(const char *sensor)
 		temp = TEMP_ABSOLUTE_ZERO;
 	} else if (cpu_is_omap54xx()) {
 		temp = hwtemp54xx_get(id);
+	} else if (cpu_is_dra7xx()) {
+		temp = hwtemp_dra7xx_get(id);
 	} else {
 		fprintf(stderr, "omapconf: %s(): cpu not supported!!!\n", __func__);
 		temp = TEMP_ABSOLUTE_ZERO;
@@ -512,7 +556,10 @@ static int _temp_sensor_show(FILE *stream, const char *sensor, const char hw)
 				sensor);
 			return OMAPCONF_ERR_NOT_AVAILABLE;
 		}
-		temp = temp_sensor_get(sensor);
+		if (hw)
+			temp = hwtemp_sensor_get(sensor);
+		else
+			temp = temp_sensor_get(sensor);
 		if (temp == TEMP_ABSOLUTE_ZERO) {
 			fprintf(stderr,
 				"omapconf: could not retrieve '%s' temperature!\n",

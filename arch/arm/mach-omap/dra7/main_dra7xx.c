@@ -53,6 +53,7 @@
 #include <string.h>
 #include <cpuinfo.h>
 #include <prcm_dra7xx.h>
+#include <temperature.h>
 #include <audioic/tlv320aic3x.h>
 
 
@@ -177,6 +178,19 @@ int main_dra7xx_show(int argc, char *argv[])
 	if (argc < 1) {
 		help(HELP_USAGE);
 		return OMAPCONF_ERR_ARG;
+	} else if (strcmp(argv[0], "hwtemp") == 0) {
+		if (argc == 1) {
+			return hwtemp_sensor_show(stdout, "all");
+		} else if (argc == 2) {
+			if (strcmp(argv[1], "all") == 0)
+				return hwtemp_sensor_show(stdout, argv[1]);
+			else if (hwtemp_sensor_is_available(argv[1]) != 0)
+				return hwtemp_sensor_show(stdout, argv[1]);
+			else
+				return err_arg_msg_show(HELP_HWTEMPERATURE);
+		} else {
+			return err_arg_too_many_msg_show(HELP_HWTEMPERATURE);
+		}
 	} else if (strcmp(argv[0], "dpll") == 0) {
 		if (argc == 1) {
 			return dpll_dra7xx_show(stdout);
