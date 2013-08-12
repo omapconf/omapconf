@@ -946,6 +946,106 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 		return out_clk_speed;
 	/* END of DPLL BYPASS INPUT CLKS */
 
+	/* COREAON CLKDM Clocks */
+	case CLK_DRA7XX_FUNC_24M_CLK:
+	case CLK_DRA7XX_FUNC_24M_GFCLK:
+	case CLK_DRA7XX_CAM_L3_GICLK:
+	case CLK_DRA7XX_C2C_L3_GICLK:
+	case CLK_DRA7XX_DMA_L3_GICLK:
+	case CLK_DRA7XX_L3MAIN2_L3_GICLK:
+	case CLK_DRA7XX_MIPIEXT_L3_GICLK:
+	case CLK_DRA7XX_L3INIT_L3_GICLK:
+		out_clk_speed = 0;
+		return out_clk_speed;
+
+	case CLK_DRA7XX_L4_ICLK:
+		src_clk_id = CLK_DRA7XX_L4_ROOT_CLK;
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
+			ignore);
+		out_clk_speed = src_clk_speed;
+		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
+			out_clk_speed);
+		return out_clk_speed;
+
+	case CLK_DRA7XX_L4PER_L4_GICLK:
+	case CLK_DRA7XX_L4SEC_L4_GICLK:
+	case CLK_DRA7XX_C2C_L4_GICLK:
+	case CLK_DRA7XX_L4CFG_L4_GICLK:
+	case CLK_DRA7XX_MIPIEXT_L4_GICLK:
+	case CLK_DRA7XX_L3INIT_L4_GICLK:
+	case CLK_DRA7XX_CM_CORE_AON_PROFILING_L4_GICLK:
+		src_clk_id = CLK_DRA7XX_L4_ICLK;
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
+		out_clk_speed = src_clk_speed;
+		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
+			out_clk_speed);
+		return out_clk_speed;
+
+	case CLK_DRA7XX_CORE_CLK:
+		src_clk_id = CLK_DRA7XX_CORE_X2_CLK;
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
+		out_clk_speed = src_clk_speed;
+		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
+			out_clk_speed);
+		return out_clk_speed;
+
+	case CLK_DRA7XX_L3_ICLK:
+		src_clk_id = CLK_DRA7XX_CORE_CLK;
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
+		reg_val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_core);
+		div = (double) (1 << extract_bit(reg_val, 4));
+		out_clk_speed = src_clk_speed / div;
+		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
+			out_clk_speed);
+		return out_clk_speed;
+
+	case CLK_DRA7XX_EMIF_L3_GICLK:
+	case CLK_DRA7XX_L4SEC_L3_GICLK:
+	case CLK_DRA7XX_L3INSTR_L3_GICLK:
+	case CLK_DRA7XX_L3MAIN1_L3_GICLK:
+	case CLK_DRA7XX_DSS_L3_GICLK:
+	case CLK_DRA7XX_CM_CORE_AON_PROFILING_L3_GICLK:
+	case CLK_DRA7XX_L4_ROOT_CLK:
+		src_clk_id = CLK_DRA7XX_L3_ICLK;
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
+		out_clk_speed = src_clk_speed;
+		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
+			out_clk_speed);
+		return out_clk_speed;
+
+	/* Others */
+	case CLK_DRA7XX_IPU1_GFCLK:
+		reg_val = reg_read(&dra7xx_ipu_cm_core_aon_cm_ipu1_ipu1_clkctrl);
+		if (extract_bit(reg_val, 24) == 0)
+			src_clk_id = CLK_DRA7XX_DPLL_ABE_X2_FCLK;
+		else
+			src_clk_id = CLK_DRA7XX_CORE_IPU_ISS_BOOST_CLK;
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
+		out_clk_speed = src_clk_speed;
+		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
+			out_clk_speed);
+		return out_clk_speed;
+
+	case CLK_DRA7XX_IPU2_GFCLK:
+		src_clk_id = CLK_DRA7XX_CORE_IPU_ISS_BOOST_CLK;
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
+		out_clk_speed = src_clk_speed;
+		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
+			out_clk_speed);
+		return out_clk_speed;
+
+	case CLK_DRA7XX_EVE_CLK:
+		reg_val = reg_read(&dra7xx_ckgen_prm_cm_clksel_eve_clk);
+		if (extract_bit(reg_val, 0) == 0)
+			src_clk_id = CLK_DRA7XX_EVE_GFCLK;
+		else
+			src_clk_id = CLK_DRA7XX_EVE_GCLK;
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
+		out_clk_speed = src_clk_speed;
+		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
+			out_clk_speed);
+		return out_clk_speed;
+
 	case CLK_DRA7XX_ID_MAX:
 		out_clk_speed = 0;
 		DPRINT_CLK_SPEED1(clk_id, out_clk_speed);
