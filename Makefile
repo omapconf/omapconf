@@ -204,6 +204,7 @@ OMAP5SOURCES=\
 		arch/arm/mach-omap/omap5/audit54xx.c\
 		arch/arm/mach-omap/omap5/lib54xx.c\
 		arch/arm/mach-omap/omap5/temp54xx.c\
+		arch/arm/mach-omap/omap5/hwtemp54xx.c\
 		arch/arm/mach-omap/omap5/sysconfig54xx-defs.c\
 		arch/arm/mach-omap/omap5/hwobs54xx.c\
 		arch/arm/mach-omap/omap5/emif54xxes1-defs.c\
@@ -231,6 +232,7 @@ SOURCES=\
                 common/trace.c\
                 common/opp.c\
                 common/temperature.c\
+                common/hwtemp.c\
 		pmic/pmic.c
 
 OBJECTS=	$(SOURCES:.c=.o)

@@ -43,6 +43,8 @@
 
 
 #include <temp54xx.h>
+#include <hwtemp54xx.h>
+#include <ctrlmod_core54xx-defs.h>
 #include <cpuinfo.h>
 #include <lib.h>
 #include <autoadjust_table.h>

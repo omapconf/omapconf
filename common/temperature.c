@@ -44,6 +44,7 @@
 
 #include <temperature.h>
 #include <temp54xx.h>
+#include <hwtemp54xx.h>
 #include <temperature44xx.h>
 #include <cpuinfo.h>
 #include <lib.h>
@@ -324,6 +325,43 @@ int temp_sensor_s2id(const char *sensor)
 
 
 /* ------------------------------------------------------------------------*//**
+ * @FUNCTION		hwtemp_sensor_s2id
+ * @BRIEF		convert generic temperature sensor name (string)
+ *			into platform-specific ID (integer).
+ * @RETURNS		>= 0 platform-specific ID
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ * @param[in]		sensor: generic temperature sensor name
+ * @DESCRIPTION		convert generic temperature sensor name (string)
+ *			into platform-specific ID (integer).
+ *			To be used when calling architecture-specific functions.
+ *//*------------------------------------------------------------------------ */
+int hwtemp_sensor_s2id(const char *sensor)
+{
+	int id;
+
+	CHECK_NULL_ARG(sensor, OMAPCONF_ERR_ARG);
+
+	if (cpu_is_omap54xx()) {
+		if (strcasecmp(sensor, TEMP_SENSOR_MPU) == 0)
+			id = (int) HWTEMP54XX_MPU;
+		else if (strcasecmp(sensor, TEMP_SENSOR_GPU) == 0)
+			id = (int) HWTEMP54XX_GPU;
+		else if (strcasecmp(sensor, TEMP_SENSOR_CORE) == 0)
+			id = (int) HWTEMP54XX_CORE;
+		else
+			id = OMAPCONF_ERR_ARG;
+	} else {
+		fprintf(stderr, "omapconf: %s(): cpu not supported!!!\n", __func__);
+		id = OMAPCONF_ERR_CPU;
+	}
+
+	dprintf("%s(%s) = %d\n", __func__, sensor, id);
+	return id;
+}
+
+
+/* ------------------------------------------------------------------------*//**
  * @FUNCTION		temp_sensor_is_available
  * @BRIEF		check if temperature sensor is available.
  * @RETURNS		1 if temperature sensor is available
@@ -343,6 +381,34 @@ int temp_sensor_is_available(const char *sensor)
 		dprintf("%s(): %s is available.\n", __func__, sensor);
 		return 1;
 	} else {
+		dprintf("%s(): %s is NOT available.\n", __func__, sensor);
+		return 0;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		hwtemp_sensor_is_available
+ * @BRIEF		check if temperature sensor is available.
+ * @RETURNS		1 if temperature sensor is available
+ *			0 if temperature sensor is NOT available
+ * @param[in]		sensor: generic temperature sensor name
+ * @DESCRIPTION		check if temperature sensor is available
+ *			(platform-dependent).
+ *//*------------------------------------------------------------------------ */
+int hwtemp_sensor_is_available(const char *sensor)
+{
+	int id;
+
+	CHECK_NULL_ARG(sensor, 0);
+	id = hwtemp_sensor_s2id(sensor);
+	if (id >= 0)
+	{
+		dprintf("%s(): %s is available.\n", __func__, sensor);
+		return 1;
+	}
+	else
+	{
 		dprintf("%s(): %s is NOT available.\n", __func__, sensor);
 		return 0;
 	}
@@ -383,6 +449,36 @@ int temp_sensor_get(const char *sensor)
 
 
 /* ------------------------------------------------------------------------*//**
+ * @FUNCTION		hwtemp_sensor_get
+ * @BRIEF		return temperature measured by temperature sensor hw registers.
+ * @RETURNS		temperature measured by temperature sensor (Celcius)
+ *			TEMP_ABSOLUTE_ZERO in case of error
+ * @param[in]		sensor: generic temperature sensor name
+ * @DESCRIPTION		return temperature measured by temperature sensor
+ *			in Celcius degrees.
+ *//*------------------------------------------------------------------------ */
+int hwtemp_sensor_get(const char *sensor)
+{
+	int id, temp;
+
+	CHECK_NULL_ARG(sensor, TEMP_ABSOLUTE_ZERO);
+
+	id = hwtemp_sensor_s2id(sensor);
+	if (id < 0) {
+		temp = TEMP_ABSOLUTE_ZERO;
+	} else if (cpu_is_omap54xx()) {
+		temp = hwtemp54xx_get(id);
+	} else {
+		fprintf(stderr, "omapconf: %s(): cpu not supported!!!\n", __func__);
+		temp = TEMP_ABSOLUTE_ZERO;
+	}
+
+	dprintf("%s(%s) = %d\n", __func__, sensor, temp);
+	return temp;
+}
+
+
+/* ------------------------------------------------------------------------*//**
  * @FUNCTION		temp_sensor_show
  * @BRIEF		display all available temperatures formatted in a table.
  * @RETURNS		temperatures formatted in a table
@@ -393,10 +489,11 @@ int temp_sensor_get(const char *sensor)
  * @param[in,out]	stream: output file
  * @param[in,out]	sensor: generic temperature sensor name
  *				Use "all" to show all temperatures
+ * @param[in]		hw: use s/w (driver based) read or hw_sensor read?
  * @DESCRIPTION		display all available temperatures formatted in a table.
  *			Display both Celcius and Fahrenheit degrees.
  *//*------------------------------------------------------------------------ */
-int temp_sensor_show(FILE *stream, const char *sensor)
+static int _temp_sensor_show(FILE *stream, const char *sensor, const char hw)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row = 0;
@@ -465,7 +562,10 @@ int temp_sensor_show(FILE *stream, const char *sensor)
 		}
 		autoadjust_table_strncpy(table, row, 0, (char *) sensor2);
 		dprintf("%s(): sensor is %s\n", __func__, sensor2);
-		temp = temp_sensor_get(sensor2);
+		if (hw)
+			temp = hwtemp_sensor_get(sensor2);
+		else
+			temp = temp_sensor_get(sensor2);
 		if (temp != TEMP_ABSOLUTE_ZERO) {
 			if ((strcasecmp(sensor2, TEMP_SENSOR_MEM1) == 0) ||
 				(strcasecmp(sensor2, TEMP_SENSOR_MEM2) == 0)) {
@@ -494,4 +594,16 @@ int temp_sensor_show(FILE *stream, const char *sensor)
 
 	/* Display table */
 	return autoadjust_table_fprint(stream, table, row, 3);
+}
+
+
+int temp_sensor_show(FILE *stream, const char *sensor)
+{
+	return _temp_sensor_show(stream, sensor, 0);
+}
+
+
+int hwtemp_sensor_show(FILE *stream, const char *sensor)
+{
+	return _temp_sensor_show(stream, sensor, 1);
 }

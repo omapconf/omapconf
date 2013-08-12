@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			help.h
- * @Description			Help Library for OMAPCONF
- * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2006
+ * @Filename			hwtemp.h
+ * @Description			Reads Temperature Sensors Registers
+ * @Author			José Peña <pena@ti.com>
+ * @Date			2013
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2006 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2013 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,53 +42,13 @@
  */
 
 
-#ifndef __OMAPCONF_HELP_H__
-#define __OMAPCONF_HELP_H__
+#ifndef __HWTEMP_H__
+#define __HWTEMP_H__
 
+#include <reg.h>
 
-typedef enum {
-	HELP_RW,
-	HELP_I2C_RW,
-	HELP_SOC_PWST,
-	HELP_SOC_OPP,
-	HELP_VOLT,
-	HELP_DPLL,
-	HELP_PRCM,
-	HELP_SR,
-	HELP_MPUSS,
-	HELP_EMIF,
-	HELP_WKDEP,
-	HELP_AVS,
-	HELP_ABB,
-	HELP_HWOBS,
-	HELP_TEMPERATURE,
-	HELP_HWTEMPERATURE,
-	HELP_AUDIT,
-	HELP_TRACE,
-	HELP_COUNTERS,
-	HELP_FORCEDETECT,
-	HELP_AUDIOIC,
-	HELP_DISPLAY,
-	HELP_CAMERA,
-	HELP_STATDEP,
-	HELP_PMIC,
-	HELP_ABE,
-	HELP_EXPORT,
-	HELP_CTRLMOD,
-	HELP_TIMERS_32K,
-	HELP_ALL,
-	HELP_USAGE,
-	HELP_CATEGORY_MAX,
-} help_category;
-
-
-int err_arg_too_many_msg_show(help_category cat);
-int err_arg_missing_msg_show(help_category cat);
-int err_arg_msg_show(help_category cat);
-int err_internal_msg_show(void);
-int err_unknown_argument_msg_show(char *s);
-
-void help(help_category cat);
-
+int hwtemp_get(reg *temp_register, unsigned int mask, unsigned int shift,
+	       unsigned int start_val, const short int *conv_table,
+	       unsigned int sizeof_conv_table);
 
 #endif

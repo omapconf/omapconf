@@ -82,10 +82,14 @@ const genlist *temp_sensor_list_get(void);
 
 const char *temp_sensor_voltdm2sensor(const char *voltdm);
 int temp_sensor_s2id(const char *sensor);
+int hwtemp_sensor_s2id(const char *sensor);
 
 int temp_sensor_is_available(const char *sensor);
+int hwtemp_sensor_is_available(const char *sensor);
 int temp_sensor_get(const char *sensor);
+int hwtemp_sensor_get(const char *sensor);
 int temp_sensor_show(FILE *stream, const char *sensor);
+int hwtemp_sensor_show(FILE *stream, const char *sensor);
 
 
 #endif
