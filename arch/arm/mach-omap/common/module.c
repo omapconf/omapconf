@@ -1114,7 +1114,7 @@ int module_clk_get(const char *mod)
 		clk_id = data.clk;
 	}
 
-	dprintf("%s(%s)=%d KHz\n", __func__, mod, clk_id);
+	dprintf("%s(%s) clock ID is: %d\n", __func__, mod, clk_id);
 	return clk_id;
 }
 
