@@ -77,6 +77,7 @@
 /* OMAP5 OPP */
 #define OPP_LOW			((const char *) "LOW")
 #define OPP_NOM			((const char *) "NOM")
+#define OPP_OD			((const char *) "OVERDRIVE")
 #define OPP_HIGH		((const char *) "HIGH")
 #define OPP_SB			((const char *) "SPEEDBIN")
 
