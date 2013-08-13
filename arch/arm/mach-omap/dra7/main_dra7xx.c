@@ -55,6 +55,7 @@
 #include <prcm_dra7xx.h>
 #include <temperature.h>
 #include <opp.h>
+#include <audit_dra7xx.h>
 #include <audioic/tlv320aic3x.h>
 
 
@@ -228,6 +229,167 @@ int main_dra7xx_show(int argc, char *argv[])
 
 
 /* ------------------------------------------------------------------------*//**
+ * @FUNCTION		main_dra7xx_dpll_audit
+ * @BRIEF		analyze command-line arguments & call DPLL audit with
+ *			selected options
+ * @RETURNS		0 on success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_INTERNAL
+ *			OMAPCONF_ERR_NOT_AVAILABLE
+ * @param[in]		argc: shell input argument number
+ * @param[in]		argv: shell input argument(s)
+ * @DESCRIPTION		analyze command-line arguments & call DPLL audit with
+ *			selected options
+ *//*------------------------------------------------------------------------ */
+int main_dra7xx_dpll_audit(int argc, char *argv[])
+{
+	int ret = 0;
+	dpll_dra7xx_id dpll_id;
+	opp_dra7xx_id opp_id;
+	unsigned int err_nbr, wng_nbr;
+	unsigned short pos_opp_id, pos_dpll_id, curr_opp;
+
+	CHECK_NULL_ARG(argv, OMAPCONF_ERR_ARG);
+
+	/* Retrieve user options */
+	dprintf("%s(): argc=%u\n", __func__, argc);
+	#ifdef MAIN_DRA7XX_DEBUG
+	for (curr_opp = 0; curr_opp < argc; curr_opp++) {
+		dprintf("%s(): argv[%u]=%s\n", __func__,
+			curr_opp, argv[curr_opp]);
+	}
+	#endif
+
+	if (argc == 0) {
+		/* Audit all DPLLs at current OPP by default */
+		dpll_id = DPLL_DRA7XX_ID_MAX;
+		opp_id = OPP_DRA7XX_ID_MAX;
+		curr_opp = 1;
+		goto main_dra7xx_dpll_audit_run;
+	} else if (argc == 2) {
+		if (strcmp(argv[0], "-d") == 0) {
+			opp_id = OPP_DRA7XX_ID_MAX;
+			curr_opp = 1;
+			dpll_id = dpll_dra7xx_s2id(argv[1]);
+			if (dpll_id == DPLL_DRA7XX_ID_MAX) {
+				if (strcmp(argv[1], "all") == 0)
+					dpll_id = DPLL_DRA7XX_ID_MAX;
+				else
+					goto main_dra7xx_dpll_audit_err_arg;
+			}
+			goto main_dra7xx_dpll_audit_run;
+		} else if (strcmp(argv[0], "-o") == 0) {
+			dpll_id = DPLL_DRA7XX_ID_MAX;
+			curr_opp = 1;
+			opp_id = opp_dra7xx_s2id(argv[1]);
+			if (opp_id == OPP_DRA7XX_ID_MAX) {
+				if (strcmp(argv[1], "all") == 0) {
+					opp_id = OPP_DRA7XX_ID_MAX;
+					curr_opp = 0;
+				} else {
+					goto main_dra7xx_dpll_audit_err_arg;
+				}
+			}
+			goto main_dra7xx_dpll_audit_run;
+		} else {
+			goto main_dra7xx_dpll_audit_err_arg;
+		}
+	} else if (argc == 4) {
+		curr_opp = 1;
+		if (strcmp(argv[0], "-d") == 0)
+			pos_dpll_id = 1;
+		else if (strcmp(argv[2], "-d") == 0)
+			pos_dpll_id = 3;
+		else
+			goto main_dra7xx_dpll_audit_err_arg;
+		dpll_id = dpll_dra7xx_s2id(argv[pos_dpll_id]);
+		if (dpll_id == DPLL_DRA7XX_ID_MAX) {
+			if (strcmp(argv[pos_dpll_id], "all") == 0)
+				dpll_id = DPLL_DRA7XX_ID_MAX;
+			else
+				goto main_dra7xx_dpll_audit_err_arg;
+		}
+
+		if (strcmp(argv[0], "-o") == 0)
+			pos_opp_id = 1;
+		else if (strcmp(argv[2], "-o") == 0)
+			pos_opp_id = 3;
+		else
+			goto main_dra7xx_dpll_audit_err_arg;
+		opp_id = opp_dra7xx_s2id(argv[pos_opp_id]);
+		if (opp_id == OPP_DRA7XX_ID_MAX) {
+			if (strcmp(argv[pos_opp_id], "all") == 0) {
+				opp_id = OPP_DRA7XX_ID_MAX;
+				curr_opp = 0;
+			} else {
+				goto main_dra7xx_dpll_audit_err_arg;
+			}
+		}
+		goto main_dra7xx_dpll_audit_run;
+	} else {
+		goto main_dra7xx_dpll_audit_err_arg;
+	}
+
+main_dra7xx_dpll_audit_run:
+	dprintf("%s(): dpll_id=%s, opp_id=%s curr_opp=%u\n", __func__,
+		dpll_dra7xx_name_get(dpll_id),
+		opp_dra7xx_name_get(opp_id), curr_opp);
+
+	ret = audit_dra7xx_dpll(stdout, dpll_id, opp_id, curr_opp,
+		&err_nbr, &wng_nbr);
+
+	goto main_dra7xx_dpll_audit_end;
+
+main_dra7xx_dpll_audit_err_arg:
+	help(HELP_AUDIT);
+	ret = OMAPCONF_ERR_ARG;
+
+main_dra7xx_dpll_audit_end:
+	return ret;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		main_dra7xx_audit
+ * @BRIEF		analyze command-line arguments & select relevant
+ *			audit function
+ *			to call
+ * @RETURNS		0 on success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_INTERNAL
+ *			OMAPCONF_ERR_NOT_AVAILABLE
+ * @param[in]		argc: shell input argument number
+ * @param[in]		argv: shell input argument(s)
+ * @DESCRIPTION		analyze command-line arguments & select relevant
+ *			audit function to call
+ *//*------------------------------------------------------------------------ */
+int main_dra7xx_audit(int argc, char *argv[])
+{
+	int ret = 0;
+
+	CHECK_NULL_ARG(argv, OMAPCONF_ERR_ARG);
+
+	if (argc == 0) {
+		goto main_dra7xx_audit_err_arg;
+	} else if (strcmp(argv[0], "dpll") == 0) {
+		ret = main_dra7xx_dpll_audit(argc - 1, argv + 1);
+	} else {
+		goto main_dra7xx_audit_err_arg;
+	}
+	goto main_dra7xx_audit_end;
+
+main_dra7xx_audit_err_arg:
+	help(HELP_AUDIT);
+	ret = 0;
+
+main_dra7xx_audit_end:
+	return ret;
+}
+
+
+/* ------------------------------------------------------------------------*//**
  * @FUNCTION		main_dra7xx_export
  * @BRIEF		Export OMAP configuration into format and destination
  *			provided in argv.
@@ -290,6 +452,8 @@ int main_dra7xx(int argc, char *argv[])
 		ret = main_dra7xx_show(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "export") == 0)
 		ret = main_dra7xx_export(argc - 1, argv + 1);
+	else if (strcmp(argv[0], "audit") == 0)
+		ret = main_dra7xx_audit(argc - 1, argv + 1);
 	else
 		ret = main_dra7xx_legacy(argc, argv);
 

@@ -92,6 +92,22 @@ void help_dra7xx(help_category cat, char *context)
 			"([cfg] may be omitted).\n");
 	}
 
+	if ((cat == HELP_ALL) || (cat == HELP_AUDIT)) {
+		printf("\n\tomapconf audit dpll [-d <dpll>] [-o <opp>]\n");
+		printf("\t    Audit DPLL settings at selected OPP(s).\n");
+		printf("\t    By default, audit ALL DPLLs at CURRENT OPP. "
+			"Use optional '-d <dpll>' to select a given DPLL.\n");
+		printf("\t    Supported <dpll> ('all' considered if omitted):"
+			" abe, core, ddr, dsp, eve, gmac, gpu, iva, mpu,"
+			" pcieref, per, usb.\n");
+		printf("\t    Use optional '-o all' to run audit at all "
+			"### MPU ### OPerating Points (OPP).\n");
+		printf("\t    Use optional '-o <opp>' to force a particular "
+			"### MPU ### OPerating Points (OPP). For example "
+			"when MPU OPP is not correctly detected.\n");
+		printf("\t    Supported <opp>: nom, od, high.\n");
+	}
+
 	if ((cat == HELP_ALL) || (cat == HELP_PRCM)) {
 		printf("\n\tomapconf dump prcm [<pwrdm>]\n");
 		printf("\t    Dump PRCM Registers related to <pwrdm> power"
@@ -137,4 +153,5 @@ void help_dra7xx(help_category cat, char *context)
 		printf("\t    'i2cbus' is decimal value.\n");
 		printf("\t    'chip-address' is hexadecimal value.\n");
 	}
+
 }

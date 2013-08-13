@@ -1,8 +1,8 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			dpll_dra7xx-data.h
- * @Description			DRA7 DPLL Definitions
+ * @Filename			audit_dra7xx.h
+ * @Description			OMAP5 Power Audit Functions
  * @Author			Jin Zheng (j-zheng@ti.com)
  * @Date			2013
  * @Copyright			Texas Instruments Incorporated
@@ -42,49 +42,17 @@
  */
 
 
-#ifndef __DPLL_DRA7XX_DATA_H__
-#define __DPLL_DRA7XX_DATA_H__
+#ifndef __AUDIT_DRA7XX_H__
+#define __AUDIT_DRA7XX_H__
 
 
+#include <stdio.h>
 #include <dpll_dra7xx.h>
 #include <voltdm_dra7xx.h>
 
 
-typedef struct {
-	/* Common DPLL type A & B */
-	dpll_status status;
-	dpll_mode mode;
-	dpll_autoidle_mode autoidle_mode;
-	double fref;
-	int M;
-	int N;
-	double fdpll;
-	int M2;
-	double M2_rate;
-	/* DPLL type A only */
-	int dcc_en;
-	short regm4xen;
-	double X2_M2_rate;
-	int M3;
-	double X2_M3_rate;
-	int hsdiv_div[HSDIV_DRA7XX_ID_MAX];
-	double hsdiv_rate[HSDIV_DRA7XX_ID_MAX];
-	/* DPLL type B only */
-	int sd_div;
-	short selfreqdco;
-	double clkdcoldo_rate;
-	double clkoutldo_rate;
-} dpll_dra7xx_audited_settings;
+int audit_dra7xx_dpll(FILE *stream, dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id,
+	unsigned short curr_opp, unsigned int *err_nbr, unsigned int *wng_nbr);
 
-
-extern const char dpll_dra7xx_names[DPLL_DRA7XX_ID_MAX][DPLL_MAX_NAME_LENGTH];
-extern const char dpll_dra7xx_strings[DPLL_DRA7XX_ID_MAX][DPLL_MAX_NAME_LENGTH];
-extern const char hsdiv_dra7xx_names[HSDIV_DRA7XX_ID_MAX][HSDIV_MAX_NAME_LENGTH];
-const char dpll_dra7xx_output_names[DPLL_DRA7XX_OUTPUT_ID_MAX][DPLL_OUTPUT_MAX_NAME_LENGTH];
-const dpll_clk_sources dpll_dra7xx_sources[DPLL_DRA7XX_ID_MAX];
-
-extern short dpll_dra7xx_ignore_m3[DPLL_DRA7XX_ID_MAX];
-extern dpll_dra7xx_audited_settings
-	*dpll_dra7xx_golden_settings_20MHz_table[DPLL_DRA7XX_ID_MAX][OPP_DRA7XX_ID_MAX];
 
 #endif

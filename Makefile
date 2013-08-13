@@ -240,6 +240,7 @@ DRA7SOURCES=\
 		arch/arm/mach-omap/dra7/help_dra7xx.c\
 		arch/arm/mach-omap/dra7/ctt_dra7xx.c\
 		arch/arm/mach-omap/dra7/opp_dra7xx.c\
+		arch/arm/mach-omap/dra7/audit_dra7xx.c\
 		arch/arm/mach-omap/dra7/main_dra7xx.c
 
 DRA7OBJECTS=	$(DRA7SOURCES:.c=.o)

@@ -151,3 +151,408 @@ const dpll_clk_sources
 		CLK_DRA7XX_ID_MAX,
 		CLK_DRA7XX_ID_MAX,
 		CLK_DRA7XX_PCIE_BYP_CLK_HMN} };
+
+
+short dpll_dra7xx_ignore_m3[DPLL_DRA7XX_ID_MAX] = {
+	[DPLL_DRA7XX_MPU] = 1,
+	[DPLL_DRA7XX_IVA] = 1,
+	[DPLL_DRA7XX_CORE] = 1,
+	[DPLL_DRA7XX_PER] = 1,
+	[DPLL_DRA7XX_ABE] = 0,
+	[DPLL_DRA7XX_EVE] = 1,
+	[DPLL_DRA7XX_DSP] = 0,
+	[DPLL_DRA7XX_GMAC] = 0,
+	[DPLL_DRA7XX_GPU] = 1,
+	[DPLL_DRA7XX_DDR] = 1,
+	[DPLL_DRA7XX_USB] = 1,
+	[DPLL_DRA7XX_PCIE_REF] = 1};
+
+
+dpll_dra7xx_audited_settings dpll_dra7xx_MPU_golden_settings_20MHz_opp_nom = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 20.0,
+	.M = 500,
+	.N = 9,
+	.fdpll = 2000.0,
+	.M2 = 1,
+	.M2_rate = 1000.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1.0,
+	.M3 = -1,
+	.X2_M3_rate = -1.0,
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0},
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	.clkoutldo_rate = -1.0 };
+
+dpll_dra7xx_audited_settings dpll_dra7xx_MPU_golden_settings_20MHz_opp_od = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 20.0,
+	.M = 294,
+	.N = 4,
+	.fdpll = 2352.0,
+	.M2 = 1,
+	.M2_rate = 1176.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1.0,
+	.M3 = -1,
+	.X2_M3_rate = -1.0,
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0},
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	.clkoutldo_rate = -1.0 };
+
+dpll_dra7xx_audited_settings dpll_dra7xx_MPU_golden_settings_20MHz_opp_high = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 20.0,
+	.M = 600,
+	.N = 7,
+	.fdpll = 1500.0,
+	.M2 = 1,
+	.M2_rate = 1500.0,
+	/* DPLL type A only */
+	.dcc_en = 1,
+	.regm4xen = 0,
+	.X2_M2_rate = -1.0,
+	.M3 = -1,
+	.X2_M3_rate = -1.0,
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0},
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	.clkoutldo_rate = -1.0 };
+
+dpll_dra7xx_audited_settings dpll_dra7xx_IVA_golden_settings_20MHz_opp_nom = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 20.0,
+	.M = 233,
+	.N = 3,
+	.fdpll = 2330.0,
+	.M2 = 3,
+	.M2_rate = 388.333,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1.0,
+	.M3 = -1,
+	.X2_M3_rate = -1.0,
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0},
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	.clkoutldo_rate = -1.0 };
+
+dpll_dra7xx_audited_settings dpll_dra7xx_CORE_golden_settings_20MHz_opp_nom = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 20.0,
+	.M = 266,
+	.N = 4,
+	.fdpll = 2128.0,
+	.M2 = 2,
+	.M2_rate = 532.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1.0,
+	.M3 = -1,
+	.X2_M3_rate = -1.0,
+	.hsdiv_div = {1, 4, 62, 5, 1, 5, 4, 6},
+	.hsdiv_rate = {2128, 532, 34, 425, 2128, 425, 532, 354},
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	.clkoutldo_rate = -1.0 };
+
+dpll_dra7xx_audited_settings dpll_dra7xx_PER_golden_settings_20MHz_opp_nom = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 20.0,
+	.M = 96,
+	.N = 4,
+	.fdpll = 768.0,
+	.M2 = 4,
+	.M2_rate = 96.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = 192,
+	.M3 = -1,
+	.X2_M3_rate = -1.0,
+	.hsdiv_div = {3, 4, 10, 2, -1, -1, -1, -1},
+	.hsdiv_rate = {256, 192, 76, 384, -1.0, -1.0, -1.0, -1.0},
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	.clkoutldo_rate = -1.0 };
+
+dpll_dra7xx_audited_settings dpll_dra7xx_ABE_golden_settings_20MHz_opp_nom = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 22.5792,
+	.M = 16,
+	.N = 1,
+	.fdpll = 361.2672,
+	.M2 = 1,
+	.M2_rate = 180.6336,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = 361.2672,
+	.M3 = 1,
+	.X2_M3_rate = 361.2672,
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0},
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	.clkoutldo_rate = -1.0 };
+
+dpll_dra7xx_audited_settings dpll_dra7xx_EVE_golden_settings_20MHz_opp_nom = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 20.0,
+	.M = 214,
+	.N = 3,
+	.fdpll = 2140.0,
+	.M2 = 2,
+	.M2_rate = 535.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1.0,
+	.M3 = -1,
+	.X2_M3_rate = -1.0,
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0},
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	.clkoutldo_rate = -1.0 };
+
+dpll_dra7xx_audited_settings dpll_dra7xx_DSP_golden_settings_20MHz_opp_nom = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 20.0,
+	.M = 150,
+	.N = 4,
+	.fdpll = 1200.0,
+	.M2 = 1,
+	.M2_rate = 600.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1.0,
+	.M3 = 3,
+	.X2_M3_rate = 400.0,
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0},
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	.clkoutldo_rate = -1.0 };
+
+dpll_dra7xx_audited_settings dpll_dra7xx_GMAC_golden_settings_20MHz_opp_nom = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 20.0,
+	.M = 250,
+	.N = 4,
+	.fdpll = 2000.0,
+	.M2 = 4,
+	.M2_rate = 250.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1.0,
+	.M3 = 10,
+	.X2_M3_rate = 200.0,
+	.hsdiv_div = {40, 8, 10, 1, -1, -1, -1, -1},
+	.hsdiv_rate = {50.0, 250.0, 200.0, 2000.0, -1.0, -1.0, -1.0, -1.0},
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	.clkoutldo_rate = -1.0 };
+
+dpll_dra7xx_audited_settings dpll_dra7xx_GPU_golden_settings_20MHz_opp_nom = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 20.0,
+	.M = 170,
+	.N = 3,
+	.fdpll = 1700.0,
+	.M2 = 2,
+	.M2_rate = 425.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1.0,
+	.M3 = -1,
+	.X2_M3_rate = -1.0,
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0},
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	.clkoutldo_rate = -1.0 };
+
+dpll_dra7xx_audited_settings dpll_dra7xx_DDR_golden_settings_20MHz_opp_nom = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 20.0,
+	.M = 266,
+	.N = 4,
+	.fdpll = 2128.0,
+	.M2 = 2,
+	.M2_rate = 532.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1.0,
+	.M3 = -1,
+	.X2_M3_rate = -1.0,
+	.hsdiv_div = {8, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {266.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0},
+	/* DPLL type B only */
+	.sd_div = -1,
+	.selfreqdco = -1,
+	.clkdcoldo_rate = -1.0,
+	.clkoutldo_rate = -1.0 };
+
+dpll_dra7xx_audited_settings dpll_dra7xx_USB_golden_settings_20MHz_opp_nom = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 20.0,
+	.M = 480,
+	.N = 9,
+	.fdpll = 960.0,
+	.M2 = 2,
+	.M2_rate = 480.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1.0,
+	.M3 = -1,
+	.X2_M3_rate = -1.0,
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0},
+	/* DPLL type B only */
+	.sd_div = 4,
+	.selfreqdco = 0,
+	.clkdcoldo_rate = 960.0,
+	.clkoutldo_rate = -1.0 };
+
+dpll_dra7xx_audited_settings dpll_dra7xx_PCIE_REF_golden_settings_20MHz_opp_nom = {
+	/* Common DPLL type A & B */
+	.status = DPLL_STATUS_LOCKED,
+	.mode = DPLL_LOCK,
+	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
+	.fref = 20.0,
+	.M = 750,
+	.N = 9,
+	.fdpll = 1500.0,
+	.M2 = 15,
+	.M2_rate = 100.0,
+	/* DPLL type A only */
+	.dcc_en = 0,
+	.regm4xen = 0,
+	.X2_M2_rate = -1.0,
+	.M3 = -1,
+	.X2_M3_rate = -1.0,
+	.hsdiv_div = {-1, -1, -1, -1, -1, -1, -1, -1},
+	.hsdiv_rate = {-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0},
+	/* DPLL type B only */
+	.sd_div = 6,
+	.selfreqdco = 0,
+	.clkdcoldo_rate = -1.0,
+	.clkoutldo_rate = 0.0 };
+
+
+dpll_dra7xx_audited_settings *dpll_dra7xx_golden_settings_20MHz_table[DPLL_DRA7XX_ID_MAX][OPP_DRA7XX_ID_MAX] = {
+	[DPLL_DRA7XX_MPU] = {&dpll_dra7xx_MPU_golden_settings_20MHz_opp_nom,
+		&dpll_dra7xx_MPU_golden_settings_20MHz_opp_od,
+		&dpll_dra7xx_MPU_golden_settings_20MHz_opp_high},
+	[DPLL_DRA7XX_IVA] = {&dpll_dra7xx_IVA_golden_settings_20MHz_opp_nom,
+		NULL,
+		NULL},
+	[DPLL_DRA7XX_CORE] = {&dpll_dra7xx_CORE_golden_settings_20MHz_opp_nom,
+		NULL,
+		NULL},
+	[DPLL_DRA7XX_PER] = {&dpll_dra7xx_PER_golden_settings_20MHz_opp_nom,
+		NULL,
+		NULL},
+	[DPLL_DRA7XX_ABE] = {&dpll_dra7xx_ABE_golden_settings_20MHz_opp_nom,
+		NULL,
+		NULL},
+	[DPLL_DRA7XX_EVE] = {&dpll_dra7xx_EVE_golden_settings_20MHz_opp_nom,
+		NULL,
+		NULL},
+	[DPLL_DRA7XX_DSP] = {&dpll_dra7xx_DSP_golden_settings_20MHz_opp_nom,
+		NULL,
+		NULL},
+	[DPLL_DRA7XX_GMAC] = {&dpll_dra7xx_GMAC_golden_settings_20MHz_opp_nom,
+		NULL,
+		NULL},
+	[DPLL_DRA7XX_GPU] = {&dpll_dra7xx_GPU_golden_settings_20MHz_opp_nom,
+		NULL,
+		NULL},
+	[DPLL_DRA7XX_DDR] = {&dpll_dra7xx_DDR_golden_settings_20MHz_opp_nom,
+		NULL,
+		NULL},
+	[DPLL_DRA7XX_USB] = {&dpll_dra7xx_USB_golden_settings_20MHz_opp_nom,
+		NULL,
+		NULL},
+	[DPLL_DRA7XX_PCIE_REF] = {&dpll_dra7xx_PCIE_REF_golden_settings_20MHz_opp_nom,
+		NULL,
+		NULL} };
