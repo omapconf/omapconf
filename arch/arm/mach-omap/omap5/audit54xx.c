@@ -210,7 +210,7 @@ int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
 			opp.name);
 
 		/* Run audit at this OPP */
-		ret = dpll54xx_audit(dpll_id, OPP54XX_ID_MAX, fp,
+		ret = dpll54xx_audit(dpll_id, (opp54xx_id)i, fp,
 			&_err_nbr, &_wng_nbr);
 		if (ret != 0) {
 			err_internal_msg_show();
