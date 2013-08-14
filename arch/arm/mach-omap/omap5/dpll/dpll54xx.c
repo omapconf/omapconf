@@ -1072,7 +1072,8 @@ int dpll54xx_show(FILE *stream)
 			TABLE_MAX_ELT_LEN);
 		snprintf(table[row++][id - DPLL54XX_USB + 1],
 			TABLE_MAX_ELT_LEN,
-			"%-5u (x2)", settings->dpll.MN.M2);
+			"%-5u (x%d)", settings->dpll.MN.M2,
+			(settings->dpll.DCC.en == 1) ? 1 : 2);
 		strncpy(table[row][0], "  Clock Speed (MHz)",
 			TABLE_MAX_ELT_LEN);
 		if (settings->status == DPLL_STATUS_LOCKED)
@@ -1818,10 +1819,12 @@ dpll54xx_audit_M2:
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
 			"  Clock Divider");
 		if ((settings->dpll).type == DPLL_TYPE_A) {
-			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u (x2)",
-				(settings->dpll).MN.M2);
-			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u (x2)",
-				golden_settings->M2);
+			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u (x%d)",
+				(settings->dpll).MN.M2,
+				((settings->dpll).DCC.en == 0) ? 2 : 1);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u (x%d)",
+				golden_settings->M2,
+				(golden_settings->dcc_en == 0) ? 2 : 1);
 		} else {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u",
 				(settings->dpll).MN.M2);
