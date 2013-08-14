@@ -445,3 +445,101 @@ unsigned char tps659038_uv_to_vsel(unsigned long uv)
 	dprintf("%s(%lduV)=0x%02X\n", __func__, uv, vsel);
 	return vsel;
 }
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		tps659038_uvoltage_set
+ * @BRIEF		set voltage of a given SMPS voltage rail.
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_NOT_AVAILABLE
+ *			OMAPCONF_ERR_REG_ACCESS
+ *			OMAPCONF_ERR_INTERNAL
+ * @param[in]		vdd_id: voltage domain ID
+ * @param[in]		uv: voltage to be set (in micro-volt)
+ * @DESCRIPTION		set voltage of a given SMPS voltage rail, in micro-volt.
+ *//*------------------------------------------------------------------------ */
+int tps659038_uvoltage_set(unsigned int vdd_id, unsigned long uv)
+{
+	int ret;
+	unsigned int val;
+	unsigned char vsel;
+	const tps659038_smps_registers **vdd_smps_regs;
+	const tps659038_smps_registers *smps_regs;
+
+	CHECK_ARG_LESS_THAN(vdd_id, 5, OMAPCONF_ERR_ARG);
+
+	/* Retrive SMPS registers addresses */
+	vdd_smps_regs = tps659038_smps_vdd_dra7xx[vdd_id];
+	if (vdd_smps_regs == NULL)
+		return OMAPCONF_ERR_INTERNAL;
+	smps_regs = *vdd_smps_regs;
+	if (smps_regs == NULL)
+		return OMAPCONF_ERR_INTERNAL;
+
+	dprintf("%s(): vdd_id=%u  ADDR: ctrl=0x%02X tstep=0x%02X force=0x%02X "
+		"voltage=0x%02X\n", __func__, vdd_id, smps_regs->ctrl,
+		smps_regs->tstep, smps_regs->force, smps_regs->voltage);
+
+	/* Check SMPS Status */
+	if (smps_regs->ctrl == -1) {
+		dprintf("%s(): SMPSxx_CTRL addr=-1!!!\n", __func__);
+		return OMAPCONF_ERR_INTERNAL;
+	}
+	ret = i2cget(TPS659038_I2C_BUS, TPS659038_ID0_ADDR,
+		smps_regs->ctrl, &val);
+	if (ret != 0)
+		return OMAPCONF_ERR_REG_ACCESS;
+	dprintf("%s(): SMPSxx_CTRL=0x%02X\n", __func__, val);
+	if (extract_bitfield(val, 4, 2) == 0) {
+		dprintf("(%s(): SMPS is OFF\n", __func__);
+		return OMAPCONF_ERR_NOT_AVAILABLE;
+	}
+
+	/* Make sure SMPSxx_CTRL.ROOF_FLOOR_EN=0 */
+	if (extract_bit(val, 6) == 1) {
+		dprintf("%s(): SMPS voltage controlled by resource pins, "
+			"clearing ROOF_FLOOR_EN bit.\n", __func__);
+		/* Clear ROOF_FLOOR_EN bit (6) */
+		val = val & 0xBF;
+		ret = i2cset(TPS659038_I2C_BUS, TPS659038_ID0_ADDR,
+			smps_regs->ctrl, (unsigned int) val);
+		if (ret != 0)
+			return OMAPCONF_ERR_REG_ACCESS;
+		dprintf("%s(): SMPS voltage now controlled by "
+			"SMPS12_FORCE.CMD bit.\n", __func__);
+	} else {
+		dprintf("%s(): SMPS voltage controlled by "
+			"SMPS12_FORCE.CMD bit.\n", __func__);
+	}
+
+	/* Convert voltage to VSEL */
+	vsel = tps659038_uv_to_vsel(uv);
+	dprintf("%s(): uv=%lu vsel=0x%02X\n", __func__, uv, vsel);
+
+	/* Write VSEL to SMPSxx_VOLTAGE */
+	ret = i2cset(TPS659038_I2C_BUS, TPS659038_ID0_ADDR,
+			smps_regs->voltage, (unsigned int) vsel);
+	if (ret != 0)
+		return OMAPCONF_ERR_REG_ACCESS;
+
+	/*
+	 * Try to switch voltage control to SMPSxx_FORCE register (if exists)
+	 * so that voltage will not be overriden by kernel during
+	 * DVFS, AVS or power transition.
+	 */
+	if (smps_regs->force != -1) {
+		dprintf("%s(): SMPSxx_FORCE exists, switching control.\n",
+			__func__);
+		/* Clear bit 7 (CMD) */
+		val = vsel & 0x7F;
+		ret = i2cset(TPS659038_I2C_BUS, TPS659038_ID0_ADDR,
+			smps_regs->force, (unsigned int) val);
+	} else {
+		dprintf("%s(): SMPSxx_FORCE does not exist.\n", __func__);
+		ret = 0;
+	}
+
+	return ret;
+}

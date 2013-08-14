@@ -80,6 +80,16 @@ void help_dra7xx(help_category cat, char *context)
 			"Tree Tool (CTT, <http://omappedia.org/wiki/CTT>).\n");
 	}
 
+	if ((cat == HELP_ALL) || (cat == HELP_VOLT)) {
+		printf("\n\tomapconf set volt <rail> <voltage>\n");
+		printf("\t    Set <rail> voltage to <voltage>.\n");
+		printf("\t    Supported <rail>: mpu, iva, core, gpu, dspeve.\n");
+		printf("\t    <voltage> is in volts.\n");
+		printf("\t    ### WARNING ###: do it at your own risk. "
+			"Unsupported voltage may crash or damage device!\n");
+		printf("\t    e.g. omapconf set volt mpu 1.25\n");
+	}
+
 	if ((cat == HELP_ALL) || (cat == HELP_DPLL)) {
 		printf("\n\tomapconf dump dpll [<dpll>]\n");
 		printf("\t    RAW dump of <dpll> registers ('all' assumed if "

@@ -1106,6 +1106,5 @@ int smps_voltage_set(pmic_smps_id smps_id, unsigned long uvolt)
 	if (pmic_is_twl6035(smps_id))
 		return twl603x_uvoltage_set((unsigned int) smps_id, uvolt);
 	else
-		/* TBD: Need to implement tps659038 voltage set */
-		return 0;
+		return tps659038_uvoltage_set((unsigned int) smps_id, uvolt);
 }

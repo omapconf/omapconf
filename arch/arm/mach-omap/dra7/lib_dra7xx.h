@@ -1,8 +1,8 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			tps659038.h
- * @Description			DRA7 TPS 659038 (SMPS Voltage Regulator) Library
+ * @Filename			lib_dra7xx.h
+ * @Description			OMAPCONF DRA7 General Purpose Library
  * @Author			Jin Zheng (j-zheng@ti.com)
  * @Date			2013
  * @Copyright			Texas Instruments Incorporated
@@ -42,36 +42,15 @@
  */
 
 
-#ifndef __TPS659038_H__
-#define __TPS659038_H__
+#ifndef __LIB_DRA7XX_H__
+#define __LIB_DRA7XX_H__
 
 
-#define TPS659038_VSEL_LEN	7
-
-#define TPS659038_I2C_BUS	0
-#define TPS659038_ID0_ADDR	0x58
-#define TPS659038_ID1_ADDR	0x59
-#define TPS659038_ID2_ADDR	0x5A
-
-#define TPS659038_PRODUCT_ID_LSB	0x51
-#define TPS659038_PRODUCT_ID_MSB	0x52
-
-#define TPS659038_VOLT_MIN_UV	500000
-#define TPS659038_VSTEP_UV	10000
-#define TPS659038_PFM_FLAG	0x80
+#include <stdio.h>
+#include <voltdm_dra7xx.h>
 
 
-unsigned short int tps659038_is_present(void);
-double tps659038_chip_revision_get(void);
-double tps659038_eprom_revision_get(void);
-long tps659038_smps_offset_get(void);
-long tps659038_smps_step_get(void);
-int tps659038_vsel_len_get(void);
-
-int tps659038_vsel_get(unsigned int smps_id);
-unsigned char tps659038_uv_to_vsel(unsigned long uv);
-unsigned long tps659038_vsel_to_uv(unsigned char vsel);
-int tps659038_uvoltage_set(unsigned int vdd_id, unsigned long uv);
+int lib_dra7xx_voltage_set(voltdm_dra7xx_id vdd_id, double volt);
 
 
 #endif

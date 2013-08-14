@@ -43,6 +43,8 @@
 
 
 #include <main_dra7xx.h>
+#include <lib_dra7xx.h>
+#include <voltdm_dra7xx.h>
 #include <dpll_dra7xx.h>
 #include <ctt_dra7xx.h>
 #include <lib.h>
@@ -419,6 +421,54 @@ static int main_dra7xx_export(int argc, char *argv[])
 
 
 /* ------------------------------------------------------------------------*//**
+ * @FUNCTION		main_dra7xx_set
+ * @BRIEF		set some DRA7 item, which category is found in argv
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ * @param[in]		argc: number of arguments
+ * @param[in]		argv: argument(s)
+ * @DESCRIPTION		set some DRA7 settings, which category is found in argv
+ *//*------------------------------------------------------------------------ */
+static int main_dra7xx_set(int argc, char *argv[])
+{
+	voltdm_dra7xx_id vdd_id;
+	double volt;
+
+	if (argc < 1) {
+		return err_arg_missing_msg_show(HELP_CATEGORY_MAX);
+	} else if (strcmp(argv[0], "volt") == 0) {
+		if (argc < 3) {
+			return err_arg_missing_msg_show(HELP_VOLT);
+		} else if (argc == 3) {
+			lowercase(argv[1]);
+			if (strcmp(argv[1], "mpu") == 0)
+				vdd_id = VDD_DRA7XX_MPU;
+			else if (strcmp(argv[1], "iva") == 0)
+				vdd_id = VDD_DRA7XX_IVA;
+			else if (strcmp(argv[1], "core") == 0)
+				vdd_id = VDD_DRA7XX_CORE;
+			else if (strcmp(argv[1], "dspeve") == 0)
+				vdd_id = VDD_DRA7XX_DSPEVE;
+			else if (strcmp(argv[1], "gpu") == 0)
+				vdd_id = VDD_DRA7XX_GPU;
+			else
+				return err_arg_msg_show(HELP_VOLT);
+
+			if (sscanf(argv[2], "%lf", &volt) != 1)
+				return err_arg_msg_show(HELP_VOLT);
+
+			return lib_dra7xx_voltage_set(vdd_id, volt);
+		} else {
+			return err_arg_too_many_msg_show(HELP_VOLT);
+		}
+	} else {
+		return err_arg_msg_show(HELP_CATEGORY_MAX);
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
  * @FUNCTION		main_dra7xx
  * @BRIEF		DRA7 functions main entry point
  * @RETURNS		0 in case of success
@@ -454,6 +504,8 @@ int main_dra7xx(int argc, char *argv[])
 		ret = main_dra7xx_export(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "audit") == 0)
 		ret = main_dra7xx_audit(argc - 1, argv + 1);
+	else if (strcmp(argv[0], "set") == 0)
+		ret = main_dra7xx_set(argc - 1, argv + 1);
 	else
 		ret = main_dra7xx_legacy(argc, argv);
 
