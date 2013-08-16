@@ -58,7 +58,7 @@
 
 
 /* ------------------------------------------------------------------------*//**
- * @FUNCTION		autoadjust_table_fprint
+ * @FUNCTION		autoadjust_table_generic_fprint
  * @BRIEF		print elements into a table which size automatically
  *			adjusts.
  * @RETURNS		0 in case of success
@@ -71,8 +71,22 @@
  *			format: table[row][col][string]
  * @param[in]		row_nbr: number of rows
  * @param[in]		col_nbr: number of columns
+ * @param[in]		flags: table format flags
  * @DESCRIPTION		print elements into a table which size automatically
- *			adjusts. The printed table looks like this:
+ *			adjusts. The printed table depends on the format flags:
+ *
+ *	TABLE_HAS_TITLE:
+ *
+ *	|------------------------------------------------------------------|
+ *	| elements[0][0]                                                   |
+ *	|------------------------------------------------------------------|
+ *	| elements[1][0]     | elements[1][1]     | elements[1][col-1]     |
+ *	| elements[2][0]     | elements[2][1]     | elements[2][col-1]     |
+ *	| elements[row-1][0] | elements[row-1][1] | elements[row-1][col-1] |
+ *	|------------------------------------------------------------------|
+ *
+ *	TABLE_HAS_SUBTITLE:
+ *
  *	|------------------------------------------------------------------|
  *	| elements[0][0]     | elements[0][1]     | elements[0][col-1]     |
  *	|------------------------------------------------------------------|
@@ -80,19 +94,32 @@
  *	| elements[2][0]     | elements[2][1]     | elements[2][col-1]     |
  *	| elements[row-1][0] | elements[row-1][1] | elements[row-1][col-1] |
  *	|------------------------------------------------------------------|
+ *
+ *	TABLE_HAS_TITLE | TABLE_HAS_SUBTITLE:
+ *
+ *	|------------------------------------------------------------------|
+ *	| elements[0][0]                                                   |
+ *	|------------------------------------------------------------------|
+ *	| elements[1][0]     | elements[1][1]     | elements[1][col-1]     |
+ *	|------------------------------------------------------------------|
+ *	| elements[2][0]     | elements[2][1]     | elements[2][col-1]     |
+ *	| elements[row-1][0] | elements[row-1][1] | elements[row-1][col-1] |
+ *	|------------------------------------------------------------------|
  *//*------------------------------------------------------------------------ */
-int autoadjust_table_fprint(FILE *stream,
+int autoadjust_table_generic_fprint(FILE *stream,
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
-	unsigned int row_nbr, unsigned int col_nbr)
+	unsigned int row_nbr, unsigned int col_nbr, unsigned int flags)
 {
 	unsigned int total_dash_nbr = 0;
 	unsigned int total_width = 0;
 	char *dash_line;
 	char *line;
+	char *title;
 	unsigned int col, row;
 	unsigned int tmp;
 	unsigned int max_elt_size[TABLE_MAX_COL];
 	unsigned int strln;
+	int has_title = !!(flags & TABLE_HAS_TITLE);
 
 	if (stream == NULL) {
 		printf("autoadjust_table_fprint() error: stream == NULL!\n");
@@ -113,6 +140,9 @@ int autoadjust_table_fprint(FILE *stream,
 		return -1;
 	}
 
+	if (has_title)
+		title = table[0][0];
+
 	#ifdef AUTOADJUST_TABLE_DEBUG
 	dprintf("row_nbr = %d, col_nbr = %d\n", row_nbr, col_nbr);
 	for (row = 0; row < row_nbr; row++) {
@@ -126,7 +156,11 @@ int autoadjust_table_fprint(FILE *stream,
 	/* compute width of each column of the table */
 	for (col = 0; col < col_nbr; col++)
 		max_elt_size[col] = 0;
-	for (row = 0; row < row_nbr; row++) {
+
+	/* title length will be added to total width later */
+	row = has_title ? 1 : 0;
+
+	for (; row < row_nbr; row++) {
 		tmp = 0;
 		/* Get total length of strings in this line */
 		for (col = 0; col < col_nbr; col++) {
@@ -154,6 +188,32 @@ int autoadjust_table_fprint(FILE *stream,
 	total_width += (col_nbr + 1);
 	/* Add number of space character separators (2 per element) */
 	total_width += col_nbr * 2;
+
+	/* Compensate if the title is longer than table width */
+	if (has_title) {
+		unsigned int avail;
+
+		strln = strlen(title);
+		avail = total_width - 4; /* exclude left and right borders */
+		dprintf("title_width=%d\n", strln);
+
+		if (avail < strln) {
+			/* Number of chars to compensate per column */
+			tmp = (strln - avail + col_nbr - 1) / col_nbr;
+
+			total_width = 0;
+			for (col = 0; col < col_nbr; col++) {
+				max_elt_size[col] += tmp;
+				total_width += max_elt_size[col];
+				dprintf("new max_elt_size[%d] = %d\n",
+					col, max_elt_size[col]);
+			}
+			/* Add number of separators per line */
+			total_width += (col_nbr + 1);
+			total_width += col_nbr * 2;
+		}
+	}
+
 	dprintf("total_width = %d\n", total_width);
 	line  = malloc(sizeof(char) * (total_width + 1));
 	if (line == NULL) {
@@ -186,7 +246,21 @@ int autoadjust_table_fprint(FILE *stream,
 	dash_line[total_dash_nbr + 1] = '|';
 	fprintf(stream, "%s\n", dash_line);
 
-	for (row = 0; row < row_nbr; row++) {
+	row = 0;
+	if (has_title) {
+		strcpy(line, "| ");
+		strcat(line, title);
+		tmp = total_width - 4 - strlen(title);
+		while (tmp--)
+			strcat(line, " ");
+
+		strcat(line, " |");
+		fprintf(stream, "%s\n", line);
+		fprintf(stream, "%s\n", dash_line);
+		row++;
+	}
+
+	for (; row < row_nbr; row++) {
 		strcpy(line, "|");
 		for (col = 0; col < col_nbr; col++) {
 			strcat(line, " ");
@@ -199,8 +273,10 @@ int autoadjust_table_fprint(FILE *stream,
 			strcat(line, " |");
 		}
 		fprintf(stream, "%s\n", line);
-		if (row == 0)
+		if (flags & TABLE_HAS_SUBTITLE) {
 			fprintf(stream, "%s\n", dash_line);
+			flags &= ~TABLE_HAS_SUBTITLE;
+		}
 	}
 	fprintf(stream, "%s\n\n", dash_line);
 
@@ -208,6 +284,38 @@ int autoadjust_table_fprint(FILE *stream,
 	free(line);
 
 	return 0;
+}
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		autoadjust_table_fprint
+ * @BRIEF		print elements into a table which size automatically
+ *			adjusts.
+ * @RETURNS		0 in case of success
+ *			-1 in case of incorrect pointer
+ *			-2 in case of memory allocation error
+ *			-3 one element of the table is longer than
+ *			TABLE_MAX_ELT_LEN
+ * @param[in,out]	stream: output file
+ * @param[in]		table: elements to be printed
+ *			format: table[row][col][string]
+ * @param[in]		row_nbr: number of rows
+ * @param[in]		col_nbr: number of columns
+ * @DESCRIPTION		print elements into a table which size automatically
+ *			adjusts. The printed table looks like this:
+ *	|------------------------------------------------------------------|
+ *	| elements[0][0]     | elements[0][1]     | elements[0][col-1]     |
+ *	|------------------------------------------------------------------|
+ *	| elements[1][0]     | elements[1][1]     | elements[1][col-1]     |
+ *	| elements[2][0]     | elements[2][1]     | elements[2][col-1]     |
+ *	| elements[row-1][0] | elements[row-1][1] | elements[row-1][col-1] |
+ *	|------------------------------------------------------------------|
+ *//*------------------------------------------------------------------------ */
+int autoadjust_table_fprint(FILE *stream,
+	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
+	unsigned int row_nbr, unsigned int col_nbr)
+{
+	return autoadjust_table_generic_fprint(stream, table, row_nbr, col_nbr,
+					       TABLE_HAS_SUBTITLE);
 }
 
 
