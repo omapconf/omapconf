@@ -50,6 +50,7 @@
 #include <lib44xx.h>
 #include <main44xx.h>
 #include <main54xx.h>
+#include <main_dra7xx.h>
 #include <dpll54xx.h>
 #include <lib_android.h>
 #include <i2c-tools.h>
@@ -1174,6 +1175,9 @@ main_platform_specific:
 			goto main_exit;
 		} else if (cpu_is_omap54xx()) {
 			ret = main54xx(argc, argv);
+			goto main_exit;
+		} else if (cpu_is_dra7xx()) {
+			ret = main_dra7xx(argc, argv);
 			goto main_exit;
 		} else {
 			printf("Unsupported chip, sorry ...\n\n");

@@ -60,7 +60,11 @@ DEF_INC_PATH = -I. -Icommon -Ipmic -Iaudioic -Ilinux -Ii2c-tools\
 	-Iarch/arm/mach-omap/omap5\
 	-Iarch/arm/mach-omap/omap5/prcm\
 	-Iarch/arm/mach-omap/omap5/dpll\
-	-Iarch/arm/mach-omap/omap5/ctrlmod
+	-Iarch/arm/mach-omap/omap5/ctrlmod\
+	-Iarch/arm/mach-omap/dra7\
+	-Iarch/arm/mach-omap/dra7/ctrlmod\
+	-Iarch/arm/mach-omap/dra7/prcm\
+	-Iarch/arm/mach-omap/dra7/dpll
 
 
 STATIC_BUILD ?= -static
@@ -218,6 +222,33 @@ OMAP5OBJECTS=	$(OMAP5SOURCES:.c=.o)
 
 
 
+DRA7SOURCES=\
+		arch/arm/mach-omap/dra7/prcm/prcm_dra7xx.c\
+		arch/arm/mach-omap/dra7/prcm/prm_dra7xx.c\
+		arch/arm/mach-omap/dra7/prcm/prm_dra7xx-defs.c\
+		arch/arm/mach-omap/dra7/prcm/cm_dra7xx.c\
+		arch/arm/mach-omap/dra7/prcm/cm_dra7xx-defs.c\
+		arch/arm/mach-omap/dra7/prcm/voltdm_dra7xx.c\
+		arch/arm/mach-omap/dra7/prcm/module_dra7xx.c\
+		arch/arm/mach-omap/dra7/prcm/clock_dra7xx.c\
+		arch/arm/mach-omap/dra7/dpll/dpll_dra7xx.c\
+		arch/arm/mach-omap/dra7/dpll/dpll_dra7xx-data.c\
+		arch/arm/mach-omap/dra7/ctrlmod/ctrlmod_core_dra7xx-defs.c\
+		arch/arm/mach-omap/dra7/hwtemp_dra7xx.c\
+		arch/arm/mach-omap/dra7/temp_dra7xx.c\
+		arch/arm/mach-omap/dra7/cpuinfo_dra7xx.c\
+		arch/arm/mach-omap/dra7/help_dra7xx.c\
+		arch/arm/mach-omap/dra7/ctt_dra7xx.c\
+		arch/arm/mach-omap/dra7/opp_dra7xx.c\
+		arch/arm/mach-omap/dra7/audit_dra7xx.c\
+		arch/arm/mach-omap/dra7/lib_dra7xx.c\
+		arch/arm/mach-omap/dra7/main_dra7xx.c
+
+DRA7OBJECTS=	$(DRA7SOURCES:.c=.o)
+
+
+
+
 SOURCES=\
 		omapconf.c\
 		common/lib.c\
@@ -240,14 +271,14 @@ OBJECTS=	$(SOURCES:.c=.o)
 
 
 
-PMICSOURCES=	pmic/twl603x.c pmic/tps62361.c pmic/twl603x_lib.c
+PMICSOURCES=	pmic/twl603x.c pmic/tps62361.c pmic/tps659038.c pmic/twl603x_lib.c
 
 PMICOBJECTS=	$(PMICSOURCES:.c=.o)
 
 
 
 
-AUDIOICSOURCES=	audioic/twl6040.c audioic/twl6040_lib.c
+AUDIOICSOURCES=	audioic/twl6040.c audioic/twl6040_lib.c audioic/tlv320aic3x.c
 
 AUDIOICOBJECTS=	$(AUDIOICSOURCES:.c=.o)
 
@@ -274,10 +305,12 @@ I2COBJECTS=	$(I2CSOURCES:.c=.o)
 
 
 ALLSOURCES=	$(SOURCES) $(OMAPSOURCES) $(OMAP4SOURCES) $(OMAP5SOURCES)\
+		$(DRA7SOURCES)\
 		$(LINUXSOURCES) $(PMICSOURCES) $(AUDIOICSOURCES) $(I2CSOURCES)
 
 
 ALLOBJECTS=	$(OBJECTS) $(OMAPOBJECTS) $(OMAP4OBJECTS) $(OMAP5OBJECTS)\
+		$(DRA7OBJECTS)\
 		$(LINUXOBJECTS) $(PMICOBJECTS) $(AUDIOICOBJECTS) $(I2COBJECTS)
 
 
@@ -342,6 +375,7 @@ clean:
 		rm -f $(OMAPOBJECTS)
 		rm -f $(OMAP4OBJECTS)
 		rm -f $(OMAP5OBJECTS)
+		rm -f $(DRA7OBJECTS)
 		rm -f $(PMICOBJECTS)
 		rm -f $(AUDIOICOBJECTS)
 		rm -f $(I2COBJECTS)

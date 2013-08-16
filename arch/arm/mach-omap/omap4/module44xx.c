@@ -84,6 +84,27 @@ char *mod44xx_get_name(mod44xx_id id, char name[MOD44XX_MAX_NAME_LENGTH])
 
 
 /* ------------------------------------------------------------------------*//**
+ * @FUNCTION		mod44xx_get_id
+ * @BRIEF		return module ID
+ * @RETURNS		module ID on success
+ *			OMAP4_MODULE_ID_MAX in case of fail
+ * @param[in,out]	name: module name
+ * @DESCRIPTION		return module ID
+ *//*------------------------------------------------------------------------ */
+mod44xx_id mod44xx_get_id(const char *name)
+{
+	int i;
+
+	for (i = 0; i < OMAP4_MODULE_ID_MAX; i++) {
+		if (strcmp(name, mod44xx_name_table[i]) == 0)
+			return (mod44xx_id) i;
+	}
+
+	return OMAP4_MODULE_ID_MAX;
+}
+
+
+/* ------------------------------------------------------------------------*//**
  * @FUNCTION		mod44xx_get_clkdm
  * @BRIEF		return the ID of the clock domain a given module
  *			is part of.

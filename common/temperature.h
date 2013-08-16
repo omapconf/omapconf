@@ -62,16 +62,18 @@ typedef enum {
 #define TEMP_SENSOR_MAX_NAME_LENGTH	16
 
 #define TEMP_SENSOR_BANDGAP	((const char *) "Bandgap") /* OMAP4 */
-#define TEMP_SENSOR_MPU		((const char *) "MPU") /* OMAP5 */
+#define TEMP_SENSOR_MPU		((const char *) "MPU") /* OMAP5 & DRA7 */
 #define TEMP_SENSOR_HOTSPOT_MPU	((const char *) "MPU_Hotspot") /* Common */
-#define TEMP_SENSOR_GPU		((const char *) "GPU") /* OMAP5 */
+#define TEMP_SENSOR_GPU		((const char *) "GPU") /* OMAP5 & DRA7 */
 #define TEMP_SENSOR_HOTSPOT_GPU	((const char *) "GPU_Hotspot") /* OMAP5 */
 #define TEMP_SENSOR_MEM1	((const char *) "MEM1") /* Common */
 #define TEMP_SENSOR_MEM2	((const char *) "MEM2") /* Common */
-#define TEMP_SENSOR_CORE	((const char *) "CORE") /* OMAP5 */
+#define TEMP_SENSOR_CORE	((const char *) "CORE") /* OMAP5 & DRA7 */
 #define TEMP_SENSOR_PCB		((const char *) "PCB") /* Common */
 #define TEMP_SENSOR_CASE	((const char *) "CASE") /* OMAP5 */
 #define TEMP_SENSOR_CHARGER	((const char *) "CHARGER") /* OMAP5 */
+#define TEMP_SENSOR_DSPEVE	((const char *) "DSPEVE") /* DRA7 */
+#define TEMP_SENSOR_IVA		((const char *) "IVA") /* DRA7 */
 
 
 void temp_sensor_init(void);
