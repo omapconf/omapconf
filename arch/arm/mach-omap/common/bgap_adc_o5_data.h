@@ -56,7 +56,7 @@
  * Array index is the ADC code - 540
  * returns the MAX temperature corresponding to the ADC code
  */
-const short int bgap_o5_conversion_table[] = {
+static const short int bgap_o5_conversion_table[] = {
 	/*	540,	541,	542,	543,	544,	545,	546,	547,	548,	549, */
 		-40,	-40,	-40,	-40,	-39,	-39,	-38,	-38,	-38,	-37,
 

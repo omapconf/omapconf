@@ -47,7 +47,7 @@
 
 
 #define PMIC_NAME_MAX_LENGTH		12
-#define PMIC_SMPS_MAX_NUMBER		3
+#define PMIC_SMPS_MAX_NUMBER		5
 
 
 typedef enum {
@@ -56,6 +56,7 @@ typedef enum {
 	PMIC_TPS62361,
 	PMIC_TWL6034,
 	PMIC_TWL6035,
+	PMIC_TPS659038,
 	PMIC_ID_MAX
 } pmic_id;
 
@@ -64,10 +65,16 @@ typedef enum {
 	PMIC_SMPS_MPU,
 	PMIC_SMPS_MM,
 	PMIC_SMPS_CORE,
+	PMIC_SMPS_GPU,
+	PMIC_SMPS_DSPEVE,
 	PMIC_SMPS_ID_MAX
 } pmic_smps_id;
 
 
+void pmic_smps_init(pmic_smps_id id, unsigned short is_twl6030,
+		unsigned short is_twl6032, unsigned short is_twl6034,
+		unsigned short is_twl6035, unsigned short tps62361_present,
+		unsigned short tps659038_present);
 int pmic_detect(void);
 
 pmic_id pmic_chip_get(pmic_smps_id smps_id);
@@ -76,6 +83,7 @@ unsigned short pmic_is_twl6032(pmic_smps_id smps_id);
 unsigned short pmic_is_twl6034(pmic_smps_id smps_id);
 unsigned short pmic_is_twl6035(pmic_smps_id smps_id);
 unsigned short pmic_is_tps62361(pmic_smps_id smps_id);
+unsigned short pmic_is_tps659038(pmic_smps_id smps_id);
 unsigned short pmic_is_single_chip(void);
 double pmic_chip_revision_get(pmic_smps_id smps_id);
 double pmic_eprom_revision_get(pmic_smps_id smps_id);

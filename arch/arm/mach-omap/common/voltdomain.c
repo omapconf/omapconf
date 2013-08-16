@@ -47,6 +47,7 @@
 #include <voltdm44xx.h>
 #include <smartreflex44xx.h>
 #include <voltdm54xx.h>
+#include <voltdm_dra7xx.h>
 #include <cpuinfo.h>
 #include <opp.h>
 
@@ -76,6 +77,8 @@ void voltdm_init(void)
 		voltdm44xx_init();
 	} else if (cpu_is_omap54xx()) {
 		voltdm54xx_init();
+	} else if (cpu_is_dra7xx()) {
+		voltdm_dra7xx_init();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -114,6 +117,8 @@ void voltdm_deinit(void)
 		voltdm44xx_deinit();
 	} else if (cpu_is_omap54xx()) {
 		voltdm54xx_deinit();
+	} else if (cpu_is_dra7xx()) {
+		voltdm_dra7xx_deinit();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -134,6 +139,8 @@ const genlist *voltdm_list_get(void)
 		return voltdm44xx_list_get();
 	} else if (cpu_is_omap54xx()) {
 		return voltdm54xx_list_get();
+	} else if (cpu_is_dra7xx()) {
+		return voltdm_dra7xx_list_get();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -181,6 +188,21 @@ int voltdm_s2id(const char *voltdm)
 			return (int) VDD54XX_CORE;
 		else
 			return OMAPCONF_ERR_ARG;
+	} else if (cpu_is_dra7xx()) {
+		if (strcmp(voltdm, VDD_MPU) == 0)
+			return (int) VDD_DRA7XX_MPU;
+		else if (strcmp(voltdm, VDD_IVA) == 0)
+			return (int) VDD_DRA7XX_IVA;
+		else if (strcmp(voltdm, VDD_DSPEVE) == 0)
+			return (int) VDD_DRA7XX_DSPEVE;
+		else if (strcmp(voltdm, VDD_GPU) == 0)
+			return (int) VDD_DRA7XX_GPU;
+		else if (strcmp(voltdm, VDD_CORE) == 0)
+			return (int) VDD_DRA7XX_CORE;
+		else if (strcmp(voltdm, VDD_RTC) == 0)
+			return (int) VDD_DRA7XX_RTC;
+		else
+			return OMAPCONF_ERR_ARG;
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -202,6 +224,8 @@ int voltdm_count_get(void)
 		return voltdm44xx_count_get();
 	} else if (cpu_is_omap54xx()) {
 		return voltdm54xx_count_get();
+	} else if (cpu_is_dra7xx()) {
+		return voltdm_dra7xx_count_get();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -243,6 +267,8 @@ int voltdm_voltage_get(const char *voltdm)
 			return v2uv(volt);
 	} else if (cpu_is_omap54xx()) {
 		return v2uv(voltdm54xx_voltage_get((voltdm54xx_id) id));
+	} else if (cpu_is_dra7xx()) {
+		return v2uv(voltdm_dra7xx_voltage_get((voltdm_dra7xx_id) id));
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);

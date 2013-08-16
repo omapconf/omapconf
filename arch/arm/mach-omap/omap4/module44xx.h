@@ -332,6 +332,7 @@ int mod44xx_count_get(void);
 
 int mod44xx_init_info_table(void);
 
+mod44xx_id mod44xx_get_id(const char *name);
 char *mod44xx_get_name(mod44xx_id id,
 	char name[MOD44XX_MAX_NAME_LENGTH]);
 clkdm44xx_id mod44xx_get_clkdm(mod44xx_id id);

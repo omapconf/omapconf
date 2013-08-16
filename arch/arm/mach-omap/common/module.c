@@ -47,6 +47,7 @@
 #include <string.h>
 #include <module44xx.h>
 #include <module54xx.h>
+#include <module_dra7xx.h>
 #include <cpuinfo.h>
 #include <opp.h>
 #include <voltdomain.h>
@@ -80,6 +81,8 @@ void module_init(void)
 		mod44xx_init();
 	} else if (cpu_is_omap54xx()) {
 		mod54xx_init();
+	} else if (cpu_is_dra7xx()) {
+		mod_dra7xx_init();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -127,6 +130,8 @@ void module_deinit(void)
 		mod44xx_deinit();
 	} else if (cpu_is_omap54xx()) {
 		mod54xx_deinit();
+	} else if (cpu_is_dra7xx()) {
+		mod_dra7xx_deinit();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -147,6 +152,8 @@ const genlist *module_list_get(void)
 		return mod44xx_list_get();
 	} else if (cpu_is_omap54xx()) {
 		return mod54xx_list_get();
+	} else if (cpu_is_dra7xx()) {
+		return mod_dra7xx_list_get();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -169,6 +176,8 @@ int module_count_get(void)
 		return mod44xx_count_get();
 	} else if (cpu_is_omap54xx()) {
 		return mod54xx_count_get();
+	} else if (cpu_is_dra7xx()) {
+		return mod_dra7xx_count_get();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -700,6 +709,11 @@ mod_module_mode module_mode_get(const char *mod)
 
 	CHECK_NULL_ARG(mod, MOD_MODULE_MODE_MAX);
 
+	if (cpu_is_omap44xx()) {
+		mod44xx_get_mode(mod44xx_get_id(mod), &mmode);
+		return mmode;
+	}
+
 	ret = _module_info_get(mod, &data);
 	if (ret != 0) {
 		dprintf("%s(%s): could not retrieve mod_info struct!\n",
@@ -1152,6 +1166,8 @@ int module_clk_rate_get(const char *mod, unsigned short ignore)
 			rate_mhz = clk44xx_get_clock_speed(data.clk, ignore);
 		} else if (cpu_is_omap54xx()) {
 			rate_mhz = clk54xx_rate_get(data.clk, ignore);
+		} else if (cpu_is_dra7xx()) {
+			rate_mhz = clk_dra7xx_rate_get(data.clk, ignore);
 		} else {
 			rate_khz = OMAPCONF_ERR_CPU;
 			goto module_clk_rate_get_end;

@@ -269,7 +269,7 @@ void chips_info_show(FILE *stream, unsigned short die_id)
 	if (pmic_eprom_revision[PMIC_SMPS_MPU] >= 0.0)
 		fprintf(stream, "(EPROM rev%1.1f)\n",
 			pmic_eprom_revision[PMIC_SMPS_MPU]);
-	else if (pmic_is_tps62361(PMIC_SMPS_MPU))
+	else if (pmic_is_tps62361(PMIC_SMPS_MPU) || pmic_is_tps659038(PMIC_SMPS_MPU))
 		fprintf(stream, "\n");
 	else
 		fprintf(stream, "(EPROM rev UNKNOWN)\n");
@@ -295,8 +295,11 @@ pmic_detection_err:
 	fprintf(stream, "  UNKNOWN POWER IC\n");
 
 audioic_detect:
-	if (strstr(product_name, "Kindle") == NULL) {
-		/* Kindle Fire products do not use Phoenix Audio */
+	if (!cpu_is_dra7xx() && (strstr(product_name, "Kindle") == NULL)) {
+		/* Kindle Fire products do not use Phoenix Audio.
+		 * DRA7XX doesn't have McPDM so no Phoenix Audio either,
+		 * tlv320aic3106 is used instead but there is no version reg
+		 */
 		chip_rev = twl6040_chip_revision_get();
 		if (chip_rev >= 0.0)
 			fprintf(stream, "  TWL6040  ES%1.1f\n\n", chip_rev);

@@ -169,6 +169,8 @@ typedef struct {
 	unsigned short clkdcoldo_clkout_st;	/* CM_CLKDCOLDO_DPLL.ST_DPLL_CLKDCOLDO */
 	unsigned short clkdcoldo_autogating;	/* CM_CLKDCOLDO_DPLL.DPLL_CLKDCOLDO_GATE_CTRL */
 	double clkdcoldo_rate;			/* in MHz */
+	unsigned short clkoutldo_st;		/* CM_DIV_M2_DPLL.CLKLDOST (ex: DPLL PCIE_REF for DRA7) */
+	double clkoutldo_rate;			/* in MHz */
 } dpll_MN_settings;
 
 
