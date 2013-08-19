@@ -47,6 +47,7 @@
 #include <voltdm_dra7xx.h>
 #include <dpll_dra7xx.h>
 #include <ctt_dra7xx.h>
+#include <mcasp_dra7xx.h>
 #include <lib.h>
 #include <help.h>
 #include <stdlib.h>
@@ -111,6 +112,12 @@ int main_dra7xx_dump(int argc, char *argv[])
 		}
 		else
 			return err_arg_too_many_msg_show(HELP_PRCM);
+	} else if (strncmp(argv[0], "mcasp", 5) == 0) {
+		if (argc == 1) {
+			return dra7xx_mcasp_dumpregs(stdout, argc, argv);
+		} else {
+			return err_arg_too_many_msg_show(HELP_MCASP);
+		}
 	} else if (strcmp(argv[0], "audioic") == 0) {
 		if (argc == 1 || argc == 3)
 			return tlv320aic3x_dumpregs(argc, argv);
@@ -148,6 +155,8 @@ int main_dra7xx_legacy(int argc, char *argv[])
 		ret = dpll_dra7xx_main(argc - 1, argv + 1);
 	} else if (strcmp(argv[0], "ctt") == 0) {
 		ret = ctt_dra7xx_main(argc - 1, argv + 1);
+	} else if (strncmp(argv[0], "mcasp", 5) == 0) {
+		return dra7xx_mcasp_main(argc, argv);
 	} else if (strcmp(argv[0], "audioic") == 0) {
 		ret = tlv320aic3x_main(argc - 1, argv + 1);
 	} else {
@@ -224,6 +233,12 @@ int main_dra7xx_show(int argc, char *argv[])
 			return opp_show(stdout);
 		else
 			return err_arg_too_many_msg_show(HELP_SOC_OPP);
+	} else if (strncmp(argv[0], "mcasp", 5) == 0) {
+		if (argc == 1) {
+			return dra7xx_mcasp_show(stdout, argc, argv);
+		} else {
+			return err_arg_too_many_msg_show(HELP_MCASP);
+		}
 	} else {
 		return err_unknown_argument_msg_show(argv[0]);
 	}

@@ -164,4 +164,13 @@ void help_dra7xx(help_category cat, char *context)
 		printf("\t    'chip-address' is hexadecimal value.\n");
 	}
 
+	if ((cat == HELP_ALL) || (cat == HELP_MCASP)) {
+		printf("\n\tomapconf dump mcasp<n>\n");
+		printf("\t    Dump McASP instance 'n' registers.\n");
+		printf("\t    'n' is the instance id: 1, 2, ..., 8.\n");
+
+		printf("\n\tomapconf show mcasp<n>\n");
+		printf("\t    Show McASP instance 'n' configuration.\n");
+		printf("\t    'n' is the instance id: 1, 2, ..., 8.\n");
+	}
 }
