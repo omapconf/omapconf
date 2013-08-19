@@ -1,3 +1,35 @@
+v1.68:
+-------
+	- [DRA7][McASP] Add initial support
+	- [COMMON][TABLE] Add support for tables with title
+	- [DRA7][VOLTAGE] omapconf set voltage <rail> <voltage>
+	- [DRA7][DPLL] add omapconf audit dpll
+	- [DRA7] [OPP] add omapconf show opp
+	- [DRA7] [TEMP] add omapconf show temp <sensor>
+	- [DRA7][TEMP] add omapconf show hwtemp <sensor>
+	- [DRA7][PRCM] Clocks dependencies and calculation
+	- [DRA7][MODULE] Add support for DRA7 modules
+	- [DRA7] Add support for voltage domains
+	- [DRA7][AUDIO] Add support for tlv320aic3x audioic
+	- [LIB/DRA7/AUDIO] No audioic revision to show for DRA7XX
+	- [PMIC][DRA7] PMIC detection for TPS659038
+	- [DRA7][PRCM/CTT] omapconf export ctt
+	- [DRA7][DPLL] add omapconf show dpll
+	- [DRA7][DPLL] add omapconf dump dpll [<dpll>]
+	- [DRA7][PRCM] add omapconf dump prcm [<pwrdm>]
+	- [CPUINFO] introduce DRA7x cpuID support
+	- [OMAP5][DPLL] Fix show dpll M2 divider
+	- [MODULE] change debug print to print clock ID
+	- [PMIC] use array index matching for PMIC matches
+	- [DPLL] Extract DPLL_BYP_CLKSEL bit data for all DPLL types
+	- OMAP5: add show hwtemp
+	- OMAP5: audit dpll should audit at the right OPP
+	- CPUINFO: Array index matching
+	- cpuinfo: OMAP5: fix cpu device type detection
+	- Makefile: allow to build tags and cscope
+	- OMAP5: SR: support reading VC registers on ES2.0
+
+
 v1.67:
 -------
 	- [OMAP4][SR] Always dump SR VP registers (always clocked) 
