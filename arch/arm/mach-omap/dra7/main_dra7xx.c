@@ -60,6 +60,7 @@
 #include <opp.h>
 #include <audit_dra7xx.h>
 #include <audioic/tlv320aic3x.h>
+#include <crossbar.h>
 
 
 /* #define MAIN_DRA7XX_DEBUG */
@@ -123,6 +124,12 @@ int main_dra7xx_dump(int argc, char *argv[])
 			return tlv320aic3x_dumpregs(argc, argv);
 		else
 			return err_arg_too_many_msg_show(HELP_AUDIOIC);
+	} else if (!strcmp(argv[0], "crossbar")) {
+		if (argc == 1 || argc == 2 || argc == 3) {
+			return dra7_crossbar_dump_main(argc - 1, argv + 1);
+		} else {
+			return err_arg_too_many_msg_show(HELP_CROSSBAR);
+		}
 	} else {
 		return err_unknown_argument_msg_show(argv[0]);
 	}
@@ -392,6 +399,8 @@ int main_dra7xx_audit(int argc, char *argv[])
 		goto main_dra7xx_audit_err_arg;
 	} else if (strcmp(argv[0], "dpll") == 0) {
 		ret = main_dra7xx_dpll_audit(argc - 1, argv + 1);
+	} else if (!strcmp(argv[0], "crossbar")) {
+		ret = dra7_crossbar_audit_main(argc - 1, argv + 1);
 	} else {
 		goto main_dra7xx_audit_err_arg;
 	}
