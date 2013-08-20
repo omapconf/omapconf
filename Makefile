@@ -223,6 +223,8 @@ OMAP5OBJECTS=	$(OMAP5SOURCES:.c=.o)
 
 
 DRA7SOURCES=\
+		arch/arm/mach-omap/dra7/crossbar.c\
+		arch/arm/mach-omap/dra7/crossbar_irq.c\
 		arch/arm/mach-omap/dra7/prcm/prcm_dra7xx.c\
 		arch/arm/mach-omap/dra7/prcm/prm_dra7xx.c\
 		arch/arm/mach-omap/dra7/prcm/prm_dra7xx-defs.c\
