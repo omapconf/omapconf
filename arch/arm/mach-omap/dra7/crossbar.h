@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			help.h
- * @Description			Help Library for OMAPCONF
- * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2006
+ * @Filename			crossbar.h
+ * @Description			DRA7 Crossbar
+ * @Author			Nishanth Menon
+ * @Date			2013
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2006 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2013 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -40,57 +40,46 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+#include <stdlib.h>
+#include <stdio.h>
 
+#ifndef _DRA7_CROSS_BAR_H
+#define _DRA7_CROSS_BAR_H
 
-#ifndef __OMAPCONF_HELP_H__
-#define __OMAPCONF_HELP_H__
+/* indexed by input number */
+struct cross_bar_input {
+	char *name;
+	char *source;
+	char *description;
+};
 
+/* indexed by input number */
+struct cross_bar_module_input {
+	unsigned int reg;
+	int input;
+	char *name;
+	char *source;
+	char *description;
+};
 
-typedef enum {
-	HELP_RW,
-	HELP_I2C_RW,
-	HELP_SOC_PWST,
-	HELP_SOC_OPP,
-	HELP_VOLT,
-	HELP_DPLL,
-	HELP_PRCM,
-	HELP_SR,
-	HELP_MPUSS,
-	HELP_EMIF,
-	HELP_WKDEP,
-	HELP_AVS,
-	HELP_ABB,
-	HELP_HWOBS,
-	HELP_TEMPERATURE,
-	HELP_HWTEMPERATURE,
-	HELP_AUDIT,
-	HELP_TRACE,
-	HELP_COUNTERS,
-	HELP_FORCEDETECT,
-	HELP_AUDIOIC,
-	HELP_DISPLAY,
-	HELP_CAMERA,
-	HELP_STATDEP,
-	HELP_PMIC,
-	HELP_ABE,
-	HELP_EXPORT,
-	HELP_CTRLMOD,
-	HELP_TIMERS_32K,
-	HELP_MCASP,
-	HELP_CROSSBAR,
-	HELP_ALL,
-	HELP_USAGE,
-	HELP_CATEGORY_MAX,
-} help_category;
+/* Generic crossbar helpers */
+int dra7xx_crossbar_input_init(char *module_name,
+			       struct cross_bar_module_input *minput,
+			       int minput_size, unsigned int mask);
+int dra7xx_crossbar_dump(FILE * stream, char *type, char *module_name,
+			 struct cross_bar_module_input *minput, int minput_size,
+			 struct cross_bar_input *cinput, int cinput_size);
+int dra7xx_crossbar_audit(FILE * stream, char *type, char *module_name,
+			  struct cross_bar_module_input *minput,
+			  int minput_size, struct cross_bar_input *cinput,
+			  int cinput_size, int *tot_error, int *tot_checks);
 
+/* Specific crossbar calls */
+int dra7_dump_crossbar_irq(FILE * stream, int argc, char *argv[]);
+int dra7_audit_crossbar_irq(FILE * stream, int argc, char *argv[]);
 
-int err_arg_too_many_msg_show(help_category cat);
-int err_arg_missing_msg_show(help_category cat);
-int err_arg_msg_show(help_category cat);
-int err_internal_msg_show(void);
-int err_unknown_argument_msg_show(char *s);
+/* Entry calls */
+int dra7_crossbar_dump_main(int argc, char *argv[]);
+int dra7_crossbar_audit_main(int argc, char *argv[]);
 
-void help(help_category cat);
-
-
-#endif
+#endif				/* _DRA7_CROSS_BAR_H */
