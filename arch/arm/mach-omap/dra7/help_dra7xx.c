@@ -116,6 +116,21 @@ void help_dra7xx(help_category cat, char *context)
 			"### MPU ### OPerating Points (OPP). For example "
 			"when MPU OPP is not correctly detected.\n");
 		printf("\t    Supported <opp>: nom, od, high.\n");
+
+		printf("\n\tomapconf audit crossbar <type> <module>\n");
+		printf("\t    Dump crossbar mapping for type of module\n");
+		printf("\t    'type' is irq - if omitted or 'all', show all\n");
+		printf("\t    for type 'irq', 'module' is one of the following - if omitted or 'all', show all\n");
+		printf("\t        mpu - chooses mpu crossbar\n");
+		printf("\t        dsp - chooses dsp1 and dsp2\n");
+		printf("\t        dsp1 - chooses dsp1\n");
+		printf("\t        dsp2 - chooses dsp2\n");
+		printf("\t        ipu - chooses ipu1 and ipu2\n");
+		printf("\t        ipu1 - chooses ipu1\n");
+		printf("\t        ipu2 - chooses ipu2\n");
+		printf("\t        eve - chooses eve1 and eve2\n");
+		printf("\t        eve1 - chooses eve1\n");
+		printf("\t        eve2 - chooses eve2\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_PRCM)) {
@@ -172,5 +187,22 @@ void help_dra7xx(help_category cat, char *context)
 		printf("\n\tomapconf show mcasp<n>\n");
 		printf("\t    Show McASP instance 'n' configuration.\n");
 		printf("\t    'n' is the instance id: 1, 2, ..., 8.\n");
+	}
+
+	if ((cat == HELP_ALL) || (cat == HELP_CROSSBAR)) {
+		printf("\n\tomapconf dump crossbar <type> <module>\n");
+		printf("\t    Dump crossbar mapping for type of module\n");
+		printf("\t    'type' is irq - if omitted or 'all', show all\n");
+		printf("\t    for type 'irq', 'module' is one of the following - if omitted or 'all', show all\n");
+		printf("\t        mpu - chooses mpu crossbar\n");
+		printf("\t        dsp - chooses dsp1 and dsp2\n");
+		printf("\t        dsp1 - chooses dsp1\n");
+		printf("\t        dsp2 - chooses dsp2\n");
+		printf("\t        ipu - chooses ipu1 and ipu2\n");
+		printf("\t        ipu1 - chooses ipu1\n");
+		printf("\t        ipu2 - chooses ipu2\n");
+		printf("\t        eve - chooses eve1 and eve2\n");
+		printf("\t        eve1 - chooses eve1\n");
+		printf("\t        eve2 - chooses eve2\n");
 	}
 }
