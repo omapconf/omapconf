@@ -1502,7 +1502,7 @@ int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
 					"Option \"-opp [dpll_casc|low|nom|high|speedbin]\" may be considered until OPP correctly setup.\n\n");
 			}
 			(*err_nbr)++;
-			ret = 0;
+			ret = OMAPCONF_ERR_NOT_AVAILABLE;
 			goto dpll54xx_audit_end;
 		}
 	}
@@ -1550,7 +1550,7 @@ int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
 							"WARNING: golden settings not available for %s.\n\n",
 							dpll54xx_name_get(id));
 					(*err_nbr)++;
-					ret = 0;
+					ret = OMAPCONF_ERR_NOT_AVAILABLE;
 					goto dpll54xx_audit_end;
 				}
 				golden_settings =
@@ -1563,7 +1563,7 @@ int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
 							"WARNING: golden settings not available for %s.\n\n",
 							dpll54xx_name_get(id));
 					(*err_nbr)++;
-					ret = 0;
+					ret = OMAPCONF_ERR_NOT_AVAILABLE;
 					goto dpll54xx_audit_end;
 				}
 				golden_settings =
@@ -1577,7 +1577,7 @@ int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
 							"WARNING: golden settings not available for %s.\n\n",
 							dpll54xx_name_get(id));
 					(*err_nbr)++;
-					ret = 0;
+					ret = OMAPCONF_ERR_NOT_AVAILABLE;
 					goto dpll54xx_audit_end;
 				}
 				golden_settings =
@@ -1591,7 +1591,7 @@ int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
 							"WARNING: golden settings not available for %s.\n\n",
 							dpll54xx_name_get(id));
 					(*err_nbr)++;
-					ret = 0;
+					ret = OMAPCONF_ERR_NOT_AVAILABLE;
 					goto dpll54xx_audit_end;
 				}
 				golden_settings =
@@ -1606,7 +1606,7 @@ int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
 						"available for %s.\n\n",
 						dpll54xx_name_get(id));
 				(*err_nbr)++;
-				ret = 0;
+				ret = OMAPCONF_ERR_NOT_AVAILABLE;
 				goto dpll54xx_audit_end;
 			}
 			golden_settings =
@@ -1618,7 +1618,7 @@ int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
 					"available for %.1lfMHz sysclk.\n\n",
 					sysclk);
 			(*err_nbr)++;
-			ret = 0;
+			ret = OMAPCONF_ERR_NOT_AVAILABLE;
 			goto dpll54xx_audit_end;
 		}
 
@@ -1628,7 +1628,7 @@ int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
 					"WARNING: golden settings not "
 					"available for this device.\n\n");
 			(*err_nbr)++;
-			ret = 0;
+			ret = OMAPCONF_ERR_NOT_AVAILABLE;
 			goto dpll54xx_audit_end;
 		}
 
@@ -1976,7 +1976,9 @@ dpll54xx_audit_table_show:
 		if (stream != NULL)
 			autoadjust_table_fprint(stream, table, row, 4);
 	}
-	ret = 0;
+
+	if (*err_nbr > 0)
+		ret = OMAPCONF_ERR_AUDIT_FAIL;
 
 dpll54xx_audit_end:
 	return ret;

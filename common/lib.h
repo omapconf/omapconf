@@ -67,6 +67,7 @@
 #define OMAPCONF_ERR_FULL		-12 /* item is full */
 #define OMAPCONF_ERR_OUTOFBOUNDS	-13 /* arg is too large or too small */
 #define OMAPCONF_ERR_TIMEOUT		-14 /* a timer or counter expired */
+#define OMAPCONF_ERR_AUDIT_FAIL		-15 /* there were errors during audit */
 
 #define OMAPCONF_DESCRIPTION_MAX_LENGTH	128
 

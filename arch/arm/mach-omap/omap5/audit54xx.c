@@ -119,7 +119,7 @@ int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
 	fp = workdir_fopen(logfilename, "w+");
 	if (fp == NULL) {
 		fprintf(stderr, "Could not create %s file!\n\n", logfilename);
-		return 0;
+		return OMAPCONF_ERR_UNEXPECTED;
 	}
 
 	fprintf(fp,
