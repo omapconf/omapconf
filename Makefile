@@ -367,8 +367,7 @@ tags: $(ALLSOURCES)
 
 
 cscope: $(ALLSOURCES)
-	cscope -b $(shell $(CC) $(MYCFLAGS) -MM -MG $(ALLSOURCES) |\
-			sed -e "s/^.*\.o://g"|tr -d '\\')
+	cscope -R -b
 
 
 clean:
