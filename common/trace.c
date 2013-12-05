@@ -1790,7 +1790,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	}
 
 	if (p_flags[EMIF_LOAD]) {
-		if (cpu_is_omap44xx()) {
+		if (cpu_is_omap44xx() | cpu_is_dra7xx()) {
 			/* Configure counters to count data bus busy cycles */
 			ret = emif44xx_perf_cnt_configure(EMIF44XX_0,
 				EMIF44XX_PERF_CNT_1,
