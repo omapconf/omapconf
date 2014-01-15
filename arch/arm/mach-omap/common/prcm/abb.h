@@ -49,9 +49,15 @@
 #include <stdio.h>
 
 
-int abb_config_show(FILE *stream, double sysclk_rate,
-	unsigned int abb_mpu_setup, unsigned int abb_mpu_ctrl,
-	unsigned int abb_iva_setup, unsigned int abb_iva_ctrl);
+struct abb_data {
+	char *name;
+	unsigned char en;
+	unsigned int setup;
+	unsigned int ctrl;
+};
+
+int abb_config_show(FILE *stream, double sysclk_rate, struct abb_data *data,
+		    int num);
 
 
 #endif

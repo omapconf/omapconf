@@ -147,23 +147,24 @@ int abb54xx_dump(FILE *stream)
  *//*------------------------------------------------------------------------ */
 int abb54xx_config_show(FILE *stream)
 {
-	unsigned int abb_mpu_setup, abb_mpu_ctrl;
-	unsigned int abb_mm_setup, abb_mm_ctrl;
 	double sysclk_rate;
+	struct abb_data omap5_abb_data[2];
 
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(stream, OMAPCONF_ERR_ARG);
 
+	omap5_abb_data[0].name = "MPU Voltage Domain";
+	omap5_abb_data[1].name = "MM Voltage Domain";
 	if (cpu_revision_get() == REV_ES1_0) {
-		abb_mpu_setup = reg_read(&omap5430es1_prm_abbldo_mpu_setup);
-		abb_mpu_ctrl = reg_read(&omap5430es1_prm_abbldo_mpu_ctrl);
-		abb_mm_setup = reg_read(&omap5430es1_prm_abbldo_mm_setup);
-		abb_mm_ctrl = reg_read(&omap5430es1_prm_abbldo_mm_ctrl);
+		omap5_abb_data[0].setup = reg_read(&omap5430es1_prm_abbldo_mpu_setup);
+		omap5_abb_data[0].ctrl = reg_read(&omap5430es1_prm_abbldo_mpu_ctrl);
+		omap5_abb_data[1].setup = reg_read(&omap5430es1_prm_abbldo_mm_setup);
+		omap5_abb_data[1].ctrl = reg_read(&omap5430es1_prm_abbldo_mm_ctrl);
 	} else {
-		abb_mpu_setup = reg_read(&omap5430_prm_abbldo_mpu_setup);
-		abb_mpu_ctrl = reg_read(&omap5430_prm_abbldo_mpu_ctrl);
-		abb_mm_setup = reg_read(&omap5430_prm_abbldo_mm_setup);
-		abb_mm_ctrl = reg_read(&omap5430_prm_abbldo_mm_ctrl);
+		omap5_abb_data[0].setup = reg_read(&omap5430_prm_abbldo_mpu_setup);
+		omap5_abb_data[0].ctrl = reg_read(&omap5430_prm_abbldo_mpu_ctrl);
+		omap5_abb_data[1].setup = reg_read(&omap5430_prm_abbldo_mm_setup);
+		omap5_abb_data[1].ctrl = reg_read(&omap5430_prm_abbldo_mm_ctrl);
 	}
 
 	sysclk_rate = clk54xx_sysclk_rate_get();
@@ -173,6 +174,5 @@ int abb54xx_config_show(FILE *stream)
 		return OMAPCONF_ERR_INTERNAL;
 	}
 
-	return abb_config_show(stream, sysclk_rate,
-		abb_mpu_setup, abb_mpu_ctrl, abb_mm_setup, abb_mm_ctrl);
+	return abb_config_show(stream, sysclk_rate, omap5_abb_data, 2);
 }

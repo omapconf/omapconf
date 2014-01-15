@@ -123,17 +123,18 @@ int abb44xx_dump(void)
  *//*------------------------------------------------------------------------ */
 int abb44xx_config_show(void)
 {
-	unsigned int abb_mpu_setup, abb_mpu_ctrl;
-	unsigned int abb_iva_setup, abb_iva_ctrl;
 	double sysclk_rate;
 	int ret;
+	struct abb_data omap4_abb_data[2];
 
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
 
-	ret = mem_read(OMAP4430_PRM_LDO_ABB_MPU_SETUP, &abb_mpu_setup);
-	ret += mem_read(OMAP4430_PRM_LDO_ABB_MPU_CTRL, &abb_mpu_ctrl);
-	ret += mem_read(OMAP4430_PRM_LDO_ABB_IVA_SETUP, &abb_iva_setup);
-	ret += mem_read(OMAP4430_PRM_LDO_ABB_IVA_CTRL, &abb_iva_ctrl);
+	omap4_abb_data[0].name = "MPU Voltage Domain";
+	omap4_abb_data[1].name = "IVAHD Voltage Domain";
+	ret = mem_read(OMAP4430_PRM_LDO_ABB_MPU_SETUP, &omap4_abb_data[0].setup);
+	ret += mem_read(OMAP4430_PRM_LDO_ABB_MPU_CTRL, &omap4_abb_data[0].ctrl);
+	ret += mem_read(OMAP4430_PRM_LDO_ABB_IVA_SETUP, &omap4_abb_data[1].setup);
+	ret += mem_read(OMAP4430_PRM_LDO_ABB_IVA_CTRL, &omap4_abb_data[1].ctrl);
 	if (ret != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 
@@ -144,8 +145,7 @@ int abb44xx_config_show(void)
 		return OMAPCONF_ERR_INTERNAL;
 	}
 
-	return abb_config_show(stdout, sysclk_rate,
-		abb_mpu_setup, abb_mpu_ctrl, abb_iva_setup, abb_iva_ctrl);
+	return abb_config_show(stdout, sysclk_rate, omap4_abb_data, 2);
 }
 
 
