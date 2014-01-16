@@ -85,6 +85,7 @@
 
 /* ID Codes */
 #define DRA7XX_ES_1_0_ID_CODE				0x0B99002F
+#define DRA7XX_ES_1_1_ID_CODE				0x1B99002F
 
 #define OMAP5432_ES_2_0_ID_CODE				0x1B99802F
 #define OMAP5432_ES_1_0_ID_CODE				0x0B99802F
@@ -899,6 +900,10 @@ int cpu_detect(void)
 		dprintf("%s(): ID_CODE = 0x%08X\n", __func__, id_code);
 
 		switch (id_code) {
+		case DRA7XX_ES_1_1_ID_CODE:
+			cpu_set(DRA_7XX);
+			cpu_revision_set(REV_ES1_1);
+			break;
 		case DRA7XX_ES_1_0_ID_CODE:
 			cpu_set(DRA_7XX);
 			cpu_revision_set(REV_ES1_0);
