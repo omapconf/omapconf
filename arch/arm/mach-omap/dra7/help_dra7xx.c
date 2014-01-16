@@ -167,6 +167,51 @@ void help_dra7xx(help_category cat, char *context)
 			"domains), including main modules frequencies.\n");
 	}
 
+	if ((cat == HELP_ALL) || (cat == HELP_TRACE)) {
+		printf("\n\tomapconf trace perf setup [<cfgfile>]\n");
+		printf(
+			"\t    Interactive performance trace configurator. To be used to:\n");
+		printf("\t      - Generate default trace,\n");
+		printf(
+			"\t      - Select which predefined item(s) to trace for,\n");
+		printf(
+			"\t      - Add/remove user defined items. Any file which contains a dynamic variable (integer, accumulating or not) can be traced.\n");
+		printf(
+			"\t    Use optional <cfgfile> to select a trace configuration file name. Default one used otherwise.\n");
+
+		printf(
+			"\n\tomapconf trace perf [-d <delay>] [-t <duration>] [-s <rate>] [-p <prefix>] [-c <cfgfile>]\n");
+		printf(
+			"\t    Capture predefined items (CPUs Load, MPU/GPU/L3 OPP Changes, EMIF bandwidth & temperatures (bandgap, PCB, hotspot) or custom (user defined) items over time.\n");
+		printf(
+			"\t    Trace customization is done via trace configuration file, built using the trace configurator.\n");
+		printf(
+			"\t    If no configuration file found or selected via <cfgfile>, create a default one that will trace for all predefined items.\n");
+		printf(
+			"\t    Generate GNUPlot scripts to plot trace charts.\n");
+		printf(
+			"\t    Use optional <delay> to add initial delay before capture starts (in seconds, default: 0s).\n");
+		printf(
+			"\t    Use optional <duration> to change capture duration (in seconds, default: 10s).\n");
+		printf(
+			"\t    Use optional <rate> to change capture sampling rate (in seconds, default: 0.1s).\n");
+		printf(
+			"\t    Use optional <prefix> to add <prefix> to default output file names.\n");
+		printf(
+			"\t    Use optional <cfgfile> to select a particular trace configuration file.\n");
+		printf(
+			"\t    e.g. to capture a trace of 30s, with initial delay of 3s, sampling rate of 0.1s, output files prefixed with 'db175_mp3_', using default configuration file:\n");
+		printf(
+			"\t    # omapconf trace perf -t 30 -d 3 -s 0.1 -p db175_mp3_\n");
+
+		printf(
+			"\n\tomapconf trace bw [-h] [<-m | --m<x>> <0xyy | ma_mpu | alldmm | dss | iva | ...>] [<-p | --p<x> <emif1 | emif2>] [<--tr | --tr<x>> <r|w|r+w>] [-d x] [-a 1 or 2] [-i x] [--overflow_delay x] [-o x -t y] [-r 0xaaaaaaaa-0xbbbbbbbb] [-n]\n");
+		printf(
+			"\t    EMIF traffic monitoring. Type 'omapconf trace bw -h' for detailed help.\n");
+		printf(
+			"\t    Visit wiki: <http://opbuwiki.dal.design.ti.com/index.php/L3_bus_monitoring_SW_tool>\n");
+	}
+
 	if ((cat == HELP_ALL) || (cat == HELP_AUDIOIC)) {
 		printf("\n\tomapconf dump audioic\n");
 		printf("\t    Dump tlv320aic3106 (Audio IC) registers.\n");
