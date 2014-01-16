@@ -132,20 +132,18 @@ int abb_opp_sel2string(char s[8], unsigned int opp_sel)
  *			OMAPCONF_ERR_ARG
  * @param[in,out]	stream: output file
  * @param[in]		sysclk_rate: system_clock rate (MHz)
- * @param[in]		abb_mpu_setup: PRM_LDO_ABB_MPU_SETUP register content
- * @param[in]		abb_mpu_ctrl: PRM_LDO_ABB_MPU_CTRL register content
- * @param[in]		abb_iva_setup: PRM_LDO_ABB_IVA_SETUP register content
- * @param[in]		abb_iva_ctrl: PRM_LDO_ABB_IVA_CTRL register content
+ * @param[in]		data: abb data containing name, ctrl and setup information
+ * @param[in]		num_entries:number of entries
  * @DESCRIPTION		analyze power configuration
  *//*------------------------------------------------------------------------ */
-int abb_config_show(FILE *stream, double sysclk_rate,
-	unsigned int abb_mpu_setup, unsigned int abb_mpu_ctrl,
-	unsigned int abb_iva_setup, unsigned int abb_iva_ctrl)
+int abb_config_show(FILE *stream, double sysclk_rate, struct abb_data *data,
+		int num_entries)
 {
-	unsigned short int abb_mpu_en, abb_iva_en;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row = 0;
+	int c = 0;
 	char s[9];
+	struct abb_data *tmp_data;
 
 	CHECK_NULL_ARG(stream, OMAPCONF_ERR_ARG);
 	if (sysclk_rate <= 0.0) {
@@ -159,74 +157,51 @@ int abb_config_show(FILE *stream, double sysclk_rate,
 		"abb_iva_ctrl=0x%08X\n", sysclk_rate,
 		abb_mpu_setup, abb_mpu_ctrl, abb_iva_setup, abb_iva_ctrl);
 
-	abb_mpu_en = extract_bit(abb_mpu_setup, 0);
-	abb_iva_en = extract_bit(abb_iva_setup, 0);
-
 	autoadjust_table_init(table);
 	row = 0;
 
 	strncpy(table[row][0], "ABB Configuration", TABLE_MAX_ELT_LEN);
-	strncpy(table[row][1], "MPU Voltage Domain", TABLE_MAX_ELT_LEN);
-	if (cpu_is_omap44xx())
-		strncpy(table[row][2], "IVAHD Voltage Domain",
-			TABLE_MAX_ELT_LEN);
-	else
-		strncpy(table[row][2], "MM Voltage Domain",
-			TABLE_MAX_ELT_LEN);
+	for (c = 1, tmp_data = data; c <= num_entries; c++, tmp_data++)
+		strncpy(table[row][c], tmp_data->name, TABLE_MAX_ELT_LEN);
 
 	row++;
 
 	strncpy(table[row][0], "Mode", TABLE_MAX_ELT_LEN);
-	strncpy(table[row][1],
-		((abb_mpu_en == 1) ? "Enabled" : "Disabled"),
-		TABLE_MAX_ELT_LEN);
-	strncpy(table[row][2],
-		((abb_iva_en == 1) ? "Enabled" : "Disabled"),
-		TABLE_MAX_ELT_LEN);
+	for (c = 1, tmp_data = data; c <= num_entries; c++, tmp_data++) {
+		tmp_data->en = extract_bit(tmp_data->setup, 0);
+		strncpy(table[row][c],
+			((tmp_data->en == 1) ? "Enabled" : "Disabled"),
+			TABLE_MAX_ELT_LEN);
+	}
 	row++;
 
 	strncpy(table[row][0], "Status", TABLE_MAX_ELT_LEN);
-	if (abb_mpu_en == 1) {
+	for (c = 1, tmp_data = data; c <= num_entries; c++, tmp_data++) {
+		if (!tmp_data->en)
+			continue;
 		abb_status2string(s,
-			extract_bitfield(abb_mpu_ctrl, 3, 2));
-		strncpy(table[row][1],
-			s,
-			TABLE_MAX_ELT_LEN);
-	}
-	if (abb_iva_en == 1) {
-		abb_status2string(s,
-			extract_bitfield(abb_iva_ctrl, 3, 2));
-		strncpy(table[row][2],
-			s,
-			TABLE_MAX_ELT_LEN);
+			extract_bitfield(tmp_data->ctrl, 3, 2));
+		strncpy(table[row][c], s, TABLE_MAX_ELT_LEN);
 	}
 	row++;
 
 	strncpy(table[row][0], "In Transition?", TABLE_MAX_ELT_LEN);
-	if (abb_mpu_en == 1)
-		strncpy(table[row][1],
-			((extract_bit(abb_mpu_ctrl, 6) == 1) ? "YES" : "No"),
+	for (c = 1, tmp_data = data; c <= num_entries; c++, tmp_data++) {
+		if (!tmp_data->en)
+			continue;
+		strncpy(table[row][c],
+			((extract_bit(tmp_data->ctrl, 6) == 1) ? "YES" : "No"),
 			TABLE_MAX_ELT_LEN);
-	if (abb_iva_en == 1)
-		strncpy(table[row][2],
-			((extract_bit(abb_iva_ctrl, 6) == 1) ? "YES" : "No"),
-			TABLE_MAX_ELT_LEN);
+	}
 	row++;
 
 	strncpy(table[row][0], "Selected OPP", TABLE_MAX_ELT_LEN);
-	if (abb_mpu_en == 1) {
+	for (c = 1, tmp_data = data; c <= num_entries; c++, tmp_data++) {
+		if (!tmp_data->en)
+			continue;
 		abb_opp_sel2string(s,
-			extract_bitfield(abb_mpu_ctrl, 0, 2));
-		strncpy(table[row][1],
-			s,
-			TABLE_MAX_ELT_LEN);
-	}
-	if (abb_iva_en == 1) {
-		abb_opp_sel2string(s,
-			extract_bitfield(abb_iva_ctrl, 0, 2));
-		strncpy(table[row][2],
-			s,
-			TABLE_MAX_ELT_LEN);
+			extract_bitfield(tmp_data->ctrl, 0, 2));
+		strncpy(table[row][c], s, TABLE_MAX_ELT_LEN);
 	}
 	row++;
 
@@ -235,73 +210,64 @@ int abb_config_show(FILE *stream, double sysclk_rate,
 	row++;
 	strncpy(table[row][0], "  Slow OPP (ACTIVE_RBB_SEL)",
 		TABLE_MAX_ELT_LEN);
-	if (abb_mpu_en == 1)
-		strncpy(table[row][1],
-			((extract_bit(abb_mpu_setup,
-				1) == 1) ? "RBB" : "Bypass"),
+	for (c = 1, tmp_data = data; c <= num_entries; c++, tmp_data++) {
+		if (!tmp_data->en)
+			continue;
+		strncpy(table[row][c],
+			((extract_bit(tmp_data->setup, 1) == 1) ?
+				"RBB" : "Bypass"),
 			TABLE_MAX_ELT_LEN);
-	if (abb_iva_en == 1)
-		strncpy(table[row][2],
-			((extract_bit(abb_iva_setup,
-				1) == 1) ? "RBB" : "Bypass"),
-			TABLE_MAX_ELT_LEN);
+	}
 	row++;
 
 	strncpy(table[row][0], "  Fast OPP (ACTIVE_FBB_SEL)",
 		TABLE_MAX_ELT_LEN);
-	if (abb_mpu_en == 1)
-		strncpy(table[row][1],
-			((extract_bit(abb_mpu_setup,
-				2) == 1) ? "FBB" : "Bypass"),
+	for (c = 1, tmp_data = data; c <= num_entries; c++, tmp_data++) {
+		if (!tmp_data->en)
+			continue;
+		strncpy(table[row][c],
+			((extract_bit(tmp_data->setup, 2) == 1) ?
+				"FBB" : "Bypass"),
 			TABLE_MAX_ELT_LEN);
-	if (abb_iva_en == 1)
-		strncpy(table[row][2],
-			((extract_bit(abb_iva_setup,
-				2) == 1) ? "FBB" : "Bypass"),
-			TABLE_MAX_ELT_LEN);
+	}
 	row++;
 
 	strncpy(table[row][0], "  Sleep Volt. (SLEEP_RBB_SEL)",
 		TABLE_MAX_ELT_LEN);
-	if (abb_mpu_en == 1)
-		strncpy(table[row][1],
-			((extract_bit(abb_mpu_setup,
-				3) == 1) ? "RBB" : "Bypass"),
+	for (c = 1, tmp_data = data; c <= num_entries; c++, tmp_data++) {
+		if (!tmp_data->en)
+			continue;
+		strncpy(table[row][c],
+			((extract_bit(tmp_data->setup, 3) == 1) ?
+				"RBB" : "Bypass"),
 			TABLE_MAX_ELT_LEN);
-	if (abb_iva_en == 1)
-		strncpy(table[row][2],
-			((extract_bit(abb_iva_setup,
-				3) == 1) ? "RBB" : "Bypass"),
-			TABLE_MAX_ELT_LEN);
+	}
 	row++;
+
 	strncpy(table[row][0], "LDO Settling Time", TABLE_MAX_ELT_LEN);
-	if (abb_mpu_en == 1)
-		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%d (%fus)",
-		extract_bitfield(abb_mpu_setup, 8, 8),
-		extract_bitfield(abb_mpu_setup, 8, 8) *
-		(16.0 / sysclk_rate));
-	if (abb_iva_en == 1)
-		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%d (%fus)",
-		extract_bitfield(abb_iva_setup, 8, 8),
-		extract_bitfield(abb_iva_setup, 8, 8) *
-		(16.0 / sysclk_rate));
+	for (c = 1, tmp_data = data; c <= num_entries; c++, tmp_data++) {
+		if (!tmp_data->en)
+			continue;
+		snprintf(table[row][c], TABLE_MAX_ELT_LEN, "%d (%fus)",
+			extract_bitfield(tmp_data->setup, 8, 8),
+			extract_bitfield(tmp_data->setup, 8, 8) *
+			(16.0 / sysclk_rate));
+	}
 	row++;
 	strncpy(table[row][0], "  (Target is 50us)", TABLE_MAX_ELT_LEN);
 	row++;
 
 	strncpy(table[row][0], "Stat", TABLE_MAX_ELT_LEN);
-	if (abb_mpu_en == 1)
-		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%d (%.3fus)",
-		extract_bitfield(abb_mpu_setup, 8, 8),
-		extract_bitfield(abb_mpu_setup, 8, 8) *
-		(16.0 / sysclk_rate));
-	if (abb_iva_en == 1)
-		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%d (%.3fus)",
-		extract_bitfield(abb_iva_setup, 8, 8),
-		extract_bitfield(abb_iva_setup, 8, 8) *
-		(16.0 / sysclk_rate));
+	for (c = 1, tmp_data = data; c <= num_entries; c++, tmp_data++) {
+		if (!tmp_data->en)
+			continue;
+		snprintf(table[row][c], TABLE_MAX_ELT_LEN, "%d (%.3fus)",
+			extract_bitfield(tmp_data->setup, 8, 8),
+			extract_bitfield(tmp_data->setup, 8, 8) *
+			(16.0 / sysclk_rate));
+	}
 
-	autoadjust_table_print(table, row, 3);
+	autoadjust_table_print(table, row, c);
 
 	return 0;
 }

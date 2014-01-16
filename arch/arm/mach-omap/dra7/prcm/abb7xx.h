@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			abb.h
- * @Description			PRCM ABB Common Definitions & Functions
- * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2010
+ * @Filename			abb7xx.h
+ * @Description			DRA7 PRCM ABB Definitions & Functions
+ * @Author			Nishanth Menon
+ * @Date			2014
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2014 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,22 +42,15 @@
  */
 
 
-#ifndef __PRCM_ABB_H__
-#define __PRCM_ABB_H__
+#ifndef __PRCM_ABB7XX_H__
+#define __PRCM_ABB7XX_H__
 
 
 #include <stdio.h>
 
 
-struct abb_data {
-	char *name;
-	unsigned char en;
-	unsigned int setup;
-	unsigned int ctrl;
-};
-
-int abb_config_show(FILE *stream, double sysclk_rate, struct abb_data *data,
-		    int num);
+int abb7xx_dump(FILE *stream);
+int abb7xx_config_show(FILE *stream);
 
 
 #endif

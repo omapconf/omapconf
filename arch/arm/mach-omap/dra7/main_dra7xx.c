@@ -61,6 +61,7 @@
 #include <audit_dra7xx.h>
 #include <audioic/tlv320aic3x.h>
 #include <crossbar.h>
+#include <abb7xx.h>
 
 
 /* #define MAIN_DRA7XX_DEBUG */
@@ -130,6 +131,11 @@ int main_dra7xx_dump(int argc, char *argv[])
 		} else {
 			return err_arg_too_many_msg_show(HELP_CROSSBAR);
 		}
+	} else if (strcmp(argv[0], "abb") == 0) {
+		if (argc == 1)
+			return abb7xx_dump(stdout);
+		else
+			return err_arg_too_many_msg_show(HELP_ABB);
 	} else {
 		return err_unknown_argument_msg_show(argv[0]);
 	}
@@ -246,6 +252,11 @@ int main_dra7xx_show(int argc, char *argv[])
 		} else {
 			return err_arg_too_many_msg_show(HELP_MCASP);
 		}
+	} else if (strcmp(argv[0], "abb") == 0) {
+		if (argc == 1)
+			return abb7xx_config_show(stdout);
+		else
+			return err_arg_too_many_msg_show(HELP_ABB);
 	} else {
 		return err_unknown_argument_msg_show(argv[0]);
 	}

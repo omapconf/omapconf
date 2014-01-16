@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			abb54xx.c
- * @Description			OMAP5 PRCM ABB Definitions & Functions
- * @Author			Patrick Titiano (p-titiano@ti.com)
- * @Date			2012
+ * @Filename			abb7xx.c
+ * @Description			DRA7 PRCM ABB Definitions & Functions
+ * @Author			Nishanth Menon
+ * @Date			2014
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2014 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,26 +42,25 @@
  */
 
 
-#include <abb54xx.h>
+#include <abb7xx.h>
 #include <abb.h>
 #include <autoadjust_table.h>
 #include <lib.h>
 #include <mem.h>
 #include <cpuinfo.h>
-#include <prm54xx-defs.h>
-#include <clock54xx.h>
+#include <prm_dra7xx-defs.h>
+#include <clock_dra7xx.h>
 
 
-/* #define ABB54XX_DEBUG */
-#ifdef ABB54XX_DEBUG
+/* #define ABB7XX_DEBUG */
+#ifdef ABB7XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
 
-
 /* ------------------------------------------------------------------------*//**
- * @FUNCTION		abb54xx_dump
+ * @FUNCTION		abb7xx_dump
  * @BRIEF		dump PRCM ABB registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
@@ -69,16 +68,22 @@
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump PRCM ABB registers
  *//*------------------------------------------------------------------------ */
-int abb54xx_dump(FILE *stream)
+int abb7xx_dump(FILE *stream)
 {
-	reg *abb_mpu_setup_reg;
-	reg *abb_mpu_ctrl_reg;
-	reg *abb_mm_setup_reg;
-	reg *abb_mm_ctrl_reg;
+	reg *abb_registers[] = {
+		&dra7xx_device_prm_prm_abbldo_mpu_setup,
+		&dra7xx_device_prm_prm_abbldo_mpu_ctrl,
+		&dra7xx_device_prm_prm_abbldo_iva_setup,
+		&dra7xx_device_prm_prm_abbldo_iva_ctrl,
+		&dra7xx_device_prm_prm_abbldo_dspeve_setup,
+		&dra7xx_device_prm_prm_abbldo_dspeve_ctrl,
+		&dra7xx_device_prm_prm_abbldo_gpu_setup,
+		&dra7xx_device_prm_prm_abbldo_gpu_ctrl,
+		0,
+	};
 	char autoadjust_table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
-	unsigned int row;
+	unsigned int row, idx;
 
-	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(stream, OMAPCONF_ERR_ARG);
 
 	autoadjust_table_init(autoadjust_table);
@@ -90,53 +95,42 @@ int abb54xx_dump(FILE *stream)
 	strncpy(autoadjust_table[row][2], "Reg. Val.", TABLE_MAX_ELT_LEN);
 	row++;
 
-	/* Read ABB registers content */
-	if (cpu_revision_get() == REV_ES1_0) {
-		abb_mpu_setup_reg = &omap5430es1_prm_abbldo_mpu_setup;
-		abb_mpu_ctrl_reg = &omap5430es1_prm_abbldo_mpu_ctrl;
-		abb_mm_setup_reg = &omap5430es1_prm_abbldo_mm_setup;
-		abb_mm_ctrl_reg = &omap5430es1_prm_abbldo_mm_ctrl;
-	} else {
-		abb_mpu_setup_reg = &omap5430_prm_abbldo_mpu_setup;
-		abb_mpu_ctrl_reg = &omap5430_prm_abbldo_mpu_ctrl;
-		abb_mm_setup_reg = &omap5430_prm_abbldo_mm_setup;
-		abb_mm_ctrl_reg = &omap5430_prm_abbldo_mm_ctrl;
+	for (idx = 0; abb_registers[idx] != 0; idx++) {
+		snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
+			"%s", reg_name_get(abb_registers[idx]));
+		snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN,
+			"0x%08X", reg_addr_get(abb_registers[idx]));
+		snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN,
+			"0x%08X", reg_read(abb_registers[idx]));
+		row++;
 	}
-
-	/* Show register name, addr & content (hex) */
-	snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
-		"%s", reg_name_get(abb_mpu_setup_reg));
-	snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_addr_get(abb_mpu_setup_reg));
-	snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_read(abb_mpu_setup_reg));
-	snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
-		"%s", reg_name_get(abb_mpu_ctrl_reg));
-	snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_addr_get(abb_mpu_ctrl_reg));
-	snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_read(abb_mpu_ctrl_reg));
-	snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
-		"%s", reg_name_get(abb_mm_setup_reg));
-	snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_addr_get(abb_mm_setup_reg));
-	snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_read(abb_mm_setup_reg));
-	snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
-		"%s", reg_name_get(abb_mm_ctrl_reg));
-	snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_addr_get(abb_mm_ctrl_reg));
-	snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_read(abb_mm_ctrl_reg));
 
 	autoadjust_table_print(autoadjust_table, row, 3);
 
 	return 0;
 }
 
+static void read_all_abb_regs(struct abb_data *data)
+{
+	data[0].name = "MPU Voltage Domain";
+	data[0].setup = reg_read(&dra7xx_device_prm_prm_abbldo_mpu_setup);
+	data[0].ctrl = reg_read(&dra7xx_device_prm_prm_abbldo_mpu_ctrl);
+
+	data[1].name = "IVA Voltage Domain";
+	data[1].setup = reg_read(&dra7xx_device_prm_prm_abbldo_iva_setup);
+	data[1].ctrl = reg_read(&dra7xx_device_prm_prm_abbldo_iva_ctrl);
+
+	data[2].name = "DSPEVE Voltage Domain";
+	data[2].setup = reg_read(&dra7xx_device_prm_prm_abbldo_dspeve_setup);
+	data[2].ctrl = reg_read(&dra7xx_device_prm_prm_abbldo_dspeve_ctrl);
+
+	data[3].name = "GPU Voltage Domain";
+	data[3].setup = reg_read(&dra7xx_device_prm_prm_abbldo_gpu_setup);
+	data[3].ctrl = reg_read(&dra7xx_device_prm_prm_abbldo_gpu_ctrl);
+}
 
 /* ------------------------------------------------------------------------*//**
- * @FUNCTION		abb54xx_config_show
+ * @FUNCTION		abb7xx_config_show
  * @BRIEF		analyze power configuration
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
@@ -145,34 +139,21 @@ int abb54xx_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		analyze power configuration
  *//*------------------------------------------------------------------------ */
-int abb54xx_config_show(FILE *stream)
+int abb7xx_config_show(FILE *stream)
 {
 	double sysclk_rate;
-	struct abb_data omap5_abb_data[2];
+	struct abb_data dra7_abb_data[4];
 
-	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(stream, OMAPCONF_ERR_ARG);
 
-	omap5_abb_data[0].name = "MPU Voltage Domain";
-	omap5_abb_data[1].name = "MM Voltage Domain";
-	if (cpu_revision_get() == REV_ES1_0) {
-		omap5_abb_data[0].setup = reg_read(&omap5430es1_prm_abbldo_mpu_setup);
-		omap5_abb_data[0].ctrl = reg_read(&omap5430es1_prm_abbldo_mpu_ctrl);
-		omap5_abb_data[1].setup = reg_read(&omap5430es1_prm_abbldo_mm_setup);
-		omap5_abb_data[1].ctrl = reg_read(&omap5430es1_prm_abbldo_mm_ctrl);
-	} else {
-		omap5_abb_data[0].setup = reg_read(&omap5430_prm_abbldo_mpu_setup);
-		omap5_abb_data[0].ctrl = reg_read(&omap5430_prm_abbldo_mpu_ctrl);
-		omap5_abb_data[1].setup = reg_read(&omap5430_prm_abbldo_mm_setup);
-		omap5_abb_data[1].ctrl = reg_read(&omap5430_prm_abbldo_mm_ctrl);
-	}
+	read_all_abb_regs(dra7_abb_data);
 
-	sysclk_rate = clk54xx_sysclk_rate_get();
+	sysclk_rate = clk_dra7xx_rate_get(CLK_DRA7XX_SYS_CLKIN1, 0);
 	if (sysclk_rate <= 0) {
 		fprintf(stderr, "%s(): could not retrieve sysclk rate! (%d)\n",
 			__func__, (int) sysclk_rate);
 		return OMAPCONF_ERR_INTERNAL;
 	}
 
-	return abb_config_show(stream, sysclk_rate, omap5_abb_data, 2);
+	return abb_config_show(stream, sysclk_rate, dra7_abb_data, 4);
 }
