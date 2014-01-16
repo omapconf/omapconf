@@ -205,4 +205,12 @@ void help_dra7xx(help_category cat, char *context)
 		printf("\t        eve1 - chooses eve1\n");
 		printf("\t        eve2 - chooses eve2\n");
 	}
+
+	if ((cat == HELP_ALL) || (cat == HELP_ABB)) {
+		printf("\n\tomapconf dump abb\n");
+		printf("\t    Dump Adaptive Body-Bias (ABB) registers.\n");
+
+		printf("\n\tomapconf show abb\n");
+		printf("\t    Print Adaptive Body-Bias (ABB) configuration\n");
+	}
 }
