@@ -45,10 +45,7 @@
 #ifndef __REVISION_H__
 #define __REVISION_H__
 
-
-#define OMAPCONF_REV_MAJOR	1
-#define OMAPCONF_REV_MINOR	68
-
+extern char *omapconf_version;
 extern char *builddate;
 
 

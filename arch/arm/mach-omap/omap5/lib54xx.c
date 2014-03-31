@@ -364,8 +364,8 @@ int lib54xx_export(char *file)
 			"%a %b %d %H:%M:%S %Z %Y", tmp);
 
 	fprintf(fp,
-		"<omapconf_export export_date=\"%s\" omapconf_version=\"%u.%u\" omapconf_builddate=\"%s\">\n",
-		export_date, OMAPCONF_REV_MAJOR, OMAPCONF_REV_MINOR, builddate);
+		"<omapconf_export export_date=\"%s\" omapconf_version=\"%s\" omapconf_builddate=\"%s\">\n",
+		export_date, omapconf_version, builddate);
 	release_details_get(version, type, date);
 	if (os_is_android())
 		fprintf(fp,

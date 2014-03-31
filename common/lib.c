@@ -96,8 +96,8 @@ void omapconf_revision_show(FILE *stream)
 		return;
 	}
 
-	fprintf(stream, "OMAPCONF (rev %d.%d built %s)\n\n",
-		OMAPCONF_REV_MAJOR, OMAPCONF_REV_MINOR, builddate);
+	fprintf(stream, "OMAPCONF (rev %s built %s)\n\n",
+		 omapconf_version, builddate);
 }
 
 

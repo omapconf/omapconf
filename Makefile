@@ -42,6 +42,8 @@
 # */
 
 
+VERSION_MAJOR=1
+VERSION_MINOR=68
 
 CC = $(CROSS_COMPILE)gcc
 
@@ -330,8 +332,8 @@ all: 		$(EXECUTABLE)
 
 
 
-$(EXECUTABLE):	$(ALLOBJECTS) builddate.o
-		$(CC) $(STATIC_BUILD) $(LDFLAGS) $(ALLOBJECTS) builddate.o \
+$(EXECUTABLE):	$(ALLOBJECTS) builddate.o version.o
+		$(CC) $(STATIC_BUILD) $(LDFLAGS) $(ALLOBJECTS) builddate.o version.o\
 		-lrt -o $@
 
 
@@ -345,6 +347,9 @@ $(EXECUTABLE):	$(ALLOBJECTS) builddate.o
 
 builddate.c:	$(ALLOBJECTS)
 		echo 'char *builddate="'`date`'";' > builddate.c
+
+version.c:	$(ALLOBJECTS)
+		echo 'char *omapconf_version="'`git describe||echo "$(VERSION_MAJOR).$(VERSION_MINOR)-nogit"`'";' > version.c
 
 
 
@@ -372,7 +377,7 @@ cscope: $(ALLSOURCES)
 
 
 clean:
-		rm -f $(EXECUTABLE) *.o builddate.c
+		rm -f $(EXECUTABLE) *.o builddate.c version.c
 		rm -f $(OBJECTS)
 		rm -f $(LINUXOBJECTS)
 		rm -f $(OMAPOBJECTS)

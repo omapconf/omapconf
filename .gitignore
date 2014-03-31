@@ -5,6 +5,7 @@
 /omapconf
 *.pyc
 builddate.c
+version.c
 Module.symvers
 Module.markers
 modules.order
