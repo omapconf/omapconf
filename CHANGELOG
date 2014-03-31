@@ -1,3 +1,15 @@
+v1.69:
+-------
+	- omapconf: get rid of macro based version information
+	- [DRA7] support ES1.1 samples as well
+	- [DRA7] add help for trace
+	- [DRA7] Add Adaptive Body Bias(ABB) support
+	- [OMAP4/5]: ABB: dont hardcode number of voltage domains
+	- Makefile: Fix generation of cscope DB
+	- OMAP5: DPLL Audit: Return non-zero if test fails
+	- support added for DRA7XX for EMIF load trace
+	- [DRA7][CROSSBAR] Add IRQ crossbar dump and audit support
+
 v1.68:
 -------
 	- [DRA7][McASP] Add initial support
