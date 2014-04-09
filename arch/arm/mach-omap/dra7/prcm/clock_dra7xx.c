@@ -62,7 +62,11 @@
 
 
 #define DRA7XX_SYS_32K_SPEED		0.032768
-#define DRA7XX_SYS_CLKIN1_SPEED		20.0
+
+/*
+ * XXX: This value needs to match the exact crystal frequency used
+ *      on the board. Current value is for TI DRA7 EVM.
+ */
 #define DRA7XX_SYS_CLKIN2_SPEED		22.5792
 
 
@@ -294,6 +298,30 @@ static const char
 	[CLK_DRA7XX_ID_MAX] = "FIXME" };
 
 
+typedef enum {
+	SYSCLK_DRA7XX_RESERVED_0 = 0,
+	SYSCLK_DRA7XX_RESERVED_1 = 1,
+	SYSCLK_DRA7XX_20_MHZ = 2,
+	SYSCLK_DRA7XX_RESERVED_3 = 3,
+	SYSCLK_DRA7XX_19_2_MHZ = 4,
+	SYSCLK_DRA7XX_RESERVED_5 = 5,
+	SYSCLK_DRA7XX_27_MHZ = 6,
+	SYSCLK_DRA7XX_RESERVED_7 = 7,
+	SYSCLK_DRA7XX_ID_MAX
+} sysclk_dra7xx_id;
+
+static const double sysclk_dra7xx_rate_table[SYSCLK_DRA7XX_ID_MAX] = { /* MHz */
+	0.0,
+	0.0,
+	20.0,
+	0.0,
+	19.2,
+	0.0,
+	27.0,
+	0.0
+};
+
+
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		clk_dra7xx_name_get
  * @BRIEF		return clock name
@@ -309,6 +337,48 @@ const char *clk_dra7xx_name_get(clk_dra7xx_id id)
 	return clk_dra7xx_name_table[id];
 }
 
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		clk_dra7xx_sysclk1_rate_get
+ * @BRIEF		Return the mandatory system clock speed, in MHz.
+ * @RETURNS		> 0 system clock speed, in MHz.
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_UNEXPECTED
+ * @param[in]		none
+ * @DESCRIPTION		Return the mandatory system clock speed, in MHz.
+ *//*------------------------------------------------------------------------ */
+double clk_dra7xx_sysclk1_rate_get(void)
+{
+	unsigned int reg_val;
+	static double sysclk = 0.0;
+	sysclk_dra7xx_id sysclk_id;
+
+	if (!cpu_is_dra7xx())
+		return (double) OMAPCONF_ERR_CPU;
+
+	if (sysclk > 0.0) {
+		dprintf("%s(): sysclk rate=%.1lfMHz\n", __func__, sysclk);
+		return sysclk;
+	}
+
+	if (!mem_fake_access_get()) {
+		reg_val = reg_read(&dra7xx_ckgen_prm_cm_clksel_sys);
+		sysclk_id = extract_bitfield(reg_val, 0, 3);
+	} else {
+		sysclk_id = SYSCLK_DRA7XX_20_MHZ; /* DRA7 EVM PoR */
+	}
+
+	sysclk = sysclk_dra7xx_rate_table[sysclk_id];
+	if (sysclk == 0.0) {
+		fprintf(stderr, "%s(): bad CM_CLKSEL_SYS value(%d)\n",
+				__func__, sysclk_id);
+		sysclk = (double) OMAPCONF_ERR_UNEXPECTED;
+	} else {
+		dprintf("%s(): CM_CLKSEL_SYS=0x%x, sysclk rate=%.1lfMHz\n",
+				__func__, sysclk_id, sysclk);
+	}
+
+	return sysclk;
+}
 
 #ifndef CLOCK_DRA7XX_DEBUG
 /* #define CLK_DRA7XX_RATE_GET_DEBUG */
@@ -393,7 +463,7 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 		return out_clk_speed;
 
 	case CLK_DRA7XX_SYS_CLKIN1:
-		out_clk_speed = DRA7XX_SYS_CLKIN1_SPEED;
+		out_clk_speed = clk_dra7xx_sysclk1_rate_get();
 		DPRINT_CLK_SPEED1(clk_id, out_clk_speed);
 		return out_clk_speed;
 
