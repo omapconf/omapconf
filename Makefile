@@ -349,7 +349,7 @@ builddate.c:	$(ALLOBJECTS)
 		echo 'char *builddate="'`date`'";' > builddate.c
 
 version.c:	$(ALLOBJECTS)
-		echo 'char *omapconf_version="'`git describe||echo "$(VERSION_MAJOR).$(VERSION_MINOR)-nogit"`'";' > version.c
+		echo 'char *omapconf_version="'`git describe --dirty||echo "$(VERSION_MAJOR).$(VERSION_MINOR)-nogit"`'";' > version.c
 
 
 
