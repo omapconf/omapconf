@@ -1005,7 +1005,14 @@ int cpu_force(char *forced_cpu)
 	}
 
 	cpu_init();
-	if (strcmp(forced_cpu, "omap5430") == 0) {
+	if (strcmp(forced_cpu, "dra75x") == 0) {
+		cpu_forced_set(1);
+		cpu_set(DRA_7XX);
+		cpu_device_type_set(DEV_GP);
+		cpu_revision_set(REV_ES1_1);
+		cpu_silicon_type_set(STANDARD_PERF_SI);
+		cpu_full_name_set();
+	} else if (strcmp(forced_cpu, "omap5430") == 0) {
 		cpu_forced_set(1);
 		cpu_set(OMAP_5430);
 		cpu_device_type_set(DEV_GP);
