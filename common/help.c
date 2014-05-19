@@ -239,7 +239,11 @@ void help(help_category cat)
 		printf("\n\t--force <cpu>\n");
 		printf("\t    Force CPU detection.\n");
 		printf(
-			"\t    Supported supported <cpu>: omap4430, omap4460, omap4470, omap5430es1, omap5432es1, omap5430, omap5432, dra75x.\n");
+			"\t    Supported supported <cpu>: "
+			"omap4430, omap4460, omap4470, "
+			"omap5430es1, omap5432es1, omap5430, omap5432, "
+			"dra75x, dra72x"
+			"\n");
 
 	}
 

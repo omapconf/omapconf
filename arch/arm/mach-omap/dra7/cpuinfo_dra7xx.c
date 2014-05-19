@@ -76,6 +76,7 @@ unsigned int cpu_dra7xx_silicon_max_speed_get(void)
 	 * TBD: to use DIE ID to detect maximum speed capable. For the moment,
 	 * we use cpufreq entries if any to detect max speed.
 	 */
+	case DRA_72X:
 	case DRA_75X:
 		switch (cpu_silicon_type_get()) {
 		case STANDARD_PERF_SI:

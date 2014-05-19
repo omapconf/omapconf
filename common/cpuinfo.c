@@ -86,6 +86,7 @@
 /* ID Codes */
 #define DRA7XX_ES_1_0_ID_CODE				0x0B99002F
 #define DRA7XX_ES_1_1_ID_CODE				0x1B99002F
+#define DRA72X_ES_1_0_ID_CODE				0x0B9BC02F
 
 #define OMAP5432_ES_2_0_ID_CODE				0x1B99802F
 #define OMAP5432_ES_1_0_ID_CODE				0x0B99802F
@@ -115,6 +116,7 @@ static const char cpu_name[OMAP_MAX + 1][CPU_NAME_MAX_LENGTH] = {
 	[OMAP_5430] = "OMAP5430",
 	[OMAP_5432] = "OMAP5432",
 	[DRA_75X]  = "DRA75X",
+	[DRA_72X]  = "DRA72X",
 	[OMAP_MAX]  = "UNKNOWN"};
 static char cpu_full_name[CPU_FULL_NAME_MAX_LENGTH];
 
@@ -243,7 +245,7 @@ char *cpu_gets(char s[CPU_NAME_MAX_LENGTH])
  *//*------------------------------------------------------------------------ */
 unsigned int cpu_is_dra7xx(void)
 {
-	return cpu == DRA_75X;
+	return cpu == DRA_75X || cpu == DRA_72X;
 }
 
 
@@ -668,7 +670,7 @@ char *cpu_die_id_get(unsigned int *die_id_3, unsigned int *die_id_2,
 
 	CHECK_NULL_ARG(die_id, NULL);
 
-	if (cpu_get() == DRA_75X) {
+	if (cpu_get() == DRA_75X || cpu_get() == DRA_72X) {
 		die_id_add_3 = DRA7_CONTROL_STD_FUSE_DIE_ID_3;
 		die_id_add_2 = DRA7_CONTROL_STD_FUSE_DIE_ID_2;
 		die_id_add_1 = DRA7_CONTROL_STD_FUSE_DIE_ID_1;
@@ -900,6 +902,10 @@ int cpu_detect(void)
 		dprintf("%s(): ID_CODE = 0x%08X\n", __func__, id_code);
 
 		switch (id_code) {
+		case DRA72X_ES_1_0_ID_CODE:
+			cpu_set(DRA_72X);
+			cpu_revision_set(REV_ES1_0);
+			break;
 		case DRA7XX_ES_1_1_ID_CODE:
 			cpu_set(DRA_75X);
 			cpu_revision_set(REV_ES1_1);
@@ -1005,7 +1011,15 @@ int cpu_force(char *forced_cpu)
 	}
 
 	cpu_init();
-	if (strcmp(forced_cpu, "dra75x") == 0) {
+
+	if (strcmp(forced_cpu, "dra72x") == 0) {
+		cpu_forced_set(1);
+		cpu_set(DRA_72X);
+		cpu_device_type_set(DEV_GP);
+		cpu_revision_set(REV_ES1_1);
+		cpu_silicon_type_set(STANDARD_PERF_SI);
+		cpu_full_name_set();
+	} else if (strcmp(forced_cpu, "dra75x") == 0) {
 		cpu_forced_set(1);
 		cpu_set(DRA_75X);
 		cpu_device_type_set(DEV_GP);
