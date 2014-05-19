@@ -61,7 +61,7 @@ typedef enum {
 	OMAP_4470,
 	OMAP_5430,
 	OMAP_5432,
-	DRA_7XX,
+	DRA_75X,
 	OMAP_MAX
 } omap_chip;
 

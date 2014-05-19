@@ -184,7 +184,7 @@ pmic_smps_id vdd_id2smps_id(unsigned short vdd_id)
 			strncpy(smps_name, smps_name_get(smps_id), 16);
 		}
 		break;
-	case DRA_7XX:
+	case DRA_75X:
 		strncpy(vdd_name, voltdm_dra7xx_name_get(vdd_id), 16);
 		if (vdd_id > VDD_DRA7XX_RTC) {
 			fprintf(stderr, "%s(): incorrect vdd_id! (%u)\n",
@@ -271,7 +271,7 @@ unsigned short smps_id2vdd_id(pmic_smps_id smps_id)
 			strncpy(name, voltdm54xx_name_get(vdd_id), 16);
 		}
 		break;
-	case DRA_7XX:
+	case DRA_75X:
 		if (smps_id > PMIC_SMPS_ID_MAX) {
 			fprintf(stderr, "%s(): incorrect smps_id! (%u)\n",
 				__func__, smps_id);
@@ -398,7 +398,7 @@ void pmic_smps_init(pmic_smps_id id, unsigned short is_twl6030,
 		}
 		break;
 
-	case DRA_7XX:
+	case DRA_75X:
 		if (tps659038_present) {
 			pmic_chip[id] = PMIC_TPS659038;
 			pmic_chip_revision[id] =
@@ -489,7 +489,7 @@ int pmic_detect(void)
 	 * OMAP4 & OMAP5: N/A.
 	 * DRA7: TPS659038
 	 */
-	if (cpu_get() == DRA_7XX) {
+	if (cpu_get() == DRA_75X) {
 		pmic_smps_init(PMIC_SMPS_GPU, is_twl6030, is_twl6032, is_twl6034, is_twl6035,
 		tps62361_present, tps659038_present);
 		pmic_smps_init(PMIC_SMPS_DSPEVE, is_twl6030, is_twl6032, is_twl6034, is_twl6035,
@@ -728,7 +728,7 @@ const char *smps_name_get(pmic_smps_id smps_id)
 		return smps54xx_names[smps_id];
 		break;
 
-	case DRA_7XX:
+	case DRA_75X:
 		return smps_dra7xx_names[smps_id];
 		break;
 

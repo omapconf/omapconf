@@ -199,7 +199,7 @@ unsigned short twl603x_is_twl6030(void)
 	int ret;
 	unsigned int val1, val2;
 
-	if (cpu_get() == DRA_7XX)
+	if (cpu_get() == DRA_75X)
 		return 0;
 
 	if (twl603x_data.chip_type != TWL603X_TYPE_MAX) {
@@ -239,7 +239,7 @@ unsigned short twl603x_is_twl6032(void)
 	int ret;
 	unsigned int val1, val2;
 
-	if (cpu_get() == DRA_7XX)
+	if (cpu_get() == DRA_75X)
 		return 0;
 
 	if (twl603x_data.chip_type != TWL603X_TYPE_MAX) {
@@ -279,7 +279,7 @@ unsigned short twl603x_is_twl6034(void)
 	int ret;
 	unsigned int val1, val2;
 
-	if (cpu_get() == DRA_7XX)
+	if (cpu_get() == DRA_75X)
 		return 0;
 
 	if (twl603x_data.chip_type != TWL603X_TYPE_MAX) {

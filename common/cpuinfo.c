@@ -114,7 +114,7 @@ static const char cpu_name[OMAP_MAX + 1][CPU_NAME_MAX_LENGTH] = {
 	[OMAP_4470] = "OMAP4470",
 	[OMAP_5430] = "OMAP5430",
 	[OMAP_5432] = "OMAP5432",
-	[DRA_7XX]  = "DRA7XX",
+	[DRA_75X]  = "DRA75X",
 	[OMAP_MAX]  = "UNKNOWN"};
 static char cpu_full_name[CPU_FULL_NAME_MAX_LENGTH];
 
@@ -243,7 +243,7 @@ char *cpu_gets(char s[CPU_NAME_MAX_LENGTH])
  *//*------------------------------------------------------------------------ */
 unsigned int cpu_is_dra7xx(void)
 {
-	return cpu == DRA_7XX;
+	return cpu == DRA_75X;
 }
 
 
@@ -668,7 +668,7 @@ char *cpu_die_id_get(unsigned int *die_id_3, unsigned int *die_id_2,
 
 	CHECK_NULL_ARG(die_id, NULL);
 
-	if (cpu_get() == DRA_7XX) {
+	if (cpu_get() == DRA_75X) {
 		die_id_add_3 = DRA7_CONTROL_STD_FUSE_DIE_ID_3;
 		die_id_add_2 = DRA7_CONTROL_STD_FUSE_DIE_ID_2;
 		die_id_add_1 = DRA7_CONTROL_STD_FUSE_DIE_ID_1;
@@ -901,11 +901,11 @@ int cpu_detect(void)
 
 		switch (id_code) {
 		case DRA7XX_ES_1_1_ID_CODE:
-			cpu_set(DRA_7XX);
+			cpu_set(DRA_75X);
 			cpu_revision_set(REV_ES1_1);
 			break;
 		case DRA7XX_ES_1_0_ID_CODE:
-			cpu_set(DRA_7XX);
+			cpu_set(DRA_75X);
 			cpu_revision_set(REV_ES1_0);
 			break;
 		default:
@@ -1007,7 +1007,7 @@ int cpu_force(char *forced_cpu)
 	cpu_init();
 	if (strcmp(forced_cpu, "dra75x") == 0) {
 		cpu_forced_set(1);
-		cpu_set(DRA_7XX);
+		cpu_set(DRA_75X);
 		cpu_device_type_set(DEV_GP);
 		cpu_revision_set(REV_ES1_1);
 		cpu_silicon_type_set(STANDARD_PERF_SI);

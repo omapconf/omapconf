@@ -143,7 +143,7 @@ unsigned short int tps659038_is_present(void)
 	unsigned short present;
 
 	switch (cpu_get()) {
-	case DRA_7XX:
+	case DRA_75X:
 		ret = i2cget(TPS659038_I2C_BUS, TPS659038_ID1_ADDR,
 			TPS659038_PRODUCT_ID_LSB, &id_lsb);
 		if (ret != 0)
