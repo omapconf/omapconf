@@ -154,7 +154,8 @@ unsigned short int tps659038_is_present(void)
 		if (ret != 0)
 			return 0;
 
-		present = ((id_lsb == 0x35) && (id_msb == 0xc0)) ? 1 : 0;
+		present = ((id_lsb == 0x35 && id_msb == 0xc0) ||
+			   (id_lsb == 0x39 && id_msb == 0x90)) ? 1 : 0;
 		break;
 
 	default:
