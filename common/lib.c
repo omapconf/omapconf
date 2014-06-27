@@ -183,6 +183,7 @@ void chips_info_show(FILE *stream, unsigned short die_id)
 	char rev[CPU_REVISION_MAX_NAME_LENGTH];
 	char type[CPU_DEVICE_TYPE_MAX_NAME_LENGTH];
 	char si_type[CPU_SI_TYPE_MAX_NAME_LENGTH];
+	char pkg_type[CPU_PKG_TYPE_MAX_NAME_LENGTH];
 	float chip_rev;
 	unsigned int max_speed;
 	pmic_id pmic_chip[PMIC_SMPS_MAX_NUMBER];
@@ -206,19 +207,25 @@ void chips_info_show(FILE *stream, unsigned short die_id)
 		max_speed = cpu_silicon_max_speed_get();
 		if (max_speed < 1000)
 			fprintf(stream,
-				"  %s ES%s %s Device (%s performance (%uMHz))\n",
+				"  %s ES%s %s Device (%s performance %s%s"
+				"(%uMHz))\n",
 				cpu_gets(name),
 				cpu_revision_gets(rev),
 				cpu_device_type_gets(type),
 				cpu_silicon_type_gets(si_type),
+				cpu_package_type_gets(pkg_type),
+				(strlen(pkg_type) == 0) ? "" : " package ",
 				max_speed);
 		else
 			fprintf(stream,
-				"  %s ES%s %s Device (%s performance (%1.1lfGHz))\n",
+				"  %s ES%s %s Device (%s performance %s%s"
+				"(%1.1lfGHz))\n",
 				cpu_gets(name),
 				cpu_revision_gets(rev),
 				cpu_device_type_gets(type),
 				cpu_silicon_type_gets(si_type),
+				cpu_package_type_gets(pkg_type),
+				(strlen(pkg_type) == 0) ? "" : " package ",
 				(double) max_speed / 1000.0);
 		if ((die_id != 0) && (cpu_die_id_get(&die_id_3, &die_id_2,
 			&die_id_1, &die_id_0, s_die_id) != NULL))
