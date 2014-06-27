@@ -45,6 +45,7 @@
 #include <cpuinfo.h>
 #include <cpuinfo44xx.h>
 #include <cpuinfo54xx.h>
+#include <cpuinfo_am335x.h>
 #include <cpuinfo_dra7xx.h>
 #include <lib.h>
 #include <mem.h>
@@ -80,8 +81,24 @@
 #define DRA7_CONTROL_STD_FUSE_DIE_ID_3			0x4AE0C210
 #define DRA7_CONTROL_STD_FUSE_PROD_ID_0			0x4AE0C214
 
+/* Identification Registers for AM335x */
+#define AM335X_DEVICE_ID				0x44E10600
+#define AM335X_DEV_FEAT_REG				0x44E10604
+#define AM335X_SI_REV_1_0				0x0B94402E
+#define AM335X_SI_REV_2_0				0x1B94402E
+#define AM335X_SI_REV_2_1				0x2B94402E
+
+#define AM335X_STATUS					0x44E10040
 #define OMAP44XX_STATUS					0x4A0022C4
 #define OMAP54XX_STATUS					0x4A002134
+
+/* AM335X Device Features  */
+#define AM3352_DEV_FEAT					0x00FC0382
+#define AM3354_DEV_FEAT					0x20FC0382
+#define AM3356_DEV_FEAT					0x00FD0383
+#define AM3357_DEV_FEAT					0x00FF0383
+#define AM3358_DEV_FEAT					0x20FD0383
+#define AM3359_DEV_FEAT					0x20FF0383
 
 /* ID Codes */
 #define DRA7XX_ES_1_0_ID_CODE				0x0B99002F
@@ -117,7 +134,13 @@ static const char cpu_name[OMAP_MAX + 1][CPU_NAME_MAX_LENGTH] = {
 	[OMAP_5432] = "OMAP5432",
 	[DRA_75X]  = "DRA75X",
 	[DRA_72X]  = "DRA72X",
-	[OMAP_MAX]  = "UNKNOWN"};
+	[AM_3352] = "AM3352",
+	[AM_3354] = "AM3354",
+	[AM_3356] = "AM3356",
+	[AM_3357] = "AM3357",
+	[AM_3358] = "AM3358",
+	[AM_3359] = "AM3359",
+	[OMAP_MAX] = "UNKNOWN"};
 static char cpu_full_name[CPU_FULL_NAME_MAX_LENGTH];
 
 
@@ -157,6 +180,14 @@ static const char
 	[HIGH_PERF_SI] = "HIGH",
 	[SPEEDBIN_SI] = "SPEEDBIN",
 	[SILICON_TYPE_MAX] = "UNKNOWN"};
+
+
+static package_type pkg_type;
+static const char package_type_table[PACKAGE_TYPE_MAX + 1]
+	[CPU_PKG_TYPE_MAX_NAME_LENGTH] = {
+	[ZCZ] = "ZCZ",
+	[ZCE] = "ZCE",
+	[PACKAGE_TYPE_MAX] = ""};
 
 
 static char cpu_online_file[36] =
@@ -232,6 +263,58 @@ char *cpu_gets(char s[CPU_NAME_MAX_LENGTH])
 	if (omap > OMAP_MAX)
 		omap = OMAP_MAX;
 	return strncpy(s, cpu_name[omap], CPU_NAME_MAX_LENGTH);
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		cpu_is_omap
+ * @BRIEF		check if cpu is an omap chip by trying to read
+ *			/sys/devices/soc0/machine
+ * @RETURNS		1 if cpu is an omap chip
+ *			0 if cpu is NOT an omap chip
+ * @param[in]		none
+ * @DESCRIPTION		check if cpu is an omap chip by trying to read
+ *			/sys/devices/soc0/machine
+*//*------------------------------------------------------------------------ */
+unsigned int cpu_is_omap(void)
+{
+	FILE *fp;
+	char line[256] = {0};
+	char *machine_name;
+	int ret = 1;
+
+	fp = fopen("/sys/devices/soc0/machine", "r");
+	if (fp == NULL) {
+		fprintf(stderr, "%s(): CONFIG_SOC_BUS not enabled in kernel!\n"
+			"Assuming cpu is OMAP(legacy kernel)\n",
+			__func__);
+		return 1;
+	}
+	fgets(line, 256, fp);
+
+	/* Truncate line at whitespace */
+	machine_name = strtok(line, " \n\t\v\f\r");
+
+	if (!strcasecmp(machine_name, "AM335X"))
+		ret = 0;
+
+	fclose(fp);
+	return ret;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		cpu_is_am335x
+ * @BRIEF		check if cpu is AM335x
+ * @RETURNS		1 if cpu is AM335x
+ *			0 if cpu is NOT AM335x
+ * @param[in]		none
+ * @DESCRIPTION		check if cpu is AM335x
+ *//*------------------------------------------------------------------------ */
+unsigned int cpu_is_am335x(void)
+{
+	return ((cpu == AM_3352) || (cpu == AM_3354) || (cpu == AM_3356) ||
+		(cpu == AM_3357) || (cpu == AM_3358) || (cpu == AM_3359));
 }
 
 
@@ -638,6 +721,8 @@ unsigned int cpu_silicon_max_speed_get(void)
 		max_speed = cpu54xx_silicon_max_speed_get();
 	} else if (cpu_is_dra7xx()) {
 		max_speed = cpu_dra7xx_silicon_max_speed_get();
+	} else if(cpu_is_am335x()) {
+		max_speed = cpu_am335x_silicon_max_speed_get();
 	} else {
 		dprintf("%s(): unknown architecture!\n", __func__);
 		max_speed = 0;
@@ -645,6 +730,60 @@ unsigned int cpu_silicon_max_speed_get(void)
 
 	dprintf("%s(): max speed = %dMHz\n", __func__, max_speed);
 	return max_speed;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		cpu_package_type_set
+ * @BRIEF		set package type
+ * @RETURNS		none
+ * @param[in]		t: package type
+ * @DESCRIPTION		set package type
+ *//*------------------------------------------------------------------------ */
+static inline void cpu_package_type_set(package_type t)
+{
+	pkg_type = t;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		cpu_package_type_get
+ * @BRIEF		return package type
+ * @RETURNS		Package type
+ *			PACKAGE_TYPE_MAX if unknown
+ * @param[in]		none
+ * @DESCRIPTION		return package type
+ *//*------------------------------------------------------------------------ */
+package_type cpu_package_type_get(void)
+{
+	return pkg_type;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		cpu_package_type_gets
+ * @BRIEF		return package type as a string
+ * @RETURNS		package type as a string
+ * @param[in,out]	type: pre-allocated string where to store package type
+ * @DESCRIPTION		return package type as a string
+ *//*------------------------------------------------------------------------ */
+char *cpu_package_type_gets(char type[CPU_PKG_TYPE_MAX_NAME_LENGTH])
+{
+	package_type t;
+
+	if (type == NULL) {
+		fprintf(stderr, "%s(): type == NULL!\n", __func__);
+		return NULL;
+	}
+
+	t = cpu_package_type_get();
+	if (t > PACKAGE_TYPE_MAX) {
+		fprintf(stderr, "%s(): t (%u) > PACKAGE_TYPE_MAX!\n",
+			__func__, t);
+		return NULL;
+	}
+
+	return strncpy(type, package_type_table[t], CPU_PKG_TYPE_MAX_NAME_LENGTH);
 }
 
 
@@ -669,6 +808,13 @@ char *cpu_die_id_get(unsigned int *die_id_3, unsigned int *die_id_2,
 	unsigned int die_id_add_0;
 
 	CHECK_NULL_ARG(die_id, NULL);
+
+	/*
+	 * The DIE ID for the AM335X is TI proprietary information
+	 * NULL is returned since it cannot be shown
+	 */
+	if (cpu_is_am335x())
+		return NULL;
 
 	if (cpu_get() == DRA_75X || cpu_get() == DRA_72X) {
 		die_id_add_3 = DRA7_CONTROL_STD_FUSE_DIE_ID_3;
@@ -718,6 +864,7 @@ void cpu_init(void)
 	cpu_revision_set(REV_ES_MAX);
 	cpu_device_type_set(DEV_TYPE_MAX);
 	cpu_silicon_type_set(SILICON_TYPE_MAX);
+	cpu_package_type_set(PACKAGE_TYPE_MAX);
 	cpu_full_name_set();
 }
 
@@ -801,7 +948,9 @@ int cpu_rev_get_from_cpuinfo(omap_chip_revision *cpu_rev)
 int cpu_detect(void)
 {
 	unsigned int id_code;
+	unsigned int dev_id;
 	unsigned int status;
+	unsigned int efuse;
 	unsigned int prod_id_1;
 	int ret;
 	unsigned char status_bit_start;
@@ -816,8 +965,38 @@ int cpu_detect(void)
 	cpu_init();
 
 	/* Retrieve OMAP chip & ES */
-	if (mem_read(ID_CODE, &id_code) != 0)
-		return OMAPCONF_ERR_REG_ACCESS;
+	/* Determine if device is of the AM33XX or OMAP family */
+	if (!cpu_is_omap()) {
+		if (mem_read(AM335X_DEV_FEAT_REG, &id_code) != 0)
+			return OMAPCONF_ERR_REG_ACCESS;
+		/* Setting cpu revision here since different register must be read */
+		if (mem_read(AM335X_DEVICE_ID, &dev_id) != 0) {
+			fprintf(stderr,
+				"omapconf (%s()): could not read DEVICE_ID "
+				"register!\n", __func__);
+			return OMAPCONF_ERR_REG_ACCESS;
+		}
+		switch (dev_id) {
+		case AM335X_SI_REV_1_0:
+			cpu_revision_set(REV_ES1_0);
+			break;
+		case AM335X_SI_REV_2_0:
+			cpu_revision_set(REV_ES2_0);
+			break;
+		case AM335X_SI_REV_2_1:
+			cpu_revision_set(REV_ES2_1);
+			break;
+		default:
+			fprintf(stderr,
+				"omapconf (%s()): Unknown silicon revision!\n",
+				__func__);
+			return OMAPCONF_ERR_CPU;
+		}
+	} else {
+		if (mem_read(ID_CODE, &id_code) != 0)
+			return OMAPCONF_ERR_REG_ACCESS;
+	}
+
 	dprintf("%s(): ID_CODE = 0x%08X\n", __func__, id_code);
 
 	switch (id_code) {
@@ -895,6 +1074,24 @@ int cpu_detect(void)
 			return OMAPCONF_ERR_UNEXPECTED;
 		}
 		break;
+	case AM3352_DEV_FEAT:
+		cpu_set(AM_3352);
+		break;
+	case AM3354_DEV_FEAT:
+		cpu_set(AM_3354);
+		break;
+	case AM3356_DEV_FEAT:
+		cpu_set(AM_3356);
+		break;
+	case AM3357_DEV_FEAT:
+		cpu_set(AM_3357);
+		break;
+	case AM3358_DEV_FEAT:
+		cpu_set(AM_3358);
+		break;
+	case AM3359_DEV_FEAT:
+		cpu_set(AM_3359);
+		break;
 	default:
 		/* Retrieve DRA7 chip & ES in default case */
 		if (mem_read(DRA7_ID_CODE, &id_code) != 0)
@@ -931,6 +1128,9 @@ int cpu_detect(void)
 	} else if (cpu_is_omap54xx() || cpu_is_dra7xx()) {
 		ret = mem_read(OMAP54XX_STATUS, &status);
 		status_bit_start = 6;
+	} else if (cpu_is_am335x()) {
+		ret = mem_read(AM335X_STATUS, &status);
+		status_bit_start = 8;
 	} else {
 		ret = -1;
 	}
@@ -981,6 +1181,34 @@ int cpu_detect(void)
 		/* TBD: implement true detection when ID data is available */
 		cpu_silicon_type_set(STANDARD_PERF_SI);
 
+	} else if (cpu_is_am335x()){
+		if (mem_read(EFUSE_SMA_REG, &efuse) != 0) {
+			fprintf(stderr,
+				"omapconf: (%s()): could not read EFUSE_SMA register!\n",
+				__func__);
+			return OMAPCONF_ERR_REG_ACCESS;
+		}
+		switch (extract_bitfield(efuse, 16, 2)) {
+		case 0:
+			/*
+			 * Silicon revision 1.0 does not support EFUSE SMA REG
+			 * (returns all 0's if read)
+			 * Setting as unknown until there is an alternate method
+			 */
+			cpu_package_type_set(PACKAGE_TYPE_MAX);
+			break;
+		case 1:
+			cpu_package_type_set(ZCZ);
+			break;
+		case 2:
+			cpu_package_type_set(ZCE);
+			break;
+		default:
+			fprintf(stderr,
+				"omapconf: (%s()): could not identify package type!\n",
+				__func__);
+			return OMAPCONF_ERR_UNEXPECTED;
+		}
 	}
 	dprintf("%s(): Silicon performance type is %s (%uMHz)\n",
 		__func__, cpu_silicon_type_gets(s),
@@ -1025,6 +1253,48 @@ int cpu_force(char *forced_cpu)
 		cpu_device_type_set(DEV_GP);
 		cpu_revision_set(REV_ES1_1);
 		cpu_silicon_type_set(STANDARD_PERF_SI);
+		cpu_full_name_set();
+	} else if (strcmp (forced_cpu, "am3352") == 0) {
+		cpu_forced_set(1);
+		cpu_set(AM_3352);
+		cpu_device_type_set(DEV_GP);
+		cpu_revision_set(REV_ES2_1);
+		cpu_package_type_set(ZCZ);
+		cpu_full_name_set();
+	} else if (strcmp (forced_cpu, "am3354") == 0) {
+		cpu_forced_set(1);
+		cpu_set(AM_3354);
+		cpu_device_type_set(DEV_GP);
+		cpu_revision_set(REV_ES2_1);
+		cpu_package_type_set(ZCZ);
+		cpu_full_name_set();
+	} else if (strcmp (forced_cpu, "am3356") == 0) {
+		cpu_forced_set(1);
+		cpu_set(AM_3356);
+		cpu_device_type_set(DEV_GP);
+		cpu_revision_set(REV_ES2_1);
+		cpu_package_type_set(ZCZ);
+		cpu_full_name_set();
+	} else if (strcmp (forced_cpu, "am3357") == 0) {
+		cpu_forced_set(1);
+		cpu_set(AM_3357);
+		cpu_device_type_set(DEV_GP);
+		cpu_revision_set(REV_ES2_1);
+		cpu_package_type_set(ZCZ);
+		cpu_full_name_set();
+	} else if (strcmp (forced_cpu, "am3358") == 0) {
+		cpu_forced_set(1);
+		cpu_set(AM_3358);
+		cpu_device_type_set(DEV_GP);
+		cpu_revision_set(REV_ES2_1);
+		cpu_package_type_set(ZCZ);
+		cpu_full_name_set();
+	} else if (strcmp (forced_cpu, "am3359") == 0) {
+		cpu_forced_set(1);
+		cpu_set(AM_3359);
+		cpu_device_type_set(DEV_GP);
+		cpu_revision_set(REV_ES2_1);
+		cpu_package_type_set(ZCZ);
 		cpu_full_name_set();
 	} else if (strcmp(forced_cpu, "omap5430") == 0) {
 		cpu_forced_set(1);

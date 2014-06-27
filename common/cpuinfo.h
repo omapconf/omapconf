@@ -51,6 +51,7 @@
 #define CPU_REVISION_MAX_NAME_LENGTH		8
 #define CPU_DEVICE_TYPE_MAX_NAME_LENGTH		8
 #define CPU_SI_TYPE_MAX_NAME_LENGTH		10
+#define CPU_PKG_TYPE_MAX_NAME_LENGTH		8
 #define CPU_FAB_CODE_MAX_NAME_LENGTH		8
 #define CPU_DIE_ID_LENGTH			36
 
@@ -63,6 +64,12 @@ typedef enum {
 	OMAP_5432,
 	DRA_75X,
 	DRA_72X,
+	AM_3352,
+	AM_3354,
+	AM_3356,
+	AM_3357,
+	AM_3358,
+	AM_3359,
 	OMAP_MAX
 } omap_chip;
 
@@ -102,6 +109,12 @@ typedef enum {
 } silicon_type;
 
 
+typedef enum {
+	ZCZ,
+	ZCE,
+	PACKAGE_TYPE_MAX
+} package_type;
+
 int cpu_detect(void);
 int cpu_force(char *forced_cpu);
 unsigned short cpu_is_forced(void);
@@ -120,13 +133,18 @@ silicon_type cpu_silicon_type_get(void);
 char *cpu_silicon_type_gets(char type[CPU_SI_TYPE_MAX_NAME_LENGTH]);
 unsigned int cpu_silicon_max_speed_get(void);
 
+package_type cpu_package_type_get(void);
+char *cpu_package_type_gets(char type[CPU_PKG_TYPE_MAX_NAME_LENGTH]);
+
 
 char *cpu_die_id_get(unsigned int *die_id_3, unsigned int *die_id_2,
 	unsigned int *die_id_1, unsigned int *die_id_0,
 	char die_id[CPU_DIE_ID_LENGTH]);
 
 omap_chip cpu_get(void);
+unsigned int cpu_is_am335x(void);
 unsigned int cpu_is_dra7xx(void);
+unsigned int cpu_is_omap(void);
 unsigned int cpu_is_omap44xx(void);
 unsigned int cpu_is_omap4430(void);
 unsigned int cpu_is_omap4460(void);

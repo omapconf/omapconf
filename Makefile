@@ -66,7 +66,8 @@ DEF_INC_PATH = -I. -Icommon -Ipmic -Iaudioic -Ilinux -Ii2c-tools\
 	-Iarch/arm/mach-omap/dra7\
 	-Iarch/arm/mach-omap/dra7/ctrlmod\
 	-Iarch/arm/mach-omap/dra7/prcm\
-	-Iarch/arm/mach-omap/dra7/dpll
+	-Iarch/arm/mach-omap/dra7/dpll\
+	-Iarch/arm/mach-omap/am335x
 
 
 STATIC_BUILD ?= -static
@@ -255,6 +256,14 @@ DRA7OBJECTS=	$(DRA7SOURCES:.c=.o)
 
 
 
+AM335XSOURCES=\
+		arch/arm/mach-omap/am335x/cpuinfo_am335x.c\
+
+AM335XOBJECTS=	$(AM335XSOURCES:.c=.o)
+
+
+
+
 SOURCES=\
 		omapconf.c\
 		common/lib.c\
@@ -311,12 +320,12 @@ I2COBJECTS=	$(I2CSOURCES:.c=.o)
 
 
 ALLSOURCES=	$(SOURCES) $(OMAPSOURCES) $(OMAP4SOURCES) $(OMAP5SOURCES)\
-		$(DRA7SOURCES)\
+		$(DRA7SOURCES) $(AM335XSOURCES)\
 		$(LINUXSOURCES) $(PMICSOURCES) $(AUDIOICSOURCES) $(I2CSOURCES)
 
 
 ALLOBJECTS=	$(OBJECTS) $(OMAPOBJECTS) $(OMAP4OBJECTS) $(OMAP5OBJECTS)\
-		$(DRA7OBJECTS)\
+		$(DRA7OBJECTS) $(AM335XOBJECTS)\
 		$(LINUXOBJECTS) $(PMICOBJECTS) $(AUDIOICOBJECTS) $(I2COBJECTS)
 
 
@@ -384,6 +393,7 @@ clean:
 		rm -f $(OMAP4OBJECTS)
 		rm -f $(OMAP5OBJECTS)
 		rm -f $(DRA7OBJECTS)
+		rm -f $(AM335XOBJECTS)
 		rm -f $(PMICOBJECTS)
 		rm -f $(AUDIOICOBJECTS)
 		rm -f $(I2COBJECTS)
