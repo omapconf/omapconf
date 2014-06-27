@@ -231,7 +231,7 @@ char *cpu_gets(char s[CPU_NAME_MAX_LENGTH])
 	omap = cpu_get();
 	if (omap > OMAP_MAX)
 		omap = OMAP_MAX;
-	return strcpy(s, cpu_name[omap]);
+	return strncpy(s, cpu_name[omap], CPU_NAME_MAX_LENGTH);
 }
 
 
@@ -393,7 +393,7 @@ char *cpu_revision_gets(char s[CPU_REVISION_MAX_NAME_LENGTH])
 		return NULL;
 	}
 
-	return strcpy(s, cpu_revision[cpu_rev]);
+	return strncpy(s, cpu_revision[cpu_rev], CPU_REVISION_MAX_NAME_LENGTH);
 }
 
 
@@ -446,7 +446,7 @@ char *cpu_device_type_gets(char s[CPU_DEVICE_TYPE_MAX_NAME_LENGTH])
 		return NULL;
 	}
 
-	return strcpy(s, cpu_device_type[t]);
+	return strncpy(s, cpu_device_type[t], CPU_DEVICE_TYPE_MAX_NAME_LENGTH);
 }
 
 
@@ -520,7 +520,7 @@ static int cpu_full_name_set(void)
 	char rev[CPU_REVISION_MAX_NAME_LENGTH];
 	char type[CPU_DEVICE_TYPE_MAX_NAME_LENGTH];
 
-	strcpy(cpu_full_name, "");
+	strncpy(cpu_full_name, "", sizeof(cpu_full_name));
 
 	cpu_gets(name);
 	if (name == NULL) {
@@ -561,7 +561,7 @@ static int cpu_full_name_set(void)
  *//*------------------------------------------------------------------------ */
 char *cpu_full_name_get(char s[CPU_FULL_NAME_MAX_LENGTH])
 {
-	return strcpy(s, cpu_full_name);
+	return strncpy(s, cpu_full_name, CPU_FULL_NAME_MAX_LENGTH);
 }
 
 
@@ -615,7 +615,7 @@ char *cpu_silicon_type_gets(char type[CPU_SI_TYPE_MAX_NAME_LENGTH])
 		return NULL;
 	}
 
-	return strcpy(type, silicon_type_table[t]);
+	return strncpy(type, silicon_type_table[t], CPU_SI_TYPE_MAX_NAME_LENGTH);
 }
 
 
