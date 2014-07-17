@@ -50,6 +50,7 @@
 #include <lib44xx.h>
 #include <main44xx.h>
 #include <main54xx.h>
+#include <main_am335x.h>
 #include <main_dra7xx.h>
 #include <dpll54xx.h>
 #include <lib_android.h>
@@ -1178,6 +1179,9 @@ main_platform_specific:
 			goto main_exit;
 		} else if (cpu_is_dra7xx()) {
 			ret = main_dra7xx(argc, argv);
+			goto main_exit;
+		} else if (cpu_is_am335x()) {
+			ret = main_am335x(argc, argv);
 			goto main_exit;
 		} else {
 			printf("Unsupported chip, sorry ...\n\n");

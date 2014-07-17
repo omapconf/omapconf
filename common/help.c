@@ -46,6 +46,7 @@
 #include <help44xx.h>
 #include <lib.h>
 #include <help54xx.h>
+#include <help_am335x.h>
 #include <help_dra7xx.h>
 #include <stdio.h>
 #include <cpuinfo.h>
@@ -242,7 +243,8 @@ void help(help_category cat)
 			"\t    Supported supported <cpu>: "
 			"omap4430, omap4460, omap4470, "
 			"omap5430es1, omap5432es1, omap5430, omap5432, "
-			"dra75x, dra72x"
+			"dra75x, dra72x, am3352, am3354, am3356, am3357, "
+			"am3358, am3359"
 			"\n");
 
 	}
@@ -335,6 +337,9 @@ void help(help_category cat)
 	/* DRA7-specific commands */
 	if (cpu_is_dra7xx())
 		help_dra7xx(cat, "None");
+
+	if (cpu_is_am335x())
+		help_am335x(cat, "None");
 
 	if (cat == HELP_ALL) {
 		printf("\nREPORTING BUGS\n");
