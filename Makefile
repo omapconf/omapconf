@@ -260,6 +260,7 @@ AM335XSOURCES=\
 		arch/arm/mach-omap/am335x/cpuinfo_am335x.c\
 		arch/arm/mach-omap/am335x/ctt_am335x.c\
 		arch/arm/mach-omap/am335x/main_am335x.c\
+		arch/arm/mach-omap/am335x/help_am335x.c\
 
 AM335XOBJECTS=	$(AM335XSOURCES:.c=.o)
 
