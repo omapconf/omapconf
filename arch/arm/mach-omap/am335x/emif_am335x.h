@@ -1,8 +1,8 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			help_am335x.c
- * @Description			Help for AM335X specific functions
+ * @Filename			emif_am335x.h
+ * @Description			AM335X EMIF Functions
  * @Author			Gilberto Rodriguez <gilrod@ti.com>
  * @Date			2014
  * @Copyright			Texas Instruments Incorporated
@@ -42,40 +42,16 @@
  */
 
 
-#include <cpuinfo.h>
-#include <help_am335x.h>
+#ifndef __EMIF_AM335X_H__
+#define __EMIF_AM335X_H__
+
+
+#include <emif_am335x-defs.h>
 #include <stdio.h>
 
 
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		help_am335x
- * @BRIEF		display help for AM335X-specific functions
- * @param[in]		cat: help category to display
- * @DESCRIPTION		display help for AM335X-specific functions
- *//*------------------------------------------------------------------------ */
-void help_am335x(help_category cat, char *context)
-{
-	if (cat >= HELP_CATEGORY_MAX) {
-		fprintf(stderr, "%s(): incorrect category!!! (%u)\n",
-			__func__, cat);
-		return;
-	}
+const char *emif_am335x_mod_name_get(emif_am335x_mod_id id);
+int emif_am335x_dump(FILE *stream, emif_am335x_mod_id id);
 
-	if (context == NULL) {
-		fprintf(stderr, "%s(): context == NULL!!!\n", __func__);
-		return;
-	}
 
-	/* AM335X-specific commands */
-	if ((cat == HELP_ALL) || (cat == HELP_EXPORT)) {
-		printf("\n\tomapconf export ctt [<filename>]\n");
-		printf("\t    Export PRCM registers in .rd1 format for Clock "
-			"Tree Tool (CTT, <http://omappedia.org/wiki/CTT>), to "
-			"<filename> or stdout if omitted.\n");
-	}
-
-	if ((cat == HELP_ALL) || (cat == HELP_EMIF)) {
-		printf("\n\tomapconf dump emif\n");
-		printf("\t    Dump EMIF4D registers to stdout\n");
-	}
-}
+#endif

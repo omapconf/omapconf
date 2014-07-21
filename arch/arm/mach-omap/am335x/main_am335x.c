@@ -44,6 +44,7 @@
 
 #include <cpuinfo.h>
 #include <ctt_am335x.h>
+#include <emif_am335x.h>
 #include <help.h>
 #include <lib.h>
 #include <main_am335x.h>
@@ -60,6 +61,37 @@
 #else
 #define dprintf(format, ...)
 #endif
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		main_am335x_dump
+ * @BRIEF		dump some AM335X registers, which category is found in
+ *			argv
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_CPU
+ * @param[in]		argc: number of arguments
+ * @param[in]		argv: argument(s)
+ * @DESCRIPTION		dump some AM335X registers, which category is found in
+ *			argv
+ *//*------------------------------------------------------------------------ */
+int main_am335x_dump(int argc, char *argv[])
+{
+	if (!cpu_is_am335x())
+		return OMAPCONF_ERR_CPU;
+
+	if (argc < 1) {
+		help(HELP_USAGE);
+		return OMAPCONF_ERR_ARG;
+	} else if (strcmp(argv[0], "emif") == 0) {
+		if (argc == 1)
+			return emif_am335x_dump(stdout, EMIF_AM335X_EMIF4D);
+		else
+			return err_arg_too_many_msg_show(HELP_EMIF);
+	} else {
+		return err_unknown_argument_msg_show(argv[0]);
+	}
+}
 
 
 /* ------------------------------------------------------------------------*//**
@@ -148,6 +180,8 @@ int main_am335x(int argc, char *argv[])
 
 	if (strcmp(argv[0], "export") == 0)
 		ret = main_am335x_export(argc - 1, argv + 1);
+	else if (strcmp(argv[0], "dump") == 0)
+		ret = main_am335x_dump(argc - 1, argv + 1);
 	else
 		ret = main_am335x_legacy(argc, argv);
 
