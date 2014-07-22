@@ -67,7 +67,8 @@ DEF_INC_PATH = -I. -Icommon -Ipmic -Iaudioic -Ilinux -Ii2c-tools\
 	-Iarch/arm/mach-omap/dra7/ctrlmod\
 	-Iarch/arm/mach-omap/dra7/prcm\
 	-Iarch/arm/mach-omap/dra7/dpll\
-	-Iarch/arm/mach-omap/am335x
+	-Iarch/arm/mach-omap/am335x\
+	-Iarch/arm/mach-omap/am335x/prcm\
 
 
 STATIC_BUILD ?= -static
@@ -263,6 +264,8 @@ AM335XSOURCES=\
 		arch/arm/mach-omap/am335x/help_am335x.c\
 		arch/arm/mach-omap/am335x/emif_am335x-defs.c\
 		arch/arm/mach-omap/am335x/emif_am335x.c\
+		arch/arm/mach-omap/am335x/prcm/cm_am335x-defs.c\
+		arch/arm/mach-omap/am335x/prcm/cm_am335x.c\
 
 AM335XOBJECTS=	$(AM335XSOURCES:.c=.o)
 
