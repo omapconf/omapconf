@@ -49,6 +49,7 @@
 #include <lib.h>
 #include <main_am335x.h>
 #include <opp.h>
+#include <prcm_am335x.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -88,7 +89,14 @@ int main_am335x_dump(int argc, char *argv[])
 			return emif_am335x_dump(stdout, EMIF_AM335X_EMIF4D);
 		else
 			return err_arg_too_many_msg_show(HELP_EMIF);
-	} else {
+	} else if (strcmp(argv[0], "prcm") == 0) {
+		if (argc == 1)
+			return prcm_am335x_dump(NULL);
+		else if (argc == 2)
+			return prcm_am335x_dump(argv[1]);
+		else
+			return err_arg_too_many_msg_show(HELP_PRCM);
+	}  else {
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
@@ -138,7 +146,13 @@ static int main_am335x_legacy(int argc, char*argv[])
 {
 	int ret;
 
-	if (strcmp(argv[0], "ctt") == 0) {
+	if ((argc == 2) && (strcmp(argv[0], "prcm") == 0) &&
+		(strcmp(argv[1], "dump") == 0)) {
+		ret = prcm_am335x_dump(NULL);
+	} else if ((argc == 3) && (strcmp(argv[0], "prcm") == 0) &&
+		(strcmp(argv[1], "dump") == 0)) {
+		ret = prcm_am335x_dump(argv[2]);
+	} else if (strcmp(argv[0], "ctt") == 0) {
 		ret = ctt_am335x_main(argc - 1, argv + 1);
 	} else {
 		ret = err_unknown_argument_msg_show(argv[0]);
