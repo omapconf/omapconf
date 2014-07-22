@@ -266,6 +266,8 @@ AM335XSOURCES=\
 		arch/arm/mach-omap/am335x/emif_am335x.c\
 		arch/arm/mach-omap/am335x/prcm/cm_am335x-defs.c\
 		arch/arm/mach-omap/am335x/prcm/cm_am335x.c\
+		arch/arm/mach-omap/am335x/prcm/prm_am335x-defs.c\
+		arch/arm/mach-omap/am335x/prcm/prm_am335x.c\
 
 AM335XOBJECTS=	$(AM335XSOURCES:.c=.o)
 
