@@ -188,6 +188,40 @@ main_am335x_legacy_end:
 
 
 /* ------------------------------------------------------------------------*//**
+ * @FUNCTION		main_am335x_show
+ * @BRIEF		show some AM335X registers, which category is found in
+ *			argv
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_CPU
+ * @param[in]		argc: number of arguments
+ * @param[in]		argv: argument(s)
+ * @DESCRIPTION		show some AM335X registers, which category is found in
+ *			argv
+ *//*------------------------------------------------------------------------ */
+int main_am335x_show(int argc, char *argv[])
+{
+	if (argc < 1) {
+		help(HELP_USAGE);
+		return OMAPCONF_ERR_ARG;
+	} else if (strcmp(argv[0], "dpll") == 0) {
+		if (argc == 1) {
+			return dpll_am335x_show(stdout);
+		} else if (argc == 2) {
+			if (strcmp(argv[1], "cfg") == 0)
+				return dpll_am335x_show(stdout);
+			else
+				return err_arg_msg_show(HELP_DPLL);
+		} else {
+			return err_arg_too_many_msg_show(HELP_DPLL);
+		}
+	} else {
+		return err_unknown_argument_msg_show(argv[0]);
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
  * @FUNCTION		main_am335x
  * @BRIEF		AM335X functions main entry point
  * @RETURNS		0 in case of success
@@ -212,10 +246,16 @@ int main_am335x(int argc, char *argv[])
 	if (argc < 1)
 		goto main_am335x_err_arg;
 
+	/* Initializations */
+	dpll_am335x_init();
+
 	if (strcmp(argv[0], "export") == 0)
 		ret = main_am335x_export(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "dump") == 0)
 		ret = main_am335x_dump(argc - 1, argv + 1);
+	else if (strcmp(argv[0], "show") == 0) {
+		ret = main_am335x_show(argc -1, argv + 1);
+	}
 	else
 		ret = main_am335x_legacy(argc, argv);
 
@@ -226,5 +266,8 @@ main_am335x_err_arg:
 	ret = OMAPCONF_ERR_ARG;
 
 main_am335x_end:
+	/* Deinitializations */
+	dpll_am335x_free();
+
 	return ret;
 }

@@ -93,5 +93,9 @@ void help_am335x(help_category cat, char *context)
 			"omitted).\n");
 		printf("\t    Supported <dpll>: all, core, disp, ddr, mpu, "
 			"per\n");
+
+		printf("\n\tomapconf show dpll [cfg]\n");
+		printf("\t    Print the complete configuration of all DPLL "
+			"([cfg] may be omitted).\n");
 	}
 }
