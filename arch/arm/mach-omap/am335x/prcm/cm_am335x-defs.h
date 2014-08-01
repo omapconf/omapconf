@@ -46,6 +46,7 @@
 #define __CM_AM335X_DEFS_H__
 
 
+#include <dpll_am335x-defs.h>
 #include <reg.h>
 
 /* CM_PER Registers */
@@ -371,6 +372,9 @@ typedef enum {
 extern reg **cm_am335x_mods[CM_AM335X_MODS_COUNT + 1];
 
 extern const char *cm_am335x_mods_name[CM_AM335X_MODS_COUNT];
+
+extern const dpll_settings_regs dpll_am335x_regs[DPLL_AM335X_ID_MAX];
+extern const reg *dpll_am335x_hsdiv_regs[DPLL_AM335X_ID_MAX][HSDIV_AM335X_ID_MAX];
 
 
 #endif
