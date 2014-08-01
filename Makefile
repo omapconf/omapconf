@@ -271,6 +271,7 @@ AM335XSOURCES=\
 		arch/arm/mach-omap/am335x/prcm/prm_am335x.c\
 		arch/arm/mach-omap/am335x/prcm/prcm_am335x.c\
 		arch/arm/mach-omap/am335x/dpll/dpll_am335x-data.c\
+		arch/arm/mach-omap/am335x/dpll/dpll_am335x.c\
 
 AM335XOBJECTS=	$(AM335XSOURCES:.c=.o)
 

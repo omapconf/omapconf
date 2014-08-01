@@ -42,8 +42,10 @@
  */
 
 
+#include <cm_am335x-defs.h>
 #include <cpuinfo.h>
 #include <ctt_am335x.h>
+#include <dpll_am335x.h>
 #include <emif_am335x.h>
 #include <help.h>
 #include <lib.h>
@@ -78,6 +80,7 @@
  *//*------------------------------------------------------------------------ */
 int main_am335x_dump(int argc, char *argv[])
 {
+	dpll_am335x_id dpll_id;
 	if (!cpu_is_am335x())
 		return OMAPCONF_ERR_CPU;
 
@@ -96,7 +99,22 @@ int main_am335x_dump(int argc, char *argv[])
 			return prcm_am335x_dump(argv[1]);
 		else
 			return err_arg_too_many_msg_show(HELP_PRCM);
-	}  else {
+	}  else if (strcmp(argv[0], "dpll") == 0) {
+		if (argc == 1) {
+			return dpll_am335x_dump(stdout, DPLL_AM335X_ID_MAX);
+		} else if (argc == 2) {
+			if (strcmp(argv[1], "all") == 0) {
+				dpll_id = DPLL_AM335X_ID_MAX;
+			} else {
+				dpll_id = dpll_am335x_s2id(argv[1]);
+				if (dpll_id == DPLL_AM335X_ID_MAX)
+					return err_arg_msg_show(HELP_DPLL);
+			}
+			return dpll_am335x_dump(stdout, dpll_id);
+		} else {
+			return err_arg_too_many_msg_show(HELP_DPLL);
+		}
+	} else {
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
@@ -154,6 +172,8 @@ static int main_am335x_legacy(int argc, char*argv[])
 		ret = prcm_am335x_dump(argv[2]);
 	} else if (strcmp(argv[0], "ctt") == 0) {
 		ret = ctt_am335x_main(argc - 1, argv + 1);
+	} else if (strcmp(argv[0], "dpll") == 0) {
+		ret = dpll_am335x_main(argc - 1, argv + 1);
 	} else {
 		ret = err_unknown_argument_msg_show(argv[0]);
 		goto main_am335x_legacy_end;
