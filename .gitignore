@@ -11,3 +11,11 @@ Module.markers
 modules.order
 cscope.out
 tags
+*.swp
+*.swo
+*.orig
+*.rej
+*~
+\#*#
+*.patch
+*.diff
