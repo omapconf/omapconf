@@ -53,7 +53,7 @@
 #include <cm44xx.h>
 #include <emu44xx.h>
 #include <cm54xx-defs.h>
-
+#include <cm_dra7xx-defs.h>
 
 /* #define PWRDM_DEBUG */
 #ifdef PWRDM_DEBUG
@@ -660,6 +660,10 @@ void powerdm_emu_enable(void)
 				0x1);
 		else
 			mem_write(OMAP5430_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x1);
+	} else if (cpu_is_dra7xx()) {
+		mem_write(DRA7XX_CORE_CM_CORE_CM_L3MAIN1_CLKSTCTRL, 0x1);
+		mem_write(DRA7XX_CORE_CM_CORE_CM_L3INSTR_L3_MAIN_2_CLKCTRL, 0x1);
+		mem_write(DRA7XX_CORE_CM_CORE_CM_L3INSTR_L3_INSTR_CLKCTRL, 0x1);
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): warning: cpu not supported, skipping it.\n",
@@ -683,6 +687,10 @@ void powerdm_emu_disable(void)
 				0x0);
 		else
 			mem_write(OMAP5430_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x0);
+	} else if (cpu_is_dra7xx()) {
+		mem_write(DRA7XX_CORE_CM_CORE_CM_L3MAIN1_CLKSTCTRL, 0x0);
+		mem_write(DRA7XX_CORE_CM_CORE_CM_L3INSTR_L3_MAIN_2_CLKCTRL, 0x0);
+		mem_write(DRA7XX_CORE_CM_CORE_CM_L3INSTR_L3_INSTR_CLKCTRL, 0x0);
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): warning: cpu not supported, skipping it.\n",
