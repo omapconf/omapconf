@@ -331,6 +331,31 @@ unsigned int cpu_is_dra7xx(void)
 	return cpu == DRA_75X || cpu == DRA_72X;
 }
 
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		cpu_is_dra72x
+ * @BRIEF		check if cpu is DRA72x
+ * @RETURNS		1 if cpu is DRA72x
+ *			0 if cpu is NOT DRA72x
+ * @param[in]		none
+ * @DESCRIPTION		check if cpu is DRA72x
+ *//*------------------------------------------------------------------------ */
+unsigned int cpu_is_dra72x(void)
+{
+	return cpu == DRA_72X;
+}
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		cpu_is_dra75x
+ * @BRIEF		check if cpu is DRA75x
+ * @RETURNS		1 if cpu is DRA75x
+ *			0 if cpu is NOT DRA75x
+ * @param[in]		none
+ * @DESCRIPTION		check if cpu is DRA75x
+ *//*------------------------------------------------------------------------ */
+unsigned int cpu_is_dra75x(void)
+{
+	return cpu == DRA_75X;
+}
 
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		cpu_is_omap44xx
