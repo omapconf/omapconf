@@ -57,6 +57,10 @@ typedef enum {
 	PMIC_TWL6034,
 	PMIC_TWL6035,
 	PMIC_TPS659038,
+	PMIC_TPS65217A,
+	PMIC_TPS65217B,
+	PMIC_TPS65217C,
+	PMIC_TPS65217D,
 	PMIC_ID_MAX
 } pmic_id;
 
@@ -74,7 +78,8 @@ typedef enum {
 void pmic_smps_init(pmic_smps_id id, unsigned short is_twl6030,
 		unsigned short is_twl6032, unsigned short is_twl6034,
 		unsigned short is_twl6035, unsigned short tps62361_present,
-		unsigned short tps659038_present);
+		unsigned short tps659038_present,
+		unsigned short tps65217x_present);
 int pmic_detect(void);
 
 pmic_id pmic_chip_get(pmic_smps_id smps_id);
@@ -84,6 +89,7 @@ unsigned short pmic_is_twl6034(pmic_smps_id smps_id);
 unsigned short pmic_is_twl6035(pmic_smps_id smps_id);
 unsigned short pmic_is_tps62361(pmic_smps_id smps_id);
 unsigned short pmic_is_tps659038(pmic_smps_id smps_id);
+unsigned short pmic_is_tps65217x(pmic_smps_id smps_id);
 unsigned short pmic_is_single_chip(void);
 double pmic_chip_revision_get(pmic_smps_id smps_id);
 double pmic_eprom_revision_get(pmic_smps_id smps_id);
