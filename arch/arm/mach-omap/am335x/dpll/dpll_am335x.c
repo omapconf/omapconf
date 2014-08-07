@@ -979,7 +979,7 @@ int dpll_am335x_rates_calc(dpll_am335x_settings *settings,
 		} else {
 			(settings->dpll).MN.M2_rate = (settings->dpll).fref;
 		}
-		printf("%s(): %s bypassed, M2=%lfMHz\n", __func__,
+		dprintf("%s(): %s bypassed, M2=%lfMHz\n", __func__,
 			dpll_am335x_name_get((settings->dpll).id),
 			(settings->dpll).MN.M2_rate);
 		/*
