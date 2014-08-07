@@ -301,7 +301,8 @@ OBJECTS=	$(SOURCES:.c=.o)
 
 
 
-PMICSOURCES=	pmic/twl603x.c pmic/tps62361.c pmic/tps659038.c pmic/twl603x_lib.c
+PMICSOURCES=	pmic/twl603x.c pmic/tps62361.c pmic/tps659038.c pmic/twl603x_lib.c\
+		pmic/tps65217x.c
 
 PMICOBJECTS=	$(PMICSOURCES:.c=.o)
 
