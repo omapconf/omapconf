@@ -48,6 +48,7 @@
 #include <smartreflex44xx.h>
 #include <voltdm54xx.h>
 #include <voltdm_dra7xx.h>
+#include <voltdm_am335x.h>
 #include <cpuinfo.h>
 #include <opp.h>
 
@@ -79,6 +80,8 @@ void voltdm_init(void)
 		voltdm54xx_init();
 	} else if (cpu_is_dra7xx()) {
 		voltdm_dra7xx_init();
+	} else if (cpu_is_am335x()) {
+		voltdm_am335x_init();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -119,6 +122,8 @@ void voltdm_deinit(void)
 		voltdm54xx_deinit();
 	} else if (cpu_is_dra7xx()) {
 		voltdm_dra7xx_deinit();
+	} else if (cpu_is_am335x()) {
+		voltdm_am335x_deinit();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -141,6 +146,8 @@ const genlist *voltdm_list_get(void)
 		return voltdm54xx_list_get();
 	} else if (cpu_is_dra7xx()) {
 		return voltdm_dra7xx_list_get();
+	} else if (cpu_is_am335x()) {
+		return voltdm_am335x_list_get();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -203,6 +210,15 @@ int voltdm_s2id(const char *voltdm)
 			return (int) VDD_DRA7XX_RTC;
 		else
 			return OMAPCONF_ERR_ARG;
+	} else if (cpu_is_am335x()) {
+		if (strcmp(voltdm, VDD_CORE) == 0)
+			return (int) VDD_AM335X_CORE;
+		else if (strcmp(voltdm, VDD_MPU) == 0)
+			return (int) VDD_AM335X_MPU;
+		else if (strcmp(voltdm, VDD_RTC) == 0)
+			return (int) VDD_AM335X_RTC;
+		else
+			return OMAPCONF_ERR_ARG;
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -226,6 +242,8 @@ int voltdm_count_get(void)
 		return voltdm54xx_count_get();
 	} else if (cpu_is_dra7xx()) {
 		return voltdm_dra7xx_count_get();
+	} else if (cpu_is_am335x()) {
+		return voltdm_am335x_count_get();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -269,6 +287,8 @@ int voltdm_voltage_get(const char *voltdm)
 		return v2uv(voltdm54xx_voltage_get((voltdm54xx_id) id));
 	} else if (cpu_is_dra7xx()) {
 		return v2uv(voltdm_dra7xx_voltage_get((voltdm_dra7xx_id) id));
+	} else if (cpu_is_am335x()) {
+		return v2uv(voltdm_am335x_voltage_get((voltdm_am335x_id) id));
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
