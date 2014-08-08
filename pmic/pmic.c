@@ -56,6 +56,7 @@
 #include <voltdm44xx.h>
 #include <voltdm54xx.h>
 #include <voltdm_dra7xx.h>
+#include <voltdm_am335x.h>
 
 
 /* #define PMIC_DEBUG */
@@ -229,6 +230,33 @@ pmic_smps_id vdd_id2smps_id(unsigned short vdd_id)
 		}
 		break;
 
+	case AM_3352:
+	case AM_3354:
+	case AM_3356:
+	case AM_3357:
+	case AM_3358:
+	case AM_3359:
+		strncpy(vdd_name, voltdm_am335x_name_get(vdd_id), 16);
+		if (vdd_id > VDD_AM335X_RTC) {
+			fprintf(stderr, "%s(): incorrect vdd_id! (%u)\n",
+				__func__, vdd_id);
+			smps_id =  PMIC_SMPS_ID_MAX;
+			strncpy(smps_name, "FIXME", 16);
+		} else {
+			switch (vdd_id) {
+			case VDD_AM335X_MPU:
+				smps_id = PMIC_SMPS_MPU;
+				break;
+			case VDD_AM335X_CORE:
+				smps_id = PMIC_SMPS_CORE;
+				break;
+			default:
+				smps_id = PMIC_SMPS_ID_MAX;
+			}
+			strncpy(smps_name, smps_name_get(smps_id), 16);
+		}
+		break;
+
 	default:
 		fprintf(stderr, "%s(): unsupported CPU! (%s)\n",
 			__func__, cpu_gets(smps_name));
@@ -315,6 +343,34 @@ unsigned short smps_id2vdd_id(pmic_smps_id smps_id)
 			strncpy(name, voltdm54xx_name_get(vdd_id), 16);
 		}
 		break;
+
+	case AM_3352:
+	case AM_3354:
+	case AM_3356:
+	case AM_3357:
+	case AM_3358:
+	case AM_3359:
+		if (smps_id > PMIC_SMPS_ID_MAX) {
+			fprintf(stderr, "%s(): incorrect smps_id! (%u)\n",
+				__func__, smps_id);
+			vdd_id =  (unsigned short) VDD_AM335X_ID_MAX;
+			strncpy(name, "FIXME", 16);
+
+		} else {
+			switch (smps_id) {
+			case PMIC_SMPS_MPU:
+				vdd_id = VDD_AM335X_MPU;
+				break;
+			case PMIC_SMPS_CORE:
+				vdd_id = VDD_AM335X_CORE;
+				break;
+			default:
+				vdd_id = VDD_AM335X_ID_MAX;
+			}
+			strncpy(name, voltdm_am335x_name_get(vdd_id), 16);
+		}
+		break;
+
 	default:
 		fprintf(stderr, "%s(): unsupported CPU! (%s)\n",
 			__func__, cpu_gets(name));
