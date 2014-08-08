@@ -48,6 +48,7 @@
 #include <module44xx.h>
 #include <module54xx.h>
 #include <module_dra7xx.h>
+#include <module_am335x.h>
 #include <cpuinfo.h>
 #include <opp.h>
 #include <voltdomain.h>
@@ -83,6 +84,8 @@ void module_init(void)
 		mod54xx_init();
 	} else if (cpu_is_dra7xx()) {
 		mod_dra7xx_init();
+	} else if (cpu_is_am335x()) {
+		mod_am335x_init();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -132,6 +135,8 @@ void module_deinit(void)
 		mod54xx_deinit();
 	} else if (cpu_is_dra7xx()) {
 		mod_dra7xx_deinit();
+	} else if (cpu_is_am335x()) {
+		mod_am335x_deinit();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -154,6 +159,8 @@ const genlist *module_list_get(void)
 		return mod54xx_list_get();
 	} else if (cpu_is_dra7xx()) {
 		return mod_dra7xx_list_get();
+	} else if (cpu_is_am335x()) {
+		return mod_am335x_list_get();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -178,6 +185,8 @@ int module_count_get(void)
 		return mod54xx_count_get();
 	} else if (cpu_is_dra7xx()) {
 		return mod_dra7xx_count_get();
+	} else if (cpu_is_am335x()) {
+		return mod_am335x_count_get();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -1168,6 +1177,8 @@ int module_clk_rate_get(const char *mod, unsigned short ignore)
 			rate_mhz = clk54xx_rate_get(data.clk, ignore);
 		} else if (cpu_is_dra7xx()) {
 			rate_mhz = clk_dra7xx_rate_get(data.clk, ignore);
+		} else if (cpu_is_am335x()) {
+			rate_mhz = clk_am335x_rate_get(data.clk, ignore);
 		} else {
 			rate_khz = OMAPCONF_ERR_CPU;
 			goto module_clk_rate_get_end;

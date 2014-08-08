@@ -81,6 +81,9 @@
 #define OPP_HIGH		((const char *) "HIGH")
 #define OPP_SB			((const char *) "SPEEDBIN")
 
+/* AM335X OPP */
+#define OPP_120			((const char *) "OPP120")
+
 
 typedef struct {
 	const char *name;
