@@ -98,4 +98,11 @@ void help_am335x(help_category cat, char *context)
 		printf("\t    Print the complete configuration of all DPLL "
 			"([cfg] may be omitted).\n");
 	}
+
+	if ((cat == HELP_ALL) || (cat == HELP_SOC_OPP)) {
+		printf("\n\tomapconf show opp\n");
+		printf("\t    Print AM335X current OPerating Points (OPP) "
+			"(voltage, frequency for MPU/CORE voltage domains), "
+			"including main modules frequencies.\n");
+	}
 }
