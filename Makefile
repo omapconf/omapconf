@@ -275,6 +275,7 @@ AM335XSOURCES=\
 		arch/arm/mach-omap/am335x/prcm/clock_am335x.c\
 		arch/arm/mach-omap/am335x/prcm/voltdm_am335x.c\
 		arch/arm/mach-omap/am335x/prcm/pwrdm_am335x.c\
+		arch/arm/mach-omap/am335x/prcm/clkdm_am335x.c\
 		arch/arm/mach-omap/am335x/dpll/dpll_am335x-data.c\
 		arch/arm/mach-omap/am335x/dpll/dpll_am335x.c\
 

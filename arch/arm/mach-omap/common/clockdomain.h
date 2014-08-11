@@ -83,6 +83,21 @@
 #define CLKDM_IVA			((const char *) "IVA")
 #define CLKDM_IVA_HD			((const char *) "IVAHD")
 #define CLKDM_MPU			((const char *) "MPU")
+#define CLKDM_PER_L4LS			((const char *) "L4_SLOW")
+#define CLKDM_PER_L3S			((const char *) "L3_SLOW")
+#define CLKDM_PER_L3			((const char *) "L3_FAST")
+#define CLKDM_PER_L4HS			((const char *) "L4_FAST")
+#define CLKDM_PER_OCPWP_L3		((const char *) "OCPWP")
+#define CLKDM_PER_PRU_ICSS		((const char *) "PRU_ICSS")
+#define CLKDM_PER_CPSW			((const char *) "CPWS")
+#define CLKDM_PER_LCDC			((const char *) "LCDC")
+#define CLKDM_PER_CLK_24MHZ		((const char *) "CLK_24MHZ")
+#define CLKDM_WKUP_L3_AON		((const char *) "WKUP_L3_AON")
+#define CLKDM_WKUP_L4_WKUP_AON		((const char *) "WKUP_L4_AON")
+#define CLKDM_RTC			((const char *) "RTC")
+#define CLKDM_GFX_L3			((const char *) "GFX_L3")
+#define CLKDM_GFX_L4LS_GFX		((const char *) "GFX_L4LS")
+#define CLKDM_CEFUSE			((const char *) "CEFUSE")
 #define CLKDM_NONE			((const char *) "NONE")
 #define CLKDM_UNKNOWN			((const char *) "UNKNOWN")
 
@@ -93,6 +108,7 @@ typedef struct {
 	const char *powerdm;
 	const char *voltdm;
 	reg *clkstctrl;
+	unsigned int clkstctrl_bit; /* AM335X only */
 	int properties;
 } clockdm_info;
 
@@ -107,6 +123,7 @@ int clockdm_id_get(const char *clockdm);
 const char *clockdm_powerdm_get(const char *clockdm);
 const char *clockdm_voltdm_get(const char *clockdm);
 reg *clockdm_clkstctrl_get(const char *clockdm);
+unsigned int clockdm_bit_get(const char *clockdm);
 
 clkdm_status clockdm_status_get(const char *clockdm);
 clkdm_ctrl_mode clockdm_ctrl_mode_get(const char *clockdm);

@@ -45,6 +45,7 @@
 #include <clockdomain.h>
 #include <clkdm44xx.h>
 #include <clkdm54xx.h>
+#include <clkdm_am335x.h>
 #include <clkdm.h>
 #include <lib.h>
 #include <stdlib.h>
@@ -80,6 +81,8 @@ void clockdm_init(void)
 		clkdm44xx_init();
 	} else if (cpu_is_omap54xx()) {
 		clkdm54xx_init();
+	} else if (cpu_is_am335x()) {
+		clkdm_am335x_init();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -117,6 +120,8 @@ void clockdm_deinit(void)
 		clkdm44xx_deinit();
 	} else if (cpu_is_omap54xx()) {
 		clkdm54xx_deinit();
+	} else if (cpu_is_am335x()) {
+		clkdm_am335x_deinit();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -137,6 +142,8 @@ const genlist *clockdm_list_get(void)
 		return clkdm44xx_list_get();
 	} else if (cpu_is_omap54xx()) {
 		return clkdm54xx_list_get();
+	} else if (cpu_is_am335x()) {
+		return clkdm_am335x_list_get();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -159,6 +166,8 @@ int clockdm_count_get(void)
 		return clkdm44xx_count_get();
 	} else if (cpu_is_omap54xx()) {
 		return clkdm54xx_count_get();
+	} else if (cpu_is_am335x()) {
+		return clkdm_am335x_count_get();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -311,6 +320,39 @@ reg *clockdm_clkstctrl_get(const char *clockdm)
 
 
 /* ------------------------------------------------------------------------*//**
+ * @FUNCTION		clockdm_bit_get
+ * @BRIEF		return the CLKSTCTRL domain bit of a given clock domain
+ * @RETURNS		CLKSTCTRL domain bit on success
+ *			0 in case of error (not found)
+ * @param[in]		clockdm: clock domain name
+ * @DESCRIPTION		return the CLKSTCTRL domain bit of a given clock domain
+ *//*------------------------------------------------------------------------ */
+unsigned int clockdm_bit_get(const char *clockdm)
+{
+	int ret;
+	clockdm_info data;
+
+	CHECK_NULL_ARG(clockdm, 0);
+
+	ret = _clockdm_info_get(clockdm, &data);
+	if (ret != 0) {
+		dprintf("%s(%s): could not retrieve clockdm_info struct!\n",
+			__func__, clockdm);
+		return 0;
+	}
+
+	if (data.clkstctrl_bit != 0) {
+		dprintf("%s(%s): CM_CLKSTCTRL_BIT=%u\n", __func__,
+			clockdm, data.clkstctrl_bit);
+		return data.clkstctrl_bit;
+	} else {
+		dprintf("%s(%s): CM_CLKSTCTRL==NULL\n", __func__, clockdm);
+		return 0;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
  * @FUNCTION		clockdm_status_get
  * @BRIEF		return the status of a given clock domain
  * @RETURNS		clock domain status on success
@@ -329,7 +371,11 @@ clkdm_status clockdm_status_get(const char *clockdm)
 	clkstctrl_reg = clockdm_clkstctrl_get(clockdm);
 	if (clkstctrl_reg != NULL) {
 		clkstctrl = reg_read(clkstctrl_reg);
-		st = clkdm_status_get(clkstctrl);
+		if (cpu_is_am335x())
+			st = clkdm_am335x_status_get(clkstctrl,
+				clockdm_bit_get(clockdm));
+		else
+			st = clkdm_status_get(clkstctrl);
 		dprintf("%s(%s): CM_CLKSTCTRL=%s status=%s\n", __func__,
 			clockdm, reg_name_get(clkstctrl_reg),
 			clkdm_status_name_get(st));
