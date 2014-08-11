@@ -50,6 +50,7 @@
 #include <help.h>
 #include <lib.h>
 #include <main_am335x.h>
+#include <module.h>
 #include <opp.h>
 #include <prcm_am335x.h>
 #include <stdio.h>
@@ -220,6 +221,11 @@ int main_am335x_show(int argc, char *argv[])
 			return opp_show(stdout);
 		else
 			return err_arg_too_many_msg_show(HELP_SOC_OPP);
+	} else if (strcmp(argv[0], "pwst") == 0) {
+		if (argc == 1)
+			return module_status_show(stdout);
+		else
+			return err_arg_too_many_msg_show(HELP_SOC_PWST);
 	} else {
 		return err_unknown_argument_msg_show(argv[0]);
 	}

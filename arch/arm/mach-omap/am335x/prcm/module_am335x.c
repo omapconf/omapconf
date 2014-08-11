@@ -69,7 +69,7 @@ genlist mod_am335x_list;
 
 
 /* ------------------------------------------------------------------------*//**
- * @FUNCTION		mod_dra7xx_init
+ * @FUNCTION		mod_am335x_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
  *//*------------------------------------------------------------------------ */
@@ -86,8 +86,8 @@ void mod_am335x_init(void)
 	/* Voltage dom.: CORE, Power dom.: PD_PER, Clock domain = PER_L3S */
 	mod.name = MOD_L3_MAIN1_INTERCONNECT;
 	mod.id = (int) AM335X_L3S;
-	mod.clkdm = NULL; /* TBD */
-	mod.pwrdm = NULL; /* TBD */
+	mod.clkdm = CLKDM_PER_L3S;
+	mod.pwrdm = PWRDM_PER;
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK_AM335X_L3S_CLK;
 	mod.sysconfig = NULL;
@@ -121,8 +121,8 @@ void mod_am335x_init(void)
 	/* Voltage dom.: CORE, Power dom.: PD_PER, Clock domain = PER_L3 */
 	mod.name = MOD_L3_MAIN2_INTERCONNECT;
 	mod.id = (int) AM335X_L3F;
-	mod.clkdm = NULL; /* TBD */
-	mod.pwrdm = NULL; /* TBD */
+	mod.clkdm = CLKDM_PER_L3;
+	mod.pwrdm = PWRDM_PER;
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK_AM335X_L3F_CLK;
 	mod.sysconfig = NULL;
@@ -155,8 +155,8 @@ void mod_am335x_init(void)
 
 	mod.name = MOD_EMIF4;
 	mod.id = (int) AM335X_EMIF4;
-	mod.clkdm = NULL; /* TBD */
-	mod.pwrdm = NULL; /* TBD */
+	mod.clkdm = CLKDM_PER_L3;
+	mod.pwrdm = PWRDM_PER;
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK_AM335X_EMIF_M_CLK;
 	mod.sysconfig = NULL;
@@ -189,8 +189,8 @@ void mod_am335x_init(void)
 
 	mod.name = MOD_PHY_EMIF;
 	mod.id = (int) AM335X_DDR_PHY;
-	mod.clkdm = NULL; /* TBD */
-	mod.pwrdm = NULL; /* TBD */
+	mod.clkdm = CLKDM_PER_L3;
+	mod.pwrdm = PWRDM_PER;
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK_AM335X_DDR_CLKOUTM2;
 	mod.sysconfig = NULL;
@@ -224,8 +224,8 @@ void mod_am335x_init(void)
 	/* Voltage dom.: CORE, Power dom.: PD_PER, Clock domain = PER_L4LS */
 	mod.name = MOD_L4_PER_INTERCONNECT;
 	mod.id = (int) AM335X_L4_PER;
-	mod.clkdm = NULL; /* TBD */
-	mod.pwrdm = NULL; /* TBD */
+	mod.clkdm = CLKDM_PER_L4LS;
+	mod.pwrdm = PWRDM_PER;
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK_AM335X_L4_PER_CLK;
 	mod.sysconfig = NULL;
@@ -259,8 +259,8 @@ void mod_am335x_init(void)
 	/* Voltage dom.: CORE, Power dom.: PD_PER, Clock domain = PER_L4HS */
 	mod.name = MOD_L4_FAST_INTERCONNECT;
 	mod.id = (int) AM335X_L4_FAST;
-	mod.clkdm = NULL; /* TBD */
-	mod.pwrdm = NULL; /* TBD */
+	mod.clkdm = CLKDM_PER_L4HS;
+	mod.pwrdm = PWRDM_PER;
 	mod.voltdm = VDD_CORE;
 	mod.clk = (int) CLK_AM335X_L4F_CLK;
 	mod.sysconfig = NULL;
@@ -291,11 +291,116 @@ void mod_am335x_init(void)
 	mod.properties = 0; /* TBD */
 	genlist_addtail(&mod_am335x_list, (void *) & mod, sizeof(mod_info));
 
+	/* Voltage dom.: CORE, Power dom.: PD_WKUP, Clock domain = WKUP */
+	mod.name = MOD_L4_WKUP_INTERCONNECT;
+	mod.id = (int) AM335X_L4_WKUP;
+	mod.clkdm = CLKDM_WKUP;
+	mod.pwrdm = PWRDM_WKUP;
+	mod.voltdm = VDD_CORE;
+	mod.clk = (int) CLK_AM335X_L4_WKUPCLK;
+	mod.sysconfig = NULL;
+	mod.clkctrl = &am335x_cm_wkup_l4wkup_clkctrl;
+	mod.context = NULL;
+	genlist_init(&(mod.mod_opp_list));
+	opp.name = OPP_50;
+	opp.rate = 50000;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_100;
+	opp.rate = 100000;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_100_LOW;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_100_HIGH;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_120;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_TURBO;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_NITRO;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	mod.properties = 0;
+	genlist_addtail(&mod_am335x_list, (void *) & mod, sizeof(mod_info));
+
+	/* Voltage dom.: CORE, Power dom.: PD_WKUP, Clock domain = WKUP_L3_AON */
+	mod.name = MOD_DEBUGSS;
+	mod.id = (int) AM335X_DEBUGSS;
+	mod.clkdm = CLKDM_WKUP_L3_AON;
+	mod.pwrdm = PWRDM_WKUP;
+	mod.voltdm = VDD_CORE;
+	mod.clk = (int) CLK_AM335X_DEBUGSS_CLKA;
+	mod.sysconfig = NULL;
+	mod.clkctrl = &am335x_cm_wkup_debugss_clkctrl;
+	mod.context = NULL;
+	genlist_init(&(mod.mod_opp_list));
+	opp.name = OPP_50;
+	opp.rate = 100000;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_100;
+	opp.rate = 200000;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_100_LOW;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_100_HIGH;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_120;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_TURBO;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_NITRO;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	mod.properties = MOD_HAS_STANDBY_STATUS;
+	genlist_addtail(&mod_am335x_list, (void *) & mod, sizeof(mod_info));
+
+	/* Voltage dom.: CORE, Power dom.: PD_GFX, Clock domain = GFX_L3 */
+	mod.name = MOD_GFX;
+	mod.id = (int) AM335X_SGX530;
+	mod.clkdm = CLKDM_GFX_L3;
+	mod.pwrdm = PWRDM_GFX;
+	mod.voltdm = VDD_CORE;
+	mod.clk = (int) CLK_AM335X_GFX_SYSCLK;
+	mod.sysconfig = NULL;
+	mod.clkctrl = &am335x_cm_gfx_gfx_clkctrl;
+	mod.context = NULL;
+	genlist_init(&(mod.mod_opp_list));
+	opp.name = OPP_50;
+	opp.rate = 100000;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_100;
+	opp.rate = 200000;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_100_LOW;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_100_HIGH;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_120;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_TURBO;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_NITRO;
+	opp.rate = -1;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	mod.properties = MOD_HAS_STANDBY_STATUS;
+	genlist_addtail(&mod_am335x_list, (void *) & mod, sizeof(mod_info));
+
 	/* Voltage dom.: MPU, Power dom.: PD_MPU, Clock domain = MPU */
 	mod.name = MOD_MPU;
 	mod.id = (int) AM335X_MPU;
-	mod.clkdm = NULL; /* TBD */
-	mod.pwrdm = NULL; /* TBD */
+	mod.clkdm = CLKDM_MPU;
+	mod.pwrdm = PWRDM_MPU;
 	mod.voltdm = VDD_MPU;
 	mod.clk = (int) CLK_AM335X_MPU_CLK;
 	mod.sysconfig = NULL;

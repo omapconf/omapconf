@@ -58,6 +58,7 @@
 #define MOD_DSP_WUGEN			((const char *) "DSP_WUGEN")
 #define MOD_GPU				((const char *) "GPU")
 #define MOD_SGX				((const char *) "SGX")
+#define MOD_GFX				((const char *) "GFX")
 #define MOD_IVA				((const char *) "IVA")
 #define MOD_SL2				((const char *) "SL2")
 #define MOD_MPU				((const char *) "MPU")

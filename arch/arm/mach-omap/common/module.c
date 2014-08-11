@@ -1322,11 +1322,14 @@ int module_status_show(FILE *stream)
 		"| Name              | OPP       | Name       | Curr.  | Target | Name       | Status   | Name                  | Rate (MHz) | Idle                 | Standby    |\n");
 	/* For each domain, retrieve the clock & power domain status */
 	for (v = 0; v < voltdm_count; v++) {
-		fprintf(stream,
-			"|---------------------------------------------------------------------------------------------------------------------------------------------------------------|\n");
 		genlist_get((genlist *) voltdm_list, v, (void *) &voltdm);
 
 		opp = opp_get(voltdm.name, 1);
+
+		if (strcmp(voltdm.name, "VDD_RTC") == 0)
+			continue;
+		fprintf(stream,
+			"|---------------------------------------------------------------------------------------------------------------------------------------------------------------|\n");
 		if (opp != NULL)
 			strncpy(s_current_opp, opp, OPP_MAX_NAME_LENGTH);
 		else
@@ -1351,6 +1354,8 @@ int module_status_show(FILE *stream)
 			else if (strcmp(pwrdm.name, "MPUAON") == 0)
 				continue;
 			else if (strcmp(pwrdm.name, "CUSTEFUSE") == 0)
+				continue;
+			else if (strcmp(pwrdm.name, "CEFUSE") == 0)
 				continue;
 
 			*s_pwst = '\0';
@@ -1403,9 +1408,10 @@ int module_status_show(FILE *stream)
 
 					idlest = module_idle_status_get(
 						mod.name);
-					if (idlest != MOD_IDLE_STATUS_MAX) {
+					if (idlest != MOD_IDLE_STATUS_MAX)
 						strcpy(s_idlest, mod_idle_status_name_get(idlest));
-					} else if (idlest != MOD_DISABLED) {
+
+					if (idlest < MOD_DISABLED) {
 						stbyst = module_standby_status_get(mod.name);
 						if (stbyst != MOD_STANDBY_STATUS_MAX)
 							strcpy(s_stbyst, mod_standby_status_name_get(stbyst));

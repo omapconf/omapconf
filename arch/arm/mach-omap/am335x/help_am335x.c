@@ -105,4 +105,11 @@ void help_am335x(help_category cat, char *context)
 			"(voltage, frequency for MPU/CORE voltage domains), "
 			"including main modules frequencies.\n");
 	}
+
+	if ((cat == HELP_ALL) || (cat == HELP_SOC_PWST)) {
+		printf("\n\tomapconf show pwst\n");
+		printf("\t    Print AM335X power status (OPP, voltage/power/"
+			"clock domains states, modules frequency and "
+			"status).\n");
+	}
 }

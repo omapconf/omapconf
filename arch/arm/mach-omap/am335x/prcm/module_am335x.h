@@ -63,7 +63,7 @@ typedef enum {
 	AM335X_SMARTREFLEX_C2_1,
 	AM335X_WDT1,
 	/* Voltage dom.: CORE, Power dom.: PD_WKUP, Clock domain = WKUP_L3_AON */
-	AM335X_DEBUGS,
+	AM335X_DEBUGSS,
 	/* Voltage dom.: CORE, Power dom.: PD_WKUP, Clock domain = UNKNOWN */
 	AM335X_WKUP_M3,
 	AM335X_PRCM,

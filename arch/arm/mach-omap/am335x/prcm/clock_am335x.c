@@ -114,6 +114,10 @@ static const char
 	/* DPLL DDR OUTPUT CLKS */
 	[CLK_AM335X_DDR_CLKOUTM2] = "DDR_CLKOUTM2",
 	[CLK_AM335X_EMIF_M_CLK] = "EMIF_M_CLK",
+	/* GFX CLKS */
+	[CLK_AM335X_GFX_SYSCLK] = "GFX_SYSCLK",
+	[CLK_AM335X_GFX_MEMCLK] = "GFX_MEMCLK",
+	[CLK_AM335X_GFX_CORECLK] = "GFX_CORECLK",
 	[CLK_AM335X_ID_MAX] = "FIXME" };
 
 typedef enum {
@@ -567,6 +571,40 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed / 2;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
+			out_clk_speed);
+		return out_clk_speed;
+
+	case CLK_AM335X_GFX_SYSCLK:
+		src_clk_id = CLK_AM335X_CORE_CLKOUTM4;
+		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
+		out_clk_speed = src_clk_speed / 2;
+		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
+			out_clk_speed);
+		return out_clk_speed;
+
+	case CLK_AM335X_GFX_MEMCLK:
+		src_clk_id = CLK_AM335X_CORE_CLKOUTM4;
+		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
+		out_clk_speed = src_clk_speed / 2;
+		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
+			out_clk_speed);
+		return out_clk_speed;
+
+	case CLK_AM335X_GFX_CORECLK:
+		reg_val = reg_read(&am335x_clksel_gfx_fclk);
+		if (extract_bit(reg_val, 1))
+			src_clk_id = CLK_AM335X_PER_CLKOUTM2;
+		else
+			src_clk_id = CLK_AM335X_CORE_CLKOUTM4;
+
+		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
+		if (extract_bit(reg_val, 0))
+			div = 2;
+		else
+			div = 1;
+
+		out_clk_speed = src_clk_speed / div;
+		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
 			out_clk_speed);
 		return out_clk_speed;
 
