@@ -45,6 +45,7 @@
 #include <powerdomain.h>
 #include <pwrdm54xx.h>
 #include <pwrdm44xx.h>
+#include <pwrdm_am335x.h>
 #include <lib.h>
 #include <mem.h>
 #include <stdio.h>
@@ -83,6 +84,8 @@ void powerdm_init(void)
 		pwrdm44xx_init();
 	} else if (cpu_is_omap54xx()) {
 		pwrdm54xx_init();
+	} else if (cpu_is_am335x()) {
+		pwrdm_am335x_init();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -119,6 +122,8 @@ void powerdm_deinit(void)
 		pwrdm44xx_deinit();
 	} else if (cpu_is_omap54xx()) {
 		pwrdm54xx_deinit();
+	} else if (cpu_is_am335x()) {
+		pwrdm_am335x_deinit();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -139,6 +144,8 @@ const genlist *powerdm_list_get(void)
 		return pwrdm44xx_list_get();
 	} else if (cpu_is_omap54xx()) {
 		return pwrdm54xx_list_get();
+	} else if (cpu_is_am335x()) {
+		return pwrdm_am335x_list_get();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -161,6 +168,8 @@ int powerdm_count_get(void)
 		return pwrdm44xx_count_get();
 	} else if (cpu_is_omap54xx()) {
 		return pwrdm54xx_count_get();
+	} else if (cpu_is_am335x()) {
+		return pwrdm_am335x_count_get();
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);

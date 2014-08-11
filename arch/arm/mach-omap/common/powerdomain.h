@@ -76,6 +76,10 @@
 #define PWRDM_ALWON_IVA			((const char *) "ALWON_IVA")
 #define PWRDM_MPUAON			((const char *) "MPUAON")
 #define PWRDM_MPU			((const char *) "MPU")
+#define PWRDM_PER			((const char *) "PER")
+#define PWRDM_GFX			((const char *) "GFX")
+#define PWRDM_RTC			((const char *) "RTC")
+#define PWRDM_EFUSE			((const char *) "CEFUSE")
 #define PWRDM_UNKNOWN			((const char *) "UNKNOWN")
 
 
