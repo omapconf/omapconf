@@ -67,6 +67,7 @@ DEF_INC_PATH = -I. -Icommon -Ipmic -Iaudioic -Ilinux -Ii2c-tools\
 	-Iarch/arm/mach-omap/dra7/ctrlmod\
 	-Iarch/arm/mach-omap/dra7/prcm\
 	-Iarch/arm/mach-omap/dra7/dpll\
+	-Iarch/arm/mach-omap/dra7/statcoll\
 	-Iarch/arm/mach-omap/am335x\
 	-Iarch/arm/mach-omap/am335x/prcm\
 	-Iarch/arm/mach-omap/am335x/dpll\
@@ -239,6 +240,8 @@ DRA7SOURCES=\
 		arch/arm/mach-omap/dra7/prcm/module_dra7xx.c\
 		arch/arm/mach-omap/dra7/prcm/abb7xx.c\
 		arch/arm/mach-omap/dra7/prcm/clock_dra7xx.c\
+		arch/arm/mach-omap/dra7/statcoll/sci_swcapture_dra.c\
+		arch/arm/mach-omap/dra7/statcoll/sci_dra.c\
 		arch/arm/mach-omap/dra7/dpll/dpll_dra7xx.c\
 		arch/arm/mach-omap/dra7/dpll/dpll_dra7xx-data.c\
 		arch/arm/mach-omap/dra7/ctrlmod/ctrlmod_core_dra7xx-defs.c\

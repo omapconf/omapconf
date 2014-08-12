@@ -62,6 +62,7 @@
 #include <audioic/tlv320aic3x.h>
 #include <crossbar.h>
 #include <abb7xx.h>
+#include <statcoll/sci_swcapture_dra.h>
 
 
 /* #define MAIN_DRA7XX_DEBUG */
@@ -541,6 +542,8 @@ int main_dra7xx(int argc, char *argv[])
 		ret = main_dra7xx_audit(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "set") == 0)
 		ret = main_dra7xx_set(argc - 1, argv + 1);
+	else if (strcmp(argv[0], "trace") == 0)
+        ret = statcoll_main_dra(argc - 1, argv + 1);
 	else
 		ret = main_dra7xx_legacy(argc, argv);
 
