@@ -403,6 +403,15 @@ static int sci_run_test(unsigned int option_disable,
 			*(counters_prev + TIMESTAMP_INDEX) = GET_32K;
 			sci_dump_sdram_cntrs_dra(num_use_cases, counters_prev + COUNTER_INDEX);
 
+			printf("    %33s ->   %s\n",
+				"Time Stamp(32KHz ticks)",
+				"Throughput(MB/s)");
+			/* Print Header */
+			printf("time: %11s %11s %7s -> ",
+				"End", "Start", "Delta");
+			for (j = 0; j < num_use_cases; j++)
+				printf("%9s%d ", "Counter", j);
+			printf("\n");
 			for (;;) {
 				tests_overflow++;
 
@@ -428,9 +437,13 @@ static int sci_run_test(unsigned int option_disable,
 
 				/* trace current - prev */
 				delta_time = *(counters_current + TIMESTAMP_INDEX) - *(counters_prev + TIMESTAMP_INDEX);
-				printf("time: %u %u %u -> ", *(counters_current + TIMESTAMP_INDEX), *(counters_prev + TIMESTAMP_INDEX), delta_time);
+				printf("time: %11u %11u %7u -> ",
+					*(counters_current + TIMESTAMP_INDEX),
+					*(counters_prev + TIMESTAMP_INDEX),
+					delta_time);
 				for (j = 0; j < num_use_cases; j++) {
-					printf("%.2f ", ((float)(*(counters_current + COUNTER_INDEX + j) - *(counters_prev + COUNTER_INDEX + j))/1000000)*32768.0/delta_time);
+					printf("%10.2f ",
+						((float)(*(counters_current + COUNTER_INDEX + j) - *(counters_prev + COUNTER_INDEX + j))/1000000)*32768.0/delta_time);
 				}
 				printf("\n");
 
@@ -540,19 +553,23 @@ static void sci_print_counter_config(void)
 		}
 
 		if ( (pmy_cfg_dra[describe_loop]->filter[0].mstr_addr_match == SCI_MASTID_ALL_DRA) && (pmy_cfg_dra[describe_loop]->probe_id == SCI_MA_MPU_P1_DRA)) {
-			printf("Counter: %d  Master: ma_mpu  Transaction: %s Probe: emif1\n", describe_loop, b_name);
 			sprintf(msg[describe_loop], "EMIF 0:%s:MA_MPU", match_qualifier_dra[loop_transaction].name_ccs);
 			sprintf(msg_overflow[describe_loop], "EMIF 0:%s:MA_MPU", match_qualifier_dra[loop_transaction].name);
-			continue;
-		}
-		if ( (pmy_cfg_dra[describe_loop]->filter[0].mstr_addr_match == SCI_MASTID_ALL_DRA) && (pmy_cfg_dra[describe_loop]->probe_id == SCI_MA_MPU_P2_DRA)) {
-			printf("Counter: %d  Master: ma_mpu  Transaction: %s Probe: emif2\n", describe_loop, b_name);
-			sprintf(msg[describe_loop], "EMIF 1:%s:MA_MPU", match_qualifier_dra[loop_transaction].name_ccs);
-			sprintf(msg_overflow[describe_loop], "EMIF 1:%s:MA_MPU",  match_qualifier_dra[loop_transaction].name);
-			continue;
+			a_name = "ma_mpu";
+			c_name = "emif1";
+			goto print;
 		}
 
-		printf("Counter: %d  Master: %s  Transaction: %s Probe: %s\n", describe_loop, a_name, b_name, c_name);
+		if ( (pmy_cfg_dra[describe_loop]->filter[0].mstr_addr_match == SCI_MASTID_ALL_DRA) && (pmy_cfg_dra[describe_loop]->probe_id == SCI_MA_MPU_P2_DRA)) {
+			sprintf(msg[describe_loop], "EMIF 1:%s:MA_MPU", match_qualifier_dra[loop_transaction].name_ccs);
+			sprintf(msg_overflow[describe_loop], "EMIF 1:%s:MA_MPU",  match_qualifier_dra[loop_transaction].name);
+			a_name = "ma_mpu";
+			c_name = "emif2";
+			goto print;
+		}
+
+print:
+		printf("Counter:%2d  Master: %15s Transaction: %2s Probe: %s\n", describe_loop, a_name, b_name, c_name);
 	}
 	return;
 }
