@@ -67,9 +67,9 @@ volatile unsigned int *mem_map_32k(void)
 {
 	unsigned int reg_32k;
 
-	if (cpu_is_omap54xx())
+	if (cpu_is_omap54xx() || cpu_is_dra7xx())
 		reg_32k = OMAP5430_CR;
-	else if (cpu_is_omap44xx() || cpu_is_dra7xx())
+	else if (cpu_is_omap44xx())
 		reg_32k = T32KSYNCNT_CR;
 
 	return mem_map_address(reg_32k);
