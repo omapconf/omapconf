@@ -1,3 +1,21 @@
+v1.70:
+-------
+	- [DRA7][TRACE] Add Bandwidth trace 'trace bw' command support
+	- [DRA7][STATCOLL] Add DRA7 specific statistics collector library
+	- [AM335X][MODULE] Support for show pwst command
+	- [AM335X][OPP] Add support for show opp command
+	- [TPS65217X][PMIC] PMIC detection and support for TPS65217X
+	- [AM335X][DPLL] Add support for 'show dpll' command
+	- [AM335X][DPLL] Add support for 'dump dpll' command
+	- [AM335X][PRCM] Add prcm dump support
+	- [AM335X][EMIF] Add support for dump EMIF
+	- [AM335X][CTT] Export ctt implemented for AM335X
+	- [CPUINFO][AM335X] Add support for AM335X SoC
+	- [PMIC][TPS659038] Fix ES1.1 ID detection
+	- [CPUINFO] [DRA7] support DRA72x SoC
+	- [DRA7][PRCM] Use SYS_CLK1 rates based on CM_CLKSEL_SYS
+	- Makefile: add dirty tag if git repo was modified.
+
 v1.69:
 -------
 	- omapconf: get rid of macro based version information
