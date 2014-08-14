@@ -269,6 +269,7 @@ AM335XSOURCES=\
 		arch/arm/mach-omap/am335x/emif_am335x-defs.c\
 		arch/arm/mach-omap/am335x/emif_am335x.c\
 		arch/arm/mach-omap/am335x/opp_am335x.c\
+		arch/arm/mach-omap/am335x/lib_am335x.c\
 		arch/arm/mach-omap/am335x/prcm/cm_am335x-defs.c\
 		arch/arm/mach-omap/am335x/prcm/cm_am335x.c\
 		arch/arm/mach-omap/am335x/prcm/module_am335x.c\

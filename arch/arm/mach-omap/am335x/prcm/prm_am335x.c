@@ -45,6 +45,7 @@
 #include <autoadjust_table.h>
 #include <cpuinfo.h>
 #include <lib.h>
+#include <lib_am335x.h>
 #include <module.h>
 #include <prcm-module.h>
 #include <prm_am335x.h>
@@ -57,12 +58,12 @@
 
 
 /* ------------------------------------------------------------------------*//**
- * @FUNCTION        prm_am335x_mod_name_get
- * @BRIEF       return PRM module name
- * @RETURNS     PRM module name
- *          NULL in case of incorrect id
- * @param[in]       id: PRM module ID
- * @DESCRIPTION     return PRM module name
+ * @FUNCTION		prm_am335x_mod_name_get
+ * @BRIEF		return PRM module name
+ * @RETURNS		PRM module name
+ *			NULL in case of incorrect id
+ * @param[in]		id: PRM module ID
+ * @DESCRIPTION		return PRM module name
  *//*------------------------------------------------------------------------ */
 const char *prm_am335x_mod_name_get(prm_am335x_mod_id id)
 {
@@ -150,4 +151,29 @@ int prm_am335x_dump(FILE *stream, prm_am335x_mod_id id)
 	autoadjust_table_print(table, row, 3);
 
 	return 0;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		prm_am335x_name2addr
+ * @BRIEF		retrieve physical address of a register, given its name.
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in]		name: register name
+ * @param[in, out]	addr: register address
+ * @DESCRIPTION		retrieve physical address of a register, given its name.
+ *//*------------------------------------------------------------------------ */
+int prm_am335x_name2addr(char *name, unsigned int *addr)
+{
+	if (!cpu_is_am335x())
+		return OMAPCONF_ERR_CPU;
+
+	/* Create pointer to prm register modules */
+	reg ***prm_mods[1] = {
+		(reg ***) &prm_am335x_mods
+	};
+
+
+	return am335x_name2addr(name, addr, prm_mods);
 }

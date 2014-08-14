@@ -1,8 +1,8 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			cm_am335x.h
- * @Description			AM335x CM Register Functions
+ * @Filename			lib_am335x.h
+ * @Description			OMAPCONF AM335X General Purpose Library
  * @Author			Gilberto Rodriguez <gilrod@ti.com>
  * @Date			2014
  * @Copyright			Texas Instruments Incorporated
@@ -42,15 +42,13 @@
  */
 
 
-#ifndef __CM_AM335X_H__
-#define __CM_AM335X_H__
+#ifndef __LIB_AM335X_H__
+#define __LIB_AM335X_H__
 
-#include <cm_am335x-defs.h>
+#include <reg.h>
 #include <stdio.h>
-#include <string.h>
 
-const char *cm_am335x_mod_name_get(cm_am335x_mod_id id);
-int cm_am335x_dump(FILE *stream, cm_am335x_mod_id id);
-int cm_am335x_name2addr(char *name, unsigned int *addr);
+int reg_am335x_addr_find(char *name, unsigned int* addr);
+int am335x_name2addr(char *name, unsigned int* addr, reg ****mods);
 
 #endif

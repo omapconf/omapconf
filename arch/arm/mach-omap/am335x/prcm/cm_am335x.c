@@ -46,6 +46,7 @@
 #include <cm_am335x.h>
 #include <cpuinfo.h>
 #include <lib.h>
+#include <lib_am335x.h>
 #include <module.h>
 #include <prcm-module.h>
 
@@ -150,4 +151,29 @@ int cm_am335x_dump(FILE *stream, cm_am335x_mod_id id)
 	autoadjust_table_print(table, row, 3);
 
 	return 0;
+}
+
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		cm_am335x_name2addr
+ * @BRIEF		retrieve physical address of a register, given its name.
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in]		name: register name
+ * @param[in, out]	addr: register address
+ * @DESCRIPTION		retrieve physical address of a register, given its name.
+ *//*------------------------------------------------------------------------ */
+int cm_am335x_name2addr(char *name, unsigned int *addr)
+{
+	if (!cpu_is_am335x())
+		return OMAPCONF_ERR_CPU;
+
+	/* Creates pointer to register modules */
+	reg ***cm_mods[1] = {
+		(reg ***) &cm_am335x_mods
+	};
+
+
+	return am335x_name2addr(name, addr, cm_mods);
 }

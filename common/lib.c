@@ -45,6 +45,7 @@
 #include <lib.h>
 #include <lib_android.h>
 #include <lib44xx.h>
+#include <lib_am335x.h>
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -1101,7 +1102,9 @@ int find_reg_addr(char *name, unsigned int *addr)
 
 	if (cpu_is_omap44xx()) {
 		ret = reg44xx_addr_find(name, addr);
-	} else {
+	} else if (cpu_is_am335x()) {
+		ret = reg_am335x_addr_find(name, addr);
+	}else {
 		printf("%s(): unsupported chip!\n\n", __func__);
 		ret = OMAPCONF_ERR_CPU;
 	}
