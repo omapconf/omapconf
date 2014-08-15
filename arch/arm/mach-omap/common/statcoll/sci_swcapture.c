@@ -576,7 +576,8 @@ int statcoll_main(int argc, char **argv)
 							if  (match_probe[loop].value == SCI_EMIF1)
 								pmy_cfg[index]->probe_id = SCI_MA_MPU_P1;
 						}
-						else {
+						else if (pmy_cfg[index]->probe_id != SCI_MA_MPU_P1 &&
+								 pmy_cfg[index]->probe_id != SCI_MA_MPU_P2) {
 							pmy_cfg[index]->probe_id = match_probe[loop].value;
 						}
 					}
@@ -588,7 +589,8 @@ int statcoll_main(int argc, char **argv)
 							pmy_cfg[i]->probe_id = SCI_MA_MPU_P2;
 						else if ( (pmy_cfg[i]->probe_id == SCI_MA_MPU_P2) && (match_probe[loop].value == SCI_EMIF1) )
 							pmy_cfg[i]->probe_id = SCI_MA_MPU_P1;
-						else
+						else if (pmy_cfg[index]->probe_id != SCI_MA_MPU_P1 &&
+								 pmy_cfg[index]->probe_id != SCI_MA_MPU_P2)
 							pmy_cfg[i]->probe_id = match_probe[loop].value;
 						}
 					}

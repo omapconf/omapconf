@@ -931,7 +931,8 @@ int statcoll_main_dra(int argc, char **argv)
 							if  (match_probe_dra[loop].value == SCI_EMIF1_DRA)
 								pmy_cfg_dra[index]->probe_id = SCI_MA_MPU_P1_DRA;
 						}
-						else {
+						else if (pmy_cfg_dra[index]->probe_id != SCI_MA_MPU_P1_DRA &&
+								 pmy_cfg_dra[index]->probe_id != SCI_MA_MPU_P2_DRA) {
 							pmy_cfg_dra[index]->probe_id = match_probe_dra[loop].value;
 						}
 					} else {
@@ -942,7 +943,8 @@ int statcoll_main_dra(int argc, char **argv)
 								pmy_cfg_dra[i]->probe_id = SCI_MA_MPU_P2_DRA;
 							else if ( (pmy_cfg_dra[i]->probe_id == SCI_MA_MPU_P2_DRA) && (match_probe_dra[loop].value == SCI_EMIF1_DRA) )
 								pmy_cfg_dra[i]->probe_id = SCI_MA_MPU_P1_DRA;
-							else
+							else if (pmy_cfg_dra[index]->probe_id != SCI_MA_MPU_P1_DRA &&
+									 pmy_cfg_dra[index]->probe_id != SCI_MA_MPU_P2_DRA)
 								pmy_cfg_dra[i]->probe_id = match_probe_dra[loop].value;
 						}
 					}
