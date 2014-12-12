@@ -131,6 +131,11 @@ void help_dra7xx(help_category cat, char *context)
 		printf("\t        eve - chooses eve1 and eve2\n");
 		printf("\t        eve1 - chooses eve1\n");
 		printf("\t        eve2 - chooses eve2\n");
+		printf("\t        pruss - chooses pruss1 and pruss2\n");
+		printf("\t        pruss1 - chooses pruss1\n");
+		printf("\t        pruss2 - chooses pruss2\n");
+		printf("\t    NOTE:\n");
+		printf("\t        pruss modules are supported only on AM57xx SoCs, behavior undefined on others\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_PRCM)) {
@@ -249,6 +254,11 @@ void help_dra7xx(help_category cat, char *context)
 		printf("\t        eve - chooses eve1 and eve2\n");
 		printf("\t        eve1 - chooses eve1\n");
 		printf("\t        eve2 - chooses eve2\n");
+		printf("\t        pruss - chooses pruss1 and pruss2\n");
+		printf("\t        pruss1 - chooses pruss1\n");
+		printf("\t        pruss2 - chooses pruss2\n");
+		printf("\t    NOTE:\n");
+		printf("\t        pruss modules are supported only on AM57xx SoCs, behavior undefined on others\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_ABB)) {

@@ -56,6 +56,8 @@
 #define IPU2_IRQ	4
 #define EVE1_IRQ	5
 #define EVE2_IRQ	6
+#define PRUSS1_IRQ	7
+#define PRUSS2_IRQ	8
 
 #define ASIZE(x) (sizeof(x) / sizeof((x)[0]))
 
@@ -104,6 +106,16 @@ static struct irq_crossbar_list dra7_irq_list[] = {
 		      .size = ASIZE(dra7_eve2_irq_crossbar),
 		      .name = "eve2",
 		      },
+	[PRUSS1_IRQ] = {
+		      .ip = dra7_pruss1_irq_crossbar,
+		      .size = ASIZE(dra7_pruss1_irq_crossbar),
+		      .name = "pruss1",
+		      },
+	[PRUSS2_IRQ] = {
+		      .ip = dra7_pruss2_irq_crossbar,
+		      .size = ASIZE(dra7_pruss2_irq_crossbar),
+		      .name = "pruss2",
+		      },
 };
 
 
@@ -147,6 +159,9 @@ static int dra7_crossbar_irq_op(FILE *stream, int argc, char *argv[], int dump)
 		} else if (!strcmp(argv[0], "eve")) {
 			dra7_irq_list[EVE1_IRQ].do_op = 1;
 			dra7_irq_list[EVE2_IRQ].do_op = 1;
+		} else if (!strcmp(argv[0], "pruss")) {
+			dra7_irq_list[PRUSS1_IRQ].do_op = 1;
+			dra7_irq_list[PRUSS2_IRQ].do_op = 1;
 		} else {
 			return OMAPCONF_ERR_ARG;
 		}
