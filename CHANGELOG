@@ -1,3 +1,11 @@
+v1.71:
+------
+	- [DRA7][CROSSBAR] Add support for PRU-ICSS in crossbar dump and audit
+	- [DRA7][CROSSBAR] Add PRU-ICSS interrupt info to crossbar data
+	- [DRA7][CROSSBAR] Add couple of crypto interrupts to crossbar data
+	- [DRA7/COMMON][STATCOLL] Fix conflict between probe and master option selection for ma_m
+	- [AM335X][LIB] Add support for Register name based read/write
+
 v1.70:
 -------
 	- [DRA7][TRACE] Add Bandwidth trace 'trace bw' command support
