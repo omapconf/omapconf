@@ -9,7 +9,7 @@ version.c
 Module.symvers
 Module.markers
 modules.order
-cscope.out
+cscope*
 tags
 *.swp
 *.swo
