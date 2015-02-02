@@ -382,8 +382,8 @@ unsigned long tps659038_vsel_to_uv(unsigned char vsel)
 	/* Apply range multiplier */
 	uv = uv << range;
 
-	dprintf("%s(%d, %d (0x%02X))=%lduV\n", __func__,
-		smps_id, vsel, vsel, uv);
+	dprintf("%s(%d (0x%02X))=%lduV\n", __func__,
+		vsel, vsel, uv);
 	return uv;
 }
 
