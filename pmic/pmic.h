@@ -61,6 +61,7 @@ typedef enum {
 	PMIC_TPS65217B,
 	PMIC_TPS65217C,
 	PMIC_TPS65217D,
+	PMIC_TPS65917,
 	PMIC_ID_MAX
 } pmic_id;
 

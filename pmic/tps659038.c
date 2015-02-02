@@ -111,6 +111,37 @@ static const tps659038_smps_registers tps659038_smps9 = {
 	.voltage = 0x3B};
 
 
+/* TPS65917 data */
+static const tps659038_smps_registers tps65917_smps1 = {
+	.ctrl = 0x20,
+	.tstep = -1,
+	.force = 0x22,
+	.voltage = 0x23};
+
+static const tps659038_smps_registers tps65917_smps2 = {
+	.ctrl = 0x24,
+	.tstep = -1,
+	.force = 0x26,
+	.voltage = 0x27};
+
+static const tps659038_smps_registers tps65917_smps3 = {
+	.ctrl = 0x2C,
+	.tstep = -1,
+	.force = 0x2E,
+	.voltage = 0x2F};
+
+static const tps659038_smps_registers tps65917_smps4 = {
+	.ctrl = 0x30,
+	.tstep = -1,
+	.force = -1,
+	.voltage = 0x33};
+
+static const tps659038_smps_registers tps65917_smps5 = {
+	.ctrl = 0x38,
+	.tstep = -1,
+	.force = -1,
+	.voltage = 0x3B};
+
 static const tps659038_smps_registers *tps659038_smps_vdd_dra7xx_mpu = &tps659038_smps12;
 static const tps659038_smps_registers *tps659038_smps_vdd_dra7xx_iva = &tps659038_smps8;
 static const tps659038_smps_registers *tps659038_smps_vdd_dra7xx_core = &tps659038_smps7;
@@ -140,10 +171,11 @@ unsigned short int tps659038_is_present(void)
 {
 	int ret;
 	unsigned int id_lsb, id_msb;
-	unsigned short present;
+	unsigned short present = 0;
 
 	switch (cpu_get()) {
 	case DRA_75X:
+	case DRA_72X:
 		ret = i2cget(TPS659038_I2C_BUS, TPS659038_ID1_ADDR,
 			TPS659038_PRODUCT_ID_LSB, &id_lsb);
 		if (ret != 0)
@@ -154,18 +186,35 @@ unsigned short int tps659038_is_present(void)
 		if (ret != 0)
 			return 0;
 
-		present = ((id_lsb == 0x35 && id_msb == 0xc0) ||
-			   (id_lsb == 0x39 && id_msb == 0x90)) ? 1 : 0;
+		if ((id_lsb == 0x35 && id_msb == 0xc0) ||
+			   (id_lsb == 0x39 && id_msb == 0x90))
+			present = 1;
+		/* it is a TPS 65917 PMIC. fixup structure pointers */
+		else if (id_lsb == 0x17 && id_msb == 0x09) {
+			present = 1;
+			tps659038_smps_vdd_dra7xx_mpu = &tps65917_smps1;
+			tps659038_smps_vdd_dra7xx_iva = &tps65917_smps3;
+			tps659038_smps_vdd_dra7xx_core = &tps65917_smps2;
+			tps659038_smps_vdd_dra7xx_gpu = &tps65917_smps3;
+			tps659038_smps_vdd_dra7xx_dspeve = &tps65917_smps3;
+
+
+			tps659038_smps_vdd_dra7xx[0] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_mpu;
+			tps659038_smps_vdd_dra7xx[1] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_iva;
+			tps659038_smps_vdd_dra7xx[2] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_core;
+			tps659038_smps_vdd_dra7xx[3] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_gpu;
+			tps659038_smps_vdd_dra7xx[4] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_dspeve;
+
+		}
 		break;
 
 	default:
-		present = 0;
+		break;
 	}
 
 	dprintf("%s(): present=%u\n", __func__, present);
 	return present;
 }
-
 
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		tps659038_chip_revision_get
