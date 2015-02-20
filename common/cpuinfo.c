@@ -961,68 +961,12 @@ int cpu_rev_get_from_cpuinfo(omap_chip_revision *cpu_rev)
 	return 0;
 }
 
-
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		cpu_detect
- * @BRIEF		Detect cpu and set internal global variables accordingly
- * @RETURNS		0 on success
- *			OMAPCONF_ERR_UNEXPECTED
- *			OMAPCONF_ERR_CPU if cpu not recognized
- *			OMAPCONF_ERR_REG_ACCESS
- * @param[in]		none
- * @DESCRIPTION		Detect cpu and set internal global variables accordingly
- *//*------------------------------------------------------------------------ */
-int cpu_detect(void)
+static int identify_omap(void)
 {
 	unsigned int id_code;
-	unsigned int dev_id;
-	unsigned int status;
-	unsigned int efuse;
-	unsigned int prod_id_1;
-	int ret;
-	unsigned char status_bit_start;
 
-	#ifdef CPUID_DEBUG
-	char s[CPU_FULL_NAME_MAX_LENGTH];
-	char rev_s[CPU_REVISION_MAX_NAME_LENGTH];
-	char dev_type_s[CPU_DEVICE_TYPE_MAX_NAME_LENGTH];
-	#endif
-
-	/* Init variables */
-	cpu_init();
-
-	/* Retrieve OMAP chip & ES */
-	/* Determine if device is of the AM33XX or OMAP family */
-	if (!cpu_is_omap()) {
-		if (mem_read(AM335X_DEV_FEAT_REG, &id_code) != 0)
-			return OMAPCONF_ERR_REG_ACCESS;
-		/* Setting cpu revision here since different register must be read */
-		if (mem_read(AM335X_DEVICE_ID, &dev_id) != 0) {
-			fprintf(stderr,
-				"omapconf (%s()): could not read DEVICE_ID "
-				"register!\n", __func__);
-			return OMAPCONF_ERR_REG_ACCESS;
-		}
-		switch (dev_id) {
-		case AM335X_SI_REV_1_0:
-			cpu_revision_set(REV_ES1_0);
-			break;
-		case AM335X_SI_REV_2_0:
-			cpu_revision_set(REV_ES2_0);
-			break;
-		case AM335X_SI_REV_2_1:
-			cpu_revision_set(REV_ES2_1);
-			break;
-		default:
-			fprintf(stderr,
-				"omapconf (%s()): Unknown silicon revision!\n",
-				__func__);
-			return OMAPCONF_ERR_CPU;
-		}
-	} else {
-		if (mem_read(ID_CODE, &id_code) != 0)
-			return OMAPCONF_ERR_REG_ACCESS;
-	}
+	if (mem_read(ID_CODE, &id_code) != 0)
+		return OMAPCONF_ERR_REG_ACCESS;
 
 	dprintf("%s(): ID_CODE = 0x%08X\n", __func__, id_code);
 
@@ -1101,24 +1045,6 @@ int cpu_detect(void)
 			return OMAPCONF_ERR_UNEXPECTED;
 		}
 		break;
-	case AM3352_DEV_FEAT:
-		cpu_set(AM_3352);
-		break;
-	case AM3354_DEV_FEAT:
-		cpu_set(AM_3354);
-		break;
-	case AM3356_DEV_FEAT:
-		cpu_set(AM_3356);
-		break;
-	case AM3357_DEV_FEAT:
-		cpu_set(AM_3357);
-		break;
-	case AM3358_DEV_FEAT:
-		cpu_set(AM_3358);
-		break;
-	case AM3359_DEV_FEAT:
-		cpu_set(AM_3359);
-		break;
 	default:
 		/* Retrieve DRA7 chip & ES in default case */
 		if (mem_read(DRA7_ID_CODE, &id_code) != 0)
@@ -1144,6 +1070,116 @@ int cpu_detect(void)
 			return OMAPCONF_ERR_CPU;
 		}
 	}
+
+	return 0;
+}
+
+static int identify_am335x_features(void)
+{
+	unsigned int dev_feat;
+
+	if (mem_read(AM335X_DEV_FEAT_REG, &dev_feat) != 0)
+		return OMAPCONF_ERR_REG_ACCESS;
+
+	switch (dev_feat) {
+	case AM3352_DEV_FEAT:
+		cpu_set(AM_3352);
+		break;
+	case AM3354_DEV_FEAT:
+		cpu_set(AM_3354);
+		break;
+	case AM3356_DEV_FEAT:
+		cpu_set(AM_3356);
+		break;
+	case AM3357_DEV_FEAT:
+		cpu_set(AM_3357);
+		break;
+	case AM3358_DEV_FEAT:
+		cpu_set(AM_3358);
+		break;
+	case AM3359_DEV_FEAT:
+		cpu_set(AM_3359);
+		break;
+	default:
+		cpu_set(AM_335X);
+		break;
+	}
+
+	return 0;
+}
+
+static int identify_sitara(void)
+{
+	unsigned int dev_id;
+	int ret = 0;
+
+	/* Setting cpu revision here since different register must be read */
+	if (mem_read(AM335X_DEVICE_ID, &dev_id) != 0) {
+		fprintf(stderr,
+			"omapconf (%s()): could not read DEVICE_ID "
+			"register!\n", __func__);
+		return OMAPCONF_ERR_REG_ACCESS;
+	}
+	switch (dev_id) {
+	case AM335X_SI_REV_1_0:
+		ret = identify_am335x_features();
+		cpu_revision_set(REV_ES1_0);
+		break;
+	case AM335X_SI_REV_2_0:
+		ret = identify_am335x_features();
+		cpu_revision_set(REV_ES2_0);
+		break;
+	case AM335X_SI_REV_2_1:
+		ret = identify_am335x_features();
+		cpu_revision_set(REV_ES2_1);
+		break;
+	default:
+		fprintf(stderr,
+			"omapconf (%s()): Unknown silicon revision!\n",
+			__func__);
+		return OMAPCONF_ERR_CPU;
+	}
+
+	return ret;
+}
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		cpu_detect
+ * @BRIEF		Detect cpu and set internal global variables accordingly
+ * @RETURNS		0 on success
+ *			OMAPCONF_ERR_UNEXPECTED
+ *			OMAPCONF_ERR_CPU if cpu not recognized
+ *			OMAPCONF_ERR_REG_ACCESS
+ * @param[in]		none
+ * @DESCRIPTION		Detect cpu and set internal global variables accordingly
+ *//*------------------------------------------------------------------------ */
+int cpu_detect(void)
+{
+	unsigned int status;
+	unsigned int efuse;
+	unsigned int prod_id_1;
+	int ret;
+	unsigned char status_bit_start;
+
+	#ifdef CPUID_DEBUG
+	char s[CPU_FULL_NAME_MAX_LENGTH];
+	char rev_s[CPU_REVISION_MAX_NAME_LENGTH];
+	char dev_type_s[CPU_DEVICE_TYPE_MAX_NAME_LENGTH];
+	#endif
+
+	/* Init variables */
+	cpu_init();
+
+	/* Retrieve OMAP chip & ES */
+	/* Determine if device is of the AM or OMAP family */
+	if (cpu_is_omap())
+		ret = identify_omap();
+	else
+		ret = identify_sitara();
+
+	if (ret)
+		return ret;
+
 	dprintf("%s(): Chip is %s ES%s\n", __func__,
 		cpu_gets(s), cpu_revision_gets(rev_s));
 
