@@ -292,7 +292,8 @@ AM335XOBJECTS=	$(AM335XSOURCES:.c=.o)
 AM437XSOURCES=\
 		arch/arm/mach-omap/am437x/cpuinfo_am437x.c\
 		arch/arm/mach-omap/am437x/main_am437x.c\
-		arch/arm/mach-omap/am437x/help_am437x.c
+		arch/arm/mach-omap/am437x/help_am437x.c\
+		arch/arm/mach-omap/am437x/ctt_am437x.c
 
 AM437XOBJECTS=	$(AM437XSOURCES:.c=.o)
 

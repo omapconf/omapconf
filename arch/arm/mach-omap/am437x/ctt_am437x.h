@@ -1,9 +1,10 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			help_am437x.c
- * @Description			Help for AM437X specific functions
- * @Author			Dave Gerlach <d-gerlach@ti.com>
+ * @Filename			ctt_am437x.h
+ * @Description			Display PRCM registers in a format that can be
+ *				imported into the clock tree tool (CTT)
+ * @Author			Dave Gerlach (d-gerlach@ti.com)
  * @Date			2015
  * @Copyright			Texas Instruments Incorporated
  *
@@ -42,34 +43,13 @@
  */
 
 
-#include <cpuinfo.h>
-#include <help_am437x.h>
-#include <stdio.h>
+#ifndef __CTT_AM437X_H__
+#define __CTT_AM437X_H__
 
 
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		help_am437x
- * @BRIEF		display help for AM437X-specific functions
- * @param[in]		cat: help category to display
- * @DESCRIPTION		display help for AM437X-specific functions
- *//*------------------------------------------------------------------------ */
-void help_am437x(help_category cat, char *context)
-{
-	if (cat >= HELP_CATEGORY_MAX) {
-		fprintf(stderr, "%s(): incorrect category!!! (%u)\n",
-			__func__, cat);
-		return;
-	}
+int ctt_am437x_dump(void);
+int ctt_am437x_rd1_export(char *file);
+int ctt_am437x_main(int argc, char *argv[]);
 
-	if (context == NULL) {
-		fprintf(stderr, "%s(): context == NULL!!!\n", __func__);
-		return;
-	}
 
-	if ((cat == HELP_ALL) || (cat == HELP_EXPORT)) {
-	        printf("\n\tomapconf export ctt [<filename>]\n");
-	        printf("\t    Export PRCM registers in .rd1 format for Clock "
-		       "Tree Tool (CTT, <http://omappedia.org/wiki/CTT>), to "
-		       "<filename> or stdout if omitted.\n");
-	}
-}
+#endif
