@@ -373,12 +373,9 @@ all: 		$(EXECUTABLE)
 
 
 
-
 $(EXECUTABLE):	$(ALLOBJECTS) builddate.o version.o
 		$(QUIET_CC) $(CC) $(STATIC_BUILD) $(LDFLAGS) $(ALLOBJECTS) builddate.o version.o\
 		-lrt -o $@
-
-
 
 
 .c.o:
@@ -386,10 +383,10 @@ $(EXECUTABLE):	$(ALLOBJECTS) builddate.o version.o
 
 
 builddate.c:	$(ALLOBJECTS)
-		echo 'char *builddate="'`date`'";' > builddate.c
+		@echo 'char *builddate="'`date`'";' > builddate.c
 
 version.c:	$(ALLOBJECTS)
-		echo 'char *omapconf_version="'`git describe --dirty||echo "$(VERSION_MAJOR).$(VERSION_MINOR)-nogit"`'";' > version.c
+		@echo 'char *omapconf_version="'`git describe --dirty||echo "$(VERSION_MAJOR).$(VERSION_MINOR)-nogit"`'";' > version.c
 
 
 
