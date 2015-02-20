@@ -140,6 +140,7 @@ static const char cpu_name[OMAP_MAX + 1][CPU_NAME_MAX_LENGTH] = {
 	[AM_3357] = "AM3357",
 	[AM_3358] = "AM3358",
 	[AM_3359] = "AM3359",
+	[AM_335X] = "AM335X",
 	[OMAP_MAX] = "UNKNOWN"};
 static char cpu_full_name[CPU_FULL_NAME_MAX_LENGTH];
 
@@ -314,7 +315,8 @@ unsigned int cpu_is_omap(void)
 unsigned int cpu_is_am335x(void)
 {
 	return ((cpu == AM_3352) || (cpu == AM_3354) || (cpu == AM_3356) ||
-		(cpu == AM_3357) || (cpu == AM_3358) || (cpu == AM_3359));
+		(cpu == AM_3357) || (cpu == AM_3358) || (cpu == AM_3359) ||
+		(cpu == AM_335X));
 }
 
 
@@ -1317,6 +1319,13 @@ int cpu_force(char *forced_cpu)
 	} else if (strcmp (forced_cpu, "am3359") == 0) {
 		cpu_forced_set(1);
 		cpu_set(AM_3359);
+		cpu_device_type_set(DEV_GP);
+		cpu_revision_set(REV_ES2_1);
+		cpu_package_type_set(ZCZ);
+		cpu_full_name_set();
+	} else if (strcmp (forced_cpu, "am335x") == 0) {
+		cpu_forced_set(1);
+		cpu_set(AM_335X);
 		cpu_device_type_set(DEV_GP);
 		cpu_revision_set(REV_ES2_1);
 		cpu_package_type_set(ZCZ);

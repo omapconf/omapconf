@@ -70,6 +70,7 @@ typedef enum {
 	AM_3357,
 	AM_3358,
 	AM_3359,
+	AM_335X,
 	OMAP_MAX
 } omap_chip;
 

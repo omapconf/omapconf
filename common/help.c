@@ -244,7 +244,7 @@ void help(help_category cat)
 			"omap4430, omap4460, omap4470, "
 			"omap5430es1, omap5432es1, omap5430, omap5432, "
 			"dra75x, dra72x, am3352, am3354, am3356, am3357, "
-			"am3358, am3359"
+			"am3358, am3359, am335x"
 			"\n");
 
 	}
