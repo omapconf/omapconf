@@ -355,6 +355,14 @@ ALLOBJECTS=	$(OBJECTS) $(OMAPOBJECTS) $(OMAP4OBJECTS) $(OMAP5OBJECTS)\
 
 
 
+#
+# Pretty print
+#
+V             = @
+Q             = $(V:1=)
+QUIET_CC      = $(Q:@=@echo    '     CC       '$@;)
+QUIET_GEN     = $(Q:@=@echo    '     GEN      '$@;)
+QUIET_LINK    = $(Q:@=@echo    '     LINK     '$@;)
 
 EXECUTABLE=	omapconf
 
@@ -367,16 +375,14 @@ all: 		$(EXECUTABLE)
 
 
 $(EXECUTABLE):	$(ALLOBJECTS) builddate.o version.o
-		$(CC) $(STATIC_BUILD) $(LDFLAGS) $(ALLOBJECTS) builddate.o version.o\
+		$(QUIET_CC) $(CC) $(STATIC_BUILD) $(LDFLAGS) $(ALLOBJECTS) builddate.o version.o\
 		-lrt -o $@
 
 
 
 
 .c.o:
-		$(CC) $(MYCFLAGS) $< -o $@
-
-
+		$(QUIET_CC) $(CC) $(MYCFLAGS) $(LDFLAGS) -c $< -o $@
 
 
 builddate.c:	$(ALLOBJECTS)
@@ -411,15 +417,18 @@ cscope: $(ALLSOURCES)
 
 
 clean:
-		rm -f $(EXECUTABLE) *.o builddate.c version.c
-		rm -f $(OBJECTS)
-		rm -f $(LINUXOBJECTS)
-		rm -f $(OMAPOBJECTS)
-		rm -f $(OMAP4OBJECTS)
-		rm -f $(OMAP5OBJECTS)
-		rm -f $(DRA7OBJECTS)
-		rm -f $(AM335XOBJECTS)
-		rm -f $(PMICOBJECTS)
-		rm -f $(AUDIOICOBJECTS)
-		rm -f $(I2COBJECTS)
-		rm -f tags cscope.out
+		@echo "Cleaning up..."
+		-$(shell rm -f $(EXECUTABLE) *.o builddate.c version.c)
+		-$(shell rm -f $(OBJECTS))
+		-$(shell rm -f $(LINUXOBJECTS))
+		-$(shell rm -f $(OMAPOBJECTS))
+		-$(shell rm -f $(OMAP4OBJECTS))
+		-$(shell rm -f $(OMAP5OBJECTS))
+		-$(shell rm -f $(DRA7OBJECTS))
+		-$(shell rm -f $(AM335XOBJECTS))
+		-$(shell rm -f $(AM437XOBJECTS))
+		-$(shell rm -f $(PMICOBJECTS))
+		-$(shell rm -f $(AUDIOICOBJECTS))
+		-$(shell rm -f $(I2COBJECTS))
+		-$(shell rm -f tags cscope.out)
+		@echo "Done."
