@@ -71,6 +71,7 @@ DEF_INC_PATH = -I. -Icommon -Ipmic -Iaudioic -Ilinux -Ii2c-tools\
 	-Iarch/arm/mach-omap/am335x\
 	-Iarch/arm/mach-omap/am335x/prcm\
 	-Iarch/arm/mach-omap/am335x/dpll\
+	-Iarch/arm/mach-omap/am437x
 
 
 STATIC_BUILD ?= -static
@@ -288,6 +289,15 @@ AM335XOBJECTS=	$(AM335XSOURCES:.c=.o)
 
 
 
+AM437XSOURCES=\
+		arch/arm/mach-omap/am437x/cpuinfo_am437x.c\
+		arch/arm/mach-omap/am437x/main_am437x.c\
+		arch/arm/mach-omap/am437x/help_am437x.c
+
+AM437XOBJECTS=	$(AM437XSOURCES:.c=.o)
+
+
+
 SOURCES=\
 		omapconf.c\
 		common/lib.c\
@@ -345,12 +355,12 @@ I2COBJECTS=	$(I2CSOURCES:.c=.o)
 
 
 ALLSOURCES=	$(SOURCES) $(OMAPSOURCES) $(OMAP4SOURCES) $(OMAP5SOURCES)\
-		$(DRA7SOURCES) $(AM335XSOURCES)\
+		$(DRA7SOURCES) $(AM335XSOURCES) $(AM437XSOURCES)\
 		$(LINUXSOURCES) $(PMICSOURCES) $(AUDIOICSOURCES) $(I2CSOURCES)
 
 
 ALLOBJECTS=	$(OBJECTS) $(OMAPOBJECTS) $(OMAP4OBJECTS) $(OMAP5OBJECTS)\
-		$(DRA7OBJECTS) $(AM335XOBJECTS)\
+		$(DRA7OBJECTS) $(AM335XOBJECTS) $(AM437XOBJECTS)\
 		$(LINUXOBJECTS) $(PMICOBJECTS) $(AUDIOICOBJECTS) $(I2COBJECTS)
 
 
@@ -364,8 +374,8 @@ QUIET_CC      = $(Q:@=@echo    '     CC       '$@;)
 QUIET_GEN     = $(Q:@=@echo    '     GEN      '$@;)
 QUIET_LINK    = $(Q:@=@echo    '     LINK     '$@;)
 
-EXECUTABLE=	omapconf
 
+EXECUTABLE=	omapconf
 
 .PHONY:	tags cscope
 

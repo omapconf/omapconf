@@ -46,6 +46,7 @@
 #include <cpuinfo44xx.h>
 #include <cpuinfo54xx.h>
 #include <cpuinfo_am335x.h>
+#include <cpuinfo_am437x.h>
 #include <cpuinfo_dra7xx.h>
 #include <lib.h>
 #include <mem.h>
@@ -88,6 +89,10 @@
 #define AM335X_SI_REV_2_0				0x1B94402E
 #define AM335X_SI_REV_2_1				0x2B94402E
 
+/* Identification Registers for AM437x */
+#define AM437X_DEVICE_ID				0x44E10600
+#define AM437X_DEV_FEAT_REG				0x44E10604
+
 #define AM335X_STATUS					0x44E10040
 #define OMAP44XX_STATUS					0x4A0022C4
 #define OMAP54XX_STATUS					0x4A002134
@@ -121,6 +126,9 @@
 #define OMAP4430_ES_2_0_ID_CODE				0x1B85202F
 #define OMAP4430_ES_1_0_ID_CODE				0x0B85202F
 
+#define AM437X_SI_REV_1_0				0x0B98C02F
+#define AM437X_SI_REV_1_1				0x1B98C02F
+#define AM437X_SI_REV_1_2				0x2B98C02F
 
 static unsigned short cpu_forced;
 
@@ -141,6 +149,7 @@ static const char cpu_name[OMAP_MAX + 1][CPU_NAME_MAX_LENGTH] = {
 	[AM_3358] = "AM3358",
 	[AM_3359] = "AM3359",
 	[AM_335X] = "AM335X",
+	[AM_437X] = "AM437X",
 	[OMAP_MAX] = "UNKNOWN"};
 static char cpu_full_name[CPU_FULL_NAME_MAX_LENGTH];
 
@@ -296,7 +305,7 @@ unsigned int cpu_is_omap(void)
 	/* Truncate line at whitespace */
 	machine_name = strtok(line, " \n\t\v\f\r");
 
-	if (!strcasecmp(machine_name, "AM335X"))
+	if (!strcasecmp(machine_name, "AM335X") || !strcasecmp(machine_name, "AM437X"))
 		ret = 0;
 
 	fclose(fp);
@@ -317,6 +326,19 @@ unsigned int cpu_is_am335x(void)
 	return ((cpu == AM_3352) || (cpu == AM_3354) || (cpu == AM_3356) ||
 		(cpu == AM_3357) || (cpu == AM_3358) || (cpu == AM_3359) ||
 		(cpu == AM_335X));
+}
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		cpu_is_am437x
+ * @BRIEF		check if cpu is AM437x
+ * @RETURNS		1 if cpu is AM437x
+ *			0 if cpu is NOT AM437x
+ * @param[in]		none
+ * @DESCRIPTION		check if cpu is AM437x
+ *//*------------------------------------------------------------------------ */
+unsigned int cpu_is_am437x(void)
+{
+	return cpu == AM_437X;
 }
 
 
@@ -750,6 +772,8 @@ unsigned int cpu_silicon_max_speed_get(void)
 		max_speed = cpu_dra7xx_silicon_max_speed_get();
 	} else if(cpu_is_am335x()) {
 		max_speed = cpu_am335x_silicon_max_speed_get();
+	} else if(cpu_is_am437x()) {
+		max_speed = cpu_am437x_silicon_max_speed_get();
 	} else {
 		dprintf("%s(): unknown architecture!\n", __func__);
 		max_speed = 0;
@@ -840,7 +864,7 @@ char *cpu_die_id_get(unsigned int *die_id_3, unsigned int *die_id_2,
 	 * The DIE ID for the AM335X is TI proprietary information
 	 * NULL is returned since it cannot be shown
 	 */
-	if (cpu_is_am335x())
+	if (cpu_is_am335x() || cpu_is_am437x())
 		return NULL;
 
 	if (cpu_get() == DRA_75X || cpu_get() == DRA_72X) {
@@ -1133,6 +1157,18 @@ static int identify_sitara(void)
 		ret = identify_am335x_features();
 		cpu_revision_set(REV_ES2_1);
 		break;
+	case AM437X_SI_REV_1_0:
+		cpu_set(AM_437X);
+		cpu_revision_set(REV_ES1_0);
+		break;
+	case AM437X_SI_REV_1_1:
+		cpu_set(AM_437X);
+		cpu_revision_set(REV_ES1_1);
+		break;
+	case AM437X_SI_REV_1_2:
+		cpu_set(AM_437X);
+		cpu_revision_set(REV_ES1_2);
+		break;
 	default:
 		fprintf(stderr,
 			"omapconf (%s()): Unknown silicon revision!\n",
@@ -1191,7 +1227,7 @@ int cpu_detect(void)
 	} else if (cpu_is_omap54xx() || cpu_is_dra7xx()) {
 		ret = mem_read(OMAP54XX_STATUS, &status);
 		status_bit_start = 6;
-	} else if (cpu_is_am335x()) {
+	} else if (cpu_is_am335x() || cpu_is_am437x()) {
 		ret = mem_read(AM335X_STATUS, &status);
 		status_bit_start = 8;
 	} else {
@@ -1365,6 +1401,12 @@ int cpu_force(char *forced_cpu)
 		cpu_device_type_set(DEV_GP);
 		cpu_revision_set(REV_ES2_1);
 		cpu_package_type_set(ZCZ);
+		cpu_full_name_set();
+	} else if (strcmp (forced_cpu, "am437x") == 0) {
+		cpu_forced_set(1);
+		cpu_set(AM_437X);
+		cpu_device_type_set(DEV_GP);
+		cpu_revision_set(REV_ES1_2);
 		cpu_full_name_set();
 	} else if (strcmp(forced_cpu, "omap5430") == 0) {
 		cpu_forced_set(1);
