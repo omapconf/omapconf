@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Omapconf by omapconf</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Omapconf</h1>
+        <h2>OMAPCONF: Texas Instruments OMAP Processors Diagnostic Tool</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/omapconf/omapconf/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/omapconf/omapconf/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/omapconf/omapconf" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a id="omapconf" class="anchor" href="#omapconf" aria-hidden="true"><span class="octicon octicon-link"></span></a>OMAPCONF</h1>
+
+<h1>
+<a id="a-powerful-diagnostic-tool-for-texas-instruments-omap-processors" class="anchor" href="#a-powerful-diagnostic-tool-for-texas-instruments-omap-processors" aria-hidden="true"><span class="octicon octicon-link"></span></a>A Powerful Diagnostic Tool for Texas Instruments OMAP Processors</h1>
+
+<h2>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span class="octicon octicon-link"></span></a>ABOUT:</h2>
+
+<p>OMAPCONF is a Linux user-space standalone application designed to provide a
+quick'n easy way to diagnose (monitor/debug/audit...) TI OMAP configuration/status
+dynamically at runtime, in any situation:</p>
+
+<ul>
+<li>Any Linux distribution (Ubuntu, ...)</li>
+<li>Any Android release (Froyo, GingerBread, HoneyComb, Ice-Cream Sandwich, Jelly Bean, ...)</li>
+<li>TI official platforms (blaze, panda, ...),</li>
+<li>Custom OMAP platforms, etc.</li>
+<li>With no single kernel recompilation needed</li>
+</ul>
+
+<p>OMAPCONF leverages "/dev/mem" special device to directly access complete
+TI OMAP memory space (registers, ...).</p>
+
+<h2>
+<a id="support" class="anchor" href="#support" aria-hidden="true"><span class="octicon octicon-link"></span></a>SUPPORT:</h2>
+
+<p>OMAPCONF CURRENTLY SUPPORTS TI OMAP44XX AND OMAP54XX DEVICES.
+LEGACY TI OMAP PLATFORMS (OMAP[1-2-3]) ARE NOT SUPPORTED.</p>
+
+<p>THIS SOFTWARE IS PROVIDED AS IS, WITH NO SUPPORT OR MAINTENANCE COMMITMENT FROM
+TEXAS INSTRUMENTS INCORPORATED.</p>
+
+<h2>
+<a id="build-instructions-ubuntu" class="anchor" href="#build-instructions-ubuntu" aria-hidden="true"><span class="octicon octicon-link"></span></a>Build instructions (Ubuntu):</h2>
+
+<p>OMAPCONF is available as a Ubuntu package.
+To proceed with package installation type the following:</p>
+
+<pre><code># sudo apt-get install tiomapconf
+</code></pre>
+
+<p>Once package is installed, you can check which omapconf version you are using:</p>
+
+<pre><code># dpkg -l tiomapconf
+</code></pre>
+
+<p>Package is available via TI OMAP4 Ubuntu PPA.
+See <a href="http://www.omappedia.org/wiki/PandaBoard_Ubuntu_PPA" title="Your mouse is hovering over this link">the OMAPpedia page</a> for further instructions.</p>
+
+<h2>
+<a id="build-instructions-other-linux-distributions" class="anchor" href="#build-instructions-other-linux-distributions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Build instructions (other Linux Distributions):</h2>
+
+<p>To only build the output binary file:
+    # make CROSS_COMPILE=arm-none-linux-gnueabi- omapconf</p>
+
+<p>NB:
+    - CROSS_COMPILE variable must be set to point to the correct compiler.
+    - By default, omapconf is statically built, to ease sharing.
+      In case it is not needed or size matters, it is possible to build it dynamically, by setting variable STATIC_BUILD to "".
+      # export STATIC_BUILD=
+      or
+      # make CROSS_COMPILE=arm-none-linux-gnueabi- STATIC_BUILD= omapconf</p>
+
+<p>To build and install ompaconf:</p>
+
+<pre><code># make CROSS_COMPILE=arm-none-linux-gnueabi- DESTDIR=YOUR_DIR install
+</code></pre>
+
+<p>YOUR_DIR is a destination directory where omapconf output binary file will be
+copied (e.g. ubuntu/android filesystem)</p>
+
+<p>That's it!</p>
+
+<h2>
+<a id="build-instructions-and-installation-via-adb-android" class="anchor" href="#build-instructions-and-installation-via-adb-android" aria-hidden="true"><span class="octicon octicon-link"></span></a>Build instructions and installation via ADB (Android):</h2>
+
+<p>Make sure your Android device is connected to host via ADB:</p>
+
+<pre><code># adb kill-server
+# adb devices
+* daemon not running. starting it now *
+* daemon started successfully *
+List of devices attached
+ emulator-5554  device
+# adb root
+</code></pre>
+
+<p>To build and install ompaconf for Android via ADB:</p>
+
+<pre><code># make CROSS_COMPILE=arm-none-linux-gnueabi- install_android
+</code></pre>
+
+<p>OMAPCONF binary will be copied to /data directory (known writable directory)
+on your Android device. You may get it copied to a different directory by
+updating Makefile at your convenience.</p>
+
+<h2>
+<a id="help" class="anchor" href="#help" aria-hidden="true"><span class="octicon octicon-link"></span></a>Help:</h2>
+
+<p>Type "./omapconf --help" to get complete list of available commands and options.
+Note that in case of incorrect command/option, help will also be displayed.</p>
+
+<p>A dedicated wiki page is available <a href="https://github.com/omapconf/omapconf/wiki" title="Github Wiki">here</a>.</p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
