@@ -57,11 +57,11 @@
 
 
 const char *android_pastry_names[PASTRY_ID_MAX] = {
-	"GingerBread",
-	"HoneyComb",
-	"Ice Cream Sandwich",
-	"Jelly Bean",
-	"Unknown"};
+	[PASTRY_GB] = "GingerBread",
+	[PASTRY_HC] = "HoneyComb",
+	[PASTRY_ICS] = "Ice Cream Sandwich",
+	[PASTRY_JB] = "Jelly Bean",
+	[PASTRY_UNKNOWN] = "Unknown"};
 
 
 /* ------------------------------------------------------------------------*//**
