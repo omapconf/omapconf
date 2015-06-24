@@ -50,7 +50,7 @@
 #include <stdio.h>
 
 
-#define TWL6040_I2C_BUS			1
+#define TWL6040_I2C_BUS			0
 #define TWL6040_I2C_ADDR		0x4B
 
 #define TWL6040_REG_ASICID		0x01

@@ -50,7 +50,7 @@
 #include <twl603x_lib.h>
 
 
-#define TWL6030_I2C_BUS			1
+#define TWL6030_I2C_BUS			0
 #define TWL6030_I2C_ID1			0x48
 #define TWL6030_I2C_ID2			0x49
 #define TWL6030_I2C_ID3			0x4A
