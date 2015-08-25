@@ -900,7 +900,7 @@ int statcoll_main_dra(int argc, char **argv)
 			case 'p':
 				{
 					unsigned int loop = 0;
-					unsigned int index;
+					unsigned int index = 0;
 
 					if (long_opt == 1) {
 						index = long_options[option_index].name[1] - '0';

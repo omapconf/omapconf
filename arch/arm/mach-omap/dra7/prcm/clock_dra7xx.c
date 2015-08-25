@@ -439,10 +439,10 @@ double clk_dra7xx_sysclk1_rate_get(void)
 double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 	unsigned short ignore)
 {
-	unsigned int reg_val;
+	unsigned int reg_val = 0;
 	double src_clk_speed, out_clk_speed;
 	clk_dra7xx_id src_clk_id;
-	double div;
+	double div = 0; /* Force a crash if not properly defined */
 
 	if (!cpu_is_dra7xx())
 		return (double) OMAPCONF_ERR_CPU;
