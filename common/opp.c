@@ -547,33 +547,33 @@ static void print_rate(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LE
  *//*------------------------------------------------------------------------ */
 int opp_show(FILE *stream)
 {
-	int start, end;
-	int volt, volt2;
-	char *mod_name;
-	const char *opp_s, *opp_s2;
-	int temp;
-	int rate_mpu, rate_mpu_por;
-	int rate_dsp, rate_eve, rate_iva, rate_gpu;
-	int rate_dsp_por, rate_eve_por, rate_iva_por, rate_gpu_por;
-	int rate_l3, rate_l3_por;
-	int rate_l4, rate_emif, rate_lpddr2, rate_aess, rate_aess_por, rate_iss,
-		rate_fdif, rate_dss, rate_bb2d, rate_hsi;
+	int start = 0, end = 0;
+	int volt = 0, volt2 = 0;
+	char *mod_name = NULL;
+	const char *opp_s = NULL, *opp_s2 = NULL;
+	int temp = 0;
+	int rate_mpu = 0, rate_mpu_por = 0;
+	int rate_dsp = 0, rate_eve = 0, rate_iva = 0, rate_gpu = 0;
+	int rate_dsp_por = 0, rate_eve_por = 0, rate_iva_por = 0, rate_gpu_por = 0;
+	int rate_l3 = 0, rate_l3_por = 0;
+	int rate_l4 = 0, rate_emif = 0, rate_lpddr2 = 0, rate_aess = 0, rate_aess_por = 0, rate_iss = 0,
+		rate_fdif = 0, rate_dss = 0, rate_bb2d = 0, rate_hsi = 0;
 	/* modules only for dra7 */
-	int rate_dsp2, rate_eve2, rate_dmm, rate_emif2, rate_ipu2;
+	int rate_dsp2 = 0, rate_eve2 = 0, rate_dmm = 0, rate_emif2 = 0, rate_ipu2 = 0;
 	/* modules for am335x */
-	int rate_l3f, rate_l3f_por, rate_l4_fast;
+	int rate_l3f = 0, rate_l3f_por = 0, rate_l4_fast = 0;
 
-	int rate_cal, rate_ipu, rate_c2c;
+	int rate_cal = 0, rate_ipu = 0, rate_c2c = 0;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row = 0;
 	unsigned int retry_cnt = 0;
 	unsigned int found = 0;
-	const genlist *voltdm_list;
-	voltdm_info voltdm;
-	int i, vdd_count;
-	char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH],
-		prev_gov2[CPUFREQ_GOV_MAX_NAME_LENGTH];
-	const char *temp_sensor;
+	const genlist *voltdm_list = NULL;
+	voltdm_info voltdm = {0};
+	int i = 0, vdd_count = 0;
+	char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH] = {0},
+		prev_gov2[CPUFREQ_GOV_MAX_NAME_LENGTH] = {0};
+	const char *temp_sensor = NULL;
 
 	/* Switch to userspace governor temporarily,
 	 * so that OPP cannot change during audit and does not false it.

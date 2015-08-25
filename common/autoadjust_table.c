@@ -112,9 +112,9 @@ int autoadjust_table_generic_fprint(FILE *stream,
 {
 	unsigned int total_dash_nbr = 0;
 	unsigned int total_width = 0;
-	char *dash_line;
-	char *line;
-	char *title;
+	char *dash_line = NULL;
+	char *line = NULL;
+	char *title = NULL;
 	unsigned int col, row;
 	unsigned int tmp;
 	unsigned int max_elt_size[TABLE_MAX_COL];

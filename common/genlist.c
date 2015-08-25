@@ -483,7 +483,7 @@ int genlist_removehead(genlist *list)
  *//*------------------------------------------------------------------------ */
 int genlist_removetail(genlist *list)
 {
-	genlist_elt *elt, *elt2;
+	genlist_elt *elt = NULL, *elt2 = NULL;
 	unsigned int i;
 
 	/* Check args */
@@ -538,7 +538,7 @@ int genlist_removetail(genlist *list)
  *//*------------------------------------------------------------------------ */
 int genlist_remove(genlist *list, unsigned int pos)
 {
-	genlist_elt *elt, *elt2;
+	genlist_elt *elt, *elt2 = NULL;
 	unsigned int i;
 
 	/* Check args */

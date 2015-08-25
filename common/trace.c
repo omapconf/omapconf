@@ -1513,7 +1513,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	char *geninput_units[TRACE_MAX_GENINPUTS];
 	int geninput_accumulating[TRACE_MAX_GENINPUTS];
 	int geninput_flags[TRACE_MAX_GENINPUTS];
-	int geninput_num, geninput_first, geninput_last;
+	int geninput_num, geninput_first = 0, geninput_last = 0;
 	uint64_t *geninput_data[TRACE_MAX_GENINPUTS];
 	uint64_t geninput_delta;
 	uint64_t geninput_min[TRACE_MAX_GENINPUTS];

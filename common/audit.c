@@ -85,49 +85,49 @@
  *//*------------------------------------------------------------------------ */
 int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 {
-	int ret;
-	unsigned short skip_proc_stats_audit;
-	unsigned int cpu_cores_cnt, cpu_online_cores_cnt;
-	unsigned short *cpu_online;
-	unsigned int *idle_t0, *iowait_t0, *sum_t0;
-	unsigned int *idle_t1, *iowait_t1, *sum_t1;
-	unsigned int *idle_cnt, *iowait_cnt, *sum_cnt;
-	double *load, load_total;
-	unsigned int cstates_nbr;
-	uint64_t cstates_usage[MAX_CSTATE][3];
-	uint64_t cstates_time[MAX_CSTATE][3];
-	unsigned short emif;
-	unsigned int emif_busy_cycles[2];
-	unsigned int emif_cycles[2];
-	unsigned int emif_delta_cycles,
-		emif_delta_busy_cycles;
-	double emif_load;
+	int ret = 0;
+	unsigned short skip_proc_stats_audit = 0;
+	unsigned int cpu_cores_cnt = 0, cpu_online_cores_cnt = 0;
+	unsigned short *cpu_online = NULL;
+	unsigned int *idle_t0 = NULL, *iowait_t0 = NULL, *sum_t0 = NULL;
+	unsigned int *idle_t1 = NULL, *iowait_t1 = NULL, *sum_t1 = NULL;
+	unsigned int *idle_cnt = NULL, *iowait_cnt = NULL, *sum_cnt = NULL;
+	double *load = NULL, load_total = 0;
+	unsigned int cstates_nbr = 0;
+	uint64_t cstates_usage[MAX_CSTATE][3] = { {0} };
+	uint64_t cstates_time[MAX_CSTATE][3] = { {0} };
+	unsigned short emif = 0;
+	unsigned int emif_busy_cycles[2] = { 0 };
+	unsigned int emif_cycles[2] = { 0 };
+	unsigned int emif_delta_cycles = 0,
+		emif_delta_busy_cycles = 0;
+	double emif_load = 0;
 	uint64_t *time_in_opp_t0 = NULL;
 	uint64_t *time_in_opp_t1 = NULL;
 	uint64_t *time_in_opp_cnt = NULL;
-	uint64_t total_trans_t0, total_trans_t1, total_trans_cnt;
-	unsigned int i;
-	uint64_t sec, msec, usec, active_c0_time;
-	double pct;
+	uint64_t total_trans_t0 = 0, total_trans_t1 = 0, total_trans_cnt = 0;
+	unsigned int i = 0;
+	uint64_t sec = 0, msec = 0, usec = 0, active_c0_time = 0;
+	double pct = 0;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row = 0;
-	char name[16];
+	char name[16] = { 0 };
 	FILE *fp = NULL;
 	char perf_summary_file[64];
-	FILE *fp_irq_1, *fp_irq_2, *fp_timerstats;
-	unsigned int irq_total_count, occurred_irq_count, timer_count;
+	FILE *fp_irq_1 = NULL, *fp_irq_2 = NULL, *fp_timerstats = NULL;
+	unsigned int irq_total_count = 0, occurred_irq_count = 0, timer_count = 0;
 	genlist occurred_irq_list, timerstats_list;
-	irq_info irq_inf;
-	timerstat_info timer_inf;
-	char irq_snap_file1[32];
-	char irq_snap_file2[32];
-	char timerstats_file[32];
-	char timerstats_summary[256];
-	unsigned int skip_irq_audit, skip_cstate_audit;
-	int skip_timerstats_audit;
-	char *workdir;
-	unsigned short skip_cpufreq_audit;
-	unsigned int opp_cnt;
+	irq_info irq_inf = { 0 };
+	timerstat_info timer_inf = { 0 };
+	char irq_snap_file1[32] = { 0 };
+	char irq_snap_file2[32] = { 0 };
+	char timerstats_file[32] = { 0 };
+	char timerstats_summary[256] = { 0 };
+	unsigned int skip_irq_audit = 0, skip_cstate_audit = 0;
+	int skip_timerstats_audit = 0;
+	char *workdir = NULL;
+	unsigned short skip_cpufreq_audit = 0;
+	unsigned int opp_cnt = 0;
 
 
 	if (duration == 0) {
