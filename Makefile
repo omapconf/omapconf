@@ -81,6 +81,11 @@ MYCFLAGS+=$(CFLAGS) -D_OMAP5430 -D_SC_VER_1_16 -c -Wall -Wextra\
 	-Wno-missing-field-initializers -I$(DEF_INC) $(DEF_INC_PATH)\
 	$(STATIC_BUILD)
 
+ifdef DEBUG
+MYCFLAGS+=-g3 -fno-inline -O0 -DDEBUG
+else
+MYCFLAGS+=-Os
+endif
 
 DESTDIR ?= target
 
