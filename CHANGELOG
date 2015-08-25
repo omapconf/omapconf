@@ -1,3 +1,27 @@
+v1.72:
+------
+	- [PMIC][TPS659038]: Fix usage of smp_id in debug print
+	- [PMIC][TPS659038]: Introduce support to detect TPS65917 PMIC for DRA72x
+	- [gitignore] Update .gitignore to ignore all cscope generate files
+	- [Makefile] Add pretty print build sequence
+	- [Makefile] Silence builddate and version setting
+	- [CPUINFO] Add generic AM335X SoC if dev_feature detection fails
+	- [CPUINFO] Refactor cpu_detect for cleaner implementation
+	- [AM437x] Add support for AM437X SoC
+	- [AM437x] Add export CTT functionality for AM437X
+	- [LIB][ANDROID] Cleanup android pastry name array
+	- [LIB][ANDROID] Extend android product name to include new pastries
+	- [CPUINFO] Correct I2C bus number to fix cpuinfo for OMAP4/5
+	- [COMMON] fix up build warnings
+	- [LINUX] fix up build warnings
+	- [OMAP][COMMON] Fix build warnings
+	- [OMAP4] Fixup build warnings
+	- [OMAP5] Fix build warnings
+	- [DRA7] Fix up build warnings
+	- [Makefile] Add option for debug build
+	- [DRA7][STATCOL] disable optimization
+	- [DRA7][CTT] rd1: Fix for compatibility to latest CTT revision
+
 v1.71:
 ------
 	- [DRA7][CROSSBAR] Add support for PRU-ICSS in crossbar dump and audit
