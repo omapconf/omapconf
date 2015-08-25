@@ -219,7 +219,7 @@ int ctrlmod54xx_io_audit(FILE *stream, unsigned int *err_nbr,
 	const char fail[5] = "FAIL";
 	const char ignore[5] = "ign.";
 	const char warning[5] = "warn";
-	char *status;
+	char *status = NULL;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row, i, j, curr, expected, max;
 	ctrlmod54xx_golden_item *golden_values;

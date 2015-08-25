@@ -1261,7 +1261,7 @@ hwobs54xx_setup_end:
  *//*------------------------------------------------------------------------ */
 int hwobs54xx_display_pads(pad_cell pad_reg_table[HWOBS54XX_PAD_MAX_NBR+1])
 {
-	unsigned int ret, pad_id;
+	unsigned int ret, pad_id = 0;
 	unsigned short pad_val;
 	int err = 0;
 
