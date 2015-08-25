@@ -203,7 +203,7 @@ char *cpufreq_scaling_governor_get(char name[CPUFREQ_GOV_MAX_NAME_LENGTH])
 int cpufreq_scaling_governor_set(char new_gov[CPUFREQ_GOV_MAX_NAME_LENGTH],
 	char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH])
 {
-	FILE *fp;
+	FILE *fp = NULL;
 	int ret;
 
 	if ((new_gov == NULL) || (prev_gov == NULL)) {
