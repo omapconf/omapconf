@@ -437,7 +437,7 @@ static char *get_frame_name(unsigned int format)
  *//*------------------------------------------------------------------------ */
 void iss_csi2_check(struct iss_csi2_regs *csi2)
 {
-	int mem_out;
+	int mem_out = 0;
 	unsigned int used_lanes = 0;
 
 	printf("\tCSI2 Revision: %x.%x\n",

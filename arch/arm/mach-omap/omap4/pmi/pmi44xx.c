@@ -373,7 +373,7 @@ int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 	double atclk, atclk_dpll_unlocked, atclk_dpll_locked;
 	omap4_dpll_params dpll_params;
 	unsigned char in_dpll_cascading;
-	pwrdm_state core_pwrdm_state;
+	pwrdm_state core_pwrdm_state = PWRDM_ON_STATE;
 	unsigned char first_stp_header_found;
 	FILE *fp_in;
 	FILE *fp_out;

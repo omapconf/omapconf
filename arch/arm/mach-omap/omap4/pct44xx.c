@@ -62,7 +62,7 @@
 #define PRCM_PCT_REG_TABLE_SIZE        143
 
 static char pct_filename[] = "PCT-OMAP44XX-REG_DUMP.rd1";
-static reg_table prcm_pct_reg_table[PRCM_PCT_REG_TABLE_SIZE];
+static reg_table prcm_pct_reg_table[PRCM_PCT_REG_TABLE_SIZE + 1];
 
 static int pct44xx_regtable_init(void);
 

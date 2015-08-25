@@ -968,7 +968,7 @@ int counters44xx_print_defaults()
  */
 int counters44xx_main(int argc, char *argv[])
 {
-	int ret;
+	int ret = 0;
 	int i;
 	int help_skip = 0;
 	int invalid_char = 0;

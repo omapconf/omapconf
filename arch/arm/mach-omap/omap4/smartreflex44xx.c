@@ -949,7 +949,7 @@ int sr44xx_audit(FILE *stream, omap4_sr_module_id sr_id,
 	const sr_audit_settings *sr_golden_settings;
 	omap4_sr_module_id id;
 	opp44xx_id opp;
-	int ret;
+	int ret = 0;
 	unsigned int err_cnt, wng_cnt;
 	char opp_name[OPP44XX_MAX_NAME_LENGTH];
 

@@ -65,7 +65,7 @@
 
 
 static char ctt_filename[] = "CTT-OMAP44XX-REG_DUMP.rd1";
-static reg_table prcm_ctt_reg_table[PRCM_CTT_REG_TABLE_SIZE];
+static reg_table prcm_ctt_reg_table[PRCM_CTT_REG_TABLE_SIZE + 1];
 
 
 static int ctt44xx_regtable_init(void);

@@ -65,10 +65,10 @@
 #endif
 
 
-pad_cell hwobs_pad_reg_table[OMAP4430_HWOBS_MAX_NBR];
+pad_cell hwobs_pad_reg_table[OMAP4430_HWOBS_MAX_NBR + 1];
 
-reg_table hwobs_core_debug_mux_table[OMAP4430_HWOBS_MAX_NBR];
-reg_table hwobs_wkup_debug_mux_table[OMAP4430_HWOBS_MAX_NBR];
+reg_table hwobs_core_debug_mux_table[OMAP4430_HWOBS_MAX_NBR + 1];
+reg_table hwobs_wkup_debug_mux_table[OMAP4430_HWOBS_MAX_NBR + 1];
 
 
 /* ------------------------------------------------------------------------*//**

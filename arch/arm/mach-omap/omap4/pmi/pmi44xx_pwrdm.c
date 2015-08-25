@@ -92,9 +92,9 @@ int pmi_pwrdm_transitions_find(genlist *pm_events,
 	double duration, pwrdm_transitions transitions)
 {
 	unsigned int pm_states, shift, pos;
-	pwrdm_state pwrdm_st, curr_pwrdm_st;
+	pwrdm_state pwrdm_st, curr_pwrdm_st = PWRDM_OFF_STATE;
 	pwrdm_transition tr;
-	char pwrdm_state_s[6];
+	char pwrdm_state_s[6] = { 0 };
 	#ifdef PMI_PWRDM_TRANSITIONS_FIND_DEBUG
 	char *name;
 	#endif
