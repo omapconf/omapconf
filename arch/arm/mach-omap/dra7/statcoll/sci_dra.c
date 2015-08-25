@@ -37,6 +37,9 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+#pragma GCC push_options
+#pragma GCC optimize ("O0")
+
 #include "sci_dra.h"
 #include "sci_config_dra7xx.h"
 #include "sci_common.h"
