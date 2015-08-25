@@ -549,7 +549,7 @@ int statcoll_main(int argc, char **argv)
 			case 'p':
 			{
 				unsigned int loop = 0;
-				unsigned int index;
+				unsigned int index = 0;
 
 				if (long_opt == 1) {
 					index = long_options[option_index].name[1] - '0';
@@ -1034,8 +1034,8 @@ void sci_errhandler(psci_handle phandle, const char * func, enum sci_err err)
 
 void nosleep_32k_enable(void)
 {
-	unsigned int reg;
-	unsigned int reg_clk;
+	unsigned int reg = 0;
+	unsigned int reg_clk = 0;
 
 	if (cpu_is_omap54xx()) {
 		if (cpu_revision_get() == REV_ES1_0)
@@ -1053,8 +1053,8 @@ void nosleep_32k_enable(void)
 
 void nosleep_32k_disable(void)
 {
-	unsigned int reg;
-	unsigned int reg_clk;
+	unsigned int reg = 0;
+	unsigned int reg_clk = 0;
 
 	if (cpu_is_omap54xx()) {
 		if (cpu_revision_get() == REV_ES1_0)

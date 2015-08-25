@@ -65,7 +65,7 @@ static volatile unsigned int *addr_32k = NULL;
  *//*------------------------------------------------------------------------ */
 volatile unsigned int *mem_map_32k(void)
 {
-	unsigned int reg_32k;
+	unsigned int reg_32k = 0;
 
 	if (cpu_is_omap54xx() || cpu_is_dra7xx())
 		reg_32k = OMAP5430_CR;

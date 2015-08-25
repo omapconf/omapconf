@@ -394,7 +394,7 @@ enum sci_err sci_get_version(psci_handle const phandle, uint32_t * const plib_ma
 {
     int i;
     int tmp_cnt;
-    uint32_t pmod_type_id;
+    uint32_t pmod_type_id = 0;
     enum sci_err ret_err = SCI_SUCCESS;
 
     /* Note that this function can be called with a NULL handle since
@@ -1149,7 +1149,7 @@ enum sci_err sci_dump_sdram_cntrs(int num_sci_cntrs, uint32_t * pbuf)
 enum sci_err sci_dump_cntrs(psci_handle const phandle, psci_usecase_key usecase_key, int num_sci_cntrs, uint32_t * pbuf)
 {
     /* Dump the counters to pbuf for the provided usecase_key */
-    reg32_t * pdump_cntrs;
+    reg32_t * pdump_cntrs = NULL;
 
     enum sci_err ret_err = SCI_SUCCESS;
 
