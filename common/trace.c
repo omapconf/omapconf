@@ -447,7 +447,7 @@ int trace_geninput_config_read(const char *filename,
 		if (buffer == NULL)
 			return -2;
 
-		fgets(buffer, BUFFER_SIZE, fp);
+		(void)fgets(buffer, BUFFER_SIZE, fp);
 
 		if (*buffer != '*')
 			continue;
@@ -636,7 +636,7 @@ int trace_config_read(const char *filename, int flags[NUM_ITEMS])
 	}
 
 	while (!feof(fp)) {
-		fgets(buffer, BUFFER_SIZE, fp);
+		(void)fgets(buffer, BUFFER_SIZE, fp);
 		if (buffer[0] == '#' || buffer[0] == '\n' || buffer[0] == '*')
 			continue;
 
@@ -779,7 +779,7 @@ int trace_config_show(char buffer[], int buffer_size, FILE *fp, int *p_error)
 	row++;
 
 	while (!feof(fp)) {
-		fgets(buffer, buffer_size, fp);
+		(void)fgets(buffer, buffer_size, fp);
 
 		if ((buffer[0] == '#') || (buffer[0] == '\n'))
 			continue;
@@ -837,7 +837,7 @@ int trace_geninput_file_add(const char *filename)
 
 	/* Get name */
 	printf("\nEnter the name of the generic input file: ");
-	fgets(input, BUFFER_SIZE, stdin);
+	(void)fgets(input, BUFFER_SIZE, stdin);
 	if (tolower(input[0]) == 'x' &&
 		(input[1] == '\n' || input[1] == '\0')) {
 		printf("\nNo Generic Input File Added\n\n");
@@ -850,7 +850,7 @@ int trace_geninput_file_add(const char *filename)
 	/* Get path */
 	while (1) {
 		printf("\nEnter the path of the generic input file: ");
-		fgets(input, BUFFER_SIZE, stdin);
+		(void)fgets(input, BUFFER_SIZE, stdin);
 		if (tolower(input[0]) == 'x' &&
 			(input[1] == '\n' || input[1] == '\0')) {
 			printf("\nNo Generic Input File Added\n\n");
@@ -869,7 +869,7 @@ int trace_geninput_file_add(const char *filename)
 
 	/* Get Units */
 	printf("\nEnter the units of the generic input file: ");
-	fgets(input, BUFFER_SIZE, stdin);
+	(void)fgets(input, BUFFER_SIZE, stdin);
 	if (tolower(input[0]) == 'x' &&
 		(input[1] == '\n' || input[1] == '\0')) {
 		printf("\nNo Generic Input File Added\n\n");
@@ -881,7 +881,7 @@ int trace_geninput_file_add(const char *filename)
 	/* Get accumulating */
 	while (1) {
 		printf("\nIs the counter accumulating (y/n)? ");
-		fgets(input, BUFFER_SIZE, stdin);
+		(void)fgets(input, BUFFER_SIZE, stdin);
 
 		if (tolower(input[0]) == 'x' &&
 			(input[1] == '\n' || input[1] == '\0')) {
@@ -903,7 +903,7 @@ int trace_geninput_file_add(const char *filename)
 	/* Get flag */
 	while (1) {
 		printf("\nDo you want to trace this item now (y/n)? ");
-		fgets(input, BUFFER_SIZE, stdin);
+		(void)fgets(input, BUFFER_SIZE, stdin);
 
 		if (tolower(input[0]) == 'x' &&
 			(input[1] == '\n' || input[1] == '\0')) {
@@ -958,7 +958,7 @@ int trace_geninput_file_remove(const char *filename,
 
 	while (1) {
 		printf("\nEnter the number of the file to be removed: ");
-		fgets(input_buffer, INPUT_SIZE, stdin);
+		(void)fgets(input_buffer, INPUT_SIZE, stdin);
 
 		if (tolower(input_buffer[0]) == 'x') {
 			printf("\nNo Generic Input File Removed\n\n");
@@ -981,7 +981,7 @@ int trace_geninput_file_remove(const char *filename,
 	new_file = fopen(temp_filename, "w");
 
 	while (!feof(old_file)) {
-		fgets(buffer, BUFFER_SIZE, old_file);
+		(void)fgets(buffer, BUFFER_SIZE, old_file);
 
 		if (buffer[0] == '#' || buffer[0] == '\n') {
 			fputs(buffer, new_file);
@@ -1107,7 +1107,7 @@ int trace_perf_setup(const char *filename)
 			"Enter R at any time to remove a generic input file from the config.\n\n");
 		printf("Command or item number: ");
 
-		fgets(input_buffer, INPUT_SIZE, stdin);
+		(void)fgets(input_buffer, INPUT_SIZE, stdin);
 		if (tolower(input_buffer[0]) == 'q' &&
 			(input_buffer[1] == '\0' || input_buffer[1] == ' ' ||
 				input_buffer[1] == '\n')) {
@@ -1167,7 +1167,7 @@ int trace_perf_setup(const char *filename)
 	new_file = fopen(TEMP_FILENAME, "w");
 
 	while (!feof(old_file)) {
-		fgets(line, BUFFER_SIZE, old_file);
+		(void)fgets(line, BUFFER_SIZE, old_file);
 
 		if (line[0] == '#') {
 			fputs(line, new_file);

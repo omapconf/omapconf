@@ -300,7 +300,7 @@ unsigned int cpu_is_omap(void)
 			__func__);
 		return 1;
 	}
-	fgets(line, 256, fp);
+	(void)fgets(line, 256, fp);
 
 	/* Truncate line at whitespace */
 	machine_name = strtok(line, " \n\t\v\f\r");
@@ -1573,7 +1573,7 @@ int cpu_proc_stats_get(unsigned int cpu,
 
 	/* Get idle, iowait & sum stats from file */
 	for (i = 0; i <= cpu + 1; i++) {
-		fgets(line, sizeof(line), fp);
+		(void)fgets(line, sizeof(line), fp);
 		if (i != cpu + 1)
 			continue;
 
@@ -1701,10 +1701,10 @@ unsigned int cpu_cores_count_get(void)
 		 * ...
 		 */
 		cpu_cores_count = -1;
-		fgets(line, sizeof(line), fp);
+		(void)fgets(line, sizeof(line), fp);
 		while ((line != NULL) && (strstr(line, "cpu") != NULL)) {
 			cpu_cores_count++;
-			fgets(line, sizeof(line), fp);
+			(void)fgets(line, sizeof(line), fp);
 		};
 		dprintf("%s(): cpu_cores_count=%u\n", __func__,
 			cpu_cores_count);
