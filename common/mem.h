@@ -56,7 +56,7 @@ void mem_write_trace_enable(unsigned short enable);
 
 int mem_map(unsigned int addr);
 void mem_unmap(void);
-inline void *mem_phys2virt(void *addr);
+void *mem_phys2virt(void *addr);
 
 void *mem_map_address(unsigned int addr);
 void mem_unmap_address(void *vaddr);

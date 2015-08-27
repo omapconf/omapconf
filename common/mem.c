@@ -91,7 +91,7 @@ void mem_write_trace_enable(unsigned short enable)
  *			Keep it mapped until new address to be mapped is out
  *			of the current chunk.
  *//*------------------------------------------------------------------------ */
-inline int mem_map(unsigned int addr)
+int mem_map(unsigned int addr)
 {
 	int ret;
 
@@ -109,7 +109,7 @@ inline int mem_map(unsigned int addr)
  * @DESCRIPTION		unmap last 1MB memory chunk.
  *			*** To be called at end of application execution. ***
  *//*------------------------------------------------------------------------ */
-inline void mem_unmap(void)
+void mem_unmap(void)
 {
 	lmem_unmap();
 }
@@ -125,7 +125,7 @@ inline void mem_unmap(void)
  * @DESCRIPTION		map memory for 1 precise address, 4K mapping.
  *			*** User has to explicitly unmap it. ***
  *//*------------------------------------------------------------------------ */
-inline void *mem_map_address(unsigned int addr)
+void *mem_map_address(unsigned int addr)
 {
 	return lmem_map_address(addr);
 }
@@ -138,7 +138,7 @@ inline void *mem_map_address(unsigned int addr)
  * @DESCRIPTION		unmap specific virtual address.
  *			*** To be called at end of application execution. ***
  *//*------------------------------------------------------------------------ */
-inline void mem_unmap_address(void *vaddr)
+void mem_unmap_address(void *vaddr)
 {
 	lmem_unmap_address(vaddr);
 }
@@ -151,7 +151,7 @@ inline void mem_unmap_address(void *vaddr)
  * @param[in]		addr: memory physical address
  * @DESCRIPTION		convert memory physical address to virtual address.
  *//*------------------------------------------------------------------------ */
-inline void *mem_phys2virt(void *addr)
+void *mem_phys2virt(void *addr)
 {
 	return lmem_phys2virt(addr);
 }
@@ -296,7 +296,7 @@ int mem_address_range_read(unsigned int addr, unsigned int *mem_ptr,
  * @DESCRIPTION		return last physical memory address accessed
  *			(useful in case of access failure).
  *//*------------------------------------------------------------------------ */
-inline unsigned int mem_last_addr_get(void)
+unsigned int mem_last_addr_get(void)
 {
 	return last_mem_addr;
 }
@@ -322,7 +322,7 @@ inline unsigned int mem_last_addr_get(void)
  *			e.g. allow code to be develop on x86 (host PC) instead
  *			of on target, saving time.
  *//*------------------------------------------------------------------------ */
-inline void mem_fake_access_set(unsigned short enable)
+void mem_fake_access_set(unsigned short enable)
 {
 	fake_mem_access = enable;
 }
@@ -337,7 +337,7 @@ inline void mem_fake_access_set(unsigned short enable)
  * @DESCRIPTION		return the "fake" memory access status
  *			(enabled/disabled).
  *//*------------------------------------------------------------------------ */
-inline unsigned short mem_fake_access_get(void)
+unsigned short mem_fake_access_get(void)
 {
 	return fake_mem_access;
 }
