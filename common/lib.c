@@ -1540,63 +1540,6 @@ int celcius2fahrenheit(int d)
 	return ((d * 9) / 5) + 32;
 }
 
-
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		uv2v
- * @BRIEF		convert micro-volt (integer) to volt (floating point).
- * @RETURNS		voltage in volt (V)
- * @param[in]		uv: voltage in micro-volt (uV)
- * @DESCRIPTION		convert micro-volt (integer) to volt (floating point).
- *//*------------------------------------------------------------------------ */
-inline double uv2v(int uv)
-{
-	double v;
-
-	v = ((double) uv) / 1000000.0;
-	dprintf("%s(): uv=%d, v=%lf\n", __func__, uv, v);
-	return v;
-}
-
-
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		v2uv
- * @BRIEF		convert volt (floating point) to micro-volt (integer).
- * @RETURNS		voltage in micro-volt (uV)
- * @param[in]		v: voltage in volt (V)
- * @DESCRIPTION		convert volt (floating point) to micro-volt (integer).
- *//*------------------------------------------------------------------------ */
-inline int v2uv(double v)
-{
-	return (int) (v * 1000000.0);
-}
-
-
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		khz2mhz
- * @BRIEF		convert KHz (integer) to MHz (floating point).
- * @RETURNS		frequency in MHz
- * @param[in]		khz: frequency in KHz
- * @DESCRIPTION		convert KHz (integer) to MHz (floating point).
- *//*------------------------------------------------------------------------ */
-inline double khz2mhz(int khz)
-{
-	return ((double) khz) / 1000.0;
-}
-
-
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		mhz2khz
- * @BRIEF		convert MHz (floating point) to KHz (integer).
- * @RETURNS		frequency in KHz
- * @param[in]		mhz: frequency in MHz
- * @DESCRIPTION		convert MHz (floating point) to KHz (integer).
- *//*------------------------------------------------------------------------ */
-inline int mhz2khz(double mhz)
-{
-	return (int) (mhz * 1000.0);
-}
-
-
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		omapconf_getdefaults
  * @BRIEF		Gets defaults from a file and returns ints or strings in
