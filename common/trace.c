@@ -1630,7 +1630,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	 * Change the default working directory, the current one may not be
 	 * writable. Use "/data" as known to be writable (or remountable).
 	 */
-	chdir("/data");
+	if (chdir("/data")) {
+		dprintf("%s: unable to chdir to /data, using curdir\n",
+			__func__);
+		/* ignore and continue in current directory */
+	}
 	#ifdef TRACE_DEBUG
 	cwd = getcwd(NULL, 0);
 	printf("%s(): current working directory is %s\n", __func__, cwd);
