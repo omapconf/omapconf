@@ -884,7 +884,9 @@ char *cpufreq_governor_audit44xx(char gov[16], char gov_por[16],
 	}
 
 	/* Parse it to find out current scaling governor */
-	(void)fgets(gov, 16, fp);
+	if (fgets(gov, 16, fp)) {
+		dprintf("unexpected read\n");
+	}
 	if (strlen(gov) > 0)
 		gov[strlen(gov) - 1] = '\0'; /* remove new line character */
 	fclose(fp);

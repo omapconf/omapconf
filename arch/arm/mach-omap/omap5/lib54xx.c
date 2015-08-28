@@ -497,8 +497,12 @@ int lib54xx_import(char *file)
 	}
 
 	/* Verify it was generated from OMAPCONF */
-	(void)fgets(line, sizeof(line), fp); /* Jump empty line */
-	(void)fgets(line, sizeof(line), fp);
+	if (fgets(line, sizeof(line), fp)) { /* Jump empty line */
+		dprintf("unexpected read\n");
+	}
+	if (fgets(line, sizeof(line), fp)) {
+		dprintf("unexpected read\n");
+	}
 	if (sscanf(line, "<omapconf_export %s>", dummy) != 1) {
 		printf("Oups, OMAPCONF header not found in \"%s\" file?! "
 			":-(\n\n", file);

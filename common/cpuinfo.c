@@ -301,7 +301,9 @@ unsigned int cpu_is_omap(void)
 			__func__);
 		return 1;
 	}
-	(void)fgets(line, 256, fp);
+	if (fgets(line, 256, fp)) {
+		dprintf("unexpected read\n");
+	}
 
 	/* Truncate line at whitespace */
 	machine_name = strtok(line, " \n\t\v\f\r");
@@ -1578,7 +1580,9 @@ int cpu_proc_stats_get(unsigned int cpu,
 
 	/* Get idle, iowait & sum stats from file */
 	for (i = 0; i <= cpu + 1; i++) {
-		(void)fgets(line, sizeof(line), fp);
+		if (fgets(line, sizeof(line), fp)) {
+			dprintf("unexpected read\n");
+		}
 		if (i != cpu + 1)
 			continue;
 
@@ -1706,10 +1710,14 @@ unsigned int cpu_cores_count_get(void)
 		 * ...
 		 */
 		cpu_cores_count = -1;
-		(void)fgets(line, sizeof(line), fp);
+		if (fgets(line, sizeof(line), fp)) {
+			dprintf("unexpected read\n");
+		}
 		while ((line != NULL) && (strstr(line, "cpu") != NULL)) {
 			cpu_cores_count++;
-			(void)fgets(line, sizeof(line), fp);
+			if (fgets(line, sizeof(line), fp)) {
+				dprintf("unexpected read\n");
+			}
 		};
 		dprintf("%s(): cpu_cores_count=%u\n", __func__,
 			cpu_cores_count);

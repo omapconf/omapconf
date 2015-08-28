@@ -447,7 +447,9 @@ int trace_geninput_config_read(const char *filename,
 		if (buffer == NULL)
 			return -2;
 
-		(void)fgets(buffer, BUFFER_SIZE, fp);
+		if (fgets(buffer, BUFFER_SIZE, fp)) {
+			dprintf("unexpected read\n");
+		}
 
 		if (*buffer != '*')
 			continue;
@@ -636,7 +638,9 @@ int trace_config_read(const char *filename, int flags[NUM_ITEMS])
 	}
 
 	while (!feof(fp)) {
-		(void)fgets(buffer, BUFFER_SIZE, fp);
+		if (fgets(buffer, BUFFER_SIZE, fp)) {
+			dprintf("unexpected read\n");
+		}
 		if (buffer[0] == '#' || buffer[0] == '\n' || buffer[0] == '*')
 			continue;
 
@@ -779,7 +783,9 @@ int trace_config_show(char buffer[], int buffer_size, FILE *fp, int *p_error)
 	row++;
 
 	while (!feof(fp)) {
-		(void)fgets(buffer, buffer_size, fp);
+		if (fgets(buffer, buffer_size, fp)) {
+			dprintf("unexpected read\n");
+		}
 
 		if ((buffer[0] == '#') || (buffer[0] == '\n'))
 			continue;
@@ -837,7 +843,9 @@ int trace_geninput_file_add(const char *filename)
 
 	/* Get name */
 	printf("\nEnter the name of the generic input file: ");
-	(void)fgets(input, BUFFER_SIZE, stdin);
+	if (fgets(input, BUFFER_SIZE, stdin)) {
+		dprintf("unexpected read\n");
+	}
 	if (tolower(input[0]) == 'x' &&
 		(input[1] == '\n' || input[1] == '\0')) {
 		printf("\nNo Generic Input File Added\n\n");
@@ -850,7 +858,9 @@ int trace_geninput_file_add(const char *filename)
 	/* Get path */
 	while (1) {
 		printf("\nEnter the path of the generic input file: ");
-		(void)fgets(input, BUFFER_SIZE, stdin);
+		if (fgets(input, BUFFER_SIZE, stdin)) {
+			dprintf("unexpected read\n");
+		}
 		if (tolower(input[0]) == 'x' &&
 			(input[1] == '\n' || input[1] == '\0')) {
 			printf("\nNo Generic Input File Added\n\n");
@@ -869,7 +879,9 @@ int trace_geninput_file_add(const char *filename)
 
 	/* Get Units */
 	printf("\nEnter the units of the generic input file: ");
-	(void)fgets(input, BUFFER_SIZE, stdin);
+	if (fgets(input, BUFFER_SIZE, stdin)) {
+		dprintf("unexpected read\n");
+	}
 	if (tolower(input[0]) == 'x' &&
 		(input[1] == '\n' || input[1] == '\0')) {
 		printf("\nNo Generic Input File Added\n\n");
@@ -881,7 +893,9 @@ int trace_geninput_file_add(const char *filename)
 	/* Get accumulating */
 	while (1) {
 		printf("\nIs the counter accumulating (y/n)? ");
-		(void)fgets(input, BUFFER_SIZE, stdin);
+		if (fgets(input, BUFFER_SIZE, stdin)) {
+			dprintf("unexpected read\n");
+		}
 
 		if (tolower(input[0]) == 'x' &&
 			(input[1] == '\n' || input[1] == '\0')) {
@@ -903,7 +917,9 @@ int trace_geninput_file_add(const char *filename)
 	/* Get flag */
 	while (1) {
 		printf("\nDo you want to trace this item now (y/n)? ");
-		(void)fgets(input, BUFFER_SIZE, stdin);
+		if (fgets(input, BUFFER_SIZE, stdin)) {
+			dprintf("unexpected read\n");
+		}
 
 		if (tolower(input[0]) == 'x' &&
 			(input[1] == '\n' || input[1] == '\0')) {
@@ -958,7 +974,9 @@ int trace_geninput_file_remove(const char *filename,
 
 	while (1) {
 		printf("\nEnter the number of the file to be removed: ");
-		(void)fgets(input_buffer, INPUT_SIZE, stdin);
+		if (fgets(input_buffer, INPUT_SIZE, stdin)) {
+			dprintf("unexpected read\n");
+		}
 
 		if (tolower(input_buffer[0]) == 'x') {
 			printf("\nNo Generic Input File Removed\n\n");
@@ -981,7 +999,9 @@ int trace_geninput_file_remove(const char *filename,
 	new_file = fopen(temp_filename, "w");
 
 	while (!feof(old_file)) {
-		(void)fgets(buffer, BUFFER_SIZE, old_file);
+		if (fgets(buffer, BUFFER_SIZE, old_file)) {
+			dprintf("unexpected read\n");
+		}
 
 		if (buffer[0] == '#' || buffer[0] == '\n') {
 			fputs(buffer, new_file);
@@ -1107,7 +1127,9 @@ int trace_perf_setup(const char *filename)
 			"Enter R at any time to remove a generic input file from the config.\n\n");
 		printf("Command or item number: ");
 
-		(void)fgets(input_buffer, INPUT_SIZE, stdin);
+		if (fgets(input_buffer, INPUT_SIZE, stdin)) {
+			dprintf("unexpected read\n");
+		}
 		if (tolower(input_buffer[0]) == 'q' &&
 			(input_buffer[1] == '\0' || input_buffer[1] == ' ' ||
 				input_buffer[1] == '\n')) {
@@ -1167,7 +1189,9 @@ int trace_perf_setup(const char *filename)
 	new_file = fopen(TEMP_FILENAME, "w");
 
 	while (!feof(old_file)) {
-		(void)fgets(line, BUFFER_SIZE, old_file);
+		if (fgets(line, BUFFER_SIZE, old_file)) {
+			dprintf("unexpected read\n");
+		}
 
 		if (line[0] == '#') {
 			fputs(line, new_file);
