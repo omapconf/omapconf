@@ -48,7 +48,7 @@
 
 int lmem_map(unsigned int addr);
 void lmem_unmap(void);
-inline void *lmem_phys2virt(void *addr);
+void *lmem_phys2virt(void *addr);
 
 void *lmem_map_address(unsigned int addr);
 void lmem_unmap_address(void *vaddr);

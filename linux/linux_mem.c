@@ -230,7 +230,7 @@ void lmem_unmap_address(void *vaddr)
  * @param[in]		addr: memory physical address
  * @DESCRIPTION		convert memory physical address to virtual address.
  *//*------------------------------------------------------------------------ */
-inline void *lmem_phys2virt(void *addr)
+void *lmem_phys2virt(void *addr)
 {
 	dprintf("%s(0x%08X)=0x%08X\n", __func__,
 		(unsigned int) addr,
