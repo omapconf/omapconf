@@ -53,6 +53,7 @@ typedef enum {
 	PASTRY_JB,
 	PASTRY_KK,
 	PASTRY_LP,
+	PASTRY_MM,
 	PASTRY_UNKNOWN,
 	PASTRY_ID_MAX
 } android_pastry_id;
