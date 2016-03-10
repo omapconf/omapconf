@@ -79,11 +79,11 @@ unsigned short os_is_android(void)
 	FILE *fp = NULL;
 
 	/*
-	 * Try to open /sys/power/wake_lock file.
+	 * Try to open /sys/module/lowmemorykiller/parameters/minfree file.
 	 * If successfull, OS is Android (Generic Linux Kernel does not
 	 * support it).
 	 */
-	fp = fopen("/sys/power/wake_lock", "r");
+	fp = fopen("/sys/module/lowmemorykiller/parameters/minfree", "r");
 	if (fp == NULL) {
 		return 0;
 	} else {
