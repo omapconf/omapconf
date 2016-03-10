@@ -110,6 +110,7 @@
 #define DRA74X_ES_1_1_ID_CODE				0x1B99002F
 #define DRA74X_ES_2_0_ID_CODE				0x2B99002F
 #define DRA72X_ES_1_0_ID_CODE				0x0B9BC02F
+#define DRA72X_ES_2_0_ID_CODE				0x1B9BC02F
 
 #define OMAP5432_ES_2_0_ID_CODE				0x1B99802F
 #define OMAP5432_ES_1_0_ID_CODE				0x0B99802F
@@ -1082,6 +1083,10 @@ static int identify_omap(void)
 		case DRA72X_ES_1_0_ID_CODE:
 			cpu_set(DRA_72X);
 			cpu_revision_set(REV_ES1_0);
+			break;
+		case DRA72X_ES_2_0_ID_CODE:
+			cpu_set(DRA_72X);
+			cpu_revision_set(REV_ES2_0);
 			break;
 		case DRA74X_ES_1_1_ID_CODE:
 			cpu_set(DRA_75X);
