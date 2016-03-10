@@ -920,7 +920,7 @@ int main(int argc, char *argv[])
 	/* Some of the omapconf functions do not support DEVICE OFF Mode,
 	 * so by default acquire a wakelock if OS is Android.
 	 */
-	if (os_is_android())
+	if (os_supports_wakelock())
 		wakelock_acquire();
 
 	/* To be case-insensitive, lowercase all arguments */
@@ -1199,7 +1199,7 @@ main_platform_specific:
 	}
 
 main_exit:
-	if (os_is_android())
+	if (os_supports_wakelock())
 		wakelock_release();
 
 	/* Unmap last mapped memory page */

@@ -84,6 +84,31 @@ static const char workdirs[3][WORKDIR_MAX_NAME_LENGTH] = {
 
 
 /* ------------------------------------------------------------------------*//**
+ * @FUNCTION		os_supports_wakelock
+ * @BRIEF		check if running OS supports wake_lock.
+ * @RETURNS		1 if running OS supports wake_lock.
+ *			0 if running OS does not support wake_lock.
+ * @DESCRIPTION		check if running OS is Android.
+ *//*------------------------------------------------------------------------ */
+unsigned short os_supports_wakelock(void)
+{
+	FILE *fp = NULL;
+
+	/*
+	 * Try to open /sys/power/wake_lock file.
+	 * If successfull, OS supports wake_lock
+	 */
+	fp = fopen("/sys/power/wake_lock", "r");
+	if (fp == NULL) {
+		return 0;
+	} else {
+		fclose(fp);
+		return 1;
+	}
+}
+
+
+/* ------------------------------------------------------------------------*//**
  * @FUNCTION		omapconf_revision_show
  * @BRIEF		show omapconf revision
  * @RETURNS		none

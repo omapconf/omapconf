@@ -164,6 +164,7 @@ static const char int2char_table[11] = "0123456789";
 	}
 
 
+unsigned short os_supports_wakelock(void);
 void omapconf_revision_show(FILE *stream);
 char *product_name_get(char product_name[256]);
 void chips_info_show(FILE *stream, unsigned short die_id);
