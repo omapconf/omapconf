@@ -71,7 +71,8 @@ DEF_INC_PATH = -I. -Icommon -Ipmic -Iaudioic -Ilinux -Ii2c-tools\
 	-Iarch/arm/mach-omap/am335x\
 	-Iarch/arm/mach-omap/am335x/prcm\
 	-Iarch/arm/mach-omap/am335x/dpll\
-	-Iarch/arm/mach-omap/am437x
+	-Iarch/arm/mach-omap/am437x\
+	-Iarch/arm/mach-omap/am437x/prcm
 
 
 STATIC_BUILD ?= -static
@@ -301,6 +302,8 @@ AM437XSOURCES=\
 		arch/arm/mach-omap/am437x/ctt_am437x.c\
 		arch/arm/mach-omap/am437x/emif_am437x-defs.c\
 		arch/arm/mach-omap/am437x/emif_am437x.c\
+		arch/arm/mach-omap/am437x/prcm/cm_am437x-defs.c\
+		arch/arm/mach-omap/am437x/prcm/cm_am437x.c
 
 AM437XOBJECTS=	$(AM437XSOURCES:.c=.o)
 
