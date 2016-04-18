@@ -305,7 +305,8 @@ AM437XSOURCES=\
 		arch/arm/mach-omap/am437x/prcm/cm_am437x-defs.c\
 		arch/arm/mach-omap/am437x/prcm/cm_am437x.c\
 		arch/arm/mach-omap/am437x/prcm/prm_am437x-defs.c\
-		arch/arm/mach-omap/am437x/prcm/prm_am437x.c
+		arch/arm/mach-omap/am437x/prcm/prm_am437x.c\
+		arch/arm/mach-omap/am437x/prcm/prcm_am437x.c
 
 AM437XOBJECTS=	$(AM437XSOURCES:.c=.o)
 

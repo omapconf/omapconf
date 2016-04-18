@@ -55,6 +55,7 @@
 
 #include <ctt_am437x.h>
 #include <emif_am437x.h>
+#include <prcm_am437x.h>
 
 #ifdef MAIN_AM437X_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -87,6 +88,13 @@ int main_am437x_dump(int argc, char *argv[])
 			return emif_am437x_dump(stdout, EMIF_AM437X_EMIF4D);
 		else
 			return err_arg_too_many_msg_show(HELP_EMIF);
+	} else if (strcmp(argv[0], "prcm") == 0) {
+		if (argc == 1)
+			return prcm_am437x_dump(NULL);
+		else if (argc == 2)
+			return prcm_am437x_dump(argv[1]);
+		else
+			return err_arg_too_many_msg_show(HELP_PRCM);
 	} else {
 		return err_unknown_argument_msg_show(argv[0]);
 	}
@@ -140,7 +148,13 @@ static int main_am437x_legacy(int argc, char*argv[])
 		ret = err_unknown_argument_msg_show(argv[0]);
 	}
 
-	if (strcmp(argv[0], "ctt") == 0) {
+	if ((argc == 2) && (strcmp(argv[0], "prcm") == 0) &&
+	    (strcmp(argv[1], "dump") == 0)) {
+		ret = prcm_am437x_dump(NULL);
+	} else if ((argc == 3) && (strcmp(argv[0], "prcm") == 0) &&
+		(strcmp(argv[1], "dump") == 0)) {
+		ret = prcm_am437x_dump(argv[2]);
+	} else if (strcmp(argv[0], "ctt") == 0) {
 		ret = ctt_am437x_main(argc - 1, argv + 1);
 	} else {
 		ret = err_unknown_argument_msg_show(argv[0]);
@@ -181,7 +195,7 @@ int main_am437x(int argc, char *argv[])
 
 	if (strcmp(argv[0], "export") == 0)
 	        ret = main_am437x_export(argc - 1, argv + 1);
-	if (strcmp(argv[0], "dump") == 0)
+	else if (strcmp(argv[0], "dump") == 0)
 		ret = main_am437x_dump(argc - 1, argv + 1);
 	else
 		ret = main_am437x_legacy(argc, argv);
