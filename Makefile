@@ -298,7 +298,9 @@ AM437XSOURCES=\
 		arch/arm/mach-omap/am437x/cpuinfo_am437x.c\
 		arch/arm/mach-omap/am437x/main_am437x.c\
 		arch/arm/mach-omap/am437x/help_am437x.c\
-		arch/arm/mach-omap/am437x/ctt_am437x.c
+		arch/arm/mach-omap/am437x/ctt_am437x.c\
+		arch/arm/mach-omap/am437x/emif_am437x-defs.c\
+		arch/arm/mach-omap/am437x/emif_am437x.c\
 
 AM437XOBJECTS=	$(AM437XSOURCES:.c=.o)
 

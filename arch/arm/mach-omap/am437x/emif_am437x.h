@@ -1,14 +1,14 @@
 /*
  *
  * @Component			OMAPCONF
- * @Filename			help_am437x.c
- * @Description			Help for AM437X specific functions
+ * @Filename			emif_am437x.h
+ * @Description			AM437X EMIF Functions
  * @Author			Dave Gerlach <d-gerlach@ti.com>
- * @Date			2015
+ * @Date			2016
  * @Copyright			Texas Instruments Incorporated
  *
  *
- * Copyright (C) 2015 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2016 Texas Instruments Incorporated - http://www.ti.com/
  *
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,39 +42,14 @@
  */
 
 
-#include <cpuinfo.h>
-#include <help_am437x.h>
+#ifndef __EMIF_AM437X_H__
+#define __EMIF_AM437X_H__
+
+
+#include <emif_am437x-defs.h>
 #include <stdio.h>
 
+const char *emif_am437x_mod_name_get(emif_am437x_mod_id id);
+int emif_am437x_dump(FILE *stream, emif_am437x_mod_id id);
 
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		help_am437x
- * @BRIEF		display help for AM437X-specific functions
- * @param[in]		cat: help category to display
- * @DESCRIPTION		display help for AM437X-specific functions
- *//*------------------------------------------------------------------------ */
-void help_am437x(help_category cat, char *context)
-{
-	if (cat >= HELP_CATEGORY_MAX) {
-		fprintf(stderr, "%s(): incorrect category!!! (%u)\n",
-			__func__, cat);
-		return;
-	}
-
-	if (context == NULL) {
-		fprintf(stderr, "%s(): context == NULL!!!\n", __func__);
-		return;
-	}
-
-	if ((cat == HELP_ALL) || (cat == HELP_EXPORT)) {
-	        printf("\n\tomapconf export ctt [<filename>]\n");
-	        printf("\t    Export PRCM registers in .rd1 format for Clock "
-		       "Tree Tool (CTT, <http://omappedia.org/wiki/CTT>), to "
-		       "<filename> or stdout if omitted.\n");
-	}
-
-	if ((cat == HELP_ALL) || (cat == HELP_EMIF)) {
-		printf("\n\tomapconf dump emif\n");
-		printf("\t    Dump EMIF4D registers to stdout\n");
-	}
-}
+#endif /* __EMIF_AM437X_H__ */

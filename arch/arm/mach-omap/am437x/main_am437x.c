@@ -54,6 +54,7 @@
 #include <unistd.h>
 
 #include <ctt_am437x.h>
+#include <emif_am437x.h>
 
 #ifdef MAIN_AM437X_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -61,6 +62,35 @@
 #define dprintf(format, ...)
 #endif
 
+/*
+ * @FUNCTION		main_am437x_dump
+ * @BRIEF		dump some AM437X registers, which category is found in
+ *			argv
+ * @RETURNS		0 in case of success
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_CPU
+ * @param[in]		argc: number of arguments
+ * @param[in]		argv: argument(s)
+ * @DESCRIPTION		dump some AM437X registers, which category is found in
+ *			argv
+ */
+int main_am437x_dump(int argc, char *argv[])
+{
+	if (!cpu_is_am437x())
+		return OMAPCONF_ERR_CPU;
+
+	if (argc < 1) {
+		help(HELP_USAGE);
+		return OMAPCONF_ERR_ARG;
+	} else if (strcmp(argv[0], "emif") == 0) {
+		if (argc == 1)
+			return emif_am437x_dump(stdout, EMIF_AM437X_EMIF4D);
+		else
+			return err_arg_too_many_msg_show(HELP_EMIF);
+	} else {
+		return err_unknown_argument_msg_show(argv[0]);
+	}
+}
 
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		main_am437x_export
@@ -151,6 +181,8 @@ int main_am437x(int argc, char *argv[])
 
 	if (strcmp(argv[0], "export") == 0)
 	        ret = main_am437x_export(argc - 1, argv + 1);
+	if (strcmp(argv[0], "dump") == 0)
+		ret = main_am437x_dump(argc - 1, argv + 1);
 	else
 		ret = main_am437x_legacy(argc, argv);
 
