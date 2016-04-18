@@ -83,6 +83,6 @@ void help_am437x(help_category cat, char *context)
 		printf("\t    Dump PRCM Registers related to <pwrdm> power "
 			"domain ('all' assumed if omitted).\n");
 		printf("\t    Support <pwrdm>: all, cefuse, device, gfx, mpu, per, "
-			"rtc, wkup\n");
+			"rtc, wkup, irq, dpll\n");
 	}
 }
