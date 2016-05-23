@@ -213,6 +213,24 @@ reg am335x_cm_per_timer4_clkctrl = {
 	0xDEADBEEF,
 	0};
 
+reg am335x_cm_per_rng_clkctrl = {
+	"CM_PER_RNG_CLKCTRL",
+	AM335X_CM_PER_RNG_CLKCTRL,
+	0xDEADBEEF,
+	0};
+
+reg am335x_cm_per_aes0_clkctrl = {
+	"CM_PER_AES0_CLKCTRL",
+	AM335X_CM_PER_AES0_CLKCTRL,
+	0xDEADBEEF,
+	0};
+
+reg am335x_cm_per_sha0_clkctrl = {
+	"CM_PER_SHA0_CLKCTRL",
+	AM335X_CM_PER_SHA0_CLKCTRL,
+	0xDEADBEEF,
+	0};
+
 reg am335x_cm_per_gpio1_clkctrl = {
 	"CM_PER_GPIO1_CLKCTRL",
 	AM335X_CM_PER_GPIO1_CLKCTRL,
@@ -422,6 +440,9 @@ reg *am335x_cm_per_mod[AM335X_CM_PER_MOD_REGCOUNT + 1] = {
 	&am335x_cm_per_timer2_clkctrl,
 	&am335x_cm_per_timer3_clkctrl,
 	&am335x_cm_per_timer4_clkctrl,
+	&am335x_cm_per_rng_clkctrl,
+	&am335x_cm_per_aes0_clkctrl,
+	&am335x_cm_per_sha0_clkctrl,
 	&am335x_cm_per_gpio1_clkctrl,
 	&am335x_cm_per_gpio2_clkctrl,
 	&am335x_cm_per_gpio3_clkctrl,

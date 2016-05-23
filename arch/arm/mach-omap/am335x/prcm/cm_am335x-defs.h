@@ -90,6 +90,12 @@ extern reg am335x_cm_per_spi1_clkctrl;
 extern reg am335x_cm_per_l4ls_clkctrl;
 #define AM335X_CM_PER_MCASP1_CLKCTRL				0x44E00068
 extern reg am335x_cm_per_mcasp1_clkctrl;
+#define AM335X_CM_PER_RNG_CLKCTRL				0x44E00090
+extern reg am335x_cm_per_rng_clkctrl;
+#define AM335X_CM_PER_AES0_CLKCTRL				0x44E00094
+extern reg am335x_cm_per_aes0_clkctrl;
+#define AM335X_CM_PER_SHA0_CLKCTRL				0x44E000A0
+extern reg am335x_cm_per_sha0_clkctrl;
 #define AM335X_CM_PER_UART1_CLKCTRL				0x44E0006C
 extern reg am335x_cm_per_uart1_clkctrl;
 #define AM335X_CM_PER_UART2_CLKCTRL				0x44E00070
@@ -166,7 +172,7 @@ extern reg am335x_cm_per_lcdc_clkstctrl;
 extern reg am335x_cm_per_clkdiv32k_clkctrl;
 #define AM335X_CM_PER_CLK_24MHZ_CLKSTCTRL			0x44E00150
 extern reg am335x_cm_per_clk_24mhz_clkstctrl;
-#define AM335X_CM_PER_MOD_REGCOUNT				58
+#define AM335X_CM_PER_MOD_REGCOUNT				61
 extern reg *am335x_cm_per_mod[AM335X_CM_PER_MOD_REGCOUNT + 1];
 
 /* CM_WKUP Registers */
