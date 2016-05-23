@@ -287,6 +287,20 @@ reg am437x_rm_per_l3_context = {
 	0,
 };
 
+reg am437x_rm_per_aes0_context = {
+	"RM_PER_AES0_CONTEXT",
+	AM437X_RM_PER_AES0_CONTEXT,
+	0xDEADBEEF,
+	0,
+};
+
+reg am437x_rm_per_des_context = {
+	"RM_PER_DES_CONTEXT",
+	AM437X_RM_PER_DES_CONTEXT,
+	0xDEADBEEF,
+	0,
+};
+
 reg am437x_rm_per_l3_instr_context = {
 	"RM_PER_L3_INSTR_CONTEXT",
 	AM437X_RM_PER_L3_INSTR_CONTEXT,
@@ -297,6 +311,13 @@ reg am437x_rm_per_l3_instr_context = {
 reg am437x_rm_per_ocmcram_context = {
 	"RM_PER_OCMCRAM_CONTEXT",
 	AM437X_RM_PER_OCMCRAM_CONTEXT,
+	0xDEADBEEF,
+	0,
+};
+
+reg am437x_rm_per_sha0_context = {
+	"RM_PER_SHA0_CONTEXT",
+	AM437X_RM_PER_SHA0_CONTEXT,
 	0xDEADBEEF,
 	0,
 };
@@ -567,6 +588,13 @@ reg am437x_rm_per_mmc1_context = {
 	0,
 };
 
+reg am437x_rm_per_rng_context = {
+	"RM_PER_RNG_CONTEXT",
+	AM437X_RM_PER_RNG_CONTEXT,
+	0xDEADBEEF,
+	0,
+};
+
 reg am437x_rm_per_spi0_context = {
 	"RM_PER_SPI0_CONTEXT",
 	AM437X_RM_PER_SPI0_CONTEXT,
@@ -769,8 +797,11 @@ reg *am437x_prm_per_mod[AM437X_PRM_PER_MOD_REGCOUNT + 1] = {
 	&am437x_rm_per_rstctrl,
 	&am437x_rm_per_rstst,
 	&am437x_rm_per_l3_context,
+	&am437x_rm_per_aes0_context,
+	&am437x_rm_per_des_context,
 	&am437x_rm_per_l3_instr_context,
 	&am437x_rm_per_ocmcram_context,
+	&am437x_rm_per_sha0_context,
 	&am437x_rm_per_vpfe0_context,
 	&am437x_rm_per_vpfe1_context,
 	&am437x_rm_per_tpcc_context,
@@ -809,6 +840,7 @@ reg *am437x_prm_per_mod[AM437X_PRM_PER_MOD_REGCOUNT + 1] = {
 	&am437x_rm_per_mailbox0_context,
 	&am437x_rm_per_mmc0_context,
 	&am437x_rm_per_mmc1_context,
+	&am437x_rm_per_rng_context,
 	&am437x_rm_per_spi0_context,
 	&am437x_rm_per_spi1_context,
 	&am437x_rm_per_spi2_context,

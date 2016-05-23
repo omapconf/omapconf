@@ -121,10 +121,16 @@ extern reg am437x_rm_per_rstctrl;
 extern reg am437x_rm_per_rstst;
 #define AM437X_RM_PER_L3_CONTEXT				0x44df0824
 extern reg am437x_rm_per_l3_context;
+#define AM437X_RM_PER_AES0_CONTEXT				0x44df082c
+extern reg am437x_rm_per_aes0_context;
+#define AM437X_RM_PER_DES_CONTEXT				0x44df0834
+extern reg am437x_rm_per_des_context;
 #define AM437X_RM_PER_L3_INSTR_CONTEXT				0x44df0844
 extern reg am437x_rm_per_l3_instr_context;
 #define AM437X_RM_PER_OCMCRAM_CONTEXT				0x44df0854
 extern reg am437x_rm_per_ocmcram_context;
+#define AM437X_RM_PER_SHA0_CONTEXT				0x44df085c
+extern reg am437x_rm_per_sha0_context;
 #define AM437X_RM_PER_VPFE0_CONTEXT				0x44df086c
 extern reg am437x_rm_per_vpfe0_context;
 #define AM437X_RM_PER_VPFE1_CONTEXT				0x44df0874
@@ -201,6 +207,8 @@ extern reg am437x_rm_per_mailbox0_context;
 extern reg am437x_rm_per_mmc0_context;
 #define AM437X_RM_PER_MMC1_CONTEXT				0x44df0ccc
 extern reg am437x_rm_per_mmc1_context;
+#define AM437X_RM_PER_RNG_CONTEXT				0x44df0ce4
+extern reg am437x_rm_per_rng_context;
 #define AM437X_RM_PER_SPI0_CONTEXT				0x44df0d04
 extern reg am437x_rm_per_spi0_context;
 #define AM437X_RM_PER_SPI1_CONTEXT				0x44df0d0c
@@ -257,7 +265,7 @@ extern reg am437x_rm_per_dss_context;
 extern reg am437x_rm_per_cpgmac0_context;
 #define AM437X_RM_PER_OCPWP_CONTEXT				0x44df1424
 extern reg am437x_rm_per_ocpwp_context;
-#define AM437X_PRM_PER_MOD_REGCOUNT				73
+#define AM437X_PRM_PER_MOD_REGCOUNT				77
 extern reg *am437x_prm_per_mod[AM437X_PRM_PER_MOD_REGCOUNT + 1];
 
 /* PRM_RTC Registers */
