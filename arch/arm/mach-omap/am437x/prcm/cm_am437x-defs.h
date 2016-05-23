@@ -131,10 +131,16 @@ extern reg *am437x_cm_mpu_mod[AM437X_CM_MPU_MOD_REGCOUNT + 1];
 extern reg am437x_cm_per_l3_clkstctrl;
 #define AM437X_CM_PER_L3_CLKCTRL				0x44df8820
 extern reg am437x_cm_per_l3_clkctrl;
+#define AM437X_CM_PER_AES0_CLKCTRL				0x44df8828
+extern reg am437x_cm_per_aes0_clkctrl;
+#define AM437X_CM_PER_DES_CLKCTRL				0x44df8830
+extern reg am437x_cm_per_des_clkctrl;
 #define AM437X_CM_PER_L3_INSTR_CLKCTRL				0x44df8840
 extern reg am437x_cm_per_l3_instr_clkctrl;
 #define AM437X_CM_PER_OCMCRAM_CLKCTRL				0x44df8850
 extern reg am437x_cm_per_ocmcram_clkctrl;
+#define AM437X_CM_PER_SHA0_CLKCTRL				0x44df8858
+extern reg am437x_cm_per_sha0_clkctrl;
 #define AM437X_CM_PER_VPFE0_CLKCTRL				0x44df8868
 extern reg am437x_cm_per_vpfe0_clkctrl;
 #define AM437X_CM_PER_VPFE1_CLKCTRL				0x44df8870
@@ -217,6 +223,8 @@ extern reg am437x_cm_per_mailbox0_clkctrl;
 extern reg am437x_cm_per_mmc0_clkctrl;
 #define AM437X_CM_PER_MMC1_CLKCTRL				0x44df8cc8
 extern reg am437x_cm_per_mmc1_clkctrl;
+#define AM437X_CM_PER_RNG_CLKCTRL				0x44df8ce0
+extern reg am437x_cm_per_rng_clkctrl;
 #define AM437X_CM_PER_SPI0_CLKCTRL				0x44df8d00
 extern reg am437x_cm_per_spi0_clkctrl;
 #define AM437X_CM_PER_SPI1_CLKCTRL				0x44df8d08
@@ -283,7 +291,7 @@ extern reg am437x_cm_per_cpgmac0_clkctrl;
 extern reg am437x_cm_per_ocpwp_l3_clkstctrl;
 #define AM437X_CM_PER_OCPWP_CLKCTRL				0x44df9420
 extern reg am437x_cm_per_ocpwp_clkctrl;
-#define AM437X_CM_PER_MOD_REGCOUNT				78
+#define AM437X_CM_PER_MOD_REGCOUNT				82
 extern reg *am437x_cm_per_mod[AM437X_CM_PER_MOD_REGCOUNT + 1];
 
 /* CM_RTC Registers */

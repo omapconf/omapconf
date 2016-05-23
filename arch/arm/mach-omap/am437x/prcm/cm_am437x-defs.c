@@ -319,6 +319,20 @@ reg am437x_cm_per_l3_clkctrl = {
 	0,
 };
 
+reg am437x_cm_per_aes0_clkctrl = {
+	"CM_PER_AES0_CLKCTRL",
+	AM437X_CM_PER_AES0_CLKCTRL,
+	0xDEADBEEF,
+	0,
+};
+
+reg am437x_cm_per_des_clkctrl = {
+	"CM_PER_DES_CLKCTRL",
+	AM437X_CM_PER_DES_CLKCTRL,
+	0xDEADBEEF,
+	0,
+};
+
 reg am437x_cm_per_l3_instr_clkctrl = {
 	"CM_PER_L3_INSTR_CLKCTRL",
 	AM437X_CM_PER_L3_INSTR_CLKCTRL,
@@ -329,6 +343,13 @@ reg am437x_cm_per_l3_instr_clkctrl = {
 reg am437x_cm_per_ocmcram_clkctrl = {
 	"CM_PER_OCMCRAM_CLKCTRL",
 	AM437X_CM_PER_OCMCRAM_CLKCTRL,
+	0xDEADBEEF,
+	0,
+};
+
+reg am437x_cm_per_sha0_clkctrl = {
+	"CM_PER_SHA0_CLKCTRL",
+	AM437X_CM_PER_SHA0_CLKCTRL,
 	0xDEADBEEF,
 	0,
 };
@@ -620,6 +641,13 @@ reg am437x_cm_per_mmc1_clkctrl = {
 	0,
 };
 
+reg am437x_cm_per_rng_clkctrl = {
+	"CM_PER_RNG_CLKCTRL",
+	AM437X_CM_PER_RNG_CLKCTRL,
+	0xDEADBEEF,
+	0,
+};
+
 reg am437x_cm_per_spi0_clkctrl = {
 	"CM_PER_SPI0_CLKCTRL",
 	AM437X_CM_PER_SPI0_CLKCTRL,
@@ -854,8 +882,11 @@ reg am437x_cm_per_ocpwp_clkctrl = {
 reg *am437x_cm_per_mod[AM437X_CM_PER_MOD_REGCOUNT + 1] = {
 	&am437x_cm_per_l3_clkstctrl,
 	&am437x_cm_per_l3_clkctrl,
+	&am437x_cm_per_aes0_clkctrl,
+	&am437x_cm_per_des_clkctrl,
 	&am437x_cm_per_l3_instr_clkctrl,
 	&am437x_cm_per_ocmcram_clkctrl,
+	&am437x_cm_per_sha0_clkctrl,
 	&am437x_cm_per_vpfe0_clkctrl,
 	&am437x_cm_per_vpfe1_clkctrl,
 	&am437x_cm_per_tpcc_clkctrl,
@@ -897,6 +928,7 @@ reg *am437x_cm_per_mod[AM437X_CM_PER_MOD_REGCOUNT + 1] = {
 	&am437x_cm_per_mailbox0_clkctrl,
 	&am437x_cm_per_mmc0_clkctrl,
 	&am437x_cm_per_mmc1_clkctrl,
+	&am437x_cm_per_rng_clkctrl,
 	&am437x_cm_per_spi0_clkctrl,
 	&am437x_cm_per_spi1_clkctrl,
 	&am437x_cm_per_spi2_clkctrl,
