@@ -99,7 +99,7 @@ void opp54xx_init(void)
 
 	/* ES2.0 */
 	static const opp_t mpu_opp_low  = {OPP_LOW,	880000,  500000};
-	static const opp_t mpu_opp_nom  = {OPP_NOM,	1060000, 1100000};
+	static const opp_t mpu_opp_nom  = {OPP_NOM,	1060000, 1000000};
 	static const opp_t mpu_opp_high = {OPP_HIGH,	1250000, 1500000};
 	static const opp_t mpu_opp_sb =   {OPP_SB,	1290000, 1700000};
 
