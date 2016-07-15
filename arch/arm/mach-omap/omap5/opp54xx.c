@@ -457,14 +457,14 @@ const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 				__func__, voltdm54xx_name_get(vdd_id),
 				opp.name, rate_gpu_por);
 
-			if (((int) rate == (int) rate_por) &&
-				 ((int) rate_dsp == (int) rate_dsp_por) &&
-				 ((int) rate_gpu == (int) rate_gpu_por)) {
+			if (((int) rate <= (int) rate_por) &&
+				 ((int) rate_dsp <= (int) rate_dsp_por) &&
+				 ((int) rate_gpu <= (int) rate_gpu_por)) {
 				opp_name = opp.name;
 				goto opp54xx_by_rate_get_end;
 			}
 		} else {
-			if ((int) rate == (int) rate_por) {
+			if ((int) rate <= (int) rate_por) {
 				opp_name = opp.name;
 				goto opp54xx_by_rate_get_end;
 			}
