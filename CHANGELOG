@@ -1,3 +1,28 @@
+v1.73:
+------
+	- [AM437X][PRM] Add register definitions for crypto IPs
+	- [AM437X][CM] Add register definitions for crypto IPs
+	- [AM335X][CM] Add register definitions for crypto IPs
+	- [I2CTOOLS] I2c-busses: Define _DEFAULT_SOURCE as well
+	- [AM437x][PRCM] Allow dump of prcm irq or prcm dpll raw registers
+	- [AM437x][PRCM] Add PRCM dump support
+	- [AM437x][PRM] Add register definitions and register access support
+	- [AM437x][CM] Add register definitions and register access support
+	- [AM437x][EMIF] Add support for dump EMIF
+	- [LIB][ANDROID] Separate wake_lock from Android
+	- [LIB][ANDROID] Check if OS is Android based on lowmemorykiller
+	- [CPUINFO][DRA72] Support SR2.0
+	- [AM335X][CTT] Add missing registers
+	- [LIB][ANDROID] Extend product name to include Marshmallow
+	- [Makefile] squash build error message when git is not available
+	- [COMMON][TRACE] Add debug print if chdir does not work
+	- [LINUX][MEM] Remove inline from global functions
+	- [COMMON / OMAP4/ OMAP5] dummy check fget to make gcc 5.2 happy
+	- [CPUINFO][DRA7] Support DRA74x SR2.0 samples
+	- [CPUINFO][DRA74x] Rename IDCODE MACROs to be closer to reality
+	- [COMMON / OMAP4/ OMAP5] cast fget result to void
+	- [COMMON][MEM] get rid of inline accessors for public functions
+	- [COMMON][LIB] Fix up inlines
 v1.72:
 ------
 	- [PMIC][TPS659038]: Fix usage of smp_id in debug print
