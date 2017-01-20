@@ -111,7 +111,8 @@ OMAPSOURCES=\
 		arch/arm/mach-omap/common/statcoll/sci_swcapture.c\
 		arch/arm/mach-omap/common/statcoll/sci.c\
 		arch/arm/mach-omap/common/statcoll/cToolsHelper.c\
-		arch/arm/mach-omap/common/timestamp_32k.c
+		arch/arm/mach-omap/common/timestamp_32k.c\
+		arch/arm/mach-omap/common/ammu.c
 
 OMAPOBJECTS=	$(OMAPSOURCES:.c=.o)
 
@@ -261,7 +262,8 @@ DRA7SOURCES=\
 		arch/arm/mach-omap/dra7/audit_dra7xx.c\
 		arch/arm/mach-omap/dra7/lib_dra7xx.c\
 		arch/arm/mach-omap/dra7/mcasp_dra7xx.c\
-		arch/arm/mach-omap/dra7/main_dra7xx.c
+		arch/arm/mach-omap/dra7/main_dra7xx.c\
+		arch/arm/mach-omap/dra7/ammu_dra7xx.c
 
 DRA7OBJECTS=	$(DRA7SOURCES:.c=.o)
 
