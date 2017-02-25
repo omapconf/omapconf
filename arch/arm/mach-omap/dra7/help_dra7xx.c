@@ -172,6 +172,14 @@ void help_dra7xx(help_category cat, char *context)
 			"domains), including main modules frequencies.\n");
 	}
 
+	if ((cat == HELP_ALL) || (cat == HELP_AMMU)) {
+		printf("\n\tomapconf show ammu [<instance>]\n");
+		printf("\t    Show AMMU mappings for <instance>.\n");
+		printf("\t    Supported <instance>: ipu1, ipu2, all.\n");
+		printf("\t    If <instance> is omitted or <instance> = all, all\n");
+		printf("\t    ipu ammu mappings will be shown.\n");
+	}
+
 	if ((cat == HELP_ALL) || (cat == HELP_TRACE)) {
 		printf("\n\tomapconf trace perf setup [<cfgfile>]\n");
 		printf(

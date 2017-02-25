@@ -63,6 +63,7 @@
 #include <crossbar.h>
 #include <abb7xx.h>
 #include <statcoll/sci_swcapture_dra.h>
+#include <ammu_dra7xx.h>
 
 
 /* #define MAIN_DRA7XX_DEBUG */
@@ -258,6 +259,21 @@ int main_dra7xx_show(int argc, char *argv[])
 			return abb7xx_config_show(stdout);
 		else
 			return err_arg_too_many_msg_show(HELP_ABB);
+	} else if (strcmp(argv[0], "ammu") == 0) {
+		if (argc == 1) {
+			return dra7xx_ammu_decode("all");
+		} else if (argc == 2) {
+			if (strcmp(argv[1], "all") == 0)
+				return dra7xx_ammu_decode(argv[1]);
+			else if (strcmp(argv[1], "ipu1") == 0)
+				return dra7xx_ammu_decode(argv[1]);
+			else if (strcmp(argv[1], "ipu2") == 0)
+				return dra7xx_ammu_decode(argv[1]);
+			else
+				return err_arg_msg_show(HELP_AMMU);
+		} else {
+			return err_arg_too_many_msg_show(HELP_AMMU);
+                }
 	} else {
 		return err_unknown_argument_msg_show(argv[0]);
 	}
