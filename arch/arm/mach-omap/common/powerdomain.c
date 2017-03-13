@@ -86,6 +86,9 @@ void powerdm_init(void)
 		pwrdm54xx_init();
 	} else if (cpu_is_am335x()) {
 		pwrdm_am335x_init();
+	} else if (cpu_is_dra7xx()) {
+		/* No support yet */
+		return;
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -124,6 +127,9 @@ void powerdm_deinit(void)
 		pwrdm54xx_deinit();
 	} else if (cpu_is_am335x()) {
 		pwrdm_am335x_deinit();
+	} else if (cpu_is_dra7xx()) {
+		/* No support yet */
+		return;
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);

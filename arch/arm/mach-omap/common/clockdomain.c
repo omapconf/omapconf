@@ -83,6 +83,9 @@ void clockdm_init(void)
 		clkdm54xx_init();
 	} else if (cpu_is_am335x()) {
 		clkdm_am335x_init();
+	} else if (cpu_is_dra7xx()) {
+		/* No support yet */
+		return;
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -122,6 +125,9 @@ void clockdm_deinit(void)
 		clkdm54xx_deinit();
 	} else if (cpu_is_am335x()) {
 		clkdm_am335x_deinit();
+	} else if (cpu_is_dra7xx()) {
+		/* No support yet */
+		return;
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
