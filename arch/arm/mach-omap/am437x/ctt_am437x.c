@@ -58,7 +58,7 @@
 
 #define PRCM_CTT_REG_TABLE_SIZE        623
 
-#define DEVICE_NAME "AM437x_PG1.0"
+#define DEVICE_NAME "AM43xx_SR1.x"
 
 static reg_table prcm_ctt_reg_table[PRCM_CTT_REG_TABLE_SIZE];
 
@@ -103,7 +103,7 @@ int ctt_am437x_dump(void)
 		/* display register addr & content (hex) */
 		ret = mem_read(prcm_ctt_reg_table[i].addr, &val);
 		if (ret == 0) {
-			printf("0x%08X 0x%08X\n",
+			printf("0x%08x 0x%08x\n",
 				prcm_ctt_reg_table[i].addr, val);
 		} else {
 			fprintf(stderr,
@@ -158,7 +158,7 @@ int ctt_am437x_rd1_export(char *file)
 		/* display register addr & content (hex) */
 		ret = mem_read(prcm_ctt_reg_table[i].addr, &val);
 		if (ret == 0)
-			fprintf(fd, "0x%08X 0x%08X\n",
+			fprintf(fd, "0x%08x 0x%08x\n",
 				prcm_ctt_reg_table[i].addr, val);
 		else {
 			fprintf(stderr,
