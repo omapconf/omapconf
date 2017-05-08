@@ -43,6 +43,7 @@
  */
 
 
+#include <stdbool.h>
 #include <opp.h>
 #include <cpuinfo.h>
 #include <lib.h>
@@ -535,6 +536,16 @@ static void print_rate(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LE
 }
 
 
+static bool is_approx(int a, int b)
+{
+	if (a == b)
+		return true;
+	if (a < 100 || b < 100)
+		return false;
+	int d = a < b ? b - a : a - b;
+	return d / ((a + b) / 50) == 0;
+}
+
 /* ------------------------------------------------------------------------*//**
  * @FUNCTION		opp_show
  * @BRIEF		show current operating voltages and key clock rates.
@@ -815,38 +826,38 @@ int opp_show(FILE *stream)
 			dprintf("      Voltage (2): %dV\n", volt2);
 
 			if (strcmp(voltdm.name, VDD_MPU) == 0) {
-				found = (((rate_mpu / 1000) == (rate_mpu_por / 1000)) &&
+				found = (is_approx(rate_mpu, rate_mpu_por) &&
 					(strcmp(opp_s, opp_s2) == 0) &&
 					(volt == volt2));
 			} else if (cpu_is_dra7xx() && (strcmp(voltdm.name, VDD_IVA) == 0)) {
 				found = ((strcmp(opp_s, opp_s2) == 0) &&
 					(volt == volt2) &&
-					((rate_iva / 1000) == (rate_iva_por / 1000)));
+					is_approx(rate_iva, rate_iva_por));
 			} else if (strcmp(voltdm.name, VDD_IVA) == 0) {
 				found = ((strcmp(opp_s, opp_s2) == 0) &&
 					(volt == volt2) &&
-					(((rate_dsp / 1000) == (rate_dsp_por / 1000)) ||
-						((rate_iva / 1000) == (rate_iva_por / 1000)) ||
-						((rate_aess / 1000) == (rate_aess_por / 1000))));
+					(is_approx(rate_dsp, rate_dsp_por) ||
+						is_approx(rate_iva, rate_iva_por) ||
+						is_approx(rate_aess, rate_aess_por)));
 			} else if (strcmp(voltdm.name, VDD_MM) == 0) {
 				found = ((strcmp(opp_s, opp_s2) == 0) &&
 					(volt == volt2) &&
-					(((rate_dsp / 1000) == (rate_dsp_por / 1000)) ||
-						((rate_iva / 1000) == (rate_iva_por / 1000)) ||
-						((rate_gpu / 1000) == (rate_gpu_por / 1000))));
+					(is_approx(rate_dsp, rate_dsp_por) ||
+						is_approx(rate_iva, rate_iva_por) ||
+						is_approx(rate_gpu, rate_gpu_por)));
 			} else if (strcmp(voltdm.name, VDD_CORE) == 0) {
 				found = ((strcmp(opp_s, opp_s2) == 0) &&
 					(volt == volt2) &&
-					((rate_l3 / 1000) == (rate_l3_por / 1000)));
+					is_approx(rate_l3, rate_l3_por));
 			} else if (strcmp(voltdm.name, VDD_GPU) == 0) {
 				found = ((strcmp(opp_s, opp_s2) == 0) &&
 					(volt == volt2) &&
-					((rate_gpu / 1000) == (rate_gpu_por / 1000)));
+					is_approx(rate_gpu, rate_gpu_por));
 			} else if (strcmp(voltdm.name, VDD_DSPEVE) == 0) {
 				found = ((strcmp(opp_s, opp_s2) == 0) &&
 					(volt == volt2) &&
-					(((rate_dsp / 1000) == (rate_dsp_por / 1000)) ||
-						((rate_eve / 1000) == (rate_eve_por / 1000))));
+					(is_approx(rate_dsp, rate_dsp_por) ||
+						is_approx(rate_eve, rate_eve_por)));
 			}
 			dprintf("      found=%u\n", found);
 

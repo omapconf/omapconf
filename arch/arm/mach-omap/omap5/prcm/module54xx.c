@@ -8127,16 +8127,16 @@ void mod5432_init(void)
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	} else {
 		opp.name = OPP_LOW;
-		opp.rate = 499200;
+		opp.rate = 500000;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 		opp.name = OPP_NOM;
-		opp.rate = 1099885;
+		opp.rate = 1000000;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 		opp.name = OPP_HIGH;
 		opp.rate = 1500000;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 		opp.name = OPP_SB;
-		opp.rate = 1699200;
+		opp.rate = 1700000;
 		genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	}
 	mod.properties = MOD_HAS_STANDBY_STATUS;

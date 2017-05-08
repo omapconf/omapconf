@@ -99,7 +99,7 @@ void opp54xx_init(void)
 
 	/* ES2.0 */
 	static const opp_t mpu_opp_low  = {OPP_LOW,	880000,  500000};
-	static const opp_t mpu_opp_nom  = {OPP_NOM,	1060000, 1100000};
+	static const opp_t mpu_opp_nom  = {OPP_NOM,	1060000, 1000000};
 	static const opp_t mpu_opp_high = {OPP_HIGH,	1250000, 1500000};
 	static const opp_t mpu_opp_sb =   {OPP_SB,	1290000, 1700000};
 
@@ -457,14 +457,14 @@ const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 				__func__, voltdm54xx_name_get(vdd_id),
 				opp.name, rate_gpu_por);
 
-			if (((int) rate == (int) rate_por) &&
-				 ((int) rate_dsp == (int) rate_dsp_por) &&
-				 ((int) rate_gpu == (int) rate_gpu_por)) {
+			if (((int) rate <= (int) rate_por) &&
+				 ((int) rate_dsp <= (int) rate_dsp_por) &&
+				 ((int) rate_gpu <= (int) rate_gpu_por)) {
 				opp_name = opp.name;
 				goto opp54xx_by_rate_get_end;
 			}
 		} else {
-			if ((int) rate == (int) rate_por) {
+			if ((int) rate <= (int) rate_por) {
 				opp_name = opp.name;
 				goto opp54xx_by_rate_get_end;
 			}

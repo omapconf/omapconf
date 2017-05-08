@@ -73,7 +73,7 @@
 #define TWL6030_SMPS_VOLTAGE4_UV	2127000
 
 
-#define TWL6035_I2C_BUS			1
+#define TWL6035_I2C_BUS			0
 #define TWL6035_ID0_ADDR		0x12
 #define TWL6035_ID1_ADDR		0x48
 #define TWL6035_ID2_ADDR		0x49
@@ -365,14 +365,17 @@ float twl603x_chip_revision_get(void)
 	if (twl603x_data.chip_revision > 0)
 		goto twl603x_chip_revision_get_end;
 
-	ret = i2cget(TWL6030_I2C_BUS, 0x4A, 0x87, &rev);
+	if (twl603x_data.chip_type == TWL6035)
+		ret = i2cget(TWL6030_I2C_BUS, 0x4A, 0x57, &rev);
+	else
+		ret = i2cget(TWL6030_I2C_BUS, 0x4A, 0x87, &rev);
 	if (ret != 0) {
 		fprintf(stderr, "%s(): could not read register! (%d)\n",
 			__func__, ret);
 		twl603x_data.chip_revision = (float) OMAPCONF_ERR_NOT_AVAILABLE;
 		goto twl603x_chip_revision_get_end;
 	}
-	dprintf("%s(): rev=%u\n", __func__, rev);
+	dprintf("%s(): rev=0x%x\n", __func__, rev);
 	switch (rev) {
 	case 0x0:
 		twl603x_data.chip_revision = 1.0;
@@ -385,6 +388,9 @@ float twl603x_chip_revision_get(void)
 		break;
 	case 0x02:
 		twl603x_data.chip_revision = 2.1;
+		break;
+	case 0x03:
+		twl603x_data.chip_revision = 2.2;
 		break;
 	default:
 		twl603x_data.chip_revision = (float) OMAPCONF_ERR_UNEXPECTED;
@@ -412,7 +418,10 @@ float twl603x_eprom_revision_get(void)
 	if (twl603x_data.eprom_revision > 0)
 		goto twl603x_eprom_revision_get_end;
 
-	ret = i2cget(TWL6030_I2C_BUS, 0x4A, 0xDF, &rev);
+	if (twl603x_data.chip_type == TWL6035)
+		ret = i2cget(TWL6030_I2C_BUS, 0x48, 0xB7, &rev);
+	else
+		ret = i2cget(TWL6030_I2C_BUS, 0x4A, 0xDF, &rev);
 	if (ret != 0) {
 		fprintf(stderr, "%s(): could not read register! (%d)\n",
 			__func__, ret);
