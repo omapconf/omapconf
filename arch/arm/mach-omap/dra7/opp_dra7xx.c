@@ -115,6 +115,7 @@ void opp_dra7xx_init(void)
 	#ifdef OPP_DRA7XX_DEBUG
 	int i, count;
 	voltdm_dra7xx_id vdd;
+	opp_t opp;
 	#endif
 
 	if (!opp_dra7xx_init_done) {
@@ -162,7 +163,7 @@ void opp_dra7xx_init(void)
 		#ifdef OPP_DRA7XX_DEBUG
 		printf("%s(): init done.\n", __func__);
 		printf("OPP List:\n");
-		for (vdd = VDD_DRA7XX_WKUP; vdd < VDD_DRA7XX_ID_MAX; vdd++) {
+		for (vdd = 0; vdd < VDD_DRA7XX_ID_MAX; vdd++) {
 			count = genlist_getcount(
 				(genlist *) opp_dra7xx_list_table[vdd]);
 			printf("  %s (%d): ", voltdm_dra7xx_name_get(vdd), count);
