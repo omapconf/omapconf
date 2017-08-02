@@ -1963,9 +1963,9 @@ reg dra7xx_ckgen_cm_core_aon_cm_ssc_modfreqdiv_dpll_core = {
 	DRA7XX_CKGEN_CM_CORE_AON_CM_SSC_MODFREQDIV_DPLL_CORE,
 	0xDEADBEEF,
 	0};
-reg dra7xx_ckgen_cm_core_aon_cm_div_h21_dpll_core = {
-	"CM_DIV_H21_DPLL_CORE",
-	DRA7XX_CKGEN_CM_CORE_AON_CM_DIV_H21_DPLL_CORE,
+reg dra76x_ckgen_cm_core_aon_ctrl_core_l3_initiator_pressure_7 = {
+	"CTRL_CORE_L3_INITIATOR_PRESSURE_7",
+	DRA76X_CKGEN_CM_CORE_AON_CTRL_CORE_L3_INITIATOR_PRESSURE_7,
 	0xDEADBEEF,
 	0};
 reg dra7xx_ckgen_cm_core_aon_cm_div_h22_dpll_core = {
@@ -2308,9 +2308,9 @@ reg dra7xx_ckgen_cm_core_aon_cm_div_h13_dpll_gmac = {
 	DRA7XX_CKGEN_CM_CORE_AON_CM_DIV_H13_DPLL_GMAC,
 	0xDEADBEEF,
 	0};
-reg dra7xx_ckgen_cm_core_aon_cm_div_h14_dpll_gmac = {
-	"CM_DIV_H14_DPLL_GMAC",
-	DRA7XX_CKGEN_CM_CORE_AON_CM_DIV_H14_DPLL_GMAC,
+reg dra76x_ckgen_cm_core_aon_ctrl_core_sma_sw_0 = {
+	"CTRL_CORE_SMA_SW_0",
+	DRA76X_CKGEN_CM_CORE_AON_CTRL_CORE_SMA_SW_0,
 	0xDEADBEEF,
 	0};
 reg dra7xx_ckgen_cm_core_aon_cm_ssc_deltamstep_dpll_gmac = {
@@ -2379,7 +2379,7 @@ reg *dra7xx_ckgen_cm_core_aon_mod[DRA7XX_CKGEN_CM_CORE_AON_MOD_REGCOUNT + 1] = {
 	&dra7xx_ckgen_cm_core_aon_cm_div_h14_dpll_core,
 	&dra7xx_ckgen_cm_core_aon_cm_ssc_deltamstep_dpll_core,
 	&dra7xx_ckgen_cm_core_aon_cm_ssc_modfreqdiv_dpll_core,
-	&dra7xx_ckgen_cm_core_aon_cm_div_h21_dpll_core,
+	&dra76x_ckgen_cm_core_aon_ctrl_core_l3_initiator_pressure_7,
 	&dra7xx_ckgen_cm_core_aon_cm_div_h22_dpll_core,
 	&dra7xx_ckgen_cm_core_aon_cm_div_h23_dpll_core,
 	&dra7xx_ckgen_cm_core_aon_cm_div_h24_dpll_core,
@@ -2448,7 +2448,7 @@ reg *dra7xx_ckgen_cm_core_aon_mod[DRA7XX_CKGEN_CM_CORE_AON_MOD_REGCOUNT + 1] = {
 	&dra7xx_ckgen_cm_core_aon_cm_div_h11_dpll_gmac,
 	&dra7xx_ckgen_cm_core_aon_cm_div_h12_dpll_gmac,
 	&dra7xx_ckgen_cm_core_aon_cm_div_h13_dpll_gmac,
-	&dra7xx_ckgen_cm_core_aon_cm_div_h14_dpll_gmac,
+	&dra76x_ckgen_cm_core_aon_ctrl_core_sma_sw_0,
 	&dra7xx_ckgen_cm_core_aon_cm_ssc_deltamstep_dpll_gmac,
 	&dra7xx_ckgen_cm_core_aon_cm_ssc_modfreqdiv_dpll_gmac,
 	&dra7xx_ckgen_cm_core_aon_cm_clkmode_dpll_gpu,
@@ -2996,7 +2996,7 @@ const reg *dpll_dra7xx_hsdiv_regs[DPLL_DRA7XX_ID_MAX][HSDIV_DRA7XX_ID_MAX] = {
 		&dra7xx_ckgen_cm_core_aon_cm_div_h12_dpll_core,
 		&dra7xx_ckgen_cm_core_aon_cm_div_h13_dpll_core,
 		&dra7xx_ckgen_cm_core_aon_cm_div_h14_dpll_core,
-		&dra7xx_ckgen_cm_core_aon_cm_div_h21_dpll_core,
+		&dra76x_ckgen_cm_core_aon_ctrl_core_l3_initiator_pressure_7,
 		&dra7xx_ckgen_cm_core_aon_cm_div_h22_dpll_core,
 		&dra7xx_ckgen_cm_core_aon_cm_div_h23_dpll_core,
 		&dra7xx_ckgen_cm_core_aon_cm_div_h24_dpll_core},
@@ -3011,7 +3011,7 @@ const reg *dpll_dra7xx_hsdiv_regs[DPLL_DRA7XX_ID_MAX][HSDIV_DRA7XX_ID_MAX] = {
 	{&dra7xx_ckgen_cm_core_aon_cm_div_h11_dpll_gmac,
 		&dra7xx_ckgen_cm_core_aon_cm_div_h12_dpll_gmac,
 		&dra7xx_ckgen_cm_core_aon_cm_div_h13_dpll_gmac,
-		&dra7xx_ckgen_cm_core_aon_cm_div_h14_dpll_gmac,
+		&dra76x_ckgen_cm_core_aon_ctrl_core_sma_sw_0,
 		NULL, NULL, NULL, NULL},
 	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 	{&dra7xx_ckgen_cm_core_aon_cm_div_h11_dpll_ddr,
