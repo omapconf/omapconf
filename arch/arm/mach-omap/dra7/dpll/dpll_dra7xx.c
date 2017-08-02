@@ -912,12 +912,15 @@ int dpll_dra7xx_clk_sources_get(dpll_settings *settings, unsigned short ignore)
 int hsdiv_dra7xx_settings_extract(unsigned int id,
 	 reg *hsdiv_reg, hsdiv_dra7xx_settings *settings)
 {
-	unsigned int val;
+	unsigned int val, div_off, status_off;
 
 	CHECK_NULL_ARG(settings, OMAPCONF_ERR_ARG);
 
 	settings->rate = 0.0;
 	settings->id = (hsdiv_dra7xx_id) id;
+
+	div_off = 0;
+	status_off = 9;
 
 	if (hsdiv_reg == NULL) {
 		settings->present = 0;
@@ -926,10 +929,16 @@ int hsdiv_dra7xx_settings_extract(unsigned int id,
 		dprintf("%s(): %s does not exist.\n", __func__,
 			hsdiv_dra7xx_name_get(id));
 	} else {
+		/* offsets for CTRL module HS dividers */
+		if (!strncmp(reg_name_get(hsdiv_reg), "CTRL", 4)) {
+			div_off = 20;
+			status_off = 30;
+		}
+
 		val = reg_read(hsdiv_reg);
 		settings->present = 1;
-		settings->div = extract_bitfield(val, 0, 6);
-		settings->status = extract_bit(val, 9);
+		settings->div = extract_bitfield(val, div_off, 6);
+		settings->status = extract_bit(val, status_off);
 		dprintf("%s(): %s reg: %s = 0x%08X, DIV=%u, CLKST=%u\n",
 			__func__, hsdiv_dra7xx_name_get(id), hsdiv_reg->name, val,
 			settings->div, settings->status);
