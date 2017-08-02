@@ -405,7 +405,7 @@ const char *opp_dra7xx_by_rate_get(voltdm_dra7xx_id vdd_id)
 				__func__, voltdm_dra7xx_name_get(vdd_id),
 				opp.name, rate_eve_por);
 
-			if (((int) rate == (int) rate_por) &&
+			if (((int) rate == (int) rate_por) ||
 				 ((int) rate_eve == (int) rate_eve_por)) {
 				opp_name = opp.name;
 				goto opp_dra7xx_by_rate_get_end;
