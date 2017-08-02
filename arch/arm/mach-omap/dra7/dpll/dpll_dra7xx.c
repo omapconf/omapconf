@@ -1007,8 +1007,11 @@ int hsdiv_dra7xx_rates_calc(dpll_dra7xx_settings *settings,
 					(settings->hsdiv)[i].rate = (settings->dpll).fdpll /
 						2.5 / 2.0;
 			} else {
-				(settings->hsdiv)[i].rate = (settings->dpll).fdpll /
-					(double) (settings->hsdiv)[i].div;
+				if (!(settings->hsdiv)[i].status)
+					(settings->hsdiv)[i].rate = (settings->dpll).fdpll;
+				else
+					(settings->hsdiv)[i].rate = (settings->dpll).fdpll /
+						(double) (settings->hsdiv)[i].div;
 			}
 
 			dprintf("%s(): %s locked, %s=%lfMHz\n", __func__,
