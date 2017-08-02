@@ -56,7 +56,5 @@
 #define DRA76_EFUSE_HAS_ALL_MPU_OPP		24
 
 unsigned int cpu_dra7xx_silicon_max_speed_get(void);
-unsigned int cpu_dra7xx_cores_count_get(void);
-
 
 #endif

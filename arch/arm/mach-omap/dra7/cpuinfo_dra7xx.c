@@ -101,22 +101,3 @@ unsigned int cpu_dra7xx_silicon_max_speed_get(void)
 	dprintf("%s(): max speed = %dMHz\n", __func__, max_speed);
 	return max_speed;
 }
-
-
-/* ------------------------------------------------------------------------*//**
- * @FUNCTION		cpu_dra7xx_cores_count_get
- * @BRIEF		return the number of CPU cores available
- * @RETURNS		>0 number of CPU cores available
- *			0 in case of error (unknown architecture)
- * @DESCRIPTION		return the number of CPU cores available
- *//*------------------------------------------------------------------------ */
-unsigned int cpu_dra7xx_cores_count_get(void)
-{
-	if (cpu_is_dra7xx()) {
-		/* This may need to be detected using efuse in the future. */
-		return 2;
-	} else {
-		fprintf(stderr, "%s(): unknown architecture!\n", __func__);
-		return 0;
-	}
-}
