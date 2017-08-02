@@ -96,11 +96,11 @@ void opp_dra7xx_init(void)
 
 	/*
 	 * opp_dra7xx_list is just a reference of how many opp that a
-	 * voltage manager has, so only need to add either dsp or eve,
-	 * to indicating there are opp_nom, and opp_od for VDD_DSPEVE.
+	 * voltage manager has, so only need to add either dsp or eve.
 	 */
 	static const opp_t dsp_opp_nom =  {OPP_NOM,	1060000, 600000};
 	static const opp_t dsp_opp_od =   {OPP_OD,	1150000, 700000};
+	static const opp_t dsp_opp_high = {OPP_HIGH,	1250000, 750000};
 
 	static const opp_t iva_opp_nom  = {OPP_NOM,	1060000, 388300};
 	static const opp_t iva_opp_od =   {OPP_OD,	1160000, 430000};
@@ -135,6 +135,8 @@ void opp_dra7xx_init(void)
 			(void *) &dsp_opp_nom, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_dspeve_opp_list,
 			(void *) &dsp_opp_od, sizeof(opp_t));
+		genlist_addtail(&vdd_dra7xx_dspeve_opp_list,
+			(void *) &dsp_opp_high, sizeof(opp_t));
 
 		genlist_init(&vdd_dra7xx_iva_opp_list);
 		genlist_addtail(&vdd_dra7xx_iva_opp_list,
