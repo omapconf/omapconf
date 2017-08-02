@@ -45,6 +45,7 @@
 #include <cpuinfo_dra7xx.h>
 #include <cpuinfo.h>
 #include <lib.h>
+#include <mem.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <cpufreq.h>
@@ -69,31 +70,32 @@
  *//*------------------------------------------------------------------------ */
 unsigned int cpu_dra7xx_silicon_max_speed_get(void)
 {
-	unsigned int max_speed;
+	unsigned int max_speed, efuse, speed_grade;
+	int ret;
 
-	switch (cpu_get()) {
-	/*
-	 * TBD: to use DIE ID to detect maximum speed capable. For the moment,
-	 * we use cpufreq entries if any to detect max speed.
-	 */
-	case DRA_72X:
-	case DRA_75X:
-		switch (cpu_silicon_type_get()) {
-		case STANDARD_PERF_SI:
-			max_speed = 1000;
-			break;
-		case HIGH_PERF_SI:
-			max_speed = 1500;
-			break;
-		default:
-			max_speed = 0;
-			break;
-		}
+	speed_grade = 1000;
+
+	ret = mem_read(STD_FUSE_DIE_ID_2, &efuse);
+	if (ret)
+		return speed_grade;
+
+	speed_grade = (efuse & STD_FUSE_SPEED_GRADE_MASK) >>
+			STD_FUSE_SPEED_GRADE_SHIFT;
+	switch (speed_grade) {
+	case DRA76_EFUSE_HAS_ALL_MPU_OPP:
+	case DRA76_EFUSE_HAS_PLUS_MPU_OPP:
+		max_speed = 1800;
 		break;
-
+	case DRA7_EFUSE_HAS_ALL_MPU_OPP:
+	case DRA7_EFUSE_HAS_HIGH_MPU_OPP:
+		max_speed = 1500;
+		break;
+	case DRA7_EFUSE_HAS_OD_MPU_OPP:
+		max_speed = 1100;
+		break;
 	default:
-		fprintf(stderr, "%s(): unknown chip!\n", __func__);
-		max_speed = 0;
+		max_speed = 1000;
+		break;
 	}
 
 	dprintf("%s(): max speed = %dMHz\n", __func__, max_speed);

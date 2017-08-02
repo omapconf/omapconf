@@ -45,6 +45,15 @@
 #ifndef __CPUID_DRA7XX_H__
 #define __CPUID_DRA7XX_H__
 
+#define STD_FUSE_DIE_ID_2		0x4ae0c20c
+#define STD_FUSE_SPEED_GRADE_SHIFT	19
+#define STD_FUSE_SPEED_GRADE_MASK	(0x1f << 19)
+
+#define DRA7_EFUSE_HAS_OD_MPU_OPP		11
+#define DRA7_EFUSE_HAS_HIGH_MPU_OPP		15
+#define DRA76_EFUSE_HAS_PLUS_MPU_OPP		16
+#define DRA7_EFUSE_HAS_ALL_MPU_OPP		23
+#define DRA76_EFUSE_HAS_ALL_MPU_OPP		24
 
 unsigned int cpu_dra7xx_silicon_max_speed_get(void);
 unsigned int cpu_dra7xx_cores_count_get(void);
