@@ -106,6 +106,7 @@
 #define AM3359_DEV_FEAT					0x20FF0383
 
 /* ID Codes */
+#define DRA76X_ES_1_0_ID_CODE				0x0BB5002F
 #define DRA74X_ES_1_0_ID_CODE				0x0B99002F
 #define DRA74X_ES_1_1_ID_CODE				0x1B99002F
 #define DRA74X_ES_2_0_ID_CODE				0x2B99002F
@@ -142,6 +143,7 @@ static const char cpu_name[OMAP_MAX + 1][CPU_NAME_MAX_LENGTH] = {
 	[OMAP_4470] = "OMAP4470",
 	[OMAP_5430] = "OMAP5430",
 	[OMAP_5432] = "OMAP5432",
+	[DRA_76X]  = "DRA76X",
 	[DRA_75X]  = "DRA75X",
 	[DRA_72X]  = "DRA72X",
 	[AM_3352] = "AM3352",
@@ -356,7 +358,7 @@ unsigned int cpu_is_am437x(void)
  *//*------------------------------------------------------------------------ */
 unsigned int cpu_is_dra7xx(void)
 {
-	return cpu == DRA_75X || cpu == DRA_72X;
+	return cpu == DRA_75X || cpu == DRA_72X || cpu == DRA_76X;
 }
 
 /* ------------------------------------------------------------------------*//**
@@ -383,6 +385,19 @@ unsigned int cpu_is_dra72x(void)
 unsigned int cpu_is_dra75x(void)
 {
 	return cpu == DRA_75X;
+}
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		cpu_is_dra76x
+ * @BRIEF		check if cpu is DRA76x
+ * @RETURNS		1 if cpu is DRA76x
+ *			0 if cpu is NOT DRA76x
+ * @param[in]		none
+ * @DESCRIPTION		check if cpu is DRA76x
+ *//*------------------------------------------------------------------------ */
+unsigned int cpu_is_dra76x(void)
+{
+	return cpu == DRA_76X;
 }
 
 /* ------------------------------------------------------------------------*//**
@@ -871,7 +886,7 @@ char *cpu_die_id_get(unsigned int *die_id_3, unsigned int *die_id_2,
 	if (cpu_is_am335x() || cpu_is_am437x())
 		return NULL;
 
-	if (cpu_get() == DRA_75X || cpu_get() == DRA_72X) {
+	if (cpu_is_dra7xx()) {
 		die_id_add_3 = DRA7_CONTROL_STD_FUSE_DIE_ID_3;
 		die_id_add_2 = DRA7_CONTROL_STD_FUSE_DIE_ID_2;
 		die_id_add_1 = DRA7_CONTROL_STD_FUSE_DIE_ID_1;
@@ -1099,6 +1114,10 @@ static int identify_omap(void)
 		case DRA74X_ES_2_0_ID_CODE:
 			cpu_set(DRA_75X);
 			cpu_revision_set(REV_ES2_0);
+			break;
+		case DRA76X_ES_1_0_ID_CODE:
+			cpu_set(DRA_76X);
+			cpu_revision_set(REV_ES1_0);
 			break;
 		default:
 			dprintf("%s(): OMAP ID CODE not recognized! (0x%08X)\n",
@@ -1363,6 +1382,13 @@ int cpu_force(char *forced_cpu)
 		cpu_set(DRA_75X);
 		cpu_device_type_set(DEV_GP);
 		cpu_revision_set(REV_ES1_1);
+		cpu_silicon_type_set(STANDARD_PERF_SI);
+		cpu_full_name_set();
+	} else if (strcmp(forced_cpu, "dra76x") == 0) {
+		cpu_forced_set(1);
+		cpu_set(DRA_76X);
+		cpu_device_type_set(DEV_GP);
+		cpu_revision_set(REV_ES1_0);
 		cpu_silicon_type_set(STANDARD_PERF_SI);
 		cpu_full_name_set();
 	} else if (strcmp (forced_cpu, "am3352") == 0) {

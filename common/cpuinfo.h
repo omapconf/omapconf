@@ -62,6 +62,7 @@ typedef enum {
 	OMAP_4470,
 	OMAP_5430,
 	OMAP_5432,
+	DRA_76X,
 	DRA_75X,
 	DRA_72X,
 	AM_3352,
