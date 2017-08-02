@@ -310,6 +310,9 @@ void mod_dra7xx_init(void)
 	opp.name = OPP_HIGH;
 	opp.rate = 532000;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_PLUS;
+	opp.rate = 617000;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	mod.properties = MOD_HAS_STANDBY_STATUS;
 	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
 
@@ -332,6 +335,9 @@ void mod_dra7xx_init(void)
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = 750000;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_PLUS;
+	opp.rate = 1000000;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	mod.properties = MOD_HAS_STANDBY_STATUS;
 	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
@@ -356,6 +362,9 @@ void mod_dra7xx_init(void)
 	opp.name = OPP_HIGH;
 	opp.rate = 750000;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_PLUS;
+	opp.rate = 1000000;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	mod.properties = MOD_HAS_STANDBY_STATUS;
 	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
 
@@ -378,6 +387,9 @@ void mod_dra7xx_init(void)
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = 650000;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_PLUS;
+	opp.rate = 900000;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	mod.properties = MOD_HAS_STANDBY_STATUS/* TBD */;
 	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
@@ -402,6 +414,9 @@ void mod_dra7xx_init(void)
 	opp.name = OPP_HIGH;
 	opp.rate = 650000;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_PLUS;
+	opp.rate = 900000;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	mod.properties = MOD_HAS_STANDBY_STATUS/* TBD */;
 	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
 
@@ -424,6 +439,9 @@ void mod_dra7xx_init(void)
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = 532000;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_PLUS;
+	opp.rate = 665000;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	mod.properties = MOD_HAS_STANDBY_STATUS/* TBD */;
 	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
@@ -448,6 +466,9 @@ void mod_dra7xx_init(void)
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = 1500000;
+	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	opp.name = OPP_PLUS;
+	opp.rate = 1800000;
 	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
 	mod.properties = MOD_HAS_STANDBY_STATUS;
 	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));

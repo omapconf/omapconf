@@ -65,6 +65,7 @@ typedef enum {
 	OPP_DRA7XX_NOM,
 	OPP_DRA7XX_OD,
 	OPP_DRA7XX_HIGH,
+	OPP_DRA7XX_PLUS,
 	OPP_DRA7XX_ID_MAX
 } opp_dra7xx_id;
 

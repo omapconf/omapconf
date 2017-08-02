@@ -93,6 +93,7 @@ void opp_dra7xx_init(void)
 	static const opp_t mpu_opp_nom  = {OPP_NOM,	1060000, 1000000};
 	static const opp_t mpu_opp_od =   {OPP_OD,	1160000, 1176000};
 	static const opp_t mpu_opp_high = {OPP_HIGH,	1250000, 1500000};
+	static const opp_t mpu_opp_plus = {OPP_PLUS,	1250000, 1800000};
 
 	/*
 	 * opp_dra7xx_list is just a reference of how many opp that a
@@ -101,14 +102,17 @@ void opp_dra7xx_init(void)
 	static const opp_t dsp_opp_nom =  {OPP_NOM,	1060000, 600000};
 	static const opp_t dsp_opp_od =   {OPP_OD,	1150000, 700000};
 	static const opp_t dsp_opp_high = {OPP_HIGH,	1250000, 750000};
+	static const opp_t dsp_opp_plus = {OPP_PLUS,	1250000, 1000000};
 
 	static const opp_t iva_opp_nom  = {OPP_NOM,	1060000, 388300};
 	static const opp_t iva_opp_od =   {OPP_OD,	1160000, 430000};
 	static const opp_t iva_opp_high = {OPP_HIGH,	1250000, 532000};
+	static const opp_t iva_opp_plus = {OPP_PLUS,	1250000, 617000};
 
 	static const opp_t gpu_opp_nom  = {OPP_NOM,	1060000, 425600};
 	static const opp_t gpu_opp_od =   {OPP_OD,	1160000, 500000};
 	static const opp_t gpu_opp_high = {OPP_HIGH,	1250000, 532000};
+	static const opp_t gpu_opp_plus = {OPP_PLUS,	1250000, 665000};
 
 	static const opp_t rtc_opp_nom = {OPP_NOM,	1030000, 34000};
 
@@ -130,6 +134,8 @@ void opp_dra7xx_init(void)
 			(void *) &mpu_opp_od, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_mpu_opp_list,
 			(void *) &mpu_opp_high, sizeof(opp_t));
+		genlist_addtail(&vdd_dra7xx_mpu_opp_list,
+			(void *) &mpu_opp_plus, sizeof(opp_t));
 
 		genlist_init(&vdd_dra7xx_dspeve_opp_list);
 		genlist_addtail(&vdd_dra7xx_dspeve_opp_list,
@@ -138,6 +144,8 @@ void opp_dra7xx_init(void)
 			(void *) &dsp_opp_od, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_dspeve_opp_list,
 			(void *) &dsp_opp_high, sizeof(opp_t));
+		genlist_addtail(&vdd_dra7xx_dspeve_opp_list,
+			(void *) &dsp_opp_plus, sizeof(opp_t));
 
 		genlist_init(&vdd_dra7xx_iva_opp_list);
 		genlist_addtail(&vdd_dra7xx_iva_opp_list,
@@ -146,6 +154,8 @@ void opp_dra7xx_init(void)
 			(void *) &iva_opp_od, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_iva_opp_list,
 			(void *) &iva_opp_high, sizeof(opp_t));
+		genlist_addtail(&vdd_dra7xx_iva_opp_list,
+			(void *) &iva_opp_plus, sizeof(opp_t));
 
 		genlist_init(&vdd_dra7xx_gpu_opp_list);
 		genlist_addtail(&vdd_dra7xx_gpu_opp_list,
@@ -154,6 +164,8 @@ void opp_dra7xx_init(void)
 			(void *) &gpu_opp_od, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_gpu_opp_list,
 			(void *) &gpu_opp_high, sizeof(opp_t));
+		genlist_addtail(&vdd_dra7xx_gpu_opp_list,
+			(void *) &gpu_opp_plus, sizeof(opp_t));
 
 		genlist_init(&vdd_dra7xx_rtc_opp_list);
 		genlist_addtail(&vdd_dra7xx_rtc_opp_list,
@@ -226,6 +238,8 @@ int opp_dra7xx_id_get(const char *opp)
 		return (int) OPP_DRA7XX_OD;
 	else if (strcasecmp(opp, OPP_HIGH) == 0)
 		return (int) OPP_DRA7XX_HIGH;
+	else if (strcasecmp(opp, OPP_PLUS) == 0)
+		return (int) OPP_DRA7XX_PLUS;
 	else
 		return OMAPCONF_ERR_ARG;
 }

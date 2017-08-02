@@ -79,6 +79,7 @@
 #define OPP_NOM			((const char *) "NOM")
 #define OPP_OD			((const char *) "OVERDRIVE")
 #define OPP_HIGH		((const char *) "HIGH")
+#define OPP_PLUS		((const char *) "PLUS")
 #define OPP_SB			((const char *) "SPEEDBIN")
 
 /* AM335X OPP */
