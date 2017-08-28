@@ -64,6 +64,8 @@ const char *android_pastry_names[PASTRY_ID_MAX] = {
 	[PASTRY_KK] = "KitKat",
 	[PASTRY_LP] = "Lollipop",
 	[PASTRY_MM] = "Marshmallow",
+	[PASTRY_N] = "Nougat",
+	[PASTRY_O] = "Oreo",
 	[PASTRY_UNKNOWN] = "Unknown"};
 
 
@@ -230,6 +232,10 @@ android_pastry_id android_pastry_get(void)
 				pastry_id = PASTRY_LP;
 			else if (version == 6)
 				pastry_id = PASTRY_MM;
+			else if (version == 7)
+				pastry_id = PASTRY_N;
+			else if (version == 8)
+				pastry_id = PASTRY_O;
 			else
 				pastry_id = PASTRY_UNKNOWN;
 		}
