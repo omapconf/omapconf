@@ -47,6 +47,7 @@
 #include <ctt_am335x.h>
 #include <dpll_am335x.h>
 #include <emif_am335x.h>
+#include <mcasp_am335x.h>
 #include <help.h>
 #include <lib.h>
 #include <main_am335x.h>
@@ -100,7 +101,13 @@ int main_am335x_dump(int argc, char *argv[])
 			return prcm_am335x_dump(argv[1]);
 		else
 			return err_arg_too_many_msg_show(HELP_PRCM);
-	}  else if (strcmp(argv[0], "dpll") == 0) {
+	}  else if (strncmp(argv[0], "mcasp", 5) == 0) {
+		if (argc == 1) {
+			return am335x_mcasp_dumpregs(stdout, argc, argv);
+		} else {
+			return err_arg_too_many_msg_show(HELP_MCASP);
+		}
+	} else if (strcmp(argv[0], "dpll") == 0) {
 		if (argc == 1) {
 			return dpll_am335x_dump(stdout, DPLL_AM335X_ID_MAX);
 		} else if (argc == 2) {
@@ -221,6 +228,12 @@ int main_am335x_show(int argc, char *argv[])
 			return opp_show(stdout);
 		else
 			return err_arg_too_many_msg_show(HELP_SOC_OPP);
+	} else if (strncmp(argv[0], "mcasp", 5) == 0) {
+		if (argc == 1) {
+			return am335x_mcasp_show(stdout, argc, argv);
+		} else {
+			return err_arg_too_many_msg_show(HELP_MCASP);
+		}
 	} else if (strcmp(argv[0], "pwst") == 0) {
 		if (argc == 1)
 			return module_status_show(stdout);
