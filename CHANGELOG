@@ -1,3 +1,37 @@
+v1.74:
+------
+	- [LIB][ANDROID] Extend android product name to include Android 10
+	- [OMAP] Reformat files a final time
+	- [ALL] Fix string truncation and overflow warnings
+	- [ALL] Get rid of unused variables
+	- [ALL] Reformat files
+	- [ALL] Remove the multiline function comment style
+	- [OMAP4][PRCM] Fix un-initalized variable
+	- [OMAP][COMMON] Fix switch statement warnings
+	- [PMIC][TPS65217D] Fix wrong fall through
+	- [COMMON][TRACE] Fix up overflow in strcpy
+	- [LIB][ANDROID] Extend product name to include Pie
+	- [VOLT][DRA7] Introduce support for vminsearch for voltage rails
+	- [VOLT][DRA7] Introduce support for setting voltage in steps
+	- [PMIC][DRA76X] Introduce support to detect PMICs on DRA76x
+	- [PMIC][LP87565] Add basic support for LP87565
+	- [LIB][ANDROID] Extend android product name to include new pastries
+	- [CPUINFO][DRA72] Support SR2.1
+	- [CROSSBAR] [DRA7] Add DRA76x and DRA72x specific crossbar inputs
+	- [PRCM] [DRA7] Update DRA76 specific HS dividers
+	- [DPLL] [DRA7] Add control module HS dividers
+	- [DPLL] [DRA7] Fix HSDIV clock rate
+	- [OPP] [DRA7] Add OPP_PLUS detection support
+	- [OPP] [DRA7] Fix build with OPP_DRA7XX_DEBUG
+	- [OPP] [DRA7] Add OPP_HIGH support for DSPEVE
+	- [OPP] [DRA7] Fix DSPEVE OPP detection
+	- [CPUINFO] [DRA7] Delete unused cpu_dra7xx_cores_count_get function
+	- [CPUINFO] [DRA7] Use efuse to detect Speed grade
+	- [CPUINFO] [DRA7] Add detection of DRA76x SoC
+	- [AM4][CTT] Align register reporting with other tools
+	- [AM4][CTT] Align with CTT-SITARA 1.0.0.1
+	- [DRA7] Skip reporting pwrdm/clkdm error report for dra7xx family
+	- [DRA7] Add support for IPU AMMU decode
 v1.73:
 ------
 	- [AM437X][PRM] Add register definitions for crypto IPs
