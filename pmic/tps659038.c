@@ -172,8 +172,36 @@ unsigned short int tps659038_is_present(void)
 	int ret;
 	unsigned int id_lsb, id_msb;
 	unsigned short present = 0;
+	omap_chip cputype;
 
-	switch (cpu_get()) {
+	cputype = cpu_get();
+
+	switch (cputype) {
+	case DRA_76X:
+		ret = i2cget(TPS659038_I2C_BUS, TPS659038_ID1_ADDR,
+			     TPS659038_PRODUCT_ID_LSB, &id_lsb);
+		if (ret != 0)
+			return 0;
+
+		ret = i2cget(TPS659038_I2C_BUS, TPS659038_ID1_ADDR,
+			     TPS659038_PRODUCT_ID_MSB, &id_msb);
+		if (ret != 0)
+			return 0;
+
+        /* it is a TPS65917 PMIC. fixup structure pointers */
+		if (id_lsb == 0x17 && id_msb == 0x09) {
+			present = 1;
+			tps659038_smps_vdd_dra7xx_iva = &tps65917_smps4;
+			tps659038_smps_vdd_dra7xx_core = &tps65917_smps3;
+			tps659038_smps_vdd_dra7xx_dspeve = &tps659038_smps12;
+
+			tps659038_smps_vdd_dra7xx[0] = NULL;
+			tps659038_smps_vdd_dra7xx[1] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_iva;
+			tps659038_smps_vdd_dra7xx[2] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_core;
+			tps659038_smps_vdd_dra7xx[3] = NULL;
+			tps659038_smps_vdd_dra7xx[4] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_dspeve;
+		}
+		break;
 	case DRA_75X:
 	case DRA_72X:
 		ret = i2cget(TPS659038_I2C_BUS, TPS659038_ID1_ADDR,
