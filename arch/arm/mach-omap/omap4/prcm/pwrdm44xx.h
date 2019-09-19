@@ -41,17 +41,14 @@
  *
  */
 
-
 #ifndef __PWRDM44XX_H__
 #define __PWRDM44XX_H__
-
 
 #include <powerdomain.h>
 #include <pwrdm.h>
 #include <voltdm44xx.h>
 
 #define PWRDM44XX_MAX_NAME_LENGTH		16
-
 
 typedef enum {
 	OMAP4_PD_WKUP,
@@ -74,23 +71,20 @@ typedef enum {
 	OMAP4_PD_ID_MAX
 } pwrdm44xx_id;
 
-
 void pwrdm44xx_init(void);
 void pwrdm44xx_deinit(void);
 
 int pwrdm44xx_count_get(void);
 const genlist *pwrdm44xx_list_get(void);
 
-
 char *pwrdm44xx_get_name(pwrdm44xx_id id, char name[PWRDM44XX_MAX_NAME_LENGTH]);
 voltdm44xx_id pwrdm44xx_get_voltdm(pwrdm44xx_id id);
 int pwrdm_states_get(char *name, char pwst[6], char pwtgst[6]);
-int pwrdm44xx_get_state(pwrdm44xx_id pd_id,
-	pwrdm_state *state);
+int pwrdm44xx_get_state(pwrdm44xx_id pd_id, pwrdm_state * state);
 
-int pwrdm44xx_config_show(FILE *stream, const char name[11],
-	unsigned int pm_pwstctrl_addr, unsigned int pm_pwstctrl,
-	unsigned int pm_pwstst_addr, unsigned int pm_pwstst);
-
+int pwrdm44xx_config_show(FILE * stream, const char name[11],
+			  unsigned int pm_pwstctrl_addr,
+			  unsigned int pm_pwstctrl, unsigned int pm_pwstst_addr,
+			  unsigned int pm_pwstst);
 
 #endif

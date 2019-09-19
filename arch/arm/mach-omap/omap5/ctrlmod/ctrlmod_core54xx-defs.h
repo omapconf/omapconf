@@ -501,8 +501,8 @@ extern reg omap5430_control_core_conf_xbar_sel_28;
 extern reg omap5430_control_core_conf_xbar_bypass;
 #define OMAP5430ES1_CTRL_MODULE_CORE_MOD_REGCOUNT		189
 extern reg
-    *omap5430es1_ctrl_module_core_mod[OMAP5430ES1_CTRL_MODULE_CORE_MOD_REGCOUNT
-				      + 1];
+    * omap5430es1_ctrl_module_core_mod[OMAP5430ES1_CTRL_MODULE_CORE_MOD_REGCOUNT
+				       + 1];
 #define OMAP5430_CTRL_MODULE_CORE_MOD_REGCOUNT			204
 extern reg *omap5430_ctrl_module_core_mod[OMAP5430_CTRL_MODULE_CORE_MOD_REGCOUNT
 					  + 1];

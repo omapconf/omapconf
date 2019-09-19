@@ -114,61 +114,29 @@ typedef struct {
 	int voltage;
 } twl6035_smps_registers;
 
-static const twl6035_smps_registers twl035_smps12 __attribute__((unused)) = {
-	.ctrl = 0x20,
-	.tstep = 0x21,
-	.force = 0x22,
-	.voltage = 0x23
-};
+static const twl6035_smps_registers twl035_smps12 __attribute__ ((unused)) = {
+.ctrl = 0x20,.tstep = 0x21,.force = 0x22,.voltage = 0x23};
 
-static const twl6035_smps_registers twl035_smps3 __attribute__((unused)) = {
-	.ctrl = 0x24,
-	.tstep = -1,
-	.force = -1,
-	.voltage = 0x27
-};
+static const twl6035_smps_registers twl035_smps3 __attribute__ ((unused)) = {
+.ctrl = 0x24,.tstep = -1,.force = -1,.voltage = 0x27};
 
-static const twl6035_smps_registers twl035_smps45 __attribute__((unused)) = {
-	.ctrl = 0x28,
-	.tstep = 0x29,
-	.force = 0x2A,
-	.voltage = 0x2B
-};
+static const twl6035_smps_registers twl035_smps45 __attribute__ ((unused)) = {
+.ctrl = 0x28,.tstep = 0x29,.force = 0x2A,.voltage = 0x2B};
 
-static const twl6035_smps_registers twl035_smps6 __attribute__((unused)) = {
-	.ctrl = 0x2C,
-	.tstep = 0x2D,
-	.force = 0x2E,
-	.voltage = 0x2F
-};
+static const twl6035_smps_registers twl035_smps6 __attribute__ ((unused)) = {
+.ctrl = 0x2C,.tstep = 0x2D,.force = 0x2E,.voltage = 0x2F};
 
-static const twl6035_smps_registers twl035_smps7 __attribute__((unused)) = {
-	.ctrl = 0x30,
-	.tstep = -1,
-	.force = -1,
-	.voltage = 0x33
-};
+static const twl6035_smps_registers twl035_smps7 __attribute__ ((unused)) = {
+.ctrl = 0x30,.tstep = -1,.force = -1,.voltage = 0x33};
 
-static const twl6035_smps_registers twl035_smps8 __attribute__((unused)) = {
-	.ctrl = 0x34,
-	.tstep = 0x35,
-	.force = 0x36,
-	.voltage = 0x37
-};
+static const twl6035_smps_registers twl035_smps8 __attribute__ ((unused)) = {
+.ctrl = 0x34,.tstep = 0x35,.force = 0x36,.voltage = 0x37};
 
-static const twl6035_smps_registers twl035_smps9 __attribute__((unused)) = {
-	.ctrl = 0x38,
-	.tstep = -1,
-	.force = -1,
-	.voltage = 0x3B
-};
+static const twl6035_smps_registers twl035_smps9 __attribute__ ((unused)) = {
+.ctrl = 0x38,.tstep = -1,.force = -1,.voltage = 0x3B};
 
-static const twl6035_smps_registers twl035_smps10 __attribute__((unused)) = {
-	.ctrl = 0x3C,
-	.tstep = -1,
-	.force = -1,
-	.voltage = -1
-};
+static const twl6035_smps_registers twl035_smps10 __attribute__ ((unused)) = {
+.ctrl = 0x3C,.tstep = -1,.force = -1,.voltage = -1};
 
 static const twl6035_smps_registers *twl6035_smps_vdd54xx_mpu = &twl035_smps12;
 static const twl6035_smps_registers *twl6035_smps_vdd54xx_mm = &twl035_smps45;

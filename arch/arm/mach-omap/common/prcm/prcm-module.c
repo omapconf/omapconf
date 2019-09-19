@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <prcm-module.h>
 #include <lib.h>
 #include <string.h>
@@ -50,7 +49,6 @@
 #include <cpuinfo.h>
 #include <opp.h>
 
-
 /* #define MOD_DEBUG */
 #ifdef MOD_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -58,65 +56,71 @@
 #define dprintf(format, ...)
 #endif
 
-
 static const char
-	mod_autoidle_mode_names_table[MOD_AUTOIDLE_MODE_MAX + 1][MODULE_MODES_MAX_NAME_LENGTH] = {
+ mod_autoidle_mode_names_table[MOD_AUTOIDLE_MODE_MAX +
+			       1][MODULE_MODES_MAX_NAME_LENGTH] = {
 	"Free Running",
 	"Autogating",
-	"FIXME"};
-
+	"FIXME"
+};
 
 static const char
-	mod_idle_mode_names_table[MOD_IDLE_MODE_MAX + 1][MODULE_MODES_MAX_NAME_LENGTH] = {
+ mod_idle_mode_names_table[MOD_IDLE_MODE_MAX +
+			   1][MODULE_MODES_MAX_NAME_LENGTH] = {
 	"Force-Idle",
 	"No Idle",
 	"Smart-Idle",
 	"Smart-Idle Wakeup",
-	"FIXME"};
-
+	"FIXME"
+};
 
 static const char
-	mod_idle_status_names_table[MOD_IDLE_STATUS_MAX + 1][MODULE_MODES_MAX_NAME_LENGTH] = {
+ mod_idle_status_names_table[MOD_IDLE_STATUS_MAX +
+			     1][MODULE_MODES_MAX_NAME_LENGTH] = {
 	"Full ON",
 	"In Transition",
 	"OCP-ONLY Idle",
 	"Disabled (NO ACCESS)",
-	"FIXME"};
-
+	"FIXME"
+};
 
 static const char
-	mod_standby_mode_names_table[MOD_STANDBY_MODE_MAX + 1][MODULE_MODES_MAX_NAME_LENGTH] = {
+ mod_standby_mode_names_table[MOD_STANDBY_MODE_MAX +
+			      1][MODULE_MODES_MAX_NAME_LENGTH] = {
 	"Force-standby",
 	"No standby",
 	"Smart-Standby",
 	"Reserved",
-	"FIXME"};
-
+	"FIXME"
+};
 
 static const char
-	mod_standby_status_names_table[MOD_STANDBY_STATUS_MAX + 1][MODULE_MODES_MAX_NAME_LENGTH] = {
+ mod_standby_status_names_table[MOD_STANDBY_STATUS_MAX +
+				1][MODULE_MODES_MAX_NAME_LENGTH] = {
 	"Functional",
 	"In Standby",
-	"FIXME"};
-
+	"FIXME"
+};
 
 static const char
-	mod_module_mode_names_table[MOD_MODULE_MODE_MAX + 1][MODULE_MODES_MAX_NAME_LENGTH] = {
+ mod_module_mode_names_table[MOD_MODULE_MODE_MAX +
+			     1][MODULE_MODES_MAX_NAME_LENGTH] = {
 	"Disabled (NO ACCESS)",
 	"HW-Auto",
 	"Enabled (EXPLICITLY)",
 	"Reserved",
-	"FIXME"};
-
+	"FIXME"
+};
 
 static const char
-	mod_clock_activity_mode_names_table[MOD_CLOCK_ACTIVITY_MODE_MAX + 1][MODULE_MODES_MAX_NAME_LENGTH] = {
+ mod_clock_activity_mode_names_table[MOD_CLOCK_ACTIVITY_MODE_MAX +
+				     1][MODULE_MODES_MAX_NAME_LENGTH] = {
 	"F-CLK AUTO / I-CLK AUTO",
 	"F-CLK AUTO / I-CLK ON",
 	"F-CLK ON / I-CLK AUTO",
 	"F-CLK ON / I-CLK ON",
-	"FIXME"};
-
+	"FIXME"
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_module_mode_name_get
@@ -134,7 +138,6 @@ const char *mod_module_mode_name_get(mod_module_mode mode)
 	return mod_module_mode_names_table[mode];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_autoidle_mode_name_get
  * @BRIEF		return autoidle mode name
@@ -150,7 +153,6 @@ const char *mod_autoidle_mode_name_get(mod_autoidle_mode mode)
 
 	return mod_autoidle_mode_names_table[mode];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_idle_mode_name_get
@@ -168,7 +170,6 @@ const char *mod_idle_mode_name_get(mod_idle_mode mode)
 	return mod_idle_mode_names_table[mode];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_standby_mode_name_get
  * @BRIEF		return standby mode name
@@ -184,7 +185,6 @@ const char *mod_standby_mode_name_get(mod_standby_mode mode)
 
 	return mod_standby_mode_names_table[mode];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_clock_activity_mode_name_get
@@ -202,7 +202,6 @@ const char *mod_clock_activity_mode_name_get(mod_clock_activity_mode mode)
 	return mod_clock_activity_mode_names_table[mode];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_idle_status_name_get
  * @BRIEF		return module idle status name
@@ -218,7 +217,6 @@ const char *mod_idle_status_name_get(mod_idle_status status)
 
 	return mod_idle_status_names_table[status];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_standby_status_name_get
@@ -236,7 +234,6 @@ const char *mod_standby_status_name_get(mod_standby_status status)
 	return mod_standby_status_names_table[status];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_is_accessible
  * @BRIEF		return 1 if module is running, 0 otherwise
@@ -252,8 +249,7 @@ unsigned int mod_is_accessible(unsigned int cm_clkctrl)
 	/* Retrieve module mode */
 	mmode = (mod_module_mode) extract_bitfield(cm_clkctrl, 0, 2);
 	dprintf("%s(): CM_CLKCTRL=0x%08X MODULEMODE (bit [1-0])=%u (%s)\n",
-		__func__, cm_clkctrl, mmode,
-		mod_module_mode_name_get(mmode));
+		__func__, cm_clkctrl, mmode, mod_module_mode_name_get(mmode));
 
 	if (mmode == MOD_DISABLED_MODE) {
 		dprintf("%s(): module mode is disabled => NOT accessible\n",
@@ -280,9 +276,9 @@ unsigned int mod_is_accessible(unsigned int cm_clkctrl)
 		 * the module is tentatively accessed, so it is safer to always
 		 * consider module as non-accessible.
 		 */
-		dprintf(
-			"%s(): module is performing transition: wakeup, or sleep, or sleep abortion => NOT accessible\n",
-			__func__);
+		dprintf
+		    ("%s(): module is performing transition: wakeup, or sleep, or sleep abortion => NOT accessible\n",
+		     __func__);
 		return 0;
 
 	case MOD_OCP_ONLY_IDLE:
@@ -290,16 +286,16 @@ unsigned int mod_is_accessible(unsigned int cm_clkctrl)
 		 * Module is in Idle mode (only OCP part). OCP clock can be
 		 * re-enabled on access, so module is accessible.
 		 */
-		dprintf(
-			"%s(): module is in Idle mode (only OCP part) => accessible\n",
-			__func__);
+		dprintf
+		    ("%s(): module is in Idle mode (only OCP part) => accessible\n",
+		     __func__);
 		return 1;
 
 	case MOD_DISABLED:
 		/* Module is disabled and cannot be accessed. */
-		dprintf(
-			"%s(): module is disabled and cannot be accessed => NOT accessible\n",
-			__func__);
+		dprintf
+		    ("%s(): module is disabled and cannot be accessed => NOT accessible\n",
+		     __func__);
 		return 0;
 
 	default:
@@ -307,7 +303,6 @@ unsigned int mod_is_accessible(unsigned int cm_clkctrl)
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_module_mode_get
@@ -322,14 +317,11 @@ mod_module_mode mod_module_mode_get(unsigned int cm_clkctrl)
 	mod_module_mode mmode;
 
 	mmode = (mod_module_mode) extract_bitfield(cm_clkctrl, 0, 2);
-	dprintf(
-		"%s(): CM_CLKCTRL=0x%08X MODULEMODE (bit [1-0])=%u (%s)\n",
-		__func__, cm_clkctrl, mmode,
-		mod_module_mode_name_get(mmode));
+	dprintf("%s(): CM_CLKCTRL=0x%08X MODULEMODE (bit [1-0])=%u (%s)\n",
+		__func__, cm_clkctrl, mmode, mod_module_mode_name_get(mmode));
 
 	return mmode;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_idle_status_get
@@ -340,8 +332,8 @@ mod_module_mode mod_module_mode_get(unsigned int cm_clkctrl)
  * @param[in]		properties: module properties
  * @DESCRIPTION		retrieve module's idle status from CM_xxx_xxx_CLKCTRL
  *------------------------------------------------------------------------ */
-mod_idle_status mod_idle_status_get(
-	unsigned int cm_clkctrl, unsigned int properties)
+mod_idle_status mod_idle_status_get(unsigned int cm_clkctrl,
+				    unsigned int properties)
 {
 	mod_idle_status mstatus;
 
@@ -351,15 +343,14 @@ mod_idle_status mod_idle_status_get(
 		mstatus = MOD_IDLE_STATUS_MAX;
 	} else {
 		mstatus = (mod_idle_status) extract_bitfield(cm_clkctrl, 16, 2);
-		dprintf(
-			"%s(): CM_CLKCTRL=0x%08X, IDLEST (bit [17-16])=%u (%s)\n",
-			__func__, cm_clkctrl, mstatus,
-			mod_idle_status_name_get(mstatus));
+		dprintf
+		    ("%s(): CM_CLKCTRL=0x%08X, IDLEST (bit [17-16])=%u (%s)\n",
+		     __func__, cm_clkctrl, mstatus,
+		     mod_idle_status_name_get(mstatus));
 	}
 
 	return mstatus;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_standby_status_get
@@ -370,15 +361,14 @@ mod_idle_status mod_idle_status_get(
  * @param[in]		properties: module properties
  * @DESCRIPTION		retrieve module standby status from CM_xxx_xxx_CLKCTRL
  *------------------------------------------------------------------------ */
-mod_standby_status mod_standby_status_get(
-	unsigned int cm_clkctrl, unsigned int properties)
+mod_standby_status mod_standby_status_get(unsigned int cm_clkctrl,
+					  unsigned int properties)
 {
 	mod_standby_status mstatus;
 
 	if ((properties & MOD_HAS_STANDBY_STATUS) != 0) {
 		mstatus = (mod_standby_status) extract_bit(cm_clkctrl, 18);
-		dprintf(
-			"%s(): CM_CLKCTRL=0x%08X, STANDBYST (bit 18)=%u (%s)\n",
+		dprintf("%s(): CM_CLKCTRL=0x%08X, STANDBYST (bit 18)=%u (%s)\n",
 			__func__, cm_clkctrl, mstatus,
 			mod_standby_status_name_get(mstatus));
 	} else {
@@ -390,7 +380,6 @@ mod_standby_status mod_standby_status_get(
 	return mstatus;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_autoidle_mode_get
  * @BRIEF		retrieve module autoidle mode
@@ -400,15 +389,14 @@ mod_standby_status mod_standby_status_get(
  * @param[in]		properties: module properties
  * @DESCRIPTION		retrieve module autoidle mode
  *------------------------------------------------------------------------ */
-mod_autoidle_mode mod_autoidle_mode_get(
-	unsigned int sysconfig, unsigned int properties)
+mod_autoidle_mode mod_autoidle_mode_get(unsigned int sysconfig,
+					unsigned int properties)
 {
 	mod_autoidle_mode mode;
 
 	if ((properties & MOD_HAS_AUTOIDLE_BIT0) != 0) {
 		mode = (mod_autoidle_mode) extract_bit(sysconfig, 0);
-		dprintf(
-			"%s(): SYSCONFIG=0x%08X POS=0 AUTOIDLE MODE=%u (%s)\n",
+		dprintf("%s(): SYSCONFIG=0x%08X POS=0 AUTOIDLE MODE=%u (%s)\n",
 			__func__, sysconfig, mode,
 			mod_autoidle_mode_name_get(mode));
 	} else if ((properties & MOD_HAS_AUTOIDLE_BIT8) != 0) {
@@ -416,7 +404,7 @@ mod_autoidle_mode mod_autoidle_mode_get(
 		 * NB: AUTOGATINGDISABLE instead of AUTOGATING,
 		 * bit is inverted compared to other modules ...
 		 */
-		mode = (mod_autoidle_mode) !extract_bit(sysconfig, 8);
+		mode = (mod_autoidle_mode) ! extract_bit(sysconfig, 8);
 		dprintf("%s(): SYSCONFIG=0x%08X POS=8 AUTOIDLE MODE=%u (%s)\n",
 			__func__, sysconfig, mode,
 			mod_autoidle_mode_name_get(mode));
@@ -429,7 +417,6 @@ mod_autoidle_mode mod_autoidle_mode_get(
 	return mode;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_idle_mode_get
  * @BRIEF		retrieve omap module's idle mode
@@ -439,15 +426,13 @@ mod_autoidle_mode mod_autoidle_mode_get(
  * @param[in]		properties: module properties
  * @DESCRIPTION		retrieve omap module's idle mode
  *------------------------------------------------------------------------ */
-mod_idle_mode mod_idle_mode_get(
-	unsigned int sysconfig, unsigned int properties)
+mod_idle_mode mod_idle_mode_get(unsigned int sysconfig, unsigned int properties)
 {
 	mod_idle_mode mode;
 
 	if ((properties & MOD_HAS_IDLE_MODE1) != 0) {
 		mode = (mod_idle_mode) extract_bitfield(sysconfig, 0, 2);
-		dprintf(
-			"%s(): SYSCONFIG=0x%08X POS=[1-0] IDLE MODE=%u (%s)\n",
+		dprintf("%s(): SYSCONFIG=0x%08X POS=[1-0] IDLE MODE=%u (%s)\n",
 			__func__, sysconfig, mode,
 			mod_idle_mode_name_get(mode));
 	} else if ((properties & MOD_HAS_IDLE_MODE3) != 0) {
@@ -469,7 +454,6 @@ mod_idle_mode mod_idle_mode_get(
 	return mode;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_standby_mode_get
  * @BRIEF		retrieve omap module's standby mode
@@ -479,23 +463,23 @@ mod_idle_mode mod_idle_mode_get(
  * @param[in]		properties: module properties
  * @DESCRIPTION		retrieve omap module's standby mode
  *------------------------------------------------------------------------ */
-mod_standby_mode mod_standby_mode_get(
-	unsigned int sysconfig, unsigned int properties)
+mod_standby_mode mod_standby_mode_get(unsigned int sysconfig,
+				      unsigned int properties)
 {
 	mod_standby_mode mode;
 
 	if ((properties & MOD_HAS_STANDBY_MODE5) != 0) {
 		mode = (mod_standby_mode) extract_bitfield(sysconfig, 4, 2);
-		dprintf(
-			"%s(): SYSCONFIG=0x%08X POS=[5-4] STANDBY MODE=%u (%s)\n",
-			__func__, sysconfig, mode,
-			mod_standby_mode_name_get(mode));
+		dprintf
+		    ("%s(): SYSCONFIG=0x%08X POS=[5-4] STANDBY MODE=%u (%s)\n",
+		     __func__, sysconfig, mode,
+		     mod_standby_mode_name_get(mode));
 	} else if ((properties & MOD_HAS_STANDBY_MODE13) != 0) {
 		mode = (mod_standby_mode) extract_bitfield(sysconfig, 12, 2);
-		dprintf(
-			"%s(): SYSCONFIG=0x%08X POS=[13-12] STANDBY MODE=%u (%s)\n",
-			__func__, sysconfig, mode,
-			mod_standby_mode_name_get(mode));
+		dprintf
+		    ("%s(): SYSCONFIG=0x%08X POS=[13-12] STANDBY MODE=%u (%s)\n",
+		     __func__, sysconfig, mode,
+		     mod_standby_mode_name_get(mode));
 	} else {
 		dprintf("%s(): MODULE DOES NOT HAVE STANDBY MODE?! (%u)\n",
 			__func__, properties);
@@ -504,7 +488,6 @@ mod_standby_mode mod_standby_mode_get(
 
 	return mode;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_clock_activity_mode_get
@@ -515,17 +498,18 @@ mod_standby_mode mod_standby_mode_get(
  * @param[in]		properties: module properties
  * @DESCRIPTION		retrieve omap module's clock activity mode
  *------------------------------------------------------------------------ */
-mod_clock_activity_mode mod_clock_activity_mode_get(
-	unsigned int sysconfig, unsigned int properties)
+mod_clock_activity_mode mod_clock_activity_mode_get(unsigned int sysconfig,
+						    unsigned int properties)
 {
 	mod_clock_activity_mode mode;
 
 	if ((properties & MOD_HAS_CLOCK_ACTIVITY_MODE) != 0) {
-		mode = (mod_clock_activity_mode) extract_bitfield(sysconfig, 8, 2);
-		dprintf(
-			"%s(): SYSCONFIG=0x%08X POS=[9-8] CLOCK ACTIVITY MODE=%u (%s)\n",
-			__func__, sysconfig, mode,
-			mod_clock_activity_mode_name_get(mode));
+		mode =
+		    (mod_clock_activity_mode) extract_bitfield(sysconfig, 8, 2);
+		dprintf
+		    ("%s(): SYSCONFIG=0x%08X POS=[9-8] CLOCK ACTIVITY MODE=%u (%s)\n",
+		     __func__, sysconfig, mode,
+		     mod_clock_activity_mode_name_get(mode));
 	} else {
 		dprintf("%s(): module does NOT have clock activity mode (%u)\n",
 			__func__, properties);
@@ -534,7 +518,6 @@ mod_clock_activity_mode mod_clock_activity_mode_get(
 
 	return mode;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_context_is_lost
@@ -553,14 +536,12 @@ int mod_context_is_lost(unsigned int rm_context)
 	int lost;
 	if (rm_context == 0) {
 		/* All memory bank(s) were retained */
-		dprintf(
-			"%s(): RM_CONTEXT=0x%08X => context is RETAINED\n",
+		dprintf("%s(): RM_CONTEXT=0x%08X => context is RETAINED\n",
 			__func__, rm_context);
 		lost = 0;
 	} else {
 		/* At least 1 memory bank was lost */
-		dprintf(
-			"%s(): RM_CONTEXT=0x%08X => context is LOST\n",
+		dprintf("%s(): RM_CONTEXT=0x%08X => context is LOST\n",
 			__func__, rm_context);
 		lost = 1;
 	}

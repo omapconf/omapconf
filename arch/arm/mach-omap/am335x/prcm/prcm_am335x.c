@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <clockdomain.h>
 #include <cm_am335x.h>
 #include <cpuinfo.h>
@@ -53,13 +52,11 @@
 #include <prm_am335x.h>
 #include <string.h>
 
-
 #ifdef PRCM_AM335X_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_am335x_wkup_dump
@@ -71,7 +68,7 @@
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump WKUP PRCM registers and pretty-print it
  *------------------------------------------------------------------------ */
-static inline int _prcm_am335x_wkup_dump(FILE *stream)
+static inline int _prcm_am335x_wkup_dump(FILE * stream)
 {
 	int ret;
 
@@ -80,7 +77,6 @@ static inline int _prcm_am335x_wkup_dump(FILE *stream)
 		return ret;
 	return cm_am335x_dump(stream, CM_AM335X_CM_WKUP);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_am335x_mpu_dump
@@ -92,7 +88,7 @@ static inline int _prcm_am335x_wkup_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump MPU PRCM registers and pretty-print it
  *------------------------------------------------------------------------ */
-static inline int _prcm_am335x_mpu_dump(FILE *stream)
+static inline int _prcm_am335x_mpu_dump(FILE * stream)
 {
 	int ret;
 
@@ -101,7 +97,6 @@ static inline int _prcm_am335x_mpu_dump(FILE *stream)
 		return ret;
 	return cm_am335x_dump(stream, CM_AM335X_CM_MPU);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_am335x_gfx_dump
@@ -113,7 +108,7 @@ static inline int _prcm_am335x_mpu_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump GFX PRCM registers and pretty-print it
  *------------------------------------------------------------------------ */
-static inline int _prcm_am335x_gfx_dump(FILE *stream)
+static inline int _prcm_am335x_gfx_dump(FILE * stream)
 {
 	int ret;
 
@@ -122,7 +117,6 @@ static inline int _prcm_am335x_gfx_dump(FILE *stream)
 		return ret;
 	return cm_am335x_dump(stream, CM_AM335X_CM_GFX);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_am335x_per_dump
@@ -134,7 +128,7 @@ static inline int _prcm_am335x_gfx_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump PER PRCM registers and pretty-print it
  *------------------------------------------------------------------------ */
-static inline int _prcm_am335x_per_dump(FILE *stream)
+static inline int _prcm_am335x_per_dump(FILE * stream)
 {
 	int ret;
 
@@ -143,7 +137,6 @@ static inline int _prcm_am335x_per_dump(FILE *stream)
 		return ret;
 	return cm_am335x_dump(stream, CM_AM335X_CM_PER);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_am335x_rtc_dump
@@ -155,7 +148,7 @@ static inline int _prcm_am335x_per_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump RTC PRCM registers and pretty-print it
  *------------------------------------------------------------------------ */
-static inline int _prcm_am335x_rtc_dump(FILE *stream)
+static inline int _prcm_am335x_rtc_dump(FILE * stream)
 {
 	int ret;
 
@@ -164,7 +157,6 @@ static inline int _prcm_am335x_rtc_dump(FILE *stream)
 		return ret;
 	return cm_am335x_dump(stream, CM_AM335X_CM_RTC);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_am335x_efuse_dump
@@ -176,7 +168,7 @@ static inline int _prcm_am335x_rtc_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump MPU PRCM registers and pretty-print it
  *------------------------------------------------------------------------ */
-static inline int _prcm_am335x_efuse_dump(FILE *stream)
+static inline int _prcm_am335x_efuse_dump(FILE * stream)
 {
 	int ret;
 
@@ -185,7 +177,6 @@ static inline int _prcm_am335x_efuse_dump(FILE *stream)
 		return ret;
 	return cm_am335x_dump(stream, CM_AM335X_CM_CEFUSE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_am335x_dev_dump
@@ -197,7 +188,7 @@ static inline int _prcm_am335x_efuse_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump DEVICE PRCM registers and pretty-print it
  *------------------------------------------------------------------------ */
-static inline int _prcm_am335x_dev_dump(FILE *stream)
+static inline int _prcm_am335x_dev_dump(FILE * stream)
 {
 	int ret;
 
@@ -206,7 +197,6 @@ static inline int _prcm_am335x_dev_dump(FILE *stream)
 		return ret;
 	return cm_am335x_dump(stream, CM_AM335X_CM_DEVICE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		prcm_am335x_dump

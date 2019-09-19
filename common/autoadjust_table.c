@@ -104,8 +104,7 @@
  *	|------------------------------------------------------------------|
  *------------------------------------------------------------------------ */
 int autoadjust_table_generic_fprint(FILE * stream,
-				    char
-				    table[TABLE_MAX_ROW][TABLE_MAX_COL]
+				    char table[TABLE_MAX_ROW][TABLE_MAX_COL]
 				    [TABLE_MAX_ELT_LEN], unsigned int row_nbr,
 				    unsigned int col_nbr, unsigned int flags)
 {
@@ -309,8 +308,7 @@ int autoadjust_table_generic_fprint(FILE * stream,
  *	|------------------------------------------------------------------|
  *------------------------------------------------------------------------ */
 int autoadjust_table_fprint(FILE * stream,
-			    char
-			    table[TABLE_MAX_ROW][TABLE_MAX_COL]
+			    char table[TABLE_MAX_ROW][TABLE_MAX_COL]
 			    [TABLE_MAX_ELT_LEN], unsigned int row_nbr,
 			    unsigned int col_nbr)
 {
@@ -341,8 +339,7 @@ int autoadjust_table_fprint(FILE * stream,
  *	| elements[row-1][0] | elements[row-1][1] | elements[row-1][col-1] |
  *	|------------------------------------------------------------------|
  *------------------------------------------------------------------------ */
-int autoadjust_table_print(char
-			   table[TABLE_MAX_ROW][TABLE_MAX_COL]
+int autoadjust_table_print(char table[TABLE_MAX_ROW][TABLE_MAX_COL]
 			   [TABLE_MAX_ELT_LEN], unsigned int row_nbr,
 			   unsigned int col_nbr)
 {
@@ -363,8 +360,7 @@ int autoadjust_table_print(char
  * @param[in]		s: string to copy
  * @DESCRIPTION		copy string into table element, making sure it can fit.
  *------------------------------------------------------------------------ */
-int autoadjust_table_strncpy(char
-			     table[TABLE_MAX_ROW][TABLE_MAX_COL]
+int autoadjust_table_strncpy(char table[TABLE_MAX_ROW][TABLE_MAX_COL]
 			     [TABLE_MAX_ELT_LEN], unsigned int row,
 			     unsigned int col, char s[TABLE_MAX_ELT_LEN])
 {
@@ -407,8 +403,7 @@ int autoadjust_table_strncpy(char
  * @DESCRIPTION		fill table with empty strings, so that user does not
  *			need to fill empty cell(s).
  *------------------------------------------------------------------------ */
-int autoadjust_table_init(char
-			  table[TABLE_MAX_ROW][TABLE_MAX_COL]
+int autoadjust_table_init(char table[TABLE_MAX_ROW][TABLE_MAX_COL]
 			  [TABLE_MAX_ELT_LEN])
 {
 	unsigned int col, row;

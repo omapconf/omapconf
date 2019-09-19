@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <cm44xx.h>
 #include <prm44xx.h>
 #include <lib44xx.h>
@@ -52,7 +51,6 @@
 #include <cpuinfo.h>
 #include <string.h>
 
-
 /* #define WKDEP44XX_DEBUG */
 #ifdef WKDEP44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -60,12 +58,10 @@
 #define dprintf(format, ...)
 #endif
 
-
 static reg_table omap4_prcm_wkdep_reg_table[57];
 static unsigned int init_done = 0;
 
 static int wkdep44xx_regtable_init(void);
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		wkdep44xx_name2addr
@@ -87,7 +83,6 @@ int wkdep44xx_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, omap4_prcm_wkdep_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		wkdep44xx_dump
  * @BRIEF		dump PRCM WKDEP registers
@@ -105,7 +100,6 @@ int wkdep44xx_dump(void)
 
 	return dumpregs(omap4_prcm_wkdep_reg_table);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		wkdep44xx_config_show
@@ -136,75 +130,75 @@ int wkdep44xx_config_show(void)
 		wkdep44xx_regtable_init();
 
 	printf("|-------------------------------------------------------"
-		"-----------------|\n");
+	       "-----------------|\n");
 	printf("| PRM WKDEP Configuration                               "
-		"                 |\n");
+	       "                 |\n");
 	printf("|-------------------------------------------------------"
-		"-----------------|\n");
+	       "-----------------|\n");
 	printf("|                  |                            (Signal)"
-		"                 |\n");
+	       "                 |\n");
 	printf("|                  |                            TOWARDS "
-		"                 |\n");
+	       "                 |\n");
 	printf("|-------------------------------------------------------"
-		"-----------------|\n");
+	       "-----------------|\n");
 	printf("|                  |         (SWakeup_IRQ)         |    "
-		"(SWakeup_DMA)    |\n");
+	       "(SWakeup_DMA)    |\n");
 	printf("| FROM             | A9 | M3 | DSP | sDMA+L3_[1-2] | DSP"
-		" | sDMA+L3_[1-2] |\n");
+	       " | sDMA+L3_[1-2] |\n");
 	printf("|-------------------------------------------------------"
-		"-----------------|\n");
+	       "-----------------|\n");
 	for (i = 0; omap4_prcm_wkdep_reg_table[i].addr != 0; i++) {
 		if ((strcmp(omap4_prcm_wkdep_reg_table[i].name,
-				"PM_DSS_DSS_WKDEP") != 0) &&
-			(strcmp(omap4_prcm_wkdep_reg_table[i].name,
-				"PM_L3INIT_HSI_WKDEP") != 0) &&
-			(strcmp(omap4_prcm_wkdep_reg_table[i].name,
-				"PM_WKUP_GPIO1_WKDEP") != 0) &&
-			(strcmp(omap4_prcm_wkdep_reg_table[i].name,
-				"PM_L4PER_GPIO2_WKDEP") != 0) &&
-			(strcmp(omap4_prcm_wkdep_reg_table[i].name,
-				"PM_L4PER_GPIO3_WKDEP") != 0) &&
-			(strcmp(omap4_prcm_wkdep_reg_table[i].name,
-				"PM_L4PER_GPIO4_WKDEP") != 0) &&
-			(strcmp(omap4_prcm_wkdep_reg_table[i].name,
-				"PM_L4PER_GPIO5_WKDEP") != 0) &&
-			(strcmp(omap4_prcm_wkdep_reg_table[i].name,
-				"PM_L4PER_GPIO6_WKDEP") != 0)) {
+			    "PM_DSS_DSS_WKDEP") != 0) &&
+		    (strcmp(omap4_prcm_wkdep_reg_table[i].name,
+			    "PM_L3INIT_HSI_WKDEP") != 0) &&
+		    (strcmp(omap4_prcm_wkdep_reg_table[i].name,
+			    "PM_WKUP_GPIO1_WKDEP") != 0) &&
+		    (strcmp(omap4_prcm_wkdep_reg_table[i].name,
+			    "PM_L4PER_GPIO2_WKDEP") != 0) &&
+		    (strcmp(omap4_prcm_wkdep_reg_table[i].name,
+			    "PM_L4PER_GPIO3_WKDEP") != 0) &&
+		    (strcmp(omap4_prcm_wkdep_reg_table[i].name,
+			    "PM_L4PER_GPIO4_WKDEP") != 0) &&
+		    (strcmp(omap4_prcm_wkdep_reg_table[i].name,
+			    "PM_L4PER_GPIO5_WKDEP") != 0) &&
+		    (strcmp(omap4_prcm_wkdep_reg_table[i].name,
+			    "PM_L4PER_GPIO6_WKDEP") != 0)) {
 			/* Read Register */
 			if (mem_read(omap4_prcm_wkdep_reg_table[i].addr,
-					&pm_wkdep) != 0)
+				     &pm_wkdep) != 0)
 				return OMAPCONF_ERR_REG_ACCESS;
 			/* Extract WKDEP name from WKDEP register name */
 			strncpy(name,
 				omap4_prcm_wkdep_reg_table[i].name +
-					3 * sizeof(char),
+				3 * sizeof(char),
 				strlen(omap4_prcm_wkdep_reg_table[i].name)
-					- 9 * sizeof(char));
+				- 9 * sizeof(char));
 			name[strlen(omap4_prcm_wkdep_reg_table[i].name)
-					- 9 * sizeof(char)] = '\0';
+			     - 9 * sizeof(char)] = '\0';
 			dprintf("wkdep44xx_config_show(): "
 				"pm_wkdep=%08x, name=%s\n", pm_wkdep, name);
 			/* Extract WKDEP control bits from register */
 			OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 0),
-				mpu_irq_wkdep, "EN", "");
+					     mpu_irq_wkdep, "EN", "");
 			OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 1),
-				m3_irq_wkdep, "EN", "");
+					     m3_irq_wkdep, "EN", "");
 			OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 2),
-				dsp_irq_wkdep, "EN", "");
+					     dsp_irq_wkdep, "EN", "");
 			OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 3),
-				sdma_irq_wkdep, "EN", "");
+					     sdma_irq_wkdep, "EN", "");
 			OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 6),
-				dsp_dma_wkdep, "EN", "");
+					     dsp_dma_wkdep, "EN", "");
 			OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 7),
-				sdma_dma_wkdep, "EN", "");
+					     sdma_dma_wkdep, "EN", "");
 			printf("| %-16s | %-2s | %-2s | %-2s  |"
-					" %-13s | %-2s  | %-13s |\n", name,
-				mpu_irq_wkdep, m3_irq_wkdep, dsp_irq_wkdep,
-				sdma_irq_wkdep, dsp_dma_wkdep, sdma_dma_wkdep);
+			       " %-13s | %-2s  | %-13s |\n", name,
+			       mpu_irq_wkdep, m3_irq_wkdep, dsp_irq_wkdep,
+			       sdma_irq_wkdep, dsp_dma_wkdep, sdma_dma_wkdep);
 		}
 	}
 	printf("|-------------------------------------------------------"
-		"-----------------|\n\n");
+	       "-----------------|\n\n");
 
 	printf("|---------------------------------------------------------|\n");
 	printf("| PRM GPIO[1-6] WKDEP Configuration                       |\n");
@@ -217,44 +211,44 @@ int wkdep44xx_config_show(void)
 	printf("|---------------------------------------------------------|\n");
 	for (i = 0; omap4_prcm_wkdep_reg_table[i].addr != 0; i++) {
 		if ((strcmp(omap4_prcm_wkdep_reg_table[i].name,
-				"PM_WKUP_GPIO1_WKDEP") == 0) ||
-			(strcmp(omap4_prcm_wkdep_reg_table[i].name,
-				"PM_L4PER_GPIO2_WKDEP") == 0) ||
-			(strcmp(omap4_prcm_wkdep_reg_table[i].name,
-				"PM_L4PER_GPIO3_WKDEP") == 0) ||
-			(strcmp(omap4_prcm_wkdep_reg_table[i].name,
-				"PM_L4PER_GPIO4_WKDEP") == 0) ||
-			(strcmp(omap4_prcm_wkdep_reg_table[i].name,
-				"PM_L4PER_GPIO5_WKDEP") == 0) ||
-			(strcmp(omap4_prcm_wkdep_reg_table[i].name,
-				"PM_L4PER_GPIO6_WKDEP") == 0)) {
+			    "PM_WKUP_GPIO1_WKDEP") == 0) ||
+		    (strcmp(omap4_prcm_wkdep_reg_table[i].name,
+			    "PM_L4PER_GPIO2_WKDEP") == 0) ||
+		    (strcmp(omap4_prcm_wkdep_reg_table[i].name,
+			    "PM_L4PER_GPIO3_WKDEP") == 0) ||
+		    (strcmp(omap4_prcm_wkdep_reg_table[i].name,
+			    "PM_L4PER_GPIO4_WKDEP") == 0) ||
+		    (strcmp(omap4_prcm_wkdep_reg_table[i].name,
+			    "PM_L4PER_GPIO5_WKDEP") == 0) ||
+		    (strcmp(omap4_prcm_wkdep_reg_table[i].name,
+			    "PM_L4PER_GPIO6_WKDEP") == 0)) {
 			/* Read Register */
 			if (mem_read(omap4_prcm_wkdep_reg_table[i].addr,
-					&pm_wkdep) != 0)
+				     &pm_wkdep) != 0)
 				return OMAPCONF_ERR_REG_ACCESS;
 			/* Extract WKDEP name from WKDEP register name */
 			strncpy(name,
 				omap4_prcm_wkdep_reg_table[i].name +
-					3 * sizeof(char),
+				3 * sizeof(char),
 				strlen(omap4_prcm_wkdep_reg_table[i].name)
-					- 9 * sizeof(char));
+				- 9 * sizeof(char));
 			name[strlen(omap4_prcm_wkdep_reg_table[i].name)
-					- 9 * sizeof(char)] = '\0';
+			     - 9 * sizeof(char)] = '\0';
 			dprintf("wkdep44xx_config_show(): "
-				"pm_wkdep=%08x, name=%s\n",	pm_wkdep, name);
+				"pm_wkdep=%08x, name=%s\n", pm_wkdep, name);
 			/* Extract WKDEP control bits from register */
 			OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 0),
-			mpu_irq_wkdep, "EN", "");
+					     mpu_irq_wkdep, "EN", "");
 			OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 1),
-				m3_irq_wkdep, "EN", "");
+					     m3_irq_wkdep, "EN", "");
 			OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 6),
-				dsp_dma_wkdep, "EN", "");
+					     dsp_dma_wkdep, "EN", "");
 			printf("| %-16s | %-7s | %-7s | %-16s |\n", name,
-				mpu_irq_wkdep, m3_irq_wkdep, dsp_dma_wkdep);
+			       mpu_irq_wkdep, m3_irq_wkdep, dsp_dma_wkdep);
 		}
 	}
 	printf("|-----------------------------------------------------"
-		"----|\n\n");
+	       "----|\n\n");
 
 	/* Read Register */
 	if (mem_read(OMAP4430_PM_L3INIT_HSI_WKDEP, &pm_wkdep) != 0)
@@ -262,40 +256,37 @@ int wkdep44xx_config_show(void)
 	dprintf("wkdep44xx_config_show(): pm_wkdep=%08x, name=%s\n",
 		pm_wkdep, "PM_L3INIT_HSI_WKDEP");
 	/* Extract WKDEP control bits from register */
-	OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 0),
-	mpu_irq_wkdep, "EN", "");
-	OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 1),
-		m3_irq_wkdep, "EN", "");
-	OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 6),
-		dsp_dma_wkdep, "EN", "");
+	OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 0), mpu_irq_wkdep, "EN", "");
+	OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 1), m3_irq_wkdep, "EN", "");
+	OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 6), dsp_dma_wkdep, "EN", "");
 	OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep, 8),
-		mpu_wake_wkdep, "EN", "");
+			     mpu_wake_wkdep, "EN", "");
 	printf("|------------------------------------------------"
-		"--------------|\n");
+	       "--------------|\n");
 	printf("| PRM HSI WKDEP Configuration                    "
-		"              |\n");
+	       "              |\n");
 	printf("|------------------------------------------------"
-		"--------------|\n");
+	       "--------------|\n");
 	printf("|                     |                 FROM     "
-		"              |\n");
+	       "              |\n");
 	printf("|                     |                (Signal)  "
-		"              |\n");
+	       "              |\n");
 	printf("|------------------------------------------------"
-		"--------------|\n");
+	       "--------------|\n");
 	printf("| TOWARDS             | Modem      |            HSI"
-		"            |\n");
+	       "            |\n");
 	printf("|                     | (HSI_WAKE) | SWakeup_MPU | "
-		"SWakeup_DSP |\n");
+	       "SWakeup_DSP |\n");
 	printf("|------------------------------------------------"
-		"--------------|\n");
+	       "--------------|\n");
 	printf("| %-19s | %-10s | %-11s | %-11s |\n",
-		"A9+L3_1+L4_CFG", mpu_wake_wkdep, mpu_irq_wkdep, "");
+	       "A9+L3_1+L4_CFG", mpu_wake_wkdep, mpu_irq_wkdep, "");
 	printf("| %-19s | %-10s | %-11s | %-11s |\n",
-		"M3+L3_2+L3_1+L4_CFG", "", m3_irq_wkdep, "");
+	       "M3+L3_2+L3_1+L4_CFG", "", m3_irq_wkdep, "");
 	printf("| %-19s | %-10s | %-11s | %-11s |\n",
-		"DSP+L3_1+L4_CFG", "", "", dsp_dma_wkdep);
+	       "DSP+L3_1+L4_CFG", "", "", dsp_dma_wkdep);
 	printf("|------------------------------------------------"
-		"--------------|\n\n");
+	       "--------------|\n\n");
 
 	/* Read Register */
 	if (mem_read(OMAP4430_PM_DSS_DSS_WKDEP, &pm_wkdep) != 0)
@@ -314,21 +305,21 @@ int wkdep44xx_config_show(void)
 		for (i = 0; i < 4; i++) {
 			if (((4 * i) + j) == 15) {
 				OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep,
-					19) == 1, dss_wkdep[i], "EN", "");
+								 19) == 1,
+						     dss_wkdep[i], "EN", "");
 			} else
 				OMAPCONF_COND_STRCPY(extract_bit(pm_wkdep,
-					(4 * i) + j) == 1,
-					dss_wkdep[i], "EN", "");
+								 (4 * i) + j) ==
+						     1, dss_wkdep[i], "EN", "");
 		}
 		printf("| %-13s | %-5s | %-4s | %-4s | %-4s |\n",
-			omap44xx_dss_wkdep_signals[j], dss_wkdep[0],
-			dss_wkdep[1], dss_wkdep[2], dss_wkdep[3]);
+		       omap44xx_dss_wkdep_signals[j], dss_wkdep[0],
+		       dss_wkdep[1], dss_wkdep[2], dss_wkdep[3]);
 	}
 	printf("|--------------------------------------------|\n\n");
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		wkdep44xx_main
@@ -363,7 +354,6 @@ int wkdep44xx_main(int argc, char *argv[])
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		wkdep44xx_regtable_init
@@ -421,24 +411,23 @@ static int wkdep44xx_regtable_init(void)
 	omap4_prcm_wkdep_reg_table[i++].addr = OMAP4430_PM_L3INIT_UNIPRO1_WKDEP;
 	strcpy(omap4_prcm_wkdep_reg_table[i].name, "PM_L3INIT_HSUSBHOST_WKDEP");
 	omap4_prcm_wkdep_reg_table[i++].addr =
-		OMAP4430_PM_L3INIT_USB_HOST_WKDEP;
+	    OMAP4430_PM_L3INIT_USB_HOST_WKDEP;
 	strcpy(omap4_prcm_wkdep_reg_table[i].name, "PM_L3INIT_HSUSBOTG_WKDEP");
 	omap4_prcm_wkdep_reg_table[i++].addr = OMAP4430_PM_L3INIT_USB_OTG_WKDEP;
 	strcpy(omap4_prcm_wkdep_reg_table[i].name, "PM_L3INIT_HSUSBTLL_WKDEP");
-	omap4_prcm_wkdep_reg_table[i++].addr =
-		OMAP4430_PM_L3INIT_USB_TLL_WKDEP;
+	omap4_prcm_wkdep_reg_table[i++].addr = OMAP4430_PM_L3INIT_USB_TLL_WKDEP;
 	if (!cpu_is_omap4470()) {
 		strcpy(omap4_prcm_wkdep_reg_table[i].name,
-			"PM_L3INIT_FSUSB_WKDEP");
+		       "PM_L3INIT_FSUSB_WKDEP");
 		omap4_prcm_wkdep_reg_table[i++].addr =
-			OMAP4430_PM_L3INIT_USB_HOST_FS_WKDEP;
+		    OMAP4430_PM_L3INIT_USB_HOST_FS_WKDEP;
 	}
 	strcpy(omap4_prcm_wkdep_reg_table[i].name, "PM_L4PER_GPTIMER10_WKDEP");
 	omap4_prcm_wkdep_reg_table[i++].addr =
-		OMAP4430_PM_L4PER_DMTIMER10_WKDEP;
+	    OMAP4430_PM_L4PER_DMTIMER10_WKDEP;
 	strcpy(omap4_prcm_wkdep_reg_table[i].name, "PM_L4PER_GPTIMER11_WKDEP");
 	omap4_prcm_wkdep_reg_table[i++].addr =
-		OMAP4430_PM_L4PER_DMTIMER11_WKDEP;
+	    OMAP4430_PM_L4PER_DMTIMER11_WKDEP;
 	strcpy(omap4_prcm_wkdep_reg_table[i].name, "PM_L4PER_GPTIMER2_WKDEP");
 	omap4_prcm_wkdep_reg_table[i++].addr = OMAP4430_PM_L4PER_DMTIMER2_WKDEP;
 	strcpy(omap4_prcm_wkdep_reg_table[i].name, "PM_L4PER_GPTIMER3_WKDEP");

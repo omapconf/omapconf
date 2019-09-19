@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __PRCM_VC44XX_H__
 #define __PRCM_VC44XX_H__
 
-
 #include <stdio.h>
 #include <voltdm44xx.h>
-
 
 typedef struct {
 	unsigned int prm_vc_smps_sa;
@@ -62,23 +59,25 @@ typedef struct {
 	unsigned int prm_vc_cfg_i2c_clk;
 } vc44xx_registers;
 
-
 short int vc44xx_sa_get(voltdm44xx_id id,
-	unsigned int prm_vc_smps_sa, unsigned int prm_vc_cfg_channel);
-short int vc44xx_volra_get(voltdm44xx_id id,
-	unsigned int prm_vc_cfg_channel, unsigned int prm_vc_val_smps_ra_vol);
-short int vc44xx_cmdra_get(voltdm44xx_id id,
-	unsigned int prm_vc_cfg_channel, unsigned int prm_vc_val_smps_ra_cmd);
-short int vc44xx_raw_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
-	unsigned char *cmd_on, unsigned char *cmd_onlp,
-	unsigned char *cmd_ret, unsigned char *cmd_off);
-short int vc44xx_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
-	unsigned char *cmd_on, unsigned char *cmd_onlp,
-	unsigned char *cmd_ret, unsigned char *cmd_off);
+			unsigned int prm_vc_smps_sa,
+			unsigned int prm_vc_cfg_channel);
+short int vc44xx_volra_get(voltdm44xx_id id, unsigned int prm_vc_cfg_channel,
+			   unsigned int prm_vc_val_smps_ra_vol);
+short int vc44xx_cmdra_get(voltdm44xx_id id, unsigned int prm_vc_cfg_channel,
+			   unsigned int prm_vc_val_smps_ra_cmd);
+short int vc44xx_raw_cmd_values_get(voltdm44xx_id id,
+				    vc44xx_registers * vc_regs,
+				    unsigned char *cmd_on,
+				    unsigned char *cmd_onlp,
+				    unsigned char *cmd_ret,
+				    unsigned char *cmd_off);
+short int vc44xx_cmd_values_get(voltdm44xx_id id, vc44xx_registers * vc_regs,
+				unsigned char *cmd_on, unsigned char *cmd_onlp,
+				unsigned char *cmd_ret, unsigned char *cmd_off);
 
-int vc44xx_registers_get(vc44xx_registers *vc_regs);
+int vc44xx_registers_get(vc44xx_registers * vc_regs);
 
-int vc44xx_config_show(FILE *stream, vc44xx_registers *vc_regs);
-
+int vc44xx_config_show(FILE * stream, vc44xx_registers * vc_regs);
 
 #endif

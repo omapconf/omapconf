@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <dpll.h>
 #include <dpll44xx.h>
 #include <help.h>
@@ -63,7 +62,6 @@
 
 reg_table prcm_dsp_reg_table[28];
 static unsigned int init_done = 0;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dsp44xx_regtable_init
@@ -104,7 +102,6 @@ static int dsp44xx_regtable_init(void)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dsp44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
@@ -125,7 +122,6 @@ int dsp44xx_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, prcm_dsp_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dsp44xx_config_show
  * @BRIEF		analyze DSP power configuration
@@ -135,7 +131,7 @@ int dsp44xx_name2addr(char *name, unsigned int *addr)
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyze DSP power configuration
  *------------------------------------------------------------------------ */
-int dsp44xx_config_show(FILE *stream)
+int dsp44xx_config_show(FILE * stream)
 {
 	unsigned int pm_pwstctrl;
 	unsigned int pm_pwstst;
@@ -160,8 +156,8 @@ int dsp44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_PM_DSP_PWRSTST, &pm_pwstst) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = pwrdm44xx_config_show(stream, "DSP",
-		OMAP4430_PM_DSP_PWRSTCTRL, pm_pwstctrl,
-		OMAP4430_PM_DSP_PWRSTST, pm_pwstst);
+				    OMAP4430_PM_DSP_PWRSTCTRL, pm_pwstctrl,
+				    OMAP4430_PM_DSP_PWRSTST, pm_pwstst);
 	if (ret != 0)
 		return ret;
 
@@ -169,20 +165,19 @@ int dsp44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM_DSP_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "DSP",
-		OMAP4430_CM_DSP_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_DSP_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 
 	/* Module Power Configuration */
 	ret = mod44xx_config_show(stream, "DSP",
-		OMAP4430_CM_DSP_DSP_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_DSP_DSP_CONTEXT, rm_context);
+				  OMAP4430_CM_DSP_DSP_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_DSP_DSP_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dsp44xx_dependency_show
@@ -193,7 +188,7 @@ int dsp44xx_config_show(FILE *stream)
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyse DSP dependency configuration
  *------------------------------------------------------------------------ */
-int dsp44xx_dependency_show(FILE *stream)
+int dsp44xx_dependency_show(FILE * stream)
 {
 	unsigned int cm_dsp_staticdep;
 	unsigned int cm_dsp_dynamicdep;
@@ -222,32 +217,24 @@ int dsp44xx_dependency_show(FILE *stream)
 		((extract_bit(cm_dsp_staticdep, 3) == 1) ? "En" : "Dis"),
 		((extract_bit(cm_dsp_dynamicdep, 3) == 1) ? "En" : "Dis"));
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "MEM IF",
-		((extract_bit(cm_dsp_staticdep, 4) == 1) ? "En" : "Dis"),
-		"");
+		((extract_bit(cm_dsp_staticdep, 4) == 1) ? "En" : "Dis"), "");
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "L3_1",
 		((extract_bit(cm_dsp_staticdep, 5) == 1) ? "En" : "Dis"),
 		((extract_bit(cm_dsp_dynamicdep, 5) == 1) ? "En" : "Dis"));
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "L3_2",
-		((extract_bit(cm_dsp_staticdep, 6) == 1) ? "En" : "Dis"),
-		"");
+		((extract_bit(cm_dsp_staticdep, 6) == 1) ? "En" : "Dis"), "");
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "L3INIT",
-		((extract_bit(cm_dsp_staticdep, 7) == 1) ? "En" : "Dis"),
-		"");
+		((extract_bit(cm_dsp_staticdep, 7) == 1) ? "En" : "Dis"), "");
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "ISS",
-		((extract_bit(cm_dsp_staticdep, 9) == 1) ? "En" : "Dis"),
-		"");
+		((extract_bit(cm_dsp_staticdep, 9) == 1) ? "En" : "Dis"), "");
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "L4CFG",
-		((extract_bit(cm_dsp_staticdep, 12) == 1) ? "En" : "Dis"),
-		"");
+		((extract_bit(cm_dsp_staticdep, 12) == 1) ? "En" : "Dis"), "");
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "L4PER",
-		((extract_bit(cm_dsp_staticdep, 13) == 1) ? "En" : "Dis"),
-		"");
+		((extract_bit(cm_dsp_staticdep, 13) == 1) ? "En" : "Dis"), "");
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "L4WKUP",
-		((extract_bit(cm_dsp_staticdep, 15) == 1) ? "En" : "Dis"),
-		"");
+		((extract_bit(cm_dsp_staticdep, 15) == 1) ? "En" : "Dis"), "");
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "ALWONCORE",
-		((extract_bit(cm_dsp_staticdep, 16) == 1) ? "En" : "Dis"),
-		"");
+		((extract_bit(cm_dsp_staticdep, 16) == 1) ? "En" : "Dis"), "");
 	fprintf(stream,
 		"|--------------------------------------------------------|\n");
 	fprintf(stream, "| %-44s | %-7d |\n", "Window Size",
@@ -258,7 +245,6 @@ int dsp44xx_dependency_show(FILE *stream)
 	fprintf(stream, "\n");
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dsp44xx_dump
@@ -277,7 +263,6 @@ int dsp44xx_dump(void)
 
 	return dumpregs(prcm_dsp_reg_table);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dsp44xx_main

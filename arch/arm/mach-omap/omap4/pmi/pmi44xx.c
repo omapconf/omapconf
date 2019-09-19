@@ -553,8 +553,7 @@ int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 					/* Garbage ... */
 					dprintf("\t\tIgnore 0x8C garbage...\n");
 				} else {
-					volt =
-					    (double)
+					volt = (double)
 					    smps_vsel2uvolt(vdd_id2smps_id
 							    (OMAP4_VDD_CORE),
 							    evt_data_prev &

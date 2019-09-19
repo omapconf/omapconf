@@ -41,15 +41,11 @@
  *
  */
 
-
 #ifndef __IVA54XX_H__
 #define __IVA54XX_H__
 
-
 #include <stdio.h>
 
-
-int iva54xx_dump(FILE *stream);
-
+int iva54xx_dump(FILE * stream);
 
 #endif

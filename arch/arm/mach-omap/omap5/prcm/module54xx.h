@@ -41,17 +41,14 @@
  *
  */
 
-
 #ifndef __MODULE54XX_H__
 #define __MODULE54XX_H__
-
 
 #include <prcm-module.h>
 #include <clock54xx.h>
 #include <clkdm54xx.h>
 #include <pwrdm54xx.h>
 #include <voltdm54xx.h>
-
 
 typedef enum {
 	/* Voltage dom.: WKUP, Power dom.: EMU, Clock dom. = EMU */
@@ -216,7 +213,6 @@ void mod54xx_deinit(void);
 const genlist *mod54xx_list_get(void);
 int mod54xx_count_get(void);
 
-int mod54xx_config_show(FILE *stream, mod54xx_id id, unsigned int cm_clkctrl);
-
+int mod54xx_config_show(FILE * stream, mod54xx_id id, unsigned int cm_clkctrl);
 
 #endif

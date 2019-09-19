@@ -24,7 +24,6 @@
  * published by the Free Software Foundation.
  */
 
-
 #ifndef __ARCH_ARM_MACH_OMAP2_CM_REGBITS_44XX_H
 #define __ARCH_ARM_MACH_OMAP2_CM_REGBITS_44XX_H
 

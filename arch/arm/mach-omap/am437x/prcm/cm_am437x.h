@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __CM_AM437X_H__
 #define __CM_AM437X_H__
 
@@ -50,7 +49,7 @@
 #include <string.h>
 
 const char *cm_am437x_mod_name_get(cm_am437x_mod_id id);
-int cm_am437x_dump(FILE *stream, cm_am437x_mod_id id);
+int cm_am437x_dump(FILE * stream, cm_am437x_mod_id id);
 int cm_am437x_name2addr(char *name, unsigned int *addr);
 
 #endif

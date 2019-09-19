@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __VOLTDM_DRA7XX_H__
 #define __VOLTDM_DRA7XX_H__
 
-
 #include <lib.h>
 #include <genlist.h>
-
 
 typedef enum {
 	VDD_DRA7XX_CORE,
@@ -60,7 +57,6 @@ typedef enum {
 	VDD_DRA7XX_ID_MAX
 } voltdm_dra7xx_id;
 
-
 typedef enum {
 	OPP_DRA7XX_NOM,
 	OPP_DRA7XX_OD,
@@ -68,7 +64,6 @@ typedef enum {
 	OPP_DRA7XX_PLUS,
 	OPP_DRA7XX_ID_MAX
 } opp_dra7xx_id;
-
 
 void voltdm_dra7xx_init(void);
 void voltdm_dra7xx_deinit(void);
@@ -84,7 +79,7 @@ const char *opp_dra7xx_name_get(opp_dra7xx_id id);
 double voltdm_dra7xx_voltage_get(voltdm_dra7xx_id id);
 int voltdm_dra7xx_voltage_set(voltdm_dra7xx_id id, unsigned long uv);
 
-double voltdm_dra7xx_por_nominal_voltage_get(voltdm_dra7xx_id id, opp_dra7xx_id opp_id);
-
+double voltdm_dra7xx_por_nominal_voltage_get(voltdm_dra7xx_id id,
+					     opp_dra7xx_id opp_id);
 
 #endif

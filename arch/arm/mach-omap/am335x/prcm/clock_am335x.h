@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __PRCM_CLOCK_AM335X_H__
 #define __PRCM_CLOCK_AM335X_H__
 
@@ -49,7 +48,7 @@
 
 typedef enum {
 	/* 32K CLKS */
-	CLK_AM335X_CLK_32KHZ,	/* Output of DPLL PER*/
+	CLK_AM335X_CLK_32KHZ,	/* Output of DPLL PER */
 	CLK_AM335X_CLK_RC32K,	/* On-chip 32KHz oscillator */
 	CLK_AM335X_CLK_32K_RTC,	/* External 32KHz oscillator */
 	/* SYS CLKS */
@@ -99,9 +98,7 @@ typedef enum {
 	CLK_AM335X_ID_MAX
 } clk_am335x_id;
 
-
 const char *clk_am335x_name_get(clk_am335x_id id);
 double clk_am335x_rate_get(clk_am335x_id clk, unsigned short ignore);
-
 
 #endif

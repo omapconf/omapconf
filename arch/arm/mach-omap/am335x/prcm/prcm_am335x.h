@@ -41,15 +41,11 @@
  *
  */
 
-
 #ifndef __PRCM_AM335X_H__
 #define __PRCM_AM335X_H__
 
-
 #include <stdio.h>
 
-
 int prcm_am335x_dump(char *s);
-
 
 #endif

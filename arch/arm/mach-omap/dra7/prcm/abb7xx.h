@@ -41,16 +41,12 @@
  *
  */
 
-
 #ifndef __PRCM_ABB7XX_H__
 #define __PRCM_ABB7XX_H__
 
-
 #include <stdio.h>
 
-
-int abb7xx_dump(FILE *stream);
-int abb7xx_config_show(FILE *stream);
-
+int abb7xx_dump(FILE * stream);
+int abb7xx_config_show(FILE * stream);
 
 #endif

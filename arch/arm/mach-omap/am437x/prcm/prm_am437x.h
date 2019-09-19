@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __PRM_AM437X_H__
 #define __PRM_AM437X_H__
 
@@ -50,6 +49,6 @@
 #include <prm_am437x-defs.h>
 
 const char *prm_am437x_mod_name_get(prm_am437x_mod_id id);
-int prm_am437x_dump(FILE *stream, prm_am437x_mod_id id);
+int prm_am437x_dump(FILE * stream, prm_am437x_mod_id id);
 
 #endif

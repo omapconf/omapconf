@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __PRCM_CLOCK44XX_H__
 #define __PRCM_CLOCK44XX_H__
-
 
 #define CLOCK44XX_MAX_NAME_LENGTH		22
 
@@ -228,7 +226,6 @@ typedef enum {
 double clk44xx_get_system_clock_speed(void);
 char *clk44xx_get_name(clock44xx_id id, char name[CLOCK44XX_MAX_NAME_LENGTH]);
 double clk44xx_get_clock_speed(clock44xx_id clk,
-	unsigned short ignore_stop_status);
-
+			       unsigned short ignore_stop_status);
 
 #endif

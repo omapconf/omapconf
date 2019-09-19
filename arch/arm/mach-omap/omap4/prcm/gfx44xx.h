@@ -41,21 +41,17 @@
  *
  */
 
-
 #ifndef __GFX44XX_H__
 #define __GFX44XX_H__
 
-
 #include <stdio.h>
-
 
 int gfx44xx_name2addr(char *name, unsigned int *addr);
 int gfx44xx_dump(void);
-int gfx44xx_config_show(FILE *stream);
-int gfx44xx_dependency_show(FILE *stream);
+int gfx44xx_config_show(FILE * stream);
+int gfx44xx_dependency_show(FILE * stream);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int gfx44xx_main(int argc, char *argv[]);
-
 
 #endif

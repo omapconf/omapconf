@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <vp.h>
 #include <lib.h>
 #include <cpuinfo.h>
@@ -51,14 +50,12 @@
 #include <autoadjust_table.h>
 #include <pmic.h>
 
-
 /* #define VP_DEBUG */
 #ifdef VP_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* VP bitfields */
 #define VP_ERROROFFSET_POS		24
@@ -94,7 +91,6 @@
 #define VP_VSTEPMIN_POS			0
 #define VP_VSTEPMIN_LEN			8
 
-
 #define VP_AUDIT_SHOW_STATUS(curr, golden) \
 		if (curr == golden) { \
 			snprintf(table[row++][3], TABLE_MAX_ELT_LEN, "Pass"); \
@@ -102,7 +98,6 @@
 			snprintf(table[row++][3], TABLE_MAX_ELT_LEN, "FAIL"); \
 			(*err_nbr)++; \
 		}
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_error_offset_get
@@ -115,18 +110,18 @@
  * @DESCRIPTION		return VP error offset
  *------------------------------------------------------------------------ */
 int vp_error_offset_get(unsigned int vp_config,
-	signed char *offset_raw, double *offset)
+			signed char *offset_raw, double *offset)
 {
 	CHECK_NULL_ARG(offset_raw, OMAPCONF_ERR_ARG);
 	CHECK_NULL_ARG(offset, OMAPCONF_ERR_ARG);
 
-	*offset_raw = (signed char) extract_bitfield(vp_config,
-		VP_ERROROFFSET_POS, VP_ERROROFFSET_LEN);
+	*offset_raw = (signed char)extract_bitfield(vp_config,
+						    VP_ERROROFFSET_POS,
+						    VP_ERROROFFSET_LEN);
 	*offset = vp_error_offset_hex2percent(*offset_raw);
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_error_offset_hex2percent
@@ -137,9 +132,8 @@ int vp_error_offset_get(unsigned int vp_config,
  *------------------------------------------------------------------------ */
 double vp_error_offset_hex2percent(signed char offset)
 {
-	return (double) offset * 0.8;
+	return (double)offset *0.8;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_error_gain_get
@@ -153,18 +147,18 @@ double vp_error_offset_hex2percent(signed char offset)
  * @DESCRIPTION		return VP error gain
  *------------------------------------------------------------------------ */
 int vp_error_gain_get(unsigned int vp_config, unsigned short vdd_id,
-	signed char *gain_raw, double *gain)
+		      signed char *gain_raw, double *gain)
 {
 	CHECK_NULL_ARG(gain_raw, OMAPCONF_ERR_ARG);
 	CHECK_NULL_ARG(gain, OMAPCONF_ERR_ARG);
 
-	*gain_raw = (signed char) extract_bitfield(vp_config,
-		VP_ERRORGAIN_POS, VP_ERRORGAIN_LEN);
+	*gain_raw = (signed char)extract_bitfield(vp_config,
+						  VP_ERRORGAIN_POS,
+						  VP_ERRORGAIN_LEN);
 	*gain = vp_error_gain_hex2percent(*gain_raw, vdd_id);
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_error_gain_hex2percent
@@ -178,11 +172,10 @@ double vp_error_gain_hex2percent(signed char gain, unsigned short vdd_id)
 {
 	double step_mv;
 
-	step_mv = (double) smps_step_get(vdd_id2smps_id(vdd_id)) / 1000.0;
+	step_mv = (double)smps_step_get(vdd_id2smps_id(vdd_id)) / 1000.0;
 
-	return (double) gain * step_mv / 100.0;
+	return (double)gain *step_mv / 100.0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_init_voltage_get
@@ -197,18 +190,18 @@ double vp_error_gain_hex2percent(signed char gain, unsigned short vdd_id)
  * @DESCRIPTION		return VP initial voltage
  *------------------------------------------------------------------------ */
 int vp_init_voltage_get(unsigned int vp_config, unsigned short vdd_id,
-	unsigned char *init_vsel, unsigned int *init_uv)
+			unsigned char *init_vsel, unsigned int *init_uv)
 {
 	CHECK_NULL_ARG(init_vsel, OMAPCONF_ERR_ARG);
 	CHECK_NULL_ARG(init_uv, OMAPCONF_ERR_ARG);
 
-	*init_vsel = (unsigned char) extract_bitfield(vp_config,
-		VP_INITVOLTAGE_POS, VP_INITVOLTAGE_LEN);
+	*init_vsel = (unsigned char)extract_bitfield(vp_config,
+						     VP_INITVOLTAGE_POS,
+						     VP_INITVOLTAGE_LEN);
 	*init_uv = smps_vsel2uvolt(vdd_id2smps_id(vdd_id), *init_vsel);
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_vc_timeout_is_enabled
@@ -223,7 +216,6 @@ unsigned char vp_vc_timeout_is_enabled(unsigned int vp_config)
 	return extract_bit(vp_config, VP_TIMEOUTEN_POS);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_is_enabled
  * @BRIEF		check if VP is enabled
@@ -237,7 +229,6 @@ unsigned char vp_is_enabled(unsigned int vp_config)
 	return extract_bit(vp_config, VP_VPENABLE_POS);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_is_idle
  * @BRIEF		check if VP is idle
@@ -250,7 +241,6 @@ unsigned char vp_is_idle(unsigned int vp_status)
 {
 	return extract_bit(vp_status, VP_VPINIDLE_POS);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_min_voltage_get
@@ -267,18 +257,18 @@ unsigned char vp_is_idle(unsigned int vp_status)
  * @DESCRIPTION		return VP minimum supply voltage
  *------------------------------------------------------------------------ */
 int vp_min_voltage_get(unsigned int vp_vlimitto, unsigned short vdd_id,
-	unsigned char *min_vsel, unsigned int *min_uv)
+		       unsigned char *min_vsel, unsigned int *min_uv)
 {
 	CHECK_NULL_ARG(min_vsel, OMAPCONF_ERR_ARG);
 	CHECK_NULL_ARG(min_uv, OMAPCONF_ERR_ARG);
 
-	*min_vsel = (unsigned char) extract_bitfield(vp_vlimitto,
-		VP_VDDMIN_POS, VP_VDDMIN_LEN);
+	*min_vsel = (unsigned char)extract_bitfield(vp_vlimitto,
+						    VP_VDDMIN_POS,
+						    VP_VDDMIN_LEN);
 	*min_uv = smps_vsel2uvolt(vdd_id2smps_id(vdd_id), *min_vsel);
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_max_voltage_get
@@ -295,18 +285,18 @@ int vp_min_voltage_get(unsigned int vp_vlimitto, unsigned short vdd_id,
  * @DESCRIPTION		return VP maximum supply voltage
  *------------------------------------------------------------------------ */
 int vp_max_voltage_get(unsigned int vp_vlimitto, unsigned short vdd_id,
-	unsigned char *max_vsel, unsigned int *max_uv)
+		       unsigned char *max_vsel, unsigned int *max_uv)
 {
 	CHECK_NULL_ARG(max_vsel, OMAPCONF_ERR_ARG);
 	CHECK_NULL_ARG(max_uv, OMAPCONF_ERR_ARG);
 
-	*max_vsel = (unsigned char) extract_bitfield(vp_vlimitto,
-		VP_VDDMAX_POS, VP_VDDMAX_LEN);
+	*max_vsel = (unsigned char)extract_bitfield(vp_vlimitto,
+						    VP_VDDMAX_POS,
+						    VP_VDDMAX_LEN);
 	*max_uv = smps_vsel2uvolt(vdd_id2smps_id(vdd_id), *max_vsel);
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_last_voltage_get
@@ -327,13 +317,14 @@ int vp_max_voltage_get(unsigned int vp_vlimitto, unsigned short vdd_id,
  *			(SR COULD BE DISABLED) OTHERWISE THIS VALUE HAS NO SENSE
  *------------------------------------------------------------------------ */
 int vp_last_voltage_get(unsigned int vp_voltage, unsigned short vdd_id,
-	unsigned char *vsel, unsigned int *uv)
+			unsigned char *vsel, unsigned int *uv)
 {
 	CHECK_NULL_ARG(vsel, OMAPCONF_ERR_ARG);
 	CHECK_NULL_ARG(uv, OMAPCONF_ERR_ARG);
 
-	*vsel = (unsigned char) extract_bitfield(vp_voltage, 0,
-			smps_vsel_len_get(vdd_id2smps_id(vdd_id)));
+	*vsel = (unsigned char)extract_bitfield(vp_voltage, 0,
+						smps_vsel_len_get(vdd_id2smps_id
+								  (vdd_id)));
 
 	*uv = smps_vsel2uvolt(vdd_id2smps_id(vdd_id), *vsel);
 	dprintf("%s(%u): VP_VOLTAGE=0x%08X, vsel=%02X voltage=%uV\n", __func__,
@@ -341,7 +332,6 @@ int vp_last_voltage_get(unsigned int vp_voltage, unsigned short vdd_id,
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_vc_timeout_get
@@ -357,7 +347,7 @@ int vp_last_voltage_get(unsigned int vp_voltage, unsigned short vdd_id,
  * @DESCRIPTION		return VC maximum response wait time
  *------------------------------------------------------------------------ */
 int vp_vc_timeout_get(unsigned int vp_vlimitto,
-	unsigned int *timeout_cycles, unsigned int *timeout_us)
+		      unsigned int *timeout_cycles, unsigned int *timeout_us)
 {
 	double sysclk;
 
@@ -365,21 +355,20 @@ int vp_vc_timeout_get(unsigned int vp_vlimitto,
 	CHECK_NULL_ARG(timeout_us, OMAPCONF_ERR_ARG);
 
 	if (cpu_is_omap44xx()) {
-			sysclk = clk44xx_get_system_clock_speed();
+		sysclk = clk44xx_get_system_clock_speed();
 	} else if (cpu_is_omap54xx()) {
-			sysclk = clk54xx_sysclk_rate_get();
+		sysclk = clk54xx_sysclk_rate_get();
 	} else {
 		fprintf(stderr, "%s(): cpu not supported!!!\n", __func__);
 		return OMAPCONF_ERR_CPU;
 	}
 
 	*timeout_cycles = extract_bitfield(vp_vlimitto,
-		VP_TIMEOUT_POS, VP_TIMEOUT_LEN);
+					   VP_TIMEOUT_POS, VP_TIMEOUT_LEN);
 	*timeout_us = *timeout_cycles / sysclk;
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_force_update_wait_time_get
@@ -397,7 +386,8 @@ int vp_vc_timeout_get(unsigned int vp_vlimitto,
  *			SMPS to be settled after receiving SMPS acknowledge.
  *------------------------------------------------------------------------ */
 int vp_force_update_wait_time_get(unsigned int vp_voltage,
-	unsigned int *time_cycles, unsigned int *time_us)
+				  unsigned int *time_cycles,
+				  unsigned int *time_us)
 {
 	double sysclk;
 
@@ -405,23 +395,22 @@ int vp_force_update_wait_time_get(unsigned int vp_voltage,
 	CHECK_NULL_ARG(time_us, OMAPCONF_ERR_ARG);
 
 	if (cpu_is_omap44xx()) {
-			sysclk = clk44xx_get_system_clock_speed();
+		sysclk = clk44xx_get_system_clock_speed();
 	} else if (cpu_is_omap54xx()) {
-			sysclk = clk54xx_sysclk_rate_get();
+		sysclk = clk54xx_sysclk_rate_get();
 	} else {
 		fprintf(stderr, "%s(): cpu not supported!!!\n", __func__);
 		return OMAPCONF_ERR_CPU;
 	}
 
 	*time_cycles = extract_bitfield(vp_voltage,
-		VP_FORCEUPDATEWAIT_POS, VP_FORCEUPDATEWAIT_LEN);
+					VP_FORCEUPDATEWAIT_POS,
+					VP_FORCEUPDATEWAIT_LEN);
 	*time_us = *time_cycles / sysclk;
 
 	return 0;
 
 }
-
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_max_step_get
@@ -435,18 +424,17 @@ int vp_force_update_wait_time_get(unsigned int vp_voltage,
  * @DESCRIPTION		return VP maximum voltage step
  *------------------------------------------------------------------------ */
 int vp_max_step_get(unsigned int vp_vstepmax, unsigned short vdd_id,
-	unsigned int *max_step, unsigned int *max_uv)
+		    unsigned int *max_step, unsigned int *max_uv)
 {
 	CHECK_NULL_ARG(max_step, OMAPCONF_ERR_ARG);
 	CHECK_NULL_ARG(max_uv, OMAPCONF_ERR_ARG);
 
 	*max_step = extract_bitfield(vp_vstepmax,
-		VP_VSTEPMAX_POS, VP_VSTEPMAX_LEN);
+				     VP_VSTEPMAX_POS, VP_VSTEPMAX_LEN);
 	*max_uv = *max_step * smps_step_get(vdd_id2smps_id(vdd_id));
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_min_step_get
@@ -460,18 +448,17 @@ int vp_max_step_get(unsigned int vp_vstepmax, unsigned short vdd_id,
  * @DESCRIPTION		return VP minimum voltage step
  *------------------------------------------------------------------------ */
 int vp_min_step_get(unsigned int vp_vstepmin, unsigned short vdd_id,
-	unsigned int *min_step, unsigned int *min_uv)
+		    unsigned int *min_step, unsigned int *min_uv)
 {
 	CHECK_NULL_ARG(min_step, OMAPCONF_ERR_ARG);
 	CHECK_NULL_ARG(min_uv, OMAPCONF_ERR_ARG);
 
 	*min_step = extract_bitfield(vp_vstepmin,
-		VP_VSTEPMIN_POS, VP_VSTEPMIN_LEN);
+				     VP_VSTEPMIN_POS, VP_VSTEPMIN_LEN);
 	*min_uv = *min_step * smps_step_get(vdd_id2smps_id(vdd_id));
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_positive_slew_rate_get
@@ -487,7 +474,7 @@ int vp_min_step_get(unsigned int vp_vstepmin, unsigned short vdd_id,
  * @DESCRIPTION		return VP slew rate for positive voltage step
  *------------------------------------------------------------------------ */
 int vp_positive_slew_rate_get(unsigned int vp_vstepmax,
-	unsigned int *cycles, unsigned int *us)
+			      unsigned int *cycles, unsigned int *us)
 {
 	int ret;
 
@@ -495,7 +482,8 @@ int vp_positive_slew_rate_get(unsigned int vp_vstepmax,
 	CHECK_NULL_ARG(us, OMAPCONF_ERR_ARG);
 
 	*cycles = extract_bitfield(vp_vstepmax,
-		VP_SMPSOFTWAREAITTIMEMAX_POS, VP_SMPSOFTWAREAITTIMEMAX_LEN);
+				   VP_SMPSOFTWAREAITTIMEMAX_POS,
+				   VP_SMPSOFTWAREAITTIMEMAX_LEN);
 	ret = vp_slew_rate_cycles2us(*cycles);
 	if (ret >= 0) {
 		*us = ret;
@@ -505,7 +493,6 @@ int vp_positive_slew_rate_get(unsigned int vp_vstepmax,
 		return ret;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_negative_slew_rate_get
@@ -521,7 +508,7 @@ int vp_positive_slew_rate_get(unsigned int vp_vstepmax,
  * @DESCRIPTION		return VP slew rate for negative voltage step
  *------------------------------------------------------------------------ */
 int vp_negative_slew_rate_get(unsigned int vp_vstepmin,
-	unsigned int *cycles, unsigned int *us)
+			      unsigned int *cycles, unsigned int *us)
 {
 	int ret;
 
@@ -529,7 +516,8 @@ int vp_negative_slew_rate_get(unsigned int vp_vstepmin,
 	CHECK_NULL_ARG(us, OMAPCONF_ERR_ARG);
 
 	*cycles = extract_bitfield(vp_vstepmin,
-		VP_SMPSOFTWAREAITTIMEMIN_POS, VP_SMPSOFTWAREAITTIMEMIN_LEN);
+				   VP_SMPSOFTWAREAITTIMEMIN_POS,
+				   VP_SMPSOFTWAREAITTIMEMIN_LEN);
 	ret = vp_slew_rate_cycles2us(*cycles);
 	if (ret >= 0) {
 		*us = ret;
@@ -539,7 +527,6 @@ int vp_negative_slew_rate_get(unsigned int vp_vstepmin,
 		return ret;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_slew_rate_cycles2us
@@ -555,17 +542,16 @@ int vp_slew_rate_cycles2us(unsigned int cycles)
 	double sysclk;
 
 	if (cpu_is_omap44xx()) {
-			sysclk = clk44xx_get_system_clock_speed();
+		sysclk = clk44xx_get_system_clock_speed();
 	} else if (cpu_is_omap54xx()) {
-			sysclk = clk54xx_sysclk_rate_get();
+		sysclk = clk54xx_sysclk_rate_get();
 	} else {
 		fprintf(stderr, "%s(): cpu not supported!!!\n", __func__);
 		return OMAPCONF_ERR_CPU;
 	}
 
-	return (unsigned int) ((cycles / sysclk) + 1);
+	return (unsigned int)((cycles / sysclk) + 1);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_config_show
@@ -578,7 +564,7 @@ int vp_slew_rate_cycles2us(unsigned int cycles)
  *				(MPU, IVA/MM, CORE)
  * @DESCRIPTION		decode and show VP current configuration
  *------------------------------------------------------------------------ */
-int vp_config_show(FILE *stream, vp_registers vp_regs[3])
+int vp_config_show(FILE * stream, vp_registers vp_regs[3])
 {
 	unsigned int cycles, us, step, uv;
 	unsigned char vsel;
@@ -594,8 +580,7 @@ int vp_config_show(FILE *stream, vp_registers vp_regs[3])
 		return OMAPCONF_ERR_CPU;
 	}
 
-
-	#ifdef VP_DEBUG
+#ifdef VP_DEBUG
 	autoadjust_table_init(table);
 	autoadjust_table_strncpy(table, row, 0, "VP Registers");
 	autoadjust_table_strncpy(table, row, 1, "VP MPU");
@@ -609,26 +594,25 @@ int vp_config_show(FILE *stream, vp_registers vp_regs[3])
 		row = 1;
 		autoadjust_table_strncpy(table, row, 0, "VP_CONFIG");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			vp_regs[i].vp_config);
+			 vp_regs[i].vp_config);
 		autoadjust_table_strncpy(table, row, 0, "VP_STATUS");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			vp_regs[i].vp_status);
+			 vp_regs[i].vp_status);
 		autoadjust_table_strncpy(table, row, 0, "VP_VLIMITTO");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			vp_regs[i].vp_vlimitto);
+			 vp_regs[i].vp_vlimitto);
 		autoadjust_table_strncpy(table, row, 0, "VP_VOLTAGE");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			vp_regs[i].vp_voltage);
+			 vp_regs[i].vp_voltage);
 		autoadjust_table_strncpy(table, row, 0, "VP_VSTEPMAX");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			vp_regs[i].vp_vstepmax);
+			 vp_regs[i].vp_vstepmax);
 		autoadjust_table_strncpy(table, row, 0, "VP_VSTEPMIN");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			vp_regs[i].vp_vstepmin);
+			 vp_regs[i].vp_vstepmin);
 	}
 	autoadjust_table_print(table, row, 4);
-	#endif
-
+#endif
 
 	row = 0;
 	autoadjust_table_init(table);
@@ -654,7 +638,7 @@ int vp_config_show(FILE *stream, vp_registers vp_regs[3])
 			autoadjust_table_strncpy(table, row, i + 1, "Idle");
 		else
 			autoadjust_table_strncpy(table, row, i + 1,
-				"Processing");
+						 "Processing");
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0, "VC Response Timeout");
@@ -662,107 +646,105 @@ int vp_config_show(FILE *stream, vp_registers vp_regs[3])
 			autoadjust_table_strncpy(table, row, i + 1, "Enabled");
 			row++;
 			autoadjust_table_strncpy(table, row, 0,
-				"  Timeout (SysClk cycles, us)");
+						 "  Timeout (SysClk cycles, us)");
 			vp_vc_timeout_get(vp_regs[i].vp_vlimitto, &cycles, &us);
 			snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-				"%u (%uus)", cycles, us);
+				 "%u (%uus)", cycles, us);
 		} else {
 			autoadjust_table_strncpy(table, row, i + 1, "Disabled");
 		}
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"Error Gain (hex, mV/%%)");
+					 "Error Gain (hex, mV/%%)");
 		vp_error_gain_get(vp_regs[i].vp_config, vp_regs[i].vdd_id,
-			&vp_gain_raw, &vp_gain);
+				  &vp_gain_raw, &vp_gain);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"0x%02X (%.3lfmV/%%)", vp_gain_raw, vp_gain);
+			 "0x%02X (%.3lfmV/%%)", vp_gain_raw, vp_gain);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"Error Offset (hex, %%)");
+					 "Error Offset (hex, %%)");
 		vp_error_offset_get(vp_regs[i].vp_config,
-			&vp_offset_raw, &vp_offset);
+				    &vp_offset_raw, &vp_offset);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"0x%02X (%.3lf%%)", vp_offset_raw, vp_offset);
+			 "0x%02X (%.3lf%%)", vp_offset_raw, vp_offset);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"Initial Voltage (step, V)");
+					 "Initial Voltage (step, V)");
 		vp_init_voltage_get(vp_regs[i].vp_config, vp_regs[i].vdd_id,
-			&vsel, &uv);
+				    &vsel, &uv);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"0x%02X (%.6lfV)", vsel, (double) uv / 1000000.0);
+			 "0x%02X (%.6lfV)", vsel, (double)uv / 1000000.0);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"MAX Voltage (step, V)");
+					 "MAX Voltage (step, V)");
 		vp_max_voltage_get(vp_regs[i].vp_vlimitto, vp_regs[i].vdd_id,
-			&vsel, &uv);
+				   &vsel, &uv);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"0x%02X (%.6lfV)", vsel, (double) uv / 1000000.0);
+			 "0x%02X (%.6lfV)", vsel, (double)uv / 1000000.0);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"MIN Voltage (step, V)");
+					 "MIN Voltage (step, V)");
 		vp_min_voltage_get(vp_regs[i].vp_vlimitto, vp_regs[i].vdd_id,
-			&vsel, &uv);
+				   &vsel, &uv);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"0x%02X (%.6lfV)", vsel, (double) uv / 1000000.0);
+			 "0x%02X (%.6lfV)", vsel, (double)uv / 1000000.0);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"Current Voltage (step, V)");
+					 "Current Voltage (step, V)");
 		vp_last_voltage_get(vp_regs[i].vp_voltage, vp_regs[i].vdd_id,
-			&vsel, &uv);
+				    &vsel, &uv);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"0x%02X (%.6lfV)", vsel, (double) uv / 1000000.0);
+			 "0x%02X (%.6lfV)", vsel, (double)uv / 1000000.0);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"Force Update Wait (cycles, us)");
+					 "Force Update Wait (cycles, us)");
 		vp_force_update_wait_time_get(vp_regs[i].vp_voltage,
-			&cycles, &us);
+					      &cycles, &us);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN, "%u (%uus)",
-			cycles, us);
+			 cycles, us);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0, "MAX Voltage Step");
-		vp_max_step_get(vp_regs[i].vp_vstepmax,  vp_regs[i].vdd_id,
-			&step, &uv);
+		vp_max_step_get(vp_regs[i].vp_vstepmax, vp_regs[i].vdd_id,
+				&step, &uv);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"0x%02X (%.3lfmV)", step, (double) uv / 1000.0);
+			 "0x%02X (%.3lfmV)", step, (double)uv / 1000.0);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"SMPSWAITTIMEMAX (cycles/step, us)");
+					 "SMPSWAITTIMEMAX (cycles/step, us)");
 		vp_positive_slew_rate_get(vp_regs[i].vp_vstepmax, &cycles, &us);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN, "%u (%uus)",
-			cycles, us);
+			 cycles, us);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0, "MIN Voltage Step");
-		vp_min_step_get(vp_regs[i].vp_vstepmin,  vp_regs[i].vdd_id,
-			&step, &uv);
+		vp_min_step_get(vp_regs[i].vp_vstepmin, vp_regs[i].vdd_id,
+				&step, &uv);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"0x%02X (%.3lfmV)", step, (double) uv / 1000.0);
+			 "0x%02X (%.3lfmV)", step, (double)uv / 1000.0);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"SMPSWAITTIMEMIN (cycles/step, us)");
+					 "SMPSWAITTIMEMIN (cycles/step, us)");
 		vp_negative_slew_rate_get(vp_regs[i].vp_vstepmin, &cycles, &us);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN, "%u (%uus)",
-			cycles, us);
+			 cycles, us);
 		row++;
 	}
-
 
 	if (stream != NULL)
 		autoadjust_table_fprint(stream, table, row, 4);
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp_config_audit
@@ -780,9 +762,10 @@ int vp_config_show(FILE *stream, vp_registers vp_regs[3])
  * @DESCRIPTION		audit Voltage Processor (VP) configuration by comparison
  *			with expected ("golden") settings
  *------------------------------------------------------------------------ */
-int vp_config_audit(FILE *stream, const char *vp_name, const char *opp_name,
-	vp_registers *vp_regs, const vp_audit_settings *vp_golden_settings,
-	unsigned int *err_nbr, unsigned int *wng_nbr)
+int vp_config_audit(FILE * stream, const char *vp_name, const char *opp_name,
+		    vp_registers * vp_regs,
+		    const vp_audit_settings * vp_golden_settings,
+		    unsigned int *err_nbr, unsigned int *wng_nbr)
 {
 	signed char errgain_curr, errgain_expected;
 	double errgain_curr2, errgain_expected2;
@@ -794,7 +777,8 @@ int vp_config_audit(FILE *stream, const char *vp_name, const char *opp_name,
 	unsigned int row;
 	static const char mode_table[2][16] = {
 		"Disabled      ",
-		"Enabled       "};
+		"Enabled       "
+	};
 
 	CHECK_NULL_ARG(vp_name, OMAPCONF_ERR_ARG);
 	CHECK_NULL_ARG(vp_regs, OMAPCONF_ERR_ARG);
@@ -811,7 +795,7 @@ int vp_config_audit(FILE *stream, const char *vp_name, const char *opp_name,
 	row = 0;
 	autoadjust_table_init(table);
 	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"PRM %s Configuration AUDIT (@%s)", vp_name, opp_name);
+		 "PRM %s Configuration AUDIT (@%s)", vp_name, opp_name);
 	autoadjust_table_strncpy(table, row, 1, "Current");
 	autoadjust_table_strncpy(table, row, 2, "Expected");
 	autoadjust_table_strncpy(table, row, 3, "STATUS");
@@ -820,133 +804,130 @@ int vp_config_audit(FILE *stream, const char *vp_name, const char *opp_name,
 	autoadjust_table_strncpy(table, row, 0, "Mode");
 	current = vp_is_enabled(vp_regs->vp_config);
 	expected = vp_golden_settings->mode;
-	autoadjust_table_strncpy(table, row, 1,	(char *) mode_table[current]);
-	autoadjust_table_strncpy(table, row, 2,	(char *) mode_table[expected]);
+	autoadjust_table_strncpy(table, row, 1, (char *)mode_table[current]);
+	autoadjust_table_strncpy(table, row, 2, (char *)mode_table[expected]);
 	VP_AUDIT_SHOW_STATUS(current, expected);
 
 	autoadjust_table_strncpy(table, row, 0, "VC Response Timeout");
 	current = vp_vc_timeout_is_enabled(vp_regs->vp_config);
 	expected = vp_golden_settings->vc_timeout_mode;
-	autoadjust_table_strncpy(table, row, 1, (char *) mode_table[current]);
-	autoadjust_table_strncpy(table, row, 2, (char *) mode_table[expected]);
+	autoadjust_table_strncpy(table, row, 1, (char *)mode_table[current]);
+	autoadjust_table_strncpy(table, row, 2, (char *)mode_table[expected]);
 	VP_AUDIT_SHOW_STATUS(current, expected);
 
 	autoadjust_table_strncpy(table, row, 0, "  Timeout (SysClk cycles)");
-	vp_vc_timeout_get(vp_regs->vp_vlimitto,
-		&current, &current2);
+	vp_vc_timeout_get(vp_regs->vp_vlimitto, &current, &current2);
 	expected = vp_golden_settings->vc_timeout_cycles;
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u", current);
 	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u", expected);
 	VP_AUDIT_SHOW_STATUS(current, expected);
 
 	autoadjust_table_strncpy(table, row, 0,
-		"Force Update Wait (SysClk cycles)");
-	vp_force_update_wait_time_get(vp_regs->vp_voltage,
-		&current, &current2);
+				 "Force Update Wait (SysClk cycles)");
+	vp_force_update_wait_time_get(vp_regs->vp_voltage, &current, &current2);
 	expected = vp_golden_settings->force_update_wait_time;
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u", current);
 	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u", expected);
 	VP_AUDIT_SHOW_STATUS(current, expected);
 
-
 	autoadjust_table_strncpy(table, row, 0, "MAX Voltage Step");
-	vp_max_step_get(vp_regs->vp_vstepmax,  vp_regs->vdd_id,
-		&current, &current2);
+	vp_max_step_get(vp_regs->vp_vstepmax, vp_regs->vdd_id,
+			&current, &current2);
 	expected = vp_golden_settings->vstepmax;
 	expected2 = expected * smps_step_get(vdd_id2smps_id(vp_regs->vdd_id));
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.3lfmV)", current, (double) current2 / 1000.0);
+		 "0x%02X (%.3lfmV)", current, (double)current2 / 1000.0);
 	snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.3lfmV)", expected, (double) expected2 / 1000.0);
+		 "0x%02X (%.3lfmV)", expected, (double)expected2 / 1000.0);
 	VP_AUDIT_SHOW_STATUS(current, expected);
 
 	autoadjust_table_strncpy(table, row, 0,
-		"SMPSWAITTIMEMAX (cycles/step, us)");
+				 "SMPSWAITTIMEMAX (cycles/step, us)");
 	vp_positive_slew_rate_get(vp_regs->vp_vstepmax, &current, &current2);
 	expected = vp_golden_settings->positive_slew_rate;
 	expected2 = vp_slew_rate_cycles2us(expected);
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u (%uus)",
-		current, current2);
+		 current, current2);
 	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u (%uus)",
-		expected, expected2);
+		 expected, expected2);
 	VP_AUDIT_SHOW_STATUS(current, expected);
 
 	autoadjust_table_strncpy(table, row, 0, "MIN Voltage Step");
-	vp_min_step_get(vp_regs->vp_vstepmin,  vp_regs->vdd_id,
-		&current, &current2);
+	vp_min_step_get(vp_regs->vp_vstepmin, vp_regs->vdd_id,
+			&current, &current2);
 	expected = vp_golden_settings->vstepmin;
 	expected2 = expected * smps_step_get(vdd_id2smps_id(vp_regs->vdd_id));
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.3lfmV)", current, (double) current2 / 1000.0);
+		 "0x%02X (%.3lfmV)", current, (double)current2 / 1000.0);
 	snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.3lfmV)", expected, (double) expected2 / 1000.0);
+		 "0x%02X (%.3lfmV)", expected, (double)expected2 / 1000.0);
 	VP_AUDIT_SHOW_STATUS(current, expected);
 
 	autoadjust_table_strncpy(table, row, 0,
-		"SMPSWAITTIMEMIN (cycles/step, us)");
+				 "SMPSWAITTIMEMIN (cycles/step, us)");
 	vp_negative_slew_rate_get(vp_regs->vp_vstepmin, &current, &current2);
 	expected = vp_golden_settings->negative_slew_rate;
 	expected2 = vp_slew_rate_cycles2us(expected);
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u (%uus)",
-		current, current2);
+		 current, current2);
 	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u (%uus)",
-		expected, expected2);
+		 expected, expected2);
 	VP_AUDIT_SHOW_STATUS(current, expected);
 
 	autoadjust_table_strncpy(table, row, 0, "Initial Voltage (step, V)");
 	vp_init_voltage_get(vp_regs->vp_config, vp_regs->vdd_id,
-		(unsigned char *) &current, &current2);
+			    (unsigned char *)&current, &current2);
 	expected = vp_golden_settings->init_voltage;
 	expected2 = smps_vsel2uvolt(vdd_id2smps_id(vp_regs->vdd_id), expected);
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.6lfV)", current, (double) current2 / 1000000.0);
+		 "0x%02X (%.6lfV)", current, (double)current2 / 1000000.0);
 	snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.6lfV)", expected, (double) expected2 / 1000000.0);
+		 "0x%02X (%.6lfV)", expected, (double)expected2 / 1000000.0);
 	VP_AUDIT_SHOW_STATUS(current, expected);
 
 	autoadjust_table_strncpy(table, row, 0, "MAX Voltage (step, V)");
 	vp_max_voltage_get(vp_regs->vp_vlimitto, vp_regs->vdd_id,
-		(unsigned char *) &current, &current2);
+			   (unsigned char *)&current, &current2);
 	expected = vp_golden_settings->max_voltage;
 	expected2 = smps_vsel2uvolt(vdd_id2smps_id(vp_regs->vdd_id), expected);
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.6lfV)", current, (double) current2 / 1000000.0);
+		 "0x%02X (%.6lfV)", current, (double)current2 / 1000000.0);
 	snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.6lfV)", expected, (double) expected2 / 1000000.0);
+		 "0x%02X (%.6lfV)", expected, (double)expected2 / 1000000.0);
 	VP_AUDIT_SHOW_STATUS(current, expected);
 
 	autoadjust_table_strncpy(table, row, 0, "MIN Voltage (step, V)");
 	vp_min_voltage_get(vp_regs->vp_vlimitto, vp_regs->vdd_id,
-		(unsigned char *) &current, &current2);
+			   (unsigned char *)&current, &current2);
 	expected = vp_golden_settings->min_voltage;
 	expected2 = smps_vsel2uvolt(vdd_id2smps_id(vp_regs->vdd_id), expected);
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.6lfV)", current, (double) current2 / 1000000.0);
+		 "0x%02X (%.6lfV)", current, (double)current2 / 1000000.0);
 	snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.6lfV)", expected, (double) expected2 / 1000000.0);
+		 "0x%02X (%.6lfV)", expected, (double)expected2 / 1000000.0);
 	VP_AUDIT_SHOW_STATUS(current, expected);
 
 	autoadjust_table_strncpy(table, row, 0, "Error Gain (hex, mV/%)");
 	vp_error_gain_get(vp_regs->vp_config, vp_regs->vdd_id,
-		&errgain_curr, &errgain_curr2);
+			  &errgain_curr, &errgain_curr2);
 	errgain_expected = vp_golden_settings->error_gain;
 	errgain_expected2 = vp_error_gain_hex2percent(errgain_expected,
-		vp_regs->vdd_id);
+						      vp_regs->vdd_id);
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.3lfmV/%%)", errgain_curr, errgain_curr2);
+		 "0x%02X (%.3lfmV/%%)", errgain_curr, errgain_curr2);
 	snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.3lfmV/%%)", errgain_expected, errgain_expected2);
+		 "0x%02X (%.3lfmV/%%)", errgain_expected, errgain_expected2);
 	VP_AUDIT_SHOW_STATUS(errgain_curr, errgain_expected);
 
 	autoadjust_table_strncpy(table, row, 0, "Error Offset (hex, %)");
 	vp_error_offset_get(vp_regs->vp_config,
-		&erroffset_curr, &erroffset_curr2);
+			    &erroffset_curr, &erroffset_curr2);
 	erroffset_expected = vp_golden_settings->error_offset;
 	erroffset_expected2 = vp_error_offset_hex2percent(erroffset_expected);
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.3lf%%)", erroffset_curr, erroffset_curr2);
+		 "0x%02X (%.3lf%%)", erroffset_curr, erroffset_curr2);
 	snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.3lf%%)", erroffset_expected, erroffset_expected2);
+		 "0x%02X (%.3lf%%)", erroffset_expected, erroffset_expected2);
 	VP_AUDIT_SHOW_STATUS(erroffset_curr, erroffset_expected);
 
 	if (stream != NULL) {
@@ -960,4 +941,3 @@ int vp_config_audit(FILE *stream, const char *vp_name, const char *opp_name,
 
 	return 0;
 }
-

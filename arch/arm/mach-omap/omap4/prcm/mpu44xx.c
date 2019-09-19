@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <dpll.h>
 #include <dpll44xx.h>
 #include <lib44xx.h>
@@ -55,7 +54,6 @@
 #include <mem.h>
 #include <cpuinfo.h>
 #include <string.h>
-
 
 /* #define MPU44XX_DEBUG */
 #ifdef MPU44XX_DEBUG
@@ -84,9 +82,8 @@
 
 reg_table prcm_mpu_reg_table[28];
 
-
 static char omap44xx_prm_irq_names
-	[OMAP44XX_PRM_IRQ_MAX_NBR][OMAP44XX_PRM_IRQ_NAME_LENGTH] = {
+    [OMAP44XX_PRM_IRQ_MAX_NBR][OMAP44XX_PRM_IRQ_NAME_LENGTH] = {
 	"DPLL_CORE_RECAL",
 	"DPLL_MPU_RECAL",
 	"DPLL_IVA_RECAL",
@@ -126,10 +123,10 @@ static char omap44xx_prm_irq_names
 	"VP_MPU_EQVALUE",
 	"VP_MPU_TRANXDONE",
 	"VC_MPU_VPACK",
-	"ABB_MPU_DONE"};
+	"ABB_MPU_DONE"
+};
 
 static unsigned int init_done = 0;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpu44xx_regtable_init
@@ -204,7 +201,7 @@ int mpu44xx_regtable_init(void)
 
 	/* ES2.0 updates */
 	if ((cpu_is_omap4430() && (cpu_revision_get() != REV_ES1_0))
-		|| cpu_is_omap4460() || cpu_is_omap4470()) {
+	    || cpu_is_omap4460() || cpu_is_omap4470()) {
 		strcpy(omap44xx_prm_irq_names[22], "VC_CORE_VPACK");
 		strcpy(omap44xx_prm_irq_names[7], "RESERVED");
 		strcpy(omap44xx_prm_irq_names[5], "RESERVED");
@@ -213,7 +210,6 @@ int mpu44xx_regtable_init(void)
 	init_done = 1;
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpu44xx_name2addr
@@ -235,7 +231,6 @@ int mpu44xx_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, prcm_mpu_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpu44xx_config_show
  * @BRIEF		analyze MPU power configuration
@@ -245,7 +240,7 @@ int mpu44xx_name2addr(char *name, unsigned int *addr)
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyze MPU power configuration
  *------------------------------------------------------------------------ */
-int mpu44xx_config_show(FILE *stream)
+int mpu44xx_config_show(FILE * stream)
 {
 	unsigned int pm_pda_cpu0_pwrstctrl;
 	unsigned int pm_pda_cpu0_pwrstst;
@@ -276,49 +271,43 @@ int mpu44xx_config_show(FILE *stream)
 		mpu44xx_regtable_init();
 
 	if (mem_read(OMAP4430_PM_PDA_CPU0_PWRSTCTRL,
-		&pm_pda_cpu0_pwrstctrl) != 0)
+		     &pm_pda_cpu0_pwrstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (mem_read(OMAP4430_PM_PDA_CPU0_PWRSTST, &pm_pda_cpu0_pwrstst) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (mem_read(OMAP4430_RM_PDA_CPU0_CPU0_CONTEXT,
-		&rm_pda_cpu0_context) != 0)
+		     &rm_pda_cpu0_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (mem_read(OMAP4430_CM_PDA_CPU0_CPU0_CLKCTRL,
-		&cm_pda_cpu0_clkctrl) != 0)
+		     &cm_pda_cpu0_clkctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (mem_read(OMAP4430_CM_PDA_CPU0_CLKSTCTRL,
-		&cm_pda_cpu0_clkstctrl) != 0)
+		     &cm_pda_cpu0_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (mem_read(OMAP4430_PM_PDA_CPU1_PWRSTCTRL,
-		&pm_pda_cpu1_pwrstctrl) != 0)
+		     &pm_pda_cpu1_pwrstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
-	if (mem_read(OMAP4430_PM_PDA_CPU1_PWRSTST,
-		&pm_pda_cpu1_pwrstst) != 0)
+	if (mem_read(OMAP4430_PM_PDA_CPU1_PWRSTST, &pm_pda_cpu1_pwrstst) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (mem_read(OMAP4430_RM_PDA_CPU1_CPU1_CONTEXT,
-		&rm_pda_cpu1_context) != 0)
+		     &rm_pda_cpu1_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (mem_read(OMAP4430_CM_PDA_CPU1_CPU1_CLKCTRL,
-		&cm_pda_cpu1_clkctrl) != 0)
+		     &cm_pda_cpu1_clkctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (mem_read(OMAP4430_CM_PDA_CPU1_CLKSTCTRL,
-		&cm_pda_cpu1_clkstctrl) != 0)
+		     &cm_pda_cpu1_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
-	if (mem_read(OMAP4430_SCU_CPU_POWER_STATUS,
-		&scu_cpu_power_status) != 0)
+	if (mem_read(OMAP4430_SCU_CPU_POWER_STATUS, &scu_cpu_power_status) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
-	if (mem_read(OMAP4430_CM_CLKMODE_DPLL_MPU,
-		&cm_clkmode_dpll_mpu) != 0)
+	if (mem_read(OMAP4430_CM_CLKMODE_DPLL_MPU, &cm_clkmode_dpll_mpu) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
-	if (mem_read(OMAP4430_CM_IDLEST_DPLL_MPU,
-		&cm_idlest_dpll_mpu) != 0)
+	if (mem_read(OMAP4430_CM_IDLEST_DPLL_MPU, &cm_idlest_dpll_mpu) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
-	if (mem_read(OMAP4430_CM_AUTOIDLE_DPLL_MPU,
-		&cm_autoidle_dpll_mpu) != 0)
+	if (mem_read(OMAP4430_CM_AUTOIDLE_DPLL_MPU, &cm_autoidle_dpll_mpu) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 
-	ret = dpll44xx_dpll_params_get(DPLL44XX_MPU,
-		&dpll_mpu_params, 0);
+	ret = dpll44xx_dpll_params_get(DPLL44XX_MPU, &dpll_mpu_params, 0);
 	if (ret < 0)
 		return ret;
 
@@ -326,34 +315,39 @@ int mpu44xx_config_show(FILE *stream)
 	fprintf(stream, "|----------------------------------------------------"
 		"----|\n");
 	fprintf(stream, "| %-30s | %-9s | %-9s |\n", "MPU LPRM Configuration",
-		"CPU0",	"CPU1");
+		"CPU0", "CPU1");
 	fprintf(stream, "|--------------------------------|-----------|-------"
 		"----|\n");
 	pwrdm_state2string(s0,
-		(pwrdm_state) extract_bitfield(pm_pda_cpu0_pwrstst, 0, 2));
+			   (pwrdm_state) extract_bitfield(pm_pda_cpu0_pwrstst,
+							  0, 2));
 	pwrdm_state2string(s1,
-		(pwrdm_state) extract_bitfield(pm_pda_cpu1_pwrstst, 0, 2));
-	fprintf(stream, "| %-30s | %-9s | %-9s |\n", "Current Power State",
-		s0, s1);
+			   (pwrdm_state) extract_bitfield(pm_pda_cpu1_pwrstst,
+							  0, 2));
+	fprintf(stream, "| %-30s | %-9s | %-9s |\n", "Current Power State", s0,
+		s1);
 	fprintf(stream, "| %-30s | %-9s | %-9s |\n", "Current Logic State",
 		((extract_bit(pm_pda_cpu0_pwrstst, 2) == 1) ? "ON" : "OFF"),
 		((extract_bit(pm_pda_cpu1_pwrstst, 2) == 1) ? "ON" : "OFF"));
 	pwrdm_state2string(s0,
-		(pwrdm_state) extract_bitfield(pm_pda_cpu0_pwrstst, 4, 2));
+			   (pwrdm_state) extract_bitfield(pm_pda_cpu0_pwrstst,
+							  4, 2));
 	pwrdm_state2string(s1,
-		(pwrdm_state) extract_bitfield(pm_pda_cpu1_pwrstst, 4, 2));
-	fprintf(stream, "| %-30s | %-9s | %-9s |\n",
-		"Current L1$ State", s0, s1);
+			   (pwrdm_state) extract_bitfield(pm_pda_cpu1_pwrstst,
+							  4, 2));
+	fprintf(stream, "| %-30s | %-9s | %-9s |\n", "Current L1$ State", s0,
+		s1);
 	pwrdm_state2string(s0,
-		(pwrdm_state)extract_bitfield(pm_pda_cpu0_pwrstctrl, 0, 2));
+			   (pwrdm_state) extract_bitfield(pm_pda_cpu0_pwrstctrl,
+							  0, 2));
 	pwrdm_state2string(s1,
-		(pwrdm_state) extract_bitfield(pm_pda_cpu1_pwrstctrl, 0, 2));
-	fprintf(stream, "| %-30s | %-9s | %-9s |\n",
-		"Standby Status",
-		((extract_bit(cm_pda_cpu0_clkctrl, 0) == 1) ?
-			"STANDBY" : "RUNNING"),
-		((extract_bit(cm_pda_cpu1_clkctrl, 0) == 1) ?
-			"STANDBY" : "RUNNING"));
+			   (pwrdm_state) extract_bitfield(pm_pda_cpu1_pwrstctrl,
+							  0, 2));
+	fprintf(stream, "| %-30s | %-9s | %-9s |\n", "Standby Status",
+		((extract_bit(cm_pda_cpu0_clkctrl, 0) ==
+		  1) ? "STANDBY" : "RUNNING"),
+		((extract_bit(cm_pda_cpu1_clkctrl, 0) ==
+		  1) ? "STANDBY" : "RUNNING"));
 	fprintf(stream, "| %-30s | %-9s | %-9s |\n", "", "", "");
 	fprintf(stream, "| %-30s | %-9s | %-9s |\n", "Target Power State",
 		s0, s1);
@@ -363,47 +357,54 @@ int mpu44xx_config_show(FILE *stream)
 		((extract_bit(pm_pda_cpu1_pwrstctrl, 2) == 1) ? "RET" : "OFF"));
 	fprintf(stream, "| %-30s | %-9s | %-9s |\n", "Clock Control",
 		clkdm_ctrl_mode_name_get((clkdm_ctrl_mode)
-			extract_bitfield(cm_pda_cpu0_clkstctrl, 0, 2)),
+					 extract_bitfield(cm_pda_cpu0_clkstctrl,
+							  0, 2)),
 		clkdm_ctrl_mode_name_get((clkdm_ctrl_mode)
-			extract_bitfield(cm_pda_cpu1_clkstctrl, 0, 2)));
+					 extract_bitfield(cm_pda_cpu1_clkstctrl,
+							  0, 2)));
 	fprintf(stream, "| %-30s | %-9s | %-9s |\n", "", "", "");
 	if ((cpu_is_omap4430() && (cpu_revision_get() != REV_ES1_0)) ||
-		cpu_is_omap4460() || cpu_is_omap4470()) {
+	    cpu_is_omap4460() || cpu_is_omap4470()) {
 		pwrdm_state2string(s0, (pwrdm_state)
-			extract_bitfield(pm_pda_cpu0_pwrstst, 24, 2));
+				   extract_bitfield(pm_pda_cpu0_pwrstst, 24,
+						    2));
 		pwrdm_state2string(s1, (pwrdm_state)
-			extract_bitfield(pm_pda_cpu1_pwrstst, 24, 2));
+				   extract_bitfield(pm_pda_cpu1_pwrstst, 24,
+						    2));
 		fprintf(stream, "| %-30s | %-9s | %-9s |\n", "Last Power State",
 			s0, s1);
 	}
 	fprintf(stream, "| %-30s | %-9s | %-9s |\n", "Last L1$ Context",
 		((extract_bit(rm_pda_cpu0_context, 8) == 1) ?
-			"LOST" : "RETAINED"),
+		 "LOST" : "RETAINED"),
 		((extract_bit(rm_pda_cpu1_context, 8) == 1) ?
-			"LOST" : "RETAINED"));
+		 "LOST" : "RETAINED"));
 	fprintf(stream, "| %-30s | %-9s | %-9s |\n", "Last CPU Context",
 		((extract_bit(rm_pda_cpu0_context, 0) == 1) ?
-			"LOST" : "RETAINED"),
+		 "LOST" : "RETAINED"),
 		((extract_bit(rm_pda_cpu1_context, 0) == 1) ?
-			"LOST" : "RETAINED"));
+		 "LOST" : "RETAINED"));
 	fprintf(stream, "|----------------------------------------------------"
 		"----|\n");
 	fprintf(stream, "\n");
 
 	/* SCU Configuration */
 	fprintf(stream, "|----------------------------------------------------"
-	"----|\n");
+		"----|\n");
 	fprintf(stream, "| %-30s | %-9s | %-9s |\n",
 		"SCU Configuration", "CPU0", "CPU1");
 	fprintf(stream, "|--------------------------------|-----------|-------"
 		"----|\n");
 	OMAPCONF_SCU_CPU_POWER_STATUS_2_STRING(s0,
-		extract_bitfield(scu_cpu_power_status, 0, 2));
+					       extract_bitfield
+					       (scu_cpu_power_status, 0, 2));
 	OMAPCONF_SCU_CPU_POWER_STATUS_2_STRING(s1,
-		extract_bitfield(scu_cpu_power_status, 8, 2));
-	fprintf(stream, "| %-30s | %-9s | %-9s |\n", "CPU Power Status",
-		s0, s1);
-	fprintf(stream, "|---------------------------------------------------"
+					       extract_bitfield
+					       (scu_cpu_power_status, 8, 2));
+	fprintf(stream, "| %-30s | %-9s | %-9s |\n", "CPU Power Status", s0,
+		s1);
+	fprintf(stream,
+		"|---------------------------------------------------"
 		"-----|\n");
 	fprintf(stream, "\n");
 
@@ -413,8 +414,8 @@ int mpu44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_PM_MPU_PWRSTST, &pm_pwstst) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = pwrdm44xx_config_show(stream, "MPU",
-		OMAP4430_PM_MPU_PWRSTCTRL, pm_pwstctrl,
-		OMAP4430_PM_MPU_PWRSTST, pm_pwstst);
+				    OMAP4430_PM_MPU_PWRSTCTRL, pm_pwstctrl,
+				    OMAP4430_PM_MPU_PWRSTST, pm_pwstst);
 	if (ret != 0)
 		return ret;
 
@@ -422,7 +423,7 @@ int mpu44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM_MPU_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "MPU",
-		OMAP4430_CM_MPU_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_MPU_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 
@@ -432,8 +433,8 @@ int mpu44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_MPU_MPU_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MPU",
-		OMAP4430_CM_MPU_MPU_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_MPU_MPU_CONTEXT, rm_context);
+				  OMAP4430_CM_MPU_MPU_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_MPU_MPU_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -446,7 +447,7 @@ int mpu44xx_config_show(FILE *stream)
 		"----|\n");
 	fprintf(stream, "| %-30s | %-21s |\n", "Status",
 		dpll_status_name_get((dpll_status) dpll_mpu_params.status));
-	sprintf(s0, "%d", (unsigned int) dpll_mpu_params.M2_speed);
+	sprintf(s0, "%d", (unsigned int)dpll_mpu_params.M2_speed);
 	fprintf(stream, "| %-30s | %-21s |\n", "Clock Speed (MHz)", s0);
 	fprintf(stream, "| %-30s | %-21s |\n", "Mode",
 		dpll_mode_name_get((dpll_mode) dpll_mpu_params.mode));
@@ -454,7 +455,7 @@ int mpu44xx_config_show(FILE *stream)
 		(dpll_mpu_params.lpmode == 1) ? "Enabled" : "Disabled");
 	fprintf(stream, "| %-30s | %-21s |\n", "Autoidle Mode",
 		dpll_autoidle_mode_name_get((dpll_autoidle_mode)
-			dpll_mpu_params.autoidle_mode));
+					    dpll_mpu_params.autoidle_mode));
 	fprintf(stream, "| %-30s | %-21s |\n", "M2 Output Autogating",
 		(dpll_mpu_params.M2_autogating == 1) ? "Enabled" : "Disabled");
 	fprintf(stream, "|----------------------------------------------------"
@@ -465,7 +466,6 @@ int mpu44xx_config_show(FILE *stream)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpu44xx_dependency_show
  * @BRIEF		analyse MPU dependency configuration
@@ -475,7 +475,7 @@ int mpu44xx_config_show(FILE *stream)
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyse MPU dependency configuration
  *------------------------------------------------------------------------ */
-int mpu44xx_dependency_show(FILE *stream)
+int mpu44xx_dependency_show(FILE * stream)
 {
 	unsigned int cm_mpu_staticdep;
 	unsigned int cm_mpu_dynamicdep;
@@ -507,11 +507,9 @@ int mpu44xx_dependency_show(FILE *stream)
 		((extract_bit(cm_mpu_staticdep, 2) == 1) ? "En" : "Dis"),
 		((extract_bit(cm_mpu_dynamicdep, 2) == 1) ? "En" : "Dis"));
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "ABE",
-		((extract_bit(cm_mpu_staticdep, 3) == 1) ? "En" : "Dis"),
-		"En");
+		((extract_bit(cm_mpu_staticdep, 3) == 1) ? "En" : "Dis"), "En");
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "MEM IF",
-		((extract_bit(cm_mpu_staticdep, 4) == 1) ? "En" : "Dis"),
-		"En");
+		((extract_bit(cm_mpu_staticdep, 4) == 1) ? "En" : "Dis"), "En");
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "L3_1",
 		((extract_bit(cm_mpu_staticdep, 5) == 1) ? "En" : "Dis"),
 		((extract_bit(cm_mpu_dynamicdep, 5) == 1) ? "En" : "Dis"));
@@ -566,7 +564,6 @@ int mpu44xx_dependency_show(FILE *stream)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpu44xx_irq_show
  * @BRIEF		analyse MPU PRM IRQ configuration
@@ -576,7 +573,7 @@ int mpu44xx_dependency_show(FILE *stream)
  * @param[in]
  * @DESCRIPTION		analyse MPU PRM IRQ configuration
  *------------------------------------------------------------------------ */
-int mpu44xx_irq_show(FILE *stream)
+int mpu44xx_irq_show(FILE * stream)
 {
 	unsigned int prm_irqstatus_mpu;
 	unsigned int prm_irqstatus_mpu_2;
@@ -611,25 +608,24 @@ int mpu44xx_irq_show(FILE *stream)
 	for (i = 0; i < 32; i++) {
 		if (strcmp("RESERVED", omap44xx_prm_irq_names[i]) != 0) {
 			OMAPCONF_COND_STRCPY(extract_bit(prm_irqstatus_mpu,
-				i) == 1, status, "Pending", "");
-			OMAPCONF_COND_STRCPY(extract_bit(prm_irqenable_mpu,
-				i) == 1, mode, "Enabled", "Masked");
+							 i) == 1, status,
+					     "Pending", "");
+			OMAPCONF_COND_STRCPY(extract_bit(prm_irqenable_mpu, i)
+					     == 1, mode, "Enabled", "Masked");
 			fprintf(stream, "| (%2d) %-21s | %-7s | %-7s |\n", i,
-				omap44xx_prm_irq_names[i],
-				mode,
-				status);
+				omap44xx_prm_irq_names[i], mode, status);
 		}
 	}
 	for (i = 32; i < OMAP44XX_PRM_IRQ_MAX_NBR; i++) {
 		if (strcmp("RESERVED", omap44xx_prm_irq_names[i]) != 0) {
 			OMAPCONF_COND_STRCPY(extract_bit(prm_irqstatus_mpu_2,
-				i - 32) == 1, status, "Pending", "");
-			OMAPCONF_COND_STRCPY(extract_bit(prm_irqenable_mpu_2,
-				i - 32) == 1, mode, "Enabled", "Masked");
+							 i - 32) == 1, status,
+					     "Pending", "");
+			OMAPCONF_COND_STRCPY(extract_bit
+					     (prm_irqenable_mpu_2, i - 32) == 1,
+					     mode, "Enabled", "Masked");
 			fprintf(stream, "| (%2d) %-21s | %-7s | %-7s |\n", i,
-				omap44xx_prm_irq_names[i],
-				mode,
-				status);
+				omap44xx_prm_irq_names[i], mode, status);
 		}
 	}
 	fprintf(stream,
@@ -637,7 +633,6 @@ int mpu44xx_irq_show(FILE *stream)
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpu44xx_dump
@@ -656,7 +651,6 @@ int mpu44xx_dump(void)
 
 	return dumpregs(prcm_mpu_reg_table);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpu44xx_main

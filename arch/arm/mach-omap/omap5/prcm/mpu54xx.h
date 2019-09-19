@@ -41,15 +41,11 @@
  *
  */
 
-
 #ifndef __MPU54XX_H__
 #define __MPU54XX_H__
 
-
 #include <stdio.h>
 
-
-int mpu54xx_dump(FILE *stream);
-
+int mpu54xx_dump(FILE * stream);
 
 #endif

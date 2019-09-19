@@ -41,13 +41,10 @@
  *
  */
 
-
 #ifndef __PRCM_ABB_H__
 #define __PRCM_ABB_H__
 
-
 #include <stdio.h>
-
 
 struct abb_data {
 	char *name;
@@ -56,8 +53,7 @@ struct abb_data {
 	unsigned int ctrl;
 };
 
-int abb_config_show(FILE *stream, double sysclk_rate, struct abb_data *data,
+int abb_config_show(FILE * stream, double sysclk_rate, struct abb_data *data,
 		    int num);
-
 
 #endif

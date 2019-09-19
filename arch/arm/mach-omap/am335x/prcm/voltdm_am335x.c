@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <autoadjust_table.h>
 #include <clock_am335x.h>
 #include <cpuinfo.h>
@@ -54,24 +53,21 @@
 #include <voltdm_am335x.h>
 #include <voltdomain.h>
 
-
 #ifdef VOLTDM_AM335X_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
 
-
 static const char
-	voltdm_am335x_names_table[VDD_AM335X_ID_MAX][VOLTDM_MAX_NAME_LENGTH] = {
+ voltdm_am335x_names_table[VDD_AM335X_ID_MAX][VOLTDM_MAX_NAME_LENGTH] = {
 	[VDD_AM335X_CORE] = "VDD_CORE",
 	[VDD_AM335X_MPU] = "VDD_MPU",
-	[VDD_AM335X_RTC] = "VDD_RTC"};
-
+	[VDD_AM335X_RTC] = "VDD_RTC"
+};
 
 static unsigned short voltdm_am335x_init_done;
 genlist voltdm_am335x_list;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_am335x_init
@@ -88,27 +84,26 @@ void voltdm_am335x_init(void)
 	genlist_init(&voltdm_am335x_list);
 
 	voltdm.name = VDD_CORE;
-	voltdm.id = (int) VDD_AM335X_CORE;
+	voltdm.id = (int)VDD_AM335X_CORE;
 	voltdm.voltst = NULL;
-	genlist_addtail(
-		&voltdm_am335x_list, (void *) &voltdm, sizeof(voltdm_info));
+	genlist_addtail(&voltdm_am335x_list, (void *)&voltdm,
+			sizeof(voltdm_info));
 
 	voltdm.name = VDD_MPU;
-	voltdm.id = (int) VDD_AM335X_MPU;
+	voltdm.id = (int)VDD_AM335X_MPU;
 	voltdm.voltst = NULL;
-	genlist_addtail(
-		&voltdm_am335x_list, (void *) &voltdm, sizeof(voltdm_info));
+	genlist_addtail(&voltdm_am335x_list, (void *)&voltdm,
+			sizeof(voltdm_info));
 
 	voltdm.name = VDD_RTC;
-	voltdm.id = (int) VDD_AM335X_RTC;
+	voltdm.id = (int)VDD_AM335X_RTC;
 	voltdm.voltst = NULL;
-	genlist_addtail(
-		&voltdm_am335x_list, (void *) &voltdm, sizeof(voltdm_info));
+	genlist_addtail(&voltdm_am335x_list, (void *)&voltdm,
+			sizeof(voltdm_info));
 
 	voltdm_am335x_init_done = 1;
 	dprintf("%s(): init done.\n", __func__);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_am335x_deinit
@@ -125,7 +120,6 @@ void voltdm_am335x_deinit(void)
 	dprintf("%s(): deinit done.\n", __func__);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_am335x_list_get
  * @BRIEF		return the list of voltage domains
@@ -137,9 +131,8 @@ const genlist *voltdm_am335x_list_get(void)
 {
 	voltdm_am335x_init();
 
-	return (const genlist *) &voltdm_am335x_list;
+	return (const genlist *)&voltdm_am335x_list;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_am335x_count_get
@@ -161,7 +154,6 @@ int voltdm_am335x_count_get(void)
 	return count;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_am335x_name_get
  * @BRIEF		return voltage domain name
@@ -176,7 +168,6 @@ const char *voltdm_am335x_name_get(voltdm_am335x_id id)
 
 	return voltdm_am335x_names_table[id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_am335x_id2s
@@ -210,7 +201,6 @@ const char *voltdm_am335x_id2s(voltdm_am335x_id id)
 	return s;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_am335x_voltage_get
  * @BRIEF		find the current supply voltage of a domain
@@ -231,7 +221,7 @@ double voltdm_am335x_voltage_get(voltdm_am335x_id id)
 {
 	double volt;
 
-	CHECK_ARG_LESS_THAN(id, VDD_AM335X_ID_MAX, (double) OMAPCONF_ERR_ARG);
+	CHECK_ARG_LESS_THAN(id, VDD_AM335X_ID_MAX, (double)OMAPCONF_ERR_ARG);
 
 	switch (id) {
 	case VDD_AM335X_CORE:
@@ -247,9 +237,10 @@ double voltdm_am335x_voltage_get(voltdm_am335x_id id)
 		break;
 
 	default:
-		return (double) OMAPCONF_ERR_ARG;
+		return (double)OMAPCONF_ERR_ARG;
 	}
 
-	dprintf("%s(%s): volt=%lfV\n", __func__, voltdm_am335x_name_get(id), volt);
+	dprintf("%s(%s): volt=%lfV\n", __func__, voltdm_am335x_name_get(id),
+		volt);
 	return volt;
 }

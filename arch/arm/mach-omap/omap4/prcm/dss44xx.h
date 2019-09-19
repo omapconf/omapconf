@@ -41,21 +41,17 @@
  *
  */
 
-
 #ifndef __DSS44XX_H__
 #define __DSS44XX_H__
 
-
 #include <stdio.h>
-
 
 int dss44xx_name2addr(char *name, unsigned int *addr);
 int dss44xx_dump(void);
-int dss44xx_config_show(FILE *stream);
-int dss44xx_dependency_show(FILE *stream);
+int dss44xx_config_show(FILE * stream);
+int dss44xx_dependency_show(FILE * stream);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int dss44xx_main(int argc, char *argv[]);
-
 
 #endif

@@ -41,15 +41,11 @@
  *
  */
 
-
 #ifndef __PRCM_DRA7XX_H__
 #define __PRCM_DRA7XX_H__
 
-
 #include <stdio.h>
 
-
 int prcm_dra7xx_dump(char *s);
-
 
 #endif

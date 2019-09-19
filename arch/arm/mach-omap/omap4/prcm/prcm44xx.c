@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <prcm44xx.h>
 #include <help.h>
 #include <lib.h>
@@ -65,14 +64,12 @@
 #include <wkdep44xx.h>
 #include <abb44xx.h>
 
-
 /* #define PRCM44XX_DEBUG */
 #ifdef PRCM44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		prcm44xx_dump
@@ -147,7 +144,6 @@ int prcm44xx_dump(char *s)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		prcm44xx_config_show
  * @BRIEF		print PRCM configuration and status of item
@@ -203,7 +199,6 @@ int prcm44xx_config_show(char *s)
 	else
 		return err_arg_msg_show(HELP_PRCM);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		prcm44xx_dep_show

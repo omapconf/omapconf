@@ -41,15 +41,12 @@
  *
  */
 
-
 #ifndef __MODULE_DRA7XX_H__
 #define __MODULE_DRA7XX_H__
-
 
 #include <prcm-module.h>
 #include <clock_dra7xx.h>
 #include <voltdm_dra7xx.h>
-
 
 typedef enum {
 	/* Voltage dom.: CORE, Power dom.: WKUPAON, Clock domain = WKUPAON */
@@ -274,6 +271,5 @@ void mod_dra7xx_deinit(void);
 
 const genlist *mod_dra7xx_list_get(void);
 int mod_dra7xx_count_get(void);
-
 
 #endif

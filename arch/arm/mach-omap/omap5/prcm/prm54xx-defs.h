@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __PRM54XX_DEFS_H__
 #define __PRM54XX_DEFS_H__
 
-
 #include <reg.h>
 #include <prm54xxes1-defs.h>
-
 
 #define OMAP5430_PM_DSS_PWRSTCTRL		0x4ae07400
 extern reg omap5430_pm_dss_pwrstctrl;
@@ -111,7 +108,8 @@ extern reg omap5430_cm_prm_profiling_clkctrl;
 #define OMAP5430_PRM_DEBUG_CFG			0x4ae06080
 extern reg omap5430_prm_debug_cfg;
 #define OMAP5430_OCP_SOCKET_PRM_MOD_REGCOUNT	11
-extern reg *omap5430_ocp_socket_prm_mod[OMAP5430_OCP_SOCKET_PRM_MOD_REGCOUNT + 1];
+extern reg *omap5430_ocp_socket_prm_mod[OMAP5430_OCP_SOCKET_PRM_MOD_REGCOUNT +
+					1];
 
 #define OMAP5430_PM_CAM_PWRSTCTRL		0x4ae07300
 extern reg omap5430_pm_cam_pwrstctrl;
@@ -686,7 +684,8 @@ extern reg omap5430_rm_cpu0_cpu0_rstst;
 #define OMAP5430_RM_CPU0_CPU0_CONTEXT		0x48243424
 extern reg omap5430_rm_cpu0_cpu0_context;
 #define OMAP5430_PRCM_MPU_PRM_C0_MOD_REGCOUNT	5
-extern reg *omap5430_prcm_mpu_prm_c0_mod[OMAP5430_PRCM_MPU_PRM_C0_MOD_REGCOUNT + 1];
+extern reg *omap5430_prcm_mpu_prm_c0_mod[OMAP5430_PRCM_MPU_PRM_C0_MOD_REGCOUNT +
+					 1];
 
 #define OMAP5430_PM_CPU1_PWRSTCTRL		0x48243800
 extern reg omap5430_pm_cpu1_pwrstctrl;
@@ -699,9 +698,9 @@ extern reg omap5430_rm_cpu1_cpu1_rstst;
 #define OMAP5430_RM_CPU1_CPU1_CONTEXT		0x48243824
 extern reg omap5430_rm_cpu1_cpu1_context;
 #define OMAP5430_PRCM_MPU_PRM_C1_MOD_REGCOUNT	5
-extern reg *omap5430_prcm_mpu_prm_c1_mod[OMAP5430_PRCM_MPU_PRM_C1_MOD_REGCOUNT + 1];
+extern reg *omap5430_prcm_mpu_prm_c1_mod[OMAP5430_PRCM_MPU_PRM_C1_MOD_REGCOUNT +
+					 1];
 
 extern reg **prm54xx_mods[PRM54XX_MODS_COUNT + 1];
-
 
 #endif

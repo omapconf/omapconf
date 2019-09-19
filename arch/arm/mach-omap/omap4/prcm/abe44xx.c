@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <abe44xx.h>
 #include <clkdm44xx.h>
 #include <unistd.h>
@@ -57,7 +56,6 @@
 #include <mem.h>
 #include <cpuinfo.h>
 #include <string.h>
-
 
 /* #define ABE44XX_DEBUG */
 #ifdef ABE44XX_DEBUG
@@ -97,81 +95,79 @@ struct atc_desc {
 
 struct atc_item atc_list[OMAP_ABE_ATC_LIST_SIZE] = {
 	{
-		.name = "DMIC",
-		.offset = 0x0000,
-	},
+	 .name = "DMIC",
+	 .offset = 0x0000,
+	 },
 	{
-		.name = "McPDM DL",
-		.offset = 0x0010,
-	},
+	 .name = "McPDM DL",
+	 .offset = 0x0010,
+	 },
 	{
-		.name = "McPDM UL",
-		.offset = 0x0018,
-	},
+	 .name = "McPDM UL",
+	 .offset = 0x0018,
+	 },
 	{
-		.name = "McBSP 1 TX",
-		.offset = 0x0020,
-	},
+	 .name = "McBSP 1 TX",
+	 .offset = 0x0020,
+	 },
 	{
-		.name = "McBSP 1 RX",
-		.offset = 0x0028,
-	},
+	 .name = "McBSP 1 RX",
+	 .offset = 0x0028,
+	 },
 	{
-		.name = "McBSP 2 TX",
-		.offset = 0x0030,
-	},
+	 .name = "McBSP 2 TX",
+	 .offset = 0x0030,
+	 },
 	{
-		.name = "McBSP 2 RX",
-		.offset = 0x0038,
-	},
+	 .name = "McBSP 2 RX",
+	 .offset = 0x0038,
+	 },
 	{
-		.name = "McBSP 3 TX",
-		.offset = 0x0040,
-	},
+	 .name = "McBSP 3 TX",
+	 .offset = 0x0040,
+	 },
 	{
-		.name = "McBSP 3 RX",
-		.offset = 0x0048,
-	},
+	 .name = "McBSP 3 RX",
+	 .offset = 0x0048,
+	 },
 	{
-		.name = "CBPr0",
-		.offset = 0x0100,
-	},
+	 .name = "CBPr0",
+	 .offset = 0x0100,
+	 },
 	{
-		.name = "CBPr1",
-		.offset = 0x0108,
-	},
+	 .name = "CBPr1",
+	 .offset = 0x0108,
+	 },
 	{
-		.name = "CBPr2",
-		.offset = 0x0110,
-	},
+	 .name = "CBPr2",
+	 .offset = 0x0110,
+	 },
 	{
-		.name = "CBPr3",
-		.offset = 0x0118,
-	},
+	 .name = "CBPr3",
+	 .offset = 0x0118,
+	 },
 	{
-		.name = "CBPr4",
-		.offset = 0x0120,
-	},
+	 .name = "CBPr4",
+	 .offset = 0x0120,
+	 },
 	{
-		.name = "CBPr5",
-		.offset = 0x0128,
-	},
+	 .name = "CBPr5",
+	 .offset = 0x0128,
+	 },
 	{
-		.name = "CBPr6",
-		.offset = 0x0130,
-	},
+	 .name = "CBPr6",
+	 .offset = 0x0130,
+	 },
 	{
-		.name = "CBPr7",
-		.offset = 0x0138,
-	}
+	 .name = "CBPr7",
+	 .offset = 0x0138,
+	 }
 };
-
 
 reg_table prcm_abe_reg_table[PRCM_ABE_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
 
 static int abe44xx_regtable_init(void);
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		abe44xx_name2addr
@@ -193,7 +189,6 @@ int abe44xx_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, prcm_abe_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		abe44xx_config_show
  * @BRIEF		analyze ABE power configuration
@@ -203,7 +198,7 @@ int abe44xx_name2addr(char *name, unsigned int *addr)
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyze ABE power configuration
  *------------------------------------------------------------------------ */
-int abe44xx_config_show(FILE *stream)
+int abe44xx_config_show(FILE * stream)
 {
 	unsigned int pm_pwstctrl;
 	unsigned int pm_pwstst;
@@ -223,8 +218,8 @@ int abe44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_PM_ABE_PWRSTST, &pm_pwstst) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = pwrdm44xx_config_show(stream, "ABE",
-		OMAP4430_PM_ABE_PWRSTCTRL, pm_pwstctrl,
-		OMAP4430_PM_ABE_PWRSTST, pm_pwstst);
+				    OMAP4430_PM_ABE_PWRSTCTRL, pm_pwstctrl,
+				    OMAP4430_PM_ABE_PWRSTST, pm_pwstst);
 	if (ret != 0)
 		return ret;
 
@@ -232,16 +227,14 @@ int abe44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM1_ABE_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "ABE",
-		OMAP4430_CM1_ABE_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM1_ABE_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 
 	/* Module Power Configuration */
 	if (mem_read(OMAP4430_CM1_ABE_L4ABE_CLKCTRL, &cm_clkctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
-	ret = mod44xx_config_show(stream, "L4ABE",
-		OMAP4430_CM1_ABE_L4ABE_CLKCTRL, cm_clkctrl,
-		0, 0); /* no context register */
+	ret = mod44xx_config_show(stream, "L4ABE", OMAP4430_CM1_ABE_L4ABE_CLKCTRL, cm_clkctrl, 0, 0);	/* no context register */
 	if (ret != 0)
 		return ret;
 
@@ -250,8 +243,8 @@ int abe44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ABE_AESS_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "AESS",
-		OMAP4430_CM1_ABE_AESS_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ABE_AESS_CONTEXT, rm_context);
+				  OMAP4430_CM1_ABE_AESS_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ABE_AESS_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -260,8 +253,8 @@ int abe44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ABE_PDM_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "PDM",
-		OMAP4430_CM1_ABE_PDM_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ABE_PDM_CONTEXT, rm_context);
+				  OMAP4430_CM1_ABE_PDM_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ABE_PDM_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -270,8 +263,8 @@ int abe44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ABE_DMIC_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "DMIC",
-		OMAP4430_CM1_ABE_DMIC_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ABE_DMIC_CONTEXT, rm_context);
+				  OMAP4430_CM1_ABE_DMIC_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ABE_DMIC_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -280,8 +273,8 @@ int abe44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ABE_MCASP_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MCASP",
-		OMAP4430_CM1_ABE_MCASP_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ABE_MCASP_CONTEXT, rm_context);
+				  OMAP4430_CM1_ABE_MCASP_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ABE_MCASP_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -290,8 +283,8 @@ int abe44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ABE_MCBSP1_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MCBSP1",
-		OMAP4430_CM1_ABE_MCBSP1_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ABE_MCBSP1_CONTEXT, rm_context);
+				  OMAP4430_CM1_ABE_MCBSP1_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ABE_MCBSP1_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -300,8 +293,8 @@ int abe44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ABE_MCBSP2_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MCBSP2",
-		OMAP4430_CM1_ABE_MCBSP2_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ABE_MCBSP2_CONTEXT, rm_context);
+				  OMAP4430_CM1_ABE_MCBSP2_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ABE_MCBSP2_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -310,8 +303,8 @@ int abe44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ABE_MCBSP3_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MCBSP3",
-		OMAP4430_CM1_ABE_MCBSP3_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ABE_MCBSP3_CONTEXT, rm_context);
+				  OMAP4430_CM1_ABE_MCBSP3_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ABE_MCBSP3_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -320,8 +313,8 @@ int abe44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ABE_SLIMBUS_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "SLIMBUS",
-		OMAP4430_CM1_ABE_SLIMBUS_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ABE_SLIMBUS_CONTEXT, rm_context);
+				  OMAP4430_CM1_ABE_SLIMBUS_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ABE_SLIMBUS_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -330,8 +323,8 @@ int abe44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ABE_TIMER5_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "TIMER5",
-		OMAP4430_CM1_ABE_TIMER5_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ABE_TIMER5_CONTEXT, rm_context);
+				  OMAP4430_CM1_ABE_TIMER5_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ABE_TIMER5_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -340,8 +333,8 @@ int abe44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ABE_TIMER6_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "TIMER6",
-		OMAP4430_CM1_ABE_TIMER6_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ABE_TIMER6_CONTEXT, rm_context);
+				  OMAP4430_CM1_ABE_TIMER6_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ABE_TIMER6_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -350,8 +343,8 @@ int abe44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ABE_TIMER7_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "TIMER7",
-		OMAP4430_CM1_ABE_TIMER7_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ABE_TIMER7_CONTEXT, rm_context);
+				  OMAP4430_CM1_ABE_TIMER7_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ABE_TIMER7_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -360,8 +353,8 @@ int abe44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ABE_TIMER8_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "TIMER8",
-		OMAP4430_CM1_ABE_TIMER8_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ABE_TIMER8_CONTEXT, rm_context);
+				  OMAP4430_CM1_ABE_TIMER8_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ABE_TIMER8_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -370,14 +363,13 @@ int abe44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ABE_WDT3_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "WDT3",
-		OMAP4430_CM1_ABE_WDT3_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ABE_WDT3_CONTEXT, rm_context);
+				  OMAP4430_CM1_ABE_WDT3_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ABE_WDT3_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		abe44xx_dump
@@ -397,7 +389,6 @@ int abe44xx_dump(void)
 	return dumpregs(prcm_abe_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		abe44xx_atc_status_show
  * @BRIEF		analyze ABE ATC configuration
@@ -407,7 +398,7 @@ int abe44xx_dump(void)
  * @param[in, out]	stream: output file stream
  * @DESCRIPTION		analyze ABE ATC configuration
  *------------------------------------------------------------------------ */
-int abe44xx_atc_status_show(FILE *stream)
+int abe44xx_atc_status_show(FILE * stream)
 {
 	int i, j;
 	int read_count, write_count;
@@ -451,7 +442,7 @@ int abe44xx_atc_status_show(FILE *stream)
 		/* Read ATC descriptor */
 		reg_addr = OMAP_ABE_DMEM_ADDR + atc_list[i].offset;
 		ret = mem_address_range_read(reg_addr,
-			(unsigned int *)(&atc[0]), 2);
+					     (unsigned int *)(&atc[0]), 2);
 		if (ret)
 			return ret;
 
@@ -462,17 +453,18 @@ int abe44xx_atc_status_show(FILE *stream)
 			/* Make several read to check the activity */
 			for (j = 0; j < OMAP_ABE_ATC_NB_READ; j++) {
 				ret = mem_address_range_read(reg_addr,
-					(unsigned int *)&atc[j], 2);
+							     (unsigned int *)
+							     &atc[j], 2);
 				if (ret)
 					return ret;
 				usleep(250);
 			}
 
 			/* Check Read/write pointer (moving or not) */
-			for (j = 0; j < (OMAP_ABE_ATC_NB_READ-1); j++) {
-				if (atc[j].rdpt != atc[j+1].rdpt)
+			for (j = 0; j < (OMAP_ABE_ATC_NB_READ - 1); j++) {
+				if (atc[j].rdpt != atc[j + 1].rdpt)
 					read_count++;
-				if (atc[j].wrpt != atc[j+1].wrpt)
+				if (atc[j].wrpt != atc[j + 1].wrpt)
 					write_count++;
 			}
 
@@ -513,8 +505,7 @@ int abe44xx_atc_status_show(FILE *stream)
 
 			if ((atc[0].badd == 0) || ((atc[0].badd & 0x00F) != 0))
 				fprintf(stream, "\t!!! Base Address for DMEM "
-					"is not good (0x%04x)\n",
-					atc[0].badd);
+					"is not good (0x%04x)\n", atc[0].badd);
 
 			fprintf(stream,
 				"\tBase:0x%08x, iter: %d, FIFO size:%d\n",
@@ -526,7 +517,6 @@ int abe44xx_atc_status_show(FILE *stream)
 	}
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		abe44xx_main
@@ -565,7 +555,6 @@ int abe44xx_main(int argc, char *argv[])
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		abe44xx_regtable_init

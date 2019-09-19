@@ -86,7 +86,7 @@ const char hsdiv_dra7xx_names[HSDIV_DRA7XX_ID_MAX][HSDIV_MAX_NAME_LENGTH] = {
 };
 
 const char
-    dpll_dra7xx_output_names[DPLL_DRA7XX_OUTPUT_ID_MAX]
+ dpll_dra7xx_output_names[DPLL_DRA7XX_OUTPUT_ID_MAX]
     [DPLL_OUTPUT_MAX_NAME_LENGTH] = {
 	[DPLL_DRA7XX_CLKOUT_M2] = "CLKOUT_M2",
 	[DPLL_DRA7XX_CLKOUTX2_M2] = "CLKOUTX2_M2",
@@ -535,43 +535,32 @@ dpll_dra7xx_audited_settings dpll_dra7xx_PCIE_REF_golden_settings_20MHz_opp_nom
 };
 
 dpll_dra7xx_audited_settings
-    *dpll_dra7xx_golden_settings_20MHz_table[DPLL_DRA7XX_ID_MAX]
+    * dpll_dra7xx_golden_settings_20MHz_table[DPLL_DRA7XX_ID_MAX]
     [OPP_DRA7XX_ID_MAX] = {
-	[DPLL_DRA7XX_MPU] = {&dpll_dra7xx_MPU_golden_settings_20MHz_opp_nom,
-			     &dpll_dra7xx_MPU_golden_settings_20MHz_opp_od,
-			     &dpll_dra7xx_MPU_golden_settings_20MHz_opp_high},
-	[DPLL_DRA7XX_IVA] = {&dpll_dra7xx_IVA_golden_settings_20MHz_opp_nom,
-			     NULL,
-			     NULL},
-	[DPLL_DRA7XX_CORE] = {&dpll_dra7xx_CORE_golden_settings_20MHz_opp_nom,
-			      NULL,
-			      NULL},
-	[DPLL_DRA7XX_PER] = {&dpll_dra7xx_PER_golden_settings_20MHz_opp_nom,
-			     NULL,
-			     NULL},
-	[DPLL_DRA7XX_ABE] = {&dpll_dra7xx_ABE_golden_settings_20MHz_opp_nom,
-			     NULL,
-			     NULL},
-	[DPLL_DRA7XX_EVE] = {&dpll_dra7xx_EVE_golden_settings_20MHz_opp_nom,
-			     NULL,
-			     NULL},
-	[DPLL_DRA7XX_DSP] = {&dpll_dra7xx_DSP_golden_settings_20MHz_opp_nom,
-			     NULL,
-			     NULL},
-	[DPLL_DRA7XX_GMAC] = {&dpll_dra7xx_GMAC_golden_settings_20MHz_opp_nom,
-			      NULL,
-			      NULL},
-	[DPLL_DRA7XX_GPU] = {&dpll_dra7xx_GPU_golden_settings_20MHz_opp_nom,
-			     NULL,
-			     NULL},
-	[DPLL_DRA7XX_DDR] = {&dpll_dra7xx_DDR_golden_settings_20MHz_opp_nom,
-			     NULL,
-			     NULL},
-	[DPLL_DRA7XX_USB] = {&dpll_dra7xx_USB_golden_settings_20MHz_opp_nom,
-			     NULL,
-			     NULL},
-	[DPLL_DRA7XX_PCIE_REF] =
-	    {&dpll_dra7xx_PCIE_REF_golden_settings_20MHz_opp_nom,
-	     NULL,
-	     NULL}
+	[DPLL_DRA7XX_MPU] = {
+	&dpll_dra7xx_MPU_golden_settings_20MHz_opp_nom,
+		    &dpll_dra7xx_MPU_golden_settings_20MHz_opp_od,
+		    &dpll_dra7xx_MPU_golden_settings_20MHz_opp_high},
+	    [DPLL_DRA7XX_IVA] = {
+	&dpll_dra7xx_IVA_golden_settings_20MHz_opp_nom,
+		    NULL, NULL},[DPLL_DRA7XX_CORE] = {
+	&dpll_dra7xx_CORE_golden_settings_20MHz_opp_nom,
+		    NULL, NULL},[DPLL_DRA7XX_PER] = {
+	&dpll_dra7xx_PER_golden_settings_20MHz_opp_nom,
+		    NULL, NULL},[DPLL_DRA7XX_ABE] = {
+	&dpll_dra7xx_ABE_golden_settings_20MHz_opp_nom,
+		    NULL, NULL},[DPLL_DRA7XX_EVE] = {
+	&dpll_dra7xx_EVE_golden_settings_20MHz_opp_nom,
+		    NULL, NULL},[DPLL_DRA7XX_DSP] = {
+	&dpll_dra7xx_DSP_golden_settings_20MHz_opp_nom,
+		    NULL, NULL},[DPLL_DRA7XX_GMAC] = {
+	&dpll_dra7xx_GMAC_golden_settings_20MHz_opp_nom,
+		    NULL, NULL},[DPLL_DRA7XX_GPU] = {
+	&dpll_dra7xx_GPU_golden_settings_20MHz_opp_nom,
+		    NULL, NULL},[DPLL_DRA7XX_DDR] = {
+	&dpll_dra7xx_DDR_golden_settings_20MHz_opp_nom,
+		    NULL, NULL},[DPLL_DRA7XX_USB] = {
+	&dpll_dra7xx_USB_golden_settings_20MHz_opp_nom,
+		    NULL, NULL},[DPLL_DRA7XX_PCIE_REF] = {
+	&dpll_dra7xx_PCIE_REF_golden_settings_20MHz_opp_nom, NULL, NULL}
 };

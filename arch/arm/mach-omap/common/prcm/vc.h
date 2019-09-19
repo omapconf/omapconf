@@ -42,33 +42,29 @@
  *
  */
 
-
 #ifndef __PRCM_VC_H__
 #define __PRCM_VC_H__
 
-
 #include <stdio.h>
 
-
 short int vc_cmd_values_get(unsigned int prm_vc_val_cmd,
-	unsigned char *cmd_on, unsigned char *cmd_onlp,
-	unsigned char *cmd_ret, unsigned char *cmd_off);
+			    unsigned char *cmd_on, unsigned char *cmd_onlp,
+			    unsigned char *cmd_ret, unsigned char *cmd_off);
 
-unsigned char sri2c_is_double_filtering_enabled(
-	unsigned int prm_vc_cfg_i2c_mode);
+unsigned char sri2c_is_double_filtering_enabled(unsigned int
+						prm_vc_cfg_i2c_mode);
 unsigned char sri2c_is_sr_mode_enabled(unsigned int prm_vc_cfg_i2c_mode);
 unsigned char sri2c_is_hs_mode_enabled(unsigned int prm_vc_cfg_i2c_mode);
 unsigned char sri2c_master_code_get(unsigned int prm_vc_cfg_i2c_mode);
 
 int sri2c_low_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
-	unsigned int prm_vc_cfg_i2c_clk,
-	unsigned char *cycles, double *us);
+				     unsigned int prm_vc_cfg_i2c_clk,
+				     unsigned char *cycles, double *us);
 int sri2c_high_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
-	unsigned int prm_vc_cfg_i2c_clk,
-	unsigned char *cycles, double *us);
+				      unsigned int prm_vc_cfg_i2c_clk,
+				      unsigned char *cycles, double *us);
 
-int sri2c_config_show(FILE *stream, unsigned int prm_vc_cfg_i2c_mode,
-	unsigned int prm_vc_cfg_i2c_clk);
-
+int sri2c_config_show(FILE * stream, unsigned int prm_vc_cfg_i2c_mode,
+		      unsigned int prm_vc_cfg_i2c_clk);
 
 #endif

@@ -67,7 +67,7 @@ const char hsdiv_am335x_names[HSDIV_AM335X_ID_MAX][HSDIV_MAX_NAME_LENGTH] = {
 };
 
 const char
-    dpll_am335x_output_names[DPLL_AM335X_OUTPUT_ID_MAX]
+ dpll_am335x_output_names[DPLL_AM335X_OUTPUT_ID_MAX]
     [DPLL_OUTPUT_MAX_NAME_LENGTH] = {
 	[DPLL_AM335X_CLKOUT] = "CLKOUT",
 	[DPLL_AM335X_CLKOUTX2] = "CLKOUTX2",

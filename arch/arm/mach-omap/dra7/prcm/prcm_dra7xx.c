@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <prcm_dra7xx.h>
 #include <help.h>
 #include <lib.h>
@@ -53,14 +52,12 @@
 #include <clockdomain.h>
 #include <module.h>
 
-
 /* #define PRCM_DRA7XX_DEBUG */
 #ifdef PRCM_DRA7XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 typedef enum {
 	PRCM_DRA7XX_IDX_EMU,
@@ -82,7 +79,6 @@ typedef enum {
 	PRCM_DRA7XX_IDX_MAX
 } prcm_dra7xx_index;
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_emu_dump
  * @BRIEF		dump EMU PRCM registers
@@ -94,7 +90,7 @@ typedef enum {
  * @DESCRIPTION		dump EMU PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_emu_dump(FILE *stream)
+static inline int _prcm_dra7xx_emu_dump(FILE * stream)
 {
 	int ret;
 
@@ -103,7 +99,6 @@ static inline int _prcm_dra7xx_emu_dump(FILE *stream)
 		return ret;
 	return cm_dra7xx_dump(stream, CM_DRA7XX_EMU_CM);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_wkupaon_dump
@@ -116,7 +111,7 @@ static inline int _prcm_dra7xx_emu_dump(FILE *stream)
  * @DESCRIPTION		dump WKUPAON PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static int _prcm_dra7xx_wkupaon_dump(FILE *stream)
+static int _prcm_dra7xx_wkupaon_dump(FILE * stream)
 {
 	int ret;
 
@@ -125,7 +120,6 @@ static int _prcm_dra7xx_wkupaon_dump(FILE *stream)
 		return ret;
 	return cm_dra7xx_dump(stream, CM_DRA7XX_WKUPAON_CM);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_coreaon_dump
@@ -138,7 +132,7 @@ static int _prcm_dra7xx_wkupaon_dump(FILE *stream)
  * @DESCRIPTION		dump COREAON PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_coreaon_dump(FILE *stream)
+static inline int _prcm_dra7xx_coreaon_dump(FILE * stream)
 {
 	int ret;
 
@@ -147,7 +141,6 @@ static inline int _prcm_dra7xx_coreaon_dump(FILE *stream)
 		return ret;
 	return cm_dra7xx_dump(stream, CM_DRA7XX_COREAON_CM_CORE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_cam_dump
@@ -160,7 +153,7 @@ static inline int _prcm_dra7xx_coreaon_dump(FILE *stream)
  * @DESCRIPTION		dump CAM PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_cam_dump(FILE *stream)
+static inline int _prcm_dra7xx_cam_dump(FILE * stream)
 {
 	int ret;
 
@@ -169,7 +162,6 @@ static inline int _prcm_dra7xx_cam_dump(FILE *stream)
 		return ret;
 	return cm_dra7xx_dump(stream, CM_DRA7XX_CAM_CM_CORE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_core_dump
@@ -182,7 +174,7 @@ static inline int _prcm_dra7xx_cam_dump(FILE *stream)
  * @DESCRIPTION		dump CORE PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_core_dump(FILE *stream)
+static inline int _prcm_dra7xx_core_dump(FILE * stream)
 {
 	int ret;
 
@@ -198,7 +190,6 @@ static inline int _prcm_dra7xx_core_dump(FILE *stream)
 	return cm_dra7xx_dump(stream, CM_DRA7XX_RESTORE_CM_CORE);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_prmdev_dump
  * @BRIEF		dump PRM DEVICE PRCM registers
@@ -210,7 +201,7 @@ static inline int _prcm_dra7xx_core_dump(FILE *stream)
  * @DESCRIPTION		dump PRM DEVICE PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_prmdev_dump(FILE *stream)
+static inline int _prcm_dra7xx_prmdev_dump(FILE * stream)
 {
 	int ret;
 
@@ -223,7 +214,6 @@ static inline int _prcm_dra7xx_prmdev_dump(FILE *stream)
 	return prm_dra7xx_dump(stream, PRM_DRA7XX_DEVICE_PRM);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_ckgen_dump
  * @BRIEF		dump CKGEN PRCM registers
@@ -235,7 +225,7 @@ static inline int _prcm_dra7xx_prmdev_dump(FILE *stream)
  * @DESCRIPTION		dump CKGEN PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_ckgen_dump(FILE *stream)
+static inline int _prcm_dra7xx_ckgen_dump(FILE * stream)
 {
 	int ret;
 
@@ -248,7 +238,6 @@ static inline int _prcm_dra7xx_ckgen_dump(FILE *stream)
 	return cm_dra7xx_dump(stream, CM_DRA7XX_CKGEN_CM_CORE);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_instr_dump
  * @BRIEF		dump INSTR PRCM registers
@@ -260,7 +249,7 @@ static inline int _prcm_dra7xx_ckgen_dump(FILE *stream)
  * @DESCRIPTION		dump INSTR PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_instr_dump(FILE *stream)
+static inline int _prcm_dra7xx_instr_dump(FILE * stream)
 {
 	int ret;
 
@@ -269,7 +258,8 @@ static inline int _prcm_dra7xx_instr_dump(FILE *stream)
 		if (ret != 0)
 			return ret;
 	} else {
-		printf("omapconf: PMI module is not accessible, skipping it.\n\n");
+		printf
+		    ("omapconf: PMI module is not accessible, skipping it.\n\n");
 	}
 
 	if (cm_dra7xx_is_profiling_running(CM_DRA7XX_INSTR_CM_CORE_AON)) {
@@ -277,12 +267,12 @@ static inline int _prcm_dra7xx_instr_dump(FILE *stream)
 		if (ret != 0)
 			return ret;
 	} else {
-		printf("omapconf: CMI_AON module is not accessible, skipping it.\n\n");
+		printf
+		    ("omapconf: CMI_AON module is not accessible, skipping it.\n\n");
 	}
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_dss_dump
@@ -295,7 +285,7 @@ static inline int _prcm_dra7xx_instr_dump(FILE *stream)
  * @DESCRIPTION		dump DSS PRCM registers and pretty-print it
  *			in selected output stream
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_dss_dump(FILE *stream)
+static inline int _prcm_dra7xx_dss_dump(FILE * stream)
 {
 	int ret;
 
@@ -304,7 +294,6 @@ static inline int _prcm_dra7xx_dss_dump(FILE *stream)
 		return ret;
 	return cm_dra7xx_dump(stream, CM_DRA7XX_DSS_CM_CORE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_l3init_dump
@@ -317,7 +306,7 @@ static inline int _prcm_dra7xx_dss_dump(FILE *stream)
  * @DESCRIPTION		dump L3INIT PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_l3init_dump(FILE *stream)
+static inline int _prcm_dra7xx_l3init_dump(FILE * stream)
 {
 	int ret;
 
@@ -326,7 +315,6 @@ static inline int _prcm_dra7xx_l3init_dump(FILE *stream)
 		return ret;
 	return cm_dra7xx_dump(stream, CM_DRA7XX_L3INIT_CM_CORE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		l4per_dra7xx_dump
@@ -339,7 +327,7 @@ static inline int _prcm_dra7xx_l3init_dump(FILE *stream)
  * @DESCRIPTION		dump L4PER PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_l4per_dump(FILE *stream)
+static inline int _prcm_dra7xx_l4per_dump(FILE * stream)
 {
 	int ret;
 
@@ -348,7 +336,6 @@ static inline int _prcm_dra7xx_l4per_dump(FILE *stream)
 		return ret;
 	return cm_dra7xx_dump(stream, CM_DRA7XX_L4PER_CM_CORE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_dsp_dump
@@ -360,7 +347,7 @@ static inline int _prcm_dra7xx_l4per_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump DSP PRCM registers and pretty-print it
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_dsp_dump(FILE *stream)
+static inline int _prcm_dra7xx_dsp_dump(FILE * stream)
 {
 	int ret;
 
@@ -369,7 +356,6 @@ static inline int _prcm_dra7xx_dsp_dump(FILE *stream)
 		return ret;
 	return cm_dra7xx_dump(stream, CM_DRA7XX_DSP_CM_CORE_AON);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_gpu_dump
@@ -382,7 +368,7 @@ static inline int _prcm_dra7xx_dsp_dump(FILE *stream)
  * @DESCRIPTION		dump GPU PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_gpu_dump(FILE *stream)
+static inline int _prcm_dra7xx_gpu_dump(FILE * stream)
 {
 	int ret;
 
@@ -391,7 +377,6 @@ static inline int _prcm_dra7xx_gpu_dump(FILE *stream)
 		return ret;
 	return cm_dra7xx_dump(stream, CM_DRA7XX_GPU_CM_CORE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_iva_dump
@@ -404,7 +389,7 @@ static inline int _prcm_dra7xx_gpu_dump(FILE *stream)
  * @DESCRIPTION		dump IVA PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_iva_dump(FILE *stream)
+static inline int _prcm_dra7xx_iva_dump(FILE * stream)
 {
 	int ret;
 
@@ -413,7 +398,6 @@ static inline int _prcm_dra7xx_iva_dump(FILE *stream)
 		return ret;
 	return cm_dra7xx_dump(stream, CM_DRA7XX_IVA_CM_CORE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_mpu_dump
@@ -426,7 +410,7 @@ static inline int _prcm_dra7xx_iva_dump(FILE *stream)
  * @DESCRIPTION		dump MPU PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_mpu_dump(FILE *stream)
+static inline int _prcm_dra7xx_mpu_dump(FILE * stream)
 {
 	int ret;
 
@@ -451,7 +435,6 @@ static inline int _prcm_dra7xx_mpu_dump(FILE *stream)
 	return cm_dra7xx_dump(stream, CM_DRA7XX_MPU_CM_CORE_AON);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_eve_dump
  * @BRIEF		dump EVE PRCM registers and pretty-print it
@@ -462,7 +445,7 @@ static inline int _prcm_dra7xx_mpu_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump EVE PRCM registers and pretty-print it
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_eve_dump(FILE *stream)
+static inline int _prcm_dra7xx_eve_dump(FILE * stream)
 {
 	int ret;
 
@@ -471,7 +454,6 @@ static inline int _prcm_dra7xx_eve_dump(FILE *stream)
 		return ret;
 	return cm_dra7xx_dump(stream, CM_DRA7XX_EVE_CM_CORE_AON);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_ipu_dump
@@ -483,7 +465,7 @@ static inline int _prcm_dra7xx_eve_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump IPU PRCM registers and pretty-print it
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_ipu_dump(FILE *stream)
+static inline int _prcm_dra7xx_ipu_dump(FILE * stream)
 {
 	int ret;
 
@@ -492,7 +474,6 @@ static inline int _prcm_dra7xx_ipu_dump(FILE *stream)
 		return ret;
 	return cm_dra7xx_dump(stream, CM_DRA7XX_IPU_CM_CORE_AON);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_rtc_dump
@@ -504,7 +485,7 @@ static inline int _prcm_dra7xx_ipu_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump rtc PRCM registers and pretty-print it
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_rtc_dump(FILE *stream)
+static inline int _prcm_dra7xx_rtc_dump(FILE * stream)
 {
 	int ret;
 
@@ -513,7 +494,6 @@ static inline int _prcm_dra7xx_rtc_dump(FILE *stream)
 		return ret;
 	return cm_dra7xx_dump(stream, CM_DRA7XX_RTC_CM_CORE_AON);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm_dra7xx_vpe_dump
@@ -525,7 +505,7 @@ static inline int _prcm_dra7xx_rtc_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump VPE PRCM registers and pretty-print it
  *------------------------------------------------------------------------ */
-static inline int _prcm_dra7xx_vpe_dump(FILE *stream)
+static inline int _prcm_dra7xx_vpe_dump(FILE * stream)
 {
 	int ret;
 
@@ -534,7 +514,6 @@ static inline int _prcm_dra7xx_vpe_dump(FILE *stream)
 		return ret;
 	return cm_dra7xx_dump(stream, CM_DRA7XX_VPE_CM_CORE_AON);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		prcm_dra7xx_dump

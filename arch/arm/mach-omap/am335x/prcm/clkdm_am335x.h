@@ -41,19 +41,15 @@
  *
  */
 
-
 #ifndef __CLKDM_AM335X_H__
 #define __CLKDM_AM335X_H__
-
 
 #include <clkdm.h>
 #include <clockdomain.h>
 #include <pwrdm_am335x.h>
 #include <voltdm_am335x.h>
 
-
 #define CLKDM_AM335X_MAX_NAME_LENGTH		16
-
 
 typedef enum {
 	CLKDM_AM335X_PER_L4LS,
@@ -77,7 +73,6 @@ typedef enum {
 	CLKDM_AM335X_ID_MAX
 } clkdm_am335x_id;
 
-
 void clkdm_am335x_init(void);
 void clkdm_am335x_deinit(void);
 
@@ -86,6 +81,6 @@ const genlist *clkdm_am335x_list_get(void);
 
 const char *clkdm_am335x_name_get(clkdm_am335x_id id);
 clkdm_status clkdm_am335x_status_get(unsigned int cm_clkstctrl,
-	unsigned int clkstctrl_bit);
+				     unsigned int clkstctrl_bit);
 
 #endif

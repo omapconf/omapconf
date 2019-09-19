@@ -41,17 +41,13 @@
  *
  */
 
-
 #ifndef __PRCM_VC54XX_H__
 #define __PRCM_VC54XX_H__
-
 
 #include <voltdm54xx.h>
 #include <reg.h>
 
-
 #define VC54XX_ERR_NAME_MAX_LENGTH		24
-
 
 typedef struct {
 	unsigned int vc_smps_mpu_config;
@@ -69,14 +65,12 @@ typedef struct {
 	unsigned int vc_cfg_i2c_clk;
 } vc54xx_registers;
 
-
 typedef enum {
 	VC54XX_VFSM_TIMEOUT_ERR,
 	VC54XX_VFSM_RA_ERR,
 	VC54XX_VFSM_SA_ERR,
 	VC54XX_VFSM_ERR_TYPE_MAX
 } vc54xx_vfsm_error_type;
-
 
 typedef enum {
 	VC54XX_SMPS_TIMEOUT_ERR,
@@ -85,7 +79,6 @@ typedef enum {
 	VC54XX_SMPS_ERR_TYPE_MAX
 } vc54xx_smps_error_type;
 
-
 typedef enum {
 	VC54XX_BYPS_TIMEOUT_ERR,
 	VC54XX_BYPS_RA_ERR,
@@ -93,39 +86,37 @@ typedef enum {
 	VC54XX_BYPS_ERR_TYPE_MAX
 } vc54xx_bypass_error_type;
 
+int vc54xx_config_show(FILE * stream, vc54xx_registers * vc_regs);
 
-int vc54xx_config_show(FILE *stream, vc54xx_registers *vc_regs);
+int vc54xx_registers_get(vc54xx_registers * vc_regs);
 
-int vc54xx_registers_get(vc54xx_registers *vc_regs);
+short int vc54xx_sa_get(voltdm54xx_id id, vc54xx_registers * vc_regs);
+short int vc54xx_volra_get(voltdm54xx_id id, vc54xx_registers * vc_regs);
+short int vc54xx_cmdra_get(voltdm54xx_id id, vc54xx_registers * vc_regs);
 
-short int vc54xx_sa_get(voltdm54xx_id id, vc54xx_registers *vc_regs);
-short int vc54xx_volra_get(voltdm54xx_id id, vc54xx_registers *vc_regs);
-short int vc54xx_cmdra_get(voltdm54xx_id id, vc54xx_registers *vc_regs);
-
-int vc54xx_raw_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
-	unsigned char *cmd_on, unsigned char *cmd_onlp,
-	unsigned char *cmd_ret, unsigned char *cmd_off);
-int vc54xx_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
-	unsigned char *cmd_on, unsigned char *cmd_onlp,
-	unsigned char *cmd_ret, unsigned char *cmd_off);
+int vc54xx_raw_cmd_values_get(voltdm54xx_id id, vc54xx_registers * vc_regs,
+			      unsigned char *cmd_on, unsigned char *cmd_onlp,
+			      unsigned char *cmd_ret, unsigned char *cmd_off);
+int vc54xx_cmd_values_get(voltdm54xx_id id, vc54xx_registers * vc_regs,
+			  unsigned char *cmd_on, unsigned char *cmd_onlp,
+			  unsigned char *cmd_ret, unsigned char *cmd_off);
 
 unsigned char vc54xx_no_pending_error(unsigned int prm_vc_errst,
-	unsigned int prm_vc_bypass_errst);
+				      unsigned int prm_vc_bypass_errst);
 
 unsigned char vc54xx_no_pending_vfsm_error(unsigned int prm_vc_errst);
 unsigned char vc54xx_is_vfsm_error_pending(unsigned int prm_vc_errst,
-	vc54xx_vfsm_error_type type);
+					   vc54xx_vfsm_error_type type);
 const char *vc54xx_vfsm_error_name_get(vc54xx_vfsm_error_type type);
 
 unsigned char vc54xx_no_pending_smps_error(unsigned int prm_vc_errst);
 unsigned char vc54xx_is_smps_error_pending(unsigned int prm_vc_errst,
-	vc54xx_smps_error_type type);
+					   vc54xx_smps_error_type type);
 const char *vc54xx_smps_error_name_get(vc54xx_smps_error_type type);
 
 unsigned char vc54xx_no_pending_bypass_error(unsigned int prm_vc_bypass_errst);
 unsigned char vc54xx_is_bypass_error_pending(unsigned int prm_vc_bypass_errst,
-	vc54xx_bypass_error_type type);
+					     vc54xx_bypass_error_type type);
 const char *vc54xx_bypass_error_name_get(vc54xx_bypass_error_type type);
-
 
 #endif

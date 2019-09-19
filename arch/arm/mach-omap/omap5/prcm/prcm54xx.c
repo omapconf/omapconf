@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <prcm54xx.h>
 #include <help.h>
 #include <lib.h>
@@ -59,14 +58,12 @@
 #include <clockdomain.h>
 #include <module.h>
 
-
 /* #define PRCM54XX_DEBUG */
 #ifdef PRCM54XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 typedef enum {
 	PRCM54XX_IDX_EMU,
@@ -88,7 +85,6 @@ typedef enum {
 	PRCM54XX_IDX_ALL,
 	PRCM54XX_IDX_MAX
 } prcm54xx_index;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_powerdm_name_get
@@ -137,7 +133,6 @@ static const char *_prcm54xx_powerdm_name_get(const char *s)
 		return NULL;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_clockdm_name_get
@@ -208,7 +203,6 @@ static const char *_prcm54xx_clockdm_name_get(const char *s)
 		return NULL;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_emu_dump
  * @BRIEF		dump EMU PRCM registers
@@ -220,7 +214,7 @@ static const char *_prcm54xx_clockdm_name_get(const char *s)
  * @DESCRIPTION		dump EMU PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm54xx_emu_dump(FILE *stream)
+static inline int _prcm54xx_emu_dump(FILE * stream)
 {
 	int ret;
 
@@ -229,7 +223,6 @@ static inline int _prcm54xx_emu_dump(FILE *stream)
 		return ret;
 	return cm54xx_dump(stream, CM54XX_EMU_CM);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_wkupaon_dump
@@ -242,7 +235,7 @@ static inline int _prcm54xx_emu_dump(FILE *stream)
  * @DESCRIPTION		dump WKUPAON PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static int _prcm54xx_wkupaon_dump(FILE *stream)
+static int _prcm54xx_wkupaon_dump(FILE * stream)
 {
 	int ret;
 
@@ -251,7 +244,6 @@ static int _prcm54xx_wkupaon_dump(FILE *stream)
 		return ret;
 	return cm54xx_dump(stream, CM54XX_WKUPAON_CM);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_coreaon_dump
@@ -264,7 +256,7 @@ static int _prcm54xx_wkupaon_dump(FILE *stream)
  * @DESCRIPTION		dump COREAON PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm54xx_coreaon_dump(FILE *stream)
+static inline int _prcm54xx_coreaon_dump(FILE * stream)
 {
 	int ret;
 
@@ -273,7 +265,6 @@ static inline int _prcm54xx_coreaon_dump(FILE *stream)
 		return ret;
 	return cm54xx_dump(stream, CM54XX_COREAON_CM_CORE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_cam_dump
@@ -286,7 +277,7 @@ static inline int _prcm54xx_coreaon_dump(FILE *stream)
  * @DESCRIPTION		dump CAM PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm54xx_cam_dump(FILE *stream)
+static inline int _prcm54xx_cam_dump(FILE * stream)
 {
 	int ret;
 
@@ -295,7 +286,6 @@ static inline int _prcm54xx_cam_dump(FILE *stream)
 		return ret;
 	return cm54xx_dump(stream, CM54XX_CAM_CM_CORE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_core_dump
@@ -308,7 +298,7 @@ static inline int _prcm54xx_cam_dump(FILE *stream)
  * @DESCRIPTION		dump CORE PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm54xx_core_dump(FILE *stream)
+static inline int _prcm54xx_core_dump(FILE * stream)
 {
 	int ret;
 
@@ -317,7 +307,6 @@ static inline int _prcm54xx_core_dump(FILE *stream)
 		return ret;
 	return cm54xx_dump(stream, CM54XX_CORE_CM_CORE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_prmdev_dump
@@ -330,7 +319,7 @@ static inline int _prcm54xx_core_dump(FILE *stream)
  * @DESCRIPTION		dump PRM DEVICE PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm54xx_prmdev_dump(FILE *stream)
+static inline int _prcm54xx_prmdev_dump(FILE * stream)
 {
 	int ret;
 
@@ -343,7 +332,6 @@ static inline int _prcm54xx_prmdev_dump(FILE *stream)
 	return prm54xx_dump(stream, PRM54XX_DEVICE_PRM);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_ckgen_dump
  * @BRIEF		dump CKGEN PRCM registers
@@ -355,7 +343,7 @@ static inline int _prcm54xx_prmdev_dump(FILE *stream)
  * @DESCRIPTION		dump CKGEN PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm54xx_ckgen_dump(FILE *stream)
+static inline int _prcm54xx_ckgen_dump(FILE * stream)
 {
 	int ret;
 
@@ -368,7 +356,6 @@ static inline int _prcm54xx_ckgen_dump(FILE *stream)
 	return cm54xx_dump(stream, CM54XX_CKGEN_CM_CORE);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_instr_dump
  * @BRIEF		dump INSTR PRCM registers
@@ -380,7 +367,7 @@ static inline int _prcm54xx_ckgen_dump(FILE *stream)
  * @DESCRIPTION		dump INSTR PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm54xx_instr_dump(FILE *stream)
+static inline int _prcm54xx_instr_dump(FILE * stream)
 {
 	int ret;
 
@@ -389,8 +376,8 @@ static inline int _prcm54xx_instr_dump(FILE *stream)
 		if (ret != 0)
 			return ret;
 	} else {
-		printf(
-			"omapconf: PMI module is not accessible, skipping it.\n\n");
+		printf
+		    ("omapconf: PMI module is not accessible, skipping it.\n\n");
 	}
 
 	ret = cm54xx_dump(stream, CM54XX_INTRCONN_SOCKET_CM_CORE_AON);
@@ -401,8 +388,8 @@ static inline int _prcm54xx_instr_dump(FILE *stream)
 		if (ret != 0)
 			return ret;
 	} else {
-		printf(
-			"omapconf: CMI_AON module is not accessible, skipping it.\n\n");
+		printf
+		    ("omapconf: CMI_AON module is not accessible, skipping it.\n\n");
 	}
 
 	ret = cm54xx_dump(stream, CM54XX_INTRCONN_SOCKET_CM_CORE);
@@ -411,14 +398,13 @@ static inline int _prcm54xx_instr_dump(FILE *stream)
 	if (cm54xx_is_profiling_running(CM54XX_INSTR_CM_CORE)) {
 		ret = cm54xx_dump(stdout, CM54XX_INSTR_CM_CORE);
 	} else {
-		printf(
-			"omapconf: CMI module is not accessible, skipping it.\n\n");
+		printf
+		    ("omapconf: CMI module is not accessible, skipping it.\n\n");
 		ret = 0;
 	}
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_dss_dump
@@ -431,7 +417,7 @@ static inline int _prcm54xx_instr_dump(FILE *stream)
  * @DESCRIPTION		dump DSS PRCM registers and pretty-print it
  *			in selected output stream
  *------------------------------------------------------------------------ */
-static inline int _prcm54xx_dss_dump(FILE *stream)
+static inline int _prcm54xx_dss_dump(FILE * stream)
 {
 	int ret;
 
@@ -440,7 +426,6 @@ static inline int _prcm54xx_dss_dump(FILE *stream)
 		return ret;
 	return cm54xx_dump(stream, CM54XX_DSS_CM_CORE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_l3init_dump
@@ -453,7 +438,7 @@ static inline int _prcm54xx_dss_dump(FILE *stream)
  * @DESCRIPTION		dump L3INIT PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm54xx_l3init_dump(FILE *stream)
+static inline int _prcm54xx_l3init_dump(FILE * stream)
 {
 	int ret;
 
@@ -462,7 +447,6 @@ static inline int _prcm54xx_l3init_dump(FILE *stream)
 		return ret;
 	return cm54xx_dump(stream, CM54XX_L3INIT_CM_CORE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		l4per54xx_dump
@@ -475,7 +459,7 @@ static inline int _prcm54xx_l3init_dump(FILE *stream)
  * @DESCRIPTION		dump L4PER PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm54xx_l4per_dump(FILE *stream)
+static inline int _prcm54xx_l4per_dump(FILE * stream)
 {
 	int ret;
 
@@ -484,7 +468,6 @@ static inline int _prcm54xx_l4per_dump(FILE *stream)
 		return ret;
 	return cm54xx_dump(stream, CM54XX_L4PER_CM_CORE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_dsp_dump
@@ -496,7 +479,7 @@ static inline int _prcm54xx_l4per_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump DSP PRCM registers and pretty-print it
  *------------------------------------------------------------------------ */
-static inline int _prcm54xx_dsp_dump(FILE *stream)
+static inline int _prcm54xx_dsp_dump(FILE * stream)
 {
 	int ret;
 
@@ -505,7 +488,6 @@ static inline int _prcm54xx_dsp_dump(FILE *stream)
 		return ret;
 	return cm54xx_dump(stream, CM54XX_DSP_CM_CORE_AON);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_gpu_dump
@@ -518,7 +500,7 @@ static inline int _prcm54xx_dsp_dump(FILE *stream)
  * @DESCRIPTION		dump GPU PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm54xx_gpu_dump(FILE *stream)
+static inline int _prcm54xx_gpu_dump(FILE * stream)
 {
 	int ret;
 
@@ -527,7 +509,6 @@ static inline int _prcm54xx_gpu_dump(FILE *stream)
 		return ret;
 	return cm54xx_dump(stream, CM54XX_GPU_CM_CORE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_iva_dump
@@ -540,7 +521,7 @@ static inline int _prcm54xx_gpu_dump(FILE *stream)
  * @DESCRIPTION		dump IVA PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm54xx_iva_dump(FILE *stream)
+static inline int _prcm54xx_iva_dump(FILE * stream)
 {
 	int ret;
 
@@ -549,7 +530,6 @@ static inline int _prcm54xx_iva_dump(FILE *stream)
 		return ret;
 	return cm54xx_dump(stream, CM54XX_IVA_CM_CORE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_mpu_dump
@@ -562,7 +542,7 @@ static inline int _prcm54xx_iva_dump(FILE *stream)
  * @DESCRIPTION		dump MPU PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm54xx_mpu_dump(FILE *stream)
+static inline int _prcm54xx_mpu_dump(FILE * stream)
 {
 	int ret;
 
@@ -581,7 +561,6 @@ static inline int _prcm54xx_mpu_dump(FILE *stream)
 	return cm54xx_dump(stream, CM54XX_MPU_CM_CORE_AON);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_abe_dump
  * @BRIEF		dump ABE PRCM registers
@@ -593,7 +572,7 @@ static inline int _prcm54xx_mpu_dump(FILE *stream)
  * @DESCRIPTION		dump ABE PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-static inline int _prcm54xx_abe_dump(FILE *stream)
+static inline int _prcm54xx_abe_dump(FILE * stream)
 {
 	int ret;
 
@@ -604,7 +583,6 @@ static inline int _prcm54xx_abe_dump(FILE *stream)
 		return ret;
 	return cm54xx_dump(stdout, CM54XX_ABE_CM_CORE_AON);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		prcm54xx_pwrdm_config_show
@@ -625,8 +603,8 @@ static inline int _prcm54xx_abe_dump(FILE *stream)
  * @DESCRIPTION		show configuration of a given power domain and
  *			included clock domains
  *------------------------------------------------------------------------ */
-int prcm54xx_pwrdm_config_show(FILE *stream,
-	const char *powerdm_u, const char *clockdm_u)
+int prcm54xx_pwrdm_config_show(FILE * stream,
+			       const char *powerdm_u, const char *clockdm_u)
 {
 	int ret, all;
 	const genlist *pwrdm_list;
@@ -674,9 +652,9 @@ int prcm54xx_pwrdm_config_show(FILE *stream,
 		if (clockdm == NULL)
 			return err_arg_msg_show(HELP_PRCM);
 		if (strcmp(clockdm_powerdm_get(clockdm), powerdm) != 0) {
-			printf(
-				"omapconf: clock domain '%s' is not part of '%s' power domain!!!\n\n",
-				clockdm, powerdm);
+			printf
+			    ("omapconf: clock domain '%s' is not part of '%s' power domain!!!\n\n",
+			     clockdm, powerdm);
 			return err_arg_msg_show(HELP_PRCM);
 		}
 	} else {
@@ -734,14 +712,14 @@ int prcm54xx_pwrdm_config_show(FILE *stream,
 	mod_count = genlist_getcount((genlist *) mod_list);
 	if (mod_count == 0) {
 		fprintf(stderr,
-			"omapconf: %s(): empty modules list?!\n",
-			__func__);
+			"omapconf: %s(): empty modules list?!\n", __func__);
 		return OMAPCONF_ERR_UNEXPECTED;
 	}
 	dprintf("%s(): modules list retrieved.\n", __func__);
 
 	for (p = 0; p < pwrdm_count; p++) {
-		genlist_get((genlist *) pwrdm_list, p, (powerdm_info *) &pwrdm);
+		genlist_get((genlist *) pwrdm_list, p,
+			    (powerdm_info *) & pwrdm);
 		if ((all == 1) || (strcmp(pwrdm.name, powerdm) == 0)) {
 			dprintf("%s(): %s power domain config:\n",
 				__func__, pwrdm.name);
@@ -771,19 +749,20 @@ int prcm54xx_pwrdm_config_show(FILE *stream,
 			/* Display inner clock domain(s) configuration */
 			for (c = 0; c < clkdm_count; c++) {
 				genlist_get((genlist *) clkdm_list, c,
-					(clockdm_info *) &clkdm);
+					    (clockdm_info *) & clkdm);
 				dprintf("%s(): %s clock domain config:\n",
 					__func__, clkdm.name);
 				if ((clockdm != NULL) &&
-					(strcmp(clkdm.name, clockdm) != 0)) {
-					dprintf(
-						"%s(): clockdm %s skipped (not matching)\n",
-						__func__, clkdm.name);
+				    (strcmp(clkdm.name, clockdm) != 0)) {
+					dprintf
+					    ("%s(): clockdm %s skipped (not matching)\n",
+					     __func__, clkdm.name);
 					continue;
-				} else if (strcmp(clkdm.powerdm, pwrdm.name) != 0) {
-					dprintf(
-						"%s(): clockdm %s skipped (not included)\n",
-						__func__, clkdm.name);
+				} else if (strcmp(clkdm.powerdm, pwrdm.name) !=
+					   0) {
+					dprintf
+					    ("%s(): clockdm %s skipped (not included)\n",
+					     __func__, clkdm.name);
 					continue;
 				}
 				ret = clockdm_config_show(stream, clkdm.name);
@@ -793,17 +772,18 @@ int prcm54xx_pwrdm_config_show(FILE *stream,
 				/* Display inner module(s) configuration */
 				for (m = 0; m < mod_count; m++) {
 					genlist_get((genlist *) mod_list, m,
-						(mod_info *) &mod);
+						    (mod_info *) & mod);
 					dprintf("%s(): %s module config:\n",
 						__func__, mod.name);
 					if (strcmp(mod.clkdm, clkdm.name) != 0) {
-						dprintf(
-							"%s(): module %s skipped (not part of domain)\n",
-						__func__, mod.name);
+						dprintf
+						    ("%s(): module %s skipped (not part of domain)\n",
+						     __func__, mod.name);
 						continue;
 					}
-					ret = module_config_show(
-						stream, mod.name);
+					ret =
+					    module_config_show(stream,
+							       mod.name);
 					if (ret != 0)
 						return ret;
 				}
@@ -813,7 +793,6 @@ int prcm54xx_pwrdm_config_show(FILE *stream,
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		prcm54xx_config_show
@@ -832,7 +811,7 @@ int prcm54xx_pwrdm_config_show(FILE *stream,
  * @DESCRIPTION		show configuration of a given power domain and
  *			included clock domains
  *------------------------------------------------------------------------ */
-int prcm54xx_config_show(FILE *stream, int argc, char *argv[])
+int prcm54xx_config_show(FILE * stream, int argc, char *argv[])
 {
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(stream, OMAPCONF_ERR_ARG);
@@ -846,7 +825,7 @@ int prcm54xx_config_show(FILE *stream, int argc, char *argv[])
 		} else if (argc == 2) {
 			if (strcmp(argv[1], "cfg") == 0)
 				return clkdmdep54xx_show(stream,
-					CLKDMDEP_STATIC);
+							 CLKDMDEP_STATIC);
 			else
 				return err_arg_msg_show(HELP_STATDEP);
 		} else {
@@ -858,7 +837,7 @@ int prcm54xx_config_show(FILE *stream, int argc, char *argv[])
 		} else if (argc == 2) {
 			if (strcmp(argv[1], "cfg") == 0)
 				return clkdmdep54xx_show(stream,
-					CLKDMDEP_DYNAMIC);
+							 CLKDMDEP_DYNAMIC);
 			else
 				return err_arg_msg_show(HELP_STATDEP);
 		} else {
@@ -870,7 +849,7 @@ int prcm54xx_config_show(FILE *stream, int argc, char *argv[])
 		} else if (argc == 2) {
 			if (strcmp(argv[1], "cfg") == 0)
 				return clkdmdep54xx_show(stream,
-					CLKDMDEP_TYPE_MAX);
+							 CLKDMDEP_TYPE_MAX);
 			else
 				return err_arg_msg_show(HELP_STATDEP);
 		} else {
@@ -888,20 +867,20 @@ int prcm54xx_config_show(FILE *stream, int argc, char *argv[])
 			return err_arg_too_many_msg_show(HELP_ABB);
 		}
 
-
 	} else {
 		if (argc == 1) {
 			if (strcmp(argv[0], "cfg") == 0)
 				/* no power domain provided, select all */
 				return prcm54xx_pwrdm_config_show(stream,
-					NULL, NULL);
+								  NULL, NULL);
 			else
 				/*
 				 * only power domain provided,
 				 * show all inner clock domains
 				 */
 				return prcm54xx_pwrdm_config_show(stream,
-					argv[0], NULL);
+								  argv[0],
+								  NULL);
 		} else if (argc == 2) {
 			if (strcmp(argv[1], "cfg") == 0)
 				/*
@@ -909,16 +888,19 @@ int prcm54xx_config_show(FILE *stream, int argc, char *argv[])
 				 * show all inner clock domains
 				 */
 				return prcm54xx_pwrdm_config_show(stream,
-					argv[0], NULL);
+								  argv[0],
+								  NULL);
 			else
 				/* power domain & clock domain provided */
 				return prcm54xx_pwrdm_config_show(stream,
-					argv[0], argv[1]);
+								  argv[0],
+								  argv[1]);
 		} else if (argc == 3) {
 			/* power domain & clock domain provided */
 			if (strcmp(argv[2], "cfg") == 0)
 				return prcm54xx_pwrdm_config_show(stream,
-					argv[0], argv[1]);
+								  argv[0],
+								  argv[1]);
 			else
 				return err_arg_msg_show(HELP_PRCM);
 		} else {
@@ -926,7 +908,6 @@ int prcm54xx_config_show(FILE *stream, int argc, char *argv[])
 		}
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		prcm54xx_dump

@@ -41,15 +41,12 @@
  *
  */
 
-
 #ifndef __MODULE_AM335X_H__
 #define __MODULE_AM335X_H__
-
 
 #include <clock_am335x.h>
 #include <prcm-module.h>
 #include <voltdm_am335x.h>
-
 
 typedef enum {
 	/* Voltage dom.: CORE, Power dom.: PD_WKUP, Clock domain = WKUP */
@@ -153,6 +150,5 @@ void mod_am335x_deinit();
 
 const genlist *mod_am335x_list_get(void);
 int mod_am335x_count_get(void);
-
 
 #endif

@@ -42,18 +42,14 @@
  *
  */
 
-
 #ifndef __PRCM_CLKDM_DEPENDENCY_H__
 #define __PRCM_CLKDM_DEPENDENCY_H__
 
-
 #include <stdio.h>
-
 
 #define CLKDMDEP_TYPE_MAX_NAME_LENGTH		8
 #define CLKDMDEP_CTRL_TYPE_MAX_NAME_LENGTH	4
 #define CLKDMDEP_STATUS_MAX_NAME_LENGTH		9
-
 
 typedef enum {
 	CLKDMDEP_STATIC,
@@ -61,14 +57,12 @@ typedef enum {
 	CLKDMDEP_TYPE_MAX
 } clkdmdep_type;
 
-
 typedef enum {
-	CLKDMDEP_NA, /* not available, does not exist */
-	CLKDMDEP_RW, /* available, SW-configurable */
-	CLKDMDEP_RO, /* available, not configurable (hard-coded) */
+	CLKDMDEP_NA,		/* not available, does not exist */
+	CLKDMDEP_RW,		/* available, SW-configurable */
+	CLKDMDEP_RO,		/* available, not configurable (hard-coded) */
 	CLKDMDEP_CONTROL_TYPE_MAX
 } clkdmdep_ctrl_type;
-
 
 typedef enum {
 	CLKDMDEP_DIS,		/* dependency is disabled */
@@ -76,11 +70,8 @@ typedef enum {
 	CLKDMDEP_STATUS_MAX
 } clkdmdep_status;
 
-
-
 const char *clkdmdep_type_name_get(clkdmdep_type type);
 const char *clkdmdep_ctrl_type_name_get(clkdmdep_ctrl_type type);
 const char *clkdmdep_status_name_get(clkdmdep_status st);
-
 
 #endif

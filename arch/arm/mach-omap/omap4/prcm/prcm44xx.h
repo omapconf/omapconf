@@ -41,17 +41,13 @@
  *
  */
 
-
 #ifndef __PRCM44XX_H__
 #define __PRCM44XX_H__
 
-
 #include <stdio.h>
-
 
 int prcm44xx_dump(char *s);
 int prcm44xx_config_show(char *s);
 int prcm44xx_dep_show(char *s);
-
 
 #endif

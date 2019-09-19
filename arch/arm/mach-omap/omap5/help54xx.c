@@ -245,7 +245,6 @@ void help54xx(help_category cat, char *context)
 		printf("\t    Print Smart-Reflex Adaptive Voltage Scaling (AVS)"
 		       " convergence status.\n");
 	}
-
 #if 0				/* FIXME */
 	if ((cat == HELP_ALL) || (cat == HELP_MPUSS)) {
 		autoadjust_table_strncpy(table, row, 0,

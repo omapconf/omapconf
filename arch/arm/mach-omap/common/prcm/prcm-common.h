@@ -19,7 +19,6 @@
  * published by the Free Software Foundation.
  */
 
-
 #ifndef __ARCH_ASM_MACH_OMAP2_PRCM_COMMON_H
 #define __ARCH_ASM_MACH_OMAP2_PRCM_COMMON_H
 
@@ -37,7 +36,6 @@
 #define GFX_MOD						0x300
 #define WKUP_MOD					0x400
 #define PLL_MOD						0x500
-
 
 /* Chip-specific module offsets */
 #define OMAP24XX_GR_MOD					OCP_MOD
@@ -132,7 +130,6 @@
 #define OMAP4430_PRM_BASE		0x4a306000
 #define OMAP4430_SCRM_BASE		0x4a30a000
 #define OMAP4430_CHIRONSS_BASE		0x48243000
-
 
 /* 24XX register bits shared between CM & PRM registers */
 
@@ -264,7 +261,6 @@
 
 /* CM_IDLEST_MDM and PM_WKST_MDM shared bits */
 #define OMAP2430_ST_MDM_SHIFT				(1 << 0)
-
 
 /* 3430 register bits shared between CM & PRM registers */
 
@@ -470,4 +466,3 @@
 #define OMAP3430_EN_CORE_MASK				(1 << 0)
 
 #endif
-

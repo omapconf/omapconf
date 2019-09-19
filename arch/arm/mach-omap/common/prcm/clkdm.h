@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __PRCM_CLKDM_H__
 #define __PRCM_CLKDM_H__
 
-
 #define CLKDM_CTRL_MODE_MAX_NAME_LENGTH		24
 #define CLKDM_STATUS_MAX_NAME_LENGTH		8
-
 
 typedef enum {
 	CLKM_NO_SLEEP_MODE = 0,
@@ -58,18 +55,15 @@ typedef enum {
 	CLKM_CTRL_MODE_MAX
 } clkdm_ctrl_mode;
 
-
 typedef enum {
 	CLKDM_GATED = 0,
 	CLKDM_RUNNING = 1,
 	CLKDM_STATUS_MAX
 } clkdm_status;
 
-
 clkdm_status clkdm_status_get(unsigned int cm_clkstctrl);
 const char *clkdm_status_name_get(clkdm_status st);
 clkdm_ctrl_mode clkdm_ctrl_mode_get(unsigned int cm_clkstctrl);
 const char *clkdm_ctrl_mode_name_get(clkdm_ctrl_mode mode);
-
 
 #endif

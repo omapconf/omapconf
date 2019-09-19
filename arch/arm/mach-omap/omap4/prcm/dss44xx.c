@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <help.h>
 #include <cm44xx.h>
 #include <prm44xx.h>
@@ -63,7 +62,6 @@
 
 reg_table prcm_dss_reg_table[PRCM_DSS_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dss44xx_regtable_init
@@ -114,7 +112,6 @@ static int dss44xx_regtable_init(void)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dss44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
@@ -135,7 +132,6 @@ int dss44xx_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, prcm_dss_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dss44xx_config_show
  * @BRIEF		analyze DSS power configuration
@@ -145,7 +141,7 @@ int dss44xx_name2addr(char *name, unsigned int *addr)
  * @param[in,out]	stream: output file stream
  * @DESCRIPTION		analyze DSS power configuration
  *------------------------------------------------------------------------ */
-int dss44xx_config_show(FILE *stream)
+int dss44xx_config_show(FILE * stream)
 {
 	unsigned int pm_pwstctrl;
 	unsigned int pm_pwstst;
@@ -165,8 +161,8 @@ int dss44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_PM_DSS_PWRSTST, &pm_pwstst) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = pwrdm44xx_config_show(stream, "DSS",
-		OMAP4430_PM_DSS_PWRSTCTRL, pm_pwstctrl,
-		OMAP4430_PM_DSS_PWRSTST, pm_pwstst);
+				    OMAP4430_PM_DSS_PWRSTCTRL, pm_pwstctrl,
+				    OMAP4430_PM_DSS_PWRSTST, pm_pwstst);
 	if (ret != 0)
 		return ret;
 
@@ -174,7 +170,7 @@ int dss44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM_DSS_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "DSS",
-		OMAP4430_CM_DSS_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_DSS_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 
@@ -184,8 +180,8 @@ int dss44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_DSS_DSS_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "DSS",
-		OMAP4430_CM_DSS_DSS_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_DSS_DSS_CONTEXT, rm_context);
+				  OMAP4430_CM_DSS_DSS_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_DSS_DSS_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -195,15 +191,16 @@ int dss44xx_config_show(FILE *stream)
 		if (mem_read(OMAP4430_RM_DSS_BB2D_CONTEXT, &rm_context) != 0)
 			return OMAPCONF_ERR_REG_ACCESS;
 		ret = mod44xx_config_show(stream, "BB2D",
-			OMAP4430_CM_DSS_BB2D_CLKCTRL, cm_clkctrl,
-			OMAP4430_RM_DSS_BB2D_CONTEXT, rm_context);
+					  OMAP4430_CM_DSS_BB2D_CLKCTRL,
+					  cm_clkctrl,
+					  OMAP4430_RM_DSS_BB2D_CONTEXT,
+					  rm_context);
 		if (ret != 0)
 			return ret;
 	}
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dss44xx_dependency_show
@@ -214,7 +211,7 @@ int dss44xx_config_show(FILE *stream)
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyse DSP dependency configuration
  *------------------------------------------------------------------------ */
-int dss44xx_dependency_show(FILE *stream)
+int dss44xx_dependency_show(FILE * stream)
 {
 	unsigned int cm_staticdep;
 	unsigned int cm_dynamicdep;
@@ -237,11 +234,9 @@ int dss44xx_dependency_show(FILE *stream)
 		"|-------------------------------------|------------------|\n");
 	fprintf(stream,
 		"| %-35s | %-6s | %-7s |\n", "IVAHD",
-		((extract_bit(cm_staticdep, 2) == 1) ? "En" : "Dis"),
-		"");
+		((extract_bit(cm_staticdep, 2) == 1) ? "En" : "Dis"), "");
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "MEM IF",
-		((extract_bit(cm_staticdep, 4) == 1) ? "En" : "Dis"),
-		"");
+		((extract_bit(cm_staticdep, 4) == 1) ? "En" : "Dis"), "");
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "L3_1",
 		((extract_bit(cm_staticdep, 5) == 1) ? "En" : "Dis"),
 		((extract_bit(cm_dynamicdep, 5) == 1) ? "En" : "Dis"));
@@ -260,7 +255,6 @@ int dss44xx_dependency_show(FILE *stream)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dss44xx_dump
  * @BRIEF		dump PRCM DSS registers
@@ -278,7 +272,6 @@ int dss44xx_dump(void)
 
 	return dumpregs(prcm_dss_reg_table);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dss44xx_main

@@ -69,28 +69,43 @@
 
 static struct sci_config_sdram my_config_emif1 =
     { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,
-{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}} };
+	{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}}
+};
+
 static struct sci_config_sdram my_config_emif2 =
     { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,
-{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}} };
+	{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}}
+};
+
 static struct sci_config_sdram my_config_emif3 =
     { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,
-{{SCI_MASTID_ALL, 0xff, SCI_RD_ONLY, SCI_ERR_DONTCARE}} };
+	{{SCI_MASTID_ALL, 0xff, SCI_RD_ONLY, SCI_ERR_DONTCARE}}
+};
+
 static struct sci_config_sdram my_config_emif4 =
     { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,
-{{SCI_MASTID_ALL, 0xff, SCI_RD_ONLY, SCI_ERR_DONTCARE}} };
+	{{SCI_MASTID_ALL, 0xff, SCI_RD_ONLY, SCI_ERR_DONTCARE}}
+};
+
 static struct sci_config_sdram my_config_emif5 =
     { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,
-{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}} };
+	{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}}
+};
+
 static struct sci_config_sdram my_config_emif6 =
     { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,
-{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}} };
+	{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}}
+};
+
 static struct sci_config_sdram my_config_emif7 =
     { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 0,
-{{SCI_MASTID_ALL, 0xff, SCI_RD_OR_WR_DONTCARE, SCI_ERR_DONTCARE}} };
+	{{SCI_MASTID_ALL, 0xff, SCI_RD_OR_WR_DONTCARE, SCI_ERR_DONTCARE}}
+};
+
 static struct sci_config_sdram my_config_emif8 =
     { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 0,
-{{SCI_MASTID_ALL, 0xff, SCI_RD_OR_WR_DONTCARE, SCI_ERR_DONTCARE}} };
+	{{SCI_MASTID_ALL, 0xff, SCI_RD_OR_WR_DONTCARE, SCI_ERR_DONTCARE}}
+};
 
 static struct sci_config_sdram *pmy_cfg[] = {
 	&my_config_emif1,
@@ -2039,8 +2054,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		if (p_flags[CPU_FREQ]) {
 			/* Get current CPU frequency (MHz) */
 			if (cpu_is_omap44xx())
-				cpu_freq[sample] =
-				    (int)
+				cpu_freq[sample] = (int)
 				    clk44xx_get_clock_speed(OMAP4_MPU_DPLL_CLK,
 							    0);
 			else
@@ -2087,8 +2101,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		if (p_flags[GPU_FREQ]) {
 			/* Get current GPU frequency (MHz) */
 			if (cpu_is_omap44xx())
-				gpu_freq[sample] =
-				    (unsigned int)
+				gpu_freq[sample] = (unsigned int)
 				    clk44xx_get_clock_speed(OMAP4_GFX_FCLK, 0);
 			else
 				gpu_freq[sample] =

@@ -113,30 +113,37 @@ struct name_value match_probe[] = {
 	{NULL, NULL, 0}
 };
 
-struct sci_config_sdram my_config_emif1 =
-    { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,
-{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}} };
-struct sci_config_sdram my_config_emif2 =
-    { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,
-{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}} };
-struct sci_config_sdram my_config_emif3 =
-    { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,
-{{SCI_MASTID_ALL, 0xff, SCI_RD_ONLY, SCI_ERR_DONTCARE}} };
-struct sci_config_sdram my_config_emif4 =
-    { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,
-{{SCI_MASTID_ALL, 0xff, SCI_RD_ONLY, SCI_ERR_DONTCARE}} };
-struct sci_config_sdram my_config_emif5 =
-    { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,
-{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}} };
-struct sci_config_sdram my_config_emif6 =
-    { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,
-{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}} };
-struct sci_config_sdram my_config_emif7 =
-    { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 0,
-{{SCI_MASTID_ALL, 0xff, SCI_RD_OR_WR_DONTCARE, SCI_ERR_DONTCARE}} };
-struct sci_config_sdram my_config_emif8 =
-    { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 0,
-{{SCI_MASTID_ALL, 0xff, SCI_RD_OR_WR_DONTCARE, SCI_ERR_DONTCARE}} };
+struct sci_config_sdram my_config_emif1 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,
+	{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}}
+};
+
+struct sci_config_sdram my_config_emif2 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,
+	{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}}
+};
+
+struct sci_config_sdram my_config_emif3 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,
+	{{SCI_MASTID_ALL, 0xff, SCI_RD_ONLY, SCI_ERR_DONTCARE}}
+};
+
+struct sci_config_sdram my_config_emif4 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,
+	{{SCI_MASTID_ALL, 0xff, SCI_RD_ONLY, SCI_ERR_DONTCARE}}
+};
+
+struct sci_config_sdram my_config_emif5 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,
+	{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}}
+};
+
+struct sci_config_sdram my_config_emif6 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,
+	{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}}
+};
+
+struct sci_config_sdram my_config_emif7 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 0,
+	{{SCI_MASTID_ALL, 0xff, SCI_RD_OR_WR_DONTCARE, SCI_ERR_DONTCARE}}
+};
+
+struct sci_config_sdram my_config_emif8 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 0,
+	{{SCI_MASTID_ALL, 0xff, SCI_RD_OR_WR_DONTCARE, SCI_ERR_DONTCARE}}
+};
 
 struct sci_config_sdram *pmy_cfg[] = {
 	&my_config_emif1,
@@ -506,19 +513,20 @@ int statcoll_main(int argc, char **argv)
 					if (strstr(optarg, "0x")) {
 						unsigned int a;
 						sscanf(optarg, "%x", &a);
-						while (match_master[loop].
-						       name != NULL) {
-							if (match_master[loop].
-							    value == a)
+						while (match_master[loop].name
+						       != NULL) {
+							if (match_master
+							    [loop].value == a)
 								break;
 							loop++;
 						}
 					} else {
-						while (match_master[loop].
-						       name != NULL) {
+						while (match_master[loop].name
+						       != NULL) {
 							if (!strcmp
-							    (match_master[loop].
-							     name, optarg))
+							    (match_master
+							     [loop].name,
+							     optarg))
 								break;
 							loop++;
 						}
@@ -526,23 +534,23 @@ int statcoll_main(int argc, char **argv)
 
 					if (match_master[loop].name != NULL) {
 						if (long_opt == 1) {
-							pmy_cfg[index]->
-							    filter[0].
-							    mstr_addr_match =
-							    match_master[loop].
-							    value;
-							if (pmy_cfg[index]->
-							    probe_id ==
+							pmy_cfg[index]->filter
+							    [0].mstr_addr_match
+							    =
+							    match_master
+							    [loop].value;
+							if (pmy_cfg
+							    [index]->probe_id ==
 							    SCI_MA_MPU_P1)
-								pmy_cfg[index]->
-								    probe_id =
-								    SCI_EMIF1;
-							if (pmy_cfg[index]->
-							    probe_id ==
+								pmy_cfg
+								    [index]->probe_id
+								    = SCI_EMIF1;
+							if (pmy_cfg
+							    [index]->probe_id ==
 							    SCI_MA_MPU_P2)
-								pmy_cfg[index]->
-								    probe_id =
-								    SCI_EMIF2;
+								pmy_cfg
+								    [index]->probe_id
+								    = SCI_EMIF2;
 						} else {
 							unsigned int i;
 
@@ -552,27 +560,26 @@ int statcoll_main(int argc, char **argv)
 							     sizeof(struct
 								    sci_config_sdram
 								    *); i++) {
-								pmy_cfg[i]->
-								    filter[0].
-								    mstr_addr_match
+								pmy_cfg
+								    [i]->filter
+								    [0].mstr_addr_match
 								    =
 								    match_master
-								    [loop].
-								    value;
-								if (pmy_cfg[i]->
-								    probe_id ==
+								    [loop].value;
+								if (pmy_cfg
+								    [i]->probe_id
+								    ==
 								    SCI_MA_MPU_P1)
 									pmy_cfg
-									    [i]->
-									    probe_id
+									    [i]->probe_id
 									    =
 									    SCI_EMIF1;
-								if (pmy_cfg[i]->
-								    probe_id ==
+								if (pmy_cfg
+								    [i]->probe_id
+								    ==
 								    SCI_MA_MPU_P2)
 									pmy_cfg
-									    [i]->
-									    probe_id
+									    [i]->probe_id
 									    =
 									    SCI_EMIF2;
 							}
@@ -589,51 +596,57 @@ int statcoll_main(int argc, char **argv)
 					   && (long_opt == 0)) {
 					my_config_emif1.probe_id =
 					    SCI_MA_MPU_P1;
-					my_config_emif1.filter[0].
-					    mstr_addr_match = SCI_MASTID_ALL;
+					my_config_emif1.
+					    filter[0].mstr_addr_match =
+					    SCI_MASTID_ALL;
 					my_config_emif2.probe_id =
 					    SCI_MA_MPU_P2;
-					my_config_emif2.filter[0].
-					    mstr_addr_match = SCI_MASTID_ALL;
+					my_config_emif2.
+					    filter[0].mstr_addr_match =
+					    SCI_MASTID_ALL;
 					my_config_emif3.probe_id =
 					    SCI_MA_MPU_P1;
-					my_config_emif3.filter[0].
-					    mstr_addr_match = SCI_MASTID_ALL;
+					my_config_emif3.
+					    filter[0].mstr_addr_match =
+					    SCI_MASTID_ALL;
 					my_config_emif4.probe_id =
 					    SCI_MA_MPU_P2;
-					my_config_emif5.filter[0].
-					    mstr_addr_match = SCI_MASTID_ALL;
+					my_config_emif5.
+					    filter[0].mstr_addr_match =
+					    SCI_MASTID_ALL;
 					my_config_emif5.probe_id =
 					    SCI_MA_MPU_P1;
-					my_config_emif6.filter[0].
-					    mstr_addr_match = SCI_MASTID_ALL;
+					my_config_emif6.
+					    filter[0].mstr_addr_match =
+					    SCI_MASTID_ALL;
 					my_config_emif6.probe_id =
 					    SCI_MA_MPU_P2;
-					my_config_emif6.filter[0].
-					    mstr_addr_match = SCI_MASTID_ALL;
+					my_config_emif6.
+					    filter[0].mstr_addr_match =
+					    SCI_MASTID_ALL;
 					my_config_emif7.probe_id =
 					    SCI_MA_MPU_P1;
-					my_config_emif7.filter[0].
-					    mstr_addr_match = SCI_MASTID_ALL;
+					my_config_emif7.
+					    filter[0].mstr_addr_match =
+					    SCI_MASTID_ALL;
 					my_config_emif8.probe_id =
 					    SCI_MA_MPU_P2;
-					my_config_emif8.filter[0].
-					    mstr_addr_match = SCI_MASTID_ALL;
+					my_config_emif8.
+					    filter[0].mstr_addr_match =
+					    SCI_MASTID_ALL;
 				} else if (!strcmp(optarg, "ma_mpu")) {
 					if (long_opt == 1) {
-						pmy_cfg[index]->filter[0].
-						    mstr_addr_match =
+						pmy_cfg[index]->
+						    filter[0].mstr_addr_match =
 						    SCI_MASTID_ALL;
 						if (pmy_cfg[index]->probe_id ==
 						    SCI_EMIF1)
-							pmy_cfg[index]->
-							    probe_id =
-							    SCI_MA_MPU_P1;
+							pmy_cfg[index]->probe_id
+							    = SCI_MA_MPU_P1;
 						if (pmy_cfg[index]->probe_id ==
 						    SCI_EMIF2)
-							pmy_cfg[index]->
-							    probe_id =
-							    SCI_MA_MPU_P2;
+							pmy_cfg[index]->probe_id
+							    = SCI_MA_MPU_P2;
 					} else {
 						unsigned int i;
 
@@ -643,20 +656,21 @@ int statcoll_main(int argc, char **argv)
 						     sizeof(struct
 							    sci_config_sdram *);
 						     i++) {
-							pmy_cfg[i]->filter[0].
-							    mstr_addr_match =
-							    SCI_MASTID_ALL;
-							if (pmy_cfg[i]->
-							    probe_id ==
-							    SCI_EMIF1)
-								pmy_cfg[i]->
-								    probe_id =
+							pmy_cfg[i]->
+							    filter
+							    [0].mstr_addr_match
+							    = SCI_MASTID_ALL;
+							if (pmy_cfg[i]->probe_id
+							    == SCI_EMIF1)
+								pmy_cfg
+								    [i]->probe_id
+								    =
 								    SCI_MA_MPU_P1;
-							if (pmy_cfg[i]->
-							    probe_id ==
-							    SCI_EMIF2)
-								pmy_cfg[i]->
-								    probe_id =
+							if (pmy_cfg[i]->probe_id
+							    == SCI_EMIF2)
+								pmy_cfg
+								    [i]->probe_id
+								    =
 								    SCI_MA_MPU_P2;
 						}
 					}
@@ -697,8 +711,8 @@ int statcoll_main(int argc, char **argv)
 
 				if (match_qualifier[loop].name != NULL) {
 					if (long_opt == 1) {
-						pmy_cfg[index]->filter[0].
-						    trans_qual =
+						pmy_cfg[index]->
+						    filter[0].trans_qual =
 						    match_qualifier[loop].value;
 					} else {
 						unsigned int i;
@@ -709,8 +723,9 @@ int statcoll_main(int argc, char **argv)
 						     sizeof(struct
 							    sci_config_sdram *);
 						     i++) {
-							pmy_cfg[i]->filter[0].
-							    trans_qual =
+							pmy_cfg[i]->
+							    filter[0].trans_qual
+							    =
 							    match_qualifier
 							    [loop].value;
 						}
@@ -749,29 +764,33 @@ int statcoll_main(int argc, char **argv)
 					if (long_opt == 1) {
 						if (pmy_cfg[index]->probe_id ==
 						    SCI_MA_MPU_P1) {
-							if (match_probe[loop].
-							    value == SCI_EMIF2)
-								pmy_cfg[index]->
-								    probe_id =
+							if (match_probe
+							    [loop].value ==
+							    SCI_EMIF2)
+								pmy_cfg
+								    [index]->probe_id
+								    =
 								    SCI_MA_MPU_P2;
-						} else if (pmy_cfg[index]->
-							   probe_id ==
-							   SCI_MA_MPU_P2) {
-							if (match_probe[loop].
-							    value == SCI_EMIF1)
-								pmy_cfg[index]->
-								    probe_id =
+						} else
+						    if (pmy_cfg[index]->probe_id
+							== SCI_MA_MPU_P2) {
+							if (match_probe
+							    [loop].value ==
+							    SCI_EMIF1)
+								pmy_cfg
+								    [index]->probe_id
+								    =
 								    SCI_MA_MPU_P1;
-						} else if (pmy_cfg[index]->
-							   probe_id !=
-							   SCI_MA_MPU_P1
-							   && pmy_cfg[index]->
-							   probe_id !=
-							   SCI_MA_MPU_P2) {
-							pmy_cfg[index]->
-							    probe_id =
-							    match_probe[loop].
-							    value;
+						} else
+						    if (pmy_cfg[index]->probe_id
+							!= SCI_MA_MPU_P1
+							&&
+							pmy_cfg[index]->probe_id
+							!= SCI_MA_MPU_P2) {
+							pmy_cfg[index]->probe_id
+							    =
+							    match_probe
+							    [loop].value;
 						}
 					} else {
 						unsigned int i;
@@ -782,41 +801,43 @@ int statcoll_main(int argc, char **argv)
 						     sizeof(struct
 							    sci_config_sdram *);
 						     i++) {
-							if ((pmy_cfg[i]->
-							     probe_id ==
+							if ((pmy_cfg
+							     [i]->probe_id ==
 							     SCI_MA_MPU_P1)
 							    &&
-							    (match_probe[loop].
-							     value ==
+							    (match_probe
+							     [loop].value ==
 							     SCI_EMIF2))
-								pmy_cfg[i]->
-								    probe_id =
+								pmy_cfg
+								    [i]->probe_id
+								    =
 								    SCI_MA_MPU_P2;
-							else if ((pmy_cfg[i]->
-								  probe_id ==
+							else if ((pmy_cfg
+								  [i]->probe_id
+								  ==
 								  SCI_MA_MPU_P2)
 								 &&
 								 (match_probe
-								  [loop].
-								  value ==
-								  SCI_EMIF1))
-								pmy_cfg[i]->
-								    probe_id =
+								  [loop].value
+								  == SCI_EMIF1))
+								pmy_cfg
+								    [i]->probe_id
+								    =
 								    SCI_MA_MPU_P1;
 							else if (pmy_cfg
-								 [index]->
-								 probe_id !=
+								 [index]->probe_id
+								 !=
 								 SCI_MA_MPU_P1
 								 &&
 								 pmy_cfg
-								 [index]->
-								 probe_id !=
+								 [index]->probe_id
+								 !=
 								 SCI_MA_MPU_P2)
-								pmy_cfg[i]->
-								    probe_id =
+								pmy_cfg
+								    [i]->probe_id
+								    =
 								    match_probe
-								    [loop].
-								    value;
+								    [loop].value;
 						}
 					}
 				} else {
@@ -1291,14 +1312,19 @@ int statcoll_main(int argc, char **argv)
 					       *(counters_prev +
 						 TIMESTAMP_INDEX), delta_time);
 					for (j = 0; j < num_use_cases; j++) {
-						printf("%.2f ",
-						       ((float)
-							(*
-							 (counters_current +
-							  COUNTER_INDEX + j) -
-							 *(counters_prev +
-							   COUNTER_INDEX +
-							   j)) / 1000000) *
+						printf("%.2f ", ((float)
+								 (*
+								  (counters_current
+								   +
+								   COUNTER_INDEX
+								   + j) -
+								  *
+								  (counters_prev
+								   +
+								   COUNTER_INDEX
+								   +
+								   j)) /
+								 1000000) *
 						       32768.0 / delta_time);
 					}
 					printf("\n");

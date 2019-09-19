@@ -41,19 +41,15 @@
  *
  */
 
-
 #ifndef __PRCM_VP44XX_DATA_H__
 #define __PRCM_VP44XX_DATA_H__
-
 
 #include <vp.h>
 #include <vp44xx.h>
 #include <voltdm44xx.h>
 #include <cpuinfo.h>
 
-
 extern const char vp44xx_mod_names[VP44XX_ID_MAX + 1][12];
-
 
 extern const vp_audit_settings vp4430_mpu_opp50_golden_settings;
 extern const vp_audit_settings vp4430_mpu_opp100_golden_settings;
@@ -72,7 +68,6 @@ extern const vp_audit_settings vp4430_core_opp100_golden_settings;
 extern const vp_audit_settings *vp4430_core_golden_settings[OPP44XX_ID_MAX];
 
 extern const vp_audit_settings **vp4430_golden_settings[VP44XX_ID_MAX];
-
 
 extern const vp_audit_settings vp4460_mpu_opp50_golden_settings;
 extern const vp_audit_settings vp4460_mpu_opp100_golden_settings;
@@ -95,8 +90,7 @@ extern const vp_audit_settings *vp4460_core_golden_settings[OPP44XX_ID_MAX];
 
 extern const vp_audit_settings **vp4460_golden_settings[VP44XX_ID_MAX];
 
-
-#if 0 /* FIXME when OMAP4470 golden settings available */
+#if 0				/* FIXME when OMAP4470 golden settings available */
 extern const vp_audit_settings vp4470_mpu_opp50_golden_settings;
 extern const vp_audit_settings vp4470_mpu_opp100_golden_settings;
 extern const vp_audit_settings vp4470_mpu_oppturbo_golden_settings;
@@ -119,8 +113,6 @@ extern const vp_audit_settings *vp4470_core_golden_settings[OPP44XX_ID_MAX];
 extern const vp_audit_settings **vp4470_golden_settings[VP44XX_ID_MAX];
 #endif
 
-
 extern const vp_audit_settings ***vp44xx_golden_settings[OMAP_MAX];
-
 
 #endif

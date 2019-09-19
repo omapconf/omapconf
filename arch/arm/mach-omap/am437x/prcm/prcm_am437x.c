@@ -67,7 +67,7 @@
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump WKUP PRCM registers and pretty-print it
  */
-static inline int _prcm_am437x_wkup_dump(FILE *stream)
+static inline int _prcm_am437x_wkup_dump(FILE * stream)
 {
 	int ret;
 
@@ -87,7 +87,7 @@ static inline int _prcm_am437x_wkup_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump MPU PRCM registers and pretty-print it
  */
-static inline int _prcm_am437x_mpu_dump(FILE *stream)
+static inline int _prcm_am437x_mpu_dump(FILE * stream)
 {
 	int ret;
 
@@ -107,7 +107,7 @@ static inline int _prcm_am437x_mpu_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump GFX PRCM registers and pretty-print it
  */
-static inline int _prcm_am437x_gfx_dump(FILE *stream)
+static inline int _prcm_am437x_gfx_dump(FILE * stream)
 {
 	int ret;
 
@@ -127,7 +127,7 @@ static inline int _prcm_am437x_gfx_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump PER PRCM registers and pretty-print it
  */
-static inline int _prcm_am437x_per_dump(FILE *stream)
+static inline int _prcm_am437x_per_dump(FILE * stream)
 {
 	int ret;
 
@@ -147,7 +147,7 @@ static inline int _prcm_am437x_per_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump RTC PRCM registers and pretty-print it
  */
-static inline int _prcm_am437x_rtc_dump(FILE *stream)
+static inline int _prcm_am437x_rtc_dump(FILE * stream)
 {
 	int ret;
 
@@ -167,7 +167,7 @@ static inline int _prcm_am437x_rtc_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump MPU PRCM registers and pretty-print it
  *------------------------------------------------------------------------ */
-static inline int _prcm_am437x_efuse_dump(FILE *stream)
+static inline int _prcm_am437x_efuse_dump(FILE * stream)
 {
 	int ret;
 
@@ -187,7 +187,7 @@ static inline int _prcm_am437x_efuse_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump DEVICE PRCM registers and pretty-print it
  *------------------------------------------------------------------------ */
-static inline int _prcm_am437x_dev_dump(FILE *stream)
+static inline int _prcm_am437x_dev_dump(FILE * stream)
 {
 	int ret;
 
@@ -208,7 +208,7 @@ static inline int _prcm_am437x_dev_dump(FILE *stream)
  * @DESCRIPTION		dump PRM IRQ PRCM registers and pretty-print it.
  *			NOTE: No corresponding CM module
  */
-static inline int _prcm_am437x_irq_dump(FILE *stream)
+static inline int _prcm_am437x_irq_dump(FILE * stream)
 {
 	return prm_am437x_dump(stream, PRM_AM437X_PRM_IRQ);
 }
@@ -224,7 +224,7 @@ static inline int _prcm_am437x_irq_dump(FILE *stream)
  * @DESCRIPTION		dump CM DPLL PRCM registers and pretty-print it.
  *			NOTE: No corresponding PRM module
  */
-static inline int _prcm_am437x_dpll_dump(FILE *stream)
+static inline int _prcm_am437x_dpll_dump(FILE * stream)
 {
 	return cm_am437x_dump(stream, CM_AM437X_CM_DPLL);
 }

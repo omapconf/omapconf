@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <abb54xx.h>
 #include <abb.h>
 #include <autoadjust_table.h>
@@ -51,14 +50,12 @@
 #include <prm54xx-defs.h>
 #include <clock54xx.h>
 
-
 /* #define ABB54XX_DEBUG */
 #ifdef ABB54XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		abb54xx_dump
@@ -69,7 +66,7 @@
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump PRCM ABB registers
  *------------------------------------------------------------------------ */
-int abb54xx_dump(FILE *stream)
+int abb54xx_dump(FILE * stream)
 {
 	reg *abb_mpu_setup_reg;
 	reg *abb_mpu_ctrl_reg;
@@ -85,8 +82,7 @@ int abb54xx_dump(FILE *stream)
 	row = 0;
 
 	strncpy(autoadjust_table[row][0], "Reg. Name", TABLE_MAX_ELT_LEN);
-	strncpy(autoadjust_table[row][1], "Reg. Addr",
-		TABLE_MAX_ELT_LEN);
+	strncpy(autoadjust_table[row][1], "Reg. Addr", TABLE_MAX_ELT_LEN);
 	strncpy(autoadjust_table[row][2], "Reg. Val.", TABLE_MAX_ELT_LEN);
 	row++;
 
@@ -105,35 +101,34 @@ int abb54xx_dump(FILE *stream)
 
 	/* Show register name, addr & content (hex) */
 	snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
-		"%s", reg_name_get(abb_mpu_setup_reg));
+		 "%s", reg_name_get(abb_mpu_setup_reg));
 	snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_addr_get(abb_mpu_setup_reg));
+		 "0x%08X", reg_addr_get(abb_mpu_setup_reg));
 	snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_read(abb_mpu_setup_reg));
+		 "0x%08X", reg_read(abb_mpu_setup_reg));
 	snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
-		"%s", reg_name_get(abb_mpu_ctrl_reg));
+		 "%s", reg_name_get(abb_mpu_ctrl_reg));
 	snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_addr_get(abb_mpu_ctrl_reg));
+		 "0x%08X", reg_addr_get(abb_mpu_ctrl_reg));
 	snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_read(abb_mpu_ctrl_reg));
+		 "0x%08X", reg_read(abb_mpu_ctrl_reg));
 	snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
-		"%s", reg_name_get(abb_mm_setup_reg));
+		 "%s", reg_name_get(abb_mm_setup_reg));
 	snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_addr_get(abb_mm_setup_reg));
+		 "0x%08X", reg_addr_get(abb_mm_setup_reg));
 	snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_read(abb_mm_setup_reg));
+		 "0x%08X", reg_read(abb_mm_setup_reg));
 	snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
-		"%s", reg_name_get(abb_mm_ctrl_reg));
+		 "%s", reg_name_get(abb_mm_ctrl_reg));
 	snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_addr_get(abb_mm_ctrl_reg));
+		 "0x%08X", reg_addr_get(abb_mm_ctrl_reg));
 	snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN,
-		"0x%08X", reg_read(abb_mm_ctrl_reg));
+		 "0x%08X", reg_read(abb_mm_ctrl_reg));
 
 	autoadjust_table_print(autoadjust_table, row, 3);
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		abb54xx_config_show
@@ -145,7 +140,7 @@ int abb54xx_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		analyze power configuration
  *------------------------------------------------------------------------ */
-int abb54xx_config_show(FILE *stream)
+int abb54xx_config_show(FILE * stream)
 {
 	double sysclk_rate;
 	struct abb_data omap5_abb_data[2];
@@ -156,21 +151,28 @@ int abb54xx_config_show(FILE *stream)
 	omap5_abb_data[0].name = "MPU Voltage Domain";
 	omap5_abb_data[1].name = "MM Voltage Domain";
 	if (cpu_revision_get() == REV_ES1_0) {
-		omap5_abb_data[0].setup = reg_read(&omap5430es1_prm_abbldo_mpu_setup);
-		omap5_abb_data[0].ctrl = reg_read(&omap5430es1_prm_abbldo_mpu_ctrl);
-		omap5_abb_data[1].setup = reg_read(&omap5430es1_prm_abbldo_mm_setup);
-		omap5_abb_data[1].ctrl = reg_read(&omap5430es1_prm_abbldo_mm_ctrl);
+		omap5_abb_data[0].setup =
+		    reg_read(&omap5430es1_prm_abbldo_mpu_setup);
+		omap5_abb_data[0].ctrl =
+		    reg_read(&omap5430es1_prm_abbldo_mpu_ctrl);
+		omap5_abb_data[1].setup =
+		    reg_read(&omap5430es1_prm_abbldo_mm_setup);
+		omap5_abb_data[1].ctrl =
+		    reg_read(&omap5430es1_prm_abbldo_mm_ctrl);
 	} else {
-		omap5_abb_data[0].setup = reg_read(&omap5430_prm_abbldo_mpu_setup);
-		omap5_abb_data[0].ctrl = reg_read(&omap5430_prm_abbldo_mpu_ctrl);
-		omap5_abb_data[1].setup = reg_read(&omap5430_prm_abbldo_mm_setup);
+		omap5_abb_data[0].setup =
+		    reg_read(&omap5430_prm_abbldo_mpu_setup);
+		omap5_abb_data[0].ctrl =
+		    reg_read(&omap5430_prm_abbldo_mpu_ctrl);
+		omap5_abb_data[1].setup =
+		    reg_read(&omap5430_prm_abbldo_mm_setup);
 		omap5_abb_data[1].ctrl = reg_read(&omap5430_prm_abbldo_mm_ctrl);
 	}
 
 	sysclk_rate = clk54xx_sysclk_rate_get();
 	if (sysclk_rate <= 0) {
 		fprintf(stderr, "%s(): could not retrieve sysclk rate! (%d)\n",
-			__func__, (int) sysclk_rate);
+			__func__, (int)sysclk_rate);
 		return OMAPCONF_ERR_INTERNAL;
 	}
 

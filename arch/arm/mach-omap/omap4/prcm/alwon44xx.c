@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <alwon44xx.h>
 #include <cm44xx.h>
 #include <prm44xx.h>
@@ -52,7 +51,6 @@
 #include <cpuinfo.h>
 #include <string.h>
 
-
 /* #define ALWON44XX_DEBUG */
 #ifdef ALWON44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -60,15 +58,12 @@
 #define dprintf(format, ...)
 #endif
 
-
 #define PRCM_ALWON_REG_TABLE_SIZE        11
-
 
 static reg_table prcm_alwon_reg_table[PRCM_ALWON_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
 
 static int alwon44xx_regtable_init(void);
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		alwon44xx_name2addr
@@ -90,7 +85,6 @@ int alwon44xx_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, prcm_alwon_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		alwon44xx_dump
  * @BRIEF		dump PRCM ALWON registers
@@ -109,7 +103,6 @@ int alwon44xx_dump(void)
 	return dumpregs(prcm_alwon_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		alwon44xx_config_show
  * @BRIEF		analyze ALWON power configuration
@@ -119,7 +112,7 @@ int alwon44xx_dump(void)
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyze ALWON power configuration
  *------------------------------------------------------------------------ */
-int alwon44xx_config_show(FILE *stream)
+int alwon44xx_config_show(FILE * stream)
 {
 	unsigned int cm_clkstctrl;
 	unsigned int rm_context;
@@ -135,7 +128,7 @@ int alwon44xx_config_show(FILE *stream)
 		return OMAPCONF_ERR_REG_ACCESS;
 
 	ret = clkdm44xx_config_show(stream, "ALWON",
-		OMAP4430_CM_ALWON_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_ALWON_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 
@@ -144,8 +137,8 @@ int alwon44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ALWON_SR_MPU_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "SR_MPU",
-		OMAP4430_CM_ALWON_SR_MPU_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ALWON_SR_MPU_CONTEXT, rm_context);
+				  OMAP4430_CM_ALWON_SR_MPU_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ALWON_SR_MPU_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -154,8 +147,8 @@ int alwon44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ALWON_SR_IVA_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "SR_IVA",
-		OMAP4430_CM_ALWON_SR_IVA_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ALWON_SR_IVA_CONTEXT, rm_context);
+				  OMAP4430_CM_ALWON_SR_IVA_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ALWON_SR_IVA_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -164,14 +157,14 @@ int alwon44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_ALWON_SR_CORE_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "SR_CORE",
-		OMAP4430_CM_ALWON_SR_CORE_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_ALWON_SR_CORE_CONTEXT, rm_context);
+				  OMAP4430_CM_ALWON_SR_CORE_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_ALWON_SR_CORE_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		alwon44xx_main
@@ -208,7 +201,6 @@ int alwon44xx_main(int argc, char *argv[])
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		alwon44xx_regtable_init

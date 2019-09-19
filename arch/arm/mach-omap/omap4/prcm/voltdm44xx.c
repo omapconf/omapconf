@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <voltdomain.h>
 #include <voltdm44xx.h>
 #include <vc44xx.h>
@@ -62,7 +61,6 @@
 #include <cpufreq.h>
 #include <opp.h>
 
-
 /* #define VOLTDM44XX_DEBUG */
 #ifdef VOLTDM44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -70,20 +68,18 @@
 #define dprintf(format, ...)
 #endif
 
-
 #define OPP_MAX_RETRY		100
 
-
 const char
-	voltdm44xx_name_table[OMAP4_VD_ID_MAX][VOLTDM44XX_MAX_NAME_LENGTH] = {
+ voltdm44xx_name_table[OMAP4_VD_ID_MAX][VOLTDM44XX_MAX_NAME_LENGTH] = {
 	"LDO_WKUP",
 	"VDD_MPU",
 	"VDD_IVA",
-	"VDD_CORE"};
-
+	"VDD_CORE"
+};
 
 const char
-	core_opp4470_name_table[OPP44XX_ID_MAX + 1][OPP44XX_MAX_NAME_LENGTH] = {
+ core_opp4470_name_table[OPP44XX_ID_MAX + 1][OPP44XX_MAX_NAME_LENGTH] = {
 	"DPLL_CASC",
 	"OPP50_LOW",
 	"OPP50_HIGH",
@@ -91,11 +87,11 @@ const char
 	"OPP119_LOW",
 	"OPP119_HIGH",
 	"OPP100_HIGH",
-	"UNKNOWN"};
-
+	"UNKNOWN"
+};
 
 const char
-	opp44xx_name_table[OPP44XX_ID_MAX + 1][OPP44XX_MAX_NAME_LENGTH] = {
+ opp44xx_name_table[OPP44XX_ID_MAX + 1][OPP44XX_MAX_NAME_LENGTH] = {
 	"DPLL_CASC",
 	"OPP50",
 	"OPP100",
@@ -103,48 +99,47 @@ const char
 	"OPP_NITRO",
 	"OPP_NITRO_SB",
 	"OPP119",
-	"UNKNOWN"};
-
+	"UNKNOWN"
+};
 
 static const double omap4430_retention_voltage_table[OMAP4_VD_ID_MAX] = {
-	0.0, 0.759640, 0.759640, 0.759640};
-
+	0.0, 0.759640, 0.759640, 0.759640
+};
 
 static const double
-	omap4430_nominal_voltage_table[OMAP4_VD_ID_MAX][OPP44XX_ID_MAX] = {
-	{1.06, 1.06, 1.06, 1.06, 1.06, 1.06, 1.06}, /* LDO_WKUP */
-	{1.0255, 1.0255, 1.2027, 1.3293, 1.3926, 1.3926, -1.0}, /* VDD_MPU */
-	{0.9622, 0.9622, 1.114, 1.291, -1.0, -1.0, -1.0}, /* VDD_IVA */
-	{0.9622, 0.9622, 1.127, -1.0, -1.0, -1.0, -1.0} }; /* VDD_CORE */
-
+ omap4430_nominal_voltage_table[OMAP4_VD_ID_MAX][OPP44XX_ID_MAX] = {
+	{1.06, 1.06, 1.06, 1.06, 1.06, 1.06, 1.06},	/* LDO_WKUP */
+	{1.0255, 1.0255, 1.2027, 1.3293, 1.3926, 1.3926, -1.0},	/* VDD_MPU */
+	{0.9622, 0.9622, 1.114, 1.291, -1.0, -1.0, -1.0},	/* VDD_IVA */
+	{0.9622, 0.9622, 1.127, -1.0, -1.0, -1.0, -1.0}
+};				/* VDD_CORE */
 
 static const double omap4460_retention_voltage_table[OMAP4_VD_ID_MAX] = {
-	0.0, 0.75, 0.759640, 0.759640};
-
+	0.0, 0.75, 0.759640, 0.759640
+};
 
 static const double
-	omap4460_nominal_voltage_table[OMAP4_VD_ID_MAX][OPP44XX_ID_MAX] = {
-	{1.06, 1.06, 1.06, 1.06, 1.06, 1.06, 1.06}, /* LDO_WKUP */
-	{1.025, 1.025, 1.203, 1.317, 1.380, 1.380, -1.0}, /* VDD_MPU */
-	{0.9622, 0.9622, 1.114, 1.291, 1.380, 1.380, -1.0}, /* VDD_IVA */
-	{0.9622, 0.9622, 1.127, 1.2534, -1.0, -1.0} }; /* VDD_CORE */
-
+ omap4460_nominal_voltage_table[OMAP4_VD_ID_MAX][OPP44XX_ID_MAX] = {
+	{1.06, 1.06, 1.06, 1.06, 1.06, 1.06, 1.06},	/* LDO_WKUP */
+	{1.025, 1.025, 1.203, 1.317, 1.380, 1.380, -1.0},	/* VDD_MPU */
+	{0.9622, 0.9622, 1.114, 1.291, 1.380, 1.380, -1.0},	/* VDD_IVA */
+	{0.9622, 0.9622, 1.127, 1.2534, -1.0, -1.0}
+};				/* VDD_CORE */
 
 static const double omap4470_retention_voltage_table[OMAP4_VD_ID_MAX] = {
-	0.0, 0.759640, 0.759640, 0.759640};
-
+	0.0, 0.759640, 0.759640, 0.759640
+};
 
 static const double
-	omap4470_nominal_voltage_table[OMAP4_VD_ID_MAX][OPP44XX_ID_MAX] = {
-	{1.06, 1.06, 1.06, 1.06, 1.06, 1.06, 1.06}, /* LDO_WKUP */
-	{1.0255, 1.0255, 1.2027, 1.3167, 1.380, 1.380, -1.0}, /* VDD_MPU */
-	{0.9622, 0.9622, 1.1394, 1.2914, 1.380, 1.380, -1.0}, /* VDD_IVA */
-	{0.9622, 0.9622, 0.9622, 1.1255, 1.2534, 1.253, 1.1274} }; /* VDD_CORE */
-
+ omap4470_nominal_voltage_table[OMAP4_VD_ID_MAX][OPP44XX_ID_MAX] = {
+	{1.06, 1.06, 1.06, 1.06, 1.06, 1.06, 1.06},	/* LDO_WKUP */
+	{1.0255, 1.0255, 1.2027, 1.3167, 1.380, 1.380, -1.0},	/* VDD_MPU */
+	{0.9622, 0.9622, 1.1394, 1.2914, 1.380, 1.380, -1.0},	/* VDD_IVA */
+	{0.9622, 0.9622, 0.9622, 1.1255, 1.2534, 1.253, 1.1274}
+};				/* VDD_CORE */
 
 static unsigned short voltdm44xx_init_done = 0;
 genlist voltdm44xx_list;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_init
@@ -161,32 +156,27 @@ void voltdm44xx_init(void)
 	genlist_init(&voltdm44xx_list);
 
 	voltdm.name = VDD_WKUP;
-	voltdm.id = (int) OMAP4_LDO_WKUP;
-	voltdm.voltst = NULL; /* Not present on OMAP4 */
-	genlist_addtail(
-		&voltdm44xx_list, (void *) &voltdm, sizeof(voltdm_info));
+	voltdm.id = (int)OMAP4_LDO_WKUP;
+	voltdm.voltst = NULL;	/* Not present on OMAP4 */
+	genlist_addtail(&voltdm44xx_list, (void *)&voltdm, sizeof(voltdm_info));
 
 	voltdm.name = VDD_MPU;
-	voltdm.id = (int) OMAP4_VDD_MPU;
-	voltdm.voltst = NULL; /* Not present on OMAP4 */
-	genlist_addtail(
-		&voltdm44xx_list, (void *) &voltdm, sizeof(voltdm_info));
+	voltdm.id = (int)OMAP4_VDD_MPU;
+	voltdm.voltst = NULL;	/* Not present on OMAP4 */
+	genlist_addtail(&voltdm44xx_list, (void *)&voltdm, sizeof(voltdm_info));
 
 	voltdm.name = VDD_IVA;
-	voltdm.id = (int) OMAP4_VDD_IVA;
-	voltdm.voltst = NULL; /* Not present on OMAP4 */
-	genlist_addtail(
-		&voltdm44xx_list, (void *) &voltdm, sizeof(voltdm_info));
+	voltdm.id = (int)OMAP4_VDD_IVA;
+	voltdm.voltst = NULL;	/* Not present on OMAP4 */
+	genlist_addtail(&voltdm44xx_list, (void *)&voltdm, sizeof(voltdm_info));
 
 	voltdm.name = VDD_CORE;
-	voltdm.id = (int) OMAP4_VDD_CORE;
-	voltdm.voltst = NULL; /* Not present on OMAP4 */
-	genlist_addtail(
-		&voltdm44xx_list, (void *) &voltdm, sizeof(voltdm_info));
+	voltdm.id = (int)OMAP4_VDD_CORE;
+	voltdm.voltst = NULL;	/* Not present on OMAP4 */
+	genlist_addtail(&voltdm44xx_list, (void *)&voltdm, sizeof(voltdm_info));
 
 	voltdm44xx_init_done = 1;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_deinit
@@ -204,7 +194,6 @@ void voltdm44xx_deinit(void)
 	dprintf("%s(): deinit done.\n", __func__);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_list_get
  * @BRIEF		return the list of voltage domains
@@ -216,9 +205,8 @@ const genlist *voltdm44xx_list_get(void)
 {
 	voltdm44xx_init();
 
-	return (const genlist *) &voltdm44xx_list;
+	return (const genlist *)&voltdm44xx_list;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_count_get
@@ -240,7 +228,6 @@ int voltdm44xx_count_get(void)
 	return count;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_get_name
  * @BRIEF		return voltage domain name
@@ -251,7 +238,7 @@ int voltdm44xx_count_get(void)
  * @DESCRIPTION		return voltage domain name
  *------------------------------------------------------------------------ */
 char *voltdm44xx_get_name(voltdm44xx_id id,
-	char name[VOLTDM44XX_MAX_NAME_LENGTH])
+			  char name[VOLTDM44XX_MAX_NAME_LENGTH])
 {
 	if ((id >= OMAP4_VD_ID_MAX) || (name == NULL))
 		return NULL;
@@ -260,7 +247,6 @@ char *voltdm44xx_get_name(voltdm44xx_id id,
 
 	return name;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_s2id
@@ -273,9 +259,9 @@ char *voltdm44xx_get_name(voltdm44xx_id id,
 voltdm44xx_id voltdm44xx_s2id(char *s)
 {
 	voltdm44xx_id vdd_id;
-	#ifdef VOLTDM44XX_DEBUG
+#ifdef VOLTDM44XX_DEBUG
 	char voltdm_name[VOLTDM44XX_MAX_NAME_LENGTH];
-	#endif
+#endif
 
 	CHECK_NULL_ARG(s, OMAP4_VD_ID_MAX);
 
@@ -293,7 +279,6 @@ voltdm44xx_id voltdm44xx_s2id(char *s)
 	return vdd_id;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_retention_voltage_get
  * @BRIEF		return voltage domain retention voltage, in volt.
@@ -308,23 +293,23 @@ double voltdm44xx_retention_voltage_get(voltdm44xx_id id)
 	double volt;
 	vc44xx_registers vc_regs;
 	unsigned char cmd_on, cmd_onlp, cmd_ret, cmd_off;
-	#ifdef VOLTDM44XX_DEBUG
+#ifdef VOLTDM44XX_DEBUG
 	char vname[VOLTDM44XX_MAX_NAME_LENGTH];
-	#endif
+#endif
 
-	CHECK_CPU(44xx, (double) OMAPCONF_ERR_CPU);
-	CHECK_ARG_LESS_THAN(id, OMAP4_VD_ID_MAX, (double) OMAPCONF_ERR_ARG);
+	CHECK_CPU(44xx, (double)OMAPCONF_ERR_CPU);
+	CHECK_ARG_LESS_THAN(id, OMAP4_VD_ID_MAX, (double)OMAPCONF_ERR_ARG);
 
 	/* Retrieve VC registers */
 	ret = vc44xx_registers_get(&vc_regs);
 	if (ret != 0)
-		return (double) ret;
+		return (double)ret;
 
 	/* Retrieve RET command value */
 	ret = vc44xx_cmd_values_get(id, &vc_regs,
-			&cmd_on, &cmd_onlp, &cmd_ret, &cmd_off);
+				    &cmd_on, &cmd_onlp, &cmd_ret, &cmd_off);
 	if (ret != 0)
-		return (double) ret;
+		return (double)ret;
 
 	/* Convert RET command value to voltage */
 	volt = smps_vsel2volt(vdd_id2smps_id(id), cmd_ret);
@@ -334,7 +319,6 @@ double voltdm44xx_retention_voltage_get(voltdm44xx_id id)
 
 	return volt;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_por_retention_voltage_get
@@ -350,12 +334,12 @@ double voltdm44xx_retention_voltage_get(voltdm44xx_id id)
 double voltdm44xx_por_retention_voltage_get(voltdm44xx_id id)
 {
 	double volt;
-	#ifdef VOLTDM44XX_DEBUG
+#ifdef VOLTDM44XX_DEBUG
 	char vname[VOLTDM44XX_MAX_NAME_LENGTH];
-	#endif
+#endif
 
-	CHECK_CPU(44xx, (double) OMAPCONF_ERR_CPU);
-	CHECK_ARG_LESS_THAN(id, OMAP4_VD_ID_MAX, (double) OMAPCONF_ERR_ARG);
+	CHECK_CPU(44xx, (double)OMAPCONF_ERR_CPU);
+	CHECK_ARG_LESS_THAN(id, OMAP4_VD_ID_MAX, (double)OMAPCONF_ERR_ARG);
 
 	switch (cpu_get()) {
 	case OMAP_4430:
@@ -377,7 +361,6 @@ double voltdm44xx_por_retention_voltage_get(voltdm44xx_id id)
 	return volt;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_nominal_voltage_get
  * @BRIEF		return voltage domain nominal voltage
@@ -394,23 +377,23 @@ double voltdm44xx_nominal_voltage_get(voltdm44xx_id id)
 	double volt;
 	vc44xx_registers vc_regs;
 	unsigned char cmd_on, cmd_onlp, cmd_ret, cmd_off;
-	#ifdef VOLTDM44XX_DEBUG
+#ifdef VOLTDM44XX_DEBUG
 	char vname[VOLTDM44XX_MAX_NAME_LENGTH];
-	#endif
+#endif
 
-	CHECK_CPU(44xx, (double) OMAPCONF_ERR_CPU);
-	CHECK_ARG_LESS_THAN(id, OMAP4_VD_ID_MAX, (double) OMAPCONF_ERR_ARG);
+	CHECK_CPU(44xx, (double)OMAPCONF_ERR_CPU);
+	CHECK_ARG_LESS_THAN(id, OMAP4_VD_ID_MAX, (double)OMAPCONF_ERR_ARG);
 
 	/* Retrieve VC registers */
 	ret = vc44xx_registers_get(&vc_regs);
 	if (ret != 0)
-		return (double) ret;
+		return (double)ret;
 
 	/* Retrieve ON command value */
 	ret = vc44xx_cmd_values_get(id, &vc_regs,
-			&cmd_on, &cmd_onlp, &cmd_ret, &cmd_off);
+				    &cmd_on, &cmd_onlp, &cmd_ret, &cmd_off);
 	if (ret != 0)
-		return (double) ret;
+		return (double)ret;
 
 	/* Convert ON command value to voltage */
 	volt = smps_vsel2volt(vdd_id2smps_id(id), cmd_on);
@@ -420,7 +403,6 @@ double voltdm44xx_nominal_voltage_get(voltdm44xx_id id)
 
 	return volt;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_por_nominal_voltage_get
@@ -437,18 +419,18 @@ double voltdm44xx_nominal_voltage_get(voltdm44xx_id id)
 double voltdm44xx_por_nominal_voltage_get(voltdm44xx_id id, opp44xx_id opp)
 {
 	double volt;
-	#ifdef VOLTDM44XX_DEBUG
+#ifdef VOLTDM44XX_DEBUG
 	char vname[VOLTDM44XX_MAX_NAME_LENGTH];
 	char oname[OPP44XX_MAX_NAME_LENGTH];
-	#endif
+#endif
 
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
-	CHECK_ARG_LESS_THAN(id, OMAP4_VD_ID_MAX, (double) OMAPCONF_ERR_ARG);
-	CHECK_ARG_LESS_THAN(opp, OPP44XX_ID_MAX, (double) OMAPCONF_ERR_ARG);
+	CHECK_ARG_LESS_THAN(id, OMAP4_VD_ID_MAX, (double)OMAPCONF_ERR_ARG);
+	CHECK_ARG_LESS_THAN(opp, OPP44XX_ID_MAX, (double)OMAPCONF_ERR_ARG);
 
-	#ifdef VOLTDM44XX_DEBUG
+#ifdef VOLTDM44XX_DEBUG
 	voltdm44xx_opp2string(oname, opp, id);
-	#endif
+#endif
 
 	switch (cpu_get()) {
 	case OMAP_4430:
@@ -469,7 +451,6 @@ double voltdm44xx_por_nominal_voltage_get(voltdm44xx_id id, opp44xx_id opp)
 
 	return volt;
 }
-
 
 /* #define OMAP4CONF_GET_OPP_DEBUG */
 #ifndef VOLTDM44XX_DEBUG
@@ -492,7 +473,7 @@ double voltdm44xx_por_nominal_voltage_get(voltdm44xx_id id, opp44xx_id opp)
  * @param[in,out]	opp: pointer to return OPP
  * @DESCRIPTION		find the current voltage domain OPP
  *------------------------------------------------------------------------ */
-int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
+int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id * opp)
 {
 	int ret;
 	clock44xx_id clk_id;
@@ -503,12 +484,12 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 	double dss_speed_curr = 0.0, dss_speed_por = 0.0;
 	omap4_dpll_params dpll_params;
 	dpll44xx_id dpll_id;
-	#ifdef OMAP4CONF_GET_OPP_DEBUG
+#ifdef OMAP4CONF_GET_OPP_DEBUG
 	char mname[MOD44XX_MAX_NAME_LENGTH];
 	char cname[CLOCK44XX_MAX_NAME_LENGTH];
 	char vname[VOLTDM44XX_MAX_NAME_LENGTH];
 	char s_opp[OPP44XX_MAX_NAME_LENGTH] = "ERR";
-	#endif
+#endif
 
 	*opp = OPP44XX_ID_MAX;
 	if (!cpu_is_omap44xx())
@@ -555,7 +536,7 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 	 */
 	dpll44xx_dpll_params_get(dpll_id, &dpll_params, 0);
 	if ((dpll_params.status == DPLL_STATUS_STOPPED) ||
-		(dpll_id == DPLL44XX_IVA))
+	    (dpll_id == DPLL44XX_IVA))
 		speed_curr = clk44xx_get_clock_speed(clk_id, 1);
 	else
 		speed_curr = clk44xx_get_clock_speed(clk_id, 0);
@@ -565,9 +546,9 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 	dprintf("%s(): %s speed is %lfMHz\n", __func__,
 		clk44xx_get_name(clk_id, cname), speed_curr);
 	for (opp_id = 0; opp_id < OPP44XX_ID_MAX; opp_id++) {
-		#ifdef OMAP4CONF_GET_OPP_DEBUG
+#ifdef OMAP4CONF_GET_OPP_DEBUG
 		voltdm44xx_opp2string(s_opp, opp_id, id);
-		#endif
+#endif
 
 		/* Retrieve module expected speed for this tentative OPP */
 		ret = mod44xx_get_por_clk_speed(module_id, opp_id, &speed_por);
@@ -581,7 +562,7 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 			mod44xx_get_name(module_id, mname), s_opp, speed_por);
 
 		if (cpu_is_omap4460() && (id == OMAP4_VDD_IVA) &&
-			((int) speed_curr == 124)) {
+		    ((int)speed_curr == 124)) {
 			/*
 			 * Hack for Galaxy Nexus, observed with pastry
 			 * Jelly Bean 4.2.1 (may/may not apply to other pastry)
@@ -591,18 +572,19 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 				voltdm44xx_get_name(id, vname), s_opp);
 			return 0;
 		}
-		if ((int) speed_por != (int) speed_curr)
+		if ((int)speed_por != (int)speed_curr)
 			continue;
 
-		if (cpu_is_omap4470() && (id == OMAP4_VDD_CORE) && \
-			(opp_id == OMAP447X_OPP100_LOW)) {
+		if (cpu_is_omap4470() && (id == OMAP4_VDD_CORE) &&
+		    (opp_id == OMAP447X_OPP100_LOW)) {
 			/* for opp_id == OMAP447X_OPP100_LOW
 			 * and opp_id == OMAP447X_OPP119_LOW
 			 * L3 clock frequencies are equal.
 			 * Use GFX clock frequencies to distinguish.
 			 */
 			ret = mod44xx_get_por_clk_speed(OMAP4_GFX,
-					OMAP447X_OPP119_LOW, &gfx_speed_por);
+							OMAP447X_OPP119_LOW,
+							&gfx_speed_por);
 			if (ret != 0) {
 				dprintf("%s(): could not get %s %s POR "
 					"speed! (%d)\n", __func__,
@@ -611,21 +593,21 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 				return ret;
 			}
 			dprintf("%s(): %s POR Speed for OPP119_LOW is %lfMHz\n",
-				__func__, clk44xx_get_name(
-					OMAP4_GFX_FCLK, cname),
+				__func__, clk44xx_get_name(OMAP4_GFX_FCLK,
+							   cname),
 				gfx_speed_por);
 
 			gfx_speed_curr =
-				clk44xx_get_clock_speed(OMAP4_GFX_FCLK, 1);
+			    clk44xx_get_clock_speed(OMAP4_GFX_FCLK, 1);
 			dprintf("%s(): %s speed is %lfMHz\n", __func__,
 				clk44xx_get_name(OMAP4_GFX_FCLK, cname),
 				gfx_speed_curr);
 
-			if ((int) gfx_speed_curr == (int) gfx_speed_por) {
+			if ((int)gfx_speed_curr == (int)gfx_speed_por) {
 				opp_id = OMAP447X_OPP119_LOW;
-				#ifdef OMAP4CONF_GET_OPP_DEBUG
+#ifdef OMAP4CONF_GET_OPP_DEBUG
 				voltdm44xx_opp2string(s_opp, opp_id, id);
-				#endif
+#endif
 				dprintf("%s(): GFX POR Speed == OPP119_LOW "
 					"POR Speed\n", __func__);
 			} else {
@@ -633,15 +615,16 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 					"POR Speed\n", __func__);
 				continue;
 			}
-		} else if (cpu_is_omap4470() && (id == OMAP4_VDD_CORE) && \
-			(opp_id == OMAP447X_OPP50_HIGH)) {
+		} else if (cpu_is_omap4470() && (id == OMAP4_VDD_CORE) &&
+			   (opp_id == OMAP447X_OPP50_HIGH)) {
 			/* for opp_id == OMAP447X_OPP50_HIGH
 			 * and opp_id == OMAP447X_OPP100_HIGH
 			 * L3 clock frequencies are equal.
 			 * Use DSS clock frequencies to distinguish.
 			 */
 			ret = mod44xx_get_por_clk_speed(OMAP4_DISPC,
-					OMAP447X_OPP50_HIGH, &dss_speed_por);
+							OMAP447X_OPP50_HIGH,
+							&dss_speed_por);
 			if (ret != 0) {
 				dprintf("%s(): could not get %s %s POR "
 					"speed! (%d)\n", __func__,
@@ -649,22 +632,22 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 					"OPP50_HIGH", ret);
 				return ret;
 			}
-			dprintf("%s(): %s POR Speed for OMAP447X_OPP50_HIGH is %lfMHz\n",
-				__func__, clk44xx_get_name(
-					OMAP4_DSS_FCLK, cname),
-				dss_speed_por);
+			dprintf
+			    ("%s(): %s POR Speed for OMAP447X_OPP50_HIGH is %lfMHz\n",
+			     __func__, clk44xx_get_name(OMAP4_DSS_FCLK, cname),
+			     dss_speed_por);
 
 			dss_speed_curr =
-				clk44xx_get_clock_speed(OMAP4_DSS_FCLK, 1);
+			    clk44xx_get_clock_speed(OMAP4_DSS_FCLK, 1);
 			dprintf("%s(): %s speed is %lfMHz\n", __func__,
 				clk44xx_get_name(OMAP4_DSS_FCLK, cname),
 				dss_speed_curr);
 
-			if ((int) dss_speed_curr == (int) dss_speed_por) {
+			if ((int)dss_speed_curr == (int)dss_speed_por) {
 				opp_id = OMAP447X_OPP50_HIGH;
-				#ifdef OMAP4CONF_GET_OPP_DEBUG
+#ifdef OMAP4CONF_GET_OPP_DEBUG
 				voltdm44xx_opp2string(s_opp, opp_id, id);
-				#endif
+#endif
 				dprintf("%s(): DSS POR Speed == OPP50_HIGH "
 					"POR Speed\n", __func__);
 			} else {
@@ -684,6 +667,7 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 
 	return OMAPCONF_ERR_NOT_AVAILABLE;
 }
+
 #ifndef VOLTDM44XX_DEBUG
 #ifdef OMAP4CONF_GET_OPP_DEBUG
 #undef dprintf
@@ -693,7 +677,6 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp44xx_name_get
@@ -707,7 +690,7 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 const char *opp44xx_name_get(unsigned short opp_id, voltdm44xx_id vdd_id)
 {
 	if (cpu_is_omap4470() &&
-		((vdd_id == OMAP4_VDD_CORE) || (vdd_id == OMAP4_LDO_WKUP))) {
+	    ((vdd_id == OMAP4_VDD_CORE) || (vdd_id == OMAP4_LDO_WKUP))) {
 		if (opp_id < OPP44XX_ID_MAX)
 			return core_opp4470_name_table[opp_id];
 		else
@@ -720,7 +703,6 @@ const char *opp44xx_name_get(unsigned short opp_id, voltdm44xx_id vdd_id)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_opp2string
  * @BRIEF		convert OPP ID into string
@@ -732,13 +714,13 @@ const char *opp44xx_name_get(unsigned short opp_id, voltdm44xx_id vdd_id)
  * @DESCRIPTION		convert OPP ID into string
  *------------------------------------------------------------------------ */
 int voltdm44xx_opp2string(char s[OPP44XX_MAX_NAME_LENGTH],
-	unsigned short opp, voltdm44xx_id vd_id)
+			  unsigned short opp, voltdm44xx_id vd_id)
 {
-	if ((void *) s == NULL)
+	if ((void *)s == NULL)
 		return OMAPCONF_ERR_ARG;
 
 	if (cpu_is_omap4470() &&
-		((vd_id == OMAP4_VDD_CORE) || (vd_id == OMAP4_LDO_WKUP))) {
+	    ((vd_id == OMAP4_VDD_CORE) || (vd_id == OMAP4_LDO_WKUP))) {
 		switch (opp) {
 		case OMAP447X_OPPDPLL_CASC:
 			strcpy(s, "DPLL_CASC");
@@ -794,7 +776,6 @@ int voltdm44xx_opp2string(char s[OPP44XX_MAX_NAME_LENGTH],
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp44xx_s2id
  * @BRIEF		convert string to valid OPP ID.
@@ -808,33 +789,32 @@ unsigned int opp44xx_s2id(char *s)
 	CHECK_NULL_ARG(s, OPP44XX_ID_MAX);
 
 	if (strcmp(s, "dpll_casc") == 0)
-		return (unsigned int) OMAP4_OPPDPLL_CASC;
+		return (unsigned int)OMAP4_OPPDPLL_CASC;
 	else if (strcmp(s, "opp50") == 0)
-		return (unsigned int) OMAP4_OPP50;
+		return (unsigned int)OMAP4_OPP50;
 	else if (strcmp(s, "opp100") == 0)
-		return (unsigned int) OMAP4_OPP100;
+		return (unsigned int)OMAP4_OPP100;
 	else if (strcmp(s, "opp_turbo") == 0)
-		return (unsigned int) OMAP4_OPP_TURBO;
+		return (unsigned int)OMAP4_OPP_TURBO;
 	else if (strcmp(s, "opp_nitro") == 0)
-		return (unsigned int) OMAP4_OPP_NITRO;
+		return (unsigned int)OMAP4_OPP_NITRO;
 	else if (strcmp(s, "opp_nitrosb") == 0)
-		return (unsigned int) OMAP4_OPP_NITRO_SB;
+		return (unsigned int)OMAP4_OPP_NITRO_SB;
 	else if (strcmp(s, "opp50_low") == 0)
-		return (unsigned int) OMAP447X_OPP50_LOW;
+		return (unsigned int)OMAP447X_OPP50_LOW;
 	else if (strcmp(s, "opp50_high") == 0)
-		return (unsigned int) OMAP447X_OPP50_HIGH;
+		return (unsigned int)OMAP447X_OPP50_HIGH;
 	else if (strcmp(s, "opp100_low") == 0)
-		return (unsigned int) OMAP447X_OPP100_LOW;
+		return (unsigned int)OMAP447X_OPP100_LOW;
 	else if (strcmp(s, "opp100_high") == 0)
-		return (unsigned int) OMAP447X_OPP100_HIGH;
+		return (unsigned int)OMAP447X_OPP100_HIGH;
 	else if (strcmp(s, "opp119_low") == 0)
-		return (unsigned int) OMAP447X_OPP119_LOW;
+		return (unsigned int)OMAP447X_OPP119_LOW;
 	else if (strcmp(s, "opp119_high") == 0)
-		return (unsigned int) OMAP447X_OPP119_HIGH;
+		return (unsigned int)OMAP447X_OPP119_HIGH;
 	else
-		return (unsigned int) OPP44XX_ID_MAX;
+		return (unsigned int)OPP44XX_ID_MAX;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_id2s
@@ -871,7 +851,6 @@ const char *voltdm44xx_id2s(voltdm44xx_id id)
 	dprintf("%s(%d) = %s\n", __func__, id, s);
 	return s;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_get_voltage
@@ -913,24 +892,22 @@ int voltdm44xx_get_voltage(voltdm44xx_id id, double *volt)
 		break;
 	case OMAP4_VDD_IVA:
 		ret = pwrdm44xx_get_state(OMAP4_PD_ABE, &state1);
-		ret += pwrdm44xx_get_state(OMAP4_PD_IVA_HD,
-			&state2);
-		ret += pwrdm44xx_get_state(OMAP4_PD_DSP,
-			&state3);
+		ret += pwrdm44xx_get_state(OMAP4_PD_IVA_HD, &state2);
+		ret += pwrdm44xx_get_state(OMAP4_PD_DSP, &state3);
 		if (ret != 0)
 			return ret;
 		else if ((sr44xx_is_enabled(OMAP4_SR_IVA) == 1) ||
-			(state1 == PWRDM_ON_STATE) ||
-			(state2 == PWRDM_ON_STATE) ||
-			(state3 == PWRDM_ON_STATE))
+			 (state1 == PWRDM_ON_STATE) ||
+			 (state2 == PWRDM_ON_STATE) ||
+			 (state3 == PWRDM_ON_STATE))
 			type = OMAP4_ON_VOLTAGE;
 		else if ((state1 == PWRDM_INACTIVE_STATE) &&
-			(state2 == PWRDM_INACTIVE_STATE) &&
-			(state3 == PWRDM_INACTIVE_STATE))
+			 (state2 == PWRDM_INACTIVE_STATE) &&
+			 (state3 == PWRDM_INACTIVE_STATE))
 			type = OMAP4_ON_LOW_POWER_VOLTAGE;
 		else if ((state1 == PWRDM_RET_STATE) &&
-			(state2 == PWRDM_RET_STATE) &&
-			(state3 == PWRDM_RET_STATE))
+			 (state2 == PWRDM_RET_STATE) &&
+			 (state3 == PWRDM_RET_STATE))
 			type = OMAP4_RETENTION_VOLTAGE;
 		else
 			/* When no module is being used in VDD_IVA
@@ -959,7 +936,6 @@ int voltdm44xx_get_voltage(voltdm44xx_id id, double *volt)
 	return ret;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_get_voltage_by_type
  * @BRIEF		return the programmed voltage of a domain.
@@ -974,7 +950,7 @@ int voltdm44xx_get_voltage(voltdm44xx_id id, double *volt)
  * @DESCRIPTION		return the programmed voltage of a domain.
  *------------------------------------------------------------------------ */
 int voltdm44xx_get_voltage_by_type(voltdm44xx_id id,
-	voltdm44xx_voltage_type type, double *volt)
+				   voltdm44xx_voltage_type type, double *volt)
 {
 	unsigned int prm_vc_val_cmd_vdd, prm_vc_val_cmd_vdd_addr;
 	unsigned short vsel_len;
@@ -1013,29 +989,28 @@ int voltdm44xx_get_voltage_by_type(voltdm44xx_id id,
 		voltdm44xx_name_table[id], type, vsel_len);
 	if (vsel_len <= 0) {
 		dprintf("%s(): error getting vsel_len!\n", __func__);
-		ret =  OMAPCONF_ERR_NOT_AVAILABLE;
+		ret = OMAPCONF_ERR_NOT_AVAILABLE;
 		goto voltdm44xx_get_voltage_by_type_end;
 	}
 
-	if ((type == OMAP4_ON_VOLTAGE) && \
-		(sr44xx_is_enabled(sr_id) == 1)) {
-			/* SR ON, get ON voltage from VP register */
-			ret = sr44xx_vp_voltage_get(sr_id, volt);
-			dprintf("%s(): %s: SR ON, ON VP voltage is %lfV\n",
-				__func__, voltdm44xx_name_table[id], *volt);
+	if ((type == OMAP4_ON_VOLTAGE) && (sr44xx_is_enabled(sr_id) == 1)) {
+		/* SR ON, get ON voltage from VP register */
+		ret = sr44xx_vp_voltage_get(sr_id, volt);
+		dprintf("%s(): %s: SR ON, ON VP voltage is %lfV\n",
+			__func__, voltdm44xx_name_table[id], *volt);
 	} else {
 		dprintf("%s(%s, %u): get programmed voltage from VC register\n",
 			__func__, voltdm44xx_name_table[id], type);
 		/* Get programmed voltage from VC register */
-		if (mem_read(prm_vc_val_cmd_vdd_addr,
-			&prm_vc_val_cmd_vdd) != 0) {
+		if (mem_read(prm_vc_val_cmd_vdd_addr, &prm_vc_val_cmd_vdd) != 0) {
 			dprintf("%s(): error reading VC register!\n", __func__);
 			ret = OMAPCONF_ERR_REG_ACCESS;
 			goto voltdm44xx_get_voltage_by_type_end;
 		}
 
 		*volt = smps_vsel2volt(vdd_id2smps_id(id),
-			extract_bitfield(prm_vc_val_cmd_vdd, type, vsel_len));
+				       extract_bitfield(prm_vc_val_cmd_vdd,
+							type, vsel_len));
 		if (*volt < 0.0) {
 			dprintf("%s(): error converting vsel to volt!\n",
 				__func__);
@@ -1052,10 +1027,9 @@ int voltdm44xx_get_voltage_by_type(voltdm44xx_id id,
 
 voltdm44xx_get_voltage_by_type_end:
 	dprintf("%s(%s, %u): ret=%d\n", __func__, voltdm44xx_name_table[id],
-			type, ret);
+		type, ret);
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_vminsearch
@@ -1093,15 +1067,15 @@ int voltdm44xx_vminsearch(voltdm44xx_id vdd_id, double v, unsigned int ms)
 	}
 
 	printf("Vmin search on %s domain scaling voltage down from %1.3lfV, "
-		"waiting %dms between 2 steps.\n",
-		voltdm44xx_get_name(vdd_id, voltdm_name), v, ms);
+	       "waiting %dms between 2 steps.\n",
+	       voltdm44xx_get_name(vdd_id, voltdm_name), v, ms);
 	printf("LAST voltage displayed with OK status before crash "
-		"will be the Vmin for %s domain.\n\n",
-		voltdm44xx_get_name(vdd_id, voltdm_name));
+	       "will be the Vmin for %s domain.\n\n",
+	       voltdm44xx_get_name(vdd_id, voltdm_name));
 	printf("NB:\n  - Make sure your load generator application is "
-		"running in background during the whole procedure.\n");
+	       "running in background during the whole procedure.\n");
 	printf("  - PLATFORM MUST BE REBOOTED AFTER USE "
-		"(NO POSSIBLE RECOVERY).\n\n");
+	       "(NO POSSIBLE RECOVERY).\n\n");
 
 	/* Show current OPP for reference */
 	printf("Current OPP settings for reference:\n\n");
@@ -1118,24 +1092,25 @@ int voltdm44xx_vminsearch(voltdm44xx_id vdd_id, double v, unsigned int ms)
 	vsel = smps_uvolt2vsel(vdd_id2smps_id(vdd_id), v);
 	/* Compute the SMPS voltage value: voltage >= target voltage */
 	v = smps_offset_get(vdd_id2smps_id(vdd_id)) +
-		((vsel - 1) * smps_step_get(vdd_id2smps_id(vdd_id)));
+	    ((vsel - 1) * smps_step_get(vdd_id2smps_id(vdd_id)));
 
 	/* change voltage value from uV to V */
 	v = v / 1000000;
 
-	for (uv = (unsigned long) (v * 1000000); uv > 0; uv = uv - vstep) {
+	for (uv = (unsigned long)(v * 1000000); uv > 0; uv = uv - vstep) {
 
 		/* Get vsel corresponding to target voltage */
 		vsel = smps_uvolt2vsel(vdd_id2smps_id(vdd_id), uv);
 		bandgap_temp = temp44xx_get(TEMP44XX_BANDGAP);
 		if (bandgap_temp != TEMP_ABSOLUTE_ZERO) {
-			printf(
-				"Trying %1.6lfV (SMPS code: %02d, temperature: %dC/%dF)...",
-				(double) ((double) uv / 1000000.0), vsel,
-				bandgap_temp, celcius2fahrenheit(bandgap_temp));
+			printf
+			    ("Trying %1.6lfV (SMPS code: %02d, temperature: %dC/%dF)...",
+			     (double)((double)uv / 1000000.0), vsel,
+			     bandgap_temp, celcius2fahrenheit(bandgap_temp));
 		} else {
-			printf("Trying %1.6lfV (SMPS code: %02d, temperature: N/A)...",
-				(double) ((double) uv / 1000000.0), vsel);
+			printf
+			    ("Trying %1.6lfV (SMPS code: %02d, temperature: N/A)...",
+			     (double)((double)uv / 1000000.0), vsel);
 		}
 		fflush(stdout);
 		ret = sr44xx_voltage_set(vdd_id, uv);

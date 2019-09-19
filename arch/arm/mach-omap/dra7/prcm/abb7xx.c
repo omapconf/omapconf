@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <abb7xx.h>
 #include <abb.h>
 #include <autoadjust_table.h>
@@ -50,7 +49,6 @@
 #include <cpuinfo.h>
 #include <prm_dra7xx-defs.h>
 #include <clock_dra7xx.h>
-
 
 /* #define ABB7XX_DEBUG */
 #ifdef ABB7XX_DEBUG
@@ -68,7 +66,7 @@
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump PRCM ABB registers
  *------------------------------------------------------------------------ */
-int abb7xx_dump(FILE *stream)
+int abb7xx_dump(FILE * stream)
 {
 	reg *abb_registers[] = {
 		&dra7xx_device_prm_prm_abbldo_mpu_setup,
@@ -90,18 +88,17 @@ int abb7xx_dump(FILE *stream)
 	row = 0;
 
 	strncpy(autoadjust_table[row][0], "Reg. Name", TABLE_MAX_ELT_LEN);
-	strncpy(autoadjust_table[row][1], "Reg. Addr",
-		TABLE_MAX_ELT_LEN);
+	strncpy(autoadjust_table[row][1], "Reg. Addr", TABLE_MAX_ELT_LEN);
 	strncpy(autoadjust_table[row][2], "Reg. Val.", TABLE_MAX_ELT_LEN);
 	row++;
 
 	for (idx = 0; abb_registers[idx] != 0; idx++) {
 		snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
-			"%s", reg_name_get(abb_registers[idx]));
+			 "%s", reg_name_get(abb_registers[idx]));
 		snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN,
-			"0x%08X", reg_addr_get(abb_registers[idx]));
+			 "0x%08X", reg_addr_get(abb_registers[idx]));
 		snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN,
-			"0x%08X", reg_read(abb_registers[idx]));
+			 "0x%08X", reg_read(abb_registers[idx]));
 		row++;
 	}
 
@@ -139,7 +136,7 @@ static void read_all_abb_regs(struct abb_data *data)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		analyze power configuration
  *------------------------------------------------------------------------ */
-int abb7xx_config_show(FILE *stream)
+int abb7xx_config_show(FILE * stream)
 {
 	double sysclk_rate;
 	struct abb_data dra7_abb_data[4];
@@ -151,7 +148,7 @@ int abb7xx_config_show(FILE *stream)
 	sysclk_rate = clk_dra7xx_rate_get(CLK_DRA7XX_SYS_CLKIN1, 0);
 	if (sysclk_rate <= 0) {
 		fprintf(stderr, "%s(): could not retrieve sysclk rate! (%d)\n",
-			__func__, (int) sysclk_rate);
+			__func__, (int)sysclk_rate);
 		return OMAPCONF_ERR_INTERNAL;
 	}
 

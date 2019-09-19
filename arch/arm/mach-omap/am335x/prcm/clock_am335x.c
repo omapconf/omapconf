@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <clock_am335x.h>
 #include <cm_am335x.h>
 #include <cpuinfo.h>
@@ -52,13 +51,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #ifdef CLOCK_AM335X_DEBUG
 #define dprintf(format, ...)	printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 #define AM335X_SYS_32K_SPEED			0.032768
 /* Control Mod registers with clock settings */
@@ -70,7 +67,7 @@
 #define AM335X_EXT_32K_SPEED			0.0
 
 static const char
-	clk_am335x_name_table[CLK_AM335X_ID_MAX + 1][CLK_AM335X_MAX_NAME_LENGTH] = {
+ clk_am335x_name_table[CLK_AM335X_ID_MAX + 1][CLK_AM335X_MAX_NAME_LENGTH] = {
 	/* 32K CLKS */
 	[CLK_AM335X_CLK_32KHZ] = "CLK_32KHZ",
 	[CLK_AM335X_CLK_RC32K] = "CLK_RC32K",
@@ -118,7 +115,8 @@ static const char
 	[CLK_AM335X_GFX_SYSCLK] = "GFX_SYSCLK",
 	[CLK_AM335X_GFX_MEMCLK] = "GFX_MEMCLK",
 	[CLK_AM335X_GFX_CORECLK] = "GFX_CORECLK",
-	[CLK_AM335X_ID_MAX] = "FIXME" };
+	[CLK_AM335X_ID_MAX] = "FIXME"
+};
 
 typedef enum {
 	SYSCLK_AM335X_19_2_MHZ = 0,
@@ -135,7 +133,6 @@ static const double sysclk_am335x_rate_table[SYSCLK_AM335X_ID_MAX] = {
 	25.0,
 	26.0
 };
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clk_am335x_name_get
@@ -168,7 +165,7 @@ double clk_am335x_sysclk_rate_get(void)
 	sysclk_am335x_id sysclk_id;
 
 	if (!cpu_is_am335x())
-		return (double) OMAPCONF_ERR_CPU;
+		return (double)OMAPCONF_ERR_CPU;
 
 	if (sysclk > 0.0) {
 		dprintf("%s(): sysclk rate=%.1lfMHz\n", __func__, sysclk);
@@ -179,17 +176,17 @@ double clk_am335x_sysclk_rate_get(void)
 		mem_read(AM335X_STATUS, &reg_val);
 		sysclk_id = extract_bitfield(reg_val, 22, 2);
 	} else {
-		sysclk_id = SYSCLK_AM335X_19_2_MHZ; /* AM335X EVM PoR */
+		sysclk_id = SYSCLK_AM335X_19_2_MHZ;	/* AM335X EVM PoR */
 	}
 
 	sysclk = sysclk_am335x_rate_table[sysclk_id];
 	if (sysclk == 0.0) {
 		fprintf(stderr, "%s(): bad CONTROL_STATUS value(%d)\n",
-				__func__, sysclk_id);
-		sysclk = (double) OMAPCONF_ERR_UNEXPECTED;
+			__func__, sysclk_id);
+		sysclk = (double)OMAPCONF_ERR_UNEXPECTED;
 	} else {
 		dprintf("%s(): CONTROL_STATUS=0x%x, sysclk rate=%.1lfMHz\n",
-				__func__, sysclk_id, sysclk);
+			__func__, sysclk_id, sysclk);
 	}
 
 	return sysclk;
@@ -236,7 +233,6 @@ double clk_am335x_sysclk_rate_get(void)
 	(int) div,\
 	out_clk_speed);
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		clk_am335x_rate_get
  * @BRIEF		convert bitfield value from register into string
@@ -250,8 +246,7 @@ double clk_am335x_sysclk_rate_get(void)
  *			(e.g. audit, clock tree, etc)
  * @DESCRIPTION		convert bitfield value from register into string
  *------------------------------------------------------------------------ */
-double clk_am335x_rate_get(clk_am335x_id clk_id,
-	unsigned short ignore)
+double clk_am335x_rate_get(clk_am335x_id clk_id, unsigned short ignore)
 {
 	unsigned int reg_val;
 	double src_clk_speed, out_clk_speed;
@@ -259,10 +254,10 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 	double div;
 
 	if (!cpu_is_am335x())
-		return (double) OMAPCONF_ERR_CPU;
+		return (double)OMAPCONF_ERR_CPU;
 
 	switch (clk_id) {
-	/* 32K CLKS */
+		/* 32K CLKS */
 	case CLK_AM335X_CLK_32KHZ:
 		mem_read(AM335X_CLK32K_DIVRATIO_CTRL, &reg_val);
 		if (extract_bit(reg_val, 0) == 0)
@@ -274,7 +269,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
-				out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_CLK_RC32K:
@@ -286,7 +281,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		out_clk_speed = AM335X_EXT_32K_SPEED;
 		DPRINT_CLK_SPEED1(clk_id, out_clk_speed);
 		return out_clk_speed;
-	/* SYS CLKS */
+		/* SYS CLKS */
 	case CLK_AM335X_SYS_CLK:
 		/* Listed as M_OSC (Master Oscillator) in TRM */
 		out_clk_speed = clk_am335x_sysclk_rate_get();
@@ -303,7 +298,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed / 4;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_CLK_24:
@@ -311,7 +306,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed / 2;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_MHZ_250_CLK:
@@ -319,7 +314,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_MHZ_125_CLK:
@@ -327,7 +322,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed / 2;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_MHZ_50_CLK:
@@ -335,7 +330,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed / 5;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_MHZ_5_CLK:
@@ -343,32 +338,38 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed / 10;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
-	/* DPLL CORE OUTPUT CLKS */
+		/* DPLL CORE OUTPUT CLKS */
 	case CLK_AM335X_CORE_CLKOUTM4:
-		src_clk_speed = dpll_am335x_output_rate_get(
-			DPLL_AM335X_CORE, DPLL_AM335X_CORE_CLKOUT_M4, ignore);
+		src_clk_speed =
+		    dpll_am335x_output_rate_get(DPLL_AM335X_CORE,
+						DPLL_AM335X_CORE_CLKOUT_M4,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_CORE CORE_CLKOUT_M4",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_CORE_CLKOUTM5:
-		src_clk_speed = dpll_am335x_output_rate_get(
-			DPLL_AM335X_CORE, DPLL_AM335X_CORE_CLKOUT_M5, ignore);
+		src_clk_speed =
+		    dpll_am335x_output_rate_get(DPLL_AM335X_CORE,
+						DPLL_AM335X_CORE_CLKOUT_M5,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_CORE CORE_CLKOUT_M5",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_CORE_CLKOUTM6:
-		src_clk_speed = dpll_am335x_output_rate_get(
-			DPLL_AM335X_CORE, DPLL_AM335X_CORE_CLKOUT_M6, ignore);
+		src_clk_speed =
+		    dpll_am335x_output_rate_get(DPLL_AM335X_CORE,
+						DPLL_AM335X_CORE_CLKOUT_M6,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_CORE CORE_CLKOUT_M6",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_SGX_CORECLK:
@@ -379,10 +380,10 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 			src_clk_id = CLK_AM335X_PER_CLKOUTM2;
 
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
-		div = (double) (1 << extract_bit(reg_val, 0));
+		div = (double)(1 << extract_bit(reg_val, 0));
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_L3S_CLK:
@@ -390,7 +391,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed / 2;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_L4_PER_CLK:
@@ -398,7 +399,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed / 2;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_L4_WKUPCLK:
@@ -406,7 +407,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed / 2;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_L3F_CLK:
@@ -414,7 +415,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_L4F_CLK:
@@ -422,7 +423,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_PRU_ICSS_IEP_CLK:
@@ -430,7 +431,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_DEBUGSS_CLKA:
@@ -438,7 +439,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_PRU_ICSS_OCP_CLKL:
@@ -451,7 +452,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_CPTS_RFT_CLK:
@@ -464,24 +465,26 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
-	/* DPLL PER OUTPUT CLKS */
+		/* DPLL PER OUTPUT CLKS */
 	case CLK_AM335X_USB_PHY_CLK:
-		src_clk_speed = dpll_am335x_output_rate_get(
-			DPLL_AM335X_PER, DPLL_AM335X_CLKDCOLDO, ignore);
+		src_clk_speed =
+		    dpll_am335x_output_rate_get(DPLL_AM335X_PER,
+						DPLL_AM335X_CLKDCOLDO, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_PER CLKOUT", src_clk_speed,
-			out_clk_speed);
+				       out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_PER_CLKOUTM2:
-		src_clk_speed = dpll_am335x_output_rate_get(
-			DPLL_AM335X_PER, DPLL_AM335X_CLKOUT, ignore);
+		src_clk_speed =
+		    dpll_am335x_output_rate_get(DPLL_AM335X_PER,
+						DPLL_AM335X_CLKOUT, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_PER CLKOUT", src_clk_speed,
-			out_clk_speed);
+				       out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_PRU_ICSS_UART_CLK:
@@ -489,7 +492,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_MMC_CLK:
@@ -497,7 +500,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed / 2;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_SPI_CLK:
@@ -505,7 +508,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_UART_CLK:
@@ -513,7 +516,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_I2C_CLK:
@@ -521,25 +524,27 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
-	/* DPLL MPU OUTPUT CLKS */
+		/* DPLL MPU OUTPUT CLKS */
 	case CLK_AM335X_MPU_CLK:
-		src_clk_speed = dpll_am335x_output_rate_get(
-			DPLL_AM335X_MPU, DPLL_AM335X_CLKOUT, ignore);
+		src_clk_speed =
+		    dpll_am335x_output_rate_get(DPLL_AM335X_MPU,
+						DPLL_AM335X_CLKOUT, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_MPU CLKOUT", src_clk_speed,
-			out_clk_speed);
+				       out_clk_speed);
 		return out_clk_speed;
 
-	/* DPLL DISP OUTPUT CLKS */
+		/* DPLL DISP OUTPUT CLKS */
 	case CLK_AM335X_DISP_CLKOUT:
-		src_clk_speed = dpll_am335x_output_rate_get(
-			DPLL_AM335X_DISP, DPLL_AM335X_CLKOUT, ignore);
+		src_clk_speed =
+		    dpll_am335x_output_rate_get(DPLL_AM335X_DISP,
+						DPLL_AM335X_CLKOUT, ignore);
 		out_clk_speed = src_clk_speed;
-		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_DISP CLKOUT", src_clk_speed,
-			out_clk_speed);
+		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_DISP CLKOUT",
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_LCD_CLK:
@@ -554,16 +559,17 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
-	/* DPLL DDR OUTPUT CLKS */
+		/* DPLL DDR OUTPUT CLKS */
 	case CLK_AM335X_DDR_CLKOUTM2:
-		src_clk_speed = dpll_am335x_output_rate_get(
-			DPLL_AM335X_DDR, DPLL_AM335X_CLKOUT, ignore);
+		src_clk_speed =
+		    dpll_am335x_output_rate_get(DPLL_AM335X_DDR,
+						DPLL_AM335X_CLKOUT, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_DDR CLKOUT", src_clk_speed,
-			out_clk_speed);
+				       out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_EMIF_M_CLK:
@@ -571,7 +577,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed / 2;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_GFX_SYSCLK:
@@ -579,7 +585,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed / 2;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_GFX_MEMCLK:
@@ -587,7 +593,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 		src_clk_speed = clk_am335x_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed / 2;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_GFX_CORECLK:
@@ -605,7 +611,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_AM335X_ID_MAX:
@@ -616,7 +622,7 @@ double clk_am335x_rate_get(clk_am335x_id clk_id,
 	default:
 		fprintf(stderr, "%s(): invalid clock id %s(%u)!\n",
 			__func__, clk_am335x_name_table[clk_id], clk_id);
-		return (double) OMAPCONF_ERR_ARG;
+		return (double)OMAPCONF_ERR_ARG;
 	}
 
 	return 0;

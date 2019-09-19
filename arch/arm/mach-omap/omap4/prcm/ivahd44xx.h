@@ -41,21 +41,17 @@
  *
  */
 
-
 #ifndef __IVAHD44XX_H__
 #define __IVAHD44XX_H__
 
-
 #include <stdio.h>
-
 
 int ivahd44xx_name2addr(char *name, unsigned int *addr);
 int ivahd44xx_dump(void);
-int ivahd44xx_config_show(FILE *stream);
-int ivahd44xx_dependency_show(FILE *stream);
+int ivahd44xx_config_show(FILE * stream);
+int ivahd44xx_dependency_show(FILE * stream);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int ivahd44xx_main(int argc, char *argv[]);
-
 
 #endif

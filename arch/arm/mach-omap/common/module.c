@@ -1384,10 +1384,9 @@ int module_status_show(FILE * stream)
 							       (stbyst));
 					}
 					clk_rate =
-					    (double)module_clk_rate_get(mod.
-									name,
-									0) /
-					    1000.0;
+					    (double)
+					    module_clk_rate_get(mod.name,
+								0) / 1000.0;
 					if (clk_rate < 0.0)
 						strcpy(s_clk_rate, "Error");
 					else

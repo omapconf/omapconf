@@ -42,13 +42,10 @@
  *
  */
 
-
 #ifndef __VP44XX_H__
 #define __VP44XX_H__
 
-
 #include <stdio.h>
-
 
 typedef enum {
 	VP44XX_MPU,
@@ -57,12 +54,9 @@ typedef enum {
 	VP44XX_ID_MAX
 } vp44xx_mod_id;
 
-
 const char *vp44xx_name_get(vp44xx_mod_id vp_id);
-int vp44xx_config_show(FILE *stream);
-int vp44xx_config_audit(FILE *stream, vp44xx_mod_id vp_id,
-	unsigned int *err_nbr, unsigned int *wng_nbr);
-
-
+int vp44xx_config_show(FILE * stream);
+int vp44xx_config_audit(FILE * stream, vp44xx_mod_id vp_id,
+			unsigned int *err_nbr, unsigned int *wng_nbr);
 
 #endif

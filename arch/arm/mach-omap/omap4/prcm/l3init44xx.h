@@ -41,21 +41,17 @@
  *
  */
 
-
 #ifndef __L3INIT44XX_H__
 #define __L3INIT44XX_H__
 
-
 #include <stdio.h>
-
 
 int l3init44xx_name2addr(char *name, unsigned int *addr);
 int l3init44xx_dump(void);
-int l3init44xx_config_show(FILE *stream);
-int l3init44xx_dependency_show(FILE *stream);
+int l3init44xx_config_show(FILE * stream);
+int l3init44xx_dependency_show(FILE * stream);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int l3init44xx_main(int argc, char *argv[]);
-
 
 #endif

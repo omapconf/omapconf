@@ -63,8 +63,7 @@
 
 static void get_rate_and_por(const char *mod_name, const char *opp_s,
 			     int *rate, int *rate_por);
-static void check_mmode_and_print(char
-				  table[TABLE_MAX_ROW][TABLE_MAX_COL]
+static void check_mmode_and_print(char table[TABLE_MAX_ROW][TABLE_MAX_COL]
 				  [TABLE_MAX_ELT_LEN], unsigned int *row,
 				  const char *mod_name, int rate);
 static void print_rate(char
@@ -493,8 +492,7 @@ static void get_rate_and_por(const char *mod_name, const char *opp_s,
  *			at behind if it is in disabled mode, or print regularly.
  *			And then increment the row number by 1.
  *------------------------------------------------------------------------ */
-static void check_mmode_and_print(char
-				  table[TABLE_MAX_ROW][TABLE_MAX_COL]
+static void check_mmode_and_print(char table[TABLE_MAX_ROW][TABLE_MAX_COL]
 				  [TABLE_MAX_ELT_LEN], unsigned int *row,
 				  const char *mod_name, int rate)
 {

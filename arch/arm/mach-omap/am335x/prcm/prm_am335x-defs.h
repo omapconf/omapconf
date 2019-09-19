@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __PRM_AM335X_DEFS_H__
 #define __PRM_AM335X_DEFS_H__
-
 
 #include <reg.h>
 
@@ -157,6 +155,5 @@ typedef enum {
 extern reg **prm_am335x_mods[PRM_AM335X_MODS_COUNT + 1];
 
 extern const char *prm_am335x_mods_name[PRM_AM335X_MODS_COUNT];
-
 
 #endif

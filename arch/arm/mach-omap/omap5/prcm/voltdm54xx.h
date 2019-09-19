@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __VOLTDM54XX_H__
 #define __VOLTDM54XX_H__
 
-
 #include <lib.h>
 #include <genlist.h>
-
 
 typedef enum {
 	VDD54XX_WKUP,
@@ -58,7 +55,6 @@ typedef enum {
 	VDD54XX_ID_MAX
 } voltdm54xx_id;
 
-
 typedef enum {
 	OPP54XX_DPLL_CASC,
 	OPP54XX_LOW,
@@ -67,7 +63,6 @@ typedef enum {
 	OPP54XX_SB,
 	OPP54XX_ID_MAX
 } opp54xx_id;
-
 
 void voltdm54xx_init(void);
 void voltdm54xx_deinit(void);
@@ -85,6 +80,5 @@ int voltdm54xx_voltage_set(voltdm54xx_id id, unsigned long uv);
 
 double voltdm54xx_nominal_voltage_get(voltdm54xx_id id);
 double voltdm54xx_por_nominal_voltage_get(voltdm54xx_id id, opp54xx_id opp_id);
-
 
 #endif

@@ -41,21 +41,17 @@
  *
  */
 
-
 #ifndef __DSP44XX_H__
 #define __DSP44XX_H__
 
-
 #include <stdio.h>
-
 
 int dsp44xx_name2addr(char *name, unsigned int *addr);
 int dsp44xx_dump(void);
-int dsp44xx_config_show(FILE *stream);
-int dsp44xx_dependency_show(FILE *stream);
+int dsp44xx_config_show(FILE * stream);
+int dsp44xx_dependency_show(FILE * stream);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int dsp44xx_main(int argc, char *argv[]);
-
 
 #endif

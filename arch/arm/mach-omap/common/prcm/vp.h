@@ -42,13 +42,10 @@
  *
  */
 
-
 #ifndef __PRCM_VP_H__
 #define __PRCM_VP_H__
 
-
 #include <stdio.h>
-
 
 typedef struct {
 	unsigned short vdd_id;
@@ -59,7 +56,6 @@ typedef struct {
 	unsigned int vp_vstepmax;
 	unsigned int vp_vstepmin;
 } vp_registers;
-
 
 typedef struct {
 	unsigned char mode;
@@ -77,43 +73,43 @@ typedef struct {
 	unsigned int negative_slew_rate;
 } vp_audit_settings;
 
-
 int vp_error_offset_get(unsigned int vp_config,
-	signed char *offset_raw, double *offset);
+			signed char *offset_raw, double *offset);
 double vp_error_offset_hex2percent(signed char offset);
 int vp_error_gain_get(unsigned int vp_config, unsigned short vdd_id,
-	signed char *gain_raw, double *gain);
+		      signed char *gain_raw, double *gain);
 double vp_error_gain_hex2percent(signed char gain, unsigned short vdd_id);
 int vp_init_voltage_get(unsigned int vp_config,
-	unsigned short vdd_id, unsigned char *init_vsel,
-	unsigned int *init_uv);
+			unsigned short vdd_id, unsigned char *init_vsel,
+			unsigned int *init_uv);
 unsigned char vp_vc_timeout_is_enabled(unsigned int vp_config);
 unsigned char vp_is_enabled(unsigned int vp_config);
 unsigned char vp_is_idle(unsigned int vp_status);
 int vp_min_voltage_get(unsigned int vp_vlimitto, unsigned short vdd_id,
-	unsigned char *min_vsel, unsigned int *min_uv);
+		       unsigned char *min_vsel, unsigned int *min_uv);
 int vp_max_voltage_get(unsigned int vp_vlimitto, unsigned short vdd_id,
-	unsigned char *max_vsel, unsigned int *max_uv);
+		       unsigned char *max_vsel, unsigned int *max_uv);
 int vp_last_voltage_get(unsigned int vp_voltage, unsigned short vdd_id,
-	unsigned char *vsel, unsigned int *uv);
+			unsigned char *vsel, unsigned int *uv);
 int vp_vc_timeout_get(unsigned int vp_vlimitto,
-	unsigned int *timeout_cycles, unsigned int *timeout_us);
+		      unsigned int *timeout_cycles, unsigned int *timeout_us);
 int vp_force_update_wait_time_get(unsigned int vp_voltage,
-	unsigned int *time_cycles, unsigned int *time_us);
+				  unsigned int *time_cycles,
+				  unsigned int *time_us);
 int vp_max_step_get(unsigned int vp_vstepmax, unsigned short vdd_id,
-	unsigned int *max_step, unsigned int *max_uv);
+		    unsigned int *max_step, unsigned int *max_uv);
 int vp_min_step_get(unsigned int vp_vstepmin, unsigned short vdd_id,
-	unsigned int *min_step, unsigned int *min_uv);
-int vp_positive_slew_rate_get(unsigned int vp_vstepmax,
-	unsigned int *cycles, unsigned int *us);
-int vp_negative_slew_rate_get(unsigned int vp_vstepmin,
-	unsigned int *cycles, unsigned int *us);
+		    unsigned int *min_step, unsigned int *min_uv);
+int vp_positive_slew_rate_get(unsigned int vp_vstepmax, unsigned int *cycles,
+			      unsigned int *us);
+int vp_negative_slew_rate_get(unsigned int vp_vstepmin, unsigned int *cycles,
+			      unsigned int *us);
 int vp_slew_rate_cycles2us(unsigned int cycles);
 
-int vp_config_show(FILE *stream, vp_registers vp_regs[3]);
-int vp_config_audit(FILE *stream, const char *vp_name, const char *opp_name,
-	vp_registers *vp_regs, const vp_audit_settings *vp_golden_settings,
-	unsigned int *err_nbr, unsigned int *wng_nbr);
-
+int vp_config_show(FILE * stream, vp_registers vp_regs[3]);
+int vp_config_audit(FILE * stream, const char *vp_name, const char *opp_name,
+		    vp_registers * vp_regs,
+		    const vp_audit_settings * vp_golden_settings,
+		    unsigned int *err_nbr, unsigned int *wng_nbr);
 
 #endif

@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <voltdomain.h>
 #include <opp.h>
 #include <voltdm_dra7xx.h>
@@ -54,7 +53,6 @@
 #include <reg.h>
 #include <pmic.h>
 
-
 /* #define VOLTDM_DRA7XX_DEBUG */
 #ifdef VOLTDM_DRA7XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -62,27 +60,27 @@
 #define dprintf(format, ...)
 #endif
 
-
 static const char
-	voltdm_dra7xx_names_table[VDD_DRA7XX_ID_MAX][VOLTDM_MAX_NAME_LENGTH] = {
+ voltdm_dra7xx_names_table[VDD_DRA7XX_ID_MAX][VOLTDM_MAX_NAME_LENGTH] = {
 	[VDD_DRA7XX_CORE] = "VDD_CORE",
 	[VDD_DRA7XX_MPU] = "VDD_MPU",
 	[VDD_DRA7XX_IVA] = "VDD_IVA",
 	[VDD_DRA7XX_DSPEVE] = "VDD_DSPEVE",
 	[VDD_DRA7XX_GPU] = "VDD_GPU",
-	[VDD_DRA7XX_RTC] = "VDD_RTC"};
-
+	[VDD_DRA7XX_RTC] = "VDD_RTC"
+};
 
 static const char
-	opp_dra7xx_names_table[OPP_DRA7XX_ID_MAX + 1][OPP_MAX_NAME_LENGTH] = {
+ opp_dra7xx_names_table[OPP_DRA7XX_ID_MAX + 1][OPP_MAX_NAME_LENGTH] = {
 	[OPP_DRA7XX_NOM] = "NOM",
 	[OPP_DRA7XX_OD] = "OD",
 	[OPP_DRA7XX_HIGH] = "HIGH",
-	[OPP_DRA7XX_ID_MAX] = "UNKNOWN"};
-
+	[OPP_DRA7XX_ID_MAX] = "UNKNOWN"
+};
 
 static const double
-	voltdm_dra7xx_por_nominal_voltages_table[VDD_DRA7XX_ID_MAX][OPP_DRA7XX_ID_MAX + 1] = {
+ voltdm_dra7xx_por_nominal_voltages_table[VDD_DRA7XX_ID_MAX][OPP_DRA7XX_ID_MAX +
+							     1] = {
 	[VDD_DRA7XX_CORE] = {1.03, -1.0, -1.0, -1.0},
 	[VDD_DRA7XX_MPU] = {1.06, 1.16, 1.25, -1.0},
 	[VDD_DRA7XX_IVA] = {1.06, 1.15, 1.25, -1.0},
@@ -91,10 +89,8 @@ static const double
 	[VDD_DRA7XX_RTC] = {1.03, -1.0, -1.0, -1.0}
 };
 
-
 static unsigned short voltdm_dra7xx_init_done;
 genlist voltdm_dra7xx_list;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_init
@@ -111,45 +107,44 @@ void voltdm_dra7xx_init(void)
 	genlist_init(&voltdm_dra7xx_list);
 
 	voltdm.name = VDD_CORE;
-	voltdm.id = (int) VDD_DRA7XX_CORE;
+	voltdm.id = (int)VDD_DRA7XX_CORE;
 	voltdm.voltst = NULL;
-	genlist_addtail(
-		&voltdm_dra7xx_list, (void *) &voltdm, sizeof(voltdm_info));
+	genlist_addtail(&voltdm_dra7xx_list, (void *)&voltdm,
+			sizeof(voltdm_info));
 
 	voltdm.name = VDD_MPU;
-	voltdm.id = (int) VDD_DRA7XX_MPU;
+	voltdm.id = (int)VDD_DRA7XX_MPU;
 	voltdm.voltst = &dra7xx_device_prm_prm_voltst_mpu;
-	genlist_addtail(
-		&voltdm_dra7xx_list, (void *) &voltdm, sizeof(voltdm_info));
+	genlist_addtail(&voltdm_dra7xx_list, (void *)&voltdm,
+			sizeof(voltdm_info));
 
 	voltdm.name = VDD_GPU;
-	voltdm.id = (int) VDD_DRA7XX_GPU;
+	voltdm.id = (int)VDD_DRA7XX_GPU;
 	voltdm.voltst = NULL;
-	genlist_addtail(
-		&voltdm_dra7xx_list, (void *) &voltdm, sizeof(voltdm_info));
+	genlist_addtail(&voltdm_dra7xx_list, (void *)&voltdm,
+			sizeof(voltdm_info));
 
 	voltdm.name = VDD_DSPEVE;
-	voltdm.id = (int) VDD_DRA7XX_DSPEVE;
+	voltdm.id = (int)VDD_DRA7XX_DSPEVE;
 	voltdm.voltst = NULL;
-	genlist_addtail(
-		&voltdm_dra7xx_list, (void *) &voltdm, sizeof(voltdm_info));
+	genlist_addtail(&voltdm_dra7xx_list, (void *)&voltdm,
+			sizeof(voltdm_info));
 
 	voltdm.name = VDD_IVA;
-	voltdm.id = (int) VDD_DRA7XX_IVA;
+	voltdm.id = (int)VDD_DRA7XX_IVA;
 	voltdm.voltst = NULL;
-	genlist_addtail(
-		&voltdm_dra7xx_list, (void *) &voltdm, sizeof(voltdm_info));
+	genlist_addtail(&voltdm_dra7xx_list, (void *)&voltdm,
+			sizeof(voltdm_info));
 
 	voltdm.name = VDD_RTC;
-	voltdm.id = (int) VDD_DRA7XX_RTC;
+	voltdm.id = (int)VDD_DRA7XX_RTC;
 	voltdm.voltst = NULL;
-	genlist_addtail(
-		&voltdm_dra7xx_list, (void *) &voltdm, sizeof(voltdm_info));
+	genlist_addtail(&voltdm_dra7xx_list, (void *)&voltdm,
+			sizeof(voltdm_info));
 
 	voltdm_dra7xx_init_done = 1;
 	dprintf("%s(): init done.\n", __func__);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_deinit
@@ -166,7 +161,6 @@ void voltdm_dra7xx_deinit(void)
 	dprintf("%s(): deinit done.\n", __func__);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_list_get
  * @BRIEF		return the list of voltage domains
@@ -178,9 +172,8 @@ const genlist *voltdm_dra7xx_list_get(void)
 {
 	voltdm_dra7xx_init();
 
-	return (const genlist *) &voltdm_dra7xx_list;
+	return (const genlist *)&voltdm_dra7xx_list;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_count_get
@@ -202,7 +195,6 @@ int voltdm_dra7xx_count_get(void)
 	return count;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_name_get
  * @BRIEF		return voltage domain name
@@ -217,7 +209,6 @@ const char *voltdm_dra7xx_name_get(voltdm_dra7xx_id id)
 
 	return voltdm_dra7xx_names_table[id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_s2id
@@ -242,7 +233,6 @@ opp_dra7xx_id opp_dra7xx_s2id(char *s)
 	else
 		return OPP_DRA7XX_ID_MAX;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_id2s
@@ -285,7 +275,6 @@ const char *voltdm_dra7xx_id2s(voltdm_dra7xx_id id)
 	return s;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_name_get
  * @BRIEF		return OPP name
@@ -300,7 +289,6 @@ const char *opp_dra7xx_name_get(opp_dra7xx_id id)
 
 	return opp_dra7xx_names_table[id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vr_dra7xx_vsel2uv
@@ -327,7 +315,6 @@ unsigned long vr_dra7xx_vsel2uv(voltdm_dra7xx_id id, unsigned char vsel)
 	return uv;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		vr_dra7xx_vsel2volt
  * @BRIEF		for a given rail, convert SMPS vsel command into voltage
@@ -344,15 +331,14 @@ double vr_dra7xx_vsel2volt(voltdm_dra7xx_id id, unsigned char vsel)
 
 	CHECK_ARG_LESS_THAN(id, VDD_DRA7XX_ID_MAX, 0);
 
-	volt = (double) vr_dra7xx_vsel2uv(id, vsel);
-	volt /= (double) 1000000.0;
+	volt = (double)vr_dra7xx_vsel2uv(id, vsel);
+	volt /= (double)1000000.0;
 
 	dprintf("%s(%s, 0x%X) = %lfV\n", __func__,
 		voltdm_dra7xx_name_get(id), vsel, volt);
 
 	return volt;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_por_nominal_voltage_get
@@ -365,22 +351,21 @@ double vr_dra7xx_vsel2volt(voltdm_dra7xx_id id, unsigned char vsel)
  * @DESCRIPTION		return the Plan of Record (POR) nominal voltage
  *			of a given voltage domain for a given OPP.
  *------------------------------------------------------------------------ */
-double voltdm_dra7xx_por_nominal_voltage_get(voltdm_dra7xx_id id, opp_dra7xx_id opp_id)
+double voltdm_dra7xx_por_nominal_voltage_get(voltdm_dra7xx_id id,
+					     opp_dra7xx_id opp_id)
 {
 	double volt;
 
-	CHECK_ARG_LESS_THAN(id, VDD_DRA7XX_ID_MAX, (double) OMAPCONF_ERR_ARG);
-	CHECK_ARG_LESS_THAN(id, VDD_DRA7XX_ID_MAX, (double) OMAPCONF_ERR_ARG);
+	CHECK_ARG_LESS_THAN(id, VDD_DRA7XX_ID_MAX, (double)OMAPCONF_ERR_ARG);
+	CHECK_ARG_LESS_THAN(id, VDD_DRA7XX_ID_MAX, (double)OMAPCONF_ERR_ARG);
 
 	volt = voltdm_dra7xx_por_nominal_voltages_table[id][opp_id];
 
 	dprintf("%s(%s): %s POR nominal volt=%lfV\n", __func__,
-		opp_dra7xx_name_get(opp_id),
-		voltdm_dra7xx_name_get(id), volt);
+		opp_dra7xx_name_get(opp_id), voltdm_dra7xx_name_get(id), volt);
 
 	return volt;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_voltage_get
@@ -402,7 +387,7 @@ double voltdm_dra7xx_voltage_get(voltdm_dra7xx_id id)
 {
 	double volt;
 
-	CHECK_ARG_LESS_THAN(id, VDD_DRA7XX_ID_MAX, (double) OMAPCONF_ERR_ARG);
+	CHECK_ARG_LESS_THAN(id, VDD_DRA7XX_ID_MAX, (double)OMAPCONF_ERR_ARG);
 
 	switch (id) {
 	case VDD_DRA7XX_CORE:
@@ -432,13 +417,13 @@ double voltdm_dra7xx_voltage_get(voltdm_dra7xx_id id)
 		break;
 
 	default:
-		return (double) OMAPCONF_ERR_ARG;
+		return (double)OMAPCONF_ERR_ARG;
 	}
 
-	dprintf("%s(%s): volt=%lfV\n", __func__, voltdm_dra7xx_name_get(id), volt);
+	dprintf("%s(%s): volt=%lfV\n", __func__, voltdm_dra7xx_name_get(id),
+		volt);
 	return volt;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_voltage_set
@@ -454,7 +439,7 @@ double voltdm_dra7xx_voltage_get(voltdm_dra7xx_id id)
  *------------------------------------------------------------------------ */
 int voltdm_dra7xx_voltage_set(voltdm_dra7xx_id id, unsigned long uv)
 {
-	CHECK_ARG_LESS_THAN(id, VDD_DRA7XX_ID_MAX, (double) OMAPCONF_ERR_ARG);
+	CHECK_ARG_LESS_THAN(id, VDD_DRA7XX_ID_MAX, (double)OMAPCONF_ERR_ARG);
 
 	/* Retrieve domain state */
 	switch (id) {

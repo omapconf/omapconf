@@ -41,13 +41,11 @@
  *
  */
 
-
 #include <pwrdm.h>
 #include <lib.h>
 #include <mem.h>
 #include <stdio.h>
 #include <string.h>
-
 
 /* #define PRCM_PWRDM_DEBUG */
 #ifdef PRCM_PWRDM_DEBUG
@@ -56,21 +54,20 @@
 #define dprintf(format, ...)
 #endif
 
-
 static const char
-	pwrdm_state_names[PWRDM_STATE_MAX][PWRDM_STATE_MAX_NAME_LENGTH] = {
+ pwrdm_state_names[PWRDM_STATE_MAX][PWRDM_STATE_MAX_NAME_LENGTH] = {
 	"OFF",
 	"RET",
 	"INACT",
-	"ON"};
-
+	"ON"
+};
 
 static const char
-	pwrdm_state_type_names[PWRDM_STATE_TYPE_MAX][PWRDM_STATE_MAX_NAME_LENGTH] = {
+ pwrdm_state_type_names[PWRDM_STATE_TYPE_MAX][PWRDM_STATE_MAX_NAME_LENGTH] = {
 	"PREVIOUS",
 	"CURRENT",
-	"TARGET"};
-
+	"TARGET"
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_state_name_get
@@ -87,7 +84,6 @@ const char *pwrdm_state_name_get(pwrdm_state st)
 	return pwrdm_state_names[st];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_state_type_name_get
  * @BRIEF		return power domain state type name
@@ -103,7 +99,6 @@ const char *pwrdm_state_type_name_get(pwrdm_state_type type)
 	return pwrdm_state_type_names[type];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_state_get
  * @BRIEF		return power domain state
@@ -113,7 +108,7 @@ const char *pwrdm_state_type_name_get(pwrdm_state_type type)
  * @param[in]		type: pwrdm state type
  * @DESCRIPTION		return power domain state
  *------------------------------------------------------------------------ */
-pwrdm_state pwrdm_state_get(reg *pm_pwrst, pwrdm_state_type type)
+pwrdm_state pwrdm_state_get(reg * pm_pwrst, pwrdm_state_type type)
 {
 	pwrdm_state st;
 	unsigned int val;
@@ -136,7 +131,6 @@ pwrdm_state pwrdm_state_get(reg *pm_pwrst, pwrdm_state_type type)
 	return st;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_target_logic_ret_state_get
  * @BRIEF		return logic target state for this power domain
@@ -148,7 +142,7 @@ pwrdm_state pwrdm_state_get(reg *pm_pwrst, pwrdm_state_type type)
  * @DESCRIPTION		return logic target state for this power domain when
  *			domain is RET
  *------------------------------------------------------------------------ */
-pwrdm_state pwrdm_target_logic_ret_state_get(reg *pm_pwrstctrl)
+pwrdm_state pwrdm_target_logic_ret_state_get(reg * pm_pwrstctrl)
 {
 	pwrdm_state st;
 	unsigned int val;
@@ -162,15 +156,13 @@ pwrdm_state pwrdm_target_logic_ret_state_get(reg *pm_pwrstctrl)
 		st = PWRDM_RET_STATE;
 	else
 		st = PWRDM_OFF_STATE;
-	dprintf(
-		"%s(%s): addr=0x%08X val=0x%08X LOGICRETSTATE (bit 2)=%u logic target RET state=%s\n",
-		__func__,
-		pm_pwrstctrl->name, pm_pwrstctrl->addr, val,
-		extract_bit(val, 2), pwrdm_state_name_get(st));
+	dprintf
+	    ("%s(%s): addr=0x%08X val=0x%08X LOGICRETSTATE (bit 2)=%u logic target RET state=%s\n",
+	     __func__, pm_pwrstctrl->name, pm_pwrstctrl->addr, val,
+	     extract_bit(val, 2), pwrdm_state_name_get(st));
 
 	return st;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_logic_state_get
@@ -181,7 +173,7 @@ pwrdm_state pwrdm_target_logic_ret_state_get(reg *pm_pwrstctrl)
  * @param[in]		pm_pwrstst: PM_xyz_PWRSTST register
  * @DESCRIPTION		return logic state for this power domain
  *------------------------------------------------------------------------ */
-pwrdm_state pwrdm_logic_state_get(reg *pm_pwrstst)
+pwrdm_state pwrdm_logic_state_get(reg * pm_pwrstst)
 {
 	pwrdm_state st;
 	unsigned int val;
@@ -195,15 +187,14 @@ pwrdm_state pwrdm_logic_state_get(reg *pm_pwrstst)
 		st = PWRDM_ON_STATE;
 	else
 		st = PWRDM_OFF_STATE;
-	dprintf(
-		"%s(%s): addr=0x%08X val=0x%08X LOGICRETSTATE (bit 2)=%u logic state=%s\n",
-		__func__,
-		pm_pwrstst->name, pm_pwrstst->addr, val,
-		extract_bit(val, 2), pwrdm_state_name_get(st));
+	dprintf
+	    ("%s(%s): addr=0x%08X val=0x%08X LOGICRETSTATE (bit 2)=%u logic state=%s\n",
+	     __func__, pm_pwrstst->name, pm_pwrstst->addr, val, extract_bit(val,
+									    2),
+	     pwrdm_state_name_get(st));
 
 	return st;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_in_transition
@@ -212,7 +203,7 @@ pwrdm_state pwrdm_logic_state_get(reg *pm_pwrstst)
  * @param[in]		pm_pwrstst: PM_xyz_PWRSTST register
  * @DESCRIPTION		return 1 if power domain is in transition, 0 otherwise
  *------------------------------------------------------------------------ */
-unsigned int pwrdm_in_transition(reg *pm_pwrstst)
+unsigned int pwrdm_in_transition(reg * pm_pwrstst)
 {
 	unsigned int val;
 
@@ -226,7 +217,6 @@ unsigned int pwrdm_in_transition(reg *pm_pwrstst)
 		pm_pwrstst->addr, val, extract_bit(val, 20));
 	return extract_bit(val, 20);
 }
-
 
 /* FIXME: DEPRECATED FUNCTION. Update OMAP4 code to use new functions ... */
 /* ------------------------------------------------------------------------
@@ -264,7 +254,6 @@ int pwrdm_state2string(char s[6], pwrdm_state powerstate)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_states_get
  * @BRIEF		extract power domain states (current, target)
@@ -287,9 +276,7 @@ int pwrdm_states_get(char *name, char pwst[6], char pwtgst[6])
 	unsigned int pm_pwrstst_addr;
 	unsigned int pm_pwrstctrl_addr;
 
-	if ((name == NULL) ||
-		(pwst == NULL) ||
-		(pwtgst == NULL))
+	if ((name == NULL) || (pwst == NULL) || (pwtgst == NULL))
 		return OMAPCONF_ERR_ARG;
 
 	/* Retrieve register names */
@@ -302,13 +289,12 @@ int pwrdm_states_get(char *name, char pwst[6], char pwtgst[6])
 
 	/* Retrieve registers address */
 	if (find_reg_addr(pm_pwrstst_name, &pm_pwrstst_addr) != 0) {
-		printf("pm_pwrstst_name = %s not found!\n",
-			pm_pwrstst_name);
+		printf("pm_pwrstst_name = %s not found!\n", pm_pwrstst_name);
 		return OMAPCONF_ERR_ARG;
 	}
 	if (find_reg_addr(pm_pwrstctrl_name, &pm_pwrstctrl_addr) != 0) {
 		printf("pm_pwrstctrl_name = %s not found!\n",
-			pm_pwrstctrl_name);
+		       pm_pwrstctrl_name);
 		return OMAPCONF_ERR_ARG;
 	}
 	dprintf("pm_pwrstst_addr=0x%08X pm_pwrstctrl_addr=0x%08X\n",
@@ -319,10 +305,9 @@ int pwrdm_states_get(char *name, char pwst[6], char pwtgst[6])
 	mem_read(pm_pwrstctrl_addr, &pwrstctrl);
 
 	/* Retrieve power domain current & target states */
-	pwrdm_state2string(pwst,
-		(pwrdm_state) extract_bitfield(pwrstst, 0, 2));
+	pwrdm_state2string(pwst, (pwrdm_state) extract_bitfield(pwrstst, 0, 2));
 	pwrdm_state2string(pwtgst,
-		(pwrdm_state) extract_bitfield(pwrstctrl, 0, 2));
+			   (pwrdm_state) extract_bitfield(pwrstctrl, 0, 2));
 	dprintf("pwst=%s pwtgst=%s\n", pwst, pwtgst);
 
 	return 0;

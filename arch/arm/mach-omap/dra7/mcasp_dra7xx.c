@@ -1268,8 +1268,7 @@ static int dra7xx_mcasp_serializers(struct mcasp_regs *regs, FILE * stream)
 
 static int dra7xx_mcasp_pin(const char *pin_name, const char *mcasp_name,
 			    struct mcasp_regs *regs, unsigned int bit,
-			    char
-			    table[TABLE_MAX_ROW][TABLE_MAX_COL]
+			    char table[TABLE_MAX_ROW][TABLE_MAX_COL]
 			    [TABLE_MAX_ELT_LEN], unsigned int row)
 {
 	unsigned int mask = 1 << bit;

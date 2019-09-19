@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __PRCM_CLOCK_DRA7XX_H__
 #define __PRCM_CLOCK_DRA7XX_H__
 
@@ -275,9 +274,7 @@ typedef enum {
 	CLK_DRA7XX_ID_MAX
 } clk_dra7xx_id;
 
-
 const char *clk_dra7xx_name_get(clk_dra7xx_id id);
 double clk_dra7xx_rate_get(clk_dra7xx_id clk, unsigned short ignore);
-
 
 #endif

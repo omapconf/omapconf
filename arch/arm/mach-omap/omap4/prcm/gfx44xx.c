@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <gfx44xx.h>
 #include <mem.h>
 #include <cm44xx.h>
@@ -53,13 +52,10 @@
 #include <cpuinfo.h>
 #include <string.h>
 
-
 #define PRCM_GFX_REG_TABLE_SIZE 8
-
 
 reg_table prcm_gfx_reg_table[PRCM_GFX_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		gfx44xx_regtable_init
@@ -96,7 +92,6 @@ int gfx44xx_regtable_init(void)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		gfx44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
@@ -117,7 +112,6 @@ int gfx44xx_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, prcm_gfx_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		gfx44xx_config_show
  * @BRIEF		analyze GFX power configuration
@@ -127,7 +121,7 @@ int gfx44xx_name2addr(char *name, unsigned int *addr)
  * @param[in,out]	stream: output file stream
  * @DESCRIPTION		analyze GFX power configuration
  *------------------------------------------------------------------------ */
-int gfx44xx_config_show(FILE *stream)
+int gfx44xx_config_show(FILE * stream)
 {
 	unsigned int pm_pwstctrl;
 	unsigned int pm_pwstst;
@@ -147,8 +141,8 @@ int gfx44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_PM_GFX_PWRSTST, &pm_pwstst) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = pwrdm44xx_config_show(stream, "GFX",
-		OMAP4430_PM_GFX_PWRSTCTRL, pm_pwstctrl,
-		OMAP4430_PM_GFX_PWRSTST, pm_pwstst);
+				    OMAP4430_PM_GFX_PWRSTCTRL, pm_pwstctrl,
+				    OMAP4430_PM_GFX_PWRSTST, pm_pwstst);
 	if (ret != 0)
 		return ret;
 
@@ -156,7 +150,7 @@ int gfx44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM_GFX_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "GFX",
-		OMAP4430_CM_GFX_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_GFX_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 
@@ -166,14 +160,13 @@ int gfx44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_GFX_GFX_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "GFX",
-		OMAP4430_CM_GFX_GFX_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_GFX_GFX_CONTEXT, rm_context);
+				  OMAP4430_CM_GFX_GFX_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_GFX_GFX_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		gfx44xx_dependency_show
@@ -184,7 +177,7 @@ int gfx44xx_config_show(FILE *stream)
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyse GFX dependency configuration
  *------------------------------------------------------------------------ */
-int gfx44xx_dependency_show(FILE *stream)
+int gfx44xx_dependency_show(FILE * stream)
 {
 	unsigned int cm_staticdep;
 	unsigned int cm_dynamicdep;
@@ -222,7 +215,6 @@ int gfx44xx_dependency_show(FILE *stream)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		gfx44xx_dump
  * @BRIEF		dump PRCM GFX registers
@@ -240,7 +232,6 @@ int gfx44xx_dump(void)
 
 	return dumpregs(prcm_gfx_reg_table);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		gfx44xx_main

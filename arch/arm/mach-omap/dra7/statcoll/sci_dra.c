@@ -174,8 +174,8 @@ enum sci_err_dra sci_open_dra(psci_handle * const pphandle,
 			mod_map[i].usecase_cnt = 0;
 			mod_map[i].used =
 			    (bool *) cTools_memAlloc(sizeof(bool *) *
-						     sc_map_dra[i]->
-						     num_counters);
+						     sc_map_dra
+						     [i]->num_counters);
 			if (NULL == mod_map[i].used) {
 				ret_val = SCI_ERR_MEM_ALLOC;
 				break;
@@ -210,8 +210,7 @@ enum sci_err_dra sci_open_dra(psci_handle * const pphandle,
 
 	/* Malloc the handle */
 	if (SCI_SUCCESS == ret_val) {
-		*pphandle =
-		    (struct sci_handle_t *)
+		*pphandle = (struct sci_handle_t *)
 		    cTools_memAlloc(sizeof(struct sci_handle_t));
 		if (NULL == *pphandle) {
 			ret_val = SCI_ERR_MEM_ALLOC;
@@ -265,11 +264,12 @@ enum sci_err_dra sci_open_dra(psci_handle * const pphandle,
 					case SDRAM:
 						{
 							sc_sdram_regs_dra
-							    *sc_regs;
+							    * sc_regs;
 							sc_regs =
 							    (sc_sdram_regs_dra
-							     *) mod_map[i].
-							    vbase_addr;
+							     *)
+							    mod_map
+							    [i].vbase_addr;
 
 							/* Disable the module in case it's already running */
 							sc_regs->soften = 0;
@@ -277,8 +277,7 @@ enum sci_err_dra sci_open_dra(psci_handle * const pphandle,
 
 							/*setup the master dump register if required */
 							if (set_mstaddr_enable) {
-								sc_regs->
-								    dump_mstaddr
+								sc_regs->dump_mstaddr
 								    =
 								    sdram_mstaddr_value;
 							}
@@ -289,29 +288,26 @@ enum sci_err_dra sci_open_dra(psci_handle * const pphandle,
 							 * */
 							for (j = 0;
 							     j <
-							     sc_map_dra[i]->
-							     num_counters;
+							     sc_map_dra
+							     [i]->num_counters;
 							     j++) {
 								switch
 								    (sc_map_dra
-								     [i]->
-								     cnt_map[j].
-								     num_filters)
+								     [i]->cnt_map
+								     [j].num_filters)
 								{
 								case 0:
 									{
 										struct
 										    sc_sdram_cnt_filter0_dra
-										    *sc_cnt_addr
+										*sc_cnt_addr
 										    =
 										    (struct
 										     sc_sdram_cnt_filter0_dra
 										     *)
-										    get_cntr_addr_dra
-										    (i,
-										     j);
-										sc_cnt_addr->
-										    globalen
+										    get_cntr_addr_dra(i,
+												      j);
+										sc_cnt_addr->globalen
 										    =
 										    0;
 										break;
@@ -320,22 +316,18 @@ enum sci_err_dra sci_open_dra(psci_handle * const pphandle,
 									{
 										struct
 										    sc_sdram_cnt_filter1_dra
-										    *sc_cnt_addr
+										*sc_cnt_addr
 										    =
 										    (struct
 										     sc_sdram_cnt_filter1_dra
 										     *)
-										    get_cntr_addr_dra
-										    (i,
-										     j);
-										sc_cnt_addr->
-										    globalen
+										    get_cntr_addr_dra(i,
+												      j);
+										sc_cnt_addr->globalen
 										    =
 										    0;
-										sc_cnt_addr->
-										    filter
-										    [0].
-										    en
+										sc_cnt_addr->filter
+										    [0].en
 										    =
 										    0;
 										break;
@@ -344,38 +336,31 @@ enum sci_err_dra sci_open_dra(psci_handle * const pphandle,
 									{
 										struct
 										    sc_sdram_cnt_filter2_dra
-										    *sc_cnt_addr
+										*sc_cnt_addr
 										    =
 										    (struct
 										     sc_sdram_cnt_filter2_dra
 										     *)
-										    get_cntr_addr_dra
-										    (i,
-										     j);
-										sc_cnt_addr->
-										    globalen
+										    get_cntr_addr_dra(i,
+												      j);
+										sc_cnt_addr->globalen
 										    =
 										    0;
-										sc_cnt_addr->
-										    filter
-										    [0].
-										    en
+										sc_cnt_addr->filter
+										    [0].en
 										    =
 										    0;
-										sc_cnt_addr->
-										    filter
-										    [1].
-										    en
+										sc_cnt_addr->filter
+										    [1].en
 										    =
 										    0;
 										break;
 									}
 								}	/* End of the switch */
 							}
-							sc_regs->
-							    dump_collecttime =
-							    (*pphandle)->
-							    sdram_msg_rate;
+							sc_regs->dump_collecttime
+							    =
+							    (*pphandle)->sdram_msg_rate;
 							mod_map[i].owner = true;
 							sc_regs->dump_manual =
 							    mode;
@@ -386,11 +371,11 @@ enum sci_err_dra sci_open_dra(psci_handle * const pphandle,
 					case MSTR:
 						{
 							sc_lat_regs_dra
-							    *sc_regs;
+							    * sc_regs;
 							sc_regs =
 							    (sc_lat_regs_dra *)
-							    mod_map[i].
-							    vbase_addr;
+							    mod_map
+							    [i].vbase_addr;
 
 							/* Disable the module in case it's already running */
 							sc_regs->soften = 0;
@@ -398,8 +383,7 @@ enum sci_err_dra sci_open_dra(psci_handle * const pphandle,
 
 							/*setup the master dump register if required */
 							if (set_mstaddr_enable) {
-								sc_regs->
-								    dump_mstaddr
+								sc_regs->dump_mstaddr
 								    =
 								    mstr_mstaddr_value;
 							}
@@ -410,31 +394,27 @@ enum sci_err_dra sci_open_dra(psci_handle * const pphandle,
 							 * */
 							for (j = 0;
 							     j <
-							     sc_map_dra[i]->
-							     num_counters;
+							     sc_map_dra
+							     [i]->num_counters;
 							     j++) {
 
 								struct
 								    sc_lat_cnt_filter1_dra
-								    *sc_cnt_addr
+								*sc_cnt_addr
 								    =
 								    (struct
 								     sc_lat_cnt_filter1_dra
 								     *)
-								    get_cntr_addr_dra
-								    (i, j);
-								sc_cnt_addr->
-								    globalen =
-								    0;
-								sc_cnt_addr->
-								    filter[0].
-								    en = 0;
+								    get_cntr_addr_dra(i, j);
+								sc_cnt_addr->globalen
+								    = 0;
+								sc_cnt_addr->filter
+								    [0].en = 0;
 							}
 
-							sc_regs->
-							    dump_collecttime =
-							    (*pphandle)->
-							    mstr_msg_rate;
+							sc_regs->dump_collecttime
+							    =
+							    (*pphandle)->mstr_msg_rate;
 							mod_map[i].owner = true;
 							sc_regs->dump_manual =
 							    mode;
@@ -510,8 +490,8 @@ enum sci_err_dra sci_close_dra(psci_handle * const pphandle)
 				{
 					sc_sdram_regs_dra *sc_regs;
 					sc_regs =
-					    (sc_sdram_regs_dra *) mod_map[i].
-					    vbase_addr;
+					    (sc_sdram_regs_dra *)
+					    mod_map[i].vbase_addr;
 					sc_regs->en = 0;
 					sc_regs->dump_collecttime = 0;
 					break;
@@ -520,8 +500,8 @@ enum sci_err_dra sci_close_dra(psci_handle * const pphandle)
 				{
 					sc_lat_regs_dra *sc_regs;
 					sc_regs =
-					    (sc_lat_regs_dra *) mod_map[i].
-					    vbase_addr;
+					    (sc_lat_regs_dra *)
+					    mod_map[i].vbase_addr;
 					sc_regs->en = 0;
 					sc_regs->dump_collecttime = 0;
 					break;
@@ -581,31 +561,29 @@ enum sci_err_dra sci_get_version_dra(psci_handle const phandle,
 			case SDRAM:
 				{
 					sc_sdram_regs_dra *sc_regs =
-					    (sc_sdram_regs_dra *) mod_map[i].
-					    vbase_addr;
+					    (sc_sdram_regs_dra *)
+					    mod_map[i].vbase_addr;
 					/* Request ownership */
 					pmod_type_id =
-					    *(uint32_t *) (&sc_regs->
-							   stdhosthdr_core);
+					    *(uint32_t
+					      *) (&sc_regs->stdhosthdr_core);
 					*pmod_func_id =
 					    GET_SCMOD_FUNC(*(uint32_t *)
-							   (&sc_regs->
-							    stdhosthdr_version));
+							   (&sc_regs->stdhosthdr_version));
 					break;
 				}
 			case MSTR:
 				{
 					sc_lat_regs_dra *sc_regs =
-					    (sc_lat_regs_dra *) mod_map[i].
-					    vbase_addr;
+					    (sc_lat_regs_dra *)
+					    mod_map[i].vbase_addr;
 					/* Request ownership */
 					pmod_type_id =
-					    *(uint32_t *) (&sc_regs->
-							   stdhosthdr_core);
+					    *(uint32_t
+					      *) (&sc_regs->stdhosthdr_core);
 					*pmod_func_id =
 					    GET_SCMOD_FUNC(*(uint32_t *)
-							   (&sc_regs->
-							    stdhosthdr_version));
+							   (&sc_regs->stdhosthdr_version));
 					break;
 				}
 			}
@@ -820,8 +798,9 @@ enum sci_err_dra sci_reg_usecase_sdram_dra(psci_handle const phandle,
 		}
 
 		int32_t port =
-		    (uc_parms.port_type) ? sdram_probe_map[probe_index].
-		    rsp_port_num : sdram_probe_map[probe_index].req_port_num;
+		    (uc_parms.
+		     port_type) ? sdram_probe_map[probe_index].rsp_port_num :
+		    sdram_probe_map[probe_index].req_port_num;
 
 		if (port == -1) {
 			return SCI_ERR_INVALID_PARM;
@@ -1105,8 +1084,9 @@ enum sci_err_dra sci_reg_usecase_mstr_dra(psci_handle const phandle,
 		}
 
 		int32_t port =
-		    (uc_parms.port_type) ? lat_probe_map[probe_index].
-		    rsp_port_num : lat_probe_map[probe_index].req_port_num;
+		    (uc_parms.
+		     port_type) ? lat_probe_map[probe_index].rsp_port_num :
+		    lat_probe_map[probe_index].req_port_num;
 
 		if (port == -1) {
 			return SCI_ERR_INVALID_PARM;
@@ -1184,36 +1164,33 @@ enum sci_err_dra sci_remove_usecase_dra(psci_handle const phandle,
 			{
 				int k;
 				int num_filters =
-				    sc_map_dra[mod]->cnt_map[(*usecase_key)->
-							     counter_index[i]].
-				    num_filters;
+				    sc_map_dra[mod]->
+				    cnt_map[(*usecase_key)->counter_index
+					    [i]].num_filters;
 				if (2 == num_filters) {
 					struct sc_sdram_cnt_filter2_dra
-					    *sc_cnt_addr =
+					*sc_cnt_addr =
 					    (struct sc_sdram_cnt_filter2_dra *)
 					    get_cntr_addr_dra(mod,
-							      (*usecase_key)->
-							      counter_index[i]);
+							      (*usecase_key)->counter_index[i]);
 					sc_cnt_addr->globalen = 0;
 
 				}
 				if (1 == num_filters) {
 					struct sc_sdram_cnt_filter1_dra
-					    *sc_cnt_addr =
+					*sc_cnt_addr =
 					    (struct sc_sdram_cnt_filter1_dra *)
 					    get_cntr_addr_dra(mod,
-							      (*usecase_key)->
-							      counter_index[i]);
+							      (*usecase_key)->counter_index[i]);
 					sc_cnt_addr->globalen = 0;
 
 				}
 				if (0 == num_filters) {
 					struct sc_sdram_cnt_filter0_dra
-					    *sc_cnt_addr =
+					*sc_cnt_addr =
 					    (struct sc_sdram_cnt_filter0_dra *)
 					    get_cntr_addr_dra(mod,
-							      (*usecase_key)->
-							      counter_index[i]);
+							      (*usecase_key)->counter_index[i]);
 					sc_cnt_addr->globalen = 0;
 				}
 
@@ -1223,9 +1200,7 @@ enum sci_err_dra sci_remove_usecase_dra(psci_handle const phandle,
 					    =
 					    (struct sdram_filter_element_dra *)
 					    get_filter_addr_dra(mod,
-								(*usecase_key)->
-								counter_index
-								[i], k);
+								(*usecase_key)->counter_index[i], k);
 					filter->en = 0;
 				}
 
@@ -1237,13 +1212,11 @@ enum sci_err_dra sci_remove_usecase_dra(psci_handle const phandle,
 				struct sc_lat_cnt_filter1_dra *sc_cnt_addr =
 				    (struct sc_lat_cnt_filter1_dra *)
 				    get_cntr_addr_dra(mod,
-						      (*usecase_key)->
-						      counter_index[i]);
+						      (*usecase_key)->counter_index[i]);
 				struct sdram_filter_element_dra *filter =
 				    (struct sdram_filter_element_dra *)
 				    get_filter_addr_dra(mod,
-							(*usecase_key)->
-							counter_index[i], 0);
+							(*usecase_key)->counter_index[i], 0);
 				sc_cnt_addr->globalen = 0;
 				filter->en = 0;
 
@@ -1286,16 +1259,16 @@ enum sci_err_dra sci_global_enable_dra(psci_handle const phandle)
 			case SDRAM:
 				{
 					sc_sdram_regs_dra *sc_regs =
-					    (sc_sdram_regs_dra *) mod_map[i].
-					    vbase_addr;
+					    (sc_sdram_regs_dra *)
+					    mod_map[i].vbase_addr;
 					sc_regs->soften = 1;
 					break;
 				}
 			case MSTR:
 				{
 					sc_lat_regs_dra *sc_regs =
-					    (sc_lat_regs_dra *) mod_map[i].
-					    vbase_addr;
+					    (sc_lat_regs_dra *)
+					    mod_map[i].vbase_addr;
 					sc_regs->soften = 1;
 					break;
 				}
@@ -1324,16 +1297,16 @@ enum sci_err_dra sci_global_disable_dra(psci_handle const phandle)
 			case SDRAM:
 				{
 					sc_sdram_regs_dra *sc_regs =
-					    (sc_sdram_regs_dra *) mod_map[i].
-					    vbase_addr;
+					    (sc_sdram_regs_dra *)
+					    mod_map[i].vbase_addr;
 					sc_regs->soften = 0;
 					break;
 				}
 			case MSTR:
 				{
 					sc_lat_regs_dra *sc_regs =
-					    (sc_lat_regs_dra *) mod_map[i].
-					    vbase_addr;
+					    (sc_lat_regs_dra *)
+					    mod_map[i].vbase_addr;
 					sc_regs->soften = 0;
 					break;
 				}
@@ -1365,16 +1338,16 @@ enum sci_err_dra sci_dump_dra(psci_handle const phandle)
 			case SDRAM:
 				{
 					sc_sdram_regs_dra *sc_regs =
-					    (sc_sdram_regs_dra *) mod_map[i].
-					    vbase_addr;
+					    (sc_sdram_regs_dra *)
+					    mod_map[i].vbase_addr;
 					sc_regs->dump_send = 1;
 					break;
 				}
 			case MSTR:
 				{
 					sc_lat_regs_dra *sc_regs =
-					    (sc_lat_regs_dra *) mod_map[i].
-					    vbase_addr;
+					    (sc_lat_regs_dra *)
+					    mod_map[i].vbase_addr;
 					sc_regs->dump_send = 1;
 					break;
 				}
@@ -1452,27 +1425,29 @@ enum sci_err_dra sci_dump_cntrs_dra(psci_handle const phandle,
 			{
 				sc_sdram_regs_dra *sc_regs =
 				    (sc_sdram_regs_dra *)
-				    mod_map[usecase_key[i]->module_index].
-				    vbase_addr;
+				    mod_map[usecase_key[i]->
+					    module_index].vbase_addr;
 
 				for (j = 0; j < num_sci_cntrs; j++) {
 					*pbuf++ =
-					    sc_regs->dump_cnt[usecase_key[i]->
-							      counter_index[j]];
+					    sc_regs->
+					    dump_cnt[usecase_key
+						     [i]->counter_index[j]];
 				}
 				break;
 			}
 		case MSTR:
 			{
 				sc_lat_regs_dra *sc_regs =
-				    (sc_lat_regs_dra *) mod_map[usecase_key[i]->
-								module_index].
-				    vbase_addr;
+				    (sc_lat_regs_dra *)
+				    mod_map[usecase_key
+					    [i]->module_index].vbase_addr;
 
 				for (j = 0; j < num_sci_cntrs; j++) {
 					*pbuf++ =
-					    sc_regs->dump_cnt[usecase_key[i]->
-							      counter_index[j]];
+					    sc_regs->
+					    dump_cnt[usecase_key
+						     [i]->counter_index[j]];
 				}
 				break;
 			}
@@ -1497,16 +1472,16 @@ enum sci_err_dra sci_dump_disable_dra(psci_handle const phandle)
 			case SDRAM:
 				{
 					sc_sdram_regs_dra *sc_regs =
-					    (sc_sdram_regs_dra *) mod_map[i].
-					    vbase_addr;
+					    (sc_sdram_regs_dra *)
+					    mod_map[i].vbase_addr;
 					sc_regs->dump_disable = 1;
 					break;
 				}
 			case MSTR:
 				{
 					sc_lat_regs_dra *sc_regs =
-					    (sc_lat_regs_dra *) mod_map[i].
-					    vbase_addr;
+					    (sc_lat_regs_dra *)
+					    mod_map[i].vbase_addr;
 					sc_regs->dump_disable = 1;
 					break;
 				}
@@ -1532,16 +1507,16 @@ enum sci_err_dra sci_dump_enable_dra(psci_handle const phandle)
 			case SDRAM:
 				{
 					sc_sdram_regs_dra *sc_regs =
-					    (sc_sdram_regs_dra *) mod_map[i].
-					    vbase_addr;
+					    (sc_sdram_regs_dra *)
+					    mod_map[i].vbase_addr;
 					sc_regs->dump_disable = 0;
 					break;
 				}
 			case MSTR:
 				{
 					sc_lat_regs_dra *sc_regs =
-					    (sc_lat_regs_dra *) mod_map[i].
-					    vbase_addr;
+					    (sc_lat_regs_dra *)
+					    mod_map[i].vbase_addr;
 					sc_regs->dump_disable = 0;
 					break;
 				}
@@ -1686,13 +1661,13 @@ enum sci_err_dra get_cntr_dra(enum sc_module_type_dra mod_type, int probe_id,
 			for (j = 0; j < sc_map_dra[i]->num_counters; j++) {
 				/* For no filter counter case check restricted probe  */
 				if ((NULL !=
-				     sc_map_dra[i]->
-				     sc_no_filter_valid_probe_map)
+				     sc_map_dra
+				     [i]->sc_no_filter_valid_probe_map)
 				    && (0 ==
 					(sc_map_dra[i]->cnt_map)[j].num_filters)
 				    && (SCI_INVALID_PROBE ==
-					sc_map_dra[i]->
-					sc_no_filter_valid_probe_map
+					sc_map_dra
+					[i]->sc_no_filter_valid_probe_map
 					[probe_num])) {
 					cntr_assigned_cnt = 0;
 					break;
@@ -1700,8 +1675,8 @@ enum sci_err_dra get_cntr_dra(enum sc_module_type_dra mod_type, int probe_id,
 
 				if ((false == mod_map[i].used[j])
 				    && (num_filters <=
-					(sc_map_dra[i]->cnt_map)[j].
-					num_filters)) {
+					(sc_map_dra[i]->
+					 cnt_map)[j].num_filters)) {
 					cntr_assigned[cntr_assigned_cnt++] = j;
 				}
 				if (num_cntr_req == cntr_assigned_cnt)
@@ -1767,16 +1742,14 @@ void *get_filter_addr_dra(int mod, int cnt_index, int filter_index)
 			 * largest to determine the address for all.
 			 */
 			struct sc_sdram_cnt_filter2_dra *cnt_addr;
-			cnt_addr =
-			    (struct sc_sdram_cnt_filter2_dra *)
+			cnt_addr = (struct sc_sdram_cnt_filter2_dra *)
 			    get_cntr_addr_dra(mod, cnt_index);
 			return (void *)&(cnt_addr->filter[filter_index]);
 		}
 	case MSTR:
 		{
 			struct sc_lat_cnt_filter1_dra *cnt_addr;
-			cnt_addr =
-			    (struct sc_lat_cnt_filter1_dra *)
+			cnt_addr = (struct sc_lat_cnt_filter1_dra *)
 			    get_cntr_addr_dra(mod, cnt_index);
 			return (void *)&(cnt_addr->filter[filter_index]);
 		}

@@ -334,5 +334,4 @@ extern reg **prm_am437x_mods[PRM_AM437X_MODS_COUNT + 1];
 
 extern const char *prm_am437x_mods_name[PRM_AM437X_MODS_COUNT];
 
-
 #endif

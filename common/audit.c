@@ -309,7 +309,9 @@ int audit_performances(FILE * stream, unsigned int duration, unsigned int delay)
 	if (cpu_is_omap44xx()) {
 		emif_busy_cycles[0] = 0;
 		for (emif = 0; emif < EMIF44XX_MAX; emif++) {
-			emif_busy_cycles[0] += emif44xx_perf_cnt_get_count((emif44xx_ids) emif, EMIF44XX_PERF_CNT_1);
+			emif_busy_cycles[0] +=
+			    emif44xx_perf_cnt_get_count((emif44xx_ids) emif,
+							EMIF44XX_PERF_CNT_1);
 		}
 		emif_cycles[0] = emif44xx_perf_cnt_get_time(EMIF44XX_0);
 	}
@@ -334,7 +336,9 @@ int audit_performances(FILE * stream, unsigned int duration, unsigned int delay)
 	if (cpu_is_omap44xx()) {
 		emif_busy_cycles[1] = 0;
 		for (emif = 0; emif < EMIF44XX_MAX; emif++) {
-			emif_busy_cycles[1] += emif44xx_perf_cnt_get_count((emif44xx_ids) emif, EMIF44XX_PERF_CNT_1);
+			emif_busy_cycles[1] +=
+			    emif44xx_perf_cnt_get_count((emif44xx_ids) emif,
+							EMIF44XX_PERF_CNT_1);
 		}
 		emif_cycles[1] = emif44xx_perf_cnt_get_time(EMIF44XX_0);
 	}

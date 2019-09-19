@@ -400,8 +400,8 @@ int dpll_am335x_type_b_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 			snprintf(table[row++][id - start_id + 1],
 				 TABLE_MAX_ELT_LEN, "%u (%u)",
 				 (unsigned int)settings->dpll.MN.M2_rate,
-				 (unsigned int)settings_locked->dpll.
-				 MN.M2_rate);
+				 (unsigned int)settings_locked->dpll.MN.
+				 M2_rate);
 		row++;
 
 		strncpy(table[row++][0],
@@ -416,14 +416,14 @@ int dpll_am335x_type_b_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 		if (settings->status == DPLL_STATUS_LOCKED)
 			snprintf(table[row++][id - start_id + 1],
 				 TABLE_MAX_ELT_LEN, "%u",
-				 (unsigned int)settings->dpll.
-				 MN.clkdcoldo_rate);
+				 (unsigned int)settings->dpll.MN.
+				 clkdcoldo_rate);
 		else
 			snprintf(table[row++][id - start_id + 1],
 				 TABLE_MAX_ELT_LEN, "%u (%u)",
 				 (unsigned int)settings->dpll.MN.clkdcoldo_rate,
-				 (unsigned int)settings_locked->dpll.
-				 MN.clkdcoldo_rate);
+				 (unsigned int)settings_locked->dpll.MN.
+				 clkdcoldo_rate);
 		row++;
 
 		if (row > row_max)
@@ -534,8 +534,8 @@ int dpll_am335x_type_a_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 		strncpy(table[row][0], "Ramping Levels", TABLE_MAX_ELT_LEN);
 		strncpy(table[row][id - start_id + 1],
 			dpll_ramp_level_name_get((dpll_ramp_level)
-						 settings->dpll.
-						 ramp.ramp_level),
+						 settings->dpll.ramp.
+						 ramp_level),
 			TABLE_MAX_ELT_LEN);
 		row += 2;
 
@@ -605,15 +605,15 @@ int dpll_am335x_type_a_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id - start_id + 1],
 					 TABLE_MAX_ELT_LEN, "%u",
-					 (unsigned int)settings->dpll.
-					 MN.M2_rate);
+					 (unsigned int)settings->dpll.MN.
+					 M2_rate);
 			else
 				snprintf(table[row++][id - start_id + 1],
 					 TABLE_MAX_ELT_LEN, "%u (%u)",
-					 (unsigned int)settings->dpll.
-					 MN.M2_rate,
-					 (unsigned int)settings_locked->dpll.
-					 MN.M2_rate);
+					 (unsigned int)settings->dpll.MN.
+					 M2_rate,
+					 (unsigned int)settings_locked->dpll.MN.
+					 M2_rate);
 		} else {
 			row += 3;
 		}
@@ -639,8 +639,8 @@ int dpll_am335x_type_a_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 					 (unsigned int)
 					 settings->dpll.MN.clkdcoldo_rate,
 					 (unsigned int)
-					 settings_locked->dpll.
-					 MN.clkdcoldo_rate);
+					 settings_locked->dpll.MN.
+					 clkdcoldo_rate);
 			row++;
 		}
 
@@ -771,18 +771,16 @@ int dpll_am335x_clk_sources_get(dpll_settings * settings, unsigned short ignore)
 	if (dpll_am335x_sources[settings->id].byp_clk_m2 != CLK_AM335X_ID_MAX)
 		settings->fbyp_clk_m2 = clk_am335x_rate_get((clk_am335x_id)
 							    dpll_am335x_sources
-							    [settings->
-							     id].byp_clk_m2,
-							    ignore);
+							    [settings->id].
+							    byp_clk_m2, ignore);
 	else
 		settings->fbyp_clk_m2 = 0.0;
 
 	if (dpll_am335x_sources[settings->id].byp_clk_m3 != CLK_AM335X_ID_MAX)
 		settings->fbyp_clk_m3 = clk_am335x_rate_get((clk_am335x_id)
 							    dpll_am335x_sources
-							    [settings->
-							     id].byp_clk_m3,
-							    ignore);
+							    [settings->id].
+							    byp_clk_m3, ignore);
 	else
 		settings->fbyp_clk_m3 = 0.0;
 
@@ -790,8 +788,8 @@ int dpll_am335x_clk_sources_get(dpll_settings * settings, unsigned short ignore)
 	    CLK_AM335X_ID_MAX)
 		settings->fbyp_clk_hsdiv = clk_am335x_rate_get((clk_am335x_id)
 							       dpll_am335x_sources
-							       [settings->
-								id].byp_clk_hsdiv,
+							       [settings->id].
+							       byp_clk_hsdiv,
 							       ignore);
 	else
 		settings->fbyp_clk_hsdiv = 0.0;

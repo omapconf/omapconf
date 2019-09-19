@@ -191,8 +191,7 @@ int pwrdm_transitions_stats_process(pwrdm_transitions transitions,
 int pwrdm_transitions_stats_format(time_stats
 				   stats[OMAP4_PMI_PWRDM_MAX][PWRDM_STATE_MAX],
 				   double duration,
-				   char
-				   table[TABLE_MAX_ROW][TABLE_MAX_COL]
+				   char table[TABLE_MAX_ROW][TABLE_MAX_COL]
 				   [TABLE_MAX_ELT_LEN], unsigned int *row,
 				   unsigned int *col)
 {
@@ -296,8 +295,7 @@ int pwrdm_transitions_stats_format(time_stats
  * @DESCRIPTION		save power domain transitions stats into file
  *------------------------------------------------------------------------ */
 int pwrdm_transitions_stats_save(char *filename,
-				 char
-				 table[TABLE_MAX_ROW][TABLE_MAX_COL]
+				 char table[TABLE_MAX_ROW][TABLE_MAX_COL]
 				 [TABLE_MAX_ELT_LEN], unsigned int row,
 				 unsigned int col)
 {

@@ -33,7 +33,6 @@
  * MA 02110-1301 USA.
  */
 
-
 #include <camera44xx.h>
 #include <camera-regbits-44xx.h>
 #include <lib44xx.h>
@@ -72,7 +71,6 @@ reg_table iss_csiphy_reg_table[2][ISS_CSIPHY_REG_TABLE_SIZE];
 reg_table iss_ccp2_reg_table[ISS_CCP2_REG_TABLE_SIZE];
 
 static unsigned int init_done = 0;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		camera44xx_init_regtable
@@ -124,15 +122,15 @@ void camera44xx_init_regtable(void)
 		iss_csi2_reg_table[k][i++].addr = CSI2_CTRL + (k * 0x400);
 		strcpy(iss_csi2_reg_table[k][i].name, "CSI2_COMPLEXIO_CFG");
 		iss_csi2_reg_table[k][i++].addr =
-			CSI2_COMPLEXIO_CFG + (k * 0x400);
+		    CSI2_COMPLEXIO_CFG + (k * 0x400);
 		strcpy(iss_csi2_reg_table[k][i].name,
-			"CSI2_COMPLEXIO_IRQSTATUS");
+		       "CSI2_COMPLEXIO_IRQSTATUS");
 		iss_csi2_reg_table[k][i++].addr =
-			CSI2_COMPLEXIO_IRQSTATUS + (k * 0x400);
+		    CSI2_COMPLEXIO_IRQSTATUS + (k * 0x400);
 		strcpy(iss_csi2_reg_table[k][i].name,
-			"CSI2_COMPLEXIO_IRQENABLE");
+		       "CSI2_COMPLEXIO_IRQENABLE");
 		iss_csi2_reg_table[k][i++].addr =
-			CSI2_COMPLEXIO_IRQENABLE + (k * 0x400);
+		    CSI2_COMPLEXIO_IRQENABLE + (k * 0x400);
 		strcpy(iss_csi2_reg_table[k][i].name, "CSI2_TIMING");
 		iss_csi2_reg_table[k][i++].addr = CSI2_TIMING + (k * 0x400);
 
@@ -140,35 +138,35 @@ void camera44xx_init_regtable(void)
 			sprintf(iss_csi2_reg_table[k][i].name,
 				"CSI2_CTX_CTRL1_%d", j);
 			iss_csi2_reg_table[k][i++].addr =
-				CSI2_CTX_CTRL1(j) + (k * 0x400);
+			    CSI2_CTX_CTRL1(j) + (k * 0x400);
 			sprintf(iss_csi2_reg_table[k][i].name,
 				"CSI2_CTX_CTRL2_%d", j);
 			iss_csi2_reg_table[k][i++].addr =
-				CSI2_CTX_CTRL2(j) + (k * 0x400);
+			    CSI2_CTX_CTRL2(j) + (k * 0x400);
 			sprintf(iss_csi2_reg_table[k][i].name,
 				"CSI2_CTX_DAT_OFST_%d", j);
 			iss_csi2_reg_table[k][i++].addr =
-				CSI2_CTX_DAT_OFST(j) + (k * 0x400);
+			    CSI2_CTX_DAT_OFST(j) + (k * 0x400);
 			sprintf(iss_csi2_reg_table[k][i].name,
 				"CSI2_CTX_DAT_PING_ADDR_%d", j);
 			iss_csi2_reg_table[k][i++].addr =
-				CSI2_CTX_DAT_PING_ADDR(j) + (k * 0x400);
+			    CSI2_CTX_DAT_PING_ADDR(j) + (k * 0x400);
 			sprintf(iss_csi2_reg_table[k][i].name,
 				"CSI2_CTX_DAT_PONG_ADDR_%d", j);
 			iss_csi2_reg_table[k][i++].addr =
-				CSI2_CTX_DAT_PONG_ADDR(j) + (k * 0x400);
+			    CSI2_CTX_DAT_PONG_ADDR(j) + (k * 0x400);
 			sprintf(iss_csi2_reg_table[k][i].name,
 				"CSI2_CTX_IRQENABLE_%d", j);
 			iss_csi2_reg_table[k][i++].addr =
-				CSI2_CTX_IRQENABLE(j) + (k * 0x400);
+			    CSI2_CTX_IRQENABLE(j) + (k * 0x400);
 			sprintf(iss_csi2_reg_table[k][i].name,
 				"CSI2_CTX_IRQSTATUS_%d", j);
 			iss_csi2_reg_table[k][i++].addr =
-				CSI2_CTX_IRQSTATUS(j) + (k * 0x400);
+			    CSI2_CTX_IRQSTATUS(j) + (k * 0x400);
 			sprintf(iss_csi2_reg_table[k][i].name,
 				"CSI2_CTX_CTRL3_%d", j);
 			iss_csi2_reg_table[k][i++].addr =
-				CSI2_CTX_CTRL3(j) + (k * 0x400);
+			    CSI2_CTX_CTRL3(j) + (k * 0x400);
 		}
 
 		strcpy(iss_csi2_reg_table[k][i].name, "END");
@@ -262,7 +260,6 @@ void camera44xx_init_regtable(void)
 	init_done = 1;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		camera44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
@@ -303,7 +300,6 @@ int camera44xx_name2addr(char *name, unsigned int *addr)
 	return -1;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		camera44xx_clock_is_running
  * @BRIEF		check if selected camera clock is running or not.
@@ -333,8 +329,7 @@ unsigned char camera44xx_clock_is_running(camera44xx_clock_id id)
 	    (id == ISS_SUBCLK_CSI2B) ||
 	    (id == ISS_SUBCLK_CCP2) ||
 	    (id == ISS_SUBCLK_VPORT0) ||
-	    (id == ISS_SUBCLK_VPORT1) ||
-	    (id == ISS_SUBCLK_VPORT2)) {
+	    (id == ISS_SUBCLK_VPORT1) || (id == ISS_SUBCLK_VPORT2)) {
 		/* First check if ISS_CLK is enabled, to avoid access fault. */
 		running = extract_bit(cm_cam_clkstctrl, 8);
 		if (running) {
@@ -392,7 +387,6 @@ camera44xx_clock_is_running_end:
 	return running;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		get_frame_name
  * @BRIEF		Transfer to format string from format value.
@@ -428,7 +422,6 @@ static char *get_frame_name(unsigned int format)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		iss_csi2_check
  * @BRIEF		Dump CSI2 information.
@@ -441,7 +434,7 @@ void iss_csi2_check(struct iss_csi2_regs *csi2)
 	unsigned int used_lanes = 0;
 
 	printf("\tCSI2 Revision: %x.%x\n",
-		csi2->revision.major, csi2->revision.minor);
+	       csi2->revision.major, csi2->revision.minor);
 
 	/* CSI2_SYSCONFIG checks */
 	printf("\tMstandby mode is ");
@@ -458,7 +451,7 @@ void iss_csi2_check(struct iss_csi2_regs *csi2)
 		break;
 	}
 	printf("\tAuto-idle is %s.\n",
-		csi2->sysconfig.auto_idle ? "enabled" : "disabled");
+	       csi2->sysconfig.auto_idle ? "enabled" : "disabled");
 
 	/* CSI2_SYSSTATUS checks */
 	if (!csi2->sysstatus.reset_done)
@@ -505,87 +498,83 @@ void iss_csi2_check(struct iss_csi2_regs *csi2)
 			printf("16x64-bit burst.\n");
 		else
 			printf("%ux64 OCP writes.\n",
-				1 << csi2->ctrl.burst_size);
+			       1 << csi2->ctrl.burst_size);
 	}
 
 	if (!csi2->ctrl.non_posted_write)
-		printf(
-			"\tWARNING: Non-posted writes disabled. Not recommended.\n");
+		printf
+		    ("\tWARNING: Non-posted writes disabled. Not recommended.\n");
 
 	if (csi2->ctrl.dbg_en)
-		printf(
-			"\tIMPORTANT: Debug mode enabled. Data input will be ignored.\n");
+		printf
+		    ("\tIMPORTANT: Debug mode enabled. Data input will be ignored.\n");
 
 	printf("\tECC check is %s.\n",
-		csi2->ctrl.ecc_en ? "enabled" : "disabled");
+	       csi2->ctrl.ecc_en ? "enabled" : "disabled");
 	printf("\tInterface is %s.\n",
-		csi2->ctrl.if_en ? "enabled" : "disabled");
+	       csi2->ctrl.if_en ? "enabled" : "disabled");
 
 	printf("\tLane information:\n");
 	/* COMPLEXIO_CFG checks */
 	if (csi2->complexio_cfg.clock_position != 0)
 		used_lanes |= (1 << csi2->complexio_cfg.clock_position);
 	printf("\t\tClock: position #%u, %s polarity.%s\n",
-		csi2->complexio_cfg.clock_position,
-		csi2->complexio_cfg.clock_pol ? "X:-, Y:+" : "X:+, Y:-",
-		csi2->complexio_cfg.clock_position == 0 ?
-			" (WARNING: Disabled)" : "");
+	       csi2->complexio_cfg.clock_position,
+	       csi2->complexio_cfg.clock_pol ? "X:-, Y:+" : "X:+, Y:-",
+	       csi2->complexio_cfg.clock_position == 0 ?
+	       " (WARNING: Disabled)" : "");
 
 	printf("\t\tData lanes used:\n");
 
 	if (used_lanes & (1 << csi2->complexio_cfg.data1_position)) {
 		printf("\t\t\tERROR: Position #%u is already used!\n",
-			csi2->complexio_cfg.data1_position);
+		       csi2->complexio_cfg.data1_position);
 	} else if (csi2->complexio_cfg.data1_position != 0) {
 		used_lanes |= (1 << csi2->complexio_cfg.data1_position);
 
 		printf("\t\t\tData1: position #%u, %s polarity.\n",
-			csi2->complexio_cfg.data1_position,
-			csi2->complexio_cfg.data1_pol ?
-				"X:-, Y:+" : "X:+, Y:-");
+		       csi2->complexio_cfg.data1_position,
+		       csi2->complexio_cfg.data1_pol ? "X:-, Y:+" : "X:+, Y:-");
 	}
 
 	if (used_lanes & (1 << csi2->complexio_cfg.data2_position)) {
 		printf("\t\t\tERROR: Position #%u is already used!\n",
-			csi2->complexio_cfg.data2_position);
+		       csi2->complexio_cfg.data2_position);
 	} else if (csi2->complexio_cfg.data2_position != 0) {
 		used_lanes |= (1 << csi2->complexio_cfg.data2_position);
 
 		printf("\t\t\tData2: position #%u, %s polarity.\n",
-			csi2->complexio_cfg.data2_position,
-			csi2->complexio_cfg.data2_pol ?
-				"X:-, Y:+" : "X:+, Y:-");
+		       csi2->complexio_cfg.data2_position,
+		       csi2->complexio_cfg.data2_pol ? "X:-, Y:+" : "X:+, Y:-");
 	}
 
 	if (used_lanes & (1 << csi2->complexio_cfg.data3_position)) {
 		printf("\t\t\tERROR: Position #%u is already used!\n",
-			csi2->complexio_cfg.data3_position);
+		       csi2->complexio_cfg.data3_position);
 	} else if (csi2->complexio_cfg.data3_position != 0) {
 		used_lanes |= (1 << csi2->complexio_cfg.data3_position);
 
 		printf("\t\t\tData3: position #%u, %s polarity.\n",
-			csi2->complexio_cfg.data3_position,
-			csi2->complexio_cfg.data3_pol ?
-				"X:-, Y:+" : "X:+, Y:-");
+		       csi2->complexio_cfg.data3_position,
+		       csi2->complexio_cfg.data3_pol ? "X:-, Y:+" : "X:+, Y:-");
 	}
 
 	if (used_lanes & (1 << csi2->complexio_cfg.data4_position)) {
 		printf("\t\t\tERROR: Position #%u is already used!\n",
-			csi2->complexio_cfg.data4_position);
+		       csi2->complexio_cfg.data4_position);
 	} else if (csi2->complexio_cfg.data4_position != 0) {
 		used_lanes |= (1 << csi2->complexio_cfg.data4_position);
 
 		printf("\t\t\tData4: position #%u, %s polarity.\n",
-			csi2->complexio_cfg.data4_position,
-			csi2->complexio_cfg.data4_pol ?
-				"X:-, Y:+" : "X:+, Y:-");
+		       csi2->complexio_cfg.data4_position,
+		       csi2->complexio_cfg.data4_pol ? "X:-, Y:+" : "X:+, Y:-");
 	}
 
 	if ((used_lanes &= ~(1 << csi2->complexio_cfg.clock_position)) == 0)
 		printf("\t\t\tWARNING: No data lanes enabled.\n");
 
 	printf("\tAutomatic switch between ULP and ON is %s\n",
-		csi2->complexio_cfg.pwr_auto ? "disabled" : "enabled");
+	       csi2->complexio_cfg.pwr_auto ? "disabled" : "enabled");
 
 	printf("\tComplexIO power state is: ");
 	switch (csi2->complexio_cfg.pwr_status) {
@@ -604,9 +593,9 @@ void iss_csi2_check(struct iss_csi2_regs *csi2)
 		printf("\tWARNING: ComplexIO Reset ongoing.\n");
 
 	printf("\tStop state timeout in ISS_FCLK cycles: %u\n",
-		csi2->timing.stop_state_counter_io1 *
-		(1 + (csi2->timing.stop_state_x16_io1 * 15)) *
-		(1 + (csi2->timing.stop_state_x4_io1 * 3)));
+	       csi2->timing.stop_state_counter_io1 *
+	       (1 + (csi2->timing.stop_state_x16_io1 * 15)) *
+	       (1 + (csi2->timing.stop_state_x4_io1 * 3)));
 
 	printf("\tContext information:\n");
 	{
@@ -620,22 +609,22 @@ void iss_csi2_check(struct iss_csi2_regs *csi2)
 			printf("\t\tContext#%u:\n", i);
 
 			printf("\t\t\tContext is %s.\n",
-				csi2->ctx[i].ctrl1.ctx_en ?
-					"enabled" : "disabled");
+			       csi2->ctx[i].ctrl1.ctx_en ?
+			       "enabled" : "disabled");
 
 			if (csi2->ctx[i].ctrl1.vp_force) {
 				printf("\t\t\tEnforcing VP + OCP output.\n");
 				if (!csi2->ctrl.vp_clk_en)
-					printf(
-						"\t\t\t\tWARNING: VideoPort is disabled!");
+					printf
+					    ("\t\t\t\tWARNING: VideoPort is disabled!");
 				if (csi2->ctrl.vp_only_en)
-					printf(
-						"\t\t\t\tWARNING: VP_ONLY selected.");
+					printf
+					    ("\t\t\t\tWARNING: VP_ONLY selected.");
 			}
 
 			printf("\t\t\tChecksum is %s\n",
-				csi2->ctx[i].ctrl1.cs_en ?
-					"enabled" : "disabled");
+			       csi2->ctx[i].ctrl1.cs_en ?
+			       "enabled" : "disabled");
 
 			printf("\t\t\tFrames to capture: ");
 			if (csi2->ctx[i].ctrl1.count)
@@ -644,27 +633,25 @@ void iss_csi2_check(struct iss_csi2_regs *csi2)
 				printf("(infinite)\n");
 
 			printf("\t\t\tFrame counter: %u\n",
-				csi2->ctx[i].ctrl2.frame);
+			       csi2->ctx[i].ctrl2.frame);
 
 			printf("\t\t\tBuffers:\n");
 			printf("\t\t\t\tPing: 0x%08x\n",
-				csi2->ctx[i].dat_ping_addr);
+			       csi2->ctx[i].dat_ping_addr);
 			if (csi2->ctx[i].dat_ping_addr !=
-				csi2->ctx[i].dat_pong_addr)
+			    csi2->ctx[i].dat_pong_addr)
 				printf("\t\t\t\tPong: 0x%08x\n",
-					csi2->ctx[i].dat_pong_addr);
+				       csi2->ctx[i].dat_pong_addr);
 			printf("\t\t\t\tOffset: 0x%08x\n",
-				csi2->ctx[i].dat_ofst);
+			       csi2->ctx[i].dat_ofst);
 
 			printf("\t\t\tFormat: 0x%x - %s%s.\n",
-				csi2->ctx[i].ctrl2.format,
-				get_frame_name(csi2->ctx[i].ctrl2.format),
-				csi2->ctx[i].ctrl1.generic ?
-					" (enforced)" : "");
+			       csi2->ctx[i].ctrl2.format,
+			       get_frame_name(csi2->ctx[i].ctrl2.format),
+			       csi2->ctx[i].ctrl1.generic ? " (enforced)" : "");
 		}
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		iss_isp5_sys1_check
@@ -673,9 +660,9 @@ void iss_csi2_check(struct iss_csi2_regs *csi2)
  * @DESCRIPTION		Dump ISP2 information.
  *------------------------------------------------------------------------ */
 unsigned int iss_isp5_sys1_check(struct iss_top_regs *iss_top,
-	struct iss_isp5_sys1_regs *iss_isp5_sys1)
+				 struct iss_isp5_sys1_regs *iss_isp5_sys1)
 {
-	unsigned int 	ret = 0;
+	unsigned int ret = 0;
 	struct iss_ipipeif_regs *iss_ipipeif = NULL;
 	struct iss_isif_regs *iss_isif = NULL;
 	struct iss_ipipe_regs *iss_ipipe = NULL;
@@ -683,9 +670,8 @@ unsigned int iss_isp5_sys1_check(struct iss_top_regs *iss_top,
 	struct iss_h3a_regs *iss_h3a = NULL;
 
 	printf("\tISS ISP5 Revision: %x.%x.%x\n",
-		iss_isp5_sys1->revision.x_major,
-		iss_isp5_sys1->revision.y_minor,
-		iss_isp5_sys1->revision.r_rtl);
+	       iss_isp5_sys1->revision.x_major,
+	       iss_isp5_sys1->revision.y_minor, iss_isp5_sys1->revision.r_rtl);
 
 	/* ISP5_SYSCONFIG checks */
 	printf("\tMstandby mode is ");
@@ -703,7 +689,7 @@ unsigned int iss_isp5_sys1_check(struct iss_top_regs *iss_top,
 		break;
 	}
 	printf("\tAuto-idle is %s.\n",
-		iss_isp5_sys1->sysconfig.auto_idle ? "enabled" : "disabled");
+	       iss_isp5_sys1->sysconfig.auto_idle ? "enabled" : "disabled");
 	printf("\tIPIPEIF Input: ");
 
 	switch (iss_top->ctrl.input_sel) {
@@ -731,27 +717,27 @@ unsigned int iss_isp5_sys1_check(struct iss_top_regs *iss_top,
 
 		printf("\t\tSelected datapath:\n");
 		if ((iss_ipipeif->cfg1.inpsrc1 == 0) &&
-			(iss_ipipeif->cfg1.inpsrc2 == 0)) {
+		    (iss_ipipeif->cfg1.inpsrc2 == 0)) {
 			printf("\t\t\tVideoPort -> ISIF -> IPIPE/RSZ/H3A\n");
 		} else if ((iss_ipipeif->cfg1.inpsrc1 == 0) &&
-			(iss_ipipeif->cfg1.inpsrc2 == 1)) {
-			printf(
-				"\t\t\tBuffer Logic (RAW) -> [A-Law/DPCM] -> IPIPE/RSZ\n");
-		} else if ((iss_ipipeif->cfg1.inpsrc1 == 0) &&
-			(iss_ipipeif->cfg1.inpsrc2 == 2)) {
-			printf(
-				"\t\t\tVideoPort -> ISIF -> Dark frame subtraction/H3A\n");
-			printf(
-				"\t\t\tBuffer Logic (RAW) -> Dark frame subtraction\n");
+			   (iss_ipipeif->cfg1.inpsrc2 == 1)) {
+			printf
+			    ("\t\t\tBuffer Logic (RAW) -> [A-Law/DPCM] -> IPIPE/RSZ\n");
+		} else if ((iss_ipipeif->cfg1.inpsrc1 == 0)
+			   && (iss_ipipeif->cfg1.inpsrc2 == 2)) {
+			printf
+			    ("\t\t\tVideoPort -> ISIF -> Dark frame subtraction/H3A\n");
+			printf
+			    ("\t\t\tBuffer Logic (RAW) -> Dark frame subtraction\n");
 			printf("\t\t\tDark frame subtraction -> IPIPE/RSZ\n");
 		} else if ((iss_ipipeif->cfg1.inpsrc1 == 0) &&
-			(iss_ipipeif->cfg1.inpsrc2 == 3)) {
+			   (iss_ipipeif->cfg1.inpsrc2 == 3)) {
 			printf("\t\t\tVideoPort -> ISIF -> H3A\n");
 			printf("\t\t\tBuffer Logic (RAW/YUV) -> IPIPE/RSZ\n");
 		} else {
 			printf("\t\t\t(Unknown, INPSRC1=%u, INPSRC2=%u)\n",
-				iss_ipipeif->cfg1.inpsrc1,
-				iss_ipipeif->cfg1.inpsrc2);
+			       iss_ipipeif->cfg1.inpsrc1,
+			       iss_ipipeif->cfg1.inpsrc2);
 		}
 	}
 
@@ -765,7 +751,7 @@ next1:
 		}
 
 		printf("\t\tModule is %s.\n",
-			iss_isif->syncen.syen ? "enabled" : "disabled");
+		       iss_isif->syncen.syen ? "enabled" : "disabled");
 		if (!iss_isif->syncen.syen)
 			goto next2;
 		printf("\t\tData input type: ");
@@ -779,32 +765,32 @@ next1:
 		case 2:
 			printf("YCbCr 8bit.\n");
 			printf("\t\t\tY signal position in %s pixel.\n",
-				iss_isif->ccdcfg.y8pos ? "odd" : "even");
+			       iss_isif->ccdcfg.y8pos ? "odd" : "even");
 			break;
 		case 3:
 			printf("Reserved(?).\n");
 			break;
 		}
 		printf("\t\tHD/VD signal direction is %s.\n",
-			iss_isif->modeset.hdvdd ? "output" : "input");
+		       iss_isif->modeset.hdvdd ? "output" : "input");
 		printf("\t\tHD polarity is %s.\n",
-			iss_isif->modeset.hdpol ? "Negative" : "Pastive");
+		       iss_isif->modeset.hdpol ? "Negative" : "Pastive");
 		printf("\t\tVD polarity is %s.\n",
-			iss_isif->modeset.vdpol ? "Negative" : "Pastive");
+		       iss_isif->modeset.vdpol ? "Negative" : "Pastive");
 		printf("\t\tFLD signal direction is %s.\n",
-			iss_isif->modeset.fidd ? "output" : "input");
+		       iss_isif->modeset.fidd ? "output" : "input");
 		printf("\t\t%s sensor.\n", iss_isif->modeset.ccdmd ?
-			"Interlaced" : "Progressive");
+		       "Interlaced" : "Progressive");
 		if (!cpu_is_omap4430()) {
 			printf("\t\tFLD polarity is %s.\n",
-				iss_isif->modeset.fdpol ?
-					"Negative" : "Pastive");
+			       iss_isif->modeset.fdpol ?
+			       "Negative" : "Pastive");
 			printf("\t\tLow pass filter is %s.\n",
-				iss_isif->modeset.vdpol ?
-					"enabled" : "disabled");
+			       iss_isif->modeset.vdpol ?
+			       "enabled" : "disabled");
 		}
 		printf("\t\tSDRAM output is %s.\n",
-			iss_isif->syncen.dwen ? "enabled" : "disabled");
+		       iss_isif->syncen.dwen ? "enabled" : "disabled");
 	}
 next2:
 	if (iss_isp5_sys1->ctrl.ipipe_clk_enable) {
@@ -816,13 +802,13 @@ next2:
 		}
 
 		printf("\t\tGlobal clock is %s.\n",
-			iss_ipipe->gck_mmr ? "enabled" : "disabled. Exiting..");
+		       iss_ipipe->gck_mmr ? "enabled" : "disabled. Exiting..");
 		/* Exiting analysis if global clock is disabled */
 		if (!iss_ipipe->gck_mmr)
 			goto next3;
 
 		printf("\t\tSource is %s.\n", iss_ipipe->src_en.en ?
-			"enabled" : "disabled");
+		       "enabled" : "disabled");
 
 		printf("\t\tSelected datapath: ");
 		switch (iss_ipipe->src_fmt.fmt) {
@@ -841,8 +827,8 @@ next2:
 		}
 
 		printf("\t\tInput start/size: X=%d/%d;Y=%d/%d\n",
-			iss_ipipe->src_hps, iss_ipipe->src_hsz,
-			iss_ipipe->src_vps, iss_ipipe->src_vsz + 1);
+		       iss_ipipe->src_hps, iss_ipipe->src_hsz,
+		       iss_ipipe->src_vps, iss_ipipe->src_vsz + 1);
 	}
 
 next3:
@@ -855,39 +841,36 @@ next3:
 		}
 
 		printf("\t\tGlobal clock is %s.\n",
-			iss_resizer->gck_mmr ? "enabled" : "disabled.");
-		#if 0
+		       iss_resizer->gck_mmr ? "enabled" : "disabled.");
+#if 0
 		printf("\t\tRESIZER Revision: %x.%x\n",
-			iss_resizer->revision.major,
-			iss_resizer->revision.minor);
-		#endif
+		       iss_resizer->revision.major,
+		       iss_resizer->revision.minor);
+#endif
 		printf("\t\tRESIZER core clock is %s.\n",
-			(iss_resizer->gck_sdr & 0x1) ? "enabled" : "disabled");
+		       (iss_resizer->gck_sdr & 0x1) ? "enabled" : "disabled");
 		printf("\t\tSource is %s.\n",
-			iss_resizer->src_en.en ? "enabled" : "disabled");
+		       iss_resizer->src_en.en ? "enabled" : "disabled");
 		printf("\t\tSelected datapath:%s.\n",
-			iss_resizer->src_fmt0.sel ? "IPIPEIF" : "IPIPE");
+		       iss_resizer->src_fmt0.sel ? "IPIPEIF" : "IPIPE");
 
 		printf("\t\tInput data is %s.\n",
-			iss_resizer->src_fmt1.in420 ?
-				"YUV4:2:0" : "YUV4:2:2");
+		       iss_resizer->src_fmt1.in420 ? "YUV4:2:0" : "YUV4:2:2");
 		printf("\t\tInput start/size: X=%d/%d;Y=%d/%d\n",
-			iss_resizer->src_hps, iss_resizer->src_hsz + 1,
-			iss_resizer->src_vps, iss_resizer->src_vsz + 1);
+		       iss_resizer->src_hps, iss_resizer->src_hsz + 1,
+		       iss_resizer->src_vps, iss_resizer->src_vsz + 1);
 
 		printf("\t\tRESIZER A clock is %s.\n",
-			iss_resizer->sysconfig.rsza_clk_en ?
-				"enabled" : "disabled");
+		       iss_resizer->sysconfig.rsza_clk_en ?
+		       "enabled" : "disabled");
 		printf("\t\tRESIZER B clock is %s.\n",
-			iss_resizer->sysconfig.rszb_clk_en ?
-				"enabled" : "disabled");
+		       iss_resizer->sysconfig.rszb_clk_en ?
+		       "enabled" : "disabled");
 
 		printf("\t\tRESIZER A output format is %s.\n",
-			(iss_resizer->rza.n420 & 0x3) ?
-				"YUV4:2:0" : "YUV4:2:2");
+		       (iss_resizer->rza.n420 & 0x3) ? "YUV4:2:0" : "YUV4:2:2");
 		printf("\t\tRESIZER B output format is %s.\n",
-			(iss_resizer->rzb.n420 & 0x3) ?
-				"YUV4:2:0" : "YUV4:2:2");
+		       (iss_resizer->rzb.n420 & 0x3) ? "YUV4:2:0" : "YUV4:2:2");
 
 		/* Exiting analysis if global clock is disabled */
 		if (!iss_resizer->gck_mmr)
@@ -903,8 +886,8 @@ next4:
 			goto next5;
 		}
 		printf("\t\tH3A Revision: %x.%x.%x\n",
-			iss_h3a->pid.x_major, iss_h3a->pid.y_minor,
-			iss_h3a->pid.r_rtl);
+		       iss_h3a->pid.x_major, iss_h3a->pid.y_minor,
+		       iss_h3a->pid.r_rtl);
 	}
 next5:
 
@@ -921,7 +904,6 @@ next5:
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		camera44xx_dump
@@ -954,14 +936,14 @@ int camera44xx_dump(char *camera_mod)
 
 	ret = OMAPCONF_ERR_ARG;
 	if ((strcmp(camera_mod, "all") == 0) ||
-		(strcmp(camera_mod, "iss_hl") == 0))
+	    (strcmp(camera_mod, "iss_hl") == 0))
 		ret = dumpregs(iss_hl_reg_table);
 
 	if ((strcmp(camera_mod, "all") == 0) ||
-		(strcmp(camera_mod, "iss_csi2a") == 0)) {
+	    (strcmp(camera_mod, "iss_csi2a") == 0)) {
 		if (!camera44xx_clock_is_running(ISS_SUBCLK_CSI2A)) {
-			printf(
-				"ISS CSI2A clock stopped, registers not accessible.\n\n");
+			printf
+			    ("ISS CSI2A clock stopped, registers not accessible.\n\n");
 			ret = OMAPCONF_ERR_REG_ACCESS;
 		} else {
 			ret = dumpregs(iss_csi2_reg_table[0]);
@@ -969,10 +951,10 @@ int camera44xx_dump(char *camera_mod)
 	}
 
 	if ((strcmp(camera_mod, "all") == 0) ||
-		(strcmp(camera_mod, "iss_csiphy1") == 0)) {
+	    (strcmp(camera_mod, "iss_csiphy1") == 0)) {
 		if (!camera44xx_clock_is_running(ISS_SUBCLK_CSI2A)) {
-			printf(
-				"ISS CSI2A clock stopped, registers not accessible.\n\n");
+			printf
+			    ("ISS CSI2A clock stopped, registers not accessible.\n\n");
 			ret = OMAPCONF_ERR_REG_ACCESS;
 		} else {
 			ret = dumpregs(iss_csiphy_reg_table[0]);
@@ -980,10 +962,10 @@ int camera44xx_dump(char *camera_mod)
 	}
 
 	if ((strcmp(camera_mod, "all") == 0) ||
-		(strcmp(camera_mod, "iss_csi2b") == 0)) {
+	    (strcmp(camera_mod, "iss_csi2b") == 0)) {
 		if (!camera44xx_clock_is_running(ISS_SUBCLK_CSI2B)) {
-			printf(
-				"ISS CSI2B clock stopped, registers not accessible.\n\n");
+			printf
+			    ("ISS CSI2B clock stopped, registers not accessible.\n\n");
 			ret = OMAPCONF_ERR_REG_ACCESS;
 		} else {
 			ret = dumpregs(iss_csi2_reg_table[1]);
@@ -991,10 +973,10 @@ int camera44xx_dump(char *camera_mod)
 	}
 
 	if ((strcmp(camera_mod, "all") == 0) ||
-		(strcmp(camera_mod, "iss_csiphy2") == 0)) {
+	    (strcmp(camera_mod, "iss_csiphy2") == 0)) {
 		if (!camera44xx_clock_is_running(ISS_SUBCLK_CSI2B)) {
-			printf(
-				"ISS CSI2B clock stopped, registers not accessible.\n\n");
+			printf
+			    ("ISS CSI2B clock stopped, registers not accessible.\n\n");
 			ret = OMAPCONF_ERR_REG_ACCESS;
 		} else {
 			ret = dumpregs(iss_csiphy_reg_table[1]);
@@ -1002,10 +984,10 @@ int camera44xx_dump(char *camera_mod)
 	}
 
 	if ((strcmp(camera_mod, "all") == 0) ||
-		(strcmp(camera_mod, "iss_ccp2") == 0)) {
+	    (strcmp(camera_mod, "iss_ccp2") == 0)) {
 		if (!camera44xx_clock_is_running(ISS_SUBCLK_CCP2)) {
-			printf(
-				"ISS CCP2 clock stopped, registers not accessible.\n\n");
+			printf
+			    ("ISS CCP2 clock stopped, registers not accessible.\n\n");
 			ret = OMAPCONF_ERR_REG_ACCESS;
 		} else {
 			ret = dumpregs(iss_ccp2_reg_table);
@@ -1018,7 +1000,6 @@ int camera44xx_dump(char *camera_mod)
 camera44xx_dump_end:
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		camera44xx_config_show
@@ -1076,7 +1057,7 @@ int camera44xx_config_show(void)
 		break;
 	}
 	printf("\t\tCTRLCLK: %s.\n",
-		(camera_rx & (1 << 18)) ? "enabled" : "disabled");
+	       (camera_rx & (1 << 18)) ? "enabled" : "disabled");
 	printf("\t\tLanes enabled (0->4): ");
 	for (i = 0; i < 5; i++) {
 		if (i != 0)
@@ -1084,7 +1065,6 @@ int camera44xx_config_show(void)
 		printf("%s", (camera_rx & (1 << (i + 24))) ? "1" : "0");
 	}
 	printf("\n");
-
 
 	printf("\tCSI22:\n");
 	printf("\t\tMode: ");
@@ -1103,7 +1083,7 @@ int camera44xx_config_show(void)
 		break;
 	}
 	printf("\t\tCTRLCLK: %s.\n",
-		(camera_rx & (1 << 21)) ? "enabled" : "disabled");
+	       (camera_rx & (1 << 21)) ? "enabled" : "disabled");
 
 	if (cpu_is_omap4470()) {
 		printf("\t\tLanes enabled (0->2): ");
@@ -1129,7 +1109,7 @@ int camera44xx_config_show(void)
 	}
 
 	printf("ISS Revision: %x.%x.%x\n", iss_top->hl_revision.x_major,
-		iss_top->hl_revision.y_minor, iss_top->hl_revision.r_rtl);
+	       iss_top->hl_revision.y_minor, iss_top->hl_revision.r_rtl);
 
 	if (!camera44xx_clock_is_running(ISS_SUBCLK_CSI2A)) {
 		printf("ISS CSI2A CLK stopped, registers not accessible.\n\n");
@@ -1180,10 +1160,9 @@ next2:
 	printf("\tLCM_SRC_OFST:%d\n", iss_ccp2->lcm_src_ofst);
 	printf("\tLCM_HSIZE_SKIP:%d\n", (iss_ccp2->lcm_hsize) & 0xFFF);
 	printf("\tRead data from memory size: X=%d;Y=%d\n",
-		(iss_ccp2->lcm_hsize) >> 16, (iss_ccp2->lcm_vsize) >> 16);
+	       (iss_ccp2->lcm_hsize) >> 16, (iss_ccp2->lcm_vsize) >> 16);
 	printf("\tCCP2 write data to %s.\n",
-		((iss_ccp2->lcm_ctrl & 0x40) >> 2) ? "Memory" : "VideoPort");
-
+	       ((iss_ccp2->lcm_ctrl & 0x40) >> 2) ? "Memory" : "VideoPort");
 
 next3:
 	if (!camera44xx_clock_is_running(ISS_SUBCLK_ISP)) {
@@ -1231,7 +1210,6 @@ camera44xx_show_end:
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		camera44xx_main

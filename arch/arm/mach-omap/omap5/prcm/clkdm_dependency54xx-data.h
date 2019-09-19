@@ -39,5 +39,4 @@ extern const short int clkdmdep54xx_bit_pos_table[CLKDM54XX_ID_MAX];
 extern const clkdmdep_ctrl_type *clkdmdep54xx_statdep_table[CLKDM54XX_ID_MAX];
 extern const clkdmdep_ctrl_type *clkdmdep54xx_dyndep_table[CLKDM54XX_ID_MAX];
 
-
 #endif

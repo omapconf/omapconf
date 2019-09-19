@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <wkup44xx.h>
 #include <cm44xx.h>
 #include <prm44xx.h>
@@ -56,7 +55,6 @@
 #include <cpuinfo.h>
 #include <string.h>
 
-
 /* #define WKUP44XX_DEBUG */
 #ifdef WKUP44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -70,7 +68,6 @@ reg_table prcm_wkup_reg_table[PRCM_WKUP_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
 
 static int wkup44xx_regtable_init(void);
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		wkup44xx_name2addr
@@ -92,7 +89,6 @@ int wkup44xx_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, prcm_wkup_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		wkup44xx_config_show
  * @BRIEF		analyze WKUP power configuration
@@ -101,7 +97,7 @@ int wkup44xx_name2addr(char *name, unsigned int *addr)
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		analyze WKUP power configuration
  *------------------------------------------------------------------------ */
-int wkup44xx_config_show(FILE *stream)
+int wkup44xx_config_show(FILE * stream)
 {
 	unsigned int cm_clkstctrl;
 	unsigned int rm_context;
@@ -117,7 +113,7 @@ int wkup44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM_WKUP_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "WKUP",
-		OMAP4430_CM_WKUP_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_WKUP_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 
@@ -127,8 +123,8 @@ int wkup44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_WKUP_L4WKUP_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "L4WKUP",
-		OMAP4430_CM_WKUP_L4WKUP_CLKCTRL, cm_clkctrl,
-		OMAP4430_CM_WKUP_L4WKUP_CLKCTRL, rm_context);
+				  OMAP4430_CM_WKUP_L4WKUP_CLKCTRL, cm_clkctrl,
+				  OMAP4430_CM_WKUP_L4WKUP_CLKCTRL, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -137,8 +133,8 @@ int wkup44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_WKUP_WDT1_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "WDT1",
-		OMAP4430_CM_WKUP_WDT1_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_WKUP_WDT1_CONTEXT, rm_context);
+				  OMAP4430_CM_WKUP_WDT1_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_WKUP_WDT1_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -147,8 +143,8 @@ int wkup44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_WKUP_WDT2_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "WDT2",
-		OMAP4430_CM_WKUP_WDT2_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_WKUP_WDT2_CONTEXT, rm_context);
+				  OMAP4430_CM_WKUP_WDT2_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_WKUP_WDT2_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -157,8 +153,8 @@ int wkup44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_WKUP_GPIO1_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "GPIO1",
-		OMAP4430_CM_WKUP_GPIO1_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_WKUP_GPIO1_CONTEXT, rm_context);
+				  OMAP4430_CM_WKUP_GPIO1_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_WKUP_GPIO1_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -167,8 +163,8 @@ int wkup44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_WKUP_TIMER1_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "TIMER1",
-		OMAP4430_CM_WKUP_TIMER1_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_WKUP_TIMER1_CONTEXT, rm_context);
+				  OMAP4430_CM_WKUP_TIMER1_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_WKUP_TIMER1_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -177,8 +173,8 @@ int wkup44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_WKUP_TIMER12_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "TIMER12",
-		OMAP4430_CM_WKUP_TIMER12_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_WKUP_TIMER12_CONTEXT, rm_context);
+				  OMAP4430_CM_WKUP_TIMER12_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_WKUP_TIMER12_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -187,8 +183,10 @@ int wkup44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_WKUP_SYNCTIMER_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "SYNCTIMER",
-		OMAP4430_CM_WKUP_SYNCTIMER_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_WKUP_SYNCTIMER_CONTEXT, rm_context);
+				  OMAP4430_CM_WKUP_SYNCTIMER_CLKCTRL,
+				  cm_clkctrl,
+				  OMAP4430_RM_WKUP_SYNCTIMER_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -197,8 +195,8 @@ int wkup44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_WKUP_USIM_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "USIM",
-		OMAP4430_CM_WKUP_USIM_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_WKUP_USIM_CONTEXT, rm_context);
+				  OMAP4430_CM_WKUP_USIM_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_WKUP_USIM_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -207,8 +205,8 @@ int wkup44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_WKUP_SARRAM_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "SARRAM",
-		OMAP4430_CM_WKUP_SARRAM_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_WKUP_SARRAM_CONTEXT, rm_context);
+				  OMAP4430_CM_WKUP_SARRAM_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_WKUP_SARRAM_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -217,8 +215,9 @@ int wkup44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_WKUP_KEYBOARD_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "KEYBOARD",
-		OMAP4430_CM_WKUP_KEYBOARD_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_WKUP_KEYBOARD_CONTEXT, rm_context);
+				  OMAP4430_CM_WKUP_KEYBOARD_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_WKUP_KEYBOARD_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -227,22 +226,19 @@ int wkup44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_WKUP_RTC_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "RTC",
-		OMAP4430_CM_WKUP_RTC_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_WKUP_RTC_CONTEXT, rm_context);
+				  OMAP4430_CM_WKUP_RTC_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_WKUP_RTC_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
 	if (mem_read(OMAP4430_CM_WKUP_BANDGAP_CLKCTRL, &cm_clkctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
-	ret = mod44xx_config_show(stream, "BANDGAP",
-		OMAP4430_CM_WKUP_BANDGAP_CLKCTRL, cm_clkctrl,
-		0, 0); /* no context register */
+	ret = mod44xx_config_show(stream, "BANDGAP", OMAP4430_CM_WKUP_BANDGAP_CLKCTRL, cm_clkctrl, 0, 0);	/* no context register */
 	if (ret != 0)
 		return ret;
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		wkup44xx_dump
@@ -261,7 +257,6 @@ int wkup44xx_dump(void)
 
 	return dumpregs(prcm_wkup_reg_table);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		wkup44xx_main
@@ -298,7 +293,6 @@ int wkup44xx_main(int argc, char *argv[])
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		wkup44xx_regtable_init

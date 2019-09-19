@@ -1037,14 +1037,14 @@ reg *am437x_prm_irq_mod[AM437X_PRM_IRQ_MOD_REGCOUNT + 1] = {
 };
 
 reg **prm_am437x_mods[PRM_AM437X_MODS_COUNT + 1] = {
-	(reg **) &am437x_prm_cefuse_mod,
-	(reg **) &am437x_prm_device_mod,
-	(reg **) &am437x_prm_gfx_mod,
-	(reg **) &am437x_prm_mpu_mod,
-	(reg **) &am437x_prm_per_mod,
-	(reg **) &am437x_prm_rtc_mod,
-	(reg **) &am437x_prm_wkup_mod,
-	(reg **) &am437x_prm_irq_mod,
+	(reg **) & am437x_prm_cefuse_mod,
+	(reg **) & am437x_prm_device_mod,
+	(reg **) & am437x_prm_gfx_mod,
+	(reg **) & am437x_prm_mpu_mod,
+	(reg **) & am437x_prm_per_mod,
+	(reg **) & am437x_prm_rtc_mod,
+	(reg **) & am437x_prm_wkup_mod,
+	(reg **) & am437x_prm_irq_mod,
 	NULL,
 };
 

@@ -41,19 +41,15 @@
  *
  */
 
-
 #ifndef __PWRDM54XX_H__
 #define __PWRDM54XX_H__
-
 
 #include <powerdomain.h>
 #include <pwrdm.h>
 #include <voltdm54xx.h>
 #include <genlist.h>
 
-
 #define PWRDM54XX_MAX_NAME_LENGTH		16
-
 
 typedef enum {
 	PWRDM54XX_EMU,
@@ -75,14 +71,12 @@ typedef enum {
 	PWRDM54XX_ID_MAX
 } pwrdm54xx_id;
 
-
 void pwrdm54xx_init(void);
 void pwrdm54xx_deinit(void);
 
 int pwrdm54xx_count_get(void);
 const genlist *pwrdm54xx_list_get(void);
 
-int pwrdm54xx_config_show(FILE *stream, powerdm_info pwrdm);
-
+int pwrdm54xx_config_show(FILE * stream, powerdm_info pwrdm);
 
 #endif

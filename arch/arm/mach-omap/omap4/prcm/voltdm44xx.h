@@ -41,13 +41,10 @@
  *
  */
 
-
 #ifndef __VOLTDM44XX_H__
 #define __VOLTDM44XX_H__
 
-
 #include <genlist.h>
-
 
 #define VOLTDM44XX_MAX_NAME_LENGTH	12
 #define OPP44XX_MAX_NAME_LENGTH	16
@@ -59,7 +56,6 @@ typedef enum {
 	OMAP4_VDD_CORE,
 	OMAP4_VD_ID_MAX
 } voltdm44xx_id;
-
 
 typedef enum {
 	OMAP4_OPPDPLL_CASC,
@@ -90,9 +86,8 @@ typedef enum {
 	OMAP4_VOLTAGE_TYPE_MAX
 } voltdm44xx_voltage_type;
 
-
 char *voltdm44xx_get_name(voltdm44xx_id id,
-	char name[VOLTDM44XX_MAX_NAME_LENGTH]);
+			  char name[VOLTDM44XX_MAX_NAME_LENGTH]);
 
 voltdm44xx_id voltdm44xx_s2id(char *s);
 
@@ -109,21 +104,18 @@ double voltdm44xx_por_nominal_voltage_get(voltdm44xx_id id, opp44xx_id opp);
 
 const char *opp44xx_name_get(unsigned short opp_id, voltdm44xx_id vdd_id);
 
-int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp);
+int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id * opp);
 int voltdm44xx_get_voltage(voltdm44xx_id id, double *volt);
 int voltdm44xx_get_voltage_by_type(voltdm44xx_id id,
-	voltdm44xx_voltage_type type, double *volt);
-
+				   voltdm44xx_voltage_type type, double *volt);
 
 unsigned int opp44xx_s2id(char *s);
 
 const char *voltdm44xx_id2s(voltdm44xx_id id);
 int voltdm44xx_vminsearch(voltdm44xx_id vdd_id, double v, unsigned int ms);
 
-
 /* WARNING: DEPRECATED (use opp44xx_name_get() instead) */
 int voltdm44xx_opp2string(char s[OPP44XX_MAX_NAME_LENGTH],
-	unsigned short opp, voltdm44xx_id vd_id);
-
+			  unsigned short opp, voltdm44xx_id vd_id);
 
 #endif

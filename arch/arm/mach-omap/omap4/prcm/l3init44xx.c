@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <l3init44xx.h>
 #include <cm44xx.h>
 #include <prm44xx.h>
@@ -53,7 +52,6 @@
 #include <cpuinfo.h>
 #include <string.h>
 
-
 /* #define L3INIT44XX_DEBUG */
 #ifdef L3INIT44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -61,15 +59,12 @@
 #define dprintf(format, ...)
 #endif
 
-
 #define PRCM_L3INIT_REG_TABLE_SIZE        34
-
 
 static reg_table prcm_l3init_reg_table[PRCM_L3INIT_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
 
 static int l3init44xx_regtable_init(void);
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		l3init44xx_name2addr
@@ -91,7 +86,6 @@ int l3init44xx_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, prcm_l3init_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		l3init44xx_dump
  * @BRIEF		dump L3INIT PRCM registers
@@ -110,7 +104,6 @@ int l3init44xx_dump(void)
 	return dumpregs(prcm_l3init_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		l3init44xx_config_show
  * @BRIEF		analyze power configuration
@@ -120,7 +113,7 @@ int l3init44xx_dump(void)
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyze power configuration
  *------------------------------------------------------------------------ */
-int l3init44xx_config_show(FILE *stream)
+int l3init44xx_config_show(FILE * stream)
 {
 	unsigned int pm_pwstctrl;
 	unsigned int pm_pwstst;
@@ -143,13 +136,13 @@ int l3init44xx_config_show(FILE *stream)
 		return OMAPCONF_ERR_REG_ACCESS;
 
 	ret = pwrdm44xx_config_show(stream, "L3INIT",
-		OMAP4430_PM_L3INIT_PWRSTCTRL, pm_pwstctrl,
-		OMAP4430_PM_L3INIT_PWRSTST, pm_pwstst);
+				    OMAP4430_PM_L3INIT_PWRSTCTRL, pm_pwstctrl,
+				    OMAP4430_PM_L3INIT_PWRSTST, pm_pwstst);
 	if (ret != 0)
 		return ret;
 
 	ret = clkdm44xx_config_show(stream, "L3INIT",
-		OMAP4430_CM_L3INIT_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_L3INIT_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 
@@ -158,8 +151,8 @@ int l3init44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L3INIT_MMC1_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MMC1",
-		OMAP4430_CM_L3INIT_MMC1_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L3INIT_MMC1_CONTEXT, rm_context);
+				  OMAP4430_CM_L3INIT_MMC1_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L3INIT_MMC1_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -168,8 +161,8 @@ int l3init44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L3INIT_MMC2_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MMC2",
-		OMAP4430_CM_L3INIT_MMC2_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L3INIT_MMC2_CONTEXT, rm_context);
+				  OMAP4430_CM_L3INIT_MMC2_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L3INIT_MMC2_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -178,22 +171,24 @@ int l3init44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L3INIT_HSI_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "HSI",
-		OMAP4430_CM_L3INIT_HSI_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L3INIT_HSI_CONTEXT, rm_context);
+				  OMAP4430_CM_L3INIT_HSI_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L3INIT_HSI_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
 	if (cpu_is_omap4430() && (cpu_revision_get() == REV_ES1_0)) {
 		if (mem_read(OMAP4430_CM_L3INIT_UNIPRO1_CLKCTRL,
-			&cm_clkctrl) != 0)
+			     &cm_clkctrl) != 0)
 			return OMAPCONF_ERR_REG_ACCESS;
 		if (mem_read(OMAP4430_RM_L3INIT_UNIPRO1_CONTEXT,
-			&rm_context) != 0)
+			     &rm_context) != 0)
 			return OMAPCONF_ERR_REG_ACCESS;
 		ret = mod44xx_config_show(stream,
-			"UNIPRO1",
-			OMAP4430_CM_L3INIT_UNIPRO1_CLKCTRL, cm_clkctrl,
-			OMAP4430_RM_L3INIT_UNIPRO1_CONTEXT, rm_context);
+					  "UNIPRO1",
+					  OMAP4430_CM_L3INIT_UNIPRO1_CLKCTRL,
+					  cm_clkctrl,
+					  OMAP4430_RM_L3INIT_UNIPRO1_CONTEXT,
+					  rm_context);
 		if (ret != 0)
 			return ret;
 	}
@@ -203,8 +198,10 @@ int l3init44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L3INIT_USB_HOST_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "HSUSBHOST",
-		OMAP4430_CM_L3INIT_USB_HOST_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L3INIT_USB_HOST_CONTEXT, rm_context);
+				  OMAP4430_CM_L3INIT_USB_HOST_CLKCTRL,
+				  cm_clkctrl,
+				  OMAP4430_RM_L3INIT_USB_HOST_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -213,8 +210,10 @@ int l3init44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L3INIT_USB_OTG_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "HSUSBOTG",
-		OMAP4430_CM_L3INIT_USB_OTG_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L3INIT_USB_OTG_CONTEXT, rm_context);
+				  OMAP4430_CM_L3INIT_USB_OTG_CLKCTRL,
+				  cm_clkctrl,
+				  OMAP4430_RM_L3INIT_USB_OTG_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -223,8 +222,10 @@ int l3init44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L3INIT_USB_TLL_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "HSUSBTLL",
-		OMAP4430_CM_L3INIT_USB_TLL_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L3INIT_USB_TLL_CONTEXT, rm_context);
+				  OMAP4430_CM_L3INIT_USB_TLL_CLKCTRL,
+				  cm_clkctrl,
+				  OMAP4430_RM_L3INIT_USB_TLL_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -233,41 +234,43 @@ int l3init44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L3INIT_P1500_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "P1500",
-		OMAP4430_CM_L3INIT_P1500_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L3INIT_P1500_CONTEXT, rm_context);
+				  OMAP4430_CM_L3INIT_P1500_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L3INIT_P1500_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
 	if (!cpu_is_omap4470()) {
 		if (mem_read(OMAP4430_CM_L3INIT_USB_HOST_FS_CLKCTRL,
-			&cm_clkctrl) != 0)
+			     &cm_clkctrl) != 0)
 			return OMAPCONF_ERR_REG_ACCESS;
 		if (mem_read(OMAP4430_RM_L3INIT_USB_HOST_FS_CONTEXT,
-			&rm_context) != 0)
+			     &rm_context) != 0)
 			return OMAPCONF_ERR_REG_ACCESS;
 		ret = mod44xx_config_show(stream,
-			"FSUSB",
-			OMAP4430_CM_L3INIT_USB_HOST_FS_CLKCTRL, cm_clkctrl,
-			OMAP4430_RM_L3INIT_USB_HOST_FS_CONTEXT,
-			rm_context);
+					  "FSUSB",
+					  OMAP4430_CM_L3INIT_USB_HOST_FS_CLKCTRL,
+					  cm_clkctrl,
+					  OMAP4430_RM_L3INIT_USB_HOST_FS_CONTEXT,
+					  rm_context);
 		if (ret != 0)
 			return ret;
 	}
 	if (mem_read(OMAP4430_CM_L3INIT_USBPHYOCP2SCP_CLKCTRL,
-		&cm_clkctrl) != 0)
+		     &cm_clkctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (mem_read(OMAP4430_RM_L3INIT_USBPHYOCP2SCP_CONTEXT,
-		&rm_context) != 0)
+		     &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "USBPHY",
-		OMAP4430_CM_L3INIT_USBPHYOCP2SCP_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L3INIT_USBPHYOCP2SCP_CONTEXT, rm_context);
+				  OMAP4430_CM_L3INIT_USBPHYOCP2SCP_CLKCTRL,
+				  cm_clkctrl,
+				  OMAP4430_RM_L3INIT_USBPHYOCP2SCP_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		l3init44xx_dependency_show
@@ -278,7 +281,7 @@ int l3init44xx_config_show(FILE *stream)
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyse dependency configuration
  *------------------------------------------------------------------------ */
-int l3init44xx_dependency_show(FILE *stream)
+int l3init44xx_dependency_show(FILE * stream)
 {
 	unsigned int cm_dynamicdep, cm_staticdep;
 
@@ -327,7 +330,6 @@ int l3init44xx_dependency_show(FILE *stream)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		l3init44xx_main
  * @BRIEF		PRCM L3INIT main menu
@@ -366,8 +368,6 @@ int l3init44xx_main(int argc, char *argv[])
 	return ret;
 }
 
-
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		l3init44xx_regtable_init
  * @BRIEF		initialize regtable
@@ -400,13 +400,13 @@ static int l3init44xx_regtable_init(void)
 	prcm_l3init_reg_table[i++].addr = OMAP4430_RM_L3INIT_HSI_CONTEXT;
 	if (cpu_is_omap4430() && (cpu_revision_get() == REV_ES1_0)) {
 		strcpy(prcm_l3init_reg_table[i].name,
-			"PM_L3INIT_UNIPRO1_WKDEP");
+		       "PM_L3INIT_UNIPRO1_WKDEP");
 		prcm_l3init_reg_table[i++].addr =
-			OMAP4430_PM_L3INIT_UNIPRO1_WKDEP;
+		    OMAP4430_PM_L3INIT_UNIPRO1_WKDEP;
 		strcpy(prcm_l3init_reg_table[i].name,
-			"RM_L3INIT_UNIPRO1_CONTEXT");
+		       "RM_L3INIT_UNIPRO1_CONTEXT");
 		prcm_l3init_reg_table[i++].addr =
-			OMAP4430_RM_L3INIT_UNIPRO1_CONTEXT;
+		    OMAP4430_RM_L3INIT_UNIPRO1_CONTEXT;
 	}
 	strcpy(prcm_l3init_reg_table[i].name, "PM_L3INIT_HSUSBHOST_WKDEP");
 	prcm_l3init_reg_table[i++].addr = OMAP4430_PM_L3INIT_USB_HOST_WKDEP;
@@ -425,15 +425,15 @@ static int l3init44xx_regtable_init(void)
 	if (!cpu_is_omap4470()) {
 		strcpy(prcm_l3init_reg_table[i].name, "PM_L3INIT_FSUSB_WKDEP");
 		prcm_l3init_reg_table[i++].addr =
-			OMAP4430_PM_L3INIT_USB_HOST_FS_WKDEP;
+		    OMAP4430_PM_L3INIT_USB_HOST_FS_WKDEP;
 		strcpy(prcm_l3init_reg_table[i].name,
-			"RM_L3INIT_FSUSB_CONTEXT");
+		       "RM_L3INIT_FSUSB_CONTEXT");
 		prcm_l3init_reg_table[i++].addr =
-			OMAP4430_RM_L3INIT_USB_HOST_FS_CONTEXT;
+		    OMAP4430_RM_L3INIT_USB_HOST_FS_CONTEXT;
 	}
 	strcpy(prcm_l3init_reg_table[i].name, "RM_L3INIT_GPIO5_CONTEXT");
 	prcm_l3init_reg_table[i++].addr =
-		OMAP4430_RM_L3INIT_USBPHYOCP2SCP_CONTEXT;
+	    OMAP4430_RM_L3INIT_USBPHYOCP2SCP_CONTEXT;
 	strcpy(prcm_l3init_reg_table[i].name, "CM_L3INIT_CLKSTCTRL");
 	prcm_l3init_reg_table[i++].addr = OMAP4430_CM_L3INIT_CLKSTCTRL;
 	strcpy(prcm_l3init_reg_table[i].name, "CM_L3INIT_STATICDEP");
@@ -448,9 +448,9 @@ static int l3init44xx_regtable_init(void)
 	prcm_l3init_reg_table[i++].addr = OMAP4430_CM_L3INIT_HSI_CLKCTRL;
 	if (cpu_is_omap4430() && (cpu_revision_get() == REV_ES1_0)) {
 		strcpy(prcm_l3init_reg_table[i].name,
-			"CM_L3INIT_UNIPRO1_CLKCTRL");
+		       "CM_L3INIT_UNIPRO1_CLKCTRL");
 		prcm_l3init_reg_table[i++].addr =
-			OMAP4430_CM_L3INIT_UNIPRO1_CLKCTRL;
+		    OMAP4430_CM_L3INIT_UNIPRO1_CLKCTRL;
 	}
 	strcpy(prcm_l3init_reg_table[i].name, "CM_L3INIT_HSUSBHOST_CLKCTRL");
 	prcm_l3init_reg_table[i++].addr = OMAP4430_CM_L3INIT_USB_HOST_CLKCTRL;
@@ -462,13 +462,13 @@ static int l3init44xx_regtable_init(void)
 	prcm_l3init_reg_table[i++].addr = OMAP4430_CM_L3INIT_P1500_CLKCTRL;
 	if (!cpu_is_omap4470()) {
 		strcpy(prcm_l3init_reg_table[i].name,
-			"CM_L3INIT_FSUSB_CLKCTRL");
+		       "CM_L3INIT_FSUSB_CLKCTRL");
 		prcm_l3init_reg_table[i++].addr =
-			OMAP4430_CM_L3INIT_USB_HOST_FS_CLKCTRL;
+		    OMAP4430_CM_L3INIT_USB_HOST_FS_CLKCTRL;
 	}
 	strcpy(prcm_l3init_reg_table[i].name, "CM_L3INIT_USBPHY_CLKCTRL");
 	prcm_l3init_reg_table[i++].addr =
-		OMAP4430_CM_L3INIT_USBPHYOCP2SCP_CLKCTRL;
+	    OMAP4430_CM_L3INIT_USBPHYOCP2SCP_CLKCTRL;
 	strcpy(prcm_l3init_reg_table[i].name, "END");
 	prcm_l3init_reg_table[i].addr = 0;
 	dprintf("prcm_l3init_reg_table last index=%d, size=%d\n", i, i + 1);

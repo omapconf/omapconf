@@ -41,13 +41,10 @@
  *
  */
 
-
 #ifndef __PRM54XXES1_DEFS_H__
 #define __PRM54XXES1_DEFS_H__
 
-
 #include <reg.h>
-
 
 #define OMAP5430ES1_PM_DSS_PWRSTCTRL				0x4ae07100
 extern reg omap5430es1_pm_dss_pwrstctrl;
@@ -85,7 +82,8 @@ extern reg omap5430es1_pm_wkupaon_kbd_wkdep;
 #define OMAP5430ES1_RM_WKUPAON_KBD_CONTEXT			0x4ae0777c
 extern reg omap5430es1_rm_wkupaon_kbd_context;
 #define OMAP5430ES1_WKUPAON_PRM_MOD_REGCOUNT			11
-extern reg *omap5430es1_wkupaon_prm_mod[OMAP5430ES1_WKUPAON_PRM_MOD_REGCOUNT + 1];
+extern reg *omap5430es1_wkupaon_prm_mod[OMAP5430ES1_WKUPAON_PRM_MOD_REGCOUNT +
+					1];
 
 #define OMAP5430ES1_REVISION_PRM				0x4ae06000
 extern reg omap5430es1_revision_prm;
@@ -110,7 +108,9 @@ extern reg omap5430es1_cm_prm_profiling_clkctrl;
 #define OMAP5430ES1_PRM_DEBUG_CFG				0x4ae060f0
 extern reg omap5430es1_prm_debug_cfg;
 #define OMAP5430ES1_OCP_SOCKET_PRM_MOD_REGCOUNT			11
-extern reg *omap5430es1_ocp_socket_prm_mod[OMAP5430ES1_OCP_SOCKET_PRM_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430es1_ocp_socket_prm_mod[OMAP5430ES1_OCP_SOCKET_PRM_MOD_REGCOUNT +
+				    1];
 
 #define OMAP5430ES1_PM_CAM_PWRSTCTRL				0x4ae07000
 extern reg omap5430es1_pm_cam_pwrstctrl;
@@ -348,7 +348,8 @@ extern reg omap5430es1_pm_coreaon_smartreflex_core_wkdep;
 #define OMAP5430ES1_RM_COREAON_SMARTREFLEX_CORE_CONTEXT		0x4ae0663c
 extern reg omap5430es1_rm_coreaon_smartreflex_core_context;
 #define OMAP5430ES1_COREAON_PRM_MOD_REGCOUNT			6
-extern reg *omap5430es1_coreaon_prm_mod[OMAP5430ES1_COREAON_PRM_MOD_REGCOUNT + 1];
+extern reg *omap5430es1_coreaon_prm_mod[OMAP5430ES1_COREAON_PRM_MOD_REGCOUNT +
+					1];
 
 #define OMAP5430ES1_PM_CUSTEFUSE_PWRSTCTRL			0x4ae07600
 extern reg omap5430es1_pm_custefuse_pwrstctrl;
@@ -357,7 +358,8 @@ extern reg omap5430es1_pm_custefuse_pwrstst;
 #define OMAP5430ES1_RM_CUSTEFUSE_EFUSE_CTRL_CUST_CONTEXT	0x4ae07624
 extern reg omap5430es1_rm_custefuse_efuse_ctrl_cust_context;
 #define OMAP5430ES1_CUSTEFUSE_PRM_MOD_REGCOUNT			3
-extern reg *omap5430es1_custefuse_prm_mod[OMAP5430ES1_CUSTEFUSE_PRM_MOD_REGCOUNT + 1];
+extern reg *omap5430es1_custefuse_prm_mod[OMAP5430ES1_CUSTEFUSE_PRM_MOD_REGCOUNT
+					  + 1];
 
 #define OMAP5430ES1_CM_CLKSEL_ABE_DSS_SYS			0x4ae06100
 extern reg omap5430es1_cm_clksel_abe_dss_sys;
@@ -682,7 +684,9 @@ extern reg omap5430es1_rm_cpu0_cpu0_rstst;
 #define OMAP5430ES1_RM_CPU0_CPU0_CONTEXT			0x48243424
 extern reg omap5430es1_rm_cpu0_cpu0_context;
 #define OMAP5430ES1_PRCM_MPU_PRM_C0_MOD_REGCOUNT		5
-extern reg *omap5430es1_prcm_mpu_prm_c0_mod[OMAP5430ES1_PRCM_MPU_PRM_C0_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430es1_prcm_mpu_prm_c0_mod[OMAP5430ES1_PRCM_MPU_PRM_C0_MOD_REGCOUNT +
+				     1];
 
 #define OMAP5430ES1_PM_CPU1_PWRSTCTRL				0x48243800
 extern reg omap5430es1_pm_cpu1_pwrstctrl;
@@ -695,7 +699,9 @@ extern reg omap5430es1_rm_cpu1_cpu1_rstst;
 #define OMAP5430ES1_RM_CPU1_CPU1_CONTEXT			0x48243824
 extern reg omap5430es1_rm_cpu1_cpu1_context;
 #define OMAP5430ES1_PRCM_MPU_PRM_C1_MOD_REGCOUNT		5
-extern reg *omap5430es1_prcm_mpu_prm_c1_mod[OMAP5430ES1_PRCM_MPU_PRM_C1_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430es1_prcm_mpu_prm_c1_mod[OMAP5430ES1_PRCM_MPU_PRM_C1_MOD_REGCOUNT +
+				     1];
 
 typedef enum {
 	PRM54XX_DSS_PRM,

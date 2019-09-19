@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __CM_DRA7XX_DEFS_H__
 #define __CM_DRA7XX_DEFS_H__
 
@@ -110,7 +109,8 @@ extern reg dra7xx_instr_cm_core_aon_cmi_triggering;
 #define DRA7XX_INSTR_CM_CORE_AON_CMI_SAMPLING		0x4a005f30
 extern reg dra7xx_instr_cm_core_aon_cmi_sampling;
 #define DRA7XX_INSTR_CM_CORE_AON_MOD_REGCOUNT		7
-extern reg *dra7xx_instr_cm_core_aon_mod[DRA7XX_INSTR_CM_CORE_AON_MOD_REGCOUNT + 1];
+extern reg *dra7xx_instr_cm_core_aon_mod[DRA7XX_INSTR_CM_CORE_AON_MOD_REGCOUNT +
+					 1];
 
 #define DRA7XX_IPU_CM_CORE_AON_CM_IPU1_CLKSTCTRL	0x4a005500
 extern reg dra7xx_ipu_cm_core_aon_cm_ipu1_clkstctrl;
@@ -167,7 +167,9 @@ extern reg dra7xx_ocp_socket_cm_core_aon_cm_core_aon_debug_cfg2;
 #define DRA7XX_OCP_SOCKET_CM_CORE_AON_CM_CORE_AON_DEBUG_CFG3		0x4a0050fc
 extern reg dra7xx_ocp_socket_cm_core_aon_cm_core_aon_debug_cfg3;
 #define DRA7XX_OCP_SOCKET_CM_CORE_AON_MOD_REGCOUNT			7
-extern reg *dra7xx_ocp_socket_cm_core_aon_mod[DRA7XX_OCP_SOCKET_CM_CORE_AON_MOD_REGCOUNT + 1];
+extern reg
+    *dra7xx_ocp_socket_cm_core_aon_mod
+    [DRA7XX_OCP_SOCKET_CM_CORE_AON_MOD_REGCOUNT + 1];
 
 #define DRA7XX_RESTORE_CM_CORE_AON_CM_CLKSEL_CORE_RESTORE		0x4a005e00
 extern reg dra7xx_restore_cm_core_aon_cm_clksel_core_restore;
@@ -212,7 +214,9 @@ extern reg dra7xx_restore_cm_core_aon_cm_cm_core_aon_profiling_clkctrl_restore;
 #define DRA7XX_RESTORE_CM_CORE_AON_CM_DYN_DEP_PRESCAL_RESTORE		0x4a005e50
 extern reg dra7xx_restore_cm_core_aon_cm_dyn_dep_prescal_restore;
 #define DRA7XX_RESTORE_CM_CORE_AON_MOD_REGCOUNT				21
-extern reg *dra7xx_restore_cm_core_aon_mod[DRA7XX_RESTORE_CM_CORE_AON_MOD_REGCOUNT + 1];
+extern reg
+    *dra7xx_restore_cm_core_aon_mod[DRA7XX_RESTORE_CM_CORE_AON_MOD_REGCOUNT +
+				    1];
 
 #define DRA7XX_RTC_CM_CORE_AON_CM_RTC_CLKSTCTRL		0x4a005740
 extern reg dra7xx_rtc_cm_core_aon_cm_rtc_clkstctrl;
@@ -430,7 +434,8 @@ extern reg dra7xx_custefuse_cm_core_cm_custefuse_clkstctrl;
 #define DRA7XX_CUSTEFUSE_CM_CORE_CM_CUSTEFUSE_EFUSE_CTRL_CUST_CLKCTRL	0x4a009620
 extern reg dra7xx_custefuse_cm_core_cm_custefuse_efuse_ctrl_cust_clkctrl;
 #define DRA7XX_CUSTEFUSE_CM_CORE_MOD_REGCOUNT				2
-extern reg *dra7xx_custefuse_cm_core_mod[DRA7XX_CUSTEFUSE_CM_CORE_MOD_REGCOUNT + 1];
+extern reg *dra7xx_custefuse_cm_core_mod[DRA7XX_CUSTEFUSE_CM_CORE_MOD_REGCOUNT +
+					 1];
 
 #define DRA7XX_DSS_CM_CORE_CM_DSS_CLKSTCTRL		0x4a009100
 extern reg dra7xx_dss_cm_core_cm_dss_clkstctrl;
@@ -672,7 +677,8 @@ extern reg dra7xx_ocp_socket_cm_core_cm_cm_core_profiling_clkctrl;
 #define DRA7XX_OCP_SOCKET_CM_CORE_CM_CORE_DEBUG_CFG		0x4a0080f0
 extern reg dra7xx_ocp_socket_cm_core_cm_core_debug_cfg;
 #define DRA7XX_OCP_SOCKET_CM_CORE_MOD_REGCOUNT			3
-extern reg *dra7xx_ocp_socket_cm_core_mod[DRA7XX_OCP_SOCKET_CM_CORE_MOD_REGCOUNT + 1];
+extern reg *dra7xx_ocp_socket_cm_core_mod[DRA7XX_OCP_SOCKET_CM_CORE_MOD_REGCOUNT
+					  + 1];
 
 #define DRA7XX_RESTORE_CM_CORE_CM_L3MAIN1_CLKSTCTRL_RESTORE	0x4a009e18
 extern reg dra7xx_restore_cm_core_cm_l3main1_clkstctrl_restore;
@@ -894,7 +900,8 @@ extern reg dra7xx_ckgen_cm_core_aon_cm_ssc_deltamstep_dpll_gpu;
 #define DRA7XX_CKGEN_CM_CORE_AON_CM_SSC_MODFREQDIV_DPLL_GPU	0x4a0052f4
 extern reg dra7xx_ckgen_cm_core_aon_cm_ssc_modfreqdiv_dpll_gpu;
 #define DRA7XX_CKGEN_CM_CORE_AON_MOD_REGCOUNT			95
-extern reg *dra7xx_ckgen_cm_core_aon_mod[DRA7XX_CKGEN_CM_CORE_AON_MOD_REGCOUNT + 1];
+extern reg *dra7xx_ckgen_cm_core_aon_mod[DRA7XX_CKGEN_CM_CORE_AON_MOD_REGCOUNT +
+					 1];
 
 #define DRA7XX_CKGEN_CM_CORE_CM_CLKSEL_USB_60MHZ		0x4a008104
 extern reg dra7xx_ckgen_cm_core_cm_clksel_usb_60mhz;
@@ -1079,6 +1086,7 @@ typedef enum {
 } hsdiv_dra7xx_id;
 
 extern const dpll_settings_regs dpll_dra7xx_regs[DPLL_DRA7XX_ID_MAX];
-extern const reg *dpll_dra7xx_hsdiv_regs[DPLL_DRA7XX_ID_MAX][HSDIV_DRA7XX_ID_MAX];
+extern const reg
+    *dpll_dra7xx_hsdiv_regs[DPLL_DRA7XX_ID_MAX][HSDIV_DRA7XX_ID_MAX];
 
 #endif

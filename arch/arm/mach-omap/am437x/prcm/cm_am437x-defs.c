@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <cm_am437x-defs.h>
 #include <stdio.h>
 
@@ -1494,14 +1493,14 @@ reg *am437x_cm_wkup_mod[AM437X_CM_WKUP_MOD_REGCOUNT + 1] = {
 };
 
 reg **cm_am437x_mods[CM_AM437X_MODS_COUNT + 1] = {
-	(reg **) &am437x_cm_cefuse_mod,
-	(reg **) &am437x_cm_device_mod,
-	(reg **) &am437x_cm_dpll_mod,
-	(reg **) &am437x_cm_gfx_mod,
-	(reg **) &am437x_cm_mpu_mod,
-	(reg **) &am437x_cm_per_mod,
-	(reg **) &am437x_cm_rtc_mod,
-	(reg **) &am437x_cm_wkup_mod,
+	(reg **) & am437x_cm_cefuse_mod,
+	(reg **) & am437x_cm_device_mod,
+	(reg **) & am437x_cm_dpll_mod,
+	(reg **) & am437x_cm_gfx_mod,
+	(reg **) & am437x_cm_mpu_mod,
+	(reg **) & am437x_cm_per_mod,
+	(reg **) & am437x_cm_rtc_mod,
+	(reg **) & am437x_cm_wkup_mod,
 	NULL,
 };
 

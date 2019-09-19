@@ -82,12 +82,12 @@ extern const dpll_clk_sources dpll54xx_sources[DPLL54XX_ID_MAX];
 extern dpll54xx_audited_settings
     *
     dpll54xxes1_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
-extern dpll54xx_audited_settings *
-    dpll54xxes2_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
-extern dpll54xx_audited_settings *
-    dpll5432es2_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
-extern dpll54xx_audited_settings *
-    dpll5432es2_vdd_mm_hi_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX]
+extern dpll54xx_audited_settings
+    *dpll54xxes2_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
+extern dpll54xx_audited_settings
+    *dpll5432es2_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
+extern dpll54xx_audited_settings
+    *dpll5432es2_vdd_mm_hi_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX]
     [OPP54XX_ID_MAX];
 
 extern dpll54xx_audited_settings

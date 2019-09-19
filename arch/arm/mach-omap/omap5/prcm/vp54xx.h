@@ -42,15 +42,11 @@
  *
  */
 
-
 #ifndef __PRCM_VP54XX_H__
 #define __PRCM_VP54XX_H__
 
-
 #include <stdio.h>
 
-
-int vp54xx_config_show(FILE *stream);
-
+int vp54xx_config_show(FILE * stream);
 
 #endif

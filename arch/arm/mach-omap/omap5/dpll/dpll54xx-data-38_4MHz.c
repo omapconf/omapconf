@@ -644,45 +644,36 @@ dpll54xx_audited_settings dpll54xx_UNIPRO2_golden_settings_38_4MHz = {
 };
 
 dpll54xx_audited_settings
-    *dpll54xx_golden_settings_38_4MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX] = {
-	{&dpll54xx_MPU_golden_settings_38_4MHz_dpll_casc,
-	 &dpll54xx_MPU_golden_settings_38_4MHz_opp_low,
-	 &dpll54xx_MPU_golden_settings_38_4MHz_opp_nom,
-	 &dpll54xx_MPU_golden_settings_38_4MHz_opp_high,
-	 &dpll54xx_MPU_golden_settings_38_4MHz_opp_speedbin},
-	{&dpll54xx_IVA_golden_settings_38_4MHz_dpll_casc,
-	 &dpll54xx_IVA_golden_settings_38_4MHz_opp_low,
-	 &dpll54xx_IVA_golden_settings_38_4MHz_opp_nom,
-	 &dpll54xx_IVA_golden_settings_38_4MHz_opp_high,
-	 NULL},
-	{&dpll54xx_CORE_golden_settings_38_4MHz_dpll_casc,
-	 &dpll54xx_CORE_golden_settings_38_4MHz_opp_low,
-	 &dpll54xx_CORE_golden_settings_38_4MHz_opp_nom,
-	 NULL,
-	 NULL},
-	{&dpll54xx_PER_golden_settings_38_4MHz_dpll_casc,
-	 &dpll54xx_PER_golden_settings_38_4MHz_opp_low,
-	 &dpll54xx_PER_golden_settings_38_4MHz_opp_nom,
-	 NULL,
-	 NULL},
-	{&dpll54xx_ABE_golden_settings_38_4MHz_dpll_casc,
-	 &dpll54xx_ABE_golden_settings_38_4MHz,
-	 &dpll54xx_ABE_golden_settings_38_4MHz,
-	 NULL,
-	 NULL},
-	{&dpll54xx_USB_golden_settings_38_4MHz_dpll_casc,
-	 &dpll54xx_USB_golden_settings_38_4MHz,
-	 &dpll54xx_USB_golden_settings_38_4MHz,
-	 NULL,
-	 NULL},
-	{&dpll54xx_UNIPRO1_golden_settings_38_4MHz_dpll_casc,
-	 &dpll54xx_UNIPRO1_golden_settings_38_4MHz,
-	 &dpll54xx_UNIPRO1_golden_settings_38_4MHz,
-	 NULL,
-	 NULL},
-	{&dpll54xx_UNIPRO2_golden_settings_38_4MHz_dpll_casc,
-	 &dpll54xx_UNIPRO2_golden_settings_38_4MHz,
-	 &dpll54xx_UNIPRO2_golden_settings_38_4MHz,
-	 NULL,
-	 NULL}
+    * dpll54xx_golden_settings_38_4MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX] =
+{
+	{
+	&dpll54xx_MPU_golden_settings_38_4MHz_dpll_casc,
+		    &dpll54xx_MPU_golden_settings_38_4MHz_opp_low,
+		    &dpll54xx_MPU_golden_settings_38_4MHz_opp_nom,
+		    &dpll54xx_MPU_golden_settings_38_4MHz_opp_high,
+		    &dpll54xx_MPU_golden_settings_38_4MHz_opp_speedbin}, {
+	&dpll54xx_IVA_golden_settings_38_4MHz_dpll_casc,
+		    &dpll54xx_IVA_golden_settings_38_4MHz_opp_low,
+		    &dpll54xx_IVA_golden_settings_38_4MHz_opp_nom,
+		    &dpll54xx_IVA_golden_settings_38_4MHz_opp_high, NULL}, {
+	&dpll54xx_CORE_golden_settings_38_4MHz_dpll_casc,
+		    &dpll54xx_CORE_golden_settings_38_4MHz_opp_low,
+		    &dpll54xx_CORE_golden_settings_38_4MHz_opp_nom,
+		    NULL, NULL}, {
+	&dpll54xx_PER_golden_settings_38_4MHz_dpll_casc,
+		    &dpll54xx_PER_golden_settings_38_4MHz_opp_low,
+		    &dpll54xx_PER_golden_settings_38_4MHz_opp_nom,
+		    NULL, NULL}, {
+	&dpll54xx_ABE_golden_settings_38_4MHz_dpll_casc,
+		    &dpll54xx_ABE_golden_settings_38_4MHz,
+		    &dpll54xx_ABE_golden_settings_38_4MHz, NULL, NULL}, {
+	&dpll54xx_USB_golden_settings_38_4MHz_dpll_casc,
+		    &dpll54xx_USB_golden_settings_38_4MHz,
+		    &dpll54xx_USB_golden_settings_38_4MHz, NULL, NULL}, {
+	&dpll54xx_UNIPRO1_golden_settings_38_4MHz_dpll_casc,
+		    &dpll54xx_UNIPRO1_golden_settings_38_4MHz,
+		    &dpll54xx_UNIPRO1_golden_settings_38_4MHz, NULL, NULL}, {
+	&dpll54xx_UNIPRO2_golden_settings_38_4MHz_dpll_casc,
+		    &dpll54xx_UNIPRO2_golden_settings_38_4MHz,
+		    &dpll54xx_UNIPRO2_golden_settings_38_4MHz, NULL, NULL}
 };

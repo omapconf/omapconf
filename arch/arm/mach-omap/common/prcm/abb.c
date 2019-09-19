@@ -41,13 +41,11 @@
  *
  */
 
-
 #include <abb.h>
 #include <autoadjust_table.h>
 #include <lib.h>
 #include <string.h>
 #include <cpuinfo.h>
-
 
 /* #define ABB_DEBUG */
 #ifdef ABB_DEBUG
@@ -55,7 +53,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		abb_status2string
@@ -91,7 +88,6 @@ int abb_status2string(char s[9], unsigned int status)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		abb_opp_sel2string
  * @BRIEF		convert bitfield value from register into string
@@ -124,7 +120,6 @@ int abb_opp_sel2string(char s[8], unsigned int opp_sel)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		abb_config_show
  * @BRIEF		analyze power configuration
@@ -136,8 +131,8 @@ int abb_opp_sel2string(char s[8], unsigned int opp_sel)
  * @param[in]		num_entries:number of entries
  * @DESCRIPTION		analyze power configuration
  *------------------------------------------------------------------------ */
-int abb_config_show(FILE *stream, double sysclk_rate, struct abb_data *data,
-		int num_entries)
+int abb_config_show(FILE * stream, double sysclk_rate, struct abb_data *data,
+		    int num_entries)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row = 0;
@@ -179,8 +174,7 @@ int abb_config_show(FILE *stream, double sysclk_rate, struct abb_data *data,
 	for (c = 1, tmp_data = data; c <= num_entries; c++, tmp_data++) {
 		if (!tmp_data->en)
 			continue;
-		abb_status2string(s,
-			extract_bitfield(tmp_data->ctrl, 3, 2));
+		abb_status2string(s, extract_bitfield(tmp_data->ctrl, 3, 2));
 		strncpy(table[row][c], s, TABLE_MAX_ELT_LEN);
 	}
 	row++;
@@ -199,8 +193,7 @@ int abb_config_show(FILE *stream, double sysclk_rate, struct abb_data *data,
 	for (c = 1, tmp_data = data; c <= num_entries; c++, tmp_data++) {
 		if (!tmp_data->en)
 			continue;
-		abb_opp_sel2string(s,
-			extract_bitfield(tmp_data->ctrl, 0, 2));
+		abb_opp_sel2string(s, extract_bitfield(tmp_data->ctrl, 0, 2));
 		strncpy(table[row][c], s, TABLE_MAX_ELT_LEN);
 	}
 	row++;
@@ -215,8 +208,7 @@ int abb_config_show(FILE *stream, double sysclk_rate, struct abb_data *data,
 			continue;
 		strncpy(table[row][c],
 			((extract_bit(tmp_data->setup, 1) == 1) ?
-				"RBB" : "Bypass"),
-			TABLE_MAX_ELT_LEN);
+			 "RBB" : "Bypass"), TABLE_MAX_ELT_LEN);
 	}
 	row++;
 
@@ -227,8 +219,7 @@ int abb_config_show(FILE *stream, double sysclk_rate, struct abb_data *data,
 			continue;
 		strncpy(table[row][c],
 			((extract_bit(tmp_data->setup, 2) == 1) ?
-				"FBB" : "Bypass"),
-			TABLE_MAX_ELT_LEN);
+			 "FBB" : "Bypass"), TABLE_MAX_ELT_LEN);
 	}
 	row++;
 
@@ -239,8 +230,7 @@ int abb_config_show(FILE *stream, double sysclk_rate, struct abb_data *data,
 			continue;
 		strncpy(table[row][c],
 			((extract_bit(tmp_data->setup, 3) == 1) ?
-				"RBB" : "Bypass"),
-			TABLE_MAX_ELT_LEN);
+			 "RBB" : "Bypass"), TABLE_MAX_ELT_LEN);
 	}
 	row++;
 
@@ -249,9 +239,9 @@ int abb_config_show(FILE *stream, double sysclk_rate, struct abb_data *data,
 		if (!tmp_data->en)
 			continue;
 		snprintf(table[row][c], TABLE_MAX_ELT_LEN, "%d (%fus)",
-			extract_bitfield(tmp_data->setup, 8, 8),
-			extract_bitfield(tmp_data->setup, 8, 8) *
-			(16.0 / sysclk_rate));
+			 extract_bitfield(tmp_data->setup, 8, 8),
+			 extract_bitfield(tmp_data->setup, 8, 8) *
+			 (16.0 / sysclk_rate));
 	}
 	row++;
 	strncpy(table[row][0], "  (Target is 50us)", TABLE_MAX_ELT_LEN);
@@ -262,9 +252,9 @@ int abb_config_show(FILE *stream, double sysclk_rate, struct abb_data *data,
 		if (!tmp_data->en)
 			continue;
 		snprintf(table[row][c], TABLE_MAX_ELT_LEN, "%d (%.3fus)",
-			extract_bitfield(tmp_data->setup, 8, 8),
-			extract_bitfield(tmp_data->setup, 8, 8) *
-			(16.0 / sysclk_rate));
+			 extract_bitfield(tmp_data->setup, 8, 8),
+			 extract_bitfield(tmp_data->setup, 8, 8) *
+			 (16.0 / sysclk_rate));
 	}
 
 	autoadjust_table_print(table, row, c);

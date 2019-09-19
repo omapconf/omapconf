@@ -513,8 +513,7 @@ extern "C" {
     ::SCI_ERR_MEM_ALLOC.
 
 */
-	enum sci_err_dra sci_reg_usecase_sdram_dra(psci_handle const phandle,
-						   struct sci_config_sdram
+	enum sci_err_dra sci_reg_usecase_sdram_dra(psci_handle const phandle, struct sci_config_sdram
 						   *const pcfg,
 						   psci_usecase_key *
 						   usecase_key);
@@ -564,8 +563,7 @@ extern "C" {
     ::SCI_ERR_MEM_ALLOC.
 
 */
-	enum sci_err_dra sci_reg_usecase_mstr_dra(psci_handle const phandle,
-						  struct sci_config_mstr *const
+	enum sci_err_dra sci_reg_usecase_mstr_dra(psci_handle const phandle, struct sci_config_mstr *const
 						  pcfg,
 						  psci_usecase_key *
 						  usecase_key);

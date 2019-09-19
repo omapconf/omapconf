@@ -41,20 +41,16 @@
  *
  */
 
-
 #ifndef __PRM54XX_H__
 #define __PRM54XX_H__
-
 
 #include <stdio.h>
 #include <prm54xx-defs.h>
 
-
 const char *prm54xx_mod_name_get(prm54xx_mod_id id);
-int prm54xx_dump(FILE *stream, prm54xx_mod_id id);
-int prm54xx_export(FILE *fp, prm54xx_mod_id id);
-int prm54xx_import(FILE *fp, prm54xx_mod_id id);
+int prm54xx_dump(FILE * stream, prm54xx_mod_id id);
+int prm54xx_export(FILE * fp, prm54xx_mod_id id);
+int prm54xx_import(FILE * fp, prm54xx_mod_id id);
 unsigned int prm54xx_is_profiling_running(void);
-
 
 #endif

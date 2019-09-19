@@ -41,11 +41,9 @@
  *
  */
 
-
 #include <ckgen54xx.h>
 #include <prm54xx.h>
 #include <cm54xx.h>
-
 
 /* #define CKGEN54XX_DEBUG */
 #ifdef CKGEN54XX_DEBUG
@@ -53,7 +51,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ckgen54xx_dump
@@ -66,7 +63,7 @@
  * @DESCRIPTION		dump CKGEN PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-inline int ckgen54xx_dump(FILE *stream)
+inline int ckgen54xx_dump(FILE * stream)
 {
 	int ret;
 

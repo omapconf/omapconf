@@ -693,23 +693,27 @@ static int dpll44xx_speeds_get(omap4_dpll_params * dpll_params,
 	/* Retrieve DPLL input clocks speed */
 	if (omap4_dpll_sources[dpll_params->id].ref_clk != OMAP4_CLOCK_ID_MAX)
 		dpll_params->fref =
-		    clk44xx_get_clock_speed(omap4_dpll_sources[dpll_params->id].
-					    ref_clk, ignore_stop_status);
+		    clk44xx_get_clock_speed(omap4_dpll_sources
+					    [dpll_params->id].ref_clk,
+					    ignore_stop_status);
 	if (omap4_dpll_sources[dpll_params->id].byp_clk_m2 !=
 	    OMAP4_CLOCK_ID_MAX)
 		dpll_params->fbyp_clk_m2 =
-		    clk44xx_get_clock_speed(omap4_dpll_sources[dpll_params->id].
-					    byp_clk_m2, ignore_stop_status);
+		    clk44xx_get_clock_speed(omap4_dpll_sources
+					    [dpll_params->id].byp_clk_m2,
+					    ignore_stop_status);
 	if (omap4_dpll_sources[dpll_params->id].byp_clk_m3 !=
 	    OMAP4_CLOCK_ID_MAX)
 		dpll_params->fbyp_clk_m3 =
-		    clk44xx_get_clock_speed(omap4_dpll_sources[dpll_params->id].
-					    byp_clk_m3, ignore_stop_status);
+		    clk44xx_get_clock_speed(omap4_dpll_sources
+					    [dpll_params->id].byp_clk_m3,
+					    ignore_stop_status);
 	if (omap4_dpll_sources[dpll_params->id].byp_clk_mx !=
 	    OMAP4_CLOCK_ID_MAX)
 		dpll_params->fbyp_clk_mx =
-		    clk44xx_get_clock_speed(omap4_dpll_sources[dpll_params->id].
-					    byp_clk_mx, ignore_stop_status);
+		    clk44xx_get_clock_speed(omap4_dpll_sources
+					    [dpll_params->id].byp_clk_mx,
+					    ignore_stop_status);
 
 #ifdef DPLL44XX_SPEEDS_GET_DEBUG
 	printf("%s(): %s REF_CLK = %lf (source is %s)\n", __func__,
@@ -722,22 +726,22 @@ static int dpll44xx_speeds_get(omap4_dpll_params * dpll_params,
 		printf("%s(): %s BP Clk M2 = %lf (source is %s)\n", __func__,
 		       dpll44xx_names[dpll_params->id],
 		       dpll_params->fbyp_clk_m2,
-		       clk44xx_get_name(omap4_dpll_sources[dpll_params->id].
-					byp_clk_m2, name));
+		       clk44xx_get_name(omap4_dpll_sources
+					[dpll_params->id].byp_clk_m2, name));
 	if (omap4_dpll_sources[dpll_params->id].byp_clk_m3 !=
 	    OMAP4_CLOCK_ID_MAX)
 		printf("%s(): %s BP Clk M3 = %lf (source is %s)\n", __func__,
 		       dpll44xx_names[dpll_params->id],
 		       dpll_params->fbyp_clk_m3,
-		       clk44xx_get_name(omap4_dpll_sources[dpll_params->id].
-					byp_clk_m3, name));
+		       clk44xx_get_name(omap4_dpll_sources
+					[dpll_params->id].byp_clk_m3, name));
 	if (omap4_dpll_sources[dpll_params->id].byp_clk_mx !=
 	    OMAP4_CLOCK_ID_MAX)
 		printf("%s(): %s BP Clk Mx = %lf (source is %s)\n", __func__,
 		       dpll44xx_names[dpll_params->id],
 		       dpll_params->fbyp_clk_mx,
-		       clk44xx_get_name(omap4_dpll_sources[dpll_params->id].
-					byp_clk_mx, name));
+		       clk44xx_get_name(omap4_dpll_sources
+					[dpll_params->id].byp_clk_mx, name));
 #endif
 
 	/* Determine DPLL output frequency */
@@ -777,13 +781,13 @@ static int dpll44xx_speeds_get(omap4_dpll_params * dpll_params,
 		if (dpll_params->id <= DPLL44XX_ABE) {
 			if (dpll_params->regm4xen == 0)
 				dpll_params->fdpll = (dpll_params->fref * 2.0 *
-						      (dpll_params->MN_params.
-						       M)) /
+						      (dpll_params->
+						       MN_params.M)) /
 				    ((dpll_params->MN_params.N) + 1);
 			else
 				dpll_params->fdpll = (dpll_params->fref * 8.0 *
-						      (dpll_params->MN_params.
-						       M)) /
+						      (dpll_params->
+						       MN_params.M)) /
 				    ((dpll_params->MN_params.N) + 1);
 			if (dpll_params->M2_present) {
 				dpll_params->X2_M2_speed = dpll_params->fdpll /
@@ -952,8 +956,8 @@ int dpll44xx_config_show(FILE * stream)
 
 		strncpy(table[row][0], "Ramping Levels", TABLE_MAX_ELT_LEN);
 		strncpy(table[row][dpll_id + 1],
-			dpll_ramp_level_name_get((dpll_ramp_level) dpll_params.
-						 ramp_level),
+			dpll_ramp_level_name_get((dpll_ramp_level)
+						 dpll_params.ramp_level),
 			TABLE_MAX_ELT_LEN);
 		row += 2;
 
@@ -984,8 +988,8 @@ int dpll44xx_config_show(FILE * stream)
 			if (dpll_id == DPLL44XX_MPU) {
 				if (dpll_params.dcc_en == 1) {
 					val =
-					    dpll44xx_dcc_count2us(dpll_params.
-								  dcc_count);
+					    dpll44xx_dcc_count2us
+					    (dpll_params.dcc_count);
 					snprintf(table[row][dpll_id + 1],
 						 TABLE_MAX_ELT_LEN,
 						 "%d (%.1lfus)",
@@ -1042,8 +1046,8 @@ int dpll44xx_config_show(FILE * stream)
 				snprintf(table[row++][dpll_id + 1],
 					 TABLE_MAX_ELT_LEN, "%d (%d)",
 					 (unsigned int)dpll_params.M2_speed,
-					 (unsigned int)dpll_params_locked.
-					 M2_speed);
+					 (unsigned int)
+					 dpll_params_locked.M2_speed);
 			strncpy(table[row][0], "  Autogating",
 				TABLE_MAX_ELT_LEN);
 			strncpy(table[row++][dpll_id + 1],
@@ -1108,8 +1112,8 @@ int dpll44xx_config_show(FILE * stream)
 				snprintf(table[row++][dpll_id + 1],
 					 TABLE_MAX_ELT_LEN, "%d (%d)",
 					 (unsigned int)dpll_params.X2_M3_speed,
-					 (unsigned int)dpll_params_locked.
-					 X2_M3_speed);
+					 (unsigned int)
+					 dpll_params_locked.X2_M3_speed);
 			strncpy(table[row][0], "  Autogating",
 				TABLE_MAX_ELT_LEN);
 			strncpy(table[row++][dpll_id + 1],
@@ -1173,8 +1177,8 @@ int dpll44xx_config_show(FILE * stream)
 				strncpy(table[row][0], "  Autogating",
 					TABLE_MAX_ELT_LEN);
 				strncpy(table[row++][dpll_id + 1],
-					(dpll_params.HS_M[hsdiv_count].
-					 autogating == 1)
+					(dpll_params.
+					 HS_M[hsdiv_count].autogating == 1)
 					? "Enabled" : "Disabled",
 					TABLE_MAX_ELT_LEN);
 				if (cpu_is_omap4430()) {
@@ -1182,16 +1186,17 @@ int dpll44xx_config_show(FILE * stream)
 						"  Auto Power Down",
 						TABLE_MAX_ELT_LEN);
 					strncpy(table[row++][dpll_id + 1],
-						(dpll_params.HS_M[hsdiv_count].
-						 pwdn ==
+						(dpll_params.
+						 HS_M[hsdiv_count].pwdn ==
 						 1) ? "Enabled" : "Disabled",
 						TABLE_MAX_ELT_LEN);
 				} else {
 					strncpy(table[row][0], "  Power Status",
 						TABLE_MAX_ELT_LEN);
 					strncpy(table[row++][dpll_id + 1],
-						(dpll_params.HS_M[hsdiv_count].
-						 pwdn == 1) ? "Up" : "Down",
+						(dpll_params.
+						 HS_M[hsdiv_count].pwdn ==
+						 1) ? "Up" : "Down",
 						TABLE_MAX_ELT_LEN);
 				}
 			} else {
@@ -1445,13 +1450,12 @@ dpll44xx_audit_autoidle_mode:
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "Autoidle Mode");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%s",
 			 dpll_autoidle_mode_name_get(settings.autoidle_mode));
-		DPLL44XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->
-						    autoidle_mode,
-						    DPLL_AUTOIDLE_MODE_MAX,
-						    dpll44xx_audit_lpmode);
+		DPLL44XX_AUDIT_CHECK_GOLDEN_SETTING
+		    (golden_settings->autoidle_mode, DPLL_AUTOIDLE_MODE_MAX,
+		     dpll44xx_audit_lpmode);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%s",
-			 dpll_autoidle_mode_name_get(golden_settings->
-						     autoidle_mode));
+			 dpll_autoidle_mode_name_get
+			 (golden_settings->autoidle_mode));
 		DPLL44XX_AUDIT_SHOW_STATUS(settings.autoidle_mode,
 					   golden_settings->autoidle_mode);
 
@@ -1591,14 +1595,14 @@ dpll44xx_audit_M2_rate:
 
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.1lfMHz",
 			 settings.M2_speed);
-		DPLL44XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->
-						    M2_clkout_rate, -1,
-						    dpll44xx_audit_X2_M2_rate);
+		DPLL44XX_AUDIT_CHECK_GOLDEN_SETTING
+		    (golden_settings->M2_clkout_rate, -1,
+		     dpll44xx_audit_X2_M2_rate);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.1lfMHz",
 			 golden_settings->M2_clkout_rate);
 		DPLL44XX_AUDIT_SHOW_STATUS((int)settings.M2_speed,
-					   (int)golden_settings->
-					   M2_clkout_rate);
+					   (int)
+					   golden_settings->M2_clkout_rate);
 
 dpll44xx_audit_X2_M2_rate:
 		if (id <= DPLL44XX_ABE)
@@ -1609,14 +1613,14 @@ dpll44xx_audit_X2_M2_rate:
 				 "CLKDCOLDO Output Rate");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.1lfMHz",
 			 settings.X2_M2_speed);
-		DPLL44XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->
-						    X2_M2_clkdcoldo_rate, -1,
-						    dpll44xx_audit_M3);
+		DPLL44XX_AUDIT_CHECK_GOLDEN_SETTING
+		    (golden_settings->X2_M2_clkdcoldo_rate, -1,
+		     dpll44xx_audit_M3);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.1lfMHz",
 			 golden_settings->X2_M2_clkdcoldo_rate);
 		DPLL44XX_AUDIT_SHOW_STATUS((int)settings.X2_M2_speed,
-					   (int)golden_settings->
-					   X2_M2_clkdcoldo_rate);
+					   (int)
+					   golden_settings->X2_M2_clkdcoldo_rate);
 
 dpll44xx_audit_M3:
 		if ((settings.M3_present == 0) &&
@@ -1715,8 +1719,9 @@ dpll44xx_audit_hsdiv_rate:
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.1lfMHz",
 				 golden_settings->hsdiv_rate[i]);
 			DPLL44XX_AUDIT_SHOW_STATUS((int)rate,
-						   (int)golden_settings->
-						   hsdiv_rate[i]);
+						   (int)
+						   golden_settings->hsdiv_rate
+						   [i]);
 		}
 
 dpll44xx_audit_table_show:

@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <ivahd44xx.h>
 #include <cm44xx.h>
 #include <prm44xx.h>
@@ -57,7 +56,6 @@
 
 reg_table prcm_iva_reg_table[PRCM_IVA_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ivahd44xx_regtable_init
@@ -103,7 +101,6 @@ static int ivahd44xx_regtable_init(void)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		ivahd44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
@@ -124,7 +121,6 @@ int ivahd44xx_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, prcm_iva_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		ivahd44xx_config_show
  * @BRIEF		analyze IVAHD power configuration
@@ -134,7 +130,7 @@ int ivahd44xx_name2addr(char *name, unsigned int *addr)
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyze IVAHD power configuration
  *------------------------------------------------------------------------ */
-int ivahd44xx_config_show(FILE *stream)
+int ivahd44xx_config_show(FILE * stream)
 {
 	unsigned int pm_pwstctrl;
 	unsigned int pm_pwstst;
@@ -154,8 +150,8 @@ int ivahd44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_PM_IVAHD_PWRSTST, &pm_pwstst) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = pwrdm44xx_config_show(stream, "IVAHD",
-		OMAP4430_PM_IVAHD_PWRSTCTRL, pm_pwstctrl,
-		OMAP4430_PM_IVAHD_PWRSTST, pm_pwstst);
+				    OMAP4430_PM_IVAHD_PWRSTCTRL, pm_pwstctrl,
+				    OMAP4430_PM_IVAHD_PWRSTST, pm_pwstst);
 	if (ret != 0)
 		return ret;
 
@@ -163,7 +159,7 @@ int ivahd44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM_IVAHD_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "IVAHD",
-		OMAP4430_CM_IVAHD_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_IVAHD_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 
@@ -173,8 +169,8 @@ int ivahd44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_IVAHD_IVAHD_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "IVAHD",
-		OMAP4430_CM_IVAHD_IVAHD_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_IVAHD_IVAHD_CONTEXT, rm_context);
+				  OMAP4430_CM_IVAHD_IVAHD_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_IVAHD_IVAHD_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -183,14 +179,13 @@ int ivahd44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_IVAHD_SL2_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "SL2",
-		OMAP4430_CM_IVAHD_SL2_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_IVAHD_SL2_CONTEXT, rm_context);
+				  OMAP4430_CM_IVAHD_SL2_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_IVAHD_SL2_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ivahd44xx_dependency_show
@@ -201,7 +196,7 @@ int ivahd44xx_config_show(FILE *stream)
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyse IVAHD dependency configuration
  *------------------------------------------------------------------------ */
-int ivahd44xx_dependency_show(FILE *stream)
+int ivahd44xx_dependency_show(FILE * stream)
 {
 	unsigned int cm_staticdep;
 	unsigned int cm_dynamicdep;
@@ -226,11 +221,9 @@ int ivahd44xx_dependency_show(FILE *stream)
 		"|---------------------------------------|------------------"
 		"|\n");
 	fprintf(stream, "| %-37s | %-6s | %-7s |\n", "MEM IF",
-		((extract_bit(cm_staticdep, 4) == 1) ? "En" : "Dis"),
-		"");
+		((extract_bit(cm_staticdep, 4) == 1) ? "En" : "Dis"), "");
 	fprintf(stream, "| %-37s | %-6s | %-7s |\n", "L3_1",
-		((extract_bit(cm_staticdep, 5) == 1) ? "En" : "Dis"),
-		"");
+		((extract_bit(cm_staticdep, 5) == 1) ? "En" : "Dis"), "");
 	fprintf(stream, "| %-37s | %-6s | %-7s |\n", "L3_2",
 		((extract_bit(cm_staticdep, 6) == 1) ? "En" : "Dis"),
 		((extract_bit(cm_dynamicdep, 6) == 1) ? "En" : "Dis"));
@@ -241,7 +234,6 @@ int ivahd44xx_dependency_show(FILE *stream)
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ivahd44xx_dump
@@ -260,7 +252,6 @@ int ivahd44xx_dump(void)
 
 	return dumpregs(prcm_iva_reg_table);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ivahd44xx_main

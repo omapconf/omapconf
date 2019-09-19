@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <clock_am335x.h>
 #include <cpuinfo.h>
 #include <lib.h>
@@ -52,7 +51,6 @@
 #include <string.h>
 #include <voltdomain.h>
 
-
 /* #define PWRDM_AM335X_DEBUG */
 #ifdef PWRDM_AM335X_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -60,10 +58,8 @@
 #define dprintf(format, ...)
 #endif
 
-
 static unsigned short pwrdm_am335x_init_done = 0;
 genlist pwrdm_am335x_list;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_am335x_init
@@ -80,56 +76,61 @@ void pwrdm_am335x_init(void)
 	genlist_init(&pwrdm_am335x_list);
 
 	pwrdm.name = PWRDM_WKUP;
-	pwrdm.id = (int) PWRDM_AM335X_WKUP;
+	pwrdm.id = (int)PWRDM_AM335X_WKUP;
 	pwrdm.voltdm = VDD_CORE;
 	pwrdm.pwrstctrl = &am335x_pm_wkup_pwrstctrl;
 	pwrdm.pwrstst = &am335x_pm_wkup_pwrstst;
-	pwrdm.properties = 0; /* TBD */
-	genlist_addtail(&pwrdm_am335x_list, (void *) &pwrdm, sizeof(powerdm_info));
+	pwrdm.properties = 0;	/* TBD */
+	genlist_addtail(&pwrdm_am335x_list, (void *)&pwrdm,
+			sizeof(powerdm_info));
 
 	pwrdm.name = PWRDM_MPU;
-	pwrdm.id = (int) PWRDM_AM335X_MPU;
+	pwrdm.id = (int)PWRDM_AM335X_MPU;
 	pwrdm.voltdm = VDD_MPU;
 	pwrdm.pwrstctrl = &am335x_pm_mpu_pwrstctrl;
 	pwrdm.pwrstst = &am335x_pm_mpu_pwrstst;
-	pwrdm.properties = 0; /* TBD */
-	genlist_addtail(&pwrdm_am335x_list, (void *) &pwrdm, sizeof(powerdm_info));
+	pwrdm.properties = 0;	/* TBD */
+	genlist_addtail(&pwrdm_am335x_list, (void *)&pwrdm,
+			sizeof(powerdm_info));
 
 	pwrdm.name = PWRDM_GFX;
-	pwrdm.id = (int) PWRDM_AM335X_GFX;
+	pwrdm.id = (int)PWRDM_AM335X_GFX;
 	pwrdm.voltdm = VDD_CORE;
 	pwrdm.pwrstctrl = &am335x_pm_gfx_pwrstctrl;
 	pwrdm.pwrstst = &am335x_pm_gfx_pwrstst;
-	pwrdm.properties = 0; /* TBD */
-	genlist_addtail(&pwrdm_am335x_list, (void *) &pwrdm, sizeof(powerdm_info));
+	pwrdm.properties = 0;	/* TBD */
+	genlist_addtail(&pwrdm_am335x_list, (void *)&pwrdm,
+			sizeof(powerdm_info));
 
 	pwrdm.name = PWRDM_PER;
-	pwrdm.id = (int) PWRDM_AM335X_PER;
+	pwrdm.id = (int)PWRDM_AM335X_PER;
 	pwrdm.voltdm = VDD_CORE;
 	pwrdm.pwrstctrl = &am335x_pm_per_pwrstctrl;
 	pwrdm.pwrstst = &am335x_pm_per_pwrstst;
-	pwrdm.properties = 0; /* TBD */
-	genlist_addtail(&pwrdm_am335x_list, (void *) &pwrdm, sizeof(powerdm_info));
+	pwrdm.properties = 0;	/* TBD */
+	genlist_addtail(&pwrdm_am335x_list, (void *)&pwrdm,
+			sizeof(powerdm_info));
 
 	pwrdm.name = PWRDM_RTC;
-	pwrdm.id = (int) PWRDM_AM335X_RTC;
+	pwrdm.id = (int)PWRDM_AM335X_RTC;
 	pwrdm.voltdm = VDD_RTC;
 	pwrdm.pwrstctrl = &am335x_pm_rtc_pwrstctrl;
 	pwrdm.pwrstst = &am335x_pm_rtc_pwrstst;
-	pwrdm.properties = 0; /* TBD */
-	genlist_addtail(&pwrdm_am335x_list, (void *) &pwrdm, sizeof(powerdm_info));
+	pwrdm.properties = 0;	/* TBD */
+	genlist_addtail(&pwrdm_am335x_list, (void *)&pwrdm,
+			sizeof(powerdm_info));
 
 	pwrdm.name = PWRDM_EFUSE;
-	pwrdm.id = (int) PWRDM_AM335X_EFUSE;
+	pwrdm.id = (int)PWRDM_AM335X_EFUSE;
 	pwrdm.voltdm = VDD_CORE;
 	pwrdm.pwrstctrl = &am335x_pm_cefuse_pwrstctrl;
 	pwrdm.pwrstst = &am335x_pm_cefuse_pwrstst;
-	pwrdm.properties = 0; /* TBD */
-	genlist_addtail(&pwrdm_am335x_list, (void *) &pwrdm, sizeof(powerdm_info));
+	pwrdm.properties = 0;	/* TBD */
+	genlist_addtail(&pwrdm_am335x_list, (void *)&pwrdm,
+			sizeof(powerdm_info));
 
 	pwrdm_am335x_init_done = 1;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_am335x_deinit
@@ -147,7 +148,6 @@ void pwrdm_am335x_deinit(void)
 	dprintf("%s(): deinit done.\n", __func__);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_am335x_list_get
  * @BRIEF		return the list of power domains
@@ -159,9 +159,8 @@ const genlist *pwrdm_am335x_list_get(void)
 {
 	pwrdm_am335x_init();
 
-	return (const genlist *) &pwrdm_am335x_list;
+	return (const genlist *)&pwrdm_am335x_list;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_am335x_count_get

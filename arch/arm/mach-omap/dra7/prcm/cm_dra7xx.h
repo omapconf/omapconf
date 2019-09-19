@@ -41,17 +41,14 @@
  *
  */
 
-
 #ifndef __CM_DRA7XX_H__
 #define __CM_DRA7XX_H__
 
 #include <cm_dra7xx-defs.h>
 #include <stdio.h>
 
-
 const char *cm_dra7xx_mod_name_get(cm_dra7xx_mod_id id);
-int cm_dra7xx_dump(FILE *stream, cm_dra7xx_mod_id id);
+int cm_dra7xx_dump(FILE * stream, cm_dra7xx_mod_id id);
 unsigned int cm_dra7xx_is_profiling_running(cm_dra7xx_mod_id id);
-
 
 #endif

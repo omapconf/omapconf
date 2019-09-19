@@ -41,21 +41,17 @@
  *
  */
 
-
 #ifndef __CAM44XX_H__
 #define __CAM44XX_H__
 
-
 #include <stdio.h>
-
 
 int cam44xx_name2addr(char *name, unsigned int *addr);
 int cam44xx_dump(void);
-int cam44xx_config_show(FILE *stream);
-int cam44xx_dependency_show(FILE *stream);
+int cam44xx_config_show(FILE * stream);
+int cam44xx_dependency_show(FILE * stream);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int cam44xx_main(int argc, char *argv[]);
-
 
 #endif

@@ -270,18 +270,20 @@ int counters44xx_count(unsigned int capture_time)
 					ret =
 					    value2name(trace_state[i], name,
 						       emif_event_counters);
-					    omapconf_snprintf(tmp_name, 64, "%s%s", ".",
-						     name);
-					    omapconf_snprintf(name, 64, "%s", tmp_name);
+					omapconf_snprintf(tmp_name, 64, "%s%s",
+							  ".", name);
+					omapconf_snprintf(name, 64, "%s",
+							  tmp_name);
 					break;
 				case TRACE_CFG_L2CC_CNT0_FILTER:
 				case TRACE_CFG_L2CC_CNT1_FILTER:
 					ret =
 					    value2name(trace_state[i], name,
 						       l2cc_event_counters_table);
-					    omapconf_snprintf(tmp_name, 64, "%s%s", ".",
-						     name);
-					    omapconf_snprintf(name, 64, "%s", tmp_name);
+					omapconf_snprintf(tmp_name, 64, "%s%s",
+							  ".", name);
+					omapconf_snprintf(name, 64, "%s",
+							  tmp_name);
 					break;
 				default:
 					strcpy(name, " ");
@@ -537,7 +539,8 @@ int counters44xx_count(unsigned int capture_time)
 				ret =
 				    value2name(trace_state[i], name,
 					       emif_event_counters);
-				omapconf_snprintf(tmp_name, 64, "%s%s", ".", name);
+				omapconf_snprintf(tmp_name, 64, "%s%s", ".",
+						  name);
 				omapconf_snprintf(name, 64, "%s", tmp_name);
 				break;
 			case TRACE_CFG_L2CC_CNT0_FILTER:
@@ -545,7 +548,8 @@ int counters44xx_count(unsigned int capture_time)
 				ret =
 				    value2name(trace_state[i], name,
 					       l2cc_event_counters_table);
-				omapconf_snprintf(tmp_name, 64, "%s%s", ".", name);
+				omapconf_snprintf(tmp_name, 64, "%s%s", ".",
+						  name);
 				omapconf_snprintf(name, 64, "%s", tmp_name);
 				break;
 			default:
@@ -705,12 +709,12 @@ int counters44xx_count(unsigned int capture_time)
 				break;
 			}	/* end switch */
 			strncpy(table[row][1], option, TABLE_MAX_ELT_LEN);
-			omapconf_snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.2d",
-				 trace_buf[i][min]);
-			omapconf_snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2d",
-				 trace_buf[i][max]);
-			omapconf_snprintf(table[row][4], TABLE_MAX_ELT_LEN, "%.2d",
-				 trace_buf[i][avg]);
+			omapconf_snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+					  "%.2d", trace_buf[i][min]);
+			omapconf_snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+					  "%.2d", trace_buf[i][max]);
+			omapconf_snprintf(table[row][4], TABLE_MAX_ELT_LEN,
+					  "%.2d", trace_buf[i][avg]);
 			row++;
 		}
 		/* if (trace_state[i] >= 0 */
@@ -784,14 +788,14 @@ int counters44xx_get_defaults(char *defaults_file)
 	i = 0;
 	while (strcmp(trace_config_options_table[i].name, "END") != 0) {
 
-		    omapconf_snprintf((default_tablep[i]).name,
-			     OMAPCONF_REG_NAME_MAX_LENGTH, "%s",
-			     trace_config_options_table[i].name);
+		omapconf_snprintf((default_tablep[i]).name,
+				  OMAPCONF_REG_NAME_MAX_LENGTH, "%s",
+				  trace_config_options_table[i].name);
 		i++;
 	};
 	/* Add required END entry */
-	    omapconf_snprintf((default_tablep[i]).name, OMAPCONF_REG_NAME_MAX_LENGTH,
-		     "%s", "END");
+	omapconf_snprintf((default_tablep[i]).name,
+			  OMAPCONF_REG_NAME_MAX_LENGTH, "%s", "END");
 	j = i + 1;		/* j now contains max entries in the default_tablep array */
 
 	/* Call the get defaults routine */
@@ -986,14 +990,15 @@ int counters44xx_get_defaults(char *defaults_file)
 				   Here we have a file_prefix as the prefix. Now prepend to file names.
 				   built a small string prepend utility to simplify.
 				   This probably already exists somewhere... */
-				    omapconf_snprintf(tmp_name, 64, "%s%s", file_prefix,
-					     trace_perf_file);
-				    omapconf_snprintf(trace_perf_file, 64, "%s",
-					     tmp_name);
-				    omapconf_snprintf(tmp_name, 64, "%s%s", file_prefix,
-					     trace_perf_stats_file);
-				    omapconf_snprintf(trace_perf_stats_file, 64, "%s",
-					     tmp_name);
+				omapconf_snprintf(tmp_name, 64, "%s%s",
+						  file_prefix, trace_perf_file);
+				omapconf_snprintf(trace_perf_file, 64, "%s",
+						  tmp_name);
+				omapconf_snprintf(tmp_name, 64, "%s%s",
+						  file_prefix,
+						  trace_perf_stats_file);
+				omapconf_snprintf(trace_perf_stats_file, 64,
+						  "%s", tmp_name);
 
 				break;
 
@@ -1177,13 +1182,14 @@ int counters44xx_main(int argc, char *argv[])
 			   built a small string prepend utility to simplify.
 			   This probably already exists somewhere... */
 			/*                     printf("DEBUG: Prefix == %s\n", file_prefix); */
-			    omapconf_snprintf(tmp_name, 64, "%s%s", file_prefix,
-				     trace_perf_file);
+			omapconf_snprintf(tmp_name, 64, "%s%s", file_prefix,
+					  trace_perf_file);
 			omapconf_snprintf(trace_perf_file, 64, "%s", tmp_name);
 
-			    omapconf_snprintf(tmp_name, 64, "%s%s", file_prefix,
-				     trace_perf_stats_file);
-			    omapconf_snprintf(trace_perf_stats_file, 64, "%s", tmp_name);
+			omapconf_snprintf(tmp_name, 64, "%s%s", file_prefix,
+					  trace_perf_stats_file);
+			omapconf_snprintf(trace_perf_stats_file, 64, "%s",
+					  tmp_name);
 
 		}		/* End if argc = 3 */
 	}

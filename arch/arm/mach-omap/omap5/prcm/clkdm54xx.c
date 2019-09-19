@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <lib.h>
 #include <clkdm54xx.h>
 #include <cm54xx.h>
@@ -52,7 +51,6 @@
 #include <powerdomain.h>
 #include <voltdomain.h>
 
-
 /* #define CLKDM54XX_DEBUG */
 #ifdef CLKDM54XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -60,9 +58,8 @@
 #define dprintf(format, ...)
 #endif
 
-
 static const char
-	clkdm54xx_names_table[CLKDM54XX_ID_MAX][CLKDM54XX_MAX_NAME_LENGTH] = {
+ clkdm54xx_names_table[CLKDM54XX_ID_MAX][CLKDM54XX_MAX_NAME_LENGTH] = {
 	"EMU",
 	"WKUPAON",
 	"COREAON",
@@ -86,12 +83,11 @@ static const char
 	"GPU",
 	"IVA",
 	"MPU",
-	"NONE (PRCM)"};
-
+	"NONE (PRCM)"
+};
 
 static unsigned short clkdm54xx_init_done = 0;
 genlist clkdm54xx_list;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdm54xx_init
@@ -108,7 +104,7 @@ void clkdm54xx_init(void)
 	genlist_init(&clkdm54xx_list);
 
 	clkdm.name = CLKDM_EMU;
-	clkdm.id = (int) CLKDM54XX_EMU;
+	clkdm.id = (int)CLKDM54XX_EMU;
 	clkdm.powerdm = PWRDM_EMU;
 	clkdm.voltdm = VDD_WKUP;
 	if (cpu_revision_get() == REV_ES1_0)
@@ -116,10 +112,10 @@ void clkdm54xx_init(void)
 	else
 		clkdm.clkstctrl = &omap5430_cm_emu_clkstctrl;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_WKUPAON;
-	clkdm.id = (int) CLKDM54XX_WKUPAON;
+	clkdm.id = (int)CLKDM54XX_WKUPAON;
 	clkdm.powerdm = PWRDM_WKUPAON;
 	clkdm.voltdm = VDD_WKUP;
 	if (cpu_revision_get() == REV_ES1_0)
@@ -127,10 +123,10 @@ void clkdm54xx_init(void)
 	else
 		clkdm.clkstctrl = &omap5430_cm_wkupaon_clkstctrl;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_COREAON;
-	clkdm.id = (int) CLKDM54XX_COREAON;
+	clkdm.id = (int)CLKDM54XX_COREAON;
 	clkdm.powerdm = PWRDM_COREAON;
 	clkdm.voltdm = VDD_CORE;
 	if (cpu_revision_get() == REV_ES1_0)
@@ -138,10 +134,10 @@ void clkdm54xx_init(void)
 	else
 		clkdm.clkstctrl = &omap5430_cm_coreaon_clkstctrl;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_CAM;
-	clkdm.id = (int) CLKDM54XX_CAM;
+	clkdm.id = (int)CLKDM54XX_CAM;
 	clkdm.powerdm = PWRDM_CAM;
 	clkdm.voltdm = VDD_CORE;
 	if (cpu_revision_get() == REV_ES1_0)
@@ -149,10 +145,10 @@ void clkdm54xx_init(void)
 	else
 		clkdm.clkstctrl = &omap5430_cm_cam_clkstctrl;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_L4_CFG;
-	clkdm.id = (int) CLKDM54XX_L4_CFG;
+	clkdm.id = (int)CLKDM54XX_L4_CFG;
 	clkdm.powerdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
 	if (cpu_revision_get() == REV_ES1_0)
@@ -160,10 +156,10 @@ void clkdm54xx_init(void)
 	else
 		clkdm.clkstctrl = &omap5430_cm_l4cfg_clkstctrl;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_EMIF;
-	clkdm.id = (int) CLKDM54XX_EMIF;
+	clkdm.id = (int)CLKDM54XX_EMIF;
 	clkdm.powerdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
 	if (cpu_revision_get() == REV_ES1_0)
@@ -171,10 +167,10 @@ void clkdm54xx_init(void)
 	else
 		clkdm.clkstctrl = &omap5430_cm_emif_clkstctrl;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_IPU;
-	clkdm.id = (int) CLKDM54XX_IPU;
+	clkdm.id = (int)CLKDM54XX_IPU;
 	clkdm.powerdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
 	if (cpu_revision_get() == REV_ES1_0)
@@ -182,10 +178,10 @@ void clkdm54xx_init(void)
 	else
 		clkdm.clkstctrl = &omap5430_cm_ipu_clkstctrl;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_L3_MAIN2;
-	clkdm.id = (int) CLKDM54XX_L3_MAIN2;
+	clkdm.id = (int)CLKDM54XX_L3_MAIN2;
 	clkdm.powerdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
 	if (cpu_revision_get() == REV_ES1_0)
@@ -193,10 +189,10 @@ void clkdm54xx_init(void)
 	else
 		clkdm.clkstctrl = &omap5430_cm_l3main2_clkstctrl;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_L3_INSTR;
-	clkdm.id = (int) CLKDM54XX_L3_INSTR;
+	clkdm.id = (int)CLKDM54XX_L3_INSTR;
 	clkdm.powerdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
 	if (cpu_revision_get() == REV_ES1_0)
@@ -204,10 +200,10 @@ void clkdm54xx_init(void)
 	else
 		clkdm.clkstctrl = &omap5430_cm_l3instr_clkstctrl;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_L3_MAIN1;
-	clkdm.id = (int) CLKDM54XX_L3_MAIN1;
+	clkdm.id = (int)CLKDM54XX_L3_MAIN1;
 	clkdm.powerdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
 	if (cpu_revision_get() == REV_ES1_0)
@@ -215,10 +211,10 @@ void clkdm54xx_init(void)
 	else
 		clkdm.clkstctrl = &omap5430_cm_l3main1_clkstctrl;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_C2C;
-	clkdm.id = (int) CLKDM54XX_C2C;
+	clkdm.id = (int)CLKDM54XX_C2C;
 	clkdm.powerdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
 	if (cpu_revision_get() == REV_ES1_0)
@@ -226,10 +222,10 @@ void clkdm54xx_init(void)
 	else
 		clkdm.clkstctrl = &omap5430_cm_c2c_clkstctrl;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_DMA;
-	clkdm.id = (int) CLKDM54XX_DMA;
+	clkdm.id = (int)CLKDM54XX_DMA;
 	clkdm.powerdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
 	if (cpu_revision_get() == REV_ES1_0)
@@ -237,10 +233,10 @@ void clkdm54xx_init(void)
 	else
 		clkdm.clkstctrl = &omap5430_cm_dma_clkstctrl;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_MIPIEXT;
-	clkdm.id = (int) CLKDM54XX_MIPIEXT;
+	clkdm.id = (int)CLKDM54XX_MIPIEXT;
 	clkdm.powerdm = PWRDM_CORE;
 	clkdm.voltdm = VDD_CORE;
 	if (cpu_revision_get() == REV_ES1_0)
@@ -248,10 +244,10 @@ void clkdm54xx_init(void)
 	else
 		clkdm.clkstctrl = &omap5430_cm_mipiext_clkstctrl;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_DSS;
-	clkdm.id = (int) CLKDM54XX_DSS;
+	clkdm.id = (int)CLKDM54XX_DSS;
 	clkdm.powerdm = PWRDM_DSS;
 	clkdm.voltdm = VDD_CORE;
 	if (cpu_revision_get() == REV_ES1_0)
@@ -259,10 +255,10 @@ void clkdm54xx_init(void)
 	else
 		clkdm.clkstctrl = &omap5430_cm_dss_clkstctrl;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_CUST_EFUSE;
-	clkdm.id = (int) CLKDM54XX_CUST_EFUSE;
+	clkdm.id = (int)CLKDM54XX_CUST_EFUSE;
 	clkdm.powerdm = PWRDM_CUST_EFUSE;
 	if (cpu_revision_get() == REV_ES1_0)
 		clkdm.clkstctrl = &omap5430es1_cm_custefuse_clkstctrl;
@@ -270,10 +266,10 @@ void clkdm54xx_init(void)
 		clkdm.clkstctrl = &omap5430_cm_custefuse_clkstctrl;
 	clkdm.voltdm = VDD_CORE;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_L3_INIT;
-	clkdm.id = (int) CLKDM54XX_L3_INIT;
+	clkdm.id = (int)CLKDM54XX_L3_INIT;
 	clkdm.powerdm = PWRDM_L3_INIT;
 	if (cpu_revision_get() == REV_ES1_0)
 		clkdm.clkstctrl = &omap5430es1_cm_l3init_clkstctrl;
@@ -281,10 +277,10 @@ void clkdm54xx_init(void)
 		clkdm.clkstctrl = &omap5430_cm_l3init_clkstctrl;
 	clkdm.voltdm = VDD_CORE;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_L4_PER;
-	clkdm.id = (int) CLKDM54XX_L4_PER;
+	clkdm.id = (int)CLKDM54XX_L4_PER;
 	if (cpu_revision_get() == REV_ES1_0) {
 		clkdm.powerdm = PWRDM_L4_PER;
 		clkdm.clkstctrl = &omap5430es1_cm_l4per_clkstctrl;
@@ -294,10 +290,10 @@ void clkdm54xx_init(void)
 	}
 	clkdm.voltdm = VDD_CORE;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_L4_SEC;
-	clkdm.id = (int) CLKDM54XX_L4_SEC;
+	clkdm.id = (int)CLKDM54XX_L4_SEC;
 	if (cpu_revision_get() == REV_ES1_0)
 		clkdm.powerdm = PWRDM_L4_PER;
 	else
@@ -305,10 +301,10 @@ void clkdm54xx_init(void)
 	clkdm.clkstctrl = NULL;
 	clkdm.voltdm = VDD_CORE;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_ABE;
-	clkdm.id = (int) CLKDM54XX_ABE;
+	clkdm.id = (int)CLKDM54XX_ABE;
 	clkdm.powerdm = PWRDM_ABE;
 	if (cpu_revision_get() == REV_ES1_0)
 		clkdm.clkstctrl = &omap5430es1_cm_abe_clkstctrl;
@@ -316,10 +312,10 @@ void clkdm54xx_init(void)
 		clkdm.clkstctrl = &omap5430_cm_abe_clkstctrl;
 	clkdm.voltdm = VDD_CORE;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_DSP;
-	clkdm.id = (int) CLKDM54XX_DSP;
+	clkdm.id = (int)CLKDM54XX_DSP;
 	clkdm.powerdm = PWRDM_DSP;
 	if (cpu_revision_get() == REV_ES1_0)
 		clkdm.clkstctrl = &omap5430es1_cm_dsp_clkstctrl;
@@ -327,10 +323,10 @@ void clkdm54xx_init(void)
 		clkdm.clkstctrl = &omap5430_cm_dsp_clkstctrl;
 	clkdm.voltdm = VDD_MM;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_GPU;
-	clkdm.id = (int) CLKDM54XX_GPU;
+	clkdm.id = (int)CLKDM54XX_GPU;
 	clkdm.powerdm = PWRDM_GPU;
 	if (cpu_revision_get() == REV_ES1_0)
 		clkdm.clkstctrl = &omap5430es1_cm_gpu_clkstctrl;
@@ -338,10 +334,10 @@ void clkdm54xx_init(void)
 		clkdm.clkstctrl = &omap5430_cm_gpu_clkstctrl;
 	clkdm.voltdm = VDD_MM;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_IVA;
-	clkdm.id = (int) CLKDM54XX_IVA;
+	clkdm.id = (int)CLKDM54XX_IVA;
 	clkdm.powerdm = PWRDM_IVA;
 	if (cpu_revision_get() == REV_ES1_0)
 		clkdm.clkstctrl = &omap5430es1_cm_iva_clkstctrl;
@@ -349,10 +345,10 @@ void clkdm54xx_init(void)
 		clkdm.clkstctrl = &omap5430_cm_iva_clkstctrl;
 	clkdm.voltdm = VDD_MM;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_MPU;
-	clkdm.id = (int) CLKDM54XX_MPU;
+	clkdm.id = (int)CLKDM54XX_MPU;
 	clkdm.powerdm = PWRDM_MPU;
 	if (cpu_revision_get() == REV_ES1_0)
 		clkdm.clkstctrl = &omap5430es1_cm_mpu_clkstctrl;
@@ -360,19 +356,18 @@ void clkdm54xx_init(void)
 		clkdm.clkstctrl = &omap5430_cm_mpu_clkstctrl;
 	clkdm.voltdm = VDD_MPU;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm.name = CLKDM_NONE;
-	clkdm.id = (int) CLKDM54XX_NONE;
+	clkdm.id = (int)CLKDM54XX_NONE;
 	clkdm.powerdm = PWRDM_UNKNOWN;
 	clkdm.clkstctrl = NULL;
 	clkdm.voltdm = VDD_WKUP;
 	clkdm.properties = 0;
-	genlist_addtail(&clkdm54xx_list, (void *) &clkdm, sizeof(clockdm_info));
+	genlist_addtail(&clkdm54xx_list, (void *)&clkdm, sizeof(clockdm_info));
 
 	clkdm54xx_init_done = 1;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdm54xx_deinit
@@ -390,7 +385,6 @@ void clkdm54xx_deinit(void)
 	dprintf("%s(): deinit done.\n", __func__);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdm54xx_list_get
  * @BRIEF		return the list of clock domains
@@ -402,9 +396,8 @@ const genlist *clkdm54xx_list_get(void)
 {
 	clkdm54xx_init();
 
-	return (const genlist *) &clkdm54xx_list;
+	return (const genlist *)&clkdm54xx_list;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdm54xx_count_get
@@ -426,7 +419,6 @@ int clkdm54xx_count_get(void)
 	return count;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdm54xx_name_get
  * @BRIEF		return clock domain name
@@ -441,7 +433,6 @@ const char *clkdm54xx_name_get(clkdm54xx_id id)
 
 	return clkdm54xx_names_table[id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdm54xx_s2id
@@ -483,38 +474,37 @@ clkdm54xx_id clkdm54xx_s2id(char *s)
 	else if (strcmp(lowercase(s), "l3main1") == 0)
 		id = CLKDM54XX_L3_MAIN1;
 	else if (strcmp(lowercase(s), "c2c") == 0)
-		id = CLKDM54XX_C2C ;
+		id = CLKDM54XX_C2C;
 	else if (strcmp(lowercase(s), "dma") == 0)
-		id = CLKDM54XX_DMA ;
+		id = CLKDM54XX_DMA;
 	else if (strcmp(lowercase(s), "mipiext") == 0)
-		id = CLKDM54XX_MIPIEXT ;
+		id = CLKDM54XX_MIPIEXT;
 	else if (strcmp(lowercase(s), "dss") == 0)
-		id = CLKDM54XX_DSS ;
+		id = CLKDM54XX_DSS;
 	else if (strcmp(lowercase(s), "custefuse") == 0)
-		id = CLKDM54XX_CUST_EFUSE ;
+		id = CLKDM54XX_CUST_EFUSE;
 	else if (strcmp(lowercase(s), "l3init") == 0)
-		id = CLKDM54XX_L3_INIT ;
+		id = CLKDM54XX_L3_INIT;
 	else if (strcmp(lowercase(s), "l4per") == 0)
-		id = CLKDM54XX_L4_PER ;
+		id = CLKDM54XX_L4_PER;
 	else if (strcmp(lowercase(s), "l4sec") == 0)
-		id = CLKDM54XX_L4_SEC ;
+		id = CLKDM54XX_L4_SEC;
 	else if (strcmp(lowercase(s), "abe") == 0)
-		id = CLKDM54XX_ABE ;
+		id = CLKDM54XX_ABE;
 	else if (strcmp(lowercase(s), "dsp") == 0)
-		id = CLKDM54XX_DSP ;
+		id = CLKDM54XX_DSP;
 	else if (strcmp(lowercase(s), "gpu") == 0)
-		id = CLKDM54XX_GPU ;
+		id = CLKDM54XX_GPU;
 	else if (strcmp(lowercase(s), "iva") == 0)
-		id = CLKDM54XX_IVA ;
+		id = CLKDM54XX_IVA;
 	else if (strcmp(lowercase(s), "mpu") == 0)
-		id = CLKDM54XX_MPU ;
+		id = CLKDM54XX_MPU;
 	else
 		id = CLKDM54XX_ID_MAX;
 
 	dprintf("%s(%s) = %s\n", __func__, s, clkdm54xx_name_get(id));
 	return id;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdm54xx_config_show
@@ -526,7 +516,7 @@ clkdm54xx_id clkdm54xx_s2id(char *s)
  * @param[in]		clkdm: clock domain details
  * @DESCRIPTION		display clock domain configuration
  *------------------------------------------------------------------------ */
-int clkdm54xx_config_show(FILE *stream, clockdm_info clkdm)
+int clkdm54xx_config_show(FILE * stream, clockdm_info clkdm)
 {
 	unsigned int cm_clkstctrl;
 
@@ -540,8 +530,8 @@ int clkdm54xx_config_show(FILE *stream, clockdm_info clkdm)
 	switch (clkdm.id) {
 	case CLKDM54XX_EMU:
 		fprintf(stream, "| %-36s | %-23s |\n", "  EMU_SYS_CLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_WKUPAON:
@@ -549,74 +539,77 @@ int clkdm54xx_config_show(FILE *stream, clockdm_info clkdm)
 			fprintf(stream, "| %-36s | %-23s |\n",
 				"  SYS_CLK_ALL (SCRM Level)",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 15)));
+						      extract_bit(cm_clkstctrl,
+								  15)));
 			fprintf(stream, "| %-36s | %-23s |\n",
 				"  SYS_CLK_FUNC (w/o EMU_SYS_CLK)",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 14)));
+						      extract_bit(cm_clkstctrl,
+								  14)));
 		}
 		fprintf(stream, "| %-36s | %-23s |\n",
 			"  WKUPAON_IO_SRCOMP_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 13)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 13)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  WKUPAON_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 12)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 12)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  WKUPAON_32K_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 11)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 11)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  ABE_LP_CLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 9)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 9)));
 		fprintf(stream, "| %-36s | %-23s |\n",
-				"  SYS_CLK (w/ EMU_SYS_CLK)",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			"  SYS_CLK (w/ EMU_SYS_CLK)",
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_COREAON:
 		fprintf(stream, "| %-36s | %-23s |\n",
 			"  COREAON_IO_SRCOMP_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 14)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 14)));
 		if (cpu_revision_get() == REV_ES1_0)
 			fprintf(stream, "| %-36s | %-23s |\n",
 				"  COREAON_TS_GFCLK",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 13)));
+						      extract_bit(cm_clkstctrl,
+								  13)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  COREAON_32K_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 12)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 12)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  SR_CORE_SYS_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 11)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 11)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  SR_MM_SYS_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 10)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 10)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  SR_MPU_SYS_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 9)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 9)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  COREAON_L4_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_CAM:
 		fprintf(stream, "| %-36s | %-23s |\n", "  CAM_L3_GIFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 12)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 12)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  CAM_BOOST_GCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 11)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 11)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  FDIF_GCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 10)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 10)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  CSI_PHY_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 9)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 9)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  CAM_GCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_L4_CFG:
@@ -624,10 +617,11 @@ int clkdm54xx_config_show(FILE *stream, clockdm_info clkdm)
 			fprintf(stream, "| %-36s | %-23s |\n",
 				"  CORE_TS_GFCLK",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 9)));
+						      extract_bit(cm_clkstctrl,
+								  9)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  L4CFG_L4_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_EMIF:
@@ -635,29 +629,30 @@ int clkdm54xx_config_show(FILE *stream, clockdm_info clkdm)
 			fprintf(stream, "| %-36s | %-23s |\n",
 				"  EMIF_LL_GCLK",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 11)));
+						      extract_bit(cm_clkstctrl,
+								  11)));
 
 		fprintf(stream, "| %-36s | %-23s |\n", "  EMIF_PHY_GCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 10)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 10)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  DLL_GCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 9)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 9)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  EMIF_L3_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_IPU:
 		fprintf(stream, "| %-36s | %-23s |\n", "  IPU_CLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_L3_MAIN2:
 		fprintf(stream, "| %-36s | %-23s |\n", "  L3MAIN2_L3_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_L3_INSTR:
@@ -665,199 +660,208 @@ int clkdm54xx_config_show(FILE *stream, clockdm_info clkdm)
 			fprintf(stream, "| %-36s | %-23s |\n",
 				"  L3INSTR_TS_GCLK",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 10)));
+						      extract_bit(cm_clkstctrl,
+								  10)));
 
 		fprintf(stream, "| %-36s | %-23s |\n",
 			"  L3INSTR_DLL_AGING_GCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 9)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 9)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  L3INSTR_L3_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_L3_MAIN1:
 		fprintf(stream, "| %-36s | %-23s |\n", "  L3MAIN1_L3_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_C2C:
 		if (cpu_revision_get() == REV_ES1_0) {
 			fprintf(stream, "| %-36s | %-23s |\n", "  C2C_L4_GICLK",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 9)));
+						      extract_bit(cm_clkstctrl,
+								  9)));
 			fprintf(stream, "| %-36s | %-23s |\n", "  C2C_L3_GICLK",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 8)));
+						      extract_bit(cm_clkstctrl,
+								  8)));
 		} else {
 			fprintf(stream, "| %-36s | %-23s |\n", "  C2C_GICLK",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 10)));
+						      extract_bit(cm_clkstctrl,
+								  10)));
 			fprintf(stream, "| %-36s | %-23s |\n", "  C2C_GFCLK",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 9)));
+						      extract_bit(cm_clkstctrl,
+								  9)));
 			fprintf(stream, "| %-36s | %-23s |\n", "  C2C_L4_GICLK",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 8)));
+						      extract_bit(cm_clkstctrl,
+								  8)));
 		}
 		break;
 
 	case CLKDM54XX_DMA:
 		fprintf(stream, "| %-36s | %-23s |\n", "  DMA_L3_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_MIPIEXT:
 		fprintf(stream, "| %-36s | %-23s |\n", "  UNIPRO1_PHY_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 13)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 13)));
 		fprintf(stream, "| %-36s | %-23s |\n",
 			"  UNIPRO1_TXPHY_LS_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 12)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 12)));
 		fprintf(stream, "| %-36s | %-23s |\n",
 			"  MIPIEXT_PHY_REF_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 11)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 11)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  UNIPRO1_DPLL_CLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 10)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 10)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  MIPIEXT_L3_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_DSS:
 		if (cpu_revision_get() != REV_ES1_0)
 			fprintf(stream, "| %-36s | %-23s |\n", "  BB2D_GFCLK",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 13)));
+						      extract_bit(cm_clkstctrl,
+								  13)));
 
 		fprintf(stream, "| %-36s | %-23s |\n", "  HDMI_CEC_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 12)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 12)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  HDMI_PHY_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 11)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 11)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  DSS_SYS_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 10)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 10)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  DSS_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 9)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 9)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  DSS_L[3-4]_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_CUST_EFUSE:
 		fprintf(stream, "| %-36s | %-23s |\n", "  CUSTEFUSE_SYS_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 9)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 9)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  CUSTEFUSE_L4_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_L3_INIT:
 		fprintf(stream, "| %-36s | %-23s |\n", "  USB_OTG_SS_REF_CLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 31)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 31)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  UTMI_P3_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 30)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 30)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  L3INIT_60M_P2_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 29)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 29)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  L3INIT_60M_P1_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 28)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 28)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  HSIC_P2_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 27)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 27)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  HSIC_P1_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 26)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 26)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  UTMI_ROOT_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 25)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 25)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  TLL_CH2_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 24)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 24)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  TLL_CH1_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 23)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 23)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  TLL_CH0_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 22)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 22)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  L3INIT_P2_480M_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 21)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 21)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  L3INIT_P1_480M_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 20)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 20)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  SATA_REF_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 19)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 19)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  MMC2_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 18)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 18)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  MMC1_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 17)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 17)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  HSI_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 16)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 16)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  USB_DPLL_HS_CLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 15)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 15)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  USB_DPLL_CLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 14)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 14)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  UNIPRO2_PHY_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 13)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 13)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  L3INIT_48M_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 12)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 12)));
 		fprintf(stream, "| %-36s | %-23s |\n",
 			"  L3INIT_USB_OTG_SS_LFPS_TX_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 11)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 11)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  UNIPRO2_DPLL_CLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 10)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 10)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  L3INIT_L4_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 9)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 9)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  L3INIT_L3_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  HSIC_P3_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 7)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 7)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  HSIC_P3_480M_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 6)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 6)));
 		fprintf(stream, "| %-36s | %-23s |\n",
-				"  UNIPRO2_PHY_REF_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 5)));
+			"  UNIPRO2_PHY_REF_GFCLK",
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 5)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  PAD_XCLK60MHSP2",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 4)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 4)));
 		if (cpu_revision_get() == REV_ES1_0)
 			fprintf(stream, "| %-36s | %-23s |\n",
 				"  PAD_XCLK60MHSP1",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 3)));
+						      extract_bit(cm_clkstctrl,
+								  3)));
 		else
 			fprintf(stream, "| %-36s | %-23s |\n",
 				"  MMC1_32K_GFCLK",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 2)));
+						      extract_bit(cm_clkstctrl,
+								  2)));
 		break;
 
 	case CLKDM54XX_L4_PER:
@@ -865,116 +869,119 @@ int clkdm54xx_config_show(FILE *stream, clockdm_info clkdm)
 			fprintf(stream, "| %-36s | %-23s |\n",
 				"  PAD_SLIMBUS2_CLK",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 26)));
+						      extract_bit(cm_clkstctrl,
+								  26)));
 			fprintf(stream, "| %-36s | %-23s |\n",
 				"  PER_ABE_24M_GFCLK",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 25)));
+						      extract_bit(cm_clkstctrl,
+								  25)));
 		}
 		fprintf(stream, "| %-36s | %-23s |\n", "  PER_96M_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 19)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 19)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  PER_48M_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 18)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 18)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  PER_32K_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 17)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 17)));
 		if (cpu_revision_get() == REV_ES1_0)
 			fprintf(stream, "| %-36s | %-23s |\n",
 				"  PER_24M_GFCLK",
 				clkdm_status_name_get((clkdm_status)
-					extract_bit(cm_clkstctrl, 16)));
+						      extract_bit(cm_clkstctrl,
+								  16)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  PER_12M_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 15)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 15)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  TIMER9_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 14)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 14)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  TIMER4_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 13)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 13)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  TIMER3_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 12)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 12)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  TIMER2_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 11)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 11)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  TIMER11_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 10)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 10)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  TIMER10_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 9)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 9)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  L4PER_L4_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_L4_SEC:
 		fprintf(stream, "| %-36s | %-23s |\n", "  L4SEC_L4_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 9)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 9)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  L4SEC_L3_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_ABE:
 		fprintf(stream, "| %-36s | %-23s |\n", "  PAD_SLIMBUS1_CLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 15)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 15)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  PAD_CLKS",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 14)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 14)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  ABE_24M_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 13)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 13)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  ABE_32K_CLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 12)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 12)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  ABE_SYS_CLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 11)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 11)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  FUNC_24M_GFCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 10)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 10)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  ABE_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 9)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 9)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  DPLL_ABE_X2_CLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_DSP:
 		fprintf(stream, "| %-36s | %-23s |\n", "  DSP_GCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_GPU:
 		fprintf(stream, "| %-36s | %-23s |\n", "  GPU_HYD_GCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 10)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 10)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  GPU_CORE_GCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 9)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 9)));
 		fprintf(stream, "| %-36s | %-23s |\n", "  GPU_L3_GICLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_IVA:
 		fprintf(stream, "| %-36s | %-23s |\n", "  IVA_GCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	case CLKDM54XX_MPU:
 		fprintf(stream, "| %-36s | %-23s |\n", "  MPU_GCLK",
-			clkdm_status_name_get(
-				(clkdm_status) extract_bit(cm_clkstctrl, 8)));
+			clkdm_status_name_get((clkdm_status)
+					      extract_bit(cm_clkstctrl, 8)));
 		break;
 
 	default:

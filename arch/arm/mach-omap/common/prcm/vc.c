@@ -42,14 +42,12 @@
  *
  */
 
-
 #include <vc.h>
 #include <lib.h>
 #include <cpuinfo.h>
 #include <clock44xx.h>
 #include <clock54xx.h>
 #include <autoadjust_table.h>
-
 
 #define VC_ON_POS			24
 #define VC_ON_LEN			8
@@ -75,7 +73,6 @@
 #define VC_SCLH_POS			0
 #define VC_SCLH_LEN			8
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc_cmd_values_get
  * @BRIEF		return ON/ONLP/RET/OFF command values
@@ -89,8 +86,8 @@
  * @DESCRIPTION		return ON/ONLP/RET/OFF command values
  *------------------------------------------------------------------------ */
 short int vc_cmd_values_get(unsigned int prm_vc_val_cmd,
-	unsigned char *cmd_on, unsigned char *cmd_onlp,
-	unsigned char *cmd_ret, unsigned char *cmd_off)
+			    unsigned char *cmd_on, unsigned char *cmd_onlp,
+			    unsigned char *cmd_ret, unsigned char *cmd_off)
 {
 	CHECK_NULL_ARG(cmd_on, OMAPCONF_ERR_ARG);
 	CHECK_NULL_ARG(cmd_onlp, OMAPCONF_ERR_ARG);
@@ -105,7 +102,6 @@ short int vc_cmd_values_get(unsigned int prm_vc_val_cmd,
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sri2c_is_double_filtering_enabled
  * @BRIEF		check if double filtering is enabled
@@ -115,12 +111,11 @@ short int vc_cmd_values_get(unsigned int prm_vc_val_cmd,
  *			content
  * @DESCRIPTION		check if double filtering is enabled
  *------------------------------------------------------------------------ */
-unsigned char sri2c_is_double_filtering_enabled(
-	unsigned int prm_vc_cfg_i2c_mode)
+unsigned char sri2c_is_double_filtering_enabled(unsigned int
+						prm_vc_cfg_i2c_mode)
 {
 	return extract_bit(prm_vc_cfg_i2c_mode, VC_DFILTEREN_POS);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sri2c_is_sr_mode_enabled
@@ -136,7 +131,6 @@ unsigned char sri2c_is_sr_mode_enabled(unsigned int prm_vc_cfg_i2c_mode)
 	return extract_bit(prm_vc_cfg_i2c_mode, VC_SRMODEEN_POS);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sri2c_is_hs_mode_enabled
  * @BRIEF		check if I2C high speed mode is enabled
@@ -150,7 +144,6 @@ unsigned char sri2c_is_hs_mode_enabled(unsigned int prm_vc_cfg_i2c_mode)
 {
 	return extract_bit(prm_vc_cfg_i2c_mode, VC_HSMODEEN_POS);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sri2c_master_code_get
@@ -166,10 +159,8 @@ unsigned char sri2c_is_hs_mode_enabled(unsigned int prm_vc_cfg_i2c_mode)
 unsigned char sri2c_master_code_get(unsigned int prm_vc_cfg_i2c_mode)
 {
 	return extract_bitfield(prm_vc_cfg_i2c_mode,
-		VC_HSMCODE_POS, VC_HSMCODE_LEN);
+				VC_HSMCODE_POS, VC_HSMCODE_LEN);
 }
-
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sri2c_low_clock_cycles_count_get
@@ -189,8 +180,8 @@ unsigned char sri2c_master_code_get(unsigned int prm_vc_cfg_i2c_mode)
  *			the low period of the I2C clock signal
  *------------------------------------------------------------------------ */
 int sri2c_low_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
-	unsigned int prm_vc_cfg_i2c_clk,
-	unsigned char *cycles, double *us)
+				     unsigned int prm_vc_cfg_i2c_clk,
+				     unsigned char *cycles, double *us)
 {
 	double sysclk;
 
@@ -198,9 +189,9 @@ int sri2c_low_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
 	CHECK_NULL_ARG(us, OMAPCONF_ERR_ARG);
 
 	if (cpu_is_omap44xx()) {
-			sysclk = clk44xx_get_system_clock_speed();
+		sysclk = clk44xx_get_system_clock_speed();
 	} else if (cpu_is_omap54xx()) {
-			sysclk = clk54xx_sysclk_rate_get();
+		sysclk = clk54xx_sysclk_rate_get();
 	} else {
 		fprintf(stderr, "%s(): cpu not supported!!!\n", __func__);
 		return OMAPCONF_ERR_CPU;
@@ -208,15 +199,14 @@ int sri2c_low_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
 
 	if (sri2c_is_hs_mode_enabled(prm_vc_cfg_i2c_mode))
 		*cycles = extract_bitfield(prm_vc_cfg_i2c_clk,
-			VC_HSSCLL_POS, VC_HSSCLL_LEN);
+					   VC_HSSCLL_POS, VC_HSSCLL_LEN);
 	else
 		*cycles = extract_bitfield(prm_vc_cfg_i2c_clk,
-			VC_SCLL_POS, VC_SCLL_LEN);
-	*us = ((double) *cycles) / sysclk;
+					   VC_SCLL_POS, VC_SCLL_LEN);
+	*us = ((double)*cycles) / sysclk;
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sri2c_high_clock_cycles_count_get
@@ -236,8 +226,8 @@ int sri2c_low_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
  *			the high period of the I2C clock signal
  *------------------------------------------------------------------------ */
 int sri2c_high_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
-	unsigned int prm_vc_cfg_i2c_clk,
-	unsigned char *cycles, double *us)
+				      unsigned int prm_vc_cfg_i2c_clk,
+				      unsigned char *cycles, double *us)
 {
 	double sysclk;
 
@@ -245,9 +235,9 @@ int sri2c_high_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
 	CHECK_NULL_ARG(us, OMAPCONF_ERR_ARG);
 
 	if (cpu_is_omap44xx()) {
-			sysclk = clk44xx_get_system_clock_speed();
+		sysclk = clk44xx_get_system_clock_speed();
 	} else if (cpu_is_omap54xx()) {
-			sysclk = clk54xx_sysclk_rate_get();
+		sysclk = clk54xx_sysclk_rate_get();
 	} else {
 		fprintf(stderr, "%s(): cpu not supported!!!\n", __func__);
 		return OMAPCONF_ERR_CPU;
@@ -255,15 +245,14 @@ int sri2c_high_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
 
 	if (sri2c_is_hs_mode_enabled(prm_vc_cfg_i2c_mode))
 		*cycles = extract_bitfield(prm_vc_cfg_i2c_clk,
-			VC_HSSCLH_POS, VC_HSSCLH_LEN);
+					   VC_HSSCLH_POS, VC_HSSCLH_LEN);
 	else
 		*cycles = extract_bitfield(prm_vc_cfg_i2c_clk,
-			VC_SCLH_POS, VC_SCLH_LEN);
-	*us = ((double) *cycles) / sysclk;
+					   VC_SCLH_POS, VC_SCLH_LEN);
+	*us = ((double)*cycles) / sysclk;
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sri2c_config_show
@@ -277,8 +266,8 @@ int sri2c_high_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
  * @param[in]		prm_vc_cfg_i2c_clk: PRM_VC_CFG_I2C_CLK register content
  * @DESCRIPTION		decode and show VC SR I2C current configuration
  *------------------------------------------------------------------------ */
-int sri2c_config_show(FILE *stream, unsigned int prm_vc_cfg_i2c_mode,
-	unsigned int prm_vc_cfg_i2c_clk)
+int sri2c_config_show(FILE * stream, unsigned int prm_vc_cfg_i2c_mode,
+		      unsigned int prm_vc_cfg_i2c_clk)
 {
 	unsigned char low_cycles, high_cycles;
 	double low_us, high_us;
@@ -294,18 +283,17 @@ int sri2c_config_show(FILE *stream, unsigned int prm_vc_cfg_i2c_mode,
 	autoadjust_table_init(table);
 	autoadjust_table_strncpy(table, row++, 0, "SR HS-I2C Configuration");
 
-
 	autoadjust_table_strncpy(table, row, 0, "Double Filtering");
 	if (sri2c_is_double_filtering_enabled(prm_vc_cfg_i2c_mode))
 		autoadjust_table_strncpy(table, row, 1,
-			"Enabled (rejects glitches < 2 SYSCLK cycle)");
+					 "Enabled (rejects glitches < 2 SYSCLK cycle)");
 	else
 		autoadjust_table_strncpy(table, row, 1,
-			"Disabled (rejects glitches < 1 SYSCLK cycle)");
+					 "Disabled (rejects glitches < 1 SYSCLK cycle)");
 	row++;
 
 	autoadjust_table_strncpy(table, row, 0,
-		"Repeated Start Mode (SRMODEEN)");
+				 "Repeated Start Mode (SRMODEEN)");
 	if (sri2c_is_sr_mode_enabled(prm_vc_cfg_i2c_mode))
 		autoadjust_table_strncpy(table, row, 1, "Enabled");
 	else
@@ -317,36 +305,37 @@ int sri2c_config_show(FILE *stream, unsigned int prm_vc_cfg_i2c_mode,
 		autoadjust_table_strncpy(table, row, 1, "Enabled");
 		row++;
 		autoadjust_table_strncpy(table, row, 0,
-			"  HS Master Code (HSMCODE)");
+					 "  HS Master Code (HSMCODE)");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"0x%02X", sri2c_master_code_get(prm_vc_cfg_i2c_mode));
+			 "0x%02X", sri2c_master_code_get(prm_vc_cfg_i2c_mode));
 	} else {
 		autoadjust_table_strncpy(table, row, 1, "Disabled");
 	}
 	row++;
 
 	autoadjust_table_strncpy(table, row++, 0, "I2C Clock Configuration:");
-	sri2c_low_clock_cycles_count_get(
-		prm_vc_cfg_i2c_mode, prm_vc_cfg_i2c_clk, &low_cycles, &low_us);
-	sri2c_high_clock_cycles_count_get(
-		prm_vc_cfg_i2c_mode, prm_vc_cfg_i2c_clk,
-		&high_cycles, &high_us);
+	sri2c_low_clock_cycles_count_get(prm_vc_cfg_i2c_mode,
+					 prm_vc_cfg_i2c_clk, &low_cycles,
+					 &low_us);
+	sri2c_high_clock_cycles_count_get(prm_vc_cfg_i2c_mode,
+					  prm_vc_cfg_i2c_clk, &high_cycles,
+					  &high_us);
 	if (sri2c_is_hs_mode_enabled(prm_vc_cfg_i2c_mode)) {
 		autoadjust_table_strncpy(table, row, 0,
-			"  Low Period (HSSCLL)");
+					 "  Low Period (HSSCLL)");
 		snprintf(table[row++][1], TABLE_MAX_ELT_LEN, "0x%02X (%.3lfus)",
-			low_cycles, low_us);
+			 low_cycles, low_us);
 		autoadjust_table_strncpy(table, row, 0,
-			"  High Period (HSSCLH)");
+					 "  High Period (HSSCLH)");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "0x%02X (%.3lfus)",
-			high_cycles, high_us);
+			 high_cycles, high_us);
 	} else {
 		autoadjust_table_strncpy(table, row, 0, "  Low Period (SCLL)");
 		snprintf(table[row++][1], TABLE_MAX_ELT_LEN, "0x%02X (%.3lfus)",
-			low_cycles, low_us);
+			 low_cycles, low_us);
 		autoadjust_table_strncpy(table, row, 0, "  High Period (SCLH)");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "0x%02X (%.3lfus)",
-			high_cycles, high_us);
+			 high_cycles, high_us);
 	}
 	row++;
 

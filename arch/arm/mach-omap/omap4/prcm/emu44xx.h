@@ -41,18 +41,15 @@
  *
  */
 
-
 #ifndef __EMU44XX_H__
 #define __EMU44XX_H__
 
-
 #include <stdio.h>
-
 
 int emu44xx_name2addr(char *name, unsigned int *addr);
 int emu44xx_dump(void);
-int emu44xx_config_show(FILE *stream);
-int emu44xx_dependency_show(FILE *stream);
+int emu44xx_config_show(FILE * stream);
+int emu44xx_dependency_show(FILE * stream);
 
 void emu44xx_enable(void);
 void emu44xx_disable(void);
@@ -60,6 +57,5 @@ int emu44xx_is_enabled(void);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int emu44xx_main(int argc, char *argv[]);
-
 
 #endif

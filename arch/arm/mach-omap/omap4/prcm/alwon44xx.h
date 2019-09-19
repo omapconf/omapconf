@@ -41,20 +41,16 @@
  *
  */
 
-
 #ifndef __ALWON44XX_H__
 #define __ALWON44XX_H__
 
-
 #include <stdio.h>
-
 
 int alwon44xx_name2addr(char *name, unsigned int *addr);
 int alwon44xx_dump(void);
-int alwon44xx_config_show(FILE *stream);
+int alwon44xx_config_show(FILE * stream);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int alwon44xx_main(int argc, char *argv[]);
-
 
 #endif

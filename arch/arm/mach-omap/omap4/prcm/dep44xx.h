@@ -42,24 +42,19 @@
  *
  */
 
-
 #ifndef __DEP44XX_H__
 #define __DEP44XX_H__
 
-
 #include <stdio.h>
-
 
 int statdep44xx_dump(void);
 int statdep44xx_show(void);
-int statdep44xx_audit(FILE *stream, unsigned int *err_nbr,
-	unsigned int *wng_nbr);
-int statdep44xx_main_set(
-	char *clkdm_from, char *clkdm_to, unsigned short enable);
-
+int statdep44xx_audit(FILE * stream, unsigned int *err_nbr,
+		      unsigned int *wng_nbr);
+int statdep44xx_main_set(char *clkdm_from, char *clkdm_to,
+			 unsigned short enable);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int statdep44xx_main(int argc, char *argv[]);
-
 
 #endif

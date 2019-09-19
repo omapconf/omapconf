@@ -41,16 +41,12 @@
  *
  */
 
-
 #ifndef __PRCM54XX_H__
 #define __PRCM54XX_H__
 
-
 #include <stdio.h>
 
-
 int prcm54xx_dump(char *s);
-int prcm54xx_config_show(FILE *stream, int argc, char *argv[]);
-
+int prcm54xx_config_show(FILE * stream, int argc, char *argv[]);
 
 #endif

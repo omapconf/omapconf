@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <module_dra7xx.h>
 #include <lib.h>
 #include <string.h>
@@ -56,7 +55,6 @@
 #include <voltdomain.h>
 #include <opp.h>
 
-
 /* #define MODULE_DRA7XX_DEBUG */
 #ifdef MODULE_DRA7XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -64,10 +62,8 @@
 #define dprintf(format, ...)
 #endif
 
-
 static unsigned short mod_dra7xx_init_done;
 genlist mod_dra7xx_list;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_dra7xx_init
@@ -86,398 +82,394 @@ void mod_dra7xx_init(void)
 
 	/* Voltage dom.: CORE, Power dom.: COREAON, Clock domain = CD_L4_CFG */
 	mod.name = MOD_L4_CFG_INTERCONNECT;
-	mod.id = (int) DRA7_L4_CFG_INTERCONNECT;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_L4_CFG_INTERCONNECT;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_CORE;
-	mod.clk = (int) CLK_DRA7XX_L4CFG_L4_GICLK;
+	mod.clk = (int)CLK_DRA7XX_L4CFG_L4_GICLK;
 	mod.sysconfig = NULL;
 	mod.clkctrl = &dra7xx_core_cm_core_cm_l4cfg_l4_cfg_clkctrl;
 	mod.context = &dra7xx_core_prm_rm_l4cfg_l4_cfg_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 133000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-	mod.properties = 0;/* TBD */
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
+	mod.properties = 0;	/* TBD */
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	/* Voltage dom.: CORE, Power dom.: COREAON, Clock domain = CD_EMIF */
 	mod.name = MOD_DMM;
-	mod.id = (int) DRA7_DMM;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_DMM;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_CORE;
-	mod.clk = (int) CLK_DRA7XX_EMIF_L3_GICLK;
+	mod.clk = (int)CLK_DRA7XX_EMIF_L3_GICLK;
 	mod.sysconfig = NULL;
 	mod.clkctrl = &dra7xx_core_cm_core_cm_emif_dmm_clkctrl;
 	mod.context = &dra7xx_core_prm_rm_emif_dmm_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 266000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-	mod.properties = 0;/* TBD */
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
+	mod.properties = 0;	/* TBD */
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	mod.name = MOD_EMIF1;
-	mod.id = (int) DRA7_EMIF1;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_EMIF1;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_CORE;
-	mod.clk = (int) CLK_DRA7XX_EMIF_L3_GICLK;
+	mod.clk = (int)CLK_DRA7XX_EMIF_L3_GICLK;
 	mod.sysconfig = NULL;
 	mod.clkctrl = &dra7xx_core_cm_core_cm_emif_emif1_clkctrl;
 	mod.context = &dra7xx_core_prm_rm_emif_emif1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 266000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-	mod.properties = 0;/* TBD */
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
+	mod.properties = 0;	/* TBD */
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	mod.name = MOD_EMIF2;
-	mod.id = (int) DRA7_EMIF2;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_EMIF2;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_CORE;
-	mod.clk = (int) CLK_DRA7XX_EMIF_L3_GICLK;
+	mod.clk = (int)CLK_DRA7XX_EMIF_L3_GICLK;
 	mod.sysconfig = NULL;
 	mod.clkctrl = &dra7xx_core_cm_core_cm_emif_emif2_clkctrl;
 	mod.context = &dra7xx_core_prm_rm_emif_emif2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 266000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-	mod.properties = 0;/* TBD */
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
+	mod.properties = 0;	/* TBD */
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	/* Voltage dom.: CORE, Power dom.: COREAON, Clock domain = CD_L3_MAIN1 */
 	mod.name = MOD_L3_MAIN1_INTERCONNECT;
-	mod.id = (int) DRA7_L3_MAIN1_INTERCONNECT;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_L3_MAIN1_INTERCONNECT;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_CORE;
-	mod.clk = (int) CLK_DRA7XX_L3MAIN1_L3_GICLK;
+	mod.clk = (int)CLK_DRA7XX_L3MAIN1_L3_GICLK;
 	mod.sysconfig = NULL;
 	mod.clkctrl = &dra7xx_core_cm_core_cm_l3main1_l3_main_1_clkctrl;
 	mod.context = &dra7xx_core_prm_rm_l3main1_l3_main_1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 266000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-	mod.properties = 0;/* TBD */
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
+	mod.properties = 0;	/* TBD */
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	/* Voltage dom.: CORE, Power dom.: PD_CORE, Clock domain = CD_CORE */
 	mod.name = MOD_IPU2;
-	mod.id = (int) DRA7_IPU2;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_IPU2;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_CORE;
-	mod.clk = (int) CLK_DRA7XX_IPU2_GFCLK;
+	mod.clk = (int)CLK_DRA7XX_IPU2_GFCLK;
 	mod.sysconfig = NULL;
 	mod.clkctrl = &dra7xx_core_cm_core_cm_ipu2_ipu2_clkctrl;
 	mod.context = &dra7xx_core_prm_rm_ipu2_ipu2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 425000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = 425000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-	mod.properties = 0;/* TBD */
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
+	mod.properties = 0;	/* TBD */
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	/* Voltage dom.: CORE, Power dom.: PD_IPU, Clock domain = CD_IPU1 */
 	mod.name = MOD_IPU1;
-	mod.id = (int) DRA7_IPU1;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_IPU1;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_CORE;
-	mod.clk = (int) CLK_DRA7XX_IPU1_GFCLK;
+	mod.clk = (int)CLK_DRA7XX_IPU1_GFCLK;
 	mod.sysconfig = NULL;
 	mod.clkctrl = &dra7xx_ipu_cm_core_aon_cm_ipu1_ipu1_clkctrl;
 	mod.context = &dra7xx_ipu_prm_rm_ipu1_ipu1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 425000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = 425000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-	mod.properties = 0;/* TBD */
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
+	mod.properties = 0;	/* TBD */
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	/* Voltage dom.: CORE, Power dom.: PD_DSS, Clock domain = CD_DSS */
 	mod.name = MOD_BB2D;
-	mod.id = (int) DRA7_BB2D;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_BB2D;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_CORE;
-	mod.clk = (int) CLK_DRA7XX_BB2D_GFCLK;
+	mod.clk = (int)CLK_DRA7XX_BB2D_GFCLK;
 	mod.sysconfig = NULL;
 	mod.clkctrl = &dra7xx_dss_cm_core_cm_dss_bb2d_clkctrl;
 	mod.context = &dra7xx_dss_prm_rm_dss_bb2d_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 354600;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-	mod.properties = 0;/* TBD */
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
+	mod.properties = 0;	/* TBD */
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	mod.name = MOD_DSS;
-	mod.id = (int) DRA7_DSS;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_DSS;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_CORE;
-	mod.clk = (int) CLK_DRA7XX_DSS_GFCLK;
+	mod.clk = (int)CLK_DRA7XX_DSS_GFCLK;
 	mod.sysconfig = NULL;
 	mod.clkctrl = &dra7xx_dss_cm_core_cm_dss_dss_clkctrl;
 	mod.context = &dra7xx_dss_prm_rm_dss_dss_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 192000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = -1;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-	mod.properties = 0;/* TBD */
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
-
-
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
+	mod.properties = 0;	/* TBD */
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	/* Voltage dom.: IVAHD, Power dom.: PD_IVA, Clock domain = CD_IVA */
 	mod.name = MOD_IVAHD;
-	mod.id = (int) DRA7_IVAHD;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_IVAHD;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_IVA;
-	mod.clk = (int) CLK_DRA7XX_IVA_GCLK;
+	mod.clk = (int)CLK_DRA7XX_IVA_GCLK;
 	mod.sysconfig = NULL;
 	mod.clkctrl = &dra7xx_iva_cm_core_cm_iva_iva_clkctrl;
 	mod.context = &dra7xx_iva_prm_rm_iva_iva_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 388300;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = 430000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = 532000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_PLUS;
 	opp.rate = 617000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	mod.properties = MOD_HAS_STANDBY_STATUS;
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	/* Voltage dom.: DSPEVE, Power dom.: PD_DSP1, Clock domain = CD_DSP1 */
 	mod.name = MOD_DSP1;
-	mod.id = (int) DRA7_DSP1;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_DSP1;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_DSPEVE;
-	mod.clk = (int) CLK_DRA7XX_DSP_GFCLK;
-	mod.sysconfig = NULL;/* TBD */
+	mod.clk = (int)CLK_DRA7XX_DSP_GFCLK;
+	mod.sysconfig = NULL;	/* TBD */
 	mod.clkctrl = &dra7xx_dsp1_cm_core_aon_cm_dsp1_dsp1_clkctrl;
 	mod.context = &dra7xx_dsp1_prm_rm_dsp1_dsp1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 600000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = 700000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = 750000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_PLUS;
 	opp.rate = 1000000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	mod.properties = MOD_HAS_STANDBY_STATUS;
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	/* Voltage dom.: DSPEVE, Power dom.: PD_DSP2, Clock domain = CD_DSP2 */
 	mod.name = MOD_DSP2;
-	mod.id = (int) DRA7_DSP2;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_DSP2;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_DSPEVE;
-	mod.clk = (int) CLK_DRA7XX_DSP_GFCLK;
-	mod.sysconfig = NULL;/* TBD */
+	mod.clk = (int)CLK_DRA7XX_DSP_GFCLK;
+	mod.sysconfig = NULL;	/* TBD */
 	mod.clkctrl = &dra7xx_dsp2_cm_core_aon_cm_dsp2_dsp2_clkctrl;
 	mod.context = &dra7xx_dsp2_prm_rm_dsp2_dsp2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 600000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = 700000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = 750000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_PLUS;
 	opp.rate = 1000000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	mod.properties = MOD_HAS_STANDBY_STATUS;
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	/* Voltage dom.: DSPEVE, Power dom.: PD_EVE1, Clock domain = CD_EVE1 */
 	mod.name = MOD_EVE1;
-	mod.id = (int) DRA7_EVE1;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_EVE1;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_DSPEVE;
-	mod.clk = (int) CLK_DRA7XX_EVE_CLK;
-	mod.sysconfig = NULL;/* TBD */
+	mod.clk = (int)CLK_DRA7XX_EVE_CLK;
+	mod.sysconfig = NULL;	/* TBD */
 	mod.clkctrl = &dra7xx_eve1_cm_core_aon_cm_eve1_eve1_clkctrl;
 	mod.context = &dra7xx_eve1_prm_rm_eve1_eve1_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 535000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = 650000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = 650000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_PLUS;
 	opp.rate = 900000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-	mod.properties = MOD_HAS_STANDBY_STATUS/* TBD */;
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
+	mod.properties = MOD_HAS_STANDBY_STATUS /* TBD */ ;
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	/* Voltage dom.: DSPEVE, Power dom.: PD_EVE2, Clock domain = CD_EVE2 */
 	mod.name = MOD_EVE2;
-	mod.id = (int) DRA7_EVE2;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_EVE2;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_DSPEVE;
-	mod.clk = (int) CLK_DRA7XX_EVE_CLK;
-	mod.sysconfig = NULL;/* TBD */
+	mod.clk = (int)CLK_DRA7XX_EVE_CLK;
+	mod.sysconfig = NULL;	/* TBD */
 	mod.clkctrl = &dra7xx_eve2_cm_core_aon_cm_eve2_eve2_clkctrl;
 	mod.context = &dra7xx_eve2_prm_rm_eve2_eve2_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 535000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = 650000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = 650000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_PLUS;
 	opp.rate = 900000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-	mod.properties = MOD_HAS_STANDBY_STATUS/* TBD */;
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
+	mod.properties = MOD_HAS_STANDBY_STATUS /* TBD */ ;
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	/* Voltage dom.: GPU, Power dom.: PD_GPU, Clock domain = CD_GPU */
 	mod.name = MOD_GPU;
-	mod.id = (int) DRA7_GPU;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_GPU;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_GPU;
-	mod.clk = (int) CLK_DRA7XX_GPU_GCLK;
-	mod.sysconfig = NULL;/* TBD */
+	mod.clk = (int)CLK_DRA7XX_GPU_GCLK;
+	mod.sysconfig = NULL;	/* TBD */
 	mod.clkctrl = &dra7xx_gpu_cm_core_cm_gpu_gpu_clkctrl;
 	mod.context = &dra7xx_gpu_prm_rm_gpu_gpu_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 425600;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = 500000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = 532000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_PLUS;
 	opp.rate = 665000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
-	mod.properties = MOD_HAS_STANDBY_STATUS/* TBD */;
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
-
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
+	mod.properties = MOD_HAS_STANDBY_STATUS /* TBD */ ;
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	/* Voltage dom.: MPU, Power dom.: PD_MPUAON, Clock domain = CD_MPUAON */
 	mod.name = MOD_MPU;
-	mod.id = (int) DRA7_DPLL_MPU;
-	mod.clkdm = NULL;/* TBD */
-	mod.pwrdm = NULL;/* TBD */
+	mod.id = (int)DRA7_DPLL_MPU;
+	mod.clkdm = NULL;	/* TBD */
+	mod.pwrdm = NULL;	/* TBD */
 	mod.voltdm = VDD_MPU;
-	mod.clk = (int) CLK_DRA7XX_MPU_GCLK;
+	mod.clk = (int)CLK_DRA7XX_MPU_GCLK;
 	mod.sysconfig = NULL;
 	mod.clkctrl = &dra7xx_mpu_cm_core_aon_cm_mpu_mpu_clkctrl;
 	mod.context = &dra7xx_mpu_prm_rm_mpu_mpu_context;
 	genlist_init(&(mod.mod_opp_list));
 	opp.name = OPP_NOM;
 	opp.rate = 1000000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_OD;
 	opp.rate = 1176000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_HIGH;
 	opp.rate = 1500000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	opp.name = OPP_PLUS;
 	opp.rate = 1800000;
-	genlist_addtail(&(mod.mod_opp_list), (void *) &opp, sizeof(mod_opp));
+	genlist_addtail(&(mod.mod_opp_list), (void *)&opp, sizeof(mod_opp));
 	mod.properties = MOD_HAS_STANDBY_STATUS;
-	genlist_addtail(&mod_dra7xx_list, (void *) &mod, sizeof(mod_info));
+	genlist_addtail(&mod_dra7xx_list, (void *)&mod, sizeof(mod_info));
 
 	mod_dra7xx_init_done = 1;
 
 	dprintf("%s(): init done.\n", __func__);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_dra7xx_deinit
@@ -493,7 +485,7 @@ void mod_dra7xx_deinit(void)
 	if (mod_dra7xx_init_done) {
 		count = genlist_getcount(&mod_dra7xx_list);
 		for (i = 0; i < count; i++) {
-			genlist_get(&mod_dra7xx_list, i, (mod_info *) &mod);
+			genlist_get(&mod_dra7xx_list, i, (mod_info *) & mod);
 			genlist_free(&(mod.mod_opp_list));
 		}
 		genlist_free(&mod_dra7xx_list);
@@ -501,7 +493,6 @@ void mod_dra7xx_deinit(void)
 	}
 	dprintf("%s(): deinit done.\n", __func__);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_dra7xx_list_get
@@ -514,9 +505,8 @@ const genlist *mod_dra7xx_list_get(void)
 {
 	mod_dra7xx_init();
 
-	return (const genlist *) &mod_dra7xx_list;
+	return (const genlist *)&mod_dra7xx_list;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mod_dra7xx_count_get

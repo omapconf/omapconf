@@ -42,29 +42,29 @@
  *
  */
 
-
 #include <clkdm_dependency.h>
 #include <lib.h>
 
-
 static const char
-	clkdmdep_type_names_table[CLKDMDEP_TYPE_MAX][CLKDMDEP_TYPE_MAX_NAME_LENGTH] = {
+ clkdmdep_type_names_table[CLKDMDEP_TYPE_MAX][CLKDMDEP_TYPE_MAX_NAME_LENGTH] = {
 	"Static",
-	"Dynamic"};
-
+	"Dynamic"
+};
 
 static const char
-	clkdmdep_ctrl_type_names_table[CLKDMDEP_CONTROL_TYPE_MAX][CLKDMDEP_CTRL_TYPE_MAX_NAME_LENGTH] = {
+ clkdmdep_ctrl_type_names_table[CLKDMDEP_CONTROL_TYPE_MAX]
+    [CLKDMDEP_CTRL_TYPE_MAX_NAME_LENGTH] = {
 	"NA",
 	"R/W",
-	"RO"};
-
+	"RO"
+};
 
 static const char
-	clkdmdep_status_names_table[CLKDMDEP_STATUS_MAX][CLKDMDEP_STATUS_MAX_NAME_LENGTH] = {
+ clkdmdep_status_names_table[CLKDMDEP_STATUS_MAX]
+    [CLKDMDEP_STATUS_MAX_NAME_LENGTH] = {
 	"Disabled",
-	"Enabled"};
-
+	"Enabled"
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep_type_name_get
@@ -81,7 +81,6 @@ const char *clkdmdep_type_name_get(clkdmdep_type type)
 	return clkdmdep_type_names_table[type];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep_ctrl_type_name_get
  * @BRIEF		return control type name
@@ -96,7 +95,6 @@ const char *clkdmdep_ctrl_type_name_get(clkdmdep_ctrl_type type)
 
 	return clkdmdep_ctrl_type_names_table[type];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep_status_name_get

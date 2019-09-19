@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <pwrdm44xx.h>
 #include <lib.h>
 #include <mem.h>
@@ -52,14 +51,12 @@
 #include <stdio.h>
 #include <cpuinfo.h>
 
-
 /* #define PWRDM44XX_DEBUG */
 #ifdef PWRDM44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 const char pwrdm44xx_name_table[OMAP4_PD_ID_MAX][PWRDM44XX_MAX_NAME_LENGTH] = {
 	"WKUP",
@@ -78,7 +75,8 @@ const char pwrdm44xx_name_table[OMAP4_PD_ID_MAX][PWRDM44XX_MAX_NAME_LENGTH] = {
 	"DSS",
 	"GFX",
 	"L3INIT",
-	"L4PER"};
+	"L4PER"
+};
 
 static const voltdm44xx_id pwrdm44xx_partition_table[OMAP4_PD_ID_MAX] = {
 	OMAP4_LDO_WKUP,
@@ -97,12 +95,11 @@ static const voltdm44xx_id pwrdm44xx_partition_table[OMAP4_PD_ID_MAX] = {
 	OMAP4_VDD_CORE,
 	OMAP4_VDD_CORE,
 	OMAP4_VDD_CORE,
-	OMAP4_VDD_CORE};
-
+	OMAP4_VDD_CORE
+};
 
 static unsigned short pwrdm44xx_init_done = 0;
 genlist pwrdm44xx_list;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_init
@@ -124,7 +121,6 @@ void pwrdm44xx_init(void)
 	pwrdm44xx_init_done = 1;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_deinit
  * @BRIEF		free dynamically allocated internal data.
@@ -141,7 +137,6 @@ void pwrdm44xx_deinit(void)
 	dprintf("%s(): deinit done.\n", __func__);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_list_get
  * @BRIEF		return the list of power domains
@@ -153,9 +148,8 @@ const genlist *pwrdm44xx_list_get(void)
 {
 	pwrdm44xx_init();
 
-	return (const genlist *) &pwrdm44xx_list;
+	return (const genlist *)&pwrdm44xx_list;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_count_get
@@ -177,7 +171,6 @@ int pwrdm44xx_count_get(void)
 	return count;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_get_name
  * @BRIEF		return power domain name
@@ -197,7 +190,6 @@ char *pwrdm44xx_get_name(pwrdm44xx_id id, char name[PWRDM44XX_MAX_NAME_LENGTH])
 	return name;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_get_voltdm
  * @BRIEF		return the ID of the voltage domain a given power domain
@@ -212,14 +204,12 @@ char *pwrdm44xx_get_name(pwrdm44xx_id id, char name[PWRDM44XX_MAX_NAME_LENGTH])
 voltdm44xx_id pwrdm44xx_get_voltdm(pwrdm44xx_id id)
 {
 	if (id >= OMAP4_PD_ID_MAX) {
-		fprintf(stderr, "%s: id >= OMAP4_PD_ID_MAX!!!\n",
-			__func__);
+		fprintf(stderr, "%s: id >= OMAP4_PD_ID_MAX!!!\n", __func__);
 		return OMAP4_VD_ID_MAX;
 	}
 
 	return pwrdm44xx_partition_table[id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_get_state
@@ -230,17 +220,15 @@ voltdm44xx_id pwrdm44xx_get_voltdm(pwrdm44xx_id id)
  * @param[in,out]	state: current power domain state (returned)
  * @DESCRIPTION		extract current power domain state from register
  *------------------------------------------------------------------------ */
-int pwrdm44xx_get_state(pwrdm44xx_id pd_id,
-	pwrdm_state *state)
+int pwrdm44xx_get_state(pwrdm44xx_id pd_id, pwrdm_state * state)
 {
 	unsigned int pm_pwrstst_addr, pwrstst;
-	#ifdef PWRDM44XX_DEBUG
+#ifdef PWRDM44XX_DEBUG
 	char pwrdm_name[PWRDM44XX_MAX_NAME_LENGTH];
-	#endif
+#endif
 
 	if (state == NULL)
 		return OMAPCONF_ERR_ARG;
-
 
 	/* Retrieve registers address */
 	switch (pd_id) {
@@ -307,7 +295,6 @@ int pwrdm44xx_get_state(pwrdm44xx_id pd_id,
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_config_show
  * @BRIEF		analyze power domain configuration
@@ -320,9 +307,10 @@ int pwrdm44xx_get_state(pwrdm44xx_id pd_id,
  * @param[in]		pm_pwstst: PM_xyz_PWSTST register content
  * @DESCRIPTION		analyze power domain configuration
  *------------------------------------------------------------------------ */
-int pwrdm44xx_config_show(FILE *stream, const char name[11],
-	unsigned int pm_pwstctrl_addr, unsigned int pm_pwstctrl,
-	unsigned int pm_pwstst_addr, unsigned int pm_pwstst)
+int pwrdm44xx_config_show(FILE * stream, const char name[11],
+			  unsigned int pm_pwstctrl_addr,
+			  unsigned int pm_pwstctrl, unsigned int pm_pwstst_addr,
+			  unsigned int pm_pwstst)
 {
 	char curr[32], tgt[32], last[32];
 
@@ -344,11 +332,11 @@ int pwrdm44xx_config_show(FILE *stream, const char name[11],
 	fprintf(stream, "|--------------------------------|---------|--------"
 		"-|---------|\n");
 	pwrdm_state2string(curr,
-		(pwrdm_state) extract_bitfield(pm_pwstst, 0, 2));
+			   (pwrdm_state) extract_bitfield(pm_pwstst, 0, 2));
 	pwrdm_state2string(tgt,
-		(pwrdm_state) extract_bitfield(pm_pwstctrl, 0, 2));
+			   (pwrdm_state) extract_bitfield(pm_pwstctrl, 0, 2));
 	if ((cpu_is_omap4430() && (cpu_revision_get() != REV_ES1_0)) ||
-		cpu_is_omap4460() || cpu_is_omap4470()) {
+	    cpu_is_omap4460() || cpu_is_omap4470()) {
 		switch (pm_pwstst_addr) {
 		case OMAP4430_PM_MPU_PWRSTST:
 		case OMAP4430_PM_DSP_PWRSTST:
@@ -358,7 +346,7 @@ int pwrdm44xx_config_show(FILE *stream, const char name[11],
 		case OMAP4430_PM_L3INIT_PWRSTST:
 		case OMAP4430_PM_L4PER_PWRSTST:
 			pwrdm_state2string(last, (pwrdm_state)
-				extract_bitfield(pm_pwstst, 24, 2));
+					   extract_bitfield(pm_pwstst, 24, 2));
 			break;
 		case OMAP4430_PM_CAM_PWRSTST:
 		case OMAP4430_PM_DSS_PWRSTST:
@@ -366,7 +354,8 @@ int pwrdm44xx_config_show(FILE *stream, const char name[11],
 		case OMAP4430_PM_EMU_PWRSTST:
 			if (!cpu_is_omap4430())
 				pwrdm_state2string(last, (pwrdm_state)
-					extract_bitfield(pm_pwstst, 24, 2));
+						   extract_bitfield(pm_pwstst,
+								    24, 2));
 			else
 				strcpy(last, "");
 			break;
@@ -380,11 +369,10 @@ int pwrdm44xx_config_show(FILE *stream, const char name[11],
 		"Domain", curr, tgt, last);
 
 	if ((pm_pwstctrl_addr == OMAP4430_PM_CAM_PWRSTCTRL) ||
-			(pm_pwstctrl_addr == OMAP4430_PM_EMU_PWRSTCTRL) ||
-			(pm_pwstctrl_addr == OMAP4430_PM_GFX_PWRSTCTRL)) {
+	    (pm_pwstctrl_addr == OMAP4430_PM_EMU_PWRSTCTRL) ||
+	    (pm_pwstctrl_addr == OMAP4430_PM_GFX_PWRSTCTRL)) {
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n", "Logic",
-			((extract_bit(pm_pwstst, 2) == 1) ? "ON" : "OFF"),
-			"");
+			((extract_bit(pm_pwstst, 2) == 1) ? "ON" : "OFF"), "");
 	} else {
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n", "Logic",
 			((extract_bit(pm_pwstst, 2) == 1) ? "ON" : "OFF"),
@@ -395,9 +383,9 @@ int pwrdm44xx_config_show(FILE *stream, const char name[11],
 	switch (pm_pwstctrl_addr) {
 	case OMAP4430_PM_CORE_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 12, 2));
+				   extract_bitfield(pm_pwstst, 12, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 12));
+				   extract_bit(pm_pwstctrl, 12));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    OCP_WP Bank & DMM Bank2", curr, tgt);
 		break;
@@ -408,17 +396,17 @@ int pwrdm44xx_config_show(FILE *stream, const char name[11],
 	switch (pm_pwstctrl_addr) {
 	case OMAP4430_PM_IVAHD_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 10, 2));
+				   extract_bitfield(pm_pwstst, 10, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 11));
+				   extract_bit(pm_pwstctrl, 11));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    TCM2", curr, tgt);
 		break;
 	case OMAP4430_PM_CORE_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 10, 2));
+				   extract_bitfield(pm_pwstst, 10, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 11));
+				   extract_bit(pm_pwstctrl, 11));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    MPU_M3 Unicache", curr, tgt);
 	default:
@@ -428,17 +416,17 @@ int pwrdm44xx_config_show(FILE *stream, const char name[11],
 	switch (pm_pwstctrl_addr) {
 	case OMAP4430_PM_MPU_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 8, 2));
+				   extract_bitfield(pm_pwstst, 8, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 10));
+				   extract_bit(pm_pwstctrl, 10));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    RAM", curr, tgt);
 		break;
 	case OMAP4430_PM_DSP_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 8, 2));
+				   extract_bitfield(pm_pwstst, 8, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 10));
+				   extract_bit(pm_pwstctrl, 10));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    EDMA", curr, tgt);
 		break;
@@ -446,25 +434,25 @@ int pwrdm44xx_config_show(FILE *stream, const char name[11],
 	case OMAP4430_PM_CAM_PWRSTCTRL:
 	case OMAP4430_PM_GFX_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 4, 2));
+				   extract_bitfield(pm_pwstst, 4, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 8));
+				   extract_bit(pm_pwstctrl, 8));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    MEM", curr, tgt);
 		break;
 	case OMAP4430_PM_IVAHD_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 8, 2));
+				   extract_bitfield(pm_pwstst, 8, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 10));
+				   extract_bit(pm_pwstctrl, 10));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    TCM1", curr, tgt);
 		break;
 	case OMAP4430_PM_CORE_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 8, 2));
+				   extract_bitfield(pm_pwstst, 8, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 10));
+				   extract_bit(pm_pwstctrl, 10));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    MPU_M3 L2 RAM", curr, tgt);
 		break;
@@ -475,104 +463,101 @@ int pwrdm44xx_config_show(FILE *stream, const char name[11],
 	switch (pm_pwstctrl_addr) {
 	case OMAP4430_PM_ABE_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 8, 2));
+				   extract_bitfield(pm_pwstst, 8, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 10));
+				   extract_bit(pm_pwstctrl, 10));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    PERIPHMEM", curr, tgt);
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 4, 2));
+				   extract_bitfield(pm_pwstst, 4, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 8));
+				   extract_bit(pm_pwstctrl, 8));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    AESSMEM", curr, tgt);
 		break;
 	case OMAP4430_PM_MPU_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 6, 2));
+				   extract_bitfield(pm_pwstst, 6, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 9));
+				   extract_bit(pm_pwstctrl, 9));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    L2$", curr, tgt);
 		if (cpu_is_omap4430())
 			pwrdm_state2string(curr,
-				extract_bitfield(pm_pwstst, 4, 2));
+					   extract_bitfield(pm_pwstst, 4, 2));
 		else
-			strcpy(curr, ""); /* not available on OMAP44[60-70] */
-		pwrdm_state2string(tgt,
-			extract_bit(pm_pwstctrl, 8));
+			strcpy(curr, "");	/* not available on OMAP44[60-70] */
+		pwrdm_state2string(tgt, extract_bit(pm_pwstctrl, 8));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    L1$", curr, tgt);
 		break;
 	case OMAP4430_PM_DSP_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 6, 2));
+				   extract_bitfield(pm_pwstst, 6, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 9));
+				   extract_bit(pm_pwstctrl, 9));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    L2$", curr, tgt);
-		pwrdm_state2string(curr,
-			extract_bitfield(pm_pwstst, 4, 2));
-		pwrdm_state2string(tgt,
-			extract_bit(pm_pwstctrl, 8));
+		pwrdm_state2string(curr, extract_bitfield(pm_pwstst, 4, 2));
+		pwrdm_state2string(tgt, extract_bit(pm_pwstctrl, 8));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    L1$", curr, tgt);
 		break;
 	case OMAP4430_PM_IVAHD_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 6, 2));
+				   extract_bitfield(pm_pwstst, 6, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 9));
+				   extract_bit(pm_pwstctrl, 9));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    SL2", curr, tgt);
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 4, 2));
+				   extract_bitfield(pm_pwstst, 4, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 8));
+				   extract_bit(pm_pwstctrl, 8));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    HWA", curr, tgt);
 		break;
 	case OMAP4430_PM_L4PER_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 6, 2));
+				   extract_bitfield(pm_pwstst, 6, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 9));
+				   extract_bit(pm_pwstctrl, 9));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    NONRETAINED", curr, tgt);
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 4, 2));
+				   extract_bitfield(pm_pwstst, 4, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 8));
+				   extract_bit(pm_pwstctrl, 8));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    RETAINED", curr, tgt);
 		break;
 	case OMAP4430_PM_CORE_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 6, 2));
+				   extract_bitfield(pm_pwstst, 6, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 9));
+				   extract_bit(pm_pwstctrl, 9));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    OCM RAM", curr, tgt);
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 4, 2));
+				   extract_bitfield(pm_pwstst, 4, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 8));
+				   extract_bit(pm_pwstctrl, 8));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    DMA/ICR Bank & DMM Bank1", curr, tgt);
 		break;
 	case OMAP4430_PM_L3INIT_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 4, 2));
+				   extract_bitfield(pm_pwstst, 4, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bit(pm_pwstctrl, 8));
+				   extract_bit(pm_pwstctrl, 8));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    L3INIT Bank1", curr, tgt);
 		break;
 	case OMAP4430_PM_EMU_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
-			extract_bitfield(pm_pwstst, 4, 2));
+				   extract_bitfield(pm_pwstst, 4, 2));
 		pwrdm_state2string(tgt, (pwrdm_state)
-			extract_bitfield(pm_pwstctrl, 16, 2));
+				   extract_bitfield(pm_pwstctrl, 16, 2));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    EMU Bank", curr, tgt);
 		break;
@@ -589,4 +574,3 @@ int pwrdm44xx_config_show(FILE *stream, const char name[11],
 
 	return 0;
 }
-

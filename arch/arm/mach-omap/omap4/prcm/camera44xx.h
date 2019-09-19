@@ -33,10 +33,8 @@
  * MA 02110-1301 USA.
  */
 
-
 #ifndef __CAMERA44XX_H__
 #define __CAMERA44XX_H__
-
 
 /* ISS TOP Physical address */
 #define ISS_HL_REVISION			0x52000000
@@ -105,7 +103,6 @@
 #define CCP2_LCM_DST_ADDR		0x52001DE8
 #define CCP2_LCM_DST_OFST		0x52001DEC
 #define CCP2_LCM_HISTORY		0x52001DF0
-
 
 /* CSI2 Pinmuxs */
 #define CONTROL_CAMERA_RX				0x4A100608
@@ -308,7 +305,6 @@
 #define NSF_DS_THR			(0x64)
 #define NSF_DS_SLOPE1			(0x66)
 #define NSF_DS_SLOPE2			(0x68)
-
 
 int camera44xx_main(int argc, char *argv[]);
 int camera44xx_name2addr(char *name, unsigned int *addr);

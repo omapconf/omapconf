@@ -1387,8 +1387,8 @@ int hwobs54xx_display_pads(pad_cell pad_reg_table[HWOBS54XX_PAD_MAX_NBR + 1])
 					  pad_reg_table[row].name);
 			omapconf_snprintf(autoadjust_table[row + 1][3],
 					  TABLE_MAX_ELT_LEN, "0x%08X",
-					  (unsigned int)(pad_reg_table[row].
-							 addr));
+					  (unsigned
+					   int)(pad_reg_table[row].addr));
 			omapconf_snprintf(autoadjust_table[row + 1][4],
 					  TABLE_MAX_ELT_LEN, "0x%04X", pad_val);
 		} else {
@@ -1504,21 +1504,21 @@ int hwobs54xx_display_signals(void)
 				case 0x0:
 					ret =
 					    mem_read
-					    (omap5430_control_debobs_mmr_mpu.addr,
-					     &hwobs_mux);
+					    (omap5430_control_debobs_mmr_mpu.
+					     addr, &hwobs_mux);
 					break;
 
 				case 0x5:
 					if (cpu_revision_get() == REV_ES1_0)
 						ret =
 						    mem_read
-						    (omap5430es1_cm_core_debug_cfg.addr,
-						     &hwobs_mux);
+						    (omap5430es1_cm_core_debug_cfg.
+						     addr, &hwobs_mux);
 					else
 						ret =
 						    mem_read
-						    (omap5430_cm_core_debug_cfg.addr,
-						     &hwobs_mux);
+						    (omap5430_cm_core_debug_cfg.
+						     addr, &hwobs_mux);
 					strcat(str_debug_mux, " (CM_CORE)");
 					break;
 
@@ -1554,26 +1554,26 @@ int hwobs54xx_display_signals(void)
 					if (cpu_revision_get() == REV_ES1_0)
 						ret =
 						    mem_read
-						    (omap5430es1_prm_debug_cfg.addr,
-						     &hwobs_mux);
+						    (omap5430es1_prm_debug_cfg.
+						     addr, &hwobs_mux);
 					else
 						ret =
 						    mem_read
-						    (omap5430_prm_debug_cfg.addr,
-						     &hwobs_mux);
+						    (omap5430_prm_debug_cfg.
+						     addr, &hwobs_mux);
 					break;
 
 				case 0x1:
 					if (cpu_revision_get() == REV_ES1_0)
 						ret =
 						    mem_read
-						    (omap5430es1_cm_core_aon_debug_cfg.addr,
-						     &hwobs_mux);
+						    (omap5430es1_cm_core_aon_debug_cfg.
+						     addr, &hwobs_mux);
 					else
 						ret =
 						    mem_read
-						    (omap5430_cm_core_aon_debug_cfg.addr,
-						     &hwobs_mux);
+						    (omap5430_cm_core_aon_debug_cfg.
+						     addr, &hwobs_mux);
 					strcat(str_debug_mux, " (CM_AON)");
 					break;
 

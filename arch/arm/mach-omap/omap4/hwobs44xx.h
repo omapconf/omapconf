@@ -116,7 +116,7 @@ static const char debobs_final_mux_sel_names[3][OMAP4430_HWOBS_MUX_NAME_LENGTH]
 
 /* OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_i: Names depending on bit values */
 static const char
-    ctrl_wkup_conf_debug_sel_tst_names[3][OMAP4430_HWOBS_MUX_NAME_LENGTH] = {
+ ctrl_wkup_conf_debug_sel_tst_names[3][OMAP4430_HWOBS_MUX_NAME_LENGTH] = {
 	"PRM",
 	"CM1",
 	"END"
@@ -124,7 +124,7 @@ static const char
 
 /* OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_i: Names depending on bit values */
 static const char
-    ctrl_core_conf_debug_sel_tst_names[15][OMAP4430_HWOBS_MUX_NAME_LENGTH] = {
+ ctrl_core_conf_debug_sel_tst_names[15][OMAP4430_HWOBS_MUX_NAME_LENGTH] = {
 	"MPUSS",
 	"reserved",		/* FIXME: some bits contain dplls, clocks or usbotg debug signals */
 	"reserved",		/* FIXME: some bits contain sdma or clocks debug signals */

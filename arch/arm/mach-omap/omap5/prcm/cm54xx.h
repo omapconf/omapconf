@@ -41,19 +41,16 @@
  *
  */
 
-
 #ifndef __CM54XX_H__
 #define __CM54XX_H__
 
 #include <cm54xx-defs.h>
 #include <stdio.h>
 
-
 const char *cm54xx_mod_name_get(cm54xx_mod_id id);
-int cm54xx_dump(FILE *stream, cm54xx_mod_id id);
-int cm54xx_export(FILE *fp, cm54xx_mod_id id);
-int cm54xx_import(FILE *fp, cm54xx_mod_id id);
+int cm54xx_dump(FILE * stream, cm54xx_mod_id id);
+int cm54xx_export(FILE * fp, cm54xx_mod_id id);
+int cm54xx_import(FILE * fp, cm54xx_mod_id id);
 unsigned int cm54xx_is_profiling_running(cm54xx_mod_id id);
-
 
 #endif

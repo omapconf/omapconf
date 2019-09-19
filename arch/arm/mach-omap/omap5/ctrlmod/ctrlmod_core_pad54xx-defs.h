@@ -383,10 +383,10 @@ extern reg omap5430_control_ddrio_ext_0;
 
 #define OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT				162
 extern reg
-    *omap5430es1_ctrl_module_core_pad_mod
+    * omap5430es1_ctrl_module_core_pad_mod
     [OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT + 1];
 extern reg
-    *omap5430_ctrl_module_core_pad_mod
+    * omap5430_ctrl_module_core_pad_mod
     [OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT + 1];
 
 #endif

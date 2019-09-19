@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <per44xx.h>
 #include <cm44xx.h>
 #include <prm44xx.h>
@@ -53,7 +52,6 @@
 #include <mem.h>
 #include <cpuinfo.h>
 #include <string.h>
-
 
 /* #define PER44XX_DEBUG */
 #ifdef PER44XX_DEBUG
@@ -68,7 +66,6 @@ reg_table prcm_per_reg_table[PRCM_PER_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
 
 static int per44xx_regtable_init(void);
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		per44xx_name2addr
@@ -90,7 +87,6 @@ int per44xx_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, prcm_per_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		per44xx_config_show
  * @BRIEF		analyze power configuration
@@ -100,7 +96,7 @@ int per44xx_name2addr(char *name, unsigned int *addr)
  * @param[in,out]	stream: output file stream
  * @DESCRIPTION		analyze power configuration
  *------------------------------------------------------------------------ */
-int per44xx_config_show(FILE *stream)
+int per44xx_config_show(FILE * stream)
 {
 	unsigned int pm_pwstctrl;
 	unsigned int pm_pwstst;
@@ -123,13 +119,13 @@ int per44xx_config_show(FILE *stream)
 		return OMAPCONF_ERR_REG_ACCESS;
 
 	ret = pwrdm44xx_config_show(stream, "L4_PER",
-		OMAP4430_PM_L4PER_PWRSTCTRL, pm_pwstctrl,
-		OMAP4430_PM_L4PER_PWRSTST, pm_pwstst);
+				    OMAP4430_PM_L4PER_PWRSTCTRL, pm_pwstctrl,
+				    OMAP4430_PM_L4PER_PWRSTST, pm_pwstst);
 	if (ret != 0)
 		return ret;
 
 	ret = clkdm44xx_config_show(stream, "L4_PER",
-		OMAP4430_CM_L4PER_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_L4PER_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 
@@ -138,8 +134,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_L4_PER_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "L4_PER",
-		OMAP4430_CM_L4PER_L4PER_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_L4_PER_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_L4PER_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_L4_PER_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -148,8 +144,10 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_DMTIMER2_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "GPTIMER2",
-		OMAP4430_CM_L4PER_DMTIMER2_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_DMTIMER2_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_DMTIMER2_CLKCTRL,
+				  cm_clkctrl,
+				  OMAP4430_RM_L4PER_DMTIMER2_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -158,8 +156,10 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_DMTIMER3_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "GPTIMER3",
-		OMAP4430_CM_L4PER_DMTIMER3_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_DMTIMER3_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_DMTIMER3_CLKCTRL,
+				  cm_clkctrl,
+				  OMAP4430_RM_L4PER_DMTIMER3_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -168,8 +168,10 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_DMTIMER4_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "GPTIMER4",
-		OMAP4430_CM_L4PER_DMTIMER4_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_DMTIMER4_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_DMTIMER4_CLKCTRL,
+				  cm_clkctrl,
+				  OMAP4430_RM_L4PER_DMTIMER4_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -178,8 +180,10 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_DMTIMER9_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "GPTIMER9",
-		OMAP4430_CM_L4PER_DMTIMER9_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_DMTIMER9_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_DMTIMER9_CLKCTRL,
+				  cm_clkctrl,
+				  OMAP4430_RM_L4PER_DMTIMER9_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -188,8 +192,10 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_DMTIMER10_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "GPTIMER10",
-		OMAP4430_CM_L4PER_DMTIMER10_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_DMTIMER10_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_DMTIMER10_CLKCTRL,
+				  cm_clkctrl,
+				  OMAP4430_RM_L4PER_DMTIMER10_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -198,8 +204,10 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_DMTIMER11_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "GPTIMER11",
-		OMAP4430_CM_L4PER_DMTIMER11_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_DMTIMER11_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_DMTIMER11_CLKCTRL,
+				  cm_clkctrl,
+				  OMAP4430_RM_L4PER_DMTIMER11_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -208,8 +216,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_ELM_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "ELM",
-		OMAP4430_CM_L4PER_ELM_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_ELM_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_ELM_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_ELM_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -218,8 +226,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_GPIO2_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "GPIO2",
-		OMAP4430_CM_L4PER_GPIO2_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_GPIO2_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_GPIO2_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_GPIO2_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -228,8 +236,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_GPIO3_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "GPIO3",
-		OMAP4430_CM_L4PER_GPIO3_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_GPIO3_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_GPIO3_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_GPIO3_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -238,8 +246,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_GPIO4_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "GPIO4",
-		OMAP4430_CM_L4PER_GPIO4_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_GPIO4_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_GPIO4_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_GPIO4_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -248,8 +256,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_GPIO5_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "GPIO5",
-		OMAP4430_CM_L4PER_GPIO5_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_GPIO5_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_GPIO5_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_GPIO5_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -258,8 +266,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_GPIO6_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "GPIO6",
-		OMAP4430_CM_L4PER_GPIO6_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_GPIO6_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_GPIO6_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_GPIO6_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -268,8 +276,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_HDQ1W_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "HDQ1W",
-		OMAP4430_CM_L4PER_HDQ1W_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_HDQ1W_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_HDQ1W_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_HDQ1W_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -278,8 +286,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_I2C1_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "I2C1",
-		OMAP4430_CM_L4PER_I2C1_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_I2C1_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_I2C1_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_I2C1_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -288,8 +296,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_I2C2_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "I2C2",
-		OMAP4430_CM_L4PER_I2C2_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_I2C2_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_I2C2_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_I2C2_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -298,8 +306,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_I2C3_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "I2C3",
-		OMAP4430_CM_L4PER_I2C3_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_I2C3_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_I2C3_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_I2C3_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -308,8 +316,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_I2C4_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "I2C4",
-		OMAP4430_CM_L4PER_I2C4_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_I2C4_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_I2C4_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_I2C4_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -318,8 +326,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_MCBSP4_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MCBSP4",
-		OMAP4430_CM_L4PER_MCBSP4_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_MCBSP4_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_MCBSP4_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_MCBSP4_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -328,8 +336,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_MCSPI1_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MCSPI1",
-		OMAP4430_CM_L4PER_MCSPI1_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_MCSPI1_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_MCSPI1_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_MCSPI1_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -338,8 +346,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_MCSPI2_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MCSPI2",
-		OMAP4430_CM_L4PER_MCSPI2_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_MCSPI2_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_MCSPI2_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_MCSPI2_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -348,8 +356,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_MCSPI3_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MCSPI3",
-		OMAP4430_CM_L4PER_MCSPI3_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_MCSPI3_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_MCSPI3_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_MCSPI3_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -358,8 +366,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_MCSPI4_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MCSPI4",
-		OMAP4430_CM_L4PER_MCSPI4_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_MCSPI4_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_MCSPI4_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_MCSPI4_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -368,8 +376,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_MMCSD3_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MMCSD3",
-		OMAP4430_CM_L4PER_MMCSD3_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_MMCSD3_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_MMCSD3_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_MMCSD3_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -378,8 +386,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_MMCSD4_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MMCSD4",
-		OMAP4430_CM_L4PER_MMCSD4_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_MMCSD4_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_MMCSD4_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_MMCSD4_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -388,8 +396,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_MMCSD5_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MMCSD5",
-		OMAP4430_CM_L4PER_MMCSD5_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_MMCSD5_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_MMCSD5_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_MMCSD5_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -398,8 +406,10 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_SLIMBUS2_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "SLIMBUS2",
-		OMAP4430_CM_L4PER_SLIMBUS2_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_SLIMBUS2_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_SLIMBUS2_CLKCTRL,
+				  cm_clkctrl,
+				  OMAP4430_RM_L4PER_SLIMBUS2_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -408,8 +418,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_UART1_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "UART1",
-		OMAP4430_CM_L4PER_UART1_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_UART1_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_UART1_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_UART1_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -418,8 +428,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_UART2_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "UART2",
-		OMAP4430_CM_L4PER_UART2_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_UART2_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_UART2_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_UART2_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -428,8 +438,8 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_UART3_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "UART3",
-		OMAP4430_CM_L4PER_UART3_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_UART3_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_UART3_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_UART3_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -438,14 +448,13 @@ int per44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4PER_UART4_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "UART4",
-		OMAP4430_CM_L4PER_UART4_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4PER_UART4_CONTEXT, rm_context);
+				  OMAP4430_CM_L4PER_UART4_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4PER_UART4_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		per44xx_dependency_show
@@ -455,7 +464,7 @@ int per44xx_config_show(FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		analyse dependency configuration
  *------------------------------------------------------------------------ */
-int per44xx_dependency_show(FILE *stream)
+int per44xx_dependency_show(FILE * stream)
 {
 	unsigned int cm_dynamicdep;
 
@@ -475,12 +484,10 @@ int per44xx_dependency_show(FILE *stream)
 		"|-------------------------------------|------------------|\n");
 	fprintf(stream,
 		"| %-35s | %-6s | %-7s |\n", "L3_INIT",
-		"",
-		((extract_bit(cm_dynamicdep, 7) == 1) ? "En" : "Dis"));
+		"", ((extract_bit(cm_dynamicdep, 7) == 1) ? "En" : "Dis"));
 	fprintf(stream,
 		"| %-35s | %-6s | %-7s |\n", "DSS",
-		"",
-		((extract_bit(cm_dynamicdep, 8) == 1) ? "En" : "Dis"));
+		"", ((extract_bit(cm_dynamicdep, 8) == 1) ? "En" : "Dis"));
 	fprintf(stream,
 		"|--------------------------------------------------------|\n");
 	fprintf(stream, "| %-44s | %-7d |\n", "Window Size",
@@ -491,7 +498,6 @@ int per44xx_dependency_show(FILE *stream)
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		per44xx_dump
@@ -510,7 +516,6 @@ int per44xx_dump(void)
 
 	return dumpregs(prcm_per_reg_table);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		per44xx_main
@@ -549,7 +554,6 @@ int per44xx_main(int argc, char *argv[])
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		per44xx_regtable_init

@@ -574,8 +574,7 @@ unsigned char sr_error_generator_minlimit_get(unsigned int errconfig)
 double sr_error_generator_minlimit_percentage_get(unsigned int errconfig)
 {
 	return sr_error_generator_limit_hex2percent((signed char)
-						    sr_error_generator_minlimit_get
-						    (errconfig));
+						    sr_error_generator_minlimit_get(errconfig));
 }
 
 /* ------------------------------------------------------------------------
@@ -606,8 +605,7 @@ unsigned char sr_error_generator_maxlimit_get(unsigned int errconfig)
 double sr_error_generator_maxlimit_percentage_get(unsigned int errconfig)
 {
 	return sr_error_generator_limit_hex2percent((signed char)
-						    sr_error_generator_maxlimit_get
-						    (errconfig));
+						    sr_error_generator_maxlimit_get(errconfig));
 }
 
 /* ------------------------------------------------------------------------
@@ -954,25 +952,21 @@ unsigned int sr_lvt_sensor_value_get(sr_registers * sr_regs,
 	case SR_SENSOR_N:
 		switch (val_type) {
 		case SR_SENSOR_VAL_LATEST:
-			return (unsigned int)extract_bitfield(sr_regs->
-							      lvtsenval,
-							      SR_SENNVAL_POS,
-							      SR_SENNVAL_LEN);
+			return (unsigned int)
+			    extract_bitfield(sr_regs->lvtsenval, SR_SENNVAL_POS,
+					     SR_SENNVAL_LEN);
 		case SR_SENSOR_VAL_MIN:
-			return (unsigned int)extract_bitfield(sr_regs->
-							      lvtsenmin,
-							      SR_SENNMIN_POS,
-							      SR_SENNMIN_LEN);
+			return (unsigned int)
+			    extract_bitfield(sr_regs->lvtsenmin, SR_SENNMIN_POS,
+					     SR_SENNMIN_LEN);
 		case SR_SENSOR_VAL_MAX:
-			return (unsigned int)extract_bitfield(sr_regs->
-							      lvtsenmax,
-							      SR_SENNMAX_POS,
-							      SR_SENNMAX_LEN);
+			return (unsigned int)
+			    extract_bitfield(sr_regs->lvtsenmax, SR_SENNMAX_POS,
+					     SR_SENNMAX_LEN);
 		case SR_SENSOR_VAL_AVG:
-			return (unsigned int)extract_bitfield(sr_regs->
-							      lvtsenavg,
-							      SR_SENNAVG_POS,
-							      SR_SENNAVG_LEN);
+			return (unsigned int)
+			    extract_bitfield(sr_regs->lvtsenavg, SR_SENNAVG_POS,
+					     SR_SENNAVG_LEN);
 		default:
 			fprintf(stderr, "%s(): incorrect value type! (%u)\n",
 				__func__, val_type);
@@ -982,25 +976,21 @@ unsigned int sr_lvt_sensor_value_get(sr_registers * sr_regs,
 	case SR_SENSOR_P:
 		switch (val_type) {
 		case SR_SENSOR_VAL_LATEST:
-			return (unsigned int)extract_bitfield(sr_regs->
-							      lvtsenval,
-							      SR_SENPVAL_POS,
-							      SR_SENPVAL_LEN);
+			return (unsigned int)
+			    extract_bitfield(sr_regs->lvtsenval, SR_SENPVAL_POS,
+					     SR_SENPVAL_LEN);
 		case SR_SENSOR_VAL_MIN:
-			return (unsigned int)extract_bitfield(sr_regs->
-							      lvtsenmin,
-							      SR_SENPMIN_POS,
-							      SR_SENPMIN_LEN);
+			return (unsigned int)
+			    extract_bitfield(sr_regs->lvtsenmin, SR_SENPMIN_POS,
+					     SR_SENPMIN_LEN);
 		case SR_SENSOR_VAL_MAX:
-			return (unsigned int)extract_bitfield(sr_regs->
-							      lvtsenmax,
-							      SR_SENPMAX_POS,
-							      SR_SENPMAX_LEN);
+			return (unsigned int)
+			    extract_bitfield(sr_regs->lvtsenmax, SR_SENPMAX_POS,
+					     SR_SENPMAX_LEN);
 		case SR_SENSOR_VAL_AVG:
-			return (unsigned int)extract_bitfield(sr_regs->
-							      lvtsenavg,
-							      SR_SENPAVG_POS,
-							      SR_SENPAVG_LEN);
+			return (unsigned int)
+			    extract_bitfield(sr_regs->lvtsenavg, SR_SENPAVG_POS,
+					     SR_SENPAVG_LEN);
 		default:
 			fprintf(stderr, "%s(): incorrect value type! (%u)\n",
 				__func__, val_type);
@@ -1205,8 +1195,8 @@ int sr_config_show(FILE * stream, sr_registers sr_regs[3])
 			s1 = (char *)irq_status_table[val];
 			if (irq_type != SR_IRQ_VPBOUNDS) {
 				val2 =
-				    sr_irq_raw_status_is_set(sr_regs[i].
-							     irqstatus_raw,
+				    sr_irq_raw_status_is_set(sr_regs
+							     [i].irqstatus_raw,
 							     irq_type);
 				s2 = (char *)irq_status_table[val2];
 				snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
@@ -1411,15 +1401,15 @@ sr_config_show_errgen:
 		autoadjust_table_strncpy(table, row, 0, "  ERRMINLIMIT");
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
 			 "%.1lf%% (0x%02X)",
-			 sr_error_generator_minlimit_percentage_get(sr_regs[i].
-								    errconfig),
+			 sr_error_generator_minlimit_percentage_get(sr_regs
+								    [i].errconfig),
 			 sr_error_generator_minlimit_get(sr_regs[i].errconfig));
 		row++;
 		autoadjust_table_strncpy(table, row, 0, "  ERRMAXLIMIT");
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
 			 "%.1lf%% (0x%02X)",
-			 sr_error_generator_maxlimit_percentage_get(sr_regs[i].
-								    errconfig),
+			 sr_error_generator_maxlimit_percentage_get(sr_regs
+								    [i].errconfig),
 			 sr_error_generator_maxlimit_get(sr_regs[i].errconfig));
 		row++;
 		autoadjust_table_strncpy(table, row, 0, "  ERRWEIGHT");
@@ -1441,8 +1431,8 @@ sr_config_show_errgen:
 		    sr_avg_sensor_error_value_status_get(sr_regs[i].srstatus);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
 			 "%.1lf%% (0x%02X) (%s)",
-			 sr_avg_sensor_error_percentage_get(sr_regs[i].
-							    senerror),
+			 sr_avg_sensor_error_percentage_get(sr_regs
+							    [i].senerror),
 			 sr_avg_sensor_error_value_get(sr_regs[i].senerror),
 			 sr_sensor_value_status_name_get(status));
 		row++;
@@ -1722,11 +1712,9 @@ int sr_config_audit(FILE * stream, const char *sr_name, const char *opp_name,
 	autoadjust_table_strncpy(table, row, 0, "  Idle Mode");
 	idle_mode_curr = sr_error_generator_idle_mode_get(sr_regs->errconfig);
 	idle_mode_expected = sr_golden_settings->idle_mode;
-	autoadjust_table_strncpy(table, row, 1,
-				 (char *)
+	autoadjust_table_strncpy(table, row, 1, (char *)
 				 mod_idle_mode_name_get(idle_mode_curr));
-	autoadjust_table_strncpy(table, row, 2,
-				 (char *)
+	autoadjust_table_strncpy(table, row, 2, (char *)
 				 mod_idle_mode_name_get(idle_mode_expected));
 	SR_AUDIT_SHOW_STATUS(idle_mode_curr, idle_mode_expected);
 

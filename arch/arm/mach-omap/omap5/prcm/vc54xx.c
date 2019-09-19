@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <vc54xx.h>
 #include <prm54xx.h>
 #include <vc.h>
@@ -50,7 +49,6 @@
 #include <autoadjust_table.h>
 #include <pmic.h>
 
-
 /* #define VC54XX_DEBUG */
 #ifdef VC54XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -58,30 +56,32 @@
 #define dprintf(format, ...)
 #endif
 
-
 static const char
-	vc54xx_vfsm_error_type_names[VC54XX_VFSM_ERR_TYPE_MAX + 1][VC54XX_ERR_NAME_MAX_LENGTH] = {
+ vc54xx_vfsm_error_type_names[VC54XX_VFSM_ERR_TYPE_MAX +
+			      1][VC54XX_ERR_NAME_MAX_LENGTH] = {
 	"VFSM Timeout Error",
 	"VFSM RA Error",
 	"VFSM SA Error",
-	"FIXME"};
-
+	"FIXME"
+};
 
 static const char
-	vc54xx_smps_error_type_names[VC54XX_SMPS_ERR_TYPE_MAX + 1][VC54XX_ERR_NAME_MAX_LENGTH] = {
+ vc54xx_smps_error_type_names[VC54XX_SMPS_ERR_TYPE_MAX +
+			      1][VC54XX_ERR_NAME_MAX_LENGTH] = {
 	"SMPS Timeout Error",
 	"SMPS RA Error",
 	"SMPS SA Error",
-	"FIXME"};
-
+	"FIXME"
+};
 
 static const char
-	vc54xx_bypass_error_type_names[VC54XX_BYPS_ERR_TYPE_MAX + 1][VC54XX_ERR_NAME_MAX_LENGTH] = {
+ vc54xx_bypass_error_type_names[VC54XX_BYPS_ERR_TYPE_MAX +
+				1][VC54XX_ERR_NAME_MAX_LENGTH] = {
 	"Bypass Timeout Error",
 	"Bypass RA Error",
 	"Bypass SA Error",
-	"FIXME"};
-
+	"FIXME"
+};
 
 #define VC_CMD_SET_SELECT_POS		28
 #define VC_RACEN_POS			27
@@ -114,7 +114,6 @@ static const char
 #define VC_BYPS_RA_ERR_POS		1
 #define VC_BYPS_SA_ERR_POS		0
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_vfsm_error_name_get
  * @BRIEF		return VFSM error type name
@@ -130,7 +129,6 @@ const char *vc54xx_vfsm_error_name_get(vc54xx_vfsm_error_type type)
 	else
 		return vc54xx_vfsm_error_type_names[VC54XX_VFSM_ERR_TYPE_MAX];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_smps_error_name_get
@@ -148,7 +146,6 @@ const char *vc54xx_smps_error_name_get(vc54xx_smps_error_type type)
 		return vc54xx_smps_error_type_names[VC54XX_SMPS_ERR_TYPE_MAX];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_bypass_error_name_get
  * @BRIEF		return BYPASS error type name
@@ -165,7 +162,6 @@ const char *vc54xx_bypass_error_name_get(vc54xx_bypass_error_type type)
 		return vc54xx_bypass_error_type_names[VC54XX_BYPS_ERR_TYPE_MAX];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_registers_get
  * @BRIEF		save all VC registers in structure provided as argument.
@@ -175,70 +171,63 @@ const char *vc54xx_bypass_error_name_get(vc54xx_bypass_error_type type)
  * @param[in, out]	vc_regs: structure where to store VC registers
  * @DESCRIPTION		save all VC registers in structure provided as argument.
  *------------------------------------------------------------------------ */
-int vc54xx_registers_get(vc54xx_registers *vc_regs)
+int vc54xx_registers_get(vc54xx_registers * vc_regs)
 {
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(vc_regs, OMAPCONF_ERR_ARG);
 
 	if (cpu_revision_get() == REV_ES1_0) {
 		vc_regs->vc_smps_mpu_config =
-			reg_read(&omap5430es1_prm_vc_smps_mpu_config);
+		    reg_read(&omap5430es1_prm_vc_smps_mpu_config);
 		vc_regs->vc_smps_mm_config =
-			reg_read(&omap5430es1_prm_vc_smps_mm_config);
+		    reg_read(&omap5430es1_prm_vc_smps_mm_config);
 		vc_regs->vc_smps_core_config =
-			reg_read(&omap5430es1_prm_vc_smps_core_config);
+		    reg_read(&omap5430es1_prm_vc_smps_core_config);
 		vc_regs->vc_val_cmd_vdd_mpu_l =
-			reg_read(&omap5430es1_prm_vc_val_cmd_vdd_mpu_l);
+		    reg_read(&omap5430es1_prm_vc_val_cmd_vdd_mpu_l);
 		vc_regs->vc_val_cmd_vdd_mm_l =
-			reg_read(&omap5430es1_prm_vc_val_cmd_vdd_mm_l);
+		    reg_read(&omap5430es1_prm_vc_val_cmd_vdd_mm_l);
 		vc_regs->vc_val_cmd_vdd_core_l =
-			reg_read(&omap5430es1_prm_vc_val_cmd_vdd_core_l);
+		    reg_read(&omap5430es1_prm_vc_val_cmd_vdd_core_l);
 		vc_regs->vc_val_bypass =
-			reg_read(&omap5430es1_prm_vc_val_bypass);
-		vc_regs->vc_mpu_errst =
-			reg_read(&omap5430es1_prm_vc_mpu_errst);
-		vc_regs->vc_mm_errst =
-			reg_read(&omap5430es1_prm_vc_mm_errst);
+		    reg_read(&omap5430es1_prm_vc_val_bypass);
+		vc_regs->vc_mpu_errst = reg_read(&omap5430es1_prm_vc_mpu_errst);
+		vc_regs->vc_mm_errst = reg_read(&omap5430es1_prm_vc_mm_errst);
 		vc_regs->vc_core_errst =
-			reg_read(&omap5430es1_prm_vc_core_errst);
+		    reg_read(&omap5430es1_prm_vc_core_errst);
 		vc_regs->vc_bypass_errst =
-			reg_read(&omap5430es1_prm_vc_bypass_errst);
+		    reg_read(&omap5430es1_prm_vc_bypass_errst);
 		vc_regs->vc_cfg_i2c_mode =
-			reg_read(&omap5430es1_prm_vc_cfg_i2c_mode);
+		    reg_read(&omap5430es1_prm_vc_cfg_i2c_mode);
 		vc_regs->vc_cfg_i2c_clk =
-			reg_read(&omap5430es1_prm_vc_cfg_i2c_clk);
+		    reg_read(&omap5430es1_prm_vc_cfg_i2c_clk);
 	} else {
 		vc_regs->vc_smps_mpu_config =
-			reg_read(&omap5430_prm_vc_smps_mpu_config);
+		    reg_read(&omap5430_prm_vc_smps_mpu_config);
 		vc_regs->vc_smps_mm_config =
-			reg_read(&omap5430_prm_vc_smps_mm_config);
+		    reg_read(&omap5430_prm_vc_smps_mm_config);
 		vc_regs->vc_smps_core_config =
-			reg_read(&omap5430_prm_vc_smps_core_config);
+		    reg_read(&omap5430_prm_vc_smps_core_config);
 		vc_regs->vc_val_cmd_vdd_mpu_l =
-			reg_read(&omap5430_prm_vc_val_cmd_vdd_mpu_l);
+		    reg_read(&omap5430_prm_vc_val_cmd_vdd_mpu_l);
 		vc_regs->vc_val_cmd_vdd_mm_l =
-			reg_read(&omap5430_prm_vc_val_cmd_vdd_mm_l);
+		    reg_read(&omap5430_prm_vc_val_cmd_vdd_mm_l);
 		vc_regs->vc_val_cmd_vdd_core_l =
-			reg_read(&omap5430_prm_vc_val_cmd_vdd_core_l);
-		vc_regs->vc_val_bypass =
-			reg_read(&omap5430_prm_vc_val_bypass);
-		vc_regs->vc_mpu_errst =
-			reg_read(&omap5430_prm_vc_mpu_errst);
-		vc_regs->vc_mm_errst =
-			reg_read(&omap5430_prm_vc_mm_errst);
-		vc_regs->vc_core_errst =
-			reg_read(&omap5430_prm_vc_core_errst);
+		    reg_read(&omap5430_prm_vc_val_cmd_vdd_core_l);
+		vc_regs->vc_val_bypass = reg_read(&omap5430_prm_vc_val_bypass);
+		vc_regs->vc_mpu_errst = reg_read(&omap5430_prm_vc_mpu_errst);
+		vc_regs->vc_mm_errst = reg_read(&omap5430_prm_vc_mm_errst);
+		vc_regs->vc_core_errst = reg_read(&omap5430_prm_vc_core_errst);
 		vc_regs->vc_bypass_errst =
-			reg_read(&omap5430_prm_vc_bypass_errst);
+		    reg_read(&omap5430_prm_vc_bypass_errst);
 		vc_regs->vc_cfg_i2c_mode =
-			reg_read(&omap5430_prm_vc_cfg_i2c_mode);
+		    reg_read(&omap5430_prm_vc_cfg_i2c_mode);
 		vc_regs->vc_cfg_i2c_clk =
-			reg_read(&omap5430_prm_vc_cfg_i2c_clk);
+		    reg_read(&omap5430_prm_vc_cfg_i2c_clk);
 	}
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_sa_get
@@ -249,34 +238,33 @@ int vc54xx_registers_get(vc54xx_registers *vc_regs)
  * @param[in,out]	vc_regs: VC registers content
  * @DESCRIPTION		return Slave Address (SA)
  *------------------------------------------------------------------------ */
-short int vc54xx_sa_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
+short int vc54xx_sa_get(voltdm54xx_id id, vc54xx_registers * vc_regs)
 {
 	short int sa;
 
 	switch (id) {
 	case VDD54XX_MPU:
 		sa = extract_bitfield(vc_regs->vc_smps_mpu_config,
-			VC_SA_POS, VC_SA_LEN);
+				      VC_SA_POS, VC_SA_LEN);
 		break;
 
 	case VDD54XX_MM:
-		if (extract_bit(vc_regs->vc_smps_mm_config,
-			VC_SEL_SA_POS) == 1)
+		if (extract_bit(vc_regs->vc_smps_mm_config, VC_SEL_SA_POS) == 1)
 			sa = extract_bitfield(vc_regs->vc_smps_mm_config,
-				VC_SA_POS, VC_SA_LEN);
+					      VC_SA_POS, VC_SA_LEN);
 		else
 			sa = extract_bitfield(vc_regs->vc_smps_mpu_config,
-				VC_SA_POS, VC_SA_LEN);
+					      VC_SA_POS, VC_SA_LEN);
 		break;
 
 	case VDD54XX_CORE:
 		if (extract_bit(vc_regs->vc_smps_core_config,
-			VC_SEL_SA_POS) == 1)
+				VC_SEL_SA_POS) == 1)
 			sa = extract_bitfield(vc_regs->vc_smps_core_config,
-				VC_SA_POS, VC_SA_LEN);
+					      VC_SA_POS, VC_SA_LEN);
 		else
 			sa = extract_bitfield(vc_regs->vc_smps_mpu_config,
-				VC_SA_POS, VC_SA_LEN);
+					      VC_SA_POS, VC_SA_LEN);
 		break;
 
 	default:
@@ -285,7 +273,6 @@ short int vc54xx_sa_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
 
 	return sa;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_volra_get
@@ -296,34 +283,32 @@ short int vc54xx_sa_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
  * @param[in,out]	vc_regs: VC registers content
  * @DESCRIPTION		return Voltage Register Address (VOLRA)
  *------------------------------------------------------------------------ */
-short int vc54xx_volra_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
+short int vc54xx_volra_get(voltdm54xx_id id, vc54xx_registers * vc_regs)
 {
 	short int volra;
 
 	switch (id) {
 	case VDD54XX_MPU:
 		volra = extract_bitfield(vc_regs->vc_smps_mpu_config,
-			VC_VOLRA_POS, VC_VOLRA_LEN);
+					 VC_VOLRA_POS, VC_VOLRA_LEN);
 		break;
 
 	case VDD54XX_MM:
-		if (extract_bit(vc_regs->vc_smps_mm_config,
-			VC_RAV_POS) == 1)
+		if (extract_bit(vc_regs->vc_smps_mm_config, VC_RAV_POS) == 1)
 			volra = extract_bitfield(vc_regs->vc_smps_mm_config,
-				VC_VOLRA_POS, VC_VOLRA_LEN);
+						 VC_VOLRA_POS, VC_VOLRA_LEN);
 		else
 			volra = extract_bitfield(vc_regs->vc_smps_mpu_config,
-				VC_VOLRA_POS, VC_VOLRA_LEN);
+						 VC_VOLRA_POS, VC_VOLRA_LEN);
 		break;
 
 	case VDD54XX_CORE:
-		if (extract_bit(vc_regs->vc_smps_core_config,
-			VC_RAV_POS) == 1)
+		if (extract_bit(vc_regs->vc_smps_core_config, VC_RAV_POS) == 1)
 			volra = extract_bitfield(vc_regs->vc_smps_core_config,
-				VC_VOLRA_POS, VC_VOLRA_LEN);
+						 VC_VOLRA_POS, VC_VOLRA_LEN);
 		else
 			volra = extract_bitfield(vc_regs->vc_smps_mpu_config,
-				VC_VOLRA_POS, VC_VOLRA_LEN);
+						 VC_VOLRA_POS, VC_VOLRA_LEN);
 		break;
 
 	default:
@@ -332,7 +317,6 @@ short int vc54xx_volra_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
 
 	return volra;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_cmdra_get
@@ -343,34 +327,32 @@ short int vc54xx_volra_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
  * @param[in,out]	vc_regs: VC registers content
  * @DESCRIPTION		return Command Register Address (CMDRA)
  *------------------------------------------------------------------------ */
-short int vc54xx_cmdra_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
+short int vc54xx_cmdra_get(voltdm54xx_id id, vc54xx_registers * vc_regs)
 {
 	short int cmdra;
 
 	switch (id) {
 	case VDD54XX_MPU:
 		cmdra = extract_bitfield(vc_regs->vc_smps_mpu_config,
-			VC_CMDRA_POS, VC_CMDRA_LEN);
+					 VC_CMDRA_POS, VC_CMDRA_LEN);
 		break;
 
 	case VDD54XX_MM:
-		if (extract_bit(vc_regs->vc_smps_mm_config,
-			VC_RAC_POS) == 1)
+		if (extract_bit(vc_regs->vc_smps_mm_config, VC_RAC_POS) == 1)
 			cmdra = extract_bitfield(vc_regs->vc_smps_mm_config,
-				VC_CMDRA_POS, VC_CMDRA_LEN);
+						 VC_CMDRA_POS, VC_CMDRA_LEN);
 		else
 			cmdra = extract_bitfield(vc_regs->vc_smps_mpu_config,
-				VC_CMDRA_POS, VC_CMDRA_LEN);
+						 VC_CMDRA_POS, VC_CMDRA_LEN);
 		break;
 
 	case VDD54XX_CORE:
-		if (extract_bit(vc_regs->vc_smps_core_config,
-			VC_RAC_POS) == 1)
+		if (extract_bit(vc_regs->vc_smps_core_config, VC_RAC_POS) == 1)
 			cmdra = extract_bitfield(vc_regs->vc_smps_core_config,
-				VC_CMDRA_POS, VC_CMDRA_LEN);
+						 VC_CMDRA_POS, VC_CMDRA_LEN);
 		else
 			cmdra = extract_bitfield(vc_regs->vc_smps_mpu_config,
-				VC_CMDRA_POS, VC_CMDRA_LEN);
+						 VC_CMDRA_POS, VC_CMDRA_LEN);
 		break;
 
 	default:
@@ -379,7 +361,6 @@ short int vc54xx_cmdra_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
 
 	return cmdra;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_no_pending_error
@@ -391,13 +372,12 @@ short int vc54xx_cmdra_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
  * @DESCRIPTION		return 1 if there is no pending error
  *------------------------------------------------------------------------ */
 unsigned char vc54xx_no_pending_error(unsigned int prm_vc_errst,
-	unsigned int prm_vc_bypass_errst)
+				      unsigned int prm_vc_bypass_errst)
 {
 	return vc54xx_no_pending_vfsm_error(prm_vc_errst) &&
-		vc54xx_no_pending_smps_error(prm_vc_errst) &&
-		vc54xx_no_pending_bypass_error(prm_vc_bypass_errst);
+	    vc54xx_no_pending_smps_error(prm_vc_errst) &&
+	    vc54xx_no_pending_bypass_error(prm_vc_bypass_errst);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_no_pending_vfsm_error
@@ -409,9 +389,9 @@ unsigned char vc54xx_no_pending_error(unsigned int prm_vc_errst,
 unsigned char vc54xx_no_pending_vfsm_error(unsigned int prm_vc_errst)
 {
 	return extract_bitfield(prm_vc_errst,
-		VC_VFSM_SA_ERR_POS, VC54XX_VFSM_ERR_TYPE_MAX) == 0;
+				VC_VFSM_SA_ERR_POS,
+				VC54XX_VFSM_ERR_TYPE_MAX) == 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_is_vfsm_error_pending
@@ -422,25 +402,24 @@ unsigned char vc54xx_no_pending_vfsm_error(unsigned int prm_vc_errst)
  * @DESCRIPTION		return 1 if selected VFSM error is pending
  *------------------------------------------------------------------------ */
 unsigned char vc54xx_is_vfsm_error_pending(unsigned int prm_vc_errst,
-	vc54xx_vfsm_error_type type)
+					   vc54xx_vfsm_error_type type)
 {
 	switch (type) {
 	case VC54XX_VFSM_TIMEOUT_ERR:
-		return (unsigned char) extract_bit(prm_vc_errst,
-			VC_VFSM_TIMEOUT_ERR_POS);
+		return (unsigned char)extract_bit(prm_vc_errst,
+						  VC_VFSM_TIMEOUT_ERR_POS);
 	case VC54XX_VFSM_RA_ERR:
-		return (unsigned char) extract_bit(prm_vc_errst,
-			VC_VFSM_RA_ERR_POS);
+		return (unsigned char)extract_bit(prm_vc_errst,
+						  VC_VFSM_RA_ERR_POS);
 	case VC54XX_VFSM_SA_ERR:
-		return (unsigned char) extract_bit(prm_vc_errst,
-			VC_VFSM_SA_ERR_POS);
+		return (unsigned char)extract_bit(prm_vc_errst,
+						  VC_VFSM_SA_ERR_POS);
 	default:
 		fprintf(stderr, "%s(): incorrect value type! (%u)\n",
 			__func__, type);
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_no_pending_smps_error
@@ -452,9 +431,9 @@ unsigned char vc54xx_is_vfsm_error_pending(unsigned int prm_vc_errst,
 unsigned char vc54xx_no_pending_smps_error(unsigned int prm_vc_errst)
 {
 	return extract_bitfield(prm_vc_errst,
-		VC_SMPS_SA_ERR_POS, VC54XX_SMPS_ERR_TYPE_MAX) == 0;
+				VC_SMPS_SA_ERR_POS,
+				VC54XX_SMPS_ERR_TYPE_MAX) == 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_is_smps_error_pending
@@ -465,7 +444,7 @@ unsigned char vc54xx_no_pending_smps_error(unsigned int prm_vc_errst)
  * @DESCRIPTION		return 1 if selected SMPS error is pending
  *------------------------------------------------------------------------ */
 unsigned char vc54xx_is_smps_error_pending(unsigned int prm_vc_errst,
-	vc54xx_smps_error_type type)
+					   vc54xx_smps_error_type type)
 {
 	switch (type) {
 	case VC54XX_SMPS_TIMEOUT_ERR:
@@ -481,7 +460,6 @@ unsigned char vc54xx_is_smps_error_pending(unsigned int prm_vc_errst,
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_no_pending_bypass_error
  * @BRIEF		return 1 if there is no pending BYPASS error
@@ -493,9 +471,9 @@ unsigned char vc54xx_is_smps_error_pending(unsigned int prm_vc_errst,
 unsigned char vc54xx_no_pending_bypass_error(unsigned int prm_vc_bypass_errst)
 {
 	return extract_bitfield(prm_vc_bypass_errst,
-		VC_BYPS_SA_ERR_POS, VC54XX_BYPS_ERR_TYPE_MAX) == 0;
+				VC_BYPS_SA_ERR_POS,
+				VC54XX_BYPS_ERR_TYPE_MAX) == 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_is_bypass_error_pending
@@ -507,12 +485,12 @@ unsigned char vc54xx_no_pending_bypass_error(unsigned int prm_vc_bypass_errst)
  * @DESCRIPTION		return 1 if selected BYPASS error is pending
  *------------------------------------------------------------------------ */
 unsigned char vc54xx_is_bypass_error_pending(unsigned int prm_vc_bypass_errst,
-	vc54xx_bypass_error_type type)
+					     vc54xx_bypass_error_type type)
 {
 	switch (type) {
 	case VC54XX_BYPS_TIMEOUT_ERR:
 		return extract_bit(prm_vc_bypass_errst,
-			VC_BYPS_TIMEOUT_ERR_POS);
+				   VC_BYPS_TIMEOUT_ERR_POS);
 	case VC54XX_BYPS_RA_ERR:
 		return extract_bit(prm_vc_bypass_errst, VC_BYPS_RA_ERR_POS);
 	case VC54XX_BYPS_SA_ERR:
@@ -523,7 +501,6 @@ unsigned char vc54xx_is_bypass_error_pending(unsigned int prm_vc_bypass_errst,
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_raw_cmd_values_get
@@ -539,9 +516,9 @@ unsigned char vc54xx_is_bypass_error_pending(unsigned int prm_vc_bypass_errst,
  * @DESCRIPTION		return ON/ONLP/RET/OFF command values
  *			WARNING: DO NOT CONSIDER PMIC-SPECIFIC SIZE OF COMMAND.
  *------------------------------------------------------------------------ */
-int vc54xx_raw_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
-	unsigned char *cmd_on, unsigned char *cmd_onlp,
-	unsigned char *cmd_ret, unsigned char *cmd_off)
+int vc54xx_raw_cmd_values_get(voltdm54xx_id id, vc54xx_registers * vc_regs,
+			      unsigned char *cmd_on, unsigned char *cmd_onlp,
+			      unsigned char *cmd_ret, unsigned char *cmd_off)
 {
 	unsigned int vc_val_cmd;
 
@@ -558,7 +535,7 @@ int vc54xx_raw_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
 
 	case VDD54XX_MM:
 		if (extract_bit(vc_regs->vc_smps_mm_config,
-			VC_CMD_SET_SELECT_POS) == 1)
+				VC_CMD_SET_SELECT_POS) == 1)
 			vc_val_cmd = vc_regs->vc_val_cmd_vdd_mm_l;
 		else
 			vc_val_cmd = vc_regs->vc_val_cmd_vdd_mpu_l;
@@ -566,7 +543,7 @@ int vc54xx_raw_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
 
 	case VDD54XX_CORE:
 		if (extract_bit(vc_regs->vc_smps_core_config,
-			VC_CMD_SET_SELECT_POS) == 1)
+				VC_CMD_SET_SELECT_POS) == 1)
 			vc_val_cmd = vc_regs->vc_val_cmd_vdd_core_l;
 		else
 			vc_val_cmd = vc_regs->vc_val_cmd_vdd_mpu_l;
@@ -577,12 +554,10 @@ int vc54xx_raw_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
 	}
 
 	/* Retrieve commands from registers */
-	vc_cmd_values_get(vc_val_cmd,
-		cmd_on, cmd_onlp, cmd_ret, cmd_off);
+	vc_cmd_values_get(vc_val_cmd, cmd_on, cmd_onlp, cmd_ret, cmd_off);
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_cmd_values_get
@@ -598,14 +573,14 @@ int vc54xx_raw_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
  * @DESCRIPTION		return ON/ONLP/RET/OFF command values
  *			WARNING: CONSIDER PMIC-SPECIFIC SIZE OF COMMAND.
  *------------------------------------------------------------------------ */
-int vc54xx_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
-	unsigned char *cmd_on, unsigned char *cmd_onlp,
-	unsigned char *cmd_ret, unsigned char *cmd_off)
+int vc54xx_cmd_values_get(voltdm54xx_id id, vc54xx_registers * vc_regs,
+			  unsigned char *cmd_on, unsigned char *cmd_onlp,
+			  unsigned char *cmd_ret, unsigned char *cmd_off)
 {
 	int vsel_len, ret;
 
 	ret = vc54xx_raw_cmd_values_get(id, vc_regs,
-		cmd_on, cmd_onlp, cmd_ret, cmd_off);
+					cmd_on, cmd_onlp, cmd_ret, cmd_off);
 	if (ret != 0)
 		return ret;
 
@@ -623,7 +598,6 @@ int vc54xx_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_config_show
  * @BRIEF		decode and show VC current configuration
@@ -633,7 +607,7 @@ int vc54xx_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
  * @param[in,out]	vc_regs: Voltage Controller registers content
  * @DESCRIPTION		decode and show VC current configuration
  *------------------------------------------------------------------------ */
-int vc54xx_config_show(FILE *stream, vc54xx_registers *vc_regs)
+int vc54xx_config_show(FILE * stream, vc54xx_registers * vc_regs)
 {
 	voltdm54xx_id id;
 	unsigned char raw_cmd_on, raw_cmd_onlp, raw_cmd_ret, raw_cmd_off;
@@ -647,7 +621,8 @@ int vc54xx_config_show(FILE *stream, vc54xx_registers *vc_regs)
 	unsigned char status;
 	static const char error_status[2][12] = {
 		"",
-		"PENDING"};
+		"PENDING"
+	};
 
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 
@@ -662,55 +637,55 @@ int vc54xx_config_show(FILE *stream, vc54xx_registers *vc_regs)
 	for (id = VDD54XX_MPU; id <= VDD54XX_CORE; id++) {
 		row = 1;
 		autoadjust_table_strncpy(table, row, 0,
-			"Power IC Slave Address (SA)");
+					 "Power IC Slave Address (SA)");
 		snprintf(table[row][id], TABLE_MAX_ELT_LEN, "0x%02X",
-			vc54xx_sa_get(id, vc_regs));
+			 vc54xx_sa_get(id, vc_regs));
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"Voltage Reg. Addr (VOLRA)");
+					 "Voltage Reg. Addr (VOLRA)");
 		snprintf(table[row][id], TABLE_MAX_ELT_LEN, "0x%02X",
-			vc54xx_volra_get(id, vc_regs));
+			 vc54xx_volra_get(id, vc_regs));
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"Command Reg. Addr (CMDRA)");
+					 "Command Reg. Addr (CMDRA)");
 		snprintf(table[row][id], TABLE_MAX_ELT_LEN, "0x%02X",
-			vc54xx_cmdra_get(id, vc_regs));
+			 vc54xx_cmdra_get(id, vc_regs));
 		row++;
 
-		autoadjust_table_strncpy(table, row++, 0,
-			"Command Values:");
+		autoadjust_table_strncpy(table, row++, 0, "Command Values:");
 		vc54xx_raw_cmd_values_get(id, vc_regs,
-			&raw_cmd_on, &raw_cmd_onlp, &raw_cmd_ret, &raw_cmd_off);
-		vc54xx_cmd_values_get(id, vc_regs,
-			&cmd_on, &cmd_onlp, &cmd_ret, &cmd_off);
+					  &raw_cmd_on, &raw_cmd_onlp,
+					  &raw_cmd_ret, &raw_cmd_off);
+		vc54xx_cmd_values_get(id, vc_regs, &cmd_on, &cmd_onlp, &cmd_ret,
+				      &cmd_off);
 		strncpy(table[row][0], "  ON", TABLE_MAX_ELT_LEN);
 		snprintf(table[row][id], TABLE_MAX_ELT_LEN, "0x%02X (%.6lfV)",
-			raw_cmd_on, smps_vsel2volt(vdd_id2smps_id(id), cmd_on));
+			 raw_cmd_on, smps_vsel2volt(vdd_id2smps_id(id),
+						    cmd_on));
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"  ON-Low-Power (ONLP)");
+					 "  ON-Low-Power (ONLP)");
 		snprintf(table[row][id], TABLE_MAX_ELT_LEN, "0x%02X (%.6lfV)",
-			raw_cmd_onlp,
-			smps_vsel2volt(vdd_id2smps_id(id), cmd_onlp));
+			 raw_cmd_onlp,
+			 smps_vsel2volt(vdd_id2smps_id(id), cmd_onlp));
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0, "  RET");
 		snprintf(table[row][id], TABLE_MAX_ELT_LEN, "0x%02X (%.6lfV)",
-			raw_cmd_ret,
-			smps_vsel2volt(vdd_id2smps_id(id), cmd_ret));
+			 raw_cmd_ret,
+			 smps_vsel2volt(vdd_id2smps_id(id), cmd_ret));
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0, "  OFF");
 		snprintf(table[row][id], TABLE_MAX_ELT_LEN, "0x%02X (%.6lfV)",
-			raw_cmd_off,
-			smps_vsel2volt(vdd_id2smps_id(id), cmd_off));
+			 raw_cmd_off,
+			 smps_vsel2volt(vdd_id2smps_id(id), cmd_off));
 		row += 2;
 
-		autoadjust_table_strncpy(table, row, 0,
-			"Pending Error(s)");
+		autoadjust_table_strncpy(table, row, 0, "Pending Error(s)");
 		switch (id) {
 		case VDD54XX_MPU:
 			errst = vc_regs->vc_mpu_errst;
@@ -728,40 +703,39 @@ int vc54xx_config_show(FILE *stream, vc54xx_registers *vc_regs)
 			continue;
 		}
 		row++;
-		autoadjust_table_strncpy(table, row++, 0,
-			"  VFSM Error(s)");
+		autoadjust_table_strncpy(table, row++, 0, "  VFSM Error(s)");
 		for (vfsm_type = VC54XX_VFSM_TIMEOUT_ERR;
-			vfsm_type < VC54XX_VFSM_ERR_TYPE_MAX; vfsm_type++) {
+		     vfsm_type < VC54XX_VFSM_ERR_TYPE_MAX; vfsm_type++) {
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN, "    %s",
-				vc54xx_vfsm_error_name_get(vfsm_type));
+				 vc54xx_vfsm_error_name_get(vfsm_type));
 			status = vc54xx_is_vfsm_error_pending(errst, vfsm_type);
 			snprintf(table[row][id], TABLE_MAX_ELT_LEN, "%s",
-				error_status[status]);
+				 error_status[status]);
 			row++;
 		}
 
-		autoadjust_table_strncpy(table, row++, 0,
-			"  SMPS Error(s)");
+		autoadjust_table_strncpy(table, row++, 0, "  SMPS Error(s)");
 		for (smps_type = VC54XX_SMPS_TIMEOUT_ERR;
-			smps_type < VC54XX_SMPS_ERR_TYPE_MAX; smps_type++) {
+		     smps_type < VC54XX_SMPS_ERR_TYPE_MAX; smps_type++) {
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN, "    %s",
-				vc54xx_smps_error_name_get(smps_type));
+				 vc54xx_smps_error_name_get(smps_type));
 			status = vc54xx_is_smps_error_pending(errst, smps_type);
 			snprintf(table[row][id], TABLE_MAX_ELT_LEN, "%s",
-				error_status[status]);
+				 error_status[status]);
 			row++;
 		}
 
-		autoadjust_table_strncpy(table, row++, 0,
-			"  BYPASS Error(s)");
+		autoadjust_table_strncpy(table, row++, 0, "  BYPASS Error(s)");
 		for (bypass_type = VC54XX_BYPS_TIMEOUT_ERR;
-			bypass_type < VC54XX_BYPS_ERR_TYPE_MAX; bypass_type++) {
+		     bypass_type < VC54XX_BYPS_ERR_TYPE_MAX; bypass_type++) {
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN, "    %s",
-				vc54xx_bypass_error_name_get(bypass_type));
-			status = vc54xx_is_bypass_error_pending(
-				vc_regs->vc_bypass_errst, bypass_type);
+				 vc54xx_bypass_error_name_get(bypass_type));
+			status =
+			    vc54xx_is_bypass_error_pending(vc_regs->
+							   vc_bypass_errst,
+							   bypass_type);
 			snprintf(table[row][id], TABLE_MAX_ELT_LEN, "%s",
-				error_status[status]);
+				 error_status[status]);
 			row++;
 		}
 	}
@@ -770,5 +744,6 @@ int vc54xx_config_show(FILE *stream, vc54xx_registers *vc_regs)
 		autoadjust_table_fprint(stream, table, row, 4);
 
 	return sri2c_config_show(stream,
-		vc_regs->vc_cfg_i2c_mode, vc_regs->vc_cfg_i2c_clk);
+				 vc_regs->vc_cfg_i2c_mode,
+				 vc_regs->vc_cfg_i2c_clk);
 }

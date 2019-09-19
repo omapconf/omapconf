@@ -525,7 +525,7 @@ const dpll44xx_audit_settings
 };
 
 const dpll44xx_audit_settings
-    **dpll4430_golden_settings_38_4MHz[DPLL44XX_ID_MAX] = {
+    ** dpll4430_golden_settings_38_4MHz[DPLL44XX_ID_MAX] = {
 	(const dpll44xx_audit_settings **)&dpll4430_MPU_golden_settings_38_4MHz,
 	(const dpll44xx_audit_settings **)&dpll4430_IVA_golden_settings_38_4MHz,
 	(const dpll44xx_audit_settings **)

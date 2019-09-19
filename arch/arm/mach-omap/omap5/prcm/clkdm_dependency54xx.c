@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <clkdm_dependency54xx.h>
 #include <lib.h>
 #include <cm54xx.h>
@@ -52,14 +51,12 @@
 #include <help.h>
 #include <reg.h>
 
-
 /* #define CLKDMDEP54XX_DEBUG */
 #ifdef CLKDMDEP54XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_register_get
@@ -77,21 +74,24 @@ const reg *clkdmdep54xx_register_get(clkdm54xx_id id, clkdmdep_type type)
 
 	if (cpu_revision_get() == REV_ES1_0) {
 		dprintf("%s(%u (%s), %u (%s)) = %s (0x%08X)\n", __func__,
-			id, clkdm54xx_name_get(id), type, clkdmdep_type_name_get(type),
-			reg_name_get((reg *) clkdmdep54xxes1_reg_table[id][type]),
-			reg_addr_get((reg *) clkdmdep54xxes1_reg_table[id][type]));
+			id, clkdm54xx_name_get(id), type,
+			clkdmdep_type_name_get(type),
+			reg_name_get((reg *)
+				     clkdmdep54xxes1_reg_table[id][type]),
+			reg_addr_get((reg *)
+				     clkdmdep54xxes1_reg_table[id][type]));
 
 		return clkdmdep54xxes1_reg_table[id][type];
 	} else {
 		dprintf("%s(%u (%s), %u (%s)) = %s (0x%08X)\n", __func__,
-			id, clkdm54xx_name_get(id), type, clkdmdep_type_name_get(type),
+			id, clkdm54xx_name_get(id), type,
+			clkdmdep_type_name_get(type),
 			reg_name_get((reg *) clkdmdep54xx_reg_table[id][type]),
 			reg_addr_get((reg *) clkdmdep54xx_reg_table[id][type]));
 
 		return clkdmdep54xx_reg_table[id][type];
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_bit_pos_get
@@ -119,7 +119,6 @@ short clkdmdep54xx_bit_pos_get(clkdm54xx_id id)
 	return pos;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_dump
  * @BRIEF		dump all static dependency registers content
@@ -129,7 +128,7 @@ short clkdmdep54xx_bit_pos_get(clkdm54xx_id id)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump all static dependency registers content
  *------------------------------------------------------------------------ */
-int clkdmdep54xx_dump(FILE *stream)
+int clkdmdep54xx_dump(FILE * stream)
 {
 	clkdm54xx_id id;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -143,8 +142,7 @@ int clkdmdep54xx_dump(FILE *stream)
 	autoadjust_table_init(table);
 
 	strncpy(table[row][0], "Reg. Name", TABLE_MAX_ELT_LEN);
-	strncpy(table[row][1], "Reg. Addr",
-		TABLE_MAX_ELT_LEN);
+	strncpy(table[row][1], "Reg. Addr", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][2], "Reg. Val.", TABLE_MAX_ELT_LEN);
 	row++;
 
@@ -155,9 +153,9 @@ int clkdmdep54xx_dump(FILE *stream)
 			goto clkdmdep54xx_dump_dynamic;
 
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s",
-			reg_name_get(r));
+			 reg_name_get(r));
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "0x%08X",
-			reg_addr_get(r));
+			 reg_addr_get(r));
 		cm_dep = reg_read(r);
 		snprintf(table[row++][2], TABLE_MAX_ELT_LEN, "0x%08X", cm_dep);
 
@@ -167,9 +165,9 @@ clkdmdep54xx_dump_dynamic:
 			continue;
 
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s",
-			reg_name_get(r));
+			 reg_name_get(r));
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "0x%08X",
-			reg_addr_get(r));
+			 reg_addr_get(r));
 		cm_dep = reg_read(r);
 		snprintf(table[row++][2], TABLE_MAX_ELT_LEN, "0x%08X", cm_dep);
 	}
@@ -178,7 +176,6 @@ clkdmdep54xx_dump_dynamic:
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_has_dependency_towards_it
@@ -204,7 +201,6 @@ int clkdmdep54xx_has_dependency_towards_it(clkdm54xx_id id)
 		return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_dep_get
  * @BRIEF		return dependency from 'from' clock domain towards 'to'
@@ -217,8 +213,8 @@ int clkdmdep54xx_has_dependency_towards_it(clkdm54xx_id id)
  * @DESCRIPTION		return dependency from 'from' clock domain towards 'to'
  *			domain.
  *------------------------------------------------------------------------ */
-clkdmdep_ctrl_type clkdmdep54xx_dep_get(
-	clkdm54xx_id from, clkdm54xx_id to, clkdmdep_type type)
+clkdmdep_ctrl_type clkdmdep54xx_dep_get(clkdm54xx_id from, clkdm54xx_id to,
+					clkdmdep_type type)
 {
 	CHECK_ARG_LESS_THAN(from, CLKDM54XX_ID_MAX, CLKDMDEP_CONTROL_TYPE_MAX);
 	CHECK_ARG_LESS_THAN(to, CLKDM54XX_ID_MAX, CLKDMDEP_CONTROL_TYPE_MAX);
@@ -226,17 +222,16 @@ clkdmdep_ctrl_type clkdmdep54xx_dep_get(
 
 	if (cpu_revision_get() == REV_ES1_0) {
 		if (type == CLKDMDEP_STATIC)
-			return  clkdmdep54xxes1_statdep_table[from][to];
+			return clkdmdep54xxes1_statdep_table[from][to];
 		else
-			return  clkdmdep54xxes1_dyndep_table[from][to];
+			return clkdmdep54xxes1_dyndep_table[from][to];
 	} else {
 		if (type == CLKDMDEP_STATIC)
-			return  clkdmdep54xx_statdep_table[from][to];
+			return clkdmdep54xx_statdep_table[from][to];
 		else
-			return  clkdmdep54xx_dyndep_table[from][to];
+			return clkdmdep54xx_dyndep_table[from][to];
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_dep_exists
@@ -250,8 +245,8 @@ clkdmdep_ctrl_type clkdmdep54xx_dep_get(
  * @DESCRIPTION		indicate if there is a dependency between the 2 given
  *			clock domains.
  *------------------------------------------------------------------------ */
-unsigned short clkdmdep54xx_dep_exists(
-	clkdm54xx_id from, clkdm54xx_id to, clkdmdep_type type)
+unsigned short clkdmdep54xx_dep_exists(clkdm54xx_id from, clkdm54xx_id to,
+				       clkdmdep_type type)
 {
 	unsigned short ret;
 
@@ -275,11 +270,11 @@ unsigned short clkdmdep54xx_dep_exists(
 		__func__, clkdm54xx_name_get(from),
 		clkdm54xx_name_get(to),
 		clkdmdep_type_name_get(type),
-		ret, clkdmdep_ctrl_type_name_get(
-			clkdmdep54xx_dep_get(from, to, type)));
+		ret,
+		clkdmdep_ctrl_type_name_get(clkdmdep54xx_dep_get
+					    (from, to, type)));
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_is_enabled
@@ -293,8 +288,8 @@ unsigned short clkdmdep54xx_dep_exists(
  * @DESCRIPTION		check if a dependency between 2 clock domains is enabled
  *			or not.
  *------------------------------------------------------------------------ */
-unsigned short clkdmdep54xx_is_enabled(
-	clkdm54xx_id from, clkdm54xx_id to, clkdmdep_type type)
+unsigned short clkdmdep54xx_is_enabled(clkdm54xx_id from, clkdm54xx_id to,
+				       clkdmdep_type type)
 {
 	unsigned short enabled;
 	reg *cm_dep_reg;
@@ -305,7 +300,6 @@ unsigned short clkdmdep54xx_is_enabled(
 	CHECK_ARG_LESS_THAN(from, CLKDM54XX_ID_MAX, 0);
 	CHECK_ARG_LESS_THAN(to, CLKDM54XX_ID_MAX, 0);
 	CHECK_ARG_LESS_THAN(type, CLKDMDEP_TYPE_MAX, 0);
-
 
 	/* Get dependency register */
 	cm_dep_reg = (reg *) clkdmdep54xx_register_get(from, type);
@@ -332,7 +326,6 @@ unsigned short clkdmdep54xx_is_enabled(
 	return enabled;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_is_read_only
  * @BRIEF		indicate if a dependency between 2 given
@@ -346,8 +339,8 @@ unsigned short clkdmdep54xx_is_enabled(
  * @DESCRIPTION		indicate if a dependency between 2 given
  *			clock domains is SW-configurable or hard-coded.
  *------------------------------------------------------------------------ */
-unsigned short clkdmdep54xx_is_read_only(
-	clkdm54xx_id from, clkdm54xx_id to, clkdmdep_type type)
+unsigned short clkdmdep54xx_is_read_only(clkdm54xx_id from, clkdm54xx_id to,
+					 clkdmdep_type type)
 {
 	unsigned short read_only;
 
@@ -365,7 +358,6 @@ unsigned short clkdmdep54xx_is_read_only(
 		clkdmdep_type_name_get(type), read_only);
 	return read_only;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_statdep_set
@@ -414,7 +406,6 @@ int clkdmdep54xx_statdep_set(clkdm54xx_id from, clkdm54xx_id to, int enable)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_show
  * @BRIEF		show complete clock domain dependencies configuration
@@ -426,7 +417,7 @@ int clkdmdep54xx_statdep_set(clkdm54xx_id from, clkdm54xx_id to, int enable)
  *			if type == CLKDMDEP_TYPE_MAX, show static + dynamic.
  * @DESCRIPTION		show complete clock domain dependencies configuration
  *------------------------------------------------------------------------ */
-int clkdmdep54xx_show(FILE *stream, clkdmdep_type type)
+int clkdmdep54xx_show(FILE * stream, clkdmdep_type type)
 {
 	clkdm54xx_id from, to;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -442,27 +433,28 @@ int clkdmdep54xx_show(FILE *stream, clkdmdep_type type)
 		return OMAPCONF_ERR_ARG;
 	}
 
-	for (t = (int) CLKDMDEP_DYNAMIC; t >= (int) CLKDMDEP_STATIC; t--) {
-		if ((type != (int) CLKDMDEP_TYPE_MAX) && (t != (int) type))
+	for (t = (int)CLKDMDEP_DYNAMIC; t >= (int)CLKDMDEP_STATIC; t--) {
+		if ((type != (int)CLKDMDEP_TYPE_MAX) && (t != (int)type))
 			continue;
 		row = 0;
 		autoadjust_table_init(table);
 
 		/* Fill Table Header */
 		max_col = 0;
-		if (t == (int) CLKDMDEP_STATIC)
+		if (t == (int)CLKDMDEP_STATIC)
 			autoadjust_table_strncpy(table, row, 0,
-				"Static Dependency FROM");
+						 "Static Dependency FROM");
 		else
 			autoadjust_table_strncpy(table, row, 0,
-				"Dynamic Dependency FROM");
+						 "Dynamic Dependency FROM");
 		for (from = CLKDM54XX_EMU; from < CLKDM54XX_NONE; from++) {
 			if (clkdmdep54xx_register_get(from, t) == NULL)
 				continue;
 
 			max_col++;
 			autoadjust_table_strncpy(table, row, max_col,
-				(char *) clkdm54xx_name_get(from));
+						 (char *)
+						 clkdm54xx_name_get(from));
 		}
 		row++;
 		autoadjust_table_strncpy(table, row++, 0, "TOWARDS");
@@ -473,10 +465,10 @@ int clkdmdep54xx_show(FILE *stream, clkdmdep_type type)
 				continue;
 
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN, "  %s",
-				clkdm54xx_name_get(to));
+				 clkdm54xx_name_get(to));
 			col = 0;
 			for (from = CLKDM54XX_EMU; from < CLKDM54XX_NONE;
-				from++) {
+			     from++) {
 				if (clkdmdep54xx_register_get(from, t) == NULL)
 					continue;
 
@@ -485,24 +477,31 @@ int clkdmdep54xx_show(FILE *stream, clkdmdep_type type)
 				if (clkdmdep54xx_dep_exists(from, to, t) != 1)
 					continue;
 				enabled = clkdmdep54xx_is_enabled(from, to, t);
-				read_only = clkdmdep54xx_is_read_only(
-					from, to, t);
+				read_only =
+				    clkdmdep54xx_is_read_only(from, to, t);
 #if 1
-				if ((read_only == 1) &&
-					(t != CLKDMDEP_DYNAMIC)) {
+				if ((read_only == 1) && (t != CLKDMDEP_DYNAMIC)) {
 					if (enabled == 0)
 						autoadjust_table_strncpy(table,
-							row, col, "Dis (RO)");
+									 row,
+									 col,
+									 "Dis (RO)");
 					else
 						autoadjust_table_strncpy(table,
-							row, col, "EN (RO)");
+									 row,
+									 col,
+									 "EN (RO)");
 				} else {
 					if (enabled == 0)
 						autoadjust_table_strncpy(table,
-							row, col, "Dis");
+									 row,
+									 col,
+									 "Dis");
 					else
 						autoadjust_table_strncpy(table,
-							row, col, "EN");
+									 row,
+									 col,
+									 "EN");
 				}
 #endif
 			}
@@ -513,21 +512,20 @@ int clkdmdep54xx_show(FILE *stream, clkdmdep_type type)
 
 		if (t == CLKDMDEP_STATIC) {
 			printf("NB:\n"
-				"  - EN = static dependency is ENabled.\n"
-				"  - Dis = static dependency is Disabled.\n"
-				"  - RO = Read-Only (hard-coded, not "
-				"SW-configurable).\n"
-				"  - Empty cell = static dependency "
-				"does not exist.\n\n");
+			       "  - EN = static dependency is ENabled.\n"
+			       "  - Dis = static dependency is Disabled.\n"
+			       "  - RO = Read-Only (hard-coded, not "
+			       "SW-configurable).\n"
+			       "  - Empty cell = static dependency "
+			       "does not exist.\n\n");
 		} else {
 			printf("NB:\n"
-				"  - ALL Dynamic dependencies are Read-Only "
-				"(hard-coded, not SW-configurable).\n\n");
+			       "  - ALL Dynamic dependencies are Read-Only "
+			       "(hard-coded, not SW-configurable).\n\n");
 		}
 	}
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_audit
@@ -541,8 +539,8 @@ int clkdmdep54xx_show(FILE *stream, clkdmdep_type type)
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		audit clock domain static dependencies configuration
  *------------------------------------------------------------------------ */
-int clkdmdep54xx_audit(FILE *stream, unsigned int *err_nbr,
-	unsigned int *wng_nbr)
+int clkdmdep54xx_audit(FILE * stream, unsigned int *err_nbr,
+		       unsigned int *wng_nbr)
 {
 	clkdm54xx_id from, to;
 	unsigned short enabled, read_only;
@@ -565,7 +563,7 @@ int clkdmdep54xx_audit(FILE *stream, unsigned int *err_nbr,
 			continue;
 		max_col++;
 		autoadjust_table_strncpy(table, row, max_col,
-			(char *) clkdm54xx_name_get(from));
+					 (char *)clkdm54xx_name_get(from));
 	}
 	row++;
 	autoadjust_table_strncpy(table, row++, 0, "TOWARDS");
@@ -577,35 +575,36 @@ int clkdmdep54xx_audit(FILE *stream, unsigned int *err_nbr,
 			continue;
 
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "  %s",
-			clkdm54xx_name_get(to));
+			 clkdm54xx_name_get(to));
 		col = 0;
 		for (from = CLKDM54XX_EMU; from < CLKDM54XX_NONE; from++) {
-			if (clkdmdep54xx_register_get(
-				from, CLKDMDEP_STATIC) == NULL)
+			if (clkdmdep54xx_register_get(from, CLKDMDEP_STATIC) ==
+			    NULL)
 				continue;
 
 			col++;
 
-			if (clkdmdep54xx_dep_exists(
-				from, to, CLKDMDEP_STATIC) != 1)
+			if (clkdmdep54xx_dep_exists(from, to, CLKDMDEP_STATIC)
+			    != 1)
 				continue;
 
-			read_only = clkdmdep54xx_is_read_only(
-				from, to, CLKDMDEP_STATIC);
+			read_only =
+			    clkdmdep54xx_is_read_only(from, to,
+						      CLKDMDEP_STATIC);
 			if (read_only == 1) {
-				autoadjust_table_strncpy(
-					table, row, col, "Ign. (RO)");
+				autoadjust_table_strncpy(table, row, col,
+							 "Ign. (RO)");
 				continue;
 			}
 
-			enabled = clkdmdep54xx_is_enabled(
-				from, to, CLKDMDEP_STATIC);
+			enabled =
+			    clkdmdep54xx_is_enabled(from, to, CLKDMDEP_STATIC);
 			if (!enabled) {
-				autoadjust_table_strncpy(
-					table, row, col, "Pass");
+				autoadjust_table_strncpy(table, row, col,
+							 "Pass");
 			} else {
-				autoadjust_table_strncpy(
-					table, row, col, "FAIL");
+				autoadjust_table_strncpy(table, row, col,
+							 "FAIL");
 				(*err_nbr)++;
 			}
 		}
@@ -616,30 +615,27 @@ int clkdmdep54xx_audit(FILE *stream, unsigned int *err_nbr,
 		autoadjust_table_fprint(stream, table, row, max_col + 1);
 		fprintf(stream, "NB:\n"
 			"  - ALL STATIC DEPENDENCIES expected to be DISABLED "
-				"in FINAL product (except HW errata).\n"
+			"in FINAL product (except HW errata).\n"
 			"  - Pass = static dependency setting correct.\n"
 			"  - FAIL = static dependency setting incorrect.\n"
 			"  - Ign. (RO) = ignored as static dependency is "
-				"Read-Only.\n"
+			"Read-Only.\n"
 			"  - Empty cell = static dependency does not exist."
-				"\n\n");
+			"\n\n");
 
 		if (*err_nbr == 0) {
 			fprintf(stream, "SUCCESS! Static Dependency "
 				"configuration audit completed with 0 error "
-				"(%d warning(s))\n\n",
-				*wng_nbr);
+				"(%d warning(s))\n\n", *wng_nbr);
 		} else {
 			fprintf(stream, "FAILED! Static Dependency "
 				"configuration audit completed with %d error(s)"
-				" and %d warning(s).\n\n",
-				*err_nbr, *wng_nbr);
+				" and %d warning(s).\n\n", *err_nbr, *wng_nbr);
 		}
 	}
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_set
@@ -668,7 +664,7 @@ int clkdmdep54xx_set(char *clkdm_from, char *clkdm_to, unsigned short enable)
 	CHECK_NULL_ARG(clkdm_from, OMAPCONF_ERR_ARG);
 	CHECK_ARG_LESS_THAN(enable, 2, OMAPCONF_ERR_ARG)
 
-	dprintf("%s(): clkdm_from = %s\n", __func__, clkdm_from);
+	    dprintf("%s(): clkdm_from = %s\n", __func__, clkdm_from);
 	dprintf("%s(): clkdm_to = %s\n", __func__, clkdm_to);
 	dprintf("%s(): enable = %d\n", __func__, enable);
 
@@ -714,18 +710,20 @@ int clkdmdep54xx_set(char *clkdm_from, char *clkdm_to, unsigned short enable)
 			} else {
 
 				if (clkdmdep54xx_dep_exists(from, to,
-					CLKDMDEP_STATIC) != 1) {
+							    CLKDMDEP_STATIC) !=
+				    1) {
 					printf("Static Dependency from %s to %s"
-						" does not exist!\n\n",
-						clkdm54xx_name_get(from),
-						clkdm54xx_name_get(to));
+					       " does not exist!\n\n",
+					       clkdm54xx_name_get(from),
+					       clkdm54xx_name_get(to));
 					return 0;
 				} else if (clkdmdep54xx_is_read_only(from, to,
-					CLKDMDEP_STATIC) == 1) {
+								     CLKDMDEP_STATIC)
+					   == 1) {
 					printf("Static Dependency from %s to %s"
-						" is not SW-configurable!\n\n",
-						clkdm54xx_name_get(from),
-						clkdm54xx_name_get(to));
+					       " is not SW-configurable!\n\n",
+					       clkdm54xx_name_get(from),
+					       clkdm54xx_name_get(to));
 					return 0;
 				}
 			}
@@ -736,21 +734,21 @@ int clkdmdep54xx_set(char *clkdm_from, char *clkdm_to, unsigned short enable)
 		if (ret == 0) {
 			if (enable)
 				printf("Static Dependency from %s to %s "
-					"enabled.\n", clkdm54xx_name_get(from),
-					clkdm54xx_name_get(to));
+				       "enabled.\n", clkdm54xx_name_get(from),
+				       clkdm54xx_name_get(to));
 			else
 				printf("Static Dependency from %s to %s "
-					"disabled.\n", clkdm54xx_name_get(from),
-					clkdm54xx_name_get(to));
+				       "disabled.\n", clkdm54xx_name_get(from),
+				       clkdm54xx_name_get(to));
 		} else {
 			printf("Failed to update Static Dependency from %s "
-				"to %s!\n", clkdm54xx_name_get(from),
-					clkdm54xx_name_get(to));
+			       "to %s!\n", clkdm54xx_name_get(from),
+			       clkdm54xx_name_get(to));
 			return OMAPCONF_ERR_UNEXPECTED;
 		}
 	}
 
 	printf("\nWarning: new setting(s) applied but may be overridden "
-		"unconditionally by kernel driver(s).\n\n");
+	       "unconditionally by kernel driver(s).\n\n");
 	return 0;
 }

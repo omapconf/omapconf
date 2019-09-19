@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __PRCM_MODULE_H__
 #define __PRCM_MODULE_H__
-
 
 #define MODULE_MAX_NAME_LENGTH			32
 #define MODULE_MODES_MAX_NAME_LENGTH		32
@@ -53,27 +51,25 @@
 #define OPP_MAX					6
 
 #define MOD_HAS_SYSCONFIG			(1 << 0)
-#define MOD_HAS_AUTOIDLE_BIT0			(1 << 1) /* bit 0 */
-#define MOD_HAS_AUTOIDLE_BIT8			(1 << 2) /* bit 8 (for SLIMBUS) */
-#define MOD_HAS_IDLE_MODE3			(1 << 3) /* bits [3-2] */
-#define MOD_HAS_IDLE_MODE4			(1 << 4) /* bits [4-3] */
-#define MOD_HAS_IDLE_MODE1			(1 << 5) /* bits [1-0] */
-#define MOD_HAS_SMART_IDLE_WAKEUP_MODE		(1 << 6) /* mode 0x3 */
-#define MOD_HAS_ENAWAKEUP_BIT			(1 << 7) /* bit 2 */
-#define MOD_HAS_STANDBY_MODE5			(1 << 8) /* bits [5-4] */
-#define MOD_HAS_STANDBY_MODE13			(1 << 9) /* bits [13-12] */
-#define MOD_HAS_SMART_STANDBY_WAKEUP_MODE	(1 << 10) /* mode 0x3 */
-#define MOD_HAS_CLOCK_ACTIVITY_MODE		(1 << 11) /* bits [9-8] */
-#define MOD_HAS_STANDBY_STATUS			(1 << 12) /* CM_CLKCTRL bit 18 */
-#define MOD_HAS_NO_IDLE_STATUS			(1 << 13) /* CM_CLKCTRL bit [17-16] */
-
+#define MOD_HAS_AUTOIDLE_BIT0			(1 << 1)	/* bit 0 */
+#define MOD_HAS_AUTOIDLE_BIT8			(1 << 2)	/* bit 8 (for SLIMBUS) */
+#define MOD_HAS_IDLE_MODE3			(1 << 3)	/* bits [3-2] */
+#define MOD_HAS_IDLE_MODE4			(1 << 4)	/* bits [4-3] */
+#define MOD_HAS_IDLE_MODE1			(1 << 5)	/* bits [1-0] */
+#define MOD_HAS_SMART_IDLE_WAKEUP_MODE		(1 << 6)	/* mode 0x3 */
+#define MOD_HAS_ENAWAKEUP_BIT			(1 << 7)	/* bit 2 */
+#define MOD_HAS_STANDBY_MODE5			(1 << 8)	/* bits [5-4] */
+#define MOD_HAS_STANDBY_MODE13			(1 << 9)	/* bits [13-12] */
+#define MOD_HAS_SMART_STANDBY_WAKEUP_MODE	(1 << 10)	/* mode 0x3 */
+#define MOD_HAS_CLOCK_ACTIVITY_MODE		(1 << 11)	/* bits [9-8] */
+#define MOD_HAS_STANDBY_STATUS			(1 << 12)	/* CM_CLKCTRL bit 18 */
+#define MOD_HAS_NO_IDLE_STATUS			(1 << 13)	/* CM_CLKCTRL bit [17-16] */
 
 typedef enum {
 	MOD_FREE_RUNNING = 0,
 	MOD_AUTOGATING = 1,
 	MOD_AUTOIDLE_MODE_MAX
 } mod_autoidle_mode;
-
 
 typedef enum {
 	MOD_FORCE_IDLE = 0,
@@ -83,7 +79,6 @@ typedef enum {
 	MOD_IDLE_MODE_MAX
 } mod_idle_mode;
 
-
 typedef enum {
 	MOD_FULL_ON = 0x0,
 	MOD_IN_TRANSITION = 0x1,
@@ -91,7 +86,6 @@ typedef enum {
 	MOD_DISABLED = 0x3,
 	MOD_IDLE_STATUS_MAX
 } mod_idle_status;
-
 
 typedef enum {
 	MOD_FORCE_STANDBY = 0,
@@ -101,13 +95,11 @@ typedef enum {
 	MOD_STANDBY_MODE_MAX
 } mod_standby_mode;
 
-
 typedef enum {
 	MOD_FUNCTIONAL = 0x0,
 	MOD_IN_STANDBY = 0x1,
 	MOD_STANDBY_STATUS_MAX
 } mod_standby_status;
-
 
 typedef enum {
 	MOD_DISABLED_MODE = 0,
@@ -117,7 +109,6 @@ typedef enum {
 	MOD_MODULE_MODE_MAX
 } mod_module_mode;
 
-
 typedef enum {
 	MOD_FCLK_AUTO_ICLK_AUTO = 0,
 	MOD_FCLK_AUTO_ICLK_ON = 1,
@@ -126,31 +117,29 @@ typedef enum {
 	MOD_CLOCK_ACTIVITY_MODE_MAX,
 } mod_clock_activity_mode;
 
-
 typedef enum {
 	MOD_INTERFACE_MASTER,
 	MOD_INTERFACE_SLAVE,
 	MOD_INTERFACE_DUAL,
-	MOD_INTERFACE_NONE, /* no SYSCONFIG register or only Autoidle bit */
+	MOD_INTERFACE_NONE,	/* no SYSCONFIG register or only Autoidle bit */
 	MOD_INTERFACE_TYPE_MAX
 } mod_interface_type;
 
-
 unsigned int mod_is_accessible(unsigned int cm_clkctrl);
 mod_module_mode mod_module_mode_get(unsigned int cm_clkctrl);
-mod_idle_status mod_idle_status_get(
-	unsigned int cm_clkctrl, unsigned int properties);
-mod_standby_status mod_standby_status_get(
-	unsigned int cm_clkctrl, unsigned int properties);
+mod_idle_status mod_idle_status_get(unsigned int cm_clkctrl,
+				    unsigned int properties);
+mod_standby_status mod_standby_status_get(unsigned int cm_clkctrl,
+					  unsigned int properties);
 
-mod_autoidle_mode mod_autoidle_mode_get(
-	unsigned int sysconfig, unsigned int properties);
-mod_idle_mode mod_idle_mode_get(
-	unsigned int sysconfig, unsigned int properties);
-mod_standby_mode mod_standby_mode_get(
-	unsigned int sysconfig, unsigned int properties);
-mod_clock_activity_mode mod_clock_activity_mode_get(
-	unsigned int sysconfig, unsigned int properties);
+mod_autoidle_mode mod_autoidle_mode_get(unsigned int sysconfig,
+					unsigned int properties);
+mod_idle_mode mod_idle_mode_get(unsigned int sysconfig,
+				unsigned int properties);
+mod_standby_mode mod_standby_mode_get(unsigned int sysconfig,
+				      unsigned int properties);
+mod_clock_activity_mode mod_clock_activity_mode_get(unsigned int sysconfig,
+						    unsigned int properties);
 
 int mod_context_is_lost(unsigned int rm_context);
 
@@ -161,6 +150,5 @@ const char *mod_standby_mode_name_get(mod_standby_mode mode);
 const char *mod_clock_activity_mode_name_get(mod_clock_activity_mode mode);
 const char *mod_idle_status_name_get(mod_idle_status status);
 const char *mod_standby_status_name_get(mod_standby_status status);
-
 
 #endif

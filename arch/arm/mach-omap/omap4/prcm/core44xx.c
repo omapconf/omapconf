@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <core44xx.h>
 #include <cm44xx.h>
 #include <prm44xx.h>
@@ -53,7 +52,6 @@
 #include <cpuinfo.h>
 #include <string.h>
 
-
 /* #define CORE44XX_DEBUG */
 #ifdef CORE44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -61,14 +59,12 @@
 #define dprintf(format, ...)
 #endif
 
-
 #define PRCM_CORE_REG_TABLE_SIZE 70
 
 reg_table prcm_core_reg_table[PRCM_CORE_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
 
 static int core44xx_regtable_init(void);
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		core44xx_name2addr
@@ -90,7 +86,6 @@ int core44xx_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, prcm_core_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		core44xx_config_show
  * @BRIEF		analyze CORE power configuration
@@ -100,7 +95,7 @@ int core44xx_name2addr(char *name, unsigned int *addr)
  * @param[in,out]	stream: output file stream
  * @DESCRIPTION		analyze CORE power configuration
  *------------------------------------------------------------------------ */
-int core44xx_config_show(FILE *stream)
+int core44xx_config_show(FILE * stream)
 {
 	unsigned int pm_pwstctrl;
 	unsigned int pm_pwstst;
@@ -120,8 +115,8 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_PM_CORE_PWRSTST, &pm_pwstst) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = pwrdm44xx_config_show(stream, "CORE",
-		OMAP4430_PM_CORE_PWRSTCTRL, pm_pwstctrl,
-		OMAP4430_PM_CORE_PWRSTST, pm_pwstst);
+				    OMAP4430_PM_CORE_PWRSTCTRL, pm_pwstctrl,
+				    OMAP4430_PM_CORE_PWRSTST, pm_pwstst);
 	if (ret != 0)
 		return ret;
 
@@ -129,7 +124,7 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM_L3_1_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "L3_1",
-		OMAP4430_CM_L3_1_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_L3_1_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 	/* L3_1 Module Power Configuration */
@@ -138,8 +133,8 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L3_1_L3_1_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "L3_1",
-		OMAP4430_CM_L3_1_L3_1_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L3_1_L3_1_CONTEXT, rm_context);
+				  OMAP4430_CM_L3_1_L3_1_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L3_1_L3_1_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -147,7 +142,7 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM_L3_2_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "L3_2",
-		OMAP4430_CM_L3_2_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_L3_2_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 	/* L3_2 Modules Power Configuration */
@@ -156,8 +151,8 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L3_2_L3_2_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "L3_2",
-		OMAP4430_CM_L3_2_L3_2_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L3_2_L3_2_CONTEXT, rm_context);
+				  OMAP4430_CM_L3_2_L3_2_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L3_2_L3_2_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -166,8 +161,8 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L3_2_GPMC_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "GPMC",
-		OMAP4430_CM_L3_2_GPMC_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L3_2_GPMC_CONTEXT, rm_context);
+				  OMAP4430_CM_L3_2_GPMC_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L3_2_GPMC_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -176,8 +171,9 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L3_2_OCMC_RAM_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "OCMC_RAM",
-		OMAP4430_CM_L3_2_OCMC_RAM_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L3_2_OCMC_RAM_CONTEXT, rm_context);
+				  OMAP4430_CM_L3_2_OCMC_RAM_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L3_2_OCMC_RAM_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -185,7 +181,7 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM_MPU_M3_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "MPU_M3",
-		OMAP4430_CM_MPU_M3_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_MPU_M3_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 	/* MPU_M3 Module Power Configuration */
@@ -194,8 +190,9 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_MPU_M3_MPU_M3_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MPU_M3",
-		OMAP4430_CM_MPU_M3_MPU_M3_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_MPU_M3_MPU_M3_CONTEXT, rm_context);
+				  OMAP4430_CM_MPU_M3_MPU_M3_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_MPU_M3_MPU_M3_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -203,7 +200,7 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM_SDMA_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "SDMA",
-		OMAP4430_CM_SDMA_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_SDMA_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 	/* SDMA Module Power Configuration */
@@ -212,8 +209,8 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_SDMA_SDMA_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "SDMA",
-		OMAP4430_CM_SDMA_SDMA_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_SDMA_SDMA_CONTEXT, rm_context);
+				  OMAP4430_CM_SDMA_SDMA_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_SDMA_SDMA_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -221,7 +218,7 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM_MEMIF_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "MEMIF",
-		OMAP4430_CM_MEMIF_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_MEMIF_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 	/* MEMIF Modules Power Configuration */
@@ -230,8 +227,8 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_MEMIF_DMM_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "DMM",
-		OMAP4430_CM_MEMIF_DMM_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_MEMIF_DMM_CONTEXT, rm_context);
+				  OMAP4430_CM_MEMIF_DMM_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_MEMIF_DMM_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -240,8 +237,9 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_MEMIF_EMIF_FW_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "EMIF_FW",
-		OMAP4430_CM_MEMIF_EMIF_FW_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_MEMIF_EMIF_FW_CONTEXT, rm_context);
+				  OMAP4430_CM_MEMIF_EMIF_FW_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_MEMIF_EMIF_FW_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -250,8 +248,8 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_MEMIF_EMIF_1_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "EMIF_1",
-		OMAP4430_CM_MEMIF_EMIF_1_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_MEMIF_EMIF_1_CONTEXT, rm_context);
+				  OMAP4430_CM_MEMIF_EMIF_1_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_MEMIF_EMIF_1_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -260,8 +258,8 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_MEMIF_EMIF_2_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "EMIF_2",
-		OMAP4430_CM_MEMIF_EMIF_2_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_MEMIF_EMIF_2_CONTEXT, rm_context);
+				  OMAP4430_CM_MEMIF_EMIF_2_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_MEMIF_EMIF_2_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -270,8 +268,8 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_MEMIF_DLL_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "DLL",
-		OMAP4430_CM_MEMIF_DLL_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_MEMIF_DLL_CONTEXT, rm_context);
+				  OMAP4430_CM_MEMIF_DLL_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_MEMIF_DLL_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -279,7 +277,7 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM_C2C_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "C2C",
-		OMAP4430_CM_C2C_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_C2C_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 	/* C2C Modules Power Configuration */
@@ -288,8 +286,8 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_C2C_C2C_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "C2C",
-		OMAP4430_CM_C2C_C2C_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_C2C_C2C_CONTEXT, rm_context);
+				  OMAP4430_CM_C2C_C2C_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_C2C_C2C_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -298,8 +296,9 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_C2C_MODEM_ICR_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MODEM_ICR",
-		OMAP4430_CM_C2C_MODEM_ICR_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_C2C_MODEM_ICR_CONTEXT, rm_context);
+				  OMAP4430_CM_C2C_MODEM_ICR_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_C2C_MODEM_ICR_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -308,8 +307,8 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_C2C_C2C_FW_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "C2C_FW",
-		OMAP4430_CM_C2C_C2C_FW_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_C2C_C2C_FW_CONTEXT, rm_context);
+				  OMAP4430_CM_C2C_C2C_FW_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_C2C_C2C_FW_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -317,7 +316,7 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM_L4CFG_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "L4CFG",
-		OMAP4430_CM_L4CFG_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_L4CFG_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 	/* L4CFG Modules Power Configuration */
@@ -326,8 +325,8 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4CFG_L4_CFG_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "L4_CFG",
-		OMAP4430_CM_L4CFG_L4_CFG_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4CFG_L4_CFG_CONTEXT, rm_context);
+				  OMAP4430_CM_L4CFG_L4_CFG_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4CFG_L4_CFG_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -336,8 +335,8 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4CFG_HW_SEM_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "HW_SEM",
-		OMAP4430_CM_L4CFG_HW_SEM_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4CFG_HW_SEM_CONTEXT, rm_context);
+				  OMAP4430_CM_L4CFG_HW_SEM_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4CFG_HW_SEM_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -346,8 +345,9 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4CFG_MAILBOX_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "MAILBOX",
-		OMAP4430_CM_L4CFG_MAILBOX_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4CFG_MAILBOX_CONTEXT, rm_context);
+				  OMAP4430_CM_L4CFG_MAILBOX_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4CFG_MAILBOX_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -356,8 +356,9 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L4CFG_SAR_ROM_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "SAR_ROM",
-		OMAP4430_CM_L4CFG_SAR_ROM_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L4CFG_SAR_ROM_CONTEXT, rm_context);
+				  OMAP4430_CM_L4CFG_SAR_ROM_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L4CFG_SAR_ROM_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -365,7 +366,8 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM_L3INSTR_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "L3INSTR",
-		OMAP4430_CM_L3INSTR_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_L3INSTR_CLKSTCTRL,
+				    cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 	/* L3INSTR Modules Power Configuration */
@@ -374,8 +376,8 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L3INSTR_L3_3_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "L3_3",
-		OMAP4430_CM_L3INSTR_L3_3_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L3INSTR_L3_3_CONTEXT, rm_context);
+				  OMAP4430_CM_L3INSTR_L3_3_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_L3INSTR_L3_3_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -384,8 +386,10 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L3INSTR_L3_INSTR_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "L3_INSTR",
-		OMAP4430_CM_L3INSTR_L3_INSTR_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L3INSTR_L3_INSTR_CONTEXT, rm_context);
+				  OMAP4430_CM_L3INSTR_L3_INSTR_CLKCTRL,
+				  cm_clkctrl,
+				  OMAP4430_RM_L3INSTR_L3_INSTR_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -394,13 +398,14 @@ int core44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_L3INSTR_OCP_WP1_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "OCP_WP1",
-		OMAP4430_CM_L3INSTR_OCP_WP1_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_L3INSTR_OCP_WP1_CONTEXT, rm_context);
+				  OMAP4430_CM_L3INSTR_OCP_WP1_CLKCTRL,
+				  cm_clkctrl,
+				  OMAP4430_RM_L3INSTR_OCP_WP1_CONTEXT,
+				  rm_context);
 	if (ret != 0)
 		return ret;
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		core44xx_dependency_show
@@ -411,7 +416,7 @@ int core44xx_config_show(FILE *stream)
  * @param[in, out]	stream: output file stream
  * @DESCRIPTION		analyse CORE dependency configuration
  *------------------------------------------------------------------------ */
-int core44xx_dependency_show(FILE *stream)
+int core44xx_dependency_show(FILE * stream)
 {
 	unsigned int cm_l3_1_dynamicdep;
 	unsigned int cm_l3_2_dynamicdep;
@@ -465,328 +470,191 @@ int core44xx_dependency_show(FILE *stream)
 	fprintf(stream,
 		"|    TOWARDS:  |    |    |    |    |    |    |    |    |    | "
 		"   |    |    |\n");
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"MPU_M3",
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_l3_2_dynamicdep, 0) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_sdma_staticdep, 0) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"" /* not implemented */);
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"DSP",
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_mpu_m3_staticdep, 1) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "MPU_M3", "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_l3_2_dynamicdep, 0) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_sdma_staticdep, 0) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"" /* not implemented */ );
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "DSP", "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_mpu_m3_staticdep, 1) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
 		((extract_bit(cm_l4cfg_dynamicdep, 1) == 1) ? "En" : "Dis"));
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"IVAHD",
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_l3_2_dynamicdep, 2) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_mpu_m3_staticdep, 2) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_sdma_staticdep, 2) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_c2c_staticdep, 2) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		"" /* not implemented */);
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"ABE",
-		"", /* not implemented */
-		((extract_bit(cm_l3_1_dynamicdep, 3) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_mpu_m3_staticdep, 3) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_sdma_staticdep, 3) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_c2c_staticdep, 3) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		"" /* not implemented */);
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"MEM IF",
-		"", /* not implemented */
-		((extract_bit(cm_l3_1_dynamicdep, 4) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_mpu_m3_staticdep, 4) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_sdma_staticdep, 4) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_c2c_staticdep, 4) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_c2c_dynamicdep, 4) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "IVAHD", "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_l3_2_dynamicdep, 2) == 1) ? "En" : "Dis"), ((extract_bit(cm_mpu_m3_staticdep, 2) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_sdma_staticdep, 2) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_c2c_staticdep, 2) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		"" /* not implemented */ );
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "ABE", "",	/* not implemented */
+		((extract_bit(cm_l3_1_dynamicdep, 3) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_mpu_m3_staticdep, 3) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_sdma_staticdep, 3) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_c2c_staticdep, 3) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		"" /* not implemented */ );
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "MEM IF", "",	/* not implemented */
+		((extract_bit(cm_l3_1_dynamicdep, 4) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_mpu_m3_staticdep, 4) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_sdma_staticdep, 4) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_c2c_staticdep, 4) == 1) ? "En" : "Dis"), ((extract_bit(cm_c2c_dynamicdep, 4) == 1) ? "En" : "Dis"), "",	/* not implemented */
 		((extract_bit(cm_l4cfg_dynamicdep, 4) == 1) ? "En" : "Dis"));
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"L3_1",
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_l3_2_dynamicdep, 5) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_mpu_m3_staticdep, 5) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_sdma_staticdep, 5) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_c2c_staticdep, 5) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "L3_1", "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_l3_2_dynamicdep, 5) == 1) ? "En" : "Dis"), ((extract_bit(cm_mpu_m3_staticdep, 5) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_sdma_staticdep, 5) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_c2c_staticdep, 5) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
 		((extract_bit(cm_l4cfg_dynamicdep, 5) == 1) ? "En" : "Dis"));
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"L3_2",
-		"", /* not implemented */
-		((extract_bit(cm_l3_1_dynamicdep, 6) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_mpu_m3_staticdep, 6) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_mpu_m3_dynamicdep, 6) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_sdma_staticdep, 6) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_sdma_dynamicdep, 6) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_c2c_staticdep, 6) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_c2c_dynamicdep, 6) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "L3_2", "",	/* not implemented */
+		((extract_bit(cm_l3_1_dynamicdep, 6) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_mpu_m3_staticdep, 6) == 1) ? "En" : "Dis"), ((extract_bit(cm_mpu_m3_dynamicdep, 6) == 1) ? "En" : "Dis"), ((extract_bit(cm_sdma_staticdep, 6) == 1) ? "En" : "Dis"), ((extract_bit(cm_sdma_dynamicdep, 6) == 1) ? "En" : "Dis"), ((extract_bit(cm_c2c_staticdep, 6) == 1) ? "En" : "Dis"), ((extract_bit(cm_c2c_dynamicdep, 6) == 1) ? "En" : "Dis"), "",	/* not implemented */
 		((extract_bit(cm_l4cfg_dynamicdep, 6) == 1) ? "En" : "Dis"));
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"L3INIT",
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_l3_2_dynamicdep, 7) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_mpu_m3_staticdep, 7) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_sdma_staticdep, 7) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_c2c_staticdep, 7) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "L3INIT", "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_l3_2_dynamicdep, 7) == 1) ? "En" : "Dis"), ((extract_bit(cm_mpu_m3_staticdep, 7) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_sdma_staticdep, 7) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_c2c_staticdep, 7) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
 		((extract_bit(cm_l4cfg_dynamicdep, 7) == 1) ? "En" : "Dis"));
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"DSS",
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_l3_2_dynamicdep, 8) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_mpu_m3_staticdep, 8) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_sdma_staticdep, 8) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "DSS", "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_l3_2_dynamicdep, 8) == 1) ? "En" : "Dis"), ((extract_bit(cm_mpu_m3_staticdep, 8) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_sdma_staticdep, 8) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
 		((extract_bit(cm_l4cfg_dynamicdep, 8) == 1) ? "En" : "Dis"));
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"ISS",
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_l3_2_dynamicdep, 9) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_mpu_m3_staticdep, 9) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_mpu_m3_dynamicdep, 9) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_sdma_staticdep, 9) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "ISS", "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_l3_2_dynamicdep, 9) == 1) ? "En" : "Dis"), ((extract_bit(cm_mpu_m3_staticdep, 9) == 1) ? "En" : "Dis"), ((extract_bit(cm_mpu_m3_dynamicdep, 9) == 1) ? "En" : "Dis"), ((extract_bit(cm_sdma_staticdep, 9) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
 		((extract_bit(cm_l4cfg_dynamicdep, 9) == 1) ? "En" : "Dis"));
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"GFX",
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_l3_2_dynamicdep, 10) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_mpu_m3_staticdep, 10) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"" /* not implemented */);
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"SDMA",
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_mpu_m3_staticdep, 11) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "GFX", "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_l3_2_dynamicdep, 10) == 1) ? "En" : "Dis"), ((extract_bit(cm_mpu_m3_staticdep, 10) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"" /* not implemented */ );
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "SDMA", "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_mpu_m3_staticdep, 11) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
 		((extract_bit(cm_l4cfg_dynamicdep, 11) == 1) ? "En" : "Dis"));
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"L4CFG",
-		"", /* not implemented */
-		((extract_bit(cm_l3_1_dynamicdep, 12) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_mpu_m3_staticdep, 12) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_sdma_staticdep, 12) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_c2c_staticdep, 12) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		"" /* not implemented */);
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"L4PER",
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_l3_2_dynamicdep, 13) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_mpu_m3_staticdep, 13) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_sdma_staticdep, 13) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_c2c_staticdep, 13) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		"" /* not implemented */);
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"L4SEC",
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_l3_2_dynamicdep, 14) == 1) ? "En" : "Dis"),
-		((extract_bit(cm_mpu_m3_staticdep, 14) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_sdma_staticdep, 14) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"" /* not implemented */);
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"L4WKUP",
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_mpu_m3_staticdep, 15) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		((extract_bit(cm_sdma_staticdep, 15) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "L4CFG", "",	/* not implemented */
+		((extract_bit(cm_l3_1_dynamicdep, 12) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_mpu_m3_staticdep, 12) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_sdma_staticdep, 12) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_c2c_staticdep, 12) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		"" /* not implemented */ );
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "L4PER", "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_l3_2_dynamicdep, 13) == 1) ? "En" : "Dis"), ((extract_bit(cm_mpu_m3_staticdep, 13) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_sdma_staticdep, 13) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_c2c_staticdep, 13) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		"" /* not implemented */ );
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "L4SEC", "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_l3_2_dynamicdep, 14) == 1) ? "En" : "Dis"), ((extract_bit(cm_mpu_m3_staticdep, 14) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_sdma_staticdep, 14) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"" /* not implemented */ );
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "L4WKUP", "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_mpu_m3_staticdep, 15) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		((extract_bit(cm_sdma_staticdep, 15) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
 		((extract_bit(cm_l4cfg_dynamicdep, 15) == 1) ? "En" : "Dis"));
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"ALWONCORE",
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_mpu_m3_staticdep, 16) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "ALWONCORE", "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_mpu_m3_staticdep, 16) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
 		((extract_bit(cm_l4cfg_dynamicdep, 16) == 1) ? "En" : "Dis"));
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"CEFUSE",
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_mpu_m3_staticdep, 17) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "CEFUSE", "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_mpu_m3_staticdep, 17) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
 		((extract_bit(cm_l4cfg_dynamicdep, 17) == 1) ? "En" : "Dis"));
-	fprintf(stream,
-		"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s"
-		"|%-3s | %-3s|%-3s |\n",
-		"C2C",
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		((extract_bit(cm_l3_2_dynamicdep, 18) == 1) ? "En" : "Dis"),
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
-		"", /* not implemented */
+	fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s" "|%-3s | %-3s|%-3s |\n", "C2C", "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		((extract_bit(cm_l3_2_dynamicdep, 18) == 1) ? "En" : "Dis"), "",	/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
+		"",		/* not implemented */
 		((extract_bit(cm_l4cfg_dynamicdep, 18) == 1) ? "En" : "Dis"));
 	if (!cpu_is_omap4430())
-		fprintf(stream,
-			"| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|"
-			"%-3s | %-3s|%-3s | %-3s|%-3s |\n",
-			"MPU",
-			"", /* not implemented */
-			"", /* not implemented */
-			"", /* not implemented */
-			"", /* not implemented */
-			"", /* not implemented */
-			"", /* not implemented */
-			"", /* not implemented */
-			"", /* not implemented */
-			"", /* not implemented */
-			"", /* not implemented */
-			"", /* not implemented */
+		fprintf(stream, "| %-12s | %-3s|%-3s | %-3s|%-3s | %-3s|%-3s | %-3s|" "%-3s | %-3s|%-3s | %-3s|%-3s |\n", "MPU", "",	/* not implemented */
+			"",	/* not implemented */
+			"",	/* not implemented */
+			"",	/* not implemented */
+			"",	/* not implemented */
+			"",	/* not implemented */
+			"",	/* not implemented */
+			"",	/* not implemented */
+			"",	/* not implemented */
+			"",	/* not implemented */
+			"",	/* not implemented */
 			((extract_bit(cm_l4cfg_dynamicdep, 19) == 1) ?
-				"En" : "Dis"));
+			 "En" : "Dis"));
 
 	fprintf(stream,
 		"|-------------------------------------------------------------"
@@ -810,7 +678,6 @@ int core44xx_dependency_show(FILE *stream)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		core44xx_dump
  * @BRIEF		dump PRCM CORE registers
@@ -828,7 +695,6 @@ int core44xx_dump(void)
 
 	return dumpregs(prcm_core_reg_table);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		core44xx_main
@@ -867,7 +733,6 @@ int core44xx_main(int argc, char *argv[])
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		core44xx_regtable_init

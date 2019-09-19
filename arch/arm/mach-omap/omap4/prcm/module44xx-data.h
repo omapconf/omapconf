@@ -41,13 +41,10 @@
  *
  */
 
-
 #ifndef __MODULE44XX_DATA_H__
 #define __MODULE44XX_DATA_H__
 
-
 #include <module44xx.h>
-
 
 typedef struct {
 	mod44xx_id id;
@@ -60,18 +57,16 @@ typedef struct {
 	unsigned int *sysconfig_addr;
 	unsigned int *cm_clkctrl_addr;
 	unsigned int *rm_context_addr;
-	double por_speed[OPP44XX_ID_MAX]; /* in MHz */
+	double por_speed[OPP44XX_ID_MAX];	/* in MHz */
 } mod44xx_info;
-
 
 extern mod44xx_info mod44xx_info_table[OMAP4_MODULE_ID_MAX];
 
 extern const char
-	mod44xx_name_table[OMAP4_MODULE_ID_MAX][MODULE_MAX_NAME_LENGTH];
+ mod44xx_name_table[OMAP4_MODULE_ID_MAX][MODULE_MAX_NAME_LENGTH];
 
 extern const short int mod44xx_has_smart_idle_wakeup_table[OMAP4_MODULE_ID_MAX];
 
 int mod44xx_init_info_table(void);
-
 
 #endif

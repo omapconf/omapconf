@@ -41,19 +41,15 @@
  *
  */
 
-
 #ifndef __PWRDM_AM335X_H__
 #define __PWRDM_AM335X_H__
-
 
 #include <genlist.h>
 #include <powerdomain.h>
 #include <pwrdm.h>
 #include <voltdm_am335x.h>
 
-
 #define PWRDM_AM335X_MAX_NAME_LENGTH		16
-
 
 typedef enum {
 	PWRDM_AM335X_WKUP,
@@ -65,12 +61,10 @@ typedef enum {
 	PWRDM_AM335X_ID_MAX
 } pwrdm_am335x_id;
 
-
 void pwrdm_am335x_init(void);
 void pwrdm_am335x_deinit(void);
 
 int pwrdm_am335x_count_get(void);
 const genlist *pwrdm_am335x_list_get(void);
-
 
 #endif

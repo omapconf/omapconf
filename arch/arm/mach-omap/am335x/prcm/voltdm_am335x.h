@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __VOLTDM_AM335X_H__
 #define __VOLTDM_AM335X_H__
 
-
 #include <lib.h>
 #include <genlist.h>
-
 
 typedef enum {
 	VDD_AM335X_CORE,
@@ -56,7 +53,6 @@ typedef enum {
 	VDD_AM335X_RTC,
 	VDD_AM335X_ID_MAX
 } voltdm_am335x_id;
-
 
 void voltdm_am335x_init(void);
 void voltdm_am335x_deinit(void);
@@ -68,6 +64,5 @@ const char *voltdm_am335x_name_get(voltdm_am335x_id id);
 const char *voltdm_am335x_id2s(voltdm_am335x_id id);
 
 double voltdm_am335x_voltage_get(voltdm_am335x_id id);
-
 
 #endif

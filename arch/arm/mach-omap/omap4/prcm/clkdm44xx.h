@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __CLKDM44XX_H__
 #define __CLKDM44XX_H__
-
 
 #include <clkdm.h>
 #include <clkdm.h>
@@ -77,10 +75,9 @@ typedef enum {
 	OMAP4_CD_L3_INIT,
 	OMAP4_CD_L4_SEC,
 	OMAP4_CD_L4_PER,
-	OMAP4_CD_NONE, /* for PRCM own clock */
+	OMAP4_CD_NONE,		/* for PRCM own clock */
 	OMAP4_CD_ID_MAX
 } clkdm44xx_id;
-
 
 void clkdm44xx_init(void);
 void clkdm44xx_deinit(void);
@@ -88,15 +85,13 @@ void clkdm44xx_deinit(void);
 int clkdm44xx_count_get(void);
 const genlist *clkdm44xx_list_get(void);
 
-
 char *clkdm44xx_get_name(clkdm44xx_id id, char name[CLKDM44XX_MAX_NAME_LENGTH]);
 pwrdm44xx_id clkdm44xx_get_pwrdm(clkdm44xx_id id);
 voltdm44xx_id clkdm44xx_get_voltdm(clkdm44xx_id id);
-int clkdm44xx_get_status(clkdm44xx_id cd_id,
-	clkdm_status *clkst);
+int clkdm44xx_get_status(clkdm44xx_id cd_id, clkdm_status * clkst);
 
-int clkdm44xx_config_show(FILE *stream, const char name[11],
-	unsigned int cm_clkstctrl_addr,	unsigned int cm_clkstctrl);
-
+int clkdm44xx_config_show(FILE * stream, const char name[11],
+			  unsigned int cm_clkstctrl_addr,
+			  unsigned int cm_clkstctrl);
 
 #endif

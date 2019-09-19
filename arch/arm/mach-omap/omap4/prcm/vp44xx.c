@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <vp44xx.h>
 #include <vp44xx-data.h>
 #include <vp.h>
@@ -52,14 +51,12 @@
 #include <voltdm44xx.h>
 #include <prm44xx.h>
 
-
 /* #define VP44XX_DEBUG */
 #ifdef VP44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp44xx_name_get
@@ -77,7 +74,6 @@ const char *vp44xx_name_get(vp44xx_mod_id vp_id)
 		return vp44xx_mod_names[VP44XX_ID_MAX];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp44xx_registers_get
  * @BRIEF		save VP registers content into vp_regs structure.
@@ -89,7 +85,7 @@ const char *vp44xx_name_get(vp44xx_mod_id vp_id)
  * @param[in,out]	vp_regs: VP module registers content
  * @DESCRIPTION		save VP registers content into vp_regs structure.
  *------------------------------------------------------------------------ */
-int vp44xx_registers_get(vp44xx_mod_id vp_id, vp_registers *vp_regs)
+int vp44xx_registers_get(vp44xx_mod_id vp_id, vp_registers * vp_regs)
 {
 	int ret;
 
@@ -99,51 +95,51 @@ int vp44xx_registers_get(vp44xx_mod_id vp_id, vp_registers *vp_regs)
 
 	switch (vp_id) {
 	case VP44XX_MPU:
-		vp_regs->vdd_id = (unsigned short) OMAP4_VDD_MPU;
+		vp_regs->vdd_id = (unsigned short)OMAP4_VDD_MPU;
 		ret = mem_read(OMAP4430_PRM_VP_MPU_CONFIG,
-			&(vp_regs->vp_config));
+			       &(vp_regs->vp_config));
 		ret += mem_read(OMAP4430_PRM_VP_MPU_VSTEPMIN,
-			&(vp_regs->vp_vstepmin));
+				&(vp_regs->vp_vstepmin));
 		ret += mem_read(OMAP4430_PRM_VP_MPU_VSTEPMAX,
-			&(vp_regs->vp_vstepmax));
+				&(vp_regs->vp_vstepmax));
 		ret += mem_read(OMAP4430_PRM_VP_MPU_VLIMITTO,
-			&(vp_regs->vp_vlimitto));
+				&(vp_regs->vp_vlimitto));
 		ret += mem_read(OMAP4430_PRM_VP_MPU_VOLTAGE,
-			&(vp_regs->vp_voltage));
+				&(vp_regs->vp_voltage));
 		ret += mem_read(OMAP4430_PRM_VP_MPU_STATUS,
-			&(vp_regs->vp_status));
+				&(vp_regs->vp_status));
 		break;
 
 	case VP44XX_IVA:
-		vp_regs->vdd_id = (unsigned short) OMAP4_VDD_IVA;
+		vp_regs->vdd_id = (unsigned short)OMAP4_VDD_IVA;
 		ret = mem_read(OMAP4430_PRM_VP_IVA_CONFIG,
-			&(vp_regs->vp_config));
+			       &(vp_regs->vp_config));
 		ret += mem_read(OMAP4430_PRM_VP_IVA_VSTEPMIN,
-			&(vp_regs->vp_vstepmin));
+				&(vp_regs->vp_vstepmin));
 		ret += mem_read(OMAP4430_PRM_VP_IVA_VSTEPMAX,
-			&(vp_regs->vp_vstepmax));
+				&(vp_regs->vp_vstepmax));
 		ret += mem_read(OMAP4430_PRM_VP_IVA_VLIMITTO,
-			&(vp_regs->vp_vlimitto));
+				&(vp_regs->vp_vlimitto));
 		ret += mem_read(OMAP4430_PRM_VP_IVA_VOLTAGE,
-			&(vp_regs->vp_voltage));
+				&(vp_regs->vp_voltage));
 		ret += mem_read(OMAP4430_PRM_VP_IVA_STATUS,
-			&(vp_regs->vp_status));
+				&(vp_regs->vp_status));
 		break;
 
 	case VP44XX_CORE:
-		vp_regs->vdd_id = (unsigned short) OMAP4_VDD_CORE;
+		vp_regs->vdd_id = (unsigned short)OMAP4_VDD_CORE;
 		ret = mem_read(OMAP4430_PRM_VP_CORE_CONFIG,
-			&(vp_regs->vp_config));
+			       &(vp_regs->vp_config));
 		ret += mem_read(OMAP4430_PRM_VP_CORE_VSTEPMIN,
-			&(vp_regs->vp_vstepmin));
+				&(vp_regs->vp_vstepmin));
 		ret += mem_read(OMAP4430_PRM_VP_CORE_VSTEPMAX,
-			&(vp_regs->vp_vstepmax));
+				&(vp_regs->vp_vstepmax));
 		ret += mem_read(OMAP4430_PRM_VP_CORE_VLIMITTO,
-			&(vp_regs->vp_vlimitto));
+				&(vp_regs->vp_vlimitto));
 		ret += mem_read(OMAP4430_PRM_VP_CORE_VOLTAGE,
-			&(vp_regs->vp_voltage));
+				&(vp_regs->vp_voltage));
 		ret += mem_read(OMAP4430_PRM_VP_CORE_STATUS,
-			&(vp_regs->vp_status));
+				&(vp_regs->vp_status));
 		break;
 
 	default:
@@ -152,7 +148,6 @@ int vp44xx_registers_get(vp44xx_mod_id vp_id, vp_registers *vp_regs)
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp44xx_golden_settings_get
@@ -165,7 +160,7 @@ int vp44xx_registers_get(vp44xx_mod_id vp_id, vp_registers *vp_regs)
  *			module and OPP.
  *------------------------------------------------------------------------ */
 const vp_audit_settings *vp44xx_golden_settings_get(vp44xx_mod_id vp_id,
-	opp44xx_id opp_id)
+						    opp44xx_id opp_id)
 {
 	omap_chip chip_id;
 
@@ -178,7 +173,6 @@ const vp_audit_settings *vp44xx_golden_settings_get(vp44xx_mod_id vp_id,
 	return vp44xx_golden_settings[chip_id][vp_id][opp_id];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp44xx_config_show
  * @BRIEF		decode and print Voltage Processor (VP) configuration
@@ -188,7 +182,7 @@ const vp_audit_settings *vp44xx_golden_settings_get(vp44xx_mod_id vp_id,
  * @param[in]		stream: output file (NULL: no output (silent))
  * @DESCRIPTION		decode and print Voltage Processor (VP) configuration
  *------------------------------------------------------------------------ */
-int vp44xx_config_show(FILE *stream)
+int vp44xx_config_show(FILE * stream)
 {
 	int ret = 0;
 	vp_registers vp_regs[VP44XX_ID_MAX];
@@ -213,7 +207,6 @@ int vp44xx_config_show(FILE *stream)
 	return vp_config_show(stream, vp_regs);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		vp44xx_config_audit
  * @BRIEF		audit Voltage Processor (VP) configuration
@@ -228,8 +221,8 @@ int vp44xx_config_show(FILE *stream)
  * @DESCRIPTION		audit Voltage Processor (VP) configuration by comparison
  *			with expected ("golden") settings
  *------------------------------------------------------------------------ */
-int vp44xx_config_audit(FILE *stream, vp44xx_mod_id vp_id,
-	unsigned int *err_nbr, unsigned int *wng_nbr)
+int vp44xx_config_audit(FILE * stream, vp44xx_mod_id vp_id,
+			unsigned int *err_nbr, unsigned int *wng_nbr)
 {
 	int ret = 0;
 	vp_registers vp_regs;
@@ -250,8 +243,7 @@ int vp44xx_config_audit(FILE *stream, vp44xx_mod_id vp_id,
 		if ((vp_id != VP44XX_ID_MAX) && (vp_id != vp))
 			continue;
 
-		dprintf("\n%s(): Auditing %s\n", __func__,
-			vp44xx_name_get(vp));
+		dprintf("\n%s(): Auditing %s\n", __func__, vp44xx_name_get(vp));
 		err_cnt = 0;
 		wng_cnt = 0;
 
@@ -309,7 +301,8 @@ int vp44xx_config_audit(FILE *stream, vp44xx_mod_id vp_id,
 
 		/* Audit settings */
 		ret = vp_config_audit(stream, vp44xx_name_get(vp), opp_name,
-			&vp_regs, vp_golden_settings, &err_cnt, &wng_cnt);
+				      &vp_regs, vp_golden_settings, &err_cnt,
+				      &wng_cnt);
 		(*err_nbr) += err_cnt;
 		(*wng_nbr) += wng_cnt;
 		if (ret != 0)

@@ -41,22 +41,18 @@
  *
  */
 
-
 #ifndef __MPU44XX_H__
 #define __MPU44XX_H__
 
-
 #include <stdio.h>
-
 
 int mpu44xx_name2addr(char *name, unsigned int *addr);
 int mpu44xx_dump(void);
-int mpu44xx_config_show(FILE *stream);
-int mpu44xx_dependency_show(FILE *stream);
-int mpu44xx_irq_show(FILE *stream);
+int mpu44xx_config_show(FILE * stream);
+int mpu44xx_dependency_show(FILE * stream);
+int mpu44xx_irq_show(FILE * stream);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int mpu44xx_main(int argc, char *argv[]);
-
 
 #endif

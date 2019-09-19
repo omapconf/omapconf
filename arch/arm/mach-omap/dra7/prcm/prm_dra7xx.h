@@ -41,18 +41,14 @@
  *
  */
 
-
 #ifndef __PRM_DRA7XX_H__
 #define __PRM_DRA7XX_H__
-
 
 #include <stdio.h>
 #include <prm_dra7xx-defs.h>
 
-
 const char *prm_dra7xx_mod_name_get(prm_dra7xx_mod_id id);
-int prm_dra7xx_dump(FILE *stream, prm_dra7xx_mod_id id);
+int prm_dra7xx_dump(FILE * stream, prm_dra7xx_mod_id id);
 unsigned int prm_dra7xx_is_profiling_running(void);
-
 
 #endif

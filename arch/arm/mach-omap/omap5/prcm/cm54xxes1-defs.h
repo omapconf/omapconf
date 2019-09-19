@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __CM54XXES1_DEFS_H__
 #define __CM54XXES1_DEFS_H__
 
@@ -60,7 +59,8 @@ extern reg omap5430es1_cm_dss_dss_clkctrl;
 #define OMAP5430ES1_CM_DSS_BB2D_CLKCTRL				0x4a009130
 extern reg omap5430es1_cm_dss_bb2d_clkctrl;
 #define OMAP5430ES1_DSS_CM_CORE_MOD_REGCOUNT			5
-extern reg *omap5430es1_dss_cm_core_mod[OMAP5430ES1_DSS_CM_CORE_MOD_REGCOUNT + 1];
+extern reg *omap5430es1_dss_cm_core_mod[OMAP5430ES1_DSS_CM_CORE_MOD_REGCOUNT +
+					1];
 
 #define OMAP5430ES1_CMI_IDENTICATION				0x4a009f00
 extern reg omap5430es1_cmi_identication;
@@ -77,7 +77,8 @@ extern reg omap5430es1_cmi_triggering;
 #define OMAP5430ES1_CMI_SAMPLING				0x4a009f30
 extern reg omap5430es1_cmi_sampling;
 #define OMAP5430ES1_INSTR_CM_CORE_MOD_REGCOUNT			7
-extern reg *omap5430es1_instr_cm_core_mod[OMAP5430ES1_INSTR_CM_CORE_MOD_REGCOUNT + 1];
+extern reg *omap5430es1_instr_cm_core_mod[OMAP5430ES1_INSTR_CM_CORE_MOD_REGCOUNT
+					  + 1];
 
 #define OMAP5430ES1_CM_L3MAIN1_CLKSTCTRL			0x4a008700
 extern reg omap5430es1_cm_l3main1_clkstctrl;
@@ -174,14 +175,17 @@ extern reg omap5430es1_cm_l3instr_ocp_wp_noc_clkctrl;
 #define OMAP5430ES1_CM_L3INSTR_DLL_AGING_CLKCTRL		0x4a008e48
 extern reg omap5430es1_cm_l3instr_dll_aging_clkctrl;
 #define OMAP5430ES1_CORE_CM_CORE_MOD_REGCOUNT			47
-extern reg *omap5430es1_core_cm_core_mod[OMAP5430ES1_CORE_CM_CORE_MOD_REGCOUNT + 1];
+extern reg *omap5430es1_core_cm_core_mod[OMAP5430ES1_CORE_CM_CORE_MOD_REGCOUNT +
+					 1];
 
 #define OMAP5430ES1_CM_CUSTEFUSE_CLKSTCTRL			0x4a009600
 extern reg omap5430es1_cm_custefuse_clkstctrl;
 #define OMAP5430ES1_CM_CUSTEFUSE_EFUSE_CTRL_CUST_CLKCTRL	0x4a009620
 extern reg omap5430es1_cm_custefuse_efuse_ctrl_cust_clkctrl;
 #define OMAP5430ES1_CUSTEFUSE_CM_CORE_MOD_REGCOUNT		2
-extern reg *omap5430es1_custefuse_cm_core_mod[OMAP5430ES1_CUSTEFUSE_CM_CORE_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430es1_custefuse_cm_core_mod
+    [OMAP5430ES1_CUSTEFUSE_CM_CORE_MOD_REGCOUNT + 1];
 
 #define OMAP5430ES1_CM_ABE_CLKSTCTRL				0x4a004500
 extern reg omap5430es1_cm_abe_clkstctrl;
@@ -214,7 +218,9 @@ extern reg omap5430es1_cm_abe_timer8_clkctrl;
 #define OMAP5430ES1_CM_ABE_WD_TIMER3_CLKCTRL			0x4a004588
 extern reg omap5430es1_cm_abe_wd_timer3_clkctrl;
 #define OMAP5430ES1_ABE_CM_CORE_AON_MOD_REGCOUNT			15
-extern reg *omap5430es1_abe_cm_core_aon_mod[OMAP5430ES1_ABE_CM_CORE_AON_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430es1_abe_cm_core_aon_mod[OMAP5430ES1_ABE_CM_CORE_AON_MOD_REGCOUNT +
+				     1];
 
 #define OMAP5430ES1_CM_GPU_CLKSTCTRL				0x4a009200
 extern reg omap5430es1_cm_gpu_clkstctrl;
@@ -225,7 +231,8 @@ extern reg omap5430es1_cm_gpu_dynamicdep;
 #define OMAP5430ES1_CM_GPU_GPU_CLKCTRL				0x4a009220
 extern reg omap5430es1_cm_gpu_gpu_clkctrl;
 #define OMAP5430ES1_GPU_CM_CORE_MOD_REGCOUNT			4
-extern reg *omap5430es1_gpu_cm_core_mod[OMAP5430ES1_GPU_CM_CORE_MOD_REGCOUNT + 1];
+extern reg *omap5430es1_gpu_cm_core_mod[OMAP5430ES1_GPU_CM_CORE_MOD_REGCOUNT +
+					1];
 
 #define OMAP5430ES1_CM_EMU_CLKSTCTRL				0x4ae07a00
 extern reg omap5430es1_cm_emu_clkstctrl;
@@ -243,7 +250,9 @@ extern reg omap5430es1_cm_cm_core_profiling_clkctrl;
 #define OMAP5430ES1_CM_CORE_DEBUG_CFG				0x4a0080f0
 extern reg omap5430es1_cm_core_debug_cfg;
 #define OMAP5430ES1_INTRCONN_SOCKET_CM_CORE_MOD_REGCOUNT		3
-extern reg *omap5430es1_intrconn_socket_cm_core_mod[OMAP5430ES1_INTRCONN_SOCKET_CM_CORE_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430es1_intrconn_socket_cm_core_mod
+    [OMAP5430ES1_INTRCONN_SOCKET_CM_CORE_MOD_REGCOUNT + 1];
 
 #define OMAP5430ES1_CMI_IDENTICATION_AON			0x4a004f00
 extern reg omap5430es1_cmi_identication_aon;
@@ -260,7 +269,9 @@ extern reg omap5430es1_cmi_triggering_aon;
 #define OMAP5430ES1_CMI_SAMPLING_AON				0x4a004f30
 extern reg omap5430es1_cmi_sampling_aon;
 #define OMAP5430ES1_INSTR_CM_CORE_AON_MOD_REGCOUNT			7
-extern reg *omap5430es1_instr_cm_core_aon_mod[OMAP5430ES1_INSTR_CM_CORE_AON_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430es1_instr_cm_core_aon_mod
+    [OMAP5430ES1_INSTR_CM_CORE_AON_MOD_REGCOUNT + 1];
 
 #define OMAP5430ES1_CM_CLKSEL_CORE				0x4a004100
 extern reg omap5430es1_cm_clksel_core;
@@ -355,7 +366,9 @@ extern reg omap5430es1_cm_dyn_dep_prescal;
 #define OMAP5430ES1_CM_RESTORE_ST				0x4a004280
 extern reg omap5430es1_cm_restore_st;
 #define OMAP5430ES1_CKGEN_CM_CORE_AON_MOD_REGCOUNT		46
-extern reg *omap5430es1_ckgen_cm_core_aon_mod[OMAP5430ES1_CKGEN_CM_CORE_AON_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430es1_ckgen_cm_core_aon_mod
+    [OMAP5430ES1_CKGEN_CM_CORE_AON_MOD_REGCOUNT + 1];
 
 #define OMAP5430ES1_CM_CLKSEL_USB_60MHZ				0x4a008104
 extern reg omap5430es1_cm_clksel_usb_60mhz;
@@ -430,7 +443,8 @@ extern reg omap5430es1_cm_ssc_modfreqdiv_dpll_unipro1;
 #define OMAP5430ES1_CM_CLKDCOLDO_DPLL_UNIPRO1			0x4a008234
 extern reg omap5430es1_cm_clkdcoldo_dpll_unipro1;
 #define OMAP5430ES1_CKGEN_CM_CORE_MOD_REGCOUNT			36
-extern reg *omap5430es1_ckgen_cm_core_mod[OMAP5430ES1_CKGEN_CM_CORE_MOD_REGCOUNT + 1];
+extern reg *omap5430es1_ckgen_cm_core_mod[OMAP5430ES1_CKGEN_CM_CORE_MOD_REGCOUNT
+					  + 1];
 
 #define OMAP5430ES1_CM_L4PER_CLKSTCTRL				0x4a009400
 extern reg omap5430es1_cm_l4per_clkstctrl;
@@ -507,7 +521,8 @@ extern reg omap5430es1_cm_l4per_uart5_clkctrl;
 #define OMAP5430ES1_CM_L4PER_UART6_CLKCTRL			0x4a009578
 extern reg omap5430es1_cm_l4per_uart6_clkctrl;
 #define OMAP5430ES1_L4PER_CM_CORE_MOD_REGCOUNT			37
-extern reg *omap5430es1_l4per_cm_core_mod[OMAP5430ES1_L4PER_CM_CORE_MOD_REGCOUNT + 1];
+extern reg *omap5430es1_l4per_cm_core_mod[OMAP5430ES1_L4PER_CM_CORE_MOD_REGCOUNT
+					  + 1];
 
 #define OMAP5430ES1_CM_L3INIT_CLKSTCTRL				0x4a009300
 extern reg omap5430es1_cm_l3init_clkstctrl;
@@ -540,7 +555,9 @@ extern reg omap5430es1_cm_l3init_ocp2scp3_clkctrl;
 #define OMAP5430ES1_CM_L3INIT_USB_OTG_SS_CLKCTRL		0x4a0093f0
 extern reg omap5430es1_cm_l3init_usb_otg_ss_clkctrl;
 #define OMAP5430ES1_L3INIT_CM_CORE_MOD_REGCOUNT			15
-extern reg *omap5430es1_l3init_cm_core_mod[OMAP5430ES1_L3INIT_CM_CORE_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430es1_l3init_cm_core_mod[OMAP5430ES1_L3INIT_CM_CORE_MOD_REGCOUNT +
+				    1];
 
 #define OMAP5430ES1_CM_WKUPAON_CLKSTCTRL			0x4ae07800
 extern reg omap5430es1_cm_wkupaon_clkstctrl;
@@ -572,7 +589,9 @@ extern reg omap5430es1_cm_cm_core_aon_profiling_clkctrl;
 #define OMAP5430ES1_CM_CORE_AON_DEBUG_CFG			0x4a0040f0
 extern reg omap5430es1_cm_core_aon_debug_cfg;
 #define OMAP5430ES1_INTRCONN_SOCKET_CM_CORE_AON_MOD_REGCOUNT	3
-extern reg *omap5430es1_intrconn_socket_cm_core_aon_mod[OMAP5430ES1_INTRCONN_SOCKET_CM_CORE_AON_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430es1_intrconn_socket_cm_core_aon_mod
+    [OMAP5430ES1_INTRCONN_SOCKET_CM_CORE_AON_MOD_REGCOUNT + 1];
 
 #define OMAP5430ES1_CM_IVA_CLKSTCTRL				0x4a008f00
 extern reg omap5430es1_cm_iva_clkstctrl;
@@ -585,7 +604,8 @@ extern reg omap5430es1_cm_iva_iva_clkctrl;
 #define OMAP5430ES1_CM_IVA_SL2_CLKCTRL				0x4a008f28
 extern reg omap5430es1_cm_iva_sl2_clkctrl;
 #define OMAP5430ES1_IVA_CM_CORE_MOD_REGCOUNT			5
-extern reg *omap5430es1_iva_cm_core_mod[OMAP5430ES1_IVA_CM_CORE_MOD_REGCOUNT + 1];
+extern reg *omap5430es1_iva_cm_core_mod[OMAP5430ES1_IVA_CM_CORE_MOD_REGCOUNT +
+					1];
 
 #define OMAP5430ES1_CM_COREAON_CLKSTCTRL			0x4a008600
 extern reg omap5430es1_cm_coreaon_clkstctrl;
@@ -602,7 +622,9 @@ extern reg omap5430es1_cm_coreaon_bandgap_clkctrl;
 #define OMAP5430ES1_CM_COREAON_IO_SRCOMP_CLKCTRL		0x4a008650
 extern reg omap5430es1_cm_coreaon_io_srcomp_clkctrl;
 #define OMAP5430ES1_COREAON_CM_CORE_MOD_REGCOUNT		7
-extern reg *omap5430es1_coreaon_cm_core_mod[OMAP5430ES1_COREAON_CM_CORE_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430es1_coreaon_cm_core_mod[OMAP5430ES1_COREAON_CM_CORE_MOD_REGCOUNT +
+				     1];
 
 #define OMAP5430ES1_CM_MPU_CLKSTCTRL				0x4a004300
 extern reg omap5430es1_cm_mpu_clkstctrl;
@@ -613,7 +635,9 @@ extern reg omap5430es1_cm_mpu_dynamicdep;
 #define OMAP5430ES1_CM_MPU_MPU_CLKCTRL				0x4a004320
 extern reg omap5430es1_cm_mpu_mpu_clkctrl;
 #define OMAP5430ES1_MPU_CM_CORE_AON_MOD_REGCOUNT		4
-extern reg *omap5430es1_mpu_cm_core_aon_mod[OMAP5430ES1_MPU_CM_CORE_AON_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430es1_mpu_cm_core_aon_mod[OMAP5430ES1_MPU_CM_CORE_AON_MOD_REGCOUNT +
+				     1];
 
 #define OMAP5430ES1_CM_CAM_CLKSTCTRL				0x4a009000
 extern reg omap5430es1_cm_cam_clkstctrl;
@@ -628,7 +652,8 @@ extern reg omap5430es1_cm_cam_fdif_clkctrl;
 #define OMAP5430ES1_CM_CAM_CAL_CLKCTRL				0x4a009030
 extern reg omap5430es1_cm_cam_cal_clkctrl;
 #define OMAP5430ES1_CAM_CM_CORE_MOD_REGCOUNT			6
-extern reg *omap5430es1_cam_cm_core_mod[OMAP5430ES1_CAM_CM_CORE_MOD_REGCOUNT + 1];
+extern reg *omap5430es1_cam_cm_core_mod[OMAP5430ES1_CAM_CM_CORE_MOD_REGCOUNT +
+					1];
 
 #define OMAP5430ES1_CM_DSP_CLKSTCTRL				0x4a004400
 extern reg omap5430es1_cm_dsp_clkstctrl;
@@ -639,7 +664,9 @@ extern reg omap5430es1_cm_dsp_dynamicdep;
 #define OMAP5430ES1_CM_DSP_DSP_CLKCTRL				0x4a004420
 extern reg omap5430es1_cm_dsp_dsp_clkctrl;
 #define OMAP5430ES1_DSP_CM_CORE_AON_MOD_REGCOUNT		4
-extern reg *omap5430es1_dsp_cm_core_aon_mod[OMAP5430ES1_DSP_CM_CORE_AON_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430es1_dsp_cm_core_aon_mod[OMAP5430ES1_DSP_CM_CORE_AON_MOD_REGCOUNT +
+				     1];
 
 typedef enum {
 	CM54XX_DSS_CM_CORE,
@@ -681,7 +708,6 @@ typedef enum {
 	DPLL54XX_ID_MAX
 } dpll54xx_id;
 
-
 typedef enum {
 	HSDIV54XX_H11,
 	HSDIV54XX_H12,
@@ -694,9 +720,7 @@ typedef enum {
 	HSDIV54XX_ID_MAX
 } hsdiv54xx_id;
 
-
 extern const dpll_settings_regs dpll54xxes1_regs[DPLL54XX_ID_MAX];
 extern const reg *dpll54xxes1_hsdiv_regs[DPLL54XX_ID_MAX][HSDIV54XX_ID_MAX];
-
 
 #endif

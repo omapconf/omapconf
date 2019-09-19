@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <vc44xx.h>
 #include <prm44xx.h>
 #include <mem.h>
@@ -52,14 +51,12 @@
 #include <autoadjust_table.h>
 #include <cpuinfo.h>
 
-
 /* #define VC44XX_DEBUG */
 #ifdef VC44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 #define VC_SA_VDD_MPU_L_POS				16
 #define VC_SA_VDD_MPU_L_LEN				7
@@ -100,7 +97,6 @@
 #define VC_CFG_CHANNEL_RAV_VDD_CORE_L_POS		1
 #define VC_CFG_CHANNEL_SA_VDD_CORE_L_POS		0
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc44xx_sa_get
  * @BRIEF		return Slave Address (SA)
@@ -112,34 +108,39 @@
  * @DESCRIPTION		return Slave Address (SA)
  *------------------------------------------------------------------------ */
 short int vc44xx_sa_get(voltdm44xx_id id,
-	unsigned int prm_vc_smps_sa, unsigned int prm_vc_cfg_channel)
+			unsigned int prm_vc_smps_sa,
+			unsigned int prm_vc_cfg_channel)
 {
 	short int sa;
 
 	switch (id) {
 	case OMAP4_VDD_MPU:
 		sa = extract_bitfield(prm_vc_smps_sa,
-			VC_SA_VDD_MPU_L_POS, VC_SA_VDD_MPU_L_LEN);
+				      VC_SA_VDD_MPU_L_POS, VC_SA_VDD_MPU_L_LEN);
 		break;
 
 	case OMAP4_VDD_IVA:
 		if (extract_bit(prm_vc_cfg_channel,
-			VC_CFG_CHANNEL_SA_VDD_IVA_L_POS) == 1)
+				VC_CFG_CHANNEL_SA_VDD_IVA_L_POS) == 1)
 			sa = extract_bitfield(prm_vc_smps_sa,
-				VC_SA_VDD_IVA_L_POS, VC_SA_VDD_IVA_L_LEN);
+					      VC_SA_VDD_IVA_L_POS,
+					      VC_SA_VDD_IVA_L_LEN);
 		else
 			sa = extract_bitfield(prm_vc_smps_sa,
-				VC_SA_VDD_CORE_L_POS, VC_SA_VDD_CORE_L_LEN);
+					      VC_SA_VDD_CORE_L_POS,
+					      VC_SA_VDD_CORE_L_LEN);
 		break;
 
 	case OMAP4_VDD_CORE:
 		if (extract_bit(prm_vc_cfg_channel,
-			VC_CFG_CHANNEL_SA_VDD_CORE_L_POS) == 1)
+				VC_CFG_CHANNEL_SA_VDD_CORE_L_POS) == 1)
 			sa = extract_bitfield(prm_vc_smps_sa,
-				VC_SA_VDD_CORE_L_POS, VC_SA_VDD_CORE_L_LEN);
+					      VC_SA_VDD_CORE_L_POS,
+					      VC_SA_VDD_CORE_L_LEN);
 		else
 			sa = extract_bitfield(prm_vc_smps_sa,
-				VC_SA_VDD_MPU_L_POS, VC_SA_VDD_MPU_L_LEN);
+					      VC_SA_VDD_MPU_L_POS,
+					      VC_SA_VDD_MPU_L_LEN);
 		break;
 
 	default:
@@ -148,7 +149,6 @@ short int vc44xx_sa_get(voltdm44xx_id id,
 
 	return sa;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc44xx_volra_get
@@ -162,37 +162,40 @@ short int vc44xx_sa_get(voltdm44xx_id id,
  * @DESCRIPTION		return Voltage Register Address (VOLRA)
  *------------------------------------------------------------------------ */
 short int vc44xx_volra_get(voltdm44xx_id id,
-	unsigned int prm_vc_cfg_channel, unsigned int prm_vc_val_smps_ra_vol)
+			   unsigned int prm_vc_cfg_channel,
+			   unsigned int prm_vc_val_smps_ra_vol)
 {
 	short int volra;
 
 	switch (id) {
 	case OMAP4_VDD_MPU:
-		volra =	extract_bitfield(prm_vc_val_smps_ra_vol,
-			VC_VOLRA_VDD_MPU_L_POS, VC_VOLRA_VDD_MPU_L_LEN);
+		volra = extract_bitfield(prm_vc_val_smps_ra_vol,
+					 VC_VOLRA_VDD_MPU_L_POS,
+					 VC_VOLRA_VDD_MPU_L_LEN);
 		break;
 
 	case OMAP4_VDD_IVA:
 		if (extract_bit(prm_vc_cfg_channel,
-			VC_CFG_CHANNEL_RAV_VDD_IVA_L_POS) == 1)
+				VC_CFG_CHANNEL_RAV_VDD_IVA_L_POS) == 1)
 			volra = extract_bitfield(prm_vc_val_smps_ra_vol,
-				VC_VOLRA_VDD_IVA_L_POS, VC_VOLRA_VDD_IVA_L_LEN);
+						 VC_VOLRA_VDD_IVA_L_POS,
+						 VC_VOLRA_VDD_IVA_L_LEN);
 		else
 			volra = extract_bitfield(prm_vc_val_smps_ra_vol,
-				VC_VOLRA_VDD_CORE_L_POS,
-				VC_VOLRA_VDD_CORE_L_LEN);
+						 VC_VOLRA_VDD_CORE_L_POS,
+						 VC_VOLRA_VDD_CORE_L_LEN);
 		break;
 
 	case OMAP4_VDD_CORE:
 		if (extract_bit(prm_vc_cfg_channel,
-			VC_CFG_CHANNEL_RAV_VDD_CORE_L_POS) == 1)
+				VC_CFG_CHANNEL_RAV_VDD_CORE_L_POS) == 1)
 			volra = extract_bitfield(prm_vc_val_smps_ra_vol,
-				VC_VOLRA_VDD_CORE_L_POS,
-				VC_VOLRA_VDD_CORE_L_LEN);
+						 VC_VOLRA_VDD_CORE_L_POS,
+						 VC_VOLRA_VDD_CORE_L_LEN);
 		else
 			volra = extract_bitfield(prm_vc_val_smps_ra_vol,
-				VC_VOLRA_VDD_MPU_L_POS,
-				VC_VOLRA_VDD_MPU_L_LEN);
+						 VC_VOLRA_VDD_MPU_L_POS,
+						 VC_VOLRA_VDD_MPU_L_LEN);
 		break;
 
 	default:
@@ -201,7 +204,6 @@ short int vc44xx_volra_get(voltdm44xx_id id,
 
 	return volra;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc44xx_cmdra_get
@@ -215,37 +217,40 @@ short int vc44xx_volra_get(voltdm44xx_id id,
  * @DESCRIPTION		return Command Register Address (CMDRA)
  *------------------------------------------------------------------------ */
 short int vc44xx_cmdra_get(voltdm44xx_id id,
-	unsigned int prm_vc_cfg_channel, unsigned int prm_vc_val_smps_ra_cmd)
+			   unsigned int prm_vc_cfg_channel,
+			   unsigned int prm_vc_val_smps_ra_cmd)
 {
 	short int cmdra;
 
 	switch (id) {
 	case OMAP4_VDD_MPU:
 		cmdra = extract_bitfield(prm_vc_val_smps_ra_cmd,
-			VC_CMDRA_VDD_MPU_L_POS, VC_CMDRA_VDD_MPU_L_LEN);
+					 VC_CMDRA_VDD_MPU_L_POS,
+					 VC_CMDRA_VDD_MPU_L_LEN);
 		break;
 
 	case OMAP4_VDD_IVA:
 		if (extract_bit(prm_vc_cfg_channel,
-			VC_CFG_CHANNEL_RAC_VDD_IVA_L_POS) == 1)
+				VC_CFG_CHANNEL_RAC_VDD_IVA_L_POS) == 1)
 			cmdra = extract_bitfield(prm_vc_val_smps_ra_cmd,
-				VC_CMDRA_VDD_IVA_L_POS, VC_CMDRA_VDD_IVA_L_LEN);
+						 VC_CMDRA_VDD_IVA_L_POS,
+						 VC_CMDRA_VDD_IVA_L_LEN);
 		else
 			cmdra = extract_bitfield(prm_vc_val_smps_ra_cmd,
-				VC_CMDRA_VDD_CORE_L_POS,
-				VC_CMDRA_VDD_CORE_L_LEN);
+						 VC_CMDRA_VDD_CORE_L_POS,
+						 VC_CMDRA_VDD_CORE_L_LEN);
 		break;
 
 	case OMAP4_VDD_CORE:
 		if (extract_bit(prm_vc_cfg_channel,
-			VC_CFG_CHANNEL_RAC_VDD_CORE_L_POS) == 1)
+				VC_CFG_CHANNEL_RAC_VDD_CORE_L_POS) == 1)
 			cmdra = extract_bitfield(prm_vc_val_smps_ra_cmd,
-				VC_CMDRA_VDD_CORE_L_POS,
-				VC_CMDRA_VDD_CORE_L_LEN);
+						 VC_CMDRA_VDD_CORE_L_POS,
+						 VC_CMDRA_VDD_CORE_L_LEN);
 		else
 			cmdra = extract_bitfield(prm_vc_val_smps_ra_cmd,
-				VC_CMDRA_VDD_MPU_L_POS,
-				VC_CMDRA_VDD_MPU_L_LEN);
+						 VC_CMDRA_VDD_MPU_L_POS,
+						 VC_CMDRA_VDD_MPU_L_LEN);
 		break;
 
 	default:
@@ -254,7 +259,6 @@ short int vc44xx_cmdra_get(voltdm44xx_id id,
 
 	return cmdra;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc44xx_raw_cmd_values_get
@@ -270,9 +274,12 @@ short int vc44xx_cmdra_get(voltdm44xx_id id,
  * @DESCRIPTION		return ON/ONLP/RET/OFF command values
  *			WARNING: DO NOT CONSIDER PMIC-SPECIFIC SIZE OF COMMAND.
  *------------------------------------------------------------------------ */
-short int vc44xx_raw_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
-	unsigned char *cmd_on, unsigned char *cmd_onlp,
-	unsigned char *cmd_ret, unsigned char *cmd_off)
+short int vc44xx_raw_cmd_values_get(voltdm44xx_id id,
+				    vc44xx_registers * vc_regs,
+				    unsigned char *cmd_on,
+				    unsigned char *cmd_onlp,
+				    unsigned char *cmd_ret,
+				    unsigned char *cmd_off)
 {
 	unsigned int vc_val_cmd;
 
@@ -289,7 +296,7 @@ short int vc44xx_raw_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
 
 	case OMAP4_VDD_IVA:
 		if (extract_bit(vc_regs->prm_vc_cfg_channel,
-			VC_CFG_CHANNEL_CMD_VDD_IVA_L_POS) == 1)
+				VC_CFG_CHANNEL_CMD_VDD_IVA_L_POS) == 1)
 			vc_val_cmd = vc_regs->prm_vc_val_cmd_vdd_iva_l;
 		else
 			vc_val_cmd = vc_regs->prm_vc_val_cmd_vdd_core_l;
@@ -304,12 +311,10 @@ short int vc44xx_raw_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
 	}
 
 	/* Retrieve commands from registers */
-	vc_cmd_values_get(vc_val_cmd,
-		cmd_on, cmd_onlp, cmd_ret, cmd_off);
+	vc_cmd_values_get(vc_val_cmd, cmd_on, cmd_onlp, cmd_ret, cmd_off);
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc44xx_cmd_values_get
@@ -325,14 +330,14 @@ short int vc44xx_raw_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
  * @DESCRIPTION		return ON/ONLP/RET/OFF command values
  *			WARNING: CONSIDER PMIC-SPECIFIC SIZE OF COMMAND.
  *------------------------------------------------------------------------ */
-short int vc44xx_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
-	unsigned char *cmd_on, unsigned char *cmd_onlp,
-	unsigned char *cmd_ret, unsigned char *cmd_off)
+short int vc44xx_cmd_values_get(voltdm44xx_id id, vc44xx_registers * vc_regs,
+				unsigned char *cmd_on, unsigned char *cmd_onlp,
+				unsigned char *cmd_ret, unsigned char *cmd_off)
 {
 	int vsel_len, ret;
 
 	ret = vc44xx_raw_cmd_values_get(id, vc_regs,
-		cmd_on, cmd_onlp, cmd_ret, cmd_off);
+					cmd_on, cmd_onlp, cmd_ret, cmd_off);
 	if (ret != 0)
 		return ret;
 
@@ -350,7 +355,6 @@ short int vc44xx_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc44xx_registers_get
  * @BRIEF		save all VC registers in structure provided as argument.
@@ -361,35 +365,33 @@ short int vc44xx_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
  * @param[in, out]	vc_regs: structure where to store VC registers
  * @DESCRIPTION		save all VC registers in structure provided as argument.
  *------------------------------------------------------------------------ */
-int vc44xx_registers_get(vc44xx_registers *vc_regs)
+int vc44xx_registers_get(vc44xx_registers * vc_regs)
 {
 	int ret;
 
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(vc_regs, OMAPCONF_ERR_ARG);
 
-	ret = mem_read(OMAP4430_PRM_VC_SMPS_SA,
-		&(vc_regs->prm_vc_smps_sa));
+	ret = mem_read(OMAP4430_PRM_VC_SMPS_SA, &(vc_regs->prm_vc_smps_sa));
 	ret += mem_read(OMAP4430_PRM_VC_VAL_SMPS_RA_VOL,
-		&(vc_regs->prm_vc_smps_ra_vol));
+			&(vc_regs->prm_vc_smps_ra_vol));
 	ret += mem_read(OMAP4430_PRM_VC_VAL_SMPS_RA_CMD,
-		&(vc_regs->prm_vc_val_smps_ra_cmd));
+			&(vc_regs->prm_vc_val_smps_ra_cmd));
 	ret += mem_read(OMAP4430_PRM_VC_VAL_CMD_VDD_CORE_L,
-		&(vc_regs->prm_vc_val_cmd_vdd_core_l));
+			&(vc_regs->prm_vc_val_cmd_vdd_core_l));
 	ret += mem_read(OMAP4430_PRM_VC_VAL_CMD_VDD_MPU_L,
-		&(vc_regs->prm_vc_val_cmd_vdd_mpu_l));
+			&(vc_regs->prm_vc_val_cmd_vdd_mpu_l));
 	ret += mem_read(OMAP4430_PRM_VC_VAL_CMD_VDD_IVA_L,
-		&(vc_regs->prm_vc_val_cmd_vdd_iva_l));
+			&(vc_regs->prm_vc_val_cmd_vdd_iva_l));
 	ret += mem_read(OMAP4430_PRM_VC_CFG_CHANNEL,
-		&(vc_regs->prm_vc_cfg_channel));
+			&(vc_regs->prm_vc_cfg_channel));
 	ret += mem_read(OMAP4430_PRM_VC_CFG_I2C_MODE,
-		&(vc_regs->prm_vc_cfg_i2c_mode));
+			&(vc_regs->prm_vc_cfg_i2c_mode));
 	ret += mem_read(OMAP4430_PRM_VC_CFG_I2C_CLK,
-		&(vc_regs->prm_vc_cfg_i2c_clk));
+			&(vc_regs->prm_vc_cfg_i2c_clk));
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vc44xx_config_show
@@ -401,7 +403,7 @@ int vc44xx_registers_get(vc44xx_registers *vc_regs)
  * @param[in,out]	vc_regs: Voltage Controller registers content
  * @DESCRIPTION		decode and show VC current configuration
  *------------------------------------------------------------------------ */
-int vc44xx_config_show(FILE *stream, vc44xx_registers *vc_regs)
+int vc44xx_config_show(FILE * stream, vc44xx_registers * vc_regs)
 {
 	voltdm44xx_id id;
 	unsigned char raw_cmd_on, raw_cmd_onlp, raw_cmd_ret, raw_cmd_off;
@@ -422,54 +424,55 @@ int vc44xx_config_show(FILE *stream, vc44xx_registers *vc_regs)
 	for (id = OMAP4_VDD_MPU; id <= OMAP4_VDD_CORE; id++) {
 		row = 1;
 		autoadjust_table_strncpy(table, row, 0,
-			"Power IC Slave Address (SA)");
+					 "Power IC Slave Address (SA)");
 		snprintf(table[row][id], TABLE_MAX_ELT_LEN, "0x%02X",
-			vc44xx_sa_get(id, vc_regs->prm_vc_smps_sa,
-				vc_regs->prm_vc_cfg_channel));
+			 vc44xx_sa_get(id, vc_regs->prm_vc_smps_sa,
+				       vc_regs->prm_vc_cfg_channel));
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"Voltage Reg. Addr (VOLRA)");
+					 "Voltage Reg. Addr (VOLRA)");
 		snprintf(table[row][id], TABLE_MAX_ELT_LEN, "0x%02X",
-			vc44xx_volra_get(id, vc_regs->prm_vc_cfg_channel,
-				vc_regs->prm_vc_smps_ra_vol));
+			 vc44xx_volra_get(id, vc_regs->prm_vc_cfg_channel,
+					  vc_regs->prm_vc_smps_ra_vol));
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"Command Reg. Addr (CMDRA)");
+					 "Command Reg. Addr (CMDRA)");
 		snprintf(table[row][id], TABLE_MAX_ELT_LEN, "0x%02X",
-			vc44xx_cmdra_get(id, vc_regs->prm_vc_cfg_channel,
-				vc_regs->prm_vc_val_smps_ra_cmd));
+			 vc44xx_cmdra_get(id, vc_regs->prm_vc_cfg_channel,
+					  vc_regs->prm_vc_val_smps_ra_cmd));
 		row++;
 
-		autoadjust_table_strncpy(table, row++, 0,
-			"Command Values:");
+		autoadjust_table_strncpy(table, row++, 0, "Command Values:");
 		vc44xx_raw_cmd_values_get(id, vc_regs,
-			&raw_cmd_on, &raw_cmd_onlp, &raw_cmd_ret, &raw_cmd_off);
-		vc44xx_cmd_values_get(id, vc_regs,
-			&cmd_on, &cmd_onlp, &cmd_ret, &cmd_off);
+					  &raw_cmd_on, &raw_cmd_onlp,
+					  &raw_cmd_ret, &raw_cmd_off);
+		vc44xx_cmd_values_get(id, vc_regs, &cmd_on, &cmd_onlp, &cmd_ret,
+				      &cmd_off);
 		strncpy(table[row][0], "  ON", TABLE_MAX_ELT_LEN);
 		snprintf(table[row][id], TABLE_MAX_ELT_LEN, "0x%02X (%.6lfV)",
-			raw_cmd_on, smps_vsel2volt(vdd_id2smps_id(id), cmd_on));
+			 raw_cmd_on, smps_vsel2volt(vdd_id2smps_id(id),
+						    cmd_on));
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"  ON-Low-Power (ONLP)");
+					 "  ON-Low-Power (ONLP)");
 		snprintf(table[row][id], TABLE_MAX_ELT_LEN, "0x%02X (%.6lfV)",
-			raw_cmd_onlp,
-			smps_vsel2volt(vdd_id2smps_id(id), cmd_onlp));
+			 raw_cmd_onlp,
+			 smps_vsel2volt(vdd_id2smps_id(id), cmd_onlp));
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0, "  RET");
 		snprintf(table[row][id], TABLE_MAX_ELT_LEN, "0x%02X (%.6lfV)",
-			raw_cmd_ret,
-			smps_vsel2volt(vdd_id2smps_id(id), cmd_ret));
+			 raw_cmd_ret,
+			 smps_vsel2volt(vdd_id2smps_id(id), cmd_ret));
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0, "  OFF");
 		snprintf(table[row][id], TABLE_MAX_ELT_LEN, "0x%02X (%.6lfV)",
-			raw_cmd_off,
-			smps_vsel2volt(vdd_id2smps_id(id), cmd_off));
+			 raw_cmd_off,
+			 smps_vsel2volt(vdd_id2smps_id(id), cmd_off));
 		row++;
 
 	}

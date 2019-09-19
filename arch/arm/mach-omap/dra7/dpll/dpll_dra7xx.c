@@ -382,8 +382,8 @@ int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id,
 
 		strncpy(table[row][0], "Automatic Control", TABLE_MAX_ELT_LEN);
 		strncpy(table[row++][id - start_id + 1],
-			dpll_autoidle_mode_name_get(settings->dpll.
-						    autoidle_mode),
+			dpll_autoidle_mode_name_get(settings->
+						    dpll.autoidle_mode),
 			TABLE_MAX_ELT_LEN);
 
 		strncpy(table[row++][0], " LPST = Low-Power STop",
@@ -453,8 +453,8 @@ int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id,
 			snprintf(table[row++][id - start_id + 1],
 				 TABLE_MAX_ELT_LEN, "%u (%u)",
 				 (unsigned int)settings->dpll.MN.M2_rate,
-				 (unsigned int)settings_locked->dpll.MN.
-				 M2_rate);
+				 (unsigned int)settings_locked->dpll.
+				 MN.M2_rate);
 		row++;
 
 		strncpy(table[row++][0],
@@ -474,15 +474,15 @@ int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id,
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id - start_id + 1],
 					 TABLE_MAX_ELT_LEN, "%u",
-					 (unsigned int)settings->dpll.MN.
-					 clkdcoldo_rate);
+					 (unsigned int)settings->dpll.
+					 MN.clkdcoldo_rate);
 			else
 				snprintf(table[row++][id - start_id + 1],
 					 TABLE_MAX_ELT_LEN, "%u (%u)",
-					 (unsigned int)settings->dpll.MN.
-					 clkdcoldo_rate,
-					 (unsigned int)settings_locked->dpll.MN.
-					 clkdcoldo_rate);
+					 (unsigned int)settings->dpll.
+					 MN.clkdcoldo_rate,
+					 (unsigned int)settings_locked->dpll.
+					 MN.clkdcoldo_rate);
 		} else {
 			row++;
 		}
@@ -505,15 +505,15 @@ int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id,
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id - start_id + 1],
 					 TABLE_MAX_ELT_LEN, "%u",
-					 (unsigned int)settings->dpll.MN.
-					 clkoutldo_rate);
+					 (unsigned int)settings->dpll.
+					 MN.clkoutldo_rate);
 			else
 				snprintf(table[row++][id - start_id + 1],
 					 TABLE_MAX_ELT_LEN, "%u (%u)",
-					 (unsigned int)settings->dpll.MN.
-					 clkoutldo_rate,
-					 (unsigned int)settings_locked->dpll.MN.
-					 clkoutldo_rate);
+					 (unsigned int)settings->dpll.
+					 MN.clkoutldo_rate,
+					 (unsigned int)settings_locked->dpll.
+					 MN.clkoutldo_rate);
 		} else {
 			row++;
 		}
@@ -592,8 +592,8 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id,
 
 		strncpy(table[row][0], "Automatic Control", TABLE_MAX_ELT_LEN);
 		strncpy(table[row++][id - start_id + 1],
-			dpll_autoidle_mode_name_get(settings->dpll.
-						    autoidle_mode),
+			dpll_autoidle_mode_name_get(settings->
+						    dpll.autoidle_mode),
 			TABLE_MAX_ELT_LEN);
 
 		strncpy(table[row++][0], " LPST = Low-Power STop",
@@ -633,8 +633,8 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id,
 		strncpy(table[row][0], "Ramping Levels", TABLE_MAX_ELT_LEN);
 		strncpy(table[row][id - start_id + 1],
 			dpll_ramp_level_name_get((dpll_ramp_level)
-						 settings->dpll.ramp.
-						 ramp_level),
+						 settings->dpll.
+						 ramp.ramp_level),
 			TABLE_MAX_ELT_LEN);
 		row += 2;
 
@@ -717,15 +717,15 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id,
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id - start_id + 1],
 					 TABLE_MAX_ELT_LEN, "%u",
-					 (unsigned int)settings->dpll.MN.
-					 M2_rate);
+					 (unsigned int)settings->dpll.
+					 MN.M2_rate);
 			else
 				snprintf(table[row++][id - start_id + 1],
 					 TABLE_MAX_ELT_LEN, "%u (%u)",
-					 (unsigned int)settings->dpll.MN.
-					 M2_rate,
-					 (unsigned int)settings_locked->dpll.MN.
-					 M2_rate);
+					 (unsigned int)settings->dpll.
+					 MN.M2_rate,
+					 (unsigned int)settings_locked->dpll.
+					 MN.M2_rate);
 		} else {
 			row += 3;
 		}
@@ -747,13 +747,13 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id,
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id - start_id + 1],
 					 TABLE_MAX_ELT_LEN, "%u",
-					 (unsigned int)settings->dpll.MN.
-					 X2_M2_rate);
+					 (unsigned int)settings->dpll.
+					 MN.X2_M2_rate);
 			else
 				snprintf(table[row++][id - start_id + 1],
 					 TABLE_MAX_ELT_LEN, "%u (%u)",
-					 (unsigned int)settings->dpll.MN.
-					 X2_M2_rate, (unsigned int)
+					 (unsigned int)settings->dpll.
+					 MN.X2_M2_rate, (unsigned int)
 					 settings_locked->dpll.MN.X2_M2_rate);
 		} else {
 			row += 3;
@@ -780,15 +780,15 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id,
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id - start_id + 1],
 					 TABLE_MAX_ELT_LEN, "%u",
-					 (unsigned int)settings->dpll.MN.
-					 X2_M3_rate);
+					 (unsigned int)settings->dpll.
+					 MN.X2_M3_rate);
 			else
 				snprintf(table[row++][id - start_id + 1],
 					 TABLE_MAX_ELT_LEN, "%u (%u)",
-					 (unsigned int)settings->dpll.MN.
-					 X2_M3_rate,
-					 (unsigned int)settings_locked->dpll.MN.
-					 X2_M3_rate);
+					 (unsigned int)settings->dpll.
+					 MN.X2_M3_rate,
+					 (unsigned int)settings_locked->dpll.
+					 MN.X2_M3_rate);
 		} else {
 			row += 3;
 		}
@@ -873,16 +873,18 @@ int dpll_dra7xx_clk_sources_get(dpll_settings * settings, unsigned short ignore)
 	if (dpll_dra7xx_sources[settings->id].byp_clk_m2 != CLK_DRA7XX_ID_MAX)
 		settings->fbyp_clk_m2 = clk_dra7xx_rate_get((clk_dra7xx_id)
 							    dpll_dra7xx_sources
-							    [settings->id].
-							    byp_clk_m2, ignore);
+							    [settings->
+							     id].byp_clk_m2,
+							    ignore);
 	else
 		settings->fbyp_clk_m2 = 0.0;
 
 	if (dpll_dra7xx_sources[settings->id].byp_clk_m3 != CLK_DRA7XX_ID_MAX)
 		settings->fbyp_clk_m3 = clk_dra7xx_rate_get((clk_dra7xx_id)
 							    dpll_dra7xx_sources
-							    [settings->id].
-							    byp_clk_m3, ignore);
+							    [settings->
+							     id].byp_clk_m3,
+							    ignore);
 	else
 		settings->fbyp_clk_m3 = 0.0;
 
@@ -890,8 +892,8 @@ int dpll_dra7xx_clk_sources_get(dpll_settings * settings, unsigned short ignore)
 	    CLK_DRA7XX_ID_MAX)
 		settings->fbyp_clk_hsdiv = clk_dra7xx_rate_get((clk_dra7xx_id)
 							       dpll_dra7xx_sources
-							       [settings->id].
-							       byp_clk_hsdiv,
+							       [settings->
+								id].byp_clk_hsdiv,
 							       ignore);
 	else
 		settings->fbyp_clk_hsdiv = 0.0;
@@ -1692,15 +1694,14 @@ dpll_dra7xx_audit_mode:
 dpll_dra7xx_audit_autoidle_mode:
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "Autoidle Mode");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%s",
-			 dpll_autoidle_mode_name_get((settings->dpll).
-						     autoidle_mode));
-		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->
-						       autoidle_mode,
-						       DPLL_AUTOIDLE_MODE_MAX,
-						       dpll_dra7xx_audit_dcc_en);
+			 dpll_autoidle_mode_name_get((settings->
+						      dpll).autoidle_mode));
+		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING
+		    (golden_settings->autoidle_mode, DPLL_AUTOIDLE_MODE_MAX,
+		     dpll_dra7xx_audit_dcc_en);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%s",
-			 dpll_autoidle_mode_name_get(golden_settings->
-						     autoidle_mode));
+			 dpll_autoidle_mode_name_get
+			 (golden_settings->autoidle_mode));
 		DPLL_DRA7XX_AUDIT_SHOW_STATUS((settings->dpll).autoidle_mode,
 					      golden_settings->autoidle_mode);
 
@@ -1812,8 +1813,9 @@ dpll_dra7xx_audit_fdpll:
 						       dpll_dra7xx_audit_M2);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
 			 golden_settings->fdpll);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).
-					      fdpll, (unsigned int)
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->
+							     dpll).fdpll,
+					      (unsigned int)
 					      golden_settings->fdpll);
 
 dpll_dra7xx_audit_M2:
@@ -1851,8 +1853,8 @@ dpll_dra7xx_audit_M2_rate:
 						       dpll_dra7xx_audit_X2_M2);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
 			 golden_settings->M2_rate);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).MN.
-					      M2_rate, (unsigned int)
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).
+					      MN.M2_rate, (unsigned int)
 					      golden_settings->M2_rate);
 
 dpll_dra7xx_audit_X2_M2:
@@ -1882,8 +1884,8 @@ dpll_dra7xx_audit_X2_M2_rate:
 		    (golden_settings->X2_M2_rate, -1, dpll_dra7xx_audit_M3);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
 			 golden_settings->X2_M2_rate);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).MN.
-					      X2_M2_rate, (unsigned int)
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).
+					      MN.X2_M2_rate, (unsigned int)
 					      golden_settings->X2_M2_rate);
 
 dpll_dra7xx_audit_M3:
@@ -1917,8 +1919,8 @@ dpll_dra7xx_audit_X2_M3_rate:
 		    (golden_settings->X2_M3_rate, -1, dpll_dra7xx_audit_hsdiv);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
 			 golden_settings->X2_M3_rate);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).MN.
-					      X2_M3_rate, (unsigned int)
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).
+					      MN.X2_M3_rate, (unsigned int)
 					      golden_settings->X2_M3_rate);
 
 dpll_dra7xx_audit_hsdiv:
@@ -1937,8 +1939,7 @@ dpll_dra7xx_audit_hsdiv:
 				 (golden_settings->hsdiv_div)[hsdiv_id]);
 			DPLL_DRA7XX_AUDIT_SHOW_STATUS((int)(settings->hsdiv)
 						      [hsdiv_id].div,
-						      (golden_settings->
-						       hsdiv_div)
+						      (golden_settings->hsdiv_div)
 						      [hsdiv_id]);
 
 dpll_dra7xx_audit_hsdiv_rate:
@@ -1962,8 +1963,7 @@ dpll_dra7xx_audit_hsdiv_rate:
 						       int)(settings->hsdiv)
 						      [hsdiv_id].rate,
 						      (unsigned int)
-						      (golden_settings->
-						       hsdiv_rate)[hsdiv_id]);
+						      (golden_settings->hsdiv_rate)[hsdiv_id]);
 		}
 		goto dpll_dra7xx_audit_table_show;
 
@@ -1981,8 +1981,8 @@ dpll_dra7xx_audit_clkdcoldo_rate:
 		     dpll_dra7xx_audit_table_show);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
 			 golden_settings->clkdcoldo_rate);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).MN.
-					      clkdcoldo_rate, (unsigned int)
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).
+					      MN.clkdcoldo_rate, (unsigned int)
 					      golden_settings->clkdcoldo_rate);
 
 dpll_dra7xx_audit_clkoutldo_rate:
@@ -1997,8 +1997,8 @@ dpll_dra7xx_audit_clkoutldo_rate:
 		     dpll_dra7xx_audit_table_show);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
 			 golden_settings->clkoutldo_rate);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).MN.
-					      clkoutldo_rate, (unsigned int)
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).
+					      MN.clkoutldo_rate, (unsigned int)
 					      golden_settings->clkoutldo_rate);
 
 dpll_dra7xx_audit_table_show:

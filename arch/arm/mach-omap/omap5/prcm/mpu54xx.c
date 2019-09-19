@@ -41,11 +41,9 @@
  *
  */
 
-
 #include <mpu54xx.h>
 #include <prm54xx.h>
 #include <cm54xx.h>
-
 
 /* #define MPU54XX_DEBUG */
 #ifdef MPU54XX_DEBUG
@@ -53,7 +51,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpu54xx_dump
@@ -66,7 +63,7 @@
  * @DESCRIPTION		dump MPU PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-inline int mpu54xx_dump(FILE *stream)
+inline int mpu54xx_dump(FILE * stream)
 {
 	int ret;
 

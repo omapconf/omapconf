@@ -41,11 +41,9 @@
  *
  */
 
-
 #include <iva54xx.h>
 #include <prm54xx.h>
 #include <cm54xx.h>
-
 
 /* #define IVA54XX_DEBUG */
 #ifdef IVA54XX_DEBUG
@@ -53,7 +51,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		iva54xx_dump
@@ -66,7 +63,7 @@
  * @DESCRIPTION		dump IVA PRCM registers and pretty-print it
  *			in selected output stream.
  *------------------------------------------------------------------------ */
-inline int iva54xx_dump(FILE *stream)
+inline int iva54xx_dump(FILE * stream)
 {
 	int ret;
 

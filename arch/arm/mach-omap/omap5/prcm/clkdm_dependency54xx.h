@@ -41,22 +41,18 @@
  *
  */
 
-
 #ifndef __PRCM_CLKDM_DEPENDENCY54XX_H__
 #define __PRCM_CLKDM_DEPENDENCY54XX_H__
-
 
 #include <stdio.h>
 #include <clkdm_dependency.h>
 #include <clkdm_dependency54xxes1-data.h>
 #include <clkdm_dependency54xx-data.h>
 
-
-int clkdmdep54xx_dump(FILE *stream);
-int clkdmdep54xx_show(FILE *stream, clkdmdep_type type);
-int clkdmdep54xx_audit(FILE *stream, unsigned int *err_nbr,
-	unsigned int *wng_nbr);
+int clkdmdep54xx_dump(FILE * stream);
+int clkdmdep54xx_show(FILE * stream, clkdmdep_type type);
+int clkdmdep54xx_audit(FILE * stream, unsigned int *err_nbr,
+		       unsigned int *wng_nbr);
 int clkdmdep54xx_set(char *clkdm_from, char *clkdm_to, unsigned short enable);
-
 
 #endif

@@ -49,9 +49,9 @@
 extern const char dpll_am335x_names[DPLL_AM335X_ID_MAX][DPLL_MAX_NAME_LENGTH];
 extern const char dpll_am335x_strings[DPLL_AM335X_ID_MAX][DPLL_MAX_NAME_LENGTH];
 extern const char
-    hsdiv_am335x_names[HSDIV_AM335X_ID_MAX][HSDIV_MAX_NAME_LENGTH];
+ hsdiv_am335x_names[HSDIV_AM335X_ID_MAX][HSDIV_MAX_NAME_LENGTH];
 extern const char
-    dpll_am335x_output_names[DPLL_AM335X_OUTPUT_ID_MAX]
+ dpll_am335x_output_names[DPLL_AM335X_OUTPUT_ID_MAX]
     [DPLL_OUTPUT_MAX_NAME_LENGTH];
 extern const dpll_clk_sources dpll_am335x_sources[DPLL_AM335X_ID_MAX];
 

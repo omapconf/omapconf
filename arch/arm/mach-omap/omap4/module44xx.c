@@ -446,8 +446,8 @@ int mod44xx_get_autoidle_mode(mod44xx_id module_id, mod_autoidle_mode * mode)
 
 		if (mod44xx_info_table[module_id].sysconfig_addr != NULL) {
 			OMAP_READREG((unsigned int)
-				     mod44xx_info_table[module_id].
-				     sysconfig_addr, sysconfig);
+				     mod44xx_info_table
+				     [module_id].sysconfig_addr, sysconfig);
 			dprintf
 			    ("%s(): SYSCONFIG ADDR = 0x%08X SYSCONFIG = 0x%08X\n",
 			     __func__, (unsigned int)
@@ -1149,8 +1149,8 @@ int mod44xx_get_clock_activity_mode(mod44xx_id module_id,
 
 		if (mod44xx_info_table[module_id].sysconfig_addr != NULL) {
 			OMAP_READREG((unsigned int)
-				     mod44xx_info_table[module_id].
-				     sysconfig_addr, sysconfig);
+				     mod44xx_info_table
+				     [module_id].sysconfig_addr, sysconfig);
 			dprintf
 			    ("%s(): SYSCONFIG ADDR = 0x%08X SYSCONFIG = 0x%08X\n",
 			     __func__, (unsigned int)
@@ -1452,15 +1452,13 @@ int mod44xx_config_show(FILE * stream, const char name[11],
 	switch (cm_clkctrl_addr) {
 	case OMAP4430_CM_MPU_MPU_CLKCTRL:
 		if (!cpu_is_omap4430()) {
-			tmp =
-			    (unsigned int)
+			tmp = (unsigned int)
 			    clk44xx_get_clock_speed(OMAP4_MPU_DPLL_CLK, 0);
 			tmp /= 4 << extract_bit(cm_clkctrl, 25);
 			fprintf(stream, "| %-30s | %dMHz (MPU CLK / %1d)    "
 				"|\n", "MPU->ABE Async Bridge Speed", tmp,
 				4 << extract_bit(cm_clkctrl, 25));
-			tmp =
-			    (unsigned int)
+			tmp = (unsigned int)
 			    clk44xx_get_clock_speed(OMAP4_MPU_DPLL_CLK, 0);
 			tmp /= 4 << extract_bit(cm_clkctrl, 24);
 			fprintf(stream, "| %-30s | %dMHz (MPU CLK / %1d)    "
@@ -1613,8 +1611,7 @@ int mod44xx_config_show(FILE * stream, const char name[11],
 				"TS F-Clock",
 				((extract_bit(cm_clkctrl, 8) == 1) ?
 				 "Enabled" : "Disabled"));
-			tmp =
-			    (unsigned int)
+			tmp = (unsigned int)
 			    clk44xx_get_clock_speed(OMAP4_L4WKUP_ICLK, 0);
 			tmp /= (1 << (3 + extract_bitfield(cm_clkctrl, 24, 2)));
 			fprintf(stream, "| %-30s | %dMHz (L4WKUP_ICLK / %-2d) "

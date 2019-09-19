@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __PRCM_ABB44XX_H__
 #define __PRCM_ABB44XX_H__
-
 
 int abb44xx_name2addr(char *name, unsigned int *addr);
 int abb44xx_dump(void);
@@ -52,6 +50,5 @@ int abb44xx_config_show(void);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int abb44xx_main(int argc, char *argv[]);
-
 
 #endif

@@ -41,20 +41,16 @@
  *
  */
 
-
 #ifndef __WKUP44XX_H__
 #define __WKUP44XX_H__
 
-
 #include <stdio.h>
-
 
 int wkup44xx_name2addr(char *name, unsigned int *addr);
 int wkup44xx_dump(void);
-int wkup44xx_config_show(FILE *stream);
+int wkup44xx_config_show(FILE * stream);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int wkup44xx_main(int argc, char *argv[]);
-
 
 #endif

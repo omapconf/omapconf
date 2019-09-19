@@ -41,21 +41,17 @@
  *
  */
 
-
 #ifndef __ABE44XX_H__
 #define __ABE44XX_H__
 
-
 #include <stdio.h>
-
 
 int abe44xx_name2addr(char *name, unsigned int *addr);
 int abe44xx_dump(void);
-int abe44xx_config_show(FILE *stream);
-int abe44xx_atc_status_show(FILE *stream);
+int abe44xx_config_show(FILE * stream);
+int abe44xx_atc_status_show(FILE * stream);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int abe44xx_main(int argc, char *argv[]);
-
 
 #endif

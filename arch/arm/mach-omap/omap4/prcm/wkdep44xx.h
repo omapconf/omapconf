@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __WKDEP44XX_H__
 #define __WKDEP44XX_H__
-
 
 int wkdep44xx_name2addr(char *name, unsigned int *addr);
 int wkdep44xx_dump(void);
@@ -57,6 +55,5 @@ static const char omap44xx_dss_wkdep_signals[20][14] = {
 	"DSP+L3_1+L3_2",
 	"sDMA+L3_2"
 };
-
 
 #endif

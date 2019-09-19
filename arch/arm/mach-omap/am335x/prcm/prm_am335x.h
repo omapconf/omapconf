@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __PRM_AM335X_H__
 #define __PRM_AM335X_H__
 
@@ -50,7 +49,7 @@
 #include <prm_am335x-defs.h>
 
 const char *prm_am335x_mod_name_get(prm_am335x_mod_id id);
-int prm_am335x_dump(FILE *stream, prm_am335x_mod_id id);
+int prm_am335x_dump(FILE * stream, prm_am335x_mod_id id);
 int prm_am335x_name2addr(char *name, unsigned int *addr);
 
 #endif

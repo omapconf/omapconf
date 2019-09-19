@@ -41,19 +41,15 @@
  *
  */
 
-
 #ifndef __CLKDM54XX_H__
 #define __CLKDM54XX_H__
-
 
 #include <clockdomain.h>
 #include <clkdm.h>
 #include <pwrdm54xx.h>
 #include <voltdm54xx.h>
 
-
 #define CLKDM54XX_MAX_NAME_LENGTH		12
-
 
 typedef enum {
 	CLKDM54XX_EMU,
@@ -79,10 +75,9 @@ typedef enum {
 	CLKDM54XX_GPU,
 	CLKDM54XX_IVA,
 	CLKDM54XX_MPU,
-	CLKDM54XX_NONE, /* for PRCM own clock */
+	CLKDM54XX_NONE,		/* for PRCM own clock */
 	CLKDM54XX_ID_MAX
 } clkdm54xx_id;
-
 
 void clkdm54xx_init(void);
 void clkdm54xx_deinit(void);
@@ -93,7 +88,6 @@ const genlist *clkdm54xx_list_get(void);
 const char *clkdm54xx_name_get(clkdm54xx_id id);
 
 clkdm54xx_id clkdm54xx_s2id(char *s);
-int clkdm54xx_config_show(FILE *stream, clockdm_info clkdm);
-
+int clkdm54xx_config_show(FILE * stream, clockdm_info clkdm);
 
 #endif

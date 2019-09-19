@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <cam44xx.h>
 #include <help.h>
 #include <cm44xx.h>
@@ -52,7 +51,6 @@
 #include <mem.h>
 #include <cpuinfo.h>
 #include <string.h>
-
 
 /* #define CAM44XX_DEBUG */
 #ifdef CAM44XX_DEBUG
@@ -65,7 +63,6 @@
 
 reg_table prcm_cam_reg_table[PRCM_CAM_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cam44xx_regtable_init
@@ -106,7 +103,6 @@ static int cam44xx_regtable_init(void)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cam44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
@@ -127,7 +123,6 @@ int cam44xx_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, prcm_cam_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cam44xx_config_show
  * @BRIEF		analyze CAM power configuration
@@ -137,7 +132,7 @@ int cam44xx_name2addr(char *name, unsigned int *addr)
  * @param[in,out]	stream: output file stream
  * @DESCRIPTION		analyze CAM power configuration
  *------------------------------------------------------------------------ */
-int cam44xx_config_show(FILE *stream)
+int cam44xx_config_show(FILE * stream)
 {
 	unsigned int pm_pwstctrl;
 	unsigned int pm_pwstst;
@@ -157,8 +152,8 @@ int cam44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_PM_CAM_PWRSTST, &pm_pwstst) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = pwrdm44xx_config_show(stream, "CAM",
-		OMAP4430_PM_CAM_PWRSTCTRL, pm_pwstctrl,
-		OMAP4430_PM_CAM_PWRSTST, pm_pwstst);
+				    OMAP4430_PM_CAM_PWRSTCTRL, pm_pwstctrl,
+				    OMAP4430_PM_CAM_PWRSTST, pm_pwstst);
 	if (ret != 0)
 		return ret;
 
@@ -166,7 +161,7 @@ int cam44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_CM_CAM_CLKSTCTRL, &cm_clkstctrl) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = clkdm44xx_config_show(stream, "CAM",
-		OMAP4430_CM_CAM_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_CAM_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 
@@ -176,8 +171,8 @@ int cam44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_CAM_ISS_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "ISS",
-		OMAP4430_CM_CAM_ISS_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_CAM_ISS_CONTEXT, rm_context);
+				  OMAP4430_CM_CAM_ISS_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_CAM_ISS_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
@@ -186,14 +181,13 @@ int cam44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_CAM_FDIF_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "FDIF",
-		OMAP4430_CM_CAM_FDIF_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_CAM_FDIF_CONTEXT, rm_context);
+				  OMAP4430_CM_CAM_FDIF_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_CAM_FDIF_CONTEXT, rm_context);
 	if (ret != 0)
 		return ret;
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cam44xx_dependency_show
@@ -203,7 +197,7 @@ int cam44xx_config_show(FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		analyse CAM dependency configuration
  *------------------------------------------------------------------------ */
-int cam44xx_dependency_show(FILE *stream)
+int cam44xx_dependency_show(FILE * stream)
 {
 	unsigned int cm_staticdep;
 	unsigned int cm_dynamicdep;
@@ -226,24 +220,20 @@ int cam44xx_dependency_show(FILE *stream)
 		"|-------------------------------------|------------------|\n");
 	fprintf(stream,
 		"| %-35s | %-6s | %-7s |\n", "IVAHD",
-		((extract_bit(cm_staticdep, 2) == 1) ? "En" : "Dis"),
-		"");
+		((extract_bit(cm_staticdep, 2) == 1) ? "En" : "Dis"), "");
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "MEM IF",
-		((extract_bit(cm_staticdep, 4) == 1) ? "En" : "Dis"),
-		"");
+		((extract_bit(cm_staticdep, 4) == 1) ? "En" : "Dis"), "");
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "L3_1",
 		((extract_bit(cm_staticdep, 5) == 1) ? "En" : "Dis"),
 		((extract_bit(cm_dynamicdep, 5) == 1) ? "En" : "Dis"));
 	fprintf(stream, "| %-35s | %-6s | %-7s |\n", "L3_2",
-		((extract_bit(cm_staticdep, 6) == 1) ? "En" : "Dis"),
-		"");
+		((extract_bit(cm_staticdep, 6) == 1) ? "En" : "Dis"), "");
 	fprintf(stream,
 		"|--------------------------------------------------------|\n");
 	fprintf(stream, "\n");
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cam44xx_dump
@@ -262,7 +252,6 @@ int cam44xx_dump(void)
 
 	return dumpregs(prcm_cam_reg_table);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cam44xx_main

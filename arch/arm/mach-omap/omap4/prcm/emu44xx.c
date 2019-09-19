@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <emu44xx.h>
 #include <cm44xx.h>
 #include <prm44xx.h>
@@ -55,14 +54,12 @@
 #include <cpuinfo.h>
 #include <string.h>
 
-
 /* #define EMU44XX_DEBUG */
 #ifdef EMU44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 #define PRCM_EMU_REG_TABLE_SIZE        7
 
@@ -71,7 +68,6 @@ static unsigned int init_done = 0;
 static unsigned char emu_enabled = 0;
 
 static int emu44xx_regtable_init(void);
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_name2addr
@@ -93,7 +89,6 @@ int emu44xx_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, prcm_emu_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_dump
  * @BRIEF		dump EMU PRCM registers
@@ -112,7 +107,6 @@ int emu44xx_dump(void)
 	return dumpregs(prcm_emu_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_config_show
  * @BRIEF		analyze power configuration
@@ -122,7 +116,7 @@ int emu44xx_dump(void)
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyze power configuration
  *------------------------------------------------------------------------ */
-int emu44xx_config_show(FILE *stream)
+int emu44xx_config_show(FILE * stream)
 {
 	unsigned int pm_pwstctrl;
 	unsigned int pm_pwstst;
@@ -145,13 +139,13 @@ int emu44xx_config_show(FILE *stream)
 		return OMAPCONF_ERR_REG_ACCESS;
 
 	ret = pwrdm44xx_config_show(stream, "EMU",
-		OMAP4430_PM_EMU_PWRSTCTRL, pm_pwstctrl,
-		OMAP4430_PM_EMU_PWRSTST, pm_pwstst);
+				    OMAP4430_PM_EMU_PWRSTCTRL, pm_pwstctrl,
+				    OMAP4430_PM_EMU_PWRSTST, pm_pwstst);
 	if (ret != 0)
 		return ret;
 
 	ret = clkdm44xx_config_show(stream, "EMU",
-		OMAP4430_CM_EMU_CLKSTCTRL, cm_clkstctrl);
+				    OMAP4430_CM_EMU_CLKSTCTRL, cm_clkstctrl);
 	if (ret != 0)
 		return ret;
 
@@ -160,12 +154,11 @@ int emu44xx_config_show(FILE *stream)
 	if (mem_read(OMAP4430_RM_EMU_DEBUGSS_CONTEXT, &rm_context) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	ret = mod44xx_config_show(stream, "DEBUGSS",
-		OMAP4430_CM_EMU_DEBUGSS_CLKCTRL, cm_clkctrl,
-		OMAP4430_RM_EMU_DEBUGSS_CONTEXT, rm_context);
+				  OMAP4430_CM_EMU_DEBUGSS_CLKCTRL, cm_clkctrl,
+				  OMAP4430_RM_EMU_DEBUGSS_CONTEXT, rm_context);
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_dependency_show
@@ -176,7 +169,7 @@ int emu44xx_config_show(FILE *stream)
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyse dependency configuration
  *------------------------------------------------------------------------ */
-int emu44xx_dependency_show(FILE *stream)
+int emu44xx_dependency_show(FILE * stream)
 {
 	unsigned int cm_dynamicdep;
 
@@ -197,8 +190,7 @@ int emu44xx_dependency_show(FILE *stream)
 		"|-------------------------------------|------------------|\n");
 	fprintf(stream,
 		"| %-35s | %-6s | %-7s |\n", "L3_2",
-		"",
-		((extract_bit(cm_dynamicdep, 6) == 1) ? "En" : "Dis"));
+		"", ((extract_bit(cm_dynamicdep, 6) == 1) ? "En" : "Dis"));
 	fprintf(stream,
 		"|--------------------------------------------------------|\n");
 	fprintf(stream,
@@ -206,12 +198,10 @@ int emu44xx_dependency_show(FILE *stream)
 		extract_bitfield(cm_dynamicdep, 24, 4));
 	fprintf(stream,
 		"|--------------------------------------------------------|\n");
-	fprintf(stream,
-		"\n");
+	fprintf(stream, "\n");
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_main
@@ -251,7 +241,6 @@ int emu44xx_main(int argc, char *argv[])
 	return ret;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_regtable_init
  * @BRIEF		initialize regtable
@@ -286,7 +275,6 @@ static int emu44xx_regtable_init(void)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_enable
  * @BRIEF		Power ON EMU domain and instrumentation
@@ -305,7 +293,6 @@ void emu44xx_enable(void)
 	emu_enabled = 1;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_disable
  * @BRIEF		Power OFF EMU domain and instrumentation
@@ -320,7 +307,6 @@ void emu44xx_disable(void)
 
 	emu_enabled = 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_is_enabled

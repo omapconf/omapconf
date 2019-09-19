@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <clock_dra7xx.h>
 #include <string.h>
 #include <cpuinfo.h>
@@ -52,14 +51,12 @@
 #include <dpll_dra7xx.h>
 #include <stdlib.h>
 
-
 /* #define CLOCK_DRA7XX_DEBUG */
 #ifdef CLOCK_DRA7XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 #define DRA7XX_SYS_32K_SPEED		0.032768
 
@@ -69,9 +66,8 @@
  */
 #define DRA7XX_SYS_CLKIN2_SPEED		22.5792
 
-
 static const char
-	clk_dra7xx_name_table[CLK_DRA7XX_ID_MAX + 1][CLK_DRA7XX_MAX_NAME_LENGTH] = {
+ clk_dra7xx_name_table[CLK_DRA7XX_ID_MAX + 1][CLK_DRA7XX_MAX_NAME_LENGTH] = {
 	/* 32K CLKS */
 	[CLK_DRA7XX_SYS_32K] = "SYS_32K",
 	[CLK_DRA7XX_FUNC_32K_CLK] = "FUNC_32K_CLK",
@@ -140,7 +136,8 @@ static const char
 	/* DPLL CORE OUTPUTS */
 	[CLK_DRA7XX_CORE_DPLL_OUT_CLK] = "CORE_DPLL_OUT_CLK",
 	[CLK_DRA7XX_CORE_X2_CLK] = "CORE_X2_CLK",
-	[CLK_DRA7XX_CORE_USB_OTG_SS_LFPS_TX_CLK] = "CORE_USB_OTG_SS_LFPS_TX_CLK",
+	[CLK_DRA7XX_CORE_USB_OTG_SS_LFPS_TX_CLK] =
+	    "CORE_USB_OTG_SS_LFPS_TX_CLK",
 	[CLK_DRA7XX_CORE_GPU_CLK] = "CORE_GPU_CLK",
 	[CLK_DRA7XX_CORE_IPU_ISS_BOOST_CLK] = "CORE_IPU_ISS_BOOST_CLK",
 	[CLK_DRA7XX_CORE_ISS_MAIN_CLK] = "CORE_ISS_MAIN_CLK",
@@ -169,7 +166,7 @@ static const char
 	[CLK_DRA7XX_ICSS_IEP_CLK] = "ICSS_IEP_CLK",
 	[CLK_DRA7XX_GMAC_RMII_HS_CLK] = "GMAC_RMII_HS_CLK",
 	[CLK_DRA7XX_GMII_250MHZ_CLK] = "GMII_250MHZ_CLK",
-	[CLK_DRA7XX_ICSS_CLK] =                        "ICSS_CLK",
+	[CLK_DRA7XX_ICSS_CLK] = "ICSS_CLK",
 	/* DPLL GPU OUTPUTS */
 	[CLK_DRA7XX_GPU_GCLK] = "GPU_GCLK",
 	/* DPLL DDR OUTPUTS */
@@ -194,7 +191,8 @@ static const char
 	[CLK_DRA7XX_MIPIEXT_L3_GICLK] = "MIPIEXT_L3_GICLK",
 	[CLK_DRA7XX_DSS_L3_GICLK] = "DSS_L3_GICLK",
 	[CLK_DRA7XX_L3INIT_L3_GICLK] = "L3INIT_L3_GICLK",
-	[CLK_DRA7XX_CM_CORE_AON_PROFILING_L3_GICLK] = "CM_CORE_AON_PROFILING_L3_GICLK",
+	[CLK_DRA7XX_CM_CORE_AON_PROFILING_L3_GICLK] =
+	    "CM_CORE_AON_PROFILING_L3_GICLK",
 	[CLK_DRA7XX_L4_ROOT_CLK] = "L4_ROOT_CLK",
 	[CLK_DRA7XX_L4_ICLK] = "L4_ICLK",
 	[CLK_DRA7XX_L4PER_L4_GICLK] = "L4PER_L4_GICLK",
@@ -203,7 +201,8 @@ static const char
 	[CLK_DRA7XX_L4CFG_L4_GICLK] = "L4CFG_L4_GICLK",
 	[CLK_DRA7XX_MIPIEXT_L4_GICLK] = "MIPIEXT_L4_GICLK",
 	[CLK_DRA7XX_L3INIT_L4_GICLK] = "L3INIT_L4_GICLK",
-	[CLK_DRA7XX_CM_CORE_AON_PROFILING_L4_GICLK] = "CM_CORE_AON_PROFILING_L4_GICLK",
+	[CLK_DRA7XX_CM_CORE_AON_PROFILING_L4_GICLK] =
+	    "CM_CORE_AON_PROFILING_L4_GICLK",
 	/* PRM CLKDM Clocks */
 	[CLK_DRA7XX_ABE_LP_CLK] = "ABE_LP_CLK",
 	[CLK_DRA7XX_WKUPAON_ICLK] = "WKUPAON_ICLK",
@@ -295,8 +294,8 @@ static const char
 	[CLK_DRA7XX_IPU1_GFCLK] = "IPU1_GFCLK",
 	[CLK_DRA7XX_IPU2_GFCLK] = "IPU2_GFCLK",
 	[CLK_DRA7XX_EVE_CLK] = "EVE_CLK",
-	[CLK_DRA7XX_ID_MAX] = "FIXME" };
-
+	[CLK_DRA7XX_ID_MAX] = "FIXME"
+};
 
 typedef enum {
 	SYSCLK_DRA7XX_RESERVED_0 = 0,
@@ -310,7 +309,7 @@ typedef enum {
 	SYSCLK_DRA7XX_ID_MAX
 } sysclk_dra7xx_id;
 
-static const double sysclk_dra7xx_rate_table[SYSCLK_DRA7XX_ID_MAX] = { /* MHz */
+static const double sysclk_dra7xx_rate_table[SYSCLK_DRA7XX_ID_MAX] = {	/* MHz */
 	0.0,
 	0.0,
 	20.0,
@@ -320,7 +319,6 @@ static const double sysclk_dra7xx_rate_table[SYSCLK_DRA7XX_ID_MAX] = { /* MHz */
 	27.0,
 	0.0
 };
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clk_dra7xx_name_get
@@ -353,7 +351,7 @@ double clk_dra7xx_sysclk1_rate_get(void)
 	sysclk_dra7xx_id sysclk_id;
 
 	if (!cpu_is_dra7xx())
-		return (double) OMAPCONF_ERR_CPU;
+		return (double)OMAPCONF_ERR_CPU;
 
 	if (sysclk > 0.0) {
 		dprintf("%s(): sysclk rate=%.1lfMHz\n", __func__, sysclk);
@@ -364,17 +362,17 @@ double clk_dra7xx_sysclk1_rate_get(void)
 		reg_val = reg_read(&dra7xx_ckgen_prm_cm_clksel_sys);
 		sysclk_id = extract_bitfield(reg_val, 0, 3);
 	} else {
-		sysclk_id = SYSCLK_DRA7XX_20_MHZ; /* DRA7 EVM PoR */
+		sysclk_id = SYSCLK_DRA7XX_20_MHZ;	/* DRA7 EVM PoR */
 	}
 
 	sysclk = sysclk_dra7xx_rate_table[sysclk_id];
 	if (sysclk == 0.0) {
 		fprintf(stderr, "%s(): bad CM_CLKSEL_SYS value(%d)\n",
-				__func__, sysclk_id);
-		sysclk = (double) OMAPCONF_ERR_UNEXPECTED;
+			__func__, sysclk_id);
+		sysclk = (double)OMAPCONF_ERR_UNEXPECTED;
 	} else {
 		dprintf("%s(): CM_CLKSEL_SYS=0x%x, sysclk rate=%.1lfMHz\n",
-				__func__, sysclk_id, sysclk);
+			__func__, sysclk_id, sysclk);
 	}
 
 	return sysclk;
@@ -422,7 +420,6 @@ double clk_dra7xx_sysclk1_rate_get(void)
 	(int) div,\
 	out_clk_speed);
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		clk_dra7xx_rate_get
  * @BRIEF		convert bitfield value from register into string
@@ -436,16 +433,15 @@ double clk_dra7xx_sysclk1_rate_get(void)
  *			(e.g. audit, clock tree, etc)
  * @DESCRIPTION		convert bitfield value from register into string
  *------------------------------------------------------------------------ */
-double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
-	unsigned short ignore)
+double clk_dra7xx_rate_get(clk_dra7xx_id clk_id, unsigned short ignore)
 {
 	unsigned int reg_val = 0;
 	double src_clk_speed, out_clk_speed;
 	clk_dra7xx_id src_clk_id;
-	double div = 0; /* Force a crash if not properly defined */
+	double div = 0;		/* Force a crash if not properly defined */
 
 	if (!cpu_is_dra7xx())
-		return (double) OMAPCONF_ERR_CPU;
+		return (double)OMAPCONF_ERR_CPU;
 
 	switch (clk_id) {
 	case CLK_DRA7XX_SYS_32K:
@@ -455,11 +451,10 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 
 	case CLK_DRA7XX_FUNC_32K_CLK:
 		src_clk_id = CLK_DRA7XX_SYS_32K;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_SYS_CLKIN1:
@@ -484,11 +479,10 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 	case CLK_DRA7XX_PCIE_DPLL_CLK:
 	case CLK_DRA7XX_GMAC_DPLL_CLK:
 		src_clk_id = CLK_DRA7XX_SYS_CLKIN1;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_ABE_DPLL_CLK:
@@ -497,11 +491,10 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 			src_clk_id = CLK_DRA7XX_FUNC_32K_CLK;
 		else
 			src_clk_id = CLK_DRA7XX_ABE_DPLL_SYS_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_ABE_DPLL_SYS_CLK:
@@ -510,8 +503,7 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 			src_clk_id = CLK_DRA7XX_SYS_CLKIN2;
 		else
 			src_clk_id = CLK_DRA7XX_SYS_CLKIN1;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		reg_val = reg_read(&dra7xx_ckgen_prm_cm_clksel_abe_sys);
 		if (extract_bit(reg_val, 0) == 1 && src_clk_speed > 26.0)
 			div = 2.0;
@@ -519,7 +511,7 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 			div = 1.0;
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_ABE_DPLL_BYPASS_CLK:
@@ -528,121 +520,118 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 			src_clk_id = CLK_DRA7XX_FUNC_32K_CLK;
 		else
 			src_clk_id = CLK_DRA7XX_ABE_DPLL_SYS_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
-	/* DPLL HSDIV BYPASS CLK */
+		/* DPLL HSDIV BYPASS CLK */
 	case CLK_DRA7XX_ABE_BYP_CLK_HMN:
 		src_clk_id = CLK_DRA7XX_ABE_DPLL_BYPASS_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_MPU_BYP_CLK_HMN:
 		src_clk_id = CLK_DRA7XX_MPU_DPLL_HS_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_CORE_BYP_CLK_HMN:
-		reg_val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_core);
+		reg_val =
+		    reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_core);
 		if (extract_bit(reg_val, 23) == 1)
 			src_clk_id = CLK_DRA7XX_CORE_DPLL_HS_CLK;
 		else
 			src_clk_id = CLK_DRA7XX_CORE_DPLL_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_IVA_BYP_CLK_HMN:
-		reg_val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_iva);
+		reg_val =
+		    reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_iva);
 		if (extract_bit(reg_val, 23) == 1)
 			src_clk_id = CLK_DRA7XX_IVA_DPLL_HS_CLK;
 		else
 			src_clk_id = CLK_DRA7XX_IVA_DPLL_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_DDR_BYP_CLK_HMN:
-		reg_val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_ddr);
+		reg_val =
+		    reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_ddr);
 		if (extract_bit(reg_val, 23) == 1)
 			src_clk_id = CLK_DRA7XX_DDR_DPLL_HS_CLK;
 		else
 			src_clk_id = CLK_DRA7XX_DDR_DPLL_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_EVE_BYP_CLK_HMN:
-		reg_val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_eve);
+		reg_val =
+		    reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_eve);
 		if (extract_bit(reg_val, 23) == 1)
 			src_clk_id = CLK_DRA7XX_EVE_DPLL_HS_CLK;
 		else
 			src_clk_id = CLK_DRA7XX_EVE_DPLL_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_DSP_BYP_CLK_HMN:
-		reg_val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_dsp);
+		reg_val =
+		    reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_dsp);
 		if (extract_bit(reg_val, 23) == 1)
 			src_clk_id = CLK_DRA7XX_DSP_DPLL_HS_CLK;
 		else
 			src_clk_id = CLK_DRA7XX_DSP_DPLL_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_GMAC_BYP_CLK_HMN:
-		reg_val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_gmac);
+		reg_val =
+		    reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_gmac);
 		if (extract_bit(reg_val, 23) == 1)
 			src_clk_id = CLK_DRA7XX_GMAC_DPLL_HS_CLK;
 		else
 			src_clk_id = CLK_DRA7XX_GMAC_DPLL_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_GPU_BYP_CLK_HMN:
-		reg_val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_gpu);
+		reg_val =
+		    reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_gpu);
 		if (extract_bit(reg_val, 23) == 1)
 			src_clk_id = CLK_DRA7XX_GPU_DPLL_HS_CLK;
 		else
 			src_clk_id = CLK_DRA7XX_GPU_DPLL_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_PER_BYP_CLK_HMN:
@@ -651,11 +640,10 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 			src_clk_id = CLK_DRA7XX_PER_DPLL_HS_CLK;
 		else
 			src_clk_id = CLK_DRA7XX_PER_DPLL_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_USB_BYP_CLK_HMN:
@@ -664,334 +652,395 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 			src_clk_id = CLK_DRA7XX_USB_DPLL_HS_CLK;
 		else
 			src_clk_id = CLK_DRA7XX_USB_DPLL_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_PCIE_BYP_CLK_HMN:
-		reg_val = reg_read(&dra7xx_ckgen_cm_core_cm_clksel_dpll_pcie_ref);
+		reg_val =
+		    reg_read(&dra7xx_ckgen_cm_core_cm_clksel_dpll_pcie_ref);
 		if (extract_bit(reg_val, 23) == 1)
 			return 0;
 		else
 			src_clk_id = CLK_DRA7XX_PCIE_DPLL_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
-	/* DPLL ABE OUTPUTS */
+		/* DPLL ABE OUTPUTS */
 	case CLK_DRA7XX_PER_ABE_X1_GFCLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_ABE, DPLL_DRA7XX_CLKOUT_M2, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_ABE,
+						DPLL_DRA7XX_CLKOUT_M2, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_ABE CLKOUT_M2",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_DPLL_ABE_X2_FCLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_ABE, DPLL_DRA7XX_CLKOUTX2_M2, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_ABE,
+						DPLL_DRA7XX_CLKOUTX2_M2,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_ABE CLKOUTX2_M2",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_CORE_DPLL_HS_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_ABE, DPLL_DRA7XX_CLKOUTX2_M3, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_ABE,
+						DPLL_DRA7XX_CLKOUTX2_M3,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_ABE CLKOUTX2_M3",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
-	/* END OF DPLL ABE OUTPUTS */
+		/* END OF DPLL ABE OUTPUTS */
 
-	/* DPLL CORE OUTPUTS */
+		/* DPLL CORE OUTPUTS */
 	case CLK_DRA7XX_CORE_DPLL_OUT_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_CORE, DPLL_DRA7XX_CLKOUT_M2, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_CORE,
+						DPLL_DRA7XX_CLKOUT_M2, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_CORE CLKOUT_M2",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_CORE_X2_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_CORE, DPLL_DRA7XX_CLKOUTX2_H12, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_CORE,
+						DPLL_DRA7XX_CLKOUTX2_H12,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_CORE CLKOUTX2_H12",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_CORE_USB_OTG_SS_LFPS_TX_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_CORE, DPLL_DRA7XX_CLKOUTX2_H13, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_CORE,
+						DPLL_DRA7XX_CLKOUTX2_H13,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_CORE CLKOUTX2_H13",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_CORE_GPU_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_CORE, DPLL_DRA7XX_CLKOUTX2_H14, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_CORE,
+						DPLL_DRA7XX_CLKOUTX2_H14,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_CORE CLKOUTX2_H14",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_CORE_IPU_ISS_BOOST_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_CORE, DPLL_DRA7XX_CLKOUTX2_H22, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_CORE,
+						DPLL_DRA7XX_CLKOUTX2_H22,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_CORE CLKOUTX2_H22",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_CORE_ISS_MAIN_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_CORE, DPLL_DRA7XX_CLKOUTX2_H23, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_CORE,
+						DPLL_DRA7XX_CLKOUTX2_H23,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_CORE CLKOUTX2_H23",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_BB2D_GFCLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_CORE, DPLL_DRA7XX_CLKOUTX2_H24, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_CORE,
+						DPLL_DRA7XX_CLKOUTX2_H24,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_CORE CLKOUTX2_H24",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
-	/* END OF DPLL CORE OUTPUTS */
+		/* END OF DPLL CORE OUTPUTS */
 
-	/* DPLL PER OUTPUTS */
+		/* DPLL PER OUTPUTS */
 	case CLK_DRA7XX_FUNC_96M_AON_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_PER, DPLL_DRA7XX_CLKOUT_M2, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_PER,
+						DPLL_DRA7XX_CLKOUT_M2, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_PER CLKOUT_M2",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_FUNC_192M_FCLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_PER, DPLL_DRA7XX_CLKOUTX2_M2, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_PER,
+						DPLL_DRA7XX_CLKOUTX2_M2,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_PER CLKOUTX2_M2",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_FUNC_256M_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_PER, DPLL_DRA7XX_CLKOUTX2_H11, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_PER,
+						DPLL_DRA7XX_CLKOUTX2_H11,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_PER CLKOUTX2_H11",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_DSS_GFCLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_PER, DPLL_DRA7XX_CLKOUTX2_H12, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_PER,
+						DPLL_DRA7XX_CLKOUTX2_H12,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_PER CLKOUTX2_H12",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_PER_QSPI_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_PER, DPLL_DRA7XX_CLKOUTX2_H13, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_PER,
+						DPLL_DRA7XX_CLKOUTX2_H13,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_PER CLKOUTX2_H13",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_PER_GPU_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_PER, DPLL_DRA7XX_CLKOUTX2_H14, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_PER,
+						DPLL_DRA7XX_CLKOUTX2_H14,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_PER CLKOUTX2_H14",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
-	/* END OF DPLL PER OUTPUTS */
+		/* END OF DPLL PER OUTPUTS */
 
-	/* DPLL MPU OUTPUTS */
+		/* DPLL MPU OUTPUTS */
 	case CLK_DRA7XX_MPU_GCLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_MPU, DPLL_DRA7XX_CLKOUT_M2, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_MPU,
+						DPLL_DRA7XX_CLKOUT_M2, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_MPU CLKOUT_M2",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
-	/* END OF DPLL MPU OUTPUTS */
+		/* END OF DPLL MPU OUTPUTS */
 
-	/* DPLL IVA OUTPUTS */
+		/* DPLL IVA OUTPUTS */
 	case CLK_DRA7XX_IVA_GCLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_IVA, DPLL_DRA7XX_CLKOUT_M2, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_IVA,
+						DPLL_DRA7XX_CLKOUT_M2, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_IVA CLKOUT_M2",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
-	/* END OF DPLL IVA OUTPUTS */
+		/* END OF DPLL IVA OUTPUTS */
 
-	/* DPLL USB OUTPUTS */
+		/* DPLL USB OUTPUTS */
 	case CLK_DRA7XX_L3INIT_480M_GFCLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_USB, DPLL_DRA7XX_CLKOUT_M2, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_USB,
+						DPLL_DRA7XX_CLKOUT_M2, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_USB CLKOUT_M2",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_L3INIT_960M_GFCLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_USB, DPLL_DRA7XX_CLK_DCO_LDO, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_USB,
+						DPLL_DRA7XX_CLK_DCO_LDO,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_USB CLK_DCO_LDO",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
-	/* END OF DPLL USB OUTPUTS */
+		/* END OF DPLL USB OUTPUTS */
 
-	/* DPLL EVE OUTPUTS */
+		/* DPLL EVE OUTPUTS */
 	case CLK_DRA7XX_EVE_GFCLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_EVE, DPLL_DRA7XX_CLKOUT_M2, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_EVE,
+						DPLL_DRA7XX_CLKOUT_M2, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_USB CLKOUT_M2",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
-	/* END OF DPLL EVE OUTPUTS */
+		/* END OF DPLL EVE OUTPUTS */
 
-	/* DPLL DSP OUTPUTS */
+		/* DPLL DSP OUTPUTS */
 	case CLK_DRA7XX_DSP_GFCLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_DSP, DPLL_DRA7XX_CLKOUT_M2, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_DSP,
+						DPLL_DRA7XX_CLKOUT_M2, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_USB CLKOUT_M2",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_EVE_GCLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_DSP, DPLL_DRA7XX_CLKOUTX2_M3, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_DSP,
+						DPLL_DRA7XX_CLKOUTX2_M3,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_USB CLKOUT_M3",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
-	/* END OF DPLL DSP OUTPUTS */
+		/* END OF DPLL DSP OUTPUTS */
 
-	/* DPLL GMAC OUTPUTS */
+		/* DPLL GMAC OUTPUTS */
 	case CLK_DRA7XX_GMAC_250M_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_GMAC, DPLL_DRA7XX_CLKOUT_M2, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_GMAC,
+						DPLL_DRA7XX_CLKOUT_M2, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_USB CLKOUT_M2",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_ICSS_IEP_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_GMAC, DPLL_DRA7XX_CLKOUTX2_M3, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_GMAC,
+						DPLL_DRA7XX_CLKOUTX2_M3,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_USB CLKOUTX2_M3",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_GMAC_RMII_HS_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_GMAC, DPLL_DRA7XX_CLKOUTX2_H11, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_GMAC,
+						DPLL_DRA7XX_CLKOUTX2_H11,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_USB CLKOUTX2_H11",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_GMII_250MHZ_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_GMAC, DPLL_DRA7XX_CLKOUTX2_H12, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_GMAC,
+						DPLL_DRA7XX_CLKOUTX2_H12,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_USB CLKOUTX2_H12",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_ICSS_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_GMAC, DPLL_DRA7XX_CLKOUTX2_H13, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_GMAC,
+						DPLL_DRA7XX_CLKOUTX2_H13,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_USB CLKOUTX2_H13",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
-	/* END OF DPLL GMAC OUTPUTS */
+		/* END OF DPLL GMAC OUTPUTS */
 
-	/* DPLL GPU OUTPUTS */
+		/* DPLL GPU OUTPUTS */
 	case CLK_DRA7XX_GPU_GCLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_GPU, DPLL_DRA7XX_CLKOUT_M2, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_GPU,
+						DPLL_DRA7XX_CLKOUT_M2, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_USB CLKOUT_M2",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
-	/* END OF DPLL GPU OUTPUTS */
+		/* END OF DPLL GPU OUTPUTS */
 
-	/* DPLL DDR OUTPUTS */
+		/* DPLL DDR OUTPUTS */
 	case CLK_DRA7XX_EMIF_PHY_GCLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_DDR, DPLL_DRA7XX_CLKOUT_M2, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_DDR,
+						DPLL_DRA7XX_CLKOUT_M2, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_USB CLKOUT_M2",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_EMIF_DLL_GCLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_DDR, DPLL_DRA7XX_CLKOUTX2_H11, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_DDR,
+						DPLL_DRA7XX_CLKOUTX2_H11,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_USB CLKOUTX2_H11",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
-	/* END OF DPLL DDR OUTPUTS */
+		/* END OF DPLL DDR OUTPUTS */
 
-	/* DPLL PCIE_REF OUTPUTS */
+		/* DPLL PCIE_REF OUTPUTS */
 	case CLK_DRA7XX_PCIE_M2_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_PCIE_REF, DPLL_DRA7XX_CLKOUTX2_M2, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_PCIE_REF,
+						DPLL_DRA7XX_CLKOUTX2_M2,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_USB CLKOUTX2_M2",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_PCIE_REF_CLK:
-		src_clk_speed = dpll_dra7xx_output_rate_get(
-			DPLL_DRA7XX_PCIE_REF, DPLL_DRA7XX_CLKOUTX2_M2_LDO, ignore);
+		src_clk_speed =
+		    dpll_dra7xx_output_rate_get(DPLL_DRA7XX_PCIE_REF,
+						DPLL_DRA7XX_CLKOUTX2_M2_LDO,
+						ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2_DPLL(clk_id, "DPLL_USB CLKOUTX2_M2_LDO",
-			src_clk_speed, out_clk_speed);
+				       src_clk_speed, out_clk_speed);
 		return out_clk_speed;
-	/* END OF DPLL PCIE_REF OUTPUTS */
+		/* END OF DPLL PCIE_REF OUTPUTS */
 
-	/* DPLL BYPASS INPUT CLKS */
+		/* DPLL BYPASS INPUT CLKS */
 	case CLK_DRA7XX_MPU_DPLL_HS_CLK:
 	case CLK_DRA7XX_IVA_DPLL_HS_CLK:
 	case CLK_DRA7XX_EVE_DPLL_HS_CLK:
 	case CLK_DRA7XX_DSP_DPLL_HS_CLK:
 		src_clk_id = CLK_DRA7XX_CORE_X2_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		if (clk_id == CLK_DRA7XX_MPU_DPLL_HS_CLK)
-			reg_val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_bypclk_dpll_mpu);
+			reg_val =
+			    reg_read
+			    (&dra7xx_ckgen_cm_core_aon_cm_bypclk_dpll_mpu);
 		else if (clk_id == CLK_DRA7XX_IVA_DPLL_HS_CLK)
-			reg_val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_bypclk_dpll_iva);
+			reg_val =
+			    reg_read
+			    (&dra7xx_ckgen_cm_core_aon_cm_bypclk_dpll_iva);
 		else if (clk_id == CLK_DRA7XX_EVE_DPLL_HS_CLK)
-			reg_val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_bypclk_dpll_eve);
+			reg_val =
+			    reg_read
+			    (&dra7xx_ckgen_cm_core_aon_cm_bypclk_dpll_eve);
 		else if (clk_id == CLK_DRA7XX_DSP_DPLL_HS_CLK)
-			reg_val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_bypclk_dpll_dsp);
-		div = (double) (1 << extract_bitfield(reg_val, 0, 2));
+			reg_val =
+			    reg_read
+			    (&dra7xx_ckgen_cm_core_aon_cm_bypclk_dpll_dsp);
+		div = (double)(1 << extract_bitfield(reg_val, 0, 2));
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_PER_DPLL_HS_CLK:
@@ -1000,23 +1049,22 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 	case CLK_DRA7XX_GPU_DPLL_HS_CLK:
 	case CLK_DRA7XX_DDR_DPLL_HS_CLK:
 		src_clk_id = CLK_DRA7XX_CORE_DPLL_HS_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		if (clk_id == CLK_DRA7XX_PER_DPLL_HS_CLK)
 			div = 2.0;
 		else if (clk_id == CLK_DRA7XX_USB_DPLL_HS_CLK)
 			div = 3.0;
 		else if ((clk_id == CLK_DRA7XX_GMAC_DPLL_HS_CLK)
-			|| (clk_id == CLK_DRA7XX_GPU_DPLL_HS_CLK)
-			|| (clk_id == CLK_DRA7XX_DDR_DPLL_HS_CLK))
+			 || (clk_id == CLK_DRA7XX_GPU_DPLL_HS_CLK)
+			 || (clk_id == CLK_DRA7XX_DDR_DPLL_HS_CLK))
 			div = 1.0;
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
-	/* END of DPLL BYPASS INPUT CLKS */
+		/* END of DPLL BYPASS INPUT CLKS */
 
-	/* COREAON CLKDM Clocks */
+		/* COREAON CLKDM Clocks */
 	case CLK_DRA7XX_FUNC_24M_CLK:
 	case CLK_DRA7XX_FUNC_24M_GFCLK:
 	case CLK_DRA7XX_CAM_L3_GICLK:
@@ -1030,11 +1078,10 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 
 	case CLK_DRA7XX_L4_ICLK:
 		src_clk_id = CLK_DRA7XX_L4_ROOT_CLK;
-		src_clk_speed = clk_dra7xx_rate_get(src_clk_id,
-			ignore);
+		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_L4PER_L4_GICLK:
@@ -1048,7 +1095,7 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_CORE_CLK:
@@ -1056,17 +1103,17 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_L3_ICLK:
 		src_clk_id = CLK_DRA7XX_CORE_CLK;
 		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		reg_val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_core);
-		div = (double) (1 << extract_bit(reg_val, 4));
+		div = (double)(1 << extract_bit(reg_val, 4));
 		out_clk_speed = src_clk_speed / div;
 		DPRINT_CLK_SPEED3(clk_id, src_clk_id, src_clk_speed, div,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_EMIF_L3_GICLK:
@@ -1080,12 +1127,13 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
-	/* Others */
+		/* Others */
 	case CLK_DRA7XX_IPU1_GFCLK:
-		reg_val = reg_read(&dra7xx_ipu_cm_core_aon_cm_ipu1_ipu1_clkctrl);
+		reg_val =
+		    reg_read(&dra7xx_ipu_cm_core_aon_cm_ipu1_ipu1_clkctrl);
 		if (extract_bit(reg_val, 24) == 0)
 			src_clk_id = CLK_DRA7XX_DPLL_ABE_X2_FCLK;
 		else
@@ -1093,7 +1141,7 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_IPU2_GFCLK:
@@ -1101,7 +1149,7 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_EVE_CLK:
@@ -1113,7 +1161,7 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 		src_clk_speed = clk_dra7xx_rate_get(src_clk_id, ignore);
 		out_clk_speed = src_clk_speed;
 		DPRINT_CLK_SPEED2(clk_id, src_clk_id, src_clk_speed,
-			out_clk_speed);
+				  out_clk_speed);
 		return out_clk_speed;
 
 	case CLK_DRA7XX_ID_MAX:
@@ -1124,7 +1172,7 @@ double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 	default:
 		fprintf(stderr, "%s(): invalid clock id %s(%u)!\n",
 			__func__, clk_dra7xx_name_table[clk_id], clk_id);
-		return (double) OMAPCONF_ERR_ARG;
+		return (double)OMAPCONF_ERR_ARG;
 	}
 
 	return 0;

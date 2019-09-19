@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __PRCM_CLKDM_DEPENDENCY54XXES1_DATA_H__
 #define __PRCM_CLKDM_DEPENDENCY54XXES1_DATA_H__
 
@@ -53,8 +52,8 @@ extern const reg *clkdmdep54xxes1_reg_table[CLKDM54XX_ID_MAX][2];
 
 extern const short int clkdmdep54xxes1_bit_pos_table[CLKDM54XX_ID_MAX];
 
-extern const clkdmdep_ctrl_type *clkdmdep54xxes1_statdep_table[CLKDM54XX_ID_MAX];
+extern const clkdmdep_ctrl_type
+    *clkdmdep54xxes1_statdep_table[CLKDM54XX_ID_MAX];
 extern const clkdmdep_ctrl_type *clkdmdep54xxes1_dyndep_table[CLKDM54XX_ID_MAX];
-
 
 #endif

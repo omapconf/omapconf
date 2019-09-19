@@ -41,12 +41,10 @@
  *
  */
 
-
 #include <clkdm.h>
 #include <lib.h>
 #include <stdlib.h>
 #include <string.h>
-
 
 /* #define PRCM_CLKDM_DEBUG */
 #ifdef PRCM_CLKDM_DEBUG
@@ -55,20 +53,19 @@
 #define dprintf(format, ...)
 #endif
 
-
 static const char
-	clkdm_ctrl_mode_names[CLKM_CTRL_MODE_MAX][CLKDM_CTRL_MODE_MAX_NAME_LENGTH] = {
+ clkdm_ctrl_mode_names[CLKM_CTRL_MODE_MAX][CLKDM_CTRL_MODE_MAX_NAME_LENGTH] = {
 	"NO SLEEP",
 	"SW-Forced Sleep",
 	"SW-Forced Wakeup",
-	"HW-Auto"};
-
+	"HW-Auto"
+};
 
 static const char
-	clkdm_status_names[CLKDM_STATUS_MAX][CLKDM_STATUS_MAX_NAME_LENGTH] = {
+ clkdm_status_names[CLKDM_STATUS_MAX][CLKDM_STATUS_MAX_NAME_LENGTH] = {
 	"Gated",
-	"Running"};
-
+	"Running"
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdm_ctrl_mode_name_get
@@ -85,7 +82,6 @@ const char *clkdm_ctrl_mode_name_get(clkdm_ctrl_mode mode)
 	return clkdm_ctrl_mode_names[mode];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdm_ctrl_mode_get
  * @BRIEF		return clock domain transition control mode
@@ -101,11 +97,10 @@ clkdm_ctrl_mode clkdm_ctrl_mode_get(unsigned int cm_clkstctrl)
 	/* Retrieve clock domain transition control mode */
 	mode = (clkdm_ctrl_mode) extract_bitfield(cm_clkstctrl, 0, 2);
 	dprintf("%s(): cm_clkstctrl=0x%08X => mode=%u (%s) (bit [1-0])\n",
-		__func__, cm_clkstctrl,	mode, clkdm_ctrl_mode_name_get(mode));
+		__func__, cm_clkstctrl, mode, clkdm_ctrl_mode_name_get(mode));
 
 	return mode;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdm_status_name_get
@@ -121,7 +116,6 @@ const char *clkdm_status_name_get(clkdm_status st)
 
 	return clkdm_status_names[st];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkdm_status_get

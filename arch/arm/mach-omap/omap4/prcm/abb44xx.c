@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <abb44xx.h>
 #include <abb.h>
 #include <cm44xx.h>
@@ -56,7 +55,6 @@
 #include <cpuinfo.h>
 #include <string.h>
 
-
 /* #define ABB44XX_DEBUG */
 #ifdef ABB44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -70,7 +68,6 @@ static reg_table prcm_abb_reg_table[PRCM_ABB_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
 
 static int abb44xx_regtable_init(void);
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		abb44xx_name2addr
@@ -92,7 +89,6 @@ int abb44xx_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, prcm_abb_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		abb44xx_dump
  * @BRIEF		dump PRCM ABB registers
@@ -109,7 +105,6 @@ int abb44xx_dump(void)
 
 	return dumpregs(prcm_abb_reg_table);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		abb44xx_config_show
@@ -131,9 +126,11 @@ int abb44xx_config_show(void)
 
 	omap4_abb_data[0].name = "MPU Voltage Domain";
 	omap4_abb_data[1].name = "IVAHD Voltage Domain";
-	ret = mem_read(OMAP4430_PRM_LDO_ABB_MPU_SETUP, &omap4_abb_data[0].setup);
+	ret =
+	    mem_read(OMAP4430_PRM_LDO_ABB_MPU_SETUP, &omap4_abb_data[0].setup);
 	ret += mem_read(OMAP4430_PRM_LDO_ABB_MPU_CTRL, &omap4_abb_data[0].ctrl);
-	ret += mem_read(OMAP4430_PRM_LDO_ABB_IVA_SETUP, &omap4_abb_data[1].setup);
+	ret +=
+	    mem_read(OMAP4430_PRM_LDO_ABB_IVA_SETUP, &omap4_abb_data[1].setup);
 	ret += mem_read(OMAP4430_PRM_LDO_ABB_IVA_CTRL, &omap4_abb_data[1].ctrl);
 	if (ret != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
@@ -141,13 +138,12 @@ int abb44xx_config_show(void)
 	sysclk_rate = clk44xx_get_system_clock_speed();
 	if (sysclk_rate <= 0) {
 		fprintf(stderr, "%s(): could not retrieve sysclk rate! (%d)\n",
-			__func__, (int) sysclk_rate);
+			__func__, (int)sysclk_rate);
 		return OMAPCONF_ERR_INTERNAL;
 	}
 
 	return abb_config_show(stdout, sysclk_rate, omap4_abb_data, 2);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		abb44xx_main
@@ -182,8 +178,6 @@ int abb44xx_main(int argc, char *argv[])
 
 	return ret;
 }
-
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		abb44xx_regtable_init

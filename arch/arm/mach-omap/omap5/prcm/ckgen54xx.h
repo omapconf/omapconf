@@ -41,15 +41,11 @@
  *
  */
 
-
 #ifndef __CKGEN54XX_H__
 #define __CKGEN54XX_H__
 
-
 #include <stdio.h>
 
-
-int ckgen54xx_dump(FILE *stream);
-
+int ckgen54xx_dump(FILE * stream);
 
 #endif
