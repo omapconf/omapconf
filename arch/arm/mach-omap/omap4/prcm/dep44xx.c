@@ -1143,7 +1143,7 @@ int statdep44xx_main_set(
 	char *clkdm_from, char *clkdm_to, unsigned short enable)
 {
 	int ret = 0, from_found, to_found;
-	clkdm44xx_id id, from, to, first, last;
+	clkdm44xx_id id, from = OMAP4_CD_ID_MAX, to, first, last;
 	char to_s[CLKDM44XX_MAX_NAME_LENGTH];
 	char from_s[CLKDM44XX_MAX_NAME_LENGTH];
 
