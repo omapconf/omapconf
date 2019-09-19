@@ -770,7 +770,7 @@ char trace_geninput_yn_read(char line[], int size)
 int trace_config_show(char buffer[], int buffer_size, FILE *fp, int *p_error)
 {
 	int row = 0;
-	char number_buffer[4];
+	char number_buffer[20];
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	char YorN;
 	int i = 1;
