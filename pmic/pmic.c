@@ -978,6 +978,7 @@ long smps_step_get(pmic_smps_id smps_id)
 	case PMIC_TPS65217C:
 	case PMIC_TPS65217D:
 		step = tps65217x_smps_step_get();
+		break;
 	default:
 		step = (long) OMAPCONF_ERR_NOT_AVAILABLE;
 	}
