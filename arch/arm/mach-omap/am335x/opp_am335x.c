@@ -69,18 +69,6 @@ genlist *opp_am335x_list_table[VDD_AM335X_ID_MAX] = {
 	[VDD_AM335X_RTC] = &vdd_am335x_rtc_opp_list
 };
 
-static const char
- opp_am335x_names_table[OPP_AM335X_ID_MAX + 1][OPP_MAX_NAME_LENGTH] = {
-	[OPP_AM335X_050] = "50",
-	[OPP_AM335X_100] = "100",
-	[OPP_AM335X_100_LOW] = "100_LOW",
-	[OPP_AM335X_100_HIGH] = "100_HIGH",
-	[OPP_AM335X_120] = "120",
-	[OPP_AM335X_TURBO] = "TURBO",
-	[OPP_AM335X_NITRO] = "NITRO",
-	[OPP_AM335X_ID_MAX] = "UNKNOWN"
-};
-
 static unsigned short opp_am335x_init_done;
 
 /* ------------------------------------------------------------------------

@@ -63,49 +63,49 @@ typedef struct {
 	int voltage;
 } tps659038_smps_registers;
 
-static const tps659038_smps_registers tps659038_smps12 = {
+static const tps659038_smps_registers tps659038_smps12 __attribute__((unused)) = {
 	.ctrl = 0x20,
 	.tstep = -1,
 	.force = 0x22,
 	.voltage = 0x23
 };
 
-static const tps659038_smps_registers tps659038_smps3 = {
+static const tps659038_smps_registers tps659038_smps3 __attribute__((unused)) = {
 	.ctrl = 0x24,
 	.tstep = -1,
 	.force = -1,
 	.voltage = 0x27
 };
 
-static const tps659038_smps_registers tps659038_smps45 = {
+static const tps659038_smps_registers tps659038_smps45 __attribute__((unused)) = {
 	.ctrl = 0x28,
 	.tstep = -1,
 	.force = 0x2A,
 	.voltage = 0x2B
 };
 
-static const tps659038_smps_registers tps659038_smps6 = {
+static const tps659038_smps_registers tps659038_smps6 __attribute__((unused)) = {
 	.ctrl = 0x2C,
 	.tstep = -1,
 	.force = 0x2E,
 	.voltage = 0x2F
 };
 
-static const tps659038_smps_registers tps659038_smps7 = {
+static const tps659038_smps_registers tps659038_smps7 __attribute__((unused)) = {
 	.ctrl = 0x30,
 	.tstep = -1,
 	.force = -1,
 	.voltage = 0x33
 };
 
-static const tps659038_smps_registers tps659038_smps8 = {
+static const tps659038_smps_registers tps659038_smps8 __attribute__((unused)) = {
 	.ctrl = 0x34,
 	.tstep = -1,
 	.force = 0x36,
 	.voltage = 0x37
 };
 
-static const tps659038_smps_registers tps659038_smps9 = {
+static const tps659038_smps_registers tps659038_smps9 __attribute__((unused)) = {
 	.ctrl = 0x38,
 	.tstep = -1,
 	.force = -1,
@@ -113,35 +113,35 @@ static const tps659038_smps_registers tps659038_smps9 = {
 };
 
 /* TPS65917 data */
-static const tps659038_smps_registers tps65917_smps1 = {
+static const tps659038_smps_registers tps65917_smps1 __attribute__((unused)) = {
 	.ctrl = 0x20,
 	.tstep = -1,
 	.force = 0x22,
 	.voltage = 0x23
 };
 
-static const tps659038_smps_registers tps65917_smps2 = {
+static const tps659038_smps_registers tps65917_smps2 __attribute__((unused)) = {
 	.ctrl = 0x24,
 	.tstep = -1,
 	.force = 0x26,
 	.voltage = 0x27
 };
 
-static const tps659038_smps_registers tps65917_smps3 = {
+static const tps659038_smps_registers tps65917_smps3 __attribute__((unused)) = {
 	.ctrl = 0x2C,
 	.tstep = -1,
 	.force = 0x2E,
 	.voltage = 0x2F
 };
 
-static const tps659038_smps_registers tps65917_smps4 = {
+static const tps659038_smps_registers tps65917_smps4 __attribute__((unused)) = {
 	.ctrl = 0x30,
 	.tstep = -1,
 	.force = -1,
 	.voltage = 0x33
 };
 
-static const tps659038_smps_registers tps65917_smps5 = {
+static const tps659038_smps_registers tps65917_smps5 __attribute__((unused)) = {
 	.ctrl = 0x38,
 	.tstep = -1,
 	.force = -1,

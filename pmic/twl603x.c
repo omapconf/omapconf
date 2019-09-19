@@ -82,14 +82,6 @@
 #define TWL6035_SMPS_HIGH_RANGE_UVMIN	1650000
 #define TWL6035_SMPS_HIGH_RANGE_UVMAX	3300000
 
-static const char
- twl_603x_chip_name[TWL603X_TYPE_MAX + 1][TWL603x_NAME_MAX_LEN] = {
-	"TWL6030",
-	"TWL6032",
-	"TWL6035",
-	"FIXME"
-};
-
 typedef struct {
 	twl603x_type chip_type;
 	float chip_revision;
@@ -122,56 +114,56 @@ typedef struct {
 	int voltage;
 } twl6035_smps_registers;
 
-static const twl6035_smps_registers twl035_smps12 = {
+static const twl6035_smps_registers twl035_smps12 __attribute__((unused)) = {
 	.ctrl = 0x20,
 	.tstep = 0x21,
 	.force = 0x22,
 	.voltage = 0x23
 };
 
-static const twl6035_smps_registers twl035_smps3 = {
+static const twl6035_smps_registers twl035_smps3 __attribute__((unused)) = {
 	.ctrl = 0x24,
 	.tstep = -1,
 	.force = -1,
 	.voltage = 0x27
 };
 
-static const twl6035_smps_registers twl035_smps45 = {
+static const twl6035_smps_registers twl035_smps45 __attribute__((unused)) = {
 	.ctrl = 0x28,
 	.tstep = 0x29,
 	.force = 0x2A,
 	.voltage = 0x2B
 };
 
-static const twl6035_smps_registers twl035_smps6 = {
+static const twl6035_smps_registers twl035_smps6 __attribute__((unused)) = {
 	.ctrl = 0x2C,
 	.tstep = 0x2D,
 	.force = 0x2E,
 	.voltage = 0x2F
 };
 
-static const twl6035_smps_registers twl035_smps7 = {
+static const twl6035_smps_registers twl035_smps7 __attribute__((unused)) = {
 	.ctrl = 0x30,
 	.tstep = -1,
 	.force = -1,
 	.voltage = 0x33
 };
 
-static const twl6035_smps_registers twl035_smps8 = {
+static const twl6035_smps_registers twl035_smps8 __attribute__((unused)) = {
 	.ctrl = 0x34,
 	.tstep = 0x35,
 	.force = 0x36,
 	.voltage = 0x37
 };
 
-static const twl6035_smps_registers twl035_smps9 = {
+static const twl6035_smps_registers twl035_smps9 __attribute__((unused)) = {
 	.ctrl = 0x38,
 	.tstep = -1,
 	.force = -1,
 	.voltage = 0x3B
 };
 
-static const twl6035_smps_registers twl035_smps10 = {
+static const twl6035_smps_registers twl035_smps10 __attribute__((unused)) = {
 	.ctrl = 0x3C,
 	.tstep = -1,
 	.force = -1,

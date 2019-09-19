@@ -56,14 +56,13 @@
 /* #define AUDIT_DRA7XX_DEBUG */
 #ifdef AUDIT_DRA7XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
-#else
-#define dprintf(format, ...)
-#endif
-
 static const char pass[5] = "Pass";
 static const char fail[5] = "FAIL";
 static const char ignore[12] = "Ignored (1)";
 static const char warning[8] = "Warning";
+#else
+#define dprintf(format, ...)
+#endif
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		audit_dra7xx_dpll
