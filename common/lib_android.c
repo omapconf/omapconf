@@ -64,6 +64,7 @@ const char *android_pastry_names[PASTRY_ID_MAX] = {
 	[PASTRY_N] = "Nougat",
 	[PASTRY_O] = "Oreo",
 	[PASTRY_P] = "pie",
+	[PASTRY_10] = "Android 10",
 	[PASTRY_UNKNOWN] = "Unknown"
 };
 
@@ -233,6 +234,8 @@ android_pastry_id android_pastry_get(void)
 				pastry_id = PASTRY_O;
 			else if (version == 9)
 				pastry_id = PASTRY_P;
+			else if (version == 10)
+				pastry_id = PASTRY_10;
 			else
 				pastry_id = PASTRY_UNKNOWN;
 		}
