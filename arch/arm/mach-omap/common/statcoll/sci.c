@@ -1309,6 +1309,7 @@ enum sci_err get_usecase_params( int usecase, struct usecase_parms * pusecase_pa
         pusecase_parms->evt_info_sel[0] = SC_EVTINFOSEL_LATENCY;
         pusecase_parms->op_sel[1] = SC_OPSEL_FILTER_HIT;
         pusecase_parms->evt_info_sel[1] = 0;
+	break;
     default:
         return SCI_ERR_INVALID_PARM;
     };

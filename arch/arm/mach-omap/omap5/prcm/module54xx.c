@@ -8396,6 +8396,7 @@ int mod54xx_config_show(FILE *stream, mod54xx_id id, unsigned int cm_clkctrl)
 			((extract_bit(cm_clkctrl, 24) == 1) ?
 				"Same as LLI" : "Same as C2C"));
 
+		/* Falls through. */
 
 	case OMAP5_DLL_EMIF:
 		fprintf(stream, "| %-32s | %-35s |\n",

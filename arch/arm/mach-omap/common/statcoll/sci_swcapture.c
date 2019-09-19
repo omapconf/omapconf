@@ -706,6 +706,7 @@ int statcoll_main(int argc, char **argv)
 				break;
 			case 'D':
 				option_disable = 1;
+				break;
 			default:
 				printf("ERROR: Unknown option\n");
 				goto END;

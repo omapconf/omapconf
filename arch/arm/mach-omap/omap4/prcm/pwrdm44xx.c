@@ -459,6 +459,7 @@ int pwrdm44xx_config_show(FILE *stream, const char name[11],
 			extract_bit(pm_pwstctrl, 10));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    TCM1", curr, tgt);
+		break;
 	case OMAP4430_PM_CORE_PWRSTCTRL:
 		pwrdm_state2string(curr, (pwrdm_state)
 			extract_bitfield(pm_pwstst, 8, 2));
@@ -466,6 +467,7 @@ int pwrdm44xx_config_show(FILE *stream, const char name[11],
 			extract_bit(pm_pwstctrl, 10));
 		fprintf(stream, "| %-30s | %-7s | %-7s |         |\n",
 			"    MPU_M3 L2 RAM", curr, tgt);
+		break;
 	default:
 		break;
 	}

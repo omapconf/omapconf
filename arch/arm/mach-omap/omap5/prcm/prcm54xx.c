@@ -760,6 +760,7 @@ int prcm54xx_pwrdm_config_show(FILE *stream,
 						__func__, pwrdm.name);
 					return OMAPCONF_ERR_INTERNAL;
 				}
+				/* Falls through. */
 			default:
 				ret = powerdm_config_show(stream, pwrdm.name);
 				if (ret != 0)

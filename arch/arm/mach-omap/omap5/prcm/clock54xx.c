@@ -889,6 +889,7 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		if (cpu_revision_get() != REV_ES1_0)
 			fprintf(stderr,
 				"%s(): WARNING: CLK54XX_C2C_L3_GICLK clock signal does not exist on ES2.x!!!\n", __func__);
+		/* Falls through. */
 	case CLK54XX_CM_CORE_AON_PROFILING_L3_GICLK:
 	case CLK54XX_EMIF_L3_GICLK:
 	case CLK54XX_L4SEC_L3_GICLK:
@@ -994,6 +995,7 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		if (cpu_revision_get() != REV_ES1_0)
 			fprintf(stderr,
 				"%s(): WARNING: CORE[AON]_TS_GFCLK clock signal does not exist on ES2.x!!!\n", __func__);
+		/* Falls through. */
 	case CLK54XX_L3INSTR_DLL_AGING_GCLK:
 		src_clk_id = CLK54XX_WKUPAON_ICLK;
 		src_clk_speed = clk54xx_rate_get(src_clk_id,
@@ -1968,6 +1970,7 @@ double clk54xx_rate_get(clk54xx_id clk_id,
 		if (cpu_revision_get() == REV_ES1_0)
 			fprintf(stderr,
 				"%s(): WARNING: CLK54XX_DSS_L4_GICLK clock signal does not exist on ES1.0!!!\n", __func__);
+		/* Falls through. */
 	case CLK54XX_L4PER_L4_GICLK:
 	case CLK54XX_L4SEC_L4_GICLK:
 	case CLK54XX_C2C_L4_GICLK:

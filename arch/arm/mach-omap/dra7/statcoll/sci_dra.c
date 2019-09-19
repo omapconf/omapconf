@@ -1378,6 +1378,7 @@ enum sci_err_dra get_usecase_params_dra( int usecase, struct usecase_parms * pus
 			pusecase_parms->evt_info_sel[0] = SC_EVTINFOSEL_LATENCY;
 			pusecase_parms->op_sel[1] = SC_OPSEL_FILTER_HIT;
 			pusecase_parms->evt_info_sel[1] = 0;
+			break;
 		case SCI_MSTR_ARBITRATION_CONFLICT:
 			pusecase_parms->num_cntr_req = 1;
 			pusecase_parms->reqevt = SC_EVENT_SEL_BUSY;

@@ -1055,6 +1055,7 @@ int statcoll_main_dra(int argc, char **argv)
 				break;
 			case 'D':
 				option_disable = 1;
+				break;
 			default:
 				printf("ERROR: Unknown option\n");
 				goto out;

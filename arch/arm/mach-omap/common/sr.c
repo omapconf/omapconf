@@ -770,6 +770,7 @@ unsigned char sr_irq_raw_status_is_set(unsigned int irqstatus_raw,
 	case SR_IRQ_VPBOUNDS:
 		fprintf(stderr, "%s(): error: VPBOUNDS has no raw interrupt "
 			"status flag.\n", __func__);
+		/* Falls through. */
 	default:
 		return 0;
 	}
