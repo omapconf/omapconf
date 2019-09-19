@@ -273,7 +273,8 @@ int sr54xx_dump(FILE * stream, sr54xx_mod_id id)
 				/* Read register */
 				val = reg_read(r);
 				/* Show register name, addr & content */
-				snprintf(s, TABLE_MAX_ELT_LEN, "%s", r->name);
+				omapconf_snprintf(s, TABLE_MAX_ELT_LEN, "%s",
+						  r->name);
 				autoadjust_table_strncpy(table, row, 0, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X",

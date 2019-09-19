@@ -274,4 +274,19 @@ static inline int mhz2khz(double mhz)
 int omapconf_getdefaults(char *defaults_file, char *prefix,
 			 name_desc_val_table tablep[]);
 
+/* ------------------------------------------------------------------------
+ * @FUNCTION		omapconf_snprintf
+ * @BRIEF		Compiler cheat for snprintf limitations
+ * @RETURNS		frequency in KHz
+ * @DESCRIPTION		Takes same params of snprintf with the intent to
+ *			truncate.
+ *------------------------------------------------------------------------ */
+#define omapconf_snprintf(target_s, target_size, FMT, ARGS...)		\
+{									\
+	char _s[(target_size) * 3];					\
+	snprintf(_s, sizeof(_s), FMT, ARGS);				\
+	_s[target_size] = 0;						\
+	memcpy(target_s, _s, target_size);				\
+}
+
 #endif

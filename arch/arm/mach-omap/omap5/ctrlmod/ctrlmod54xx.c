@@ -175,7 +175,8 @@ int ctrlmod54xx_dump(FILE * stream, ctrlmod54xx_mod_id id)
 				/* Read register */
 				val = reg_read(r);
 				/* Show register name, addr & content */
-				snprintf(s, TABLE_MAX_ELT_LEN, "%s", r->name);
+				omapconf_snprintf(s, TABLE_MAX_ELT_LEN, "%s",
+						  r->name);
 				autoadjust_table_strncpy(table, row, 0, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X",
@@ -316,8 +317,8 @@ int ctrlmod54xx_io_audit(FILE * stream, unsigned int *err_nbr,
 			curr = reg_read(ctrlmod_regs[i]);
 
 			/* Store name & register read content in table */
-			snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s",
-				 (ctrlmod_regs[i])->name);
+			omapconf_snprintf(table[row][0], TABLE_MAX_ELT_LEN,
+					  "%s", (ctrlmod_regs[i])->name);
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "0x%08X",
 				 curr);
 

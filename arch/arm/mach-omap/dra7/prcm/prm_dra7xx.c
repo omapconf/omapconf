@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <prm_dra7xx.h>
 #include <cm_dra7xx.h>
 #include <lib.h>
@@ -50,14 +49,12 @@
 #include <module.h>
 #include <prcm-module.h>
 
-
 /* #define PRM_DRA7XX_DEBUG */
 #ifdef PRM_DRA7XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		prm_dra7xx_mod_name_get
@@ -70,14 +67,14 @@
 const char *prm_dra7xx_mod_name_get(prm_dra7xx_mod_id id)
 {
 	if (id >= PRM_DRA7XX_MODS_COUNT) {
-		fprintf(stderr, "%s(): id (%u) >= PRM_DRA7XX_MODS_COUNT (%u)!\n",
+		fprintf(stderr,
+			"%s(): id (%u) >= PRM_DRA7XX_MODS_COUNT (%u)!\n",
 			__func__, id, PRM_DRA7XX_MODS_COUNT);
 		return NULL;
 	}
 
 	return prm_dra7xx_mods_name[id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		prm_dra7xx_is_profiling_running
@@ -104,7 +101,6 @@ unsigned int prm_dra7xx_is_profiling_running(void)
 	return mod_is_accessible(cm_clkctrl);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		prm_dra7xx_dump
  * @BRIEF		dump selected registers and pretty-print it in
@@ -118,7 +114,7 @@ unsigned int prm_dra7xx_is_profiling_running(void)
  * @DESCRIPTION		dump selected registers and pretty-print it in
  *			selected output stream
  *------------------------------------------------------------------------ */
-int prm_dra7xx_dump(FILE *stream, prm_dra7xx_mod_id id)
+int prm_dra7xx_dump(FILE * stream, prm_dra7xx_mod_id id)
 {
 	unsigned int i = 0, mid;
 	unsigned int val = 0;
@@ -129,7 +125,6 @@ int prm_dra7xx_dump(FILE *stream, prm_dra7xx_mod_id id)
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row;
 
-
 	if (stream == NULL) {
 		fprintf(stderr, "%s(): stream == NULL!!!\n", __func__);
 		err = OMAPCONF_ERR_ARG;
@@ -137,7 +132,8 @@ int prm_dra7xx_dump(FILE *stream, prm_dra7xx_mod_id id)
 	}
 
 	if (id > PRM_DRA7XX_MODS_COUNT) {
-		fprintf(stderr, "%s(): id (%u) > PRM_DRA7XX_MODS_COUNT!!! (%u)\n",
+		fprintf(stderr,
+			"%s(): id (%u) > PRM_DRA7XX_MODS_COUNT!!! (%u)\n",
 			__func__, id, PRM_DRA7XX_MODS_COUNT);
 		err = OMAPCONF_ERR_ARG;
 		goto prm_dra7xx_dump_end;
@@ -148,11 +144,10 @@ int prm_dra7xx_dump(FILE *stream, prm_dra7xx_mod_id id)
 
 	if (id != PRM_DRA7XX_MODS_COUNT)
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s Reg. Name",
-			prm_dra7xx_mod_name_get(id));
+			 prm_dra7xx_mod_name_get(id));
 	else
 		strncpy(table[row][0], "PRM Reg. Name", TABLE_MAX_ELT_LEN);
-	strncpy(table[row][1], "Reg. Address",
-		TABLE_MAX_ELT_LEN);
+	strncpy(table[row][1], "Reg. Address", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][2], "Reg. Value", TABLE_MAX_ELT_LEN);
 	row++;
 
@@ -166,11 +161,12 @@ int prm_dra7xx_dump(FILE *stream, prm_dra7xx_mod_id id)
 				/* Read register */
 				val = reg_read(r);
 				/* Show register name, addr & content */
-				snprintf(s, TABLE_MAX_ELT_LEN, "%s", r->name);
+				omapconf_snprintf(s, TABLE_MAX_ELT_LEN, "%s",
+						  r->name);
 				autoadjust_table_strncpy(table, row, 0, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X",
-					r->addr);
+					 r->addr);
 				autoadjust_table_strncpy(table, row, 1, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X", val);

@@ -408,8 +408,8 @@ int hwobs54xx_core_per_pad_table_init(void)
 	strcpy(hwobs54xx_core_per_pad_reg_table[i].name,
 	       "PAD1_TIMER11_PWM_EVT");
 	hwobs54xx_core_per_pad_reg_table[i++].addr =
-	    omap5430_control_core_pad0_cam_globalreset_pad1_timer11_pwm_evt.
-	    addr + 2;
+	    omap5430_control_core_pad0_cam_globalreset_pad1_timer11_pwm_evt.addr
+	    + 2;
 
 	strcpy(hwobs54xx_core_per_pad_reg_table[i].name, "PAD0_TIMER8_PWM_EVT");
 	hwobs54xx_core_per_pad_reg_table[i++].addr =
@@ -477,11 +477,11 @@ int hwobs54xx_check_pinmux(unsigned int check_field)
 					err++;
 			} else {
 				hwobs44xx_padreg_read
-				    (hwobs54xx_core_c2c_pad_reg_table[i - 16].
-				     addr, &reg_pad_val1);
+				    (hwobs54xx_core_c2c_pad_reg_table
+				     [i - 16].addr, &reg_pad_val1);
 				hwobs44xx_padreg_read
-				    (hwobs54xx_core_per_pad_reg_table[i - 16].
-				     addr, &reg_pad_val2);
+				    (hwobs54xx_core_per_pad_reg_table
+				     [i - 16].addr, &reg_pad_val2);
 				if ((((reg_pad_val1) & 0x0005) != 0x0005)
 				    && (((reg_pad_val2) & 0x0005) != 0x0005))
 					err++;
@@ -1046,8 +1046,8 @@ int hwobs54xx_prcm_setup(char *pos_s, char *cat_s, char *num_s)
 	}
 
 	ret =
-	    hwobs44xx_blkmuxreg_modify(omap5430_control_debobs_final_mux_sel.
-				       addr, pos, final_mux);
+	    hwobs44xx_blkmuxreg_modify
+	    (omap5430_control_debobs_final_mux_sel.addr, pos, final_mux);
 	ret |= hwobs54xx_display_signals();
 
 	goto hwobs54xx_setup_prcm_end;
@@ -1377,18 +1377,20 @@ int hwobs54xx_display_pads(pad_cell pad_reg_table[HWOBS54XX_PAD_MAX_NBR + 1])
 
 		/* display register pad name, addr & content (hex) */
 		if (ret == 0) {
-			snprintf(autoadjust_table[row + 1][0],
-				 TABLE_MAX_ELT_LEN, "%d", pad_id);
-			snprintf(autoadjust_table[row + 1][1],
-				 TABLE_MAX_ELT_LEN, "%s", str_ctrl_mod);
-			snprintf(autoadjust_table[row + 1][2],
-				 TABLE_MAX_ELT_LEN, "%s",
-				 pad_reg_table[row].name);
-			snprintf(autoadjust_table[row + 1][3],
-				 TABLE_MAX_ELT_LEN, "0x%08X",
-				 (unsigned int)(pad_reg_table[row].addr));
-			snprintf(autoadjust_table[row + 1][4],
-				 TABLE_MAX_ELT_LEN, "0x%04X", pad_val);
+			omapconf_snprintf(autoadjust_table[row + 1][0],
+					  TABLE_MAX_ELT_LEN, "%d", pad_id);
+			omapconf_snprintf(autoadjust_table[row + 1][1],
+					  TABLE_MAX_ELT_LEN, "%s",
+					  str_ctrl_mod);
+			omapconf_snprintf(autoadjust_table[row + 1][2],
+					  TABLE_MAX_ELT_LEN, "%s",
+					  pad_reg_table[row].name);
+			omapconf_snprintf(autoadjust_table[row + 1][3],
+					  TABLE_MAX_ELT_LEN, "0x%08X",
+					  (unsigned int)(pad_reg_table[row].
+							 addr));
+			omapconf_snprintf(autoadjust_table[row + 1][4],
+					  TABLE_MAX_ELT_LEN, "0x%04X", pad_val);
 		} else {
 			fprintf(stderr,
 				"omapconf: read error! (addr=0x%08X, err=%d)\n",
@@ -1502,21 +1504,21 @@ int hwobs54xx_display_signals(void)
 				case 0x0:
 					ret =
 					    mem_read
-					    (omap5430_control_debobs_mmr_mpu.
-					     addr, &hwobs_mux);
+					    (omap5430_control_debobs_mmr_mpu.addr,
+					     &hwobs_mux);
 					break;
 
 				case 0x5:
 					if (cpu_revision_get() == REV_ES1_0)
 						ret =
 						    mem_read
-						    (omap5430es1_cm_core_debug_cfg.
-						     addr, &hwobs_mux);
+						    (omap5430es1_cm_core_debug_cfg.addr,
+						     &hwobs_mux);
 					else
 						ret =
 						    mem_read
-						    (omap5430_cm_core_debug_cfg.
-						     addr, &hwobs_mux);
+						    (omap5430_cm_core_debug_cfg.addr,
+						     &hwobs_mux);
 					strcat(str_debug_mux, " (CM_CORE)");
 					break;
 
@@ -1552,26 +1554,26 @@ int hwobs54xx_display_signals(void)
 					if (cpu_revision_get() == REV_ES1_0)
 						ret =
 						    mem_read
-						    (omap5430es1_prm_debug_cfg.
-						     addr, &hwobs_mux);
+						    (omap5430es1_prm_debug_cfg.addr,
+						     &hwobs_mux);
 					else
 						ret =
 						    mem_read
-						    (omap5430_prm_debug_cfg.
-						     addr, &hwobs_mux);
+						    (omap5430_prm_debug_cfg.addr,
+						     &hwobs_mux);
 					break;
 
 				case 0x1:
 					if (cpu_revision_get() == REV_ES1_0)
 						ret =
 						    mem_read
-						    (omap5430es1_cm_core_aon_debug_cfg.
-						     addr, &hwobs_mux);
+						    (omap5430es1_cm_core_aon_debug_cfg.addr,
+						     &hwobs_mux);
 					else
 						ret =
 						    mem_read
-						    (omap5430_cm_core_aon_debug_cfg.
-						     addr, &hwobs_mux);
+						    (omap5430_cm_core_aon_debug_cfg.addr,
+						     &hwobs_mux);
 					strcat(str_debug_mux, " (CM_AON)");
 					break;
 
@@ -1631,32 +1633,41 @@ int hwobs54xx_display_signals(void)
 			       row, hwobs54xx_signal_names[row]);
 #endif
 			/* display register pad name, addr & content (hex) */
-			snprintf(autoadjust_table[(row % 16) + 1][0],
-				 TABLE_MAX_ELT_LEN, "%d", row);
-			snprintf(autoadjust_table[(row % 16) + 1][2],
-				 TABLE_MAX_ELT_LEN, "%s", str_final_mux);
-			snprintf(autoadjust_table[(row % 16) + 1][3],
-				 TABLE_MAX_ELT_LEN, "%s", str_debug_mux);
+			omapconf_snprintf(autoadjust_table[(row % 16) + 1][0],
+					  TABLE_MAX_ELT_LEN, "%d", row);
+			omapconf_snprintf(autoadjust_table[(row % 16) + 1][2],
+					  TABLE_MAX_ELT_LEN, "%s",
+					  str_final_mux);
+			omapconf_snprintf(autoadjust_table[(row % 16) + 1][3],
+					  TABLE_MAX_ELT_LEN, "%s",
+					  str_debug_mux);
 
 			if (pad_check == 0) {
-				snprintf(autoadjust_table[(row % 16) + 1][1],
-					 TABLE_MAX_ELT_LEN, "%s",
-					 hwobs54xx_signal_names[row]);
-				snprintf(autoadjust_table[(row % 16) + 1][4],
-					 TABLE_MAX_ELT_LEN, "%s",
-					 str_hwobs_sig);
-				snprintf(autoadjust_table[(row % 16) + 1][5],
-					 TABLE_MAX_ELT_LEN, "%s",
-					 str_hwobs_bit);
+				omapconf_snprintf(autoadjust_table
+						  [(row % 16) + 1][1],
+						  TABLE_MAX_ELT_LEN, "%s",
+						  hwobs54xx_signal_names[row]);
+				omapconf_snprintf(autoadjust_table
+						  [(row % 16) + 1][4],
+						  TABLE_MAX_ELT_LEN, "%s",
+						  str_hwobs_sig);
+				omapconf_snprintf(autoadjust_table
+						  [(row % 16) + 1][5],
+						  TABLE_MAX_ELT_LEN, "%s",
+						  str_hwobs_bit);
 			} else {
-				snprintf(autoadjust_table[(row % 16) + 1][1],
-					 TABLE_MAX_ELT_LEN, "%s",
-					 "not configured");
-				snprintf(autoadjust_table[(row % 16) + 1][4],
-					 TABLE_MAX_ELT_LEN, "%s",
-					 "???????????");
-				snprintf(autoadjust_table[(row % 16) + 1][5],
-					 TABLE_MAX_ELT_LEN, "%s", "??????");
+				omapconf_snprintf(autoadjust_table
+						  [(row % 16) + 1][1],
+						  TABLE_MAX_ELT_LEN, "%s",
+						  "not configured");
+				omapconf_snprintf(autoadjust_table
+						  [(row % 16) + 1][4],
+						  TABLE_MAX_ELT_LEN, "%s",
+						  "???????????");
+				omapconf_snprintf(autoadjust_table
+						  [(row % 16) + 1][5],
+						  TABLE_MAX_ELT_LEN, "%s",
+						  "??????");
 			}
 
 			if ((row + 1) % 16 == 0) {
@@ -1741,23 +1752,26 @@ int hwobs54xx_display_hwobs_ctrl_cfg(void)
 	strncpy(autoadjust_table[row++][0], "Clock Divider Selection",
 		TABLE_MAX_ELT_LEN);
 	strncpy(autoadjust_table[row][0], "    po_hwobs(0)", TABLE_MAX_ELT_LEN);
-	snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN, "0x%02X",
-		 ((reg_val)
-		  & OMAP5430_HWOBS_CLKDIV_SEL_MASK) >>
-		 OMAP5430_HWOBS_CLKDIV_SEL_SHIFT);
-	snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN, "0x%02X", 0);
+	omapconf_snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN, "0x%02X",
+			  ((reg_val)
+			   & OMAP5430_HWOBS_CLKDIV_SEL_MASK) >>
+			  OMAP5430_HWOBS_CLKDIV_SEL_SHIFT);
+	omapconf_snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN,
+			  "0x%02X", 0);
 	strncpy(autoadjust_table[row][0], "    po_hwobs(1)", TABLE_MAX_ELT_LEN);
-	snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN, "0x%02X",
-		 ((reg_val)
-		  & OMAP5430_HWOBS_CLKDIV_SEL_1_MASK) >>
-		 OMAP5430_HWOBS_CLKDIV_SEL_1_SHIFT);
-	snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN, "0x%02X", 0);
+	omapconf_snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN, "0x%02X",
+			  ((reg_val)
+			   & OMAP5430_HWOBS_CLKDIV_SEL_1_MASK) >>
+			  OMAP5430_HWOBS_CLKDIV_SEL_1_SHIFT);
+	omapconf_snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN,
+			  "0x%02X", 0);
 	strncpy(autoadjust_table[row][0], "    po_hwobs(2)", TABLE_MAX_ELT_LEN);
-	snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN, "0x%02X",
-		 ((reg_val)
-		  & OMAP5430_HWOBS_CLKDIV_SEL_2_MASK) >>
-		 OMAP5430_HWOBS_CLKDIV_SEL_2_SHIFT);
-	snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN, "0x%02X", 0);
+	omapconf_snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN, "0x%02X",
+			  ((reg_val)
+			   & OMAP5430_HWOBS_CLKDIV_SEL_2_MASK) >>
+			  OMAP5430_HWOBS_CLKDIV_SEL_2_SHIFT);
+	omapconf_snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN,
+			  "0x%02X", 0);
 
 	autoadjust_table_print(autoadjust_table, row, 3);
 

@@ -139,7 +139,7 @@ struct i2c_adap *gather_i2c_busses(void)
 	struct dirent *de, *dde;
 	DIR *dir, *ddir;
 	FILE *f;
-	char fstype[NAME_MAX], sysfs[NAME_MAX], n[NAME_MAX];
+	char fstype[NAME_MAX], sysfs[NAME_MAX + 1], n[NAME_MAX * 4];
 	int foundsysfs = 0;
 	int count = 0;
 	struct i2c_adap *adapters;

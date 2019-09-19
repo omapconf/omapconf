@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <cm54xx.h>
 #include <lib.h>
 #include <autoadjust_table.h>
@@ -49,14 +48,12 @@
 #include <prcm-module.h>
 #include <cpuinfo.h>
 
-
 /* #define CM54XX_DEBUG */
 #ifdef CM54XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cm54xx_mod_name_get
@@ -77,7 +74,6 @@ const char *cm54xx_mod_name_get(cm54xx_mod_id id)
 	return cm54xx_mods_name[id];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cm54xx_is_profiling_running
  * @BRIEF		return 1 if profiling module (CMI) is running,
@@ -96,10 +92,10 @@ unsigned int cm54xx_is_profiling_running(cm54xx_mod_id id)
 	if (cpu_revision_get() == REV_ES1_0) {
 		if (id == CM54XX_INSTR_CM_CORE_AON) {
 			cm_clkctrl_reg =
-				&omap5430es1_cm_cm_core_aon_profiling_clkctrl;
+			    &omap5430es1_cm_cm_core_aon_profiling_clkctrl;
 		} else if (id == CM54XX_INSTR_CM_CORE) {
 			cm_clkctrl_reg =
-				&omap5430es1_cm_cm_core_profiling_clkctrl;
+			    &omap5430es1_cm_cm_core_profiling_clkctrl;
 		} else {
 			fprintf(stderr,
 				"%s(): called with incorrect ID (%s)!!!\n",
@@ -109,10 +105,9 @@ unsigned int cm54xx_is_profiling_running(cm54xx_mod_id id)
 	} else {
 		if (id == CM54XX_INSTR_CM_CORE_AON) {
 			cm_clkctrl_reg =
-				&omap5430_cm_cm_core_aon_profiling_clkctrl;
+			    &omap5430_cm_cm_core_aon_profiling_clkctrl;
 		} else if (id == CM54XX_INSTR_CM_CORE) {
-			cm_clkctrl_reg =
-				&omap5430_cm_cm_core_profiling_clkctrl;
+			cm_clkctrl_reg = &omap5430_cm_cm_core_profiling_clkctrl;
 		} else {
 			fprintf(stderr,
 				"%s(): called with incorrect ID (%s)!!!\n",
@@ -131,7 +126,6 @@ unsigned int cm54xx_is_profiling_running(cm54xx_mod_id id)
 	return mod_is_accessible(cm_clkctrl);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cm54xx_dump
  * @BRIEF		dump selected registers and pretty-print it in
@@ -145,7 +139,7 @@ unsigned int cm54xx_is_profiling_running(cm54xx_mod_id id)
  * @DESCRIPTION		dump selected registers and pretty-print it in
  *			selected output stream
  *------------------------------------------------------------------------ */
-int cm54xx_dump(FILE *stream, cm54xx_mod_id id)
+int cm54xx_dump(FILE * stream, cm54xx_mod_id id)
 {
 	unsigned int i = 0, mid;
 	unsigned int val = 0;
@@ -155,7 +149,6 @@ int cm54xx_dump(FILE *stream, cm54xx_mod_id id)
 	char s[TABLE_MAX_ELT_LEN];
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row;
-
 
 	if (stream == NULL) {
 		fprintf(stderr, "%s(): stream == NULL!!!\n", __func__);
@@ -175,11 +168,10 @@ int cm54xx_dump(FILE *stream, cm54xx_mod_id id)
 
 	if (id != CM54XX_MODS_COUNT)
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s Reg. Name",
-			cm54xx_mod_name_get(id));
+			 cm54xx_mod_name_get(id));
 	else
 		strncpy(table[row][0], "CM Reg. Name", TABLE_MAX_ELT_LEN);
-	strncpy(table[row][1], "Reg. Address",
-		TABLE_MAX_ELT_LEN);
+	strncpy(table[row][1], "Reg. Address", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][2], "Reg. Value", TABLE_MAX_ELT_LEN);
 	row++;
 
@@ -196,11 +188,12 @@ int cm54xx_dump(FILE *stream, cm54xx_mod_id id)
 				/* Read register */
 				val = reg_read(r);
 				/* Show register name, addr & content */
-				snprintf(s, TABLE_MAX_ELT_LEN, "%s", r->name);
+				omapconf_snprintf(s, TABLE_MAX_ELT_LEN, "%s",
+						  r->name);
 				autoadjust_table_strncpy(table, row, 0, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X",
-					r->addr);
+					 r->addr);
 				autoadjust_table_strncpy(table, row, 1, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X", val);
@@ -215,7 +208,6 @@ cm54xx_dump_end:
 	return err;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cm54xx_export
  * @BRIEF		export module register content to file, in XML format.
@@ -227,7 +219,7 @@ cm54xx_dump_end:
  * @param[in]		id: CM module ID
  * @DESCRIPTION		export module register content to file, in XML format.
  *------------------------------------------------------------------------ */
-int cm54xx_export(FILE *fp, cm54xx_mod_id id)
+int cm54xx_export(FILE * fp, cm54xx_mod_id id)
 {
 	reg **mod;
 	unsigned int i;
@@ -236,8 +228,7 @@ int cm54xx_export(FILE *fp, cm54xx_mod_id id)
 	CHECK_NULL_ARG(fp, OMAPCONF_ERR_ARG);
 	CHECK_ARG_LESS_THAN(id, CM54XX_MODS_COUNT, OMAPCONF_ERR_ARG);
 
-	if ((cpu_revision_get() != REV_ES1_0) &&
-		(id == CM54XX_L4PER_CM_CORE)) {
+	if ((cpu_revision_get() != REV_ES1_0) && (id == CM54XX_L4PER_CM_CORE)) {
 		fprintf(stderr, "omapconf: %s(): L4_PER does not exist!!!\n",
 			__func__);
 		return OMAPCONF_ERR_ARG;
@@ -256,16 +247,16 @@ int cm54xx_export(FILE *fp, cm54xx_mod_id id)
 	}
 
 	if ((id == CM54XX_INSTR_CM_CORE) &&
-		!cm54xx_is_profiling_running(CM54XX_INSTR_CM_CORE)) {
-		dprintf(
-			"%s(%s): CM module is not accessible, don't export registers\n",
-			__func__, cm54xx_mod_name_get(id));
+	    !cm54xx_is_profiling_running(CM54XX_INSTR_CM_CORE)) {
+		dprintf
+		    ("%s(%s): CM module is not accessible, don't export registers\n",
+		     __func__, cm54xx_mod_name_get(id));
 		return 0;
 	} else if ((id == CM54XX_INSTR_CM_CORE_AON) &&
-		!cm54xx_is_profiling_running(CM54XX_INSTR_CM_CORE_AON)) {
-		dprintf(
-			"%s(%s): CM module is not accessible, don't export registers\n",
-			__func__, cm54xx_mod_name_get(id));
+		   !cm54xx_is_profiling_running(CM54XX_INSTR_CM_CORE_AON)) {
+		dprintf
+		    ("%s(%s): CM module is not accessible, don't export registers\n",
+		     __func__, cm54xx_mod_name_get(id));
 		return 0;
 	}
 
@@ -286,7 +277,6 @@ int cm54xx_export(FILE *fp, cm54xx_mod_id id)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cm54xx_import
  * @BRIEF		import OMAP CM registers from XML file
@@ -298,7 +288,7 @@ int cm54xx_export(FILE *fp, cm54xx_mod_id id)
  * @DESCRIPTION		import OMAP CM registers from XML file,
  *			generated with lib54xx_export().
  *------------------------------------------------------------------------ */
-int cm54xx_import(FILE *fp, cm54xx_mod_id id)
+int cm54xx_import(FILE * fp, cm54xx_mod_id id)
 {
 	reg **mod;
 	char line[256], sline[256];
@@ -324,25 +314,25 @@ int cm54xx_import(FILE *fp, cm54xx_mod_id id)
 		for (i = 0; mod[i] != NULL; i++) {
 			if (fgets(line, sizeof(line), fp) == NULL)
 				return OMAPCONF_ERR_UNEXPECTED;
-			line[strlen(line) - 1] = '\0'; /* remove ending '\n' */
-			xml_entry = strstr(line, "<"); /* remove spaces */
+			line[strlen(line) - 1] = '\0';	/* remove ending '\n' */
+			xml_entry = strstr(line, "<");	/* remove spaces */
 
 			dprintf("%s(%u (%s)): xml_entry=%s\n", __func__, id,
 				cm54xx_mod_name_get(id), xml_entry);
 
 			/* Check register id is correct */
 			ret = sscanf(xml_entry, "<register id=\"%u\" %s",
-				&n, sline);
+				     &n, sline);
 			if (ret != 2) {
 				dprintf("%s(%u (%s)): could not get id\n",
 					__func__, id, cm54xx_mod_name_get(id));
 				return OMAPCONF_ERR_UNEXPECTED;
 			}
 			if (n != i) {
-				dprintf(
-					"%s(%u (%s)): register id does not match! (n=%u, i=%u)\n",
-					__func__, id,
-					cm54xx_mod_name_get(id), n, i);
+				dprintf
+				    ("%s(%u (%s)): register id does not match! (n=%u, i=%u)\n",
+				     __func__, id, cm54xx_mod_name_get(id), n,
+				     i);
 				return OMAPCONF_ERR_UNEXPECTED;
 			}
 

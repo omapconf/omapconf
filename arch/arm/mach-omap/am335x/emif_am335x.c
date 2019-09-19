@@ -133,7 +133,8 @@ int emif_am335x_dump(FILE * stream, emif_am335x_mod_id id)
 				val = reg_read(r);
 				dprintf("%s(): OK\n", __func__);
 				/* Show register name, addr & content */
-				snprintf(s, TABLE_MAX_ELT_LEN, "%s", r->name);
+				omapconf_snprintf(s, TABLE_MAX_ELT_LEN, "%s",
+						  r->name);
 				autoadjust_table_strncpy(table, row, 0, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X",

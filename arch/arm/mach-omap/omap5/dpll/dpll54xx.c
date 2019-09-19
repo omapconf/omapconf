@@ -271,12 +271,13 @@ int dpll54xx_dump(FILE * stream, dpll54xx_id id)
 					continue;
 				val = reg_read(r);
 				/* Show register name, addr & content */
-				snprintf(table[row][0],
-					 TABLE_MAX_ELT_LEN, "%s", r->name);
-				snprintf(table[row][1],
-					 TABLE_MAX_ELT_LEN, "0x%08X", r->addr);
-				snprintf(table[row][2],
-					 TABLE_MAX_ELT_LEN, "0x%08X", val);
+				omapconf_snprintf(table[row][0],
+						  TABLE_MAX_ELT_LEN, "%s",
+						  r->name);
+				snprintf(table[row][1], TABLE_MAX_ELT_LEN,
+					 "0x%08X", r->addr);
+				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+					 "0x%08X", val);
 				row++;
 			}
 
@@ -293,12 +294,13 @@ int dpll54xx_dump(FILE * stream, dpll54xx_id id)
 					continue;
 				val = reg_read(r);
 				/* Show register name, addr & content */
-				snprintf(table[row][0],
-					 TABLE_MAX_ELT_LEN, "%s", r->name);
-				snprintf(table[row][1],
-					 TABLE_MAX_ELT_LEN, "0x%08X", r->addr);
-				snprintf(table[row][2],
-					 TABLE_MAX_ELT_LEN, "0x%08X", val);
+				omapconf_snprintf(table[row][0],
+						  TABLE_MAX_ELT_LEN, "%s",
+						  r->name);
+				snprintf(table[row][1], TABLE_MAX_ELT_LEN,
+					 "0x%08X", r->addr);
+				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+					 "0x%08X", val);
 				row++;
 			}
 
@@ -329,8 +331,8 @@ int dpll54xx_clk_sources_get(dpll_settings * settings, unsigned short ignore)
 
 	if (dpll54xx_sources[settings->id].ref_clk != CLK54XX_ID_MAX)
 		settings->fref = clk54xx_rate_get((clk54xx_id)
-						  dpll54xx_sources[settings->
-								   id].ref_clk,
+						  dpll54xx_sources
+						  [settings->id].ref_clk,
 						  ignore);
 	else
 		settings->fref = 0.0;
@@ -338,24 +340,26 @@ int dpll54xx_clk_sources_get(dpll_settings * settings, unsigned short ignore)
 	if (dpll54xx_sources[settings->id].byp_clk_m2 != CLK54XX_ID_MAX)
 		settings->fbyp_clk_m2 = clk54xx_rate_get((clk54xx_id)
 							 dpll54xx_sources
-							 [settings->id].
-							 byp_clk_m2, ignore);
+							 [settings->
+							  id].byp_clk_m2,
+							 ignore);
 	else
 		settings->fbyp_clk_m2 = 0.0;
 
 	if (dpll54xx_sources[settings->id].byp_clk_m3 != CLK54XX_ID_MAX)
 		settings->fbyp_clk_m3 = clk54xx_rate_get((clk54xx_id)
 							 dpll54xx_sources
-							 [settings->id].
-							 byp_clk_m3, ignore);
+							 [settings->
+							  id].byp_clk_m3,
+							 ignore);
 	else
 		settings->fbyp_clk_m3 = 0.0;
 
 	if (dpll54xx_sources[settings->id].byp_clk_hsdiv != CLK54XX_ID_MAX)
 		settings->fbyp_clk_hsdiv = clk54xx_rate_get((clk54xx_id)
 							    dpll54xx_sources
-							    [settings->id].
-							    byp_clk_hsdiv,
+							    [settings->
+							     id].byp_clk_hsdiv,
 							    ignore);
 	else
 		settings->fbyp_clk_hsdiv = 0.0;
@@ -988,8 +992,8 @@ int dpll54xx_show(FILE * stream)
 
 		strncpy(table[row][0], "Automatic Control", TABLE_MAX_ELT_LEN);
 		strncpy(table[row++][id - DPLL54XX_USB + 1],
-			dpll_autoidle_mode_name_get(settings->dpll.
-						    autoidle_mode),
+			dpll_autoidle_mode_name_get(settings->
+						    dpll.autoidle_mode),
 			TABLE_MAX_ELT_LEN);
 
 		strncpy(table[row++][0], " LPST = Low-Power STop",
@@ -1061,8 +1065,8 @@ int dpll54xx_show(FILE * stream)
 			snprintf(table[row++][id - DPLL54XX_USB + 1],
 				 TABLE_MAX_ELT_LEN, "%u (%u)",
 				 (unsigned int)settings->dpll.MN.M2_rate,
-				 (unsigned int)settings_locked->dpll.MN.
-				 M2_rate);
+				 (unsigned int)settings_locked->dpll.
+				 MN.M2_rate);
 		row++;
 
 		strncpy(table[row++][0],
@@ -1076,14 +1080,14 @@ int dpll54xx_show(FILE * stream)
 		if (settings->status == DPLL_STATUS_LOCKED)
 			snprintf(table[row++][id - DPLL54XX_USB + 1],
 				 TABLE_MAX_ELT_LEN, "%u",
-				 (unsigned int)settings->dpll.MN.
-				 clkdcoldo_rate);
+				 (unsigned int)settings->dpll.
+				 MN.clkdcoldo_rate);
 		else
 			snprintf(table[row++][id - DPLL54XX_USB + 1],
 				 TABLE_MAX_ELT_LEN, "%u (%u)",
 				 (unsigned int)settings->dpll.MN.clkdcoldo_rate,
-				 (unsigned int)settings_locked->dpll.MN.
-				 clkdcoldo_rate);
+				 (unsigned int)settings_locked->dpll.
+				 MN.clkdcoldo_rate);
 
 		if (row > row_max)
 			row_max = row;
@@ -1136,8 +1140,8 @@ int dpll54xx_show(FILE * stream)
 
 		strncpy(table[row][0], "Automatic Control", TABLE_MAX_ELT_LEN);
 		strncpy(table[row++][id + 1],
-			dpll_autoidle_mode_name_get(settings->dpll.
-						    autoidle_mode),
+			dpll_autoidle_mode_name_get(settings->
+						    dpll.autoidle_mode),
 			TABLE_MAX_ELT_LEN);
 
 		strncpy(table[row++][0], " LPST = Low-Power STop",
@@ -1177,8 +1181,8 @@ int dpll54xx_show(FILE * stream)
 		strncpy(table[row][0], "Ramping Levels", TABLE_MAX_ELT_LEN);
 		strncpy(table[row][id + 1],
 			dpll_ramp_level_name_get((dpll_ramp_level)
-						 settings->dpll.ramp.
-						 ramp_level),
+						 settings->dpll.
+						 ramp.ramp_level),
 			TABLE_MAX_ELT_LEN);
 		row += 2;
 
@@ -1263,15 +1267,15 @@ int dpll54xx_show(FILE * stream)
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id + 1],
 					 TABLE_MAX_ELT_LEN, "%u",
-					 (unsigned int)settings->dpll.MN.
-					 M2_rate);
+					 (unsigned int)settings->dpll.
+					 MN.M2_rate);
 			else
 				snprintf(table[row++][id + 1],
 					 TABLE_MAX_ELT_LEN, "%u (%u)",
-					 (unsigned int)settings->dpll.MN.
-					 M2_rate,
-					 (unsigned int)settings_locked->dpll.MN.
-					 M2_rate);
+					 (unsigned int)settings->dpll.
+					 MN.M2_rate,
+					 (unsigned int)settings_locked->dpll.
+					 MN.M2_rate);
 		} else {
 			row += 3;
 		}
@@ -1292,13 +1296,13 @@ int dpll54xx_show(FILE * stream)
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id + 1],
 					 TABLE_MAX_ELT_LEN, "%u",
-					 (unsigned int)settings->dpll.MN.
-					 X2_M2_rate);
+					 (unsigned int)settings->dpll.
+					 MN.X2_M2_rate);
 			else
 				snprintf(table[row++][id + 1],
 					 TABLE_MAX_ELT_LEN, "%u (%u)",
-					 (unsigned int)settings->dpll.MN.
-					 X2_M2_rate, (unsigned int)
+					 (unsigned int)settings->dpll.
+					 MN.X2_M2_rate, (unsigned int)
 					 settings_locked->dpll.MN.X2_M2_rate);
 		} else {
 			row += 3;
@@ -1324,15 +1328,15 @@ int dpll54xx_show(FILE * stream)
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id + 1],
 					 TABLE_MAX_ELT_LEN, "%u",
-					 (unsigned int)settings->dpll.MN.
-					 X2_M3_rate);
+					 (unsigned int)settings->dpll.
+					 MN.X2_M3_rate);
 			else
 				snprintf(table[row++][id + 1],
 					 TABLE_MAX_ELT_LEN, "%u (%u)",
-					 (unsigned int)settings->dpll.MN.
-					 X2_M3_rate,
-					 (unsigned int)settings_locked->dpll.MN.
-					 X2_M3_rate);
+					 (unsigned int)settings->dpll.
+					 MN.X2_M3_rate,
+					 (unsigned int)settings_locked->dpll.
+					 MN.X2_M3_rate);
 		} else {
 			row += 3;
 		}
@@ -1375,10 +1379,10 @@ int dpll54xx_show(FILE * stream)
 							 TABLE_MAX_ELT_LEN,
 							 "%u (%u*2)",
 							 2 *
-							 (settings->
-							  hsdiv)[hsdiv_id].div,
-							 (settings->
-							  hsdiv)[hsdiv_id].div);
+							 (settings->hsdiv)
+							 [hsdiv_id].div,
+							 (settings->hsdiv)
+							 [hsdiv_id].div);
 					else
 						snprintf(table[row++][id + 1],
 							 TABLE_MAX_ELT_LEN,
@@ -1387,26 +1391,24 @@ int dpll54xx_show(FILE * stream)
 					snprintf(table[row++][id + 1],
 						 TABLE_MAX_ELT_LEN,
 						 "%u",
-						 (settings->hsdiv)[hsdiv_id].
-						 div);
+						 (settings->
+						  hsdiv)[hsdiv_id].div);
 				}
 				strncpy(table[row][0], "  Clock Speed (MHz)",
 					TABLE_MAX_ELT_LEN);
 				if (settings->status == DPLL_STATUS_LOCKED)
 					snprintf(table[row++][id + 1],
 						 TABLE_MAX_ELT_LEN, "%u",
-						 (unsigned int)(settings->
-								hsdiv)
+						 (unsigned int)(settings->hsdiv)
 						 [hsdiv_id].rate);
 				else
 					snprintf(table[row++][id + 1],
 						 TABLE_MAX_ELT_LEN, "%u (%u)",
-						 (unsigned int)(settings->
-								hsdiv)
+						 (unsigned int)(settings->hsdiv)
 						 [hsdiv_id].rate,
 						 (unsigned
-						  int)(settings_locked->
-						       hsdiv)[hsdiv_id].rate);
+						  int)(settings_locked->hsdiv)
+						 [hsdiv_id].rate);
 			}
 		}
 
@@ -1689,15 +1691,14 @@ dpll54xx_audit_mode:
 dpll54xx_audit_autoidle_mode:
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "Autoidle Mode");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%s",
-			 dpll_autoidle_mode_name_get((settings->dpll).
-						     autoidle_mode));
-		DPLL54XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->
-						    autoidle_mode,
-						    DPLL_AUTOIDLE_MODE_MAX,
-						    dpll54xx_audit_dcc_en);
+			 dpll_autoidle_mode_name_get((settings->
+						      dpll).autoidle_mode));
+		DPLL54XX_AUDIT_CHECK_GOLDEN_SETTING
+		    (golden_settings->autoidle_mode, DPLL_AUTOIDLE_MODE_MAX,
+		     dpll54xx_audit_dcc_en);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%s",
-			 dpll_autoidle_mode_name_get(golden_settings->
-						     autoidle_mode));
+			 dpll_autoidle_mode_name_get
+			 (golden_settings->autoidle_mode));
 		DPLL54XX_AUDIT_SHOW_STATUS((settings->dpll).autoidle_mode,
 					   golden_settings->autoidle_mode);
 
@@ -1807,8 +1808,8 @@ dpll54xx_audit_fdpll:
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
 			 golden_settings->fdpll);
 		DPLL54XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).fdpll,
-					   (unsigned int)golden_settings->
-					   fdpll);
+					   (unsigned int)
+					   golden_settings->fdpll);
 
 dpll54xx_audit_M2:
 		if (settings->dpll.MN.M2_present == 0)
@@ -1843,10 +1844,10 @@ dpll54xx_audit_M2_rate:
 						    -1, dpll54xx_audit_X2_M2);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
 			 golden_settings->M2_rate);
-		DPLL54XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).MN.
-					   M2_rate,
-					   (unsigned int)golden_settings->
-					   M2_rate);
+		DPLL54XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).
+					   MN.M2_rate,
+					   (unsigned int)
+					   golden_settings->M2_rate);
 
 dpll54xx_audit_X2_M2:
 		if ((settings->dpll).type == DPLL_TYPE_B)
@@ -1875,10 +1876,10 @@ dpll54xx_audit_X2_M2_rate:
 						    -1, dpll54xx_audit_M3);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
 			 golden_settings->X2_M2_rate);
-		DPLL54XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).MN.
-					   X2_M2_rate,
-					   (unsigned int)golden_settings->
-					   X2_M2_rate);
+		DPLL54XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).
+					   MN.X2_M2_rate,
+					   (unsigned int)
+					   golden_settings->X2_M2_rate);
 
 dpll54xx_audit_M3:
 		if ((settings->dpll).type == DPLL_TYPE_B)
@@ -1907,10 +1908,10 @@ dpll54xx_audit_X2_M3_rate:
 						    -1, dpll54xx_audit_hsdiv);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
 			 golden_settings->X2_M3_rate);
-		DPLL54XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).MN.
-					   X2_M3_rate,
-					   (unsigned int)golden_settings->
-					   X2_M3_rate);
+		DPLL54XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).
+					   MN.X2_M3_rate,
+					   (unsigned int)
+					   golden_settings->X2_M3_rate);
 
 dpll54xx_audit_hsdiv:
 		for (hsdiv_id = HSDIV54XX_H11; hsdiv_id < HSDIV54XX_ID_MAX;
@@ -1923,16 +1924,15 @@ dpll54xx_audit_hsdiv:
 				 "  Clock Divider");
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u",
 				 (settings->hsdiv)[hsdiv_id].div);
-			DPLL54XX_AUDIT_CHECK_GOLDEN_SETTING((golden_settings->
-							     hsdiv_div)
+			DPLL54XX_AUDIT_CHECK_GOLDEN_SETTING((golden_settings->hsdiv_div)
 							    [hsdiv_id], -1,
 							    dpll54xx_audit_hsdiv_rate);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u",
 				 (golden_settings->hsdiv_div)[hsdiv_id]);
 			DPLL54XX_AUDIT_SHOW_STATUS((int)(settings->hsdiv)
 						   [hsdiv_id].div,
-						   (golden_settings->
-						    hsdiv_div)[hsdiv_id]);
+						   (golden_settings->hsdiv_div)
+						   [hsdiv_id]);
 
 dpll54xx_audit_hsdiv_rate:
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
@@ -1951,12 +1951,12 @@ dpll54xx_audit_hsdiv_rate:
 			}
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
 				 (golden_settings->hsdiv_rate)[hsdiv_id]);
-			DPLL54XX_AUDIT_SHOW_STATUS((unsigned int)(settings->
-								  hsdiv)
+			DPLL54XX_AUDIT_SHOW_STATUS((unsigned
+						    int)(settings->hsdiv)
 						   [hsdiv_id].rate,
 						   (unsigned int)
-						   (golden_settings->
-						    hsdiv_rate)[hsdiv_id]);
+						   (golden_settings->hsdiv_rate)
+						   [hsdiv_id]);
 		}
 		goto dpll54xx_audit_table_show;
 
@@ -1967,15 +1967,15 @@ dpll54xx_audit_clkdcoldo_rate:
 			 "  Clock Speed (MHz)");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.3lf",
 			 (settings->dpll).MN.clkdcoldo_rate);
-		DPLL54XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->
-						    clkdcoldo_rate, -1,
-						    dpll54xx_audit_table_show);
+		DPLL54XX_AUDIT_CHECK_GOLDEN_SETTING
+		    (golden_settings->clkdcoldo_rate, -1,
+		     dpll54xx_audit_table_show);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
 			 golden_settings->clkdcoldo_rate);
-		DPLL54XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).MN.
-					   clkdcoldo_rate,
-					   (unsigned int)golden_settings->
-					   clkdcoldo_rate);
+		DPLL54XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).
+					   MN.clkdcoldo_rate,
+					   (unsigned int)
+					   golden_settings->clkdcoldo_rate);
 
 dpll54xx_audit_table_show:
 		if (stream != NULL)

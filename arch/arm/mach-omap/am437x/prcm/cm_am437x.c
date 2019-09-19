@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <autoadjust_table.h>
 #include <cm_am437x.h>
 #include <cpuinfo.h>
@@ -54,7 +53,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cm_am437x_mod_name_get
@@ -75,7 +73,6 @@ const char *cm_am437x_mod_name_get(cm_am437x_mod_id id)
 	return cm_am437x_mods_name[id];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cm_am437x_dump
  * @BRIEF		dump selected registers
@@ -88,7 +85,7 @@ const char *cm_am437x_mod_name_get(cm_am437x_mod_id id)
  * @DESCRIPTION		dump selected registers and pretty-print it in selected
  *			output stream
  *------------------------------------------------------------------------ */
-int cm_am437x_dump(FILE *stream, cm_am437x_mod_id id)
+int cm_am437x_dump(FILE * stream, cm_am437x_mod_id id)
 {
 	unsigned int i, mid;
 	unsigned int val;
@@ -104,7 +101,8 @@ int cm_am437x_dump(FILE *stream, cm_am437x_mod_id id)
 	CHECK_NULL_ARG(stream, OMAPCONF_ERR_ARG);
 
 	if (id > CM_AM437X_MODS_COUNT) {
-		fprintf(stderr, "%s(): id (%u) > CM_AM437X_MODS_COUNT!!! (%u)\n",
+		fprintf(stderr,
+			"%s(): id (%u) > CM_AM437X_MODS_COUNT!!! (%u)\n",
 			__func__, id, CM_AM437X_MODS_COUNT);
 		return OMAPCONF_ERR_ARG;
 	}
@@ -113,7 +111,7 @@ int cm_am437x_dump(FILE *stream, cm_am437x_mod_id id)
 
 	if (id != CM_AM437X_MODS_COUNT)
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s Reg. Name",
-			cm_am437x_mod_name_get(id));
+			 cm_am437x_mod_name_get(id));
 	else
 		strncpy(table[row][0], "CM Reg. Name", TABLE_MAX_ELT_LEN);
 
@@ -134,11 +132,12 @@ int cm_am437x_dump(FILE *stream, cm_am437x_mod_id id)
 				val = reg_read(r);
 				dprintf("%s(): OK\n", __func__);
 				/* Show register name, addr & content */
-				snprintf(s, TABLE_MAX_ELT_LEN, "%s", r->name);
+				omapconf_snprintf(s, TABLE_MAX_ELT_LEN, "%s",
+						  r->name);
 				autoadjust_table_strncpy(table, row, 0, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X",
-					r->addr);
+					 r->addr);
 				autoadjust_table_strncpy(table, row, 1, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X", val);

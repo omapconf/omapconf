@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <prm54xx.h>
 #include <cm54xx.h>
 #include <lib.h>
@@ -49,14 +48,12 @@
 #include <cpuinfo.h>
 #include <module54xx.h>
 
-
 /* #define PRM54XX_DEBUG */
 #ifdef PRM54XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		prm54xx_mod_name_get
@@ -76,7 +73,6 @@ const char *prm54xx_mod_name_get(prm54xx_mod_id id)
 
 	return prm54xx_mods_name[id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		prm54xx_is_profiling_running
@@ -106,7 +102,6 @@ unsigned int prm54xx_is_profiling_running(void)
 	return mod_is_accessible(cm_clkctrl);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		prm54xx_dump
  * @BRIEF		dump selected registers and pretty-print it in
@@ -120,7 +115,7 @@ unsigned int prm54xx_is_profiling_running(void)
  * @DESCRIPTION		dump selected registers and pretty-print it in
  *			selected output stream
  *------------------------------------------------------------------------ */
-int prm54xx_dump(FILE *stream, prm54xx_mod_id id)
+int prm54xx_dump(FILE * stream, prm54xx_mod_id id)
 {
 	unsigned int i = 0, mid;
 	unsigned int val = 0;
@@ -130,7 +125,6 @@ int prm54xx_dump(FILE *stream, prm54xx_mod_id id)
 	char s[TABLE_MAX_ELT_LEN];
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row;
-
 
 	if (stream == NULL) {
 		fprintf(stderr, "%s(): stream == NULL!!!\n", __func__);
@@ -150,11 +144,10 @@ int prm54xx_dump(FILE *stream, prm54xx_mod_id id)
 
 	if (id != PRM54XX_MODS_COUNT)
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s Reg. Name",
-			prm54xx_mod_name_get(id));
+			 prm54xx_mod_name_get(id));
 	else
 		strncpy(table[row][0], "PRM Reg. Name", TABLE_MAX_ELT_LEN);
-	strncpy(table[row][1], "Reg. Address",
-		TABLE_MAX_ELT_LEN);
+	strncpy(table[row][1], "Reg. Address", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][2], "Reg. Value", TABLE_MAX_ELT_LEN);
 	row++;
 
@@ -171,11 +164,12 @@ int prm54xx_dump(FILE *stream, prm54xx_mod_id id)
 				/* Read register */
 				val = reg_read(r);
 				/* Show register name, addr & content */
-				snprintf(s, TABLE_MAX_ELT_LEN, "%s", r->name);
+				omapconf_snprintf(s, TABLE_MAX_ELT_LEN, "%s",
+						  r->name);
 				autoadjust_table_strncpy(table, row, 0, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X",
-					r->addr);
+					 r->addr);
 				autoadjust_table_strncpy(table, row, 1, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X", val);
@@ -190,7 +184,6 @@ prm54xx_dump_end:
 	return err;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		prm54xx_export
  * @BRIEF		export module register content to file, in XML format.
@@ -202,7 +195,7 @@ prm54xx_dump_end:
  * @param[in]		id: PRM module ID
  * @DESCRIPTION		export module register content to file, in XML format.
  *------------------------------------------------------------------------ */
-int prm54xx_export(FILE *fp, prm54xx_mod_id id)
+int prm54xx_export(FILE * fp, prm54xx_mod_id id)
 {
 	reg **mod;
 	unsigned int i;
@@ -210,8 +203,7 @@ int prm54xx_export(FILE *fp, prm54xx_mod_id id)
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(fp, OMAPCONF_ERR_ARG);
 	CHECK_ARG_LESS_THAN(id, PRM54XX_MODS_COUNT, OMAPCONF_ERR_ARG);
-	if ((cpu_revision_get() != REV_ES1_0) &&
-		(id == PRM54XX_L4PER_PRM)) {
+	if ((cpu_revision_get() != REV_ES1_0) && (id == PRM54XX_L4PER_PRM)) {
 		fprintf(stderr, "omapconf: %s(): L4_PER does not exist!!!\n",
 			__func__);
 		return OMAPCONF_ERR_ARG;
@@ -230,9 +222,9 @@ int prm54xx_export(FILE *fp, prm54xx_mod_id id)
 	}
 
 	if ((id == PRM54XX_INSTR_PRM) && !prm54xx_is_profiling_running()) {
-		dprintf(
-			"%s(%s): PRM module is not accessible, don't export registers\n",
-			__func__, prm54xx_mod_name_get(id));
+		dprintf
+		    ("%s(%s): PRM module is not accessible, don't export registers\n",
+		     __func__, prm54xx_mod_name_get(id));
 		return 0;
 	}
 
@@ -253,7 +245,6 @@ int prm54xx_export(FILE *fp, prm54xx_mod_id id)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		prm54xx_import
  * @BRIEF		import OMAP PRM registers from XML file
@@ -265,7 +256,7 @@ int prm54xx_export(FILE *fp, prm54xx_mod_id id)
  * @DESCRIPTION		import OMAP PRM registers from XML file,
  *			generated with lib54xx_export().
  *------------------------------------------------------------------------ */
-int prm54xx_import(FILE *fp, prm54xx_mod_id id)
+int prm54xx_import(FILE * fp, prm54xx_mod_id id)
 {
 	reg **mod;
 	char line[256], sline[256];
@@ -291,25 +282,25 @@ int prm54xx_import(FILE *fp, prm54xx_mod_id id)
 		for (i = 0; mod[i] != NULL; i++) {
 			if (fgets(line, sizeof(line), fp) == NULL)
 				return OMAPCONF_ERR_UNEXPECTED;
-			line[strlen(line) - 1] = '\0'; /* remove ending '\n' */
-			xml_entry = strstr(line, "<"); /* remove spaces */
+			line[strlen(line) - 1] = '\0';	/* remove ending '\n' */
+			xml_entry = strstr(line, "<");	/* remove spaces */
 
 			dprintf("%s(%u (%s)): xml_entry=%s\n", __func__, id,
 				prm54xx_mod_name_get(id), xml_entry);
 
 			/* Check register id is correct */
 			ret = sscanf(xml_entry, "<register id=\"%u\" %s",
-				&n, sline);
+				     &n, sline);
 			if (ret != 2) {
 				dprintf("%s(%u (%s)): could not get id\n",
 					__func__, id, prm54xx_mod_name_get(id));
 				return OMAPCONF_ERR_UNEXPECTED;
 			}
 			if (n != i) {
-				dprintf(
-					"%s(%u (%s)): register id does not match! (n=%u, i=%u)\n",
-					__func__, id,
-					prm54xx_mod_name_get(id), n, i);
+				dprintf
+				    ("%s(%u (%s)): register id does not match! (n=%u, i=%u)\n",
+				     __func__, id, prm54xx_mod_name_get(id), n,
+				     i);
 				return OMAPCONF_ERR_UNEXPECTED;
 			}
 
