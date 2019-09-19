@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __OMAPCONF_HELP_H__
 #define __OMAPCONF_HELP_H__
-
 
 typedef enum {
 	HELP_RW,
@@ -85,7 +83,6 @@ typedef enum {
 	HELP_CATEGORY_MAX,
 } help_category;
 
-
 int err_arg_too_many_msg_show(help_category cat);
 int err_arg_missing_msg_show(help_category cat);
 int err_arg_msg_show(help_category cat);
@@ -93,6 +90,5 @@ int err_internal_msg_show(void);
 int err_unknown_argument_msg_show(char *s);
 
 void help(help_category cat);
-
 
 #endif

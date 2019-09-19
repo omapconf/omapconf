@@ -41,13 +41,10 @@
  *
  */
 
-
 #ifndef __CPUID54XX_H__
 #define __CPUID54XX_H__
 
-
 unsigned int cpu54xx_silicon_max_speed_get(void);
 unsigned int cpu54xx_cores_count_get(void);
-
 
 #endif

@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __CTRLMOD54XX_H__
 #define __CTRLMOD54XX_H__
 
@@ -59,14 +58,13 @@ typedef enum {
 extern reg **ctrlmod54xxes1_mods[CTRLMOD54XX_MODS_COUNT];
 extern reg **ctrlmod54xx_mods[CTRLMOD54XX_MODS_COUNT];
 
-int ctrlmod54xx_dump(FILE *stream, ctrlmod54xx_mod_id id);
-int ctrlmod54xx_export(FILE *fp, ctrlmod54xx_mod_id id);
-int ctrlmod54xx_import(FILE *fp, ctrlmod54xx_mod_id id);
-int ctrlmod54xx_io_audit(FILE *stream, unsigned int *err_nbr,
-	unsigned int *wng_nbr);
+int ctrlmod54xx_dump(FILE * stream, ctrlmod54xx_mod_id id);
+int ctrlmod54xx_export(FILE * fp, ctrlmod54xx_mod_id id);
+int ctrlmod54xx_import(FILE * fp, ctrlmod54xx_mod_id id);
+int ctrlmod54xx_io_audit(FILE * stream, unsigned int *err_nbr,
+			 unsigned int *wng_nbr);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int ctrlmod54xx_main(int argc, char *argv[]);
-
 
 #endif

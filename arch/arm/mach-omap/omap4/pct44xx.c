@@ -43,7 +43,6 @@
  *
  */
 
-
 #include <pct44xx.h>
 #include <lib.h>
 #include <lib44xx.h>
@@ -66,7 +65,6 @@ static reg_table prcm_pct_reg_table[PRCM_PCT_REG_TABLE_SIZE + 1];
 
 static int pct44xx_regtable_init(void);
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctt44xx_dump
  * @BRIEF		dump PRCM registers
@@ -84,19 +82,19 @@ int pct44xx_dump(void)
 	CHECK_CPU(44xx, OMAPCONF_ERR_ARG);
 
 	printf("The PAD Configuration Tool can import register settings from a "
-		"*.rd1 file.\n");
+	       "*.rd1 file.\n");
 	printf("The format of the *.rd1 file is:\n\n");
 	printf("DeviceName OMAPxxxx_ESx.x\n");
 	printf("<register address> <register value>\n");
 	printf("<register address> <register value>\n");
 	printf("...\n\n");
 	printf("Copy the below output between the begin and end separators "
-		"into a\n");
+	       "into a\n");
 	printf("file with the extension *.rd1 and this file can be read by "
-		"the\n");
+	       "the\n");
 	printf("PAD Configuration Tool\n\n");
 	printf("|--------------------------- pct dump begin -------------------"
-		"---|\n");
+	       "---|\n");
 
 	if (cpu_is_omap4430())
 		printf("DeviceName OMAP4430_ES2.x\n");
@@ -114,7 +112,7 @@ int pct44xx_dump(void)
 		ret = mem_read(prcm_pct_reg_table[i].addr, &val);
 		if (ret == 0)
 			printf("0x%08X 0x%08X\n", prcm_pct_reg_table[i].addr,
-				val);
+			       val);
 		else {
 			fprintf(stderr,
 				"omapconf: read error! (addr=0x%08X, err=%d)\n",
@@ -125,11 +123,10 @@ int pct44xx_dump(void)
 	}
 
 	printf("|---------------------------- pct dump end --------------------"
-		"---|\n");
+	       "---|\n");
 
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pct44xx_rd1_export
@@ -194,7 +191,6 @@ pct44xx_rd1_export_end:
 	return err;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pct44xx_main
  * @BRIEF		main entry point
@@ -228,8 +224,6 @@ int pct44xx_main(int argc, char *argv[])
 
 	return ret;
 }
-
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pct44xx_regtable_init

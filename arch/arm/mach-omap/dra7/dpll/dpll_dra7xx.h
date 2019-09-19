@@ -41,16 +41,13 @@
  *
  */
 
-
 #ifndef __DPLL_DRA7XX_H__
 #define __DPLL_DRA7XX_H__
-
 
 #include <dpll.h>
 #include <voltdm_dra7xx.h>
 #include <cm_dra7xx-defs.h>
 #include <stdio.h>
-
 
 typedef struct {
 	hsdiv_dra7xx_id id;
@@ -60,13 +57,11 @@ typedef struct {
 	double rate;		/* CLKOUTX2_Hmn rate in MHz */
 } hsdiv_dra7xx_settings;
 
-
 typedef struct {
 	dpll_settings dpll;
 	dpll_status status;
 	hsdiv_dra7xx_settings hsdiv[HSDIV_DRA7XX_ID_MAX];
 } dpll_dra7xx_settings;
-
 
 typedef enum {
 	DPLL_DRA7XX_CLKOUT_M2,
@@ -85,30 +80,32 @@ typedef enum {
 	DPLL_DRA7XX_OUTPUT_ID_MAX
 } dpll_dra7xx_output_id;
 
-
 int dpll_dra7xx_init(void);
 int dpll_dra7xx_free(void);
 
-int dpll_dra7xx_settings_extract(dpll_dra7xx_settings *settings,
-	unsigned int id, unsigned short ignore);
+int dpll_dra7xx_settings_extract(dpll_dra7xx_settings * settings,
+				 unsigned int id, unsigned short ignore);
 
-dpll_dra7xx_settings *dpll_dra7xx_settings_get(
-	unsigned int id, unsigned short ignore);
+dpll_dra7xx_settings *dpll_dra7xx_settings_get(unsigned int id,
+					       unsigned short ignore);
 
 dpll_status dpll_dra7xx_status_get(dpll_dra7xx_id id);
 
-double dpll_dra7xx_output_rate_get(
-	dpll_dra7xx_id id, dpll_dra7xx_output_id out_id, unsigned short ignore);
+double dpll_dra7xx_output_rate_get(dpll_dra7xx_id id,
+				   dpll_dra7xx_output_id out_id,
+				   unsigned short ignore);
 
 int dpll_dra7xx_audit(dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id,
-	FILE *stream, unsigned int *err_nbr, unsigned int *wng_nbr);
+		      FILE * stream, unsigned int *err_nbr,
+		      unsigned int *wng_nbr);
 
-int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *stream);
-int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *stream);
+int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id,
+		     FILE * stream);
+int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id,
+		     FILE * stream);
 dpll_dra7xx_id dpll_dra7xx_s2id(char *s);
-int dpll_dra7xx_dump(FILE *stream, dpll_dra7xx_id id);
-int dpll_dra7xx_show(FILE *stream);
+int dpll_dra7xx_dump(FILE * stream, dpll_dra7xx_id id);
+int dpll_dra7xx_show(FILE * stream);
 int dpll_dra7xx_main(int argc, char *argv[]);
-
 
 #endif

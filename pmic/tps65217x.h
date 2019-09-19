@@ -42,10 +42,8 @@
  *
  */
 
-
 #ifndef __TPS65217X_H__
 #define __TPS65217X_H__
-
 
 #define TPS65217X_VSEL_LEN	6
 
@@ -54,7 +52,6 @@
 
 #define TPS65217X_VOLT_MIN_UV	900000
 #define TPS65217X_VSTEP_UV	25000
-
 
 unsigned short int tps65217x_is_present(void);
 int tps65217x_chip_get(void);
@@ -68,6 +65,5 @@ int tps65217x_vsel_get(unsigned int smps_id);
 unsigned char tps65217x_uv_to_vsel(unsigned long uv);
 unsigned long tps65217x_vsel_to_uv(unsigned char vsel);
 int tps65217x_uvoltage_set(unsigned int vdd_id, unsigned long uv);
-
 
 #endif

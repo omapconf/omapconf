@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __MODULE44XX_H__
 #define __MODULE44XX_H__
 
@@ -51,9 +50,7 @@
 #include <voltdm44xx.h>
 #include <prcm-module.h>
 
-
 #define MOD44XX_MAX_NAME_LENGTH			21
-
 
 typedef enum {
 	/*
@@ -333,42 +330,35 @@ int mod44xx_count_get(void);
 int mod44xx_init_info_table(void);
 
 mod44xx_id mod44xx_get_id(const char *name);
-char *mod44xx_get_name(mod44xx_id id,
-	char name[MOD44XX_MAX_NAME_LENGTH]);
+char *mod44xx_get_name(mod44xx_id id, char name[MOD44XX_MAX_NAME_LENGTH]);
 clkdm44xx_id mod44xx_get_clkdm(mod44xx_id id);
 pwrdm44xx_id mod44xx_get_pwrdm(mod44xx_id id);
 voltdm44xx_id mod44xx_get_voltdm(mod44xx_id id);
 
-int mod44xx_get_mode(mod44xx_id id, mod_module_mode *mmode);
+int mod44xx_get_mode(mod44xx_id id, mod_module_mode * mmode);
 int mod44xx_is_accessible(mod44xx_id module_id);
 int mod_module_mode2string(char s[21], unsigned short mmode);
 int mod_idlest2string(char s[21], unsigned short idlest);
 
-int mod44xx_get_interface_type(mod44xx_id module_id,
-	mod_interface_type *type);
+int mod44xx_get_interface_type(mod44xx_id module_id, mod_interface_type * type);
 int mod44xx_has_clockactivity_bit(mod44xx_id module_id);
-int mod44xx_get_autoidle_mode(mod44xx_id module_id,
-	mod_autoidle_mode *mode);
-int mod44xx_get_idle_mode(mod44xx_id module_id,
-	mod_idle_mode *mode);
+int mod44xx_get_autoidle_mode(mod44xx_id module_id, mod_autoidle_mode * mode);
+int mod44xx_get_idle_mode(mod44xx_id module_id, mod_idle_mode * mode);
 int mod44xx_has_smart_idle_wakeup_mode(mod44xx_id id);
-mod_idle_status mod44xx_get_idle_status(mod44xx_id id,
-	char idlest[21]);
-int mod44xx_get_standby_mode(mod44xx_id module_id,
-	mod_standby_mode *mode);
-mod_standby_status mod44xx_get_standby_status(mod44xx_id id,
-	char st[11]);
+mod_idle_status mod44xx_get_idle_status(mod44xx_id id, char idlest[21]);
+int mod44xx_get_standby_mode(mod44xx_id module_id, mod_standby_mode * mode);
+mod_standby_status mod44xx_get_standby_status(mod44xx_id id, char st[11]);
 int mod44xx_get_clock_activity_mode(mod44xx_id module_id,
-	mod_clock_activity_mode *mode);
+				    mod_clock_activity_mode * mode);
 int mod44xx_get_src_clk(mod44xx_id module_id, int *src_clk_id);
 int mod44xx_get_por_clk_speed(mod44xx_id module_id,
-	unsigned short opp, double *por_clk_speed);
+			      unsigned short opp, double *por_clk_speed);
 int mod44xx_get_clk_speed(mod44xx_id module_id,
-	clock44xx_id *src_clk_id, opp44xx_id *opp_id, double *speed);
+			  clock44xx_id * src_clk_id, opp44xx_id * opp_id,
+			  double *speed);
 
-int mod44xx_config_show(FILE *stream, const char name[11],
-	unsigned int cm_clkctrl_addr, unsigned int cm_clkctrl,
-	unsigned int rm_context_addr, unsigned int rm_context);
-
+int mod44xx_config_show(FILE * stream, const char name[11],
+			unsigned int cm_clkctrl_addr, unsigned int cm_clkctrl,
+			unsigned int rm_context_addr, unsigned int rm_context);
 
 #endif

@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <cpuinfo_dra7xx.h>
 #include <cpuinfo.h>
 #include <lib.h>
@@ -50,14 +49,12 @@
 #include <stdlib.h>
 #include <cpufreq.h>
 
-
 /* #define CPUID7XX_DEBUG */
 #ifdef CPUID_DRA7XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_dra7xx_silicon_max_speed_get
@@ -80,7 +77,7 @@ unsigned int cpu_dra7xx_silicon_max_speed_get(void)
 		return speed_grade;
 
 	speed_grade = (efuse & STD_FUSE_SPEED_GRADE_MASK) >>
-			STD_FUSE_SPEED_GRADE_SHIFT;
+	    STD_FUSE_SPEED_GRADE_SHIFT;
 	switch (speed_grade) {
 	case DRA76_EFUSE_HAS_ALL_MPU_OPP:
 	case DRA76_EFUSE_HAS_PLUS_MPU_OPP:

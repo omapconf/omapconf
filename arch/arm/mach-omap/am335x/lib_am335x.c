@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <cm_am335x.h>
 #include <cpuinfo.h>
 #include <lib.h>
@@ -51,13 +50,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #ifdef LIB_AM335X_DEBUG
 #define dprintf(format, ...)    printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		reg_am335x_addr_find
@@ -70,7 +67,7 @@
  * @DESCRIPTION		find reg. addr corresponding to reg. name given as
  *			argument
  *------------------------------------------------------------------------ */
-int reg_am335x_addr_find(char *name, unsigned int* addr)
+int reg_am335x_addr_find(char *name, unsigned int *addr)
 {
 	dprintf("%s(): looking for addr of register %s...\n", __func__, name);
 
@@ -87,7 +84,6 @@ reg_addr_found:
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		am335x_name2addr
  * @BRIEF		convert register name to address
@@ -99,7 +95,7 @@ reg_addr_found:
  * @param[in]		mods_regcount: array with number of elements of each module
  * @DESCRIPTION		convert register name to address
  *------------------------------------------------------------------------ */
-int am335x_name2addr(char *name, unsigned int *addr, reg ****mods)
+int am335x_name2addr(char *name, unsigned int *addr, reg **** mods)
 {
 	int i, j;
 	reg ***test = *mods;
@@ -115,8 +111,7 @@ int am335x_name2addr(char *name, unsigned int *addr, reg ****mods)
 				*addr = test[i][j]->addr;
 #ifdef LIB_AM335X_NAME2ADDR_DEBUG
 				printf("%s(): Address(%s) = 0x%x\n",
-					__func__,
-					name, (*addr));
+				       __func__, name, (*addr));
 #endif
 				return 0;
 			}

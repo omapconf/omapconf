@@ -41,13 +41,10 @@
  *
  */
 
-
 #ifndef __SMARTREFLEX44XX_H__
 #define __SMARTREFLEX44XX_H__
 
-
 #include <stdio.h>
-
 
 #define OMAP4430_SR_MPU_BASE	0x4A0D9000
 #define OMAP4430_SR_IVA_BASE	0x4A0DB000
@@ -115,14 +112,12 @@
 #define OMAP4430_SR_CORE_SENERROR		OMAP44XX_SR_REGADDR(OMAP4430_SR_CORE_BASE, 0x34)
 #define OMAP4430_SR_CORE_ERRCONFIG		OMAP44XX_SR_REGADDR(OMAP4430_SR_CORE_BASE, 0x38)
 
-
 typedef enum {
 	OMAP4_SR_MPU,
 	OMAP4_SR_IVA,
 	OMAP4_SR_CORE,
 	OMAP4_SR_ID_MAX
 } omap4_sr_module_id;
-
 
 const char *sr44xx_name_get(omap4_sr_module_id sr_id);
 
@@ -132,10 +127,9 @@ int sr44xx_voltage_set(unsigned int vdd_id, unsigned long uv);
 
 int sr44xx_name2addr(char *name, unsigned int *addr);
 int sr44xx_dump(void);
-int sr44xx_config_show(FILE *stream);
-int sr44xx_status_show(FILE *stream);
-int sr44xx_audit(FILE *stream, omap4_sr_module_id sr_id,
-	unsigned int *err_nbr, unsigned int *wng_nbr);
-
+int sr44xx_config_show(FILE * stream);
+int sr44xx_status_show(FILE * stream);
+int sr44xx_audit(FILE * stream, omap4_sr_module_id sr_id,
+		 unsigned int *err_nbr, unsigned int *wng_nbr);
 
 #endif

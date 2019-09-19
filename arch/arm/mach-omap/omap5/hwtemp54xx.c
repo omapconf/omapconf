@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <temperature.h>
 #include <hwtemp.h>
 #include <bgap_adc_o5_data.h>
@@ -55,11 +54,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-
 /* Expands OMAP54_DTEMP_REG(mpu, 4) to &omap5430_control_dtemp_mpu_0; */
 #define OMAP54_DTEMP_REG(dom, reg_id) \
 	[DTEMP_TAG_##reg_id] = &omap5430_control_dtemp_##dom##_##reg_id
-
 
 /* #define HWTEMP54XX_DEBUG */
 #ifdef HWTEMP54XX_DEBUG
@@ -91,7 +88,6 @@ static reg *core_temperature_FIFO_reg_address[NUM_DTEMP_TAGS] = {
 	OMAP54_DTEMP_REG(core, 3),
 	OMAP54_DTEMP_REG(core, 4),
 };
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwtemp54xx_get
@@ -126,5 +122,5 @@ int hwtemp54xx_get(hwtemp54xx_sensor_id id)
 	return hwtemp_get(temp_reg, OMAP5_ADC_MASK, OMAP5_ADC_SHIFT,
 			  OMAP5_ADC_TABLE_BEGIN, bgap_o5_conversion_table,
 			  sizeof(bgap_o5_conversion_table) /
-				sizeof(bgap_o5_conversion_table[0]));
+			  sizeof(bgap_o5_conversion_table[0]));
 }

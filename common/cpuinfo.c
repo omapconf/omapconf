@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <cpuinfo.h>
 #include <cpuinfo44xx.h>
 #include <cpuinfo54xx.h>
@@ -54,14 +53,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 /* #define CPUID_DEBUG */
 #ifdef CPUID_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* Identification Registers for OMAP4 & OMAP5 */
 #define CONTROL_STD_FUSE_DIE_ID_0			0x4A002200
@@ -136,7 +133,6 @@
 
 static unsigned short cpu_forced;
 
-
 static omap_chip cpu;
 static const char cpu_name[OMAP_MAX + 1][CPU_NAME_MAX_LENGTH] = {
 	[OMAP_4430] = "OMAP4430",
@@ -144,9 +140,9 @@ static const char cpu_name[OMAP_MAX + 1][CPU_NAME_MAX_LENGTH] = {
 	[OMAP_4470] = "OMAP4470",
 	[OMAP_5430] = "OMAP5430",
 	[OMAP_5432] = "OMAP5432",
-	[DRA_76X]  = "DRA76X",
-	[DRA_75X]  = "DRA75X",
-	[DRA_72X]  = "DRA72X",
+	[DRA_76X] = "DRA76X",
+	[DRA_75X] = "DRA75X",
+	[DRA_72X] = "DRA72X",
 	[AM_3352] = "AM3352",
 	[AM_3354] = "AM3354",
 	[AM_3356] = "AM3356",
@@ -155,19 +151,20 @@ static const char cpu_name[OMAP_MAX + 1][CPU_NAME_MAX_LENGTH] = {
 	[AM_3359] = "AM3359",
 	[AM_335X] = "AM335X",
 	[AM_437X] = "AM437X",
-	[OMAP_MAX] = "UNKNOWN"};
-static char cpu_full_name[CPU_FULL_NAME_MAX_LENGTH];
+	[OMAP_MAX] = "UNKNOWN"
+};
 
+static char cpu_full_name[CPU_FULL_NAME_MAX_LENGTH];
 
 static omap_device_type cpu_type;
 static const char
-	cpu_device_type[DEV_TYPE_MAX + 1][CPU_DEVICE_TYPE_MAX_NAME_LENGTH] = {
+ cpu_device_type[DEV_TYPE_MAX + 1][CPU_DEVICE_TYPE_MAX_NAME_LENGTH] = {
 	[DEV_GP] = "GP",
 	[DEV_EMU] = "EMU",
 	[DEV_HS] = "HS",
 	[DEV_TEST] = "TEST",
-	[DEV_TYPE_MAX] = "UNKNOWN"};
-
+	[DEV_TYPE_MAX] = "UNKNOWN"
+};
 
 static omap_chip_revision cpu_rev;
 static const char cpu_revision[REV_ES_MAX + 1][CPU_REVISION_MAX_NAME_LENGTH] = {
@@ -183,32 +180,30 @@ static const char cpu_revision[REV_ES_MAX + 1][CPU_REVISION_MAX_NAME_LENGTH] = {
 	[REV_ES3_1] = "3.1",
 	[REV_ES3_2] = "3.2",
 	[REV_ES3_3] = "3.3",
-	[REV_ES_MAX] = "UNKNOWN"};
-
+	[REV_ES_MAX] = "UNKNOWN"
+};
 
 static silicon_type si_type;
 static const char
-	silicon_type_table[SILICON_TYPE_MAX + 1]
-	[CPU_SI_TYPE_MAX_NAME_LENGTH] = {
+ silicon_type_table[SILICON_TYPE_MAX + 1]
+    [CPU_SI_TYPE_MAX_NAME_LENGTH] = {
 	[LOW_PERF_SI] = "LOW",
 	[STANDARD_PERF_SI] = "STANDARD",
 	[HIGH_PERF_SI] = "HIGH",
 	[SPEEDBIN_SI] = "SPEEDBIN",
-	[SILICON_TYPE_MAX] = "UNKNOWN"};
-
+	[SILICON_TYPE_MAX] = "UNKNOWN"
+};
 
 static package_type pkg_type;
 static const char package_type_table[PACKAGE_TYPE_MAX + 1]
-	[CPU_PKG_TYPE_MAX_NAME_LENGTH] = {
+    [CPU_PKG_TYPE_MAX_NAME_LENGTH] = {
 	[ZCZ] = "ZCZ",
 	[ZCE] = "ZCE",
-	[PACKAGE_TYPE_MAX] = ""};
+	[PACKAGE_TYPE_MAX] = ""
+};
 
-
-static char cpu_online_file[36] =
-	"/sys/devices/system/cpu/cpu*/online";
+static char cpu_online_file[36] = "/sys/devices/system/cpu/cpu*/online";
 static int cpu_cores_count = -1;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_forced_set
@@ -221,7 +216,6 @@ static inline void cpu_forced_set(unsigned short forced)
 {
 	cpu_forced = forced;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_forced
@@ -236,7 +230,6 @@ unsigned short cpu_is_forced(void)
 	return cpu_forced;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_set
  * @BRIEF		set CPU
@@ -249,7 +242,6 @@ static inline void cpu_set(omap_chip omap)
 	cpu = omap;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_get
  * @BRIEF		return CPU
@@ -261,7 +253,6 @@ omap_chip cpu_get(void)
 {
 	return cpu;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_gets
@@ -280,7 +271,6 @@ char *cpu_gets(char s[CPU_NAME_MAX_LENGTH])
 	return strncpy(s, cpu_name[omap], CPU_NAME_MAX_LENGTH);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_omap
  * @BRIEF		check if cpu is an omap chip by trying to read
@@ -294,15 +284,14 @@ char *cpu_gets(char s[CPU_NAME_MAX_LENGTH])
 unsigned int cpu_is_omap(void)
 {
 	FILE *fp;
-	char line[256] = {0};
+	char line[256] = { 0 };
 	char *machine_name;
 	int ret = 1;
 
 	fp = fopen("/sys/devices/soc0/machine", "r");
 	if (fp == NULL) {
 		fprintf(stderr, "%s(): CONFIG_SOC_BUS not enabled in kernel!\n"
-			"Assuming cpu is OMAP(legacy kernel)\n",
-			__func__);
+			"Assuming cpu is OMAP(legacy kernel)\n", __func__);
 		return 1;
 	}
 	if (fgets(line, 256, fp)) {
@@ -312,13 +301,13 @@ unsigned int cpu_is_omap(void)
 	/* Truncate line at whitespace */
 	machine_name = strtok(line, " \n\t\v\f\r");
 
-	if (!strcasecmp(machine_name, "AM335X") || !strcasecmp(machine_name, "AM437X"))
+	if (!strcasecmp(machine_name, "AM335X")
+	    || !strcasecmp(machine_name, "AM437X"))
 		ret = 0;
 
 	fclose(fp);
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_am335x
@@ -347,7 +336,6 @@ unsigned int cpu_is_am437x(void)
 {
 	return cpu == AM_437X;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_dra7xx
@@ -414,7 +402,6 @@ unsigned int cpu_is_omap44xx(void)
 	return ((cpu == OMAP_4430) || (cpu == OMAP_4460) || (cpu == OMAP_4470));
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_omap4430
  * @BRIEF		check if cpu is OMAP4430
@@ -427,7 +414,6 @@ unsigned int cpu_is_omap4430(void)
 {
 	return cpu == OMAP_4430;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_omap4460
@@ -442,7 +428,6 @@ unsigned int cpu_is_omap4460(void)
 	return cpu == OMAP_4460;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_omap4470
  * @BRIEF		check if cpu is OMAP4470
@@ -455,7 +440,6 @@ unsigned int cpu_is_omap4470(void)
 {
 	return cpu == OMAP_4470;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_omap5430
@@ -470,7 +454,6 @@ unsigned int cpu_is_omap5430(void)
 	return cpu == OMAP_5430;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_omap5432
  * @BRIEF		check if cpu is OMAP5432
@@ -483,7 +466,6 @@ unsigned int cpu_is_omap5432(void)
 {
 	return cpu == OMAP_5432;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_omap54xx
@@ -498,7 +480,6 @@ unsigned int cpu_is_omap54xx(void)
 	return ((cpu == OMAP_5430) || (cpu == OMAP_5432));
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_revision_set
  * @BRIEF		set CPU revision
@@ -511,7 +492,6 @@ static inline void cpu_revision_set(omap_chip_revision rev)
 	cpu_rev = rev;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_revision_get
  * @BRIEF		return CPU revision
@@ -523,7 +503,6 @@ omap_chip_revision cpu_revision_get(void)
 {
 	return cpu_rev;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_revision_gets
@@ -548,7 +527,6 @@ char *cpu_revision_gets(char s[CPU_REVISION_MAX_NAME_LENGTH])
 	return strncpy(s, cpu_revision[cpu_rev], CPU_REVISION_MAX_NAME_LENGTH);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_device_type_set
  * @BRIEF		set CPU device type
@@ -561,7 +539,6 @@ static inline void cpu_device_type_set(omap_device_type type)
 	cpu_type = type;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_device_type_get
  * @BRIEF		return CPU device type
@@ -573,7 +550,6 @@ omap_device_type cpu_device_type_get(void)
 {
 	return cpu_type;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_device_type_gets
@@ -593,14 +569,12 @@ char *cpu_device_type_gets(char s[CPU_DEVICE_TYPE_MAX_NAME_LENGTH])
 
 	t = cpu_device_type_get();
 	if (t > DEV_TYPE_MAX) {
-		fprintf(stderr, "%s(): t (%u) > DEV_TYPE_MAX!\n",
-			__func__, t);
+		fprintf(stderr, "%s(): t (%u) > DEV_TYPE_MAX!\n", __func__, t);
 		return NULL;
 	}
 
 	return strncpy(s, cpu_device_type[t], CPU_DEVICE_TYPE_MAX_NAME_LENGTH);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_gp_device
@@ -615,7 +589,6 @@ unsigned int cpu_is_gp_device(void)
 	return cpu_type == DEV_GP;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_hs_device
  * @BRIEF		check if cpu device type is HS
@@ -628,7 +601,6 @@ unsigned int cpu_is_hs_device(void)
 {
 	return cpu_type == DEV_HS;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_emu_device
@@ -643,7 +615,6 @@ unsigned int cpu_is_emu_device(void)
 	return cpu_type == DEV_EMU;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_test_device
  * @BRIEF		check if cpu device type is TEST
@@ -656,7 +627,6 @@ unsigned int cpu_is_test_device(void)
 {
 	return cpu_type == DEV_TEST;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_full_name_set
@@ -703,7 +673,6 @@ static int cpu_full_name_set(void)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_full_name_get
  * @BRIEF		return CPU full name (name + rev + type) as a string
@@ -715,7 +684,6 @@ char *cpu_full_name_get(char s[CPU_FULL_NAME_MAX_LENGTH])
 {
 	return strncpy(s, cpu_full_name, CPU_FULL_NAME_MAX_LENGTH);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_silicon_type_set
@@ -729,7 +697,6 @@ static inline void cpu_silicon_type_set(silicon_type t)
 	si_type = t;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_silicon_type_get
  * @BRIEF		return silicon type
@@ -742,7 +709,6 @@ silicon_type cpu_silicon_type_get(void)
 {
 	return si_type;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_silicon_type_gets
@@ -767,9 +733,9 @@ char *cpu_silicon_type_gets(char type[CPU_SI_TYPE_MAX_NAME_LENGTH])
 		return NULL;
 	}
 
-	return strncpy(type, silicon_type_table[t], CPU_SI_TYPE_MAX_NAME_LENGTH);
+	return strncpy(type, silicon_type_table[t],
+		       CPU_SI_TYPE_MAX_NAME_LENGTH);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_silicon_max_speed_get
@@ -790,9 +756,9 @@ unsigned int cpu_silicon_max_speed_get(void)
 		max_speed = cpu54xx_silicon_max_speed_get();
 	} else if (cpu_is_dra7xx()) {
 		max_speed = cpu_dra7xx_silicon_max_speed_get();
-	} else if(cpu_is_am335x()) {
+	} else if (cpu_is_am335x()) {
 		max_speed = cpu_am335x_silicon_max_speed_get();
-	} else if(cpu_is_am437x()) {
+	} else if (cpu_is_am437x()) {
 		max_speed = cpu_am437x_silicon_max_speed_get();
 	} else {
 		dprintf("%s(): unknown architecture!\n", __func__);
@@ -802,7 +768,6 @@ unsigned int cpu_silicon_max_speed_get(void)
 	dprintf("%s(): max speed = %dMHz\n", __func__, max_speed);
 	return max_speed;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_package_type_set
@@ -816,7 +781,6 @@ static inline void cpu_package_type_set(package_type t)
 	pkg_type = t;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_package_type_get
  * @BRIEF		return package type
@@ -829,7 +793,6 @@ package_type cpu_package_type_get(void)
 {
 	return pkg_type;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_package_type_gets
@@ -854,9 +817,9 @@ char *cpu_package_type_gets(char type[CPU_PKG_TYPE_MAX_NAME_LENGTH])
 		return NULL;
 	}
 
-	return strncpy(type, package_type_table[t], CPU_PKG_TYPE_MAX_NAME_LENGTH);
+	return strncpy(type, package_type_table[t],
+		       CPU_PKG_TYPE_MAX_NAME_LENGTH);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_die_id_get
@@ -871,9 +834,10 @@ char *cpu_package_type_gets(char type[CPU_PKG_TYPE_MAX_NAME_LENGTH])
  * @DESCRIPTION		return SoC DIE ID (4x 32-bit integers, string).
  *------------------------------------------------------------------------ */
 char *cpu_die_id_get(unsigned int *die_id_3, unsigned int *die_id_2,
-	unsigned int *die_id_1, unsigned int *die_id_0,
-	char die_id[CPU_DIE_ID_LENGTH])
-{	unsigned int die_id_add_3;
+		     unsigned int *die_id_1, unsigned int *die_id_0,
+		     char die_id[CPU_DIE_ID_LENGTH])
+{
+	unsigned int die_id_add_3;
 	unsigned int die_id_add_2;
 	unsigned int die_id_add_1;
 	unsigned int die_id_add_0;
@@ -919,7 +883,6 @@ char *cpu_die_id_get(unsigned int *die_id_3, unsigned int *die_id_2,
 	return die_id;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_init
  * @BRIEF		init local cpuinfo variables
@@ -939,7 +902,6 @@ void cpu_init(void)
 	cpu_full_name_set();
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_rev_get_from_cpuinfo
  * @BRIEF		Parse /proc/cpuinfo to get ARM Cortex-A9 revision
@@ -953,7 +915,7 @@ void cpu_init(void)
  *			= REV_ES_MAX if not found
  * @DESCRIPTION		Parse /proc/cpuinfo to get ARM Cortex-A9 revision
  *------------------------------------------------------------------------ */
-int cpu_rev_get_from_cpuinfo(omap_chip_revision *cpu_rev)
+int cpu_rev_get_from_cpuinfo(omap_chip_revision * cpu_rev)
 {
 	char line[256];
 	FILE *fp;
@@ -966,7 +928,7 @@ int cpu_rev_get_from_cpuinfo(omap_chip_revision *cpu_rev)
 		return OMAPCONF_ERR_UNEXPECTED;
 	}
 
-	/* Parse it to find out OMAP CPU revision*/
+	/* Parse it to find out OMAP CPU revision */
 	*cpu_rev = REV_ES_MAX;
 	found = 0;
 	while (fgets(line, sizeof(line), fp) != NULL) {
@@ -975,8 +937,8 @@ int cpu_rev_get_from_cpuinfo(omap_chip_revision *cpu_rev)
 		dprintf("strstr(%s, \"CPU revision\") = %s\n",
 			line, strstr(line, "CPU revision"));
 		if (strstr(line, "CPU revision") != NULL) {
-			dprintf(
-				"cpu_rev_get_from_cpuinfo: CPU revision line found\n");
+			dprintf
+			    ("cpu_rev_get_from_cpuinfo: CPU revision line found\n");
 			if (strstr(line, "1") != NULL) {
 				*cpu_rev = REV_ES1_0;
 				found = 1;
@@ -1031,7 +993,7 @@ static int identify_omap(void)
 		break;
 
 	case OMAP5430_ES_1_0_ID_CODE:
-	case 0x0000002F: /* Zebu */
+	case 0x0000002F:	/* Zebu */
 		cpu_set(OMAP_5430);
 		cpu_revision_set(REV_ES1_0);
 		break;
@@ -1233,11 +1195,11 @@ int cpu_detect(void)
 	int ret;
 	unsigned char status_bit_start;
 
-	#ifdef CPUID_DEBUG
+#ifdef CPUID_DEBUG
 	char s[CPU_FULL_NAME_MAX_LENGTH];
 	char rev_s[CPU_REVISION_MAX_NAME_LENGTH];
 	char dev_type_s[CPU_DEVICE_TYPE_MAX_NAME_LENGTH];
-	#endif
+#endif
 
 	/* Init variables */
 	cpu_init();
@@ -1254,7 +1216,6 @@ int cpu_detect(void)
 
 	dprintf("%s(): Chip is %s ES%s\n", __func__,
 		cpu_gets(s), cpu_revision_gets(rev_s));
-
 
 	/* Retrieve device type */
 	if (cpu_is_omap44xx()) {
@@ -1316,7 +1277,7 @@ int cpu_detect(void)
 		/* TBD: implement true detection when ID data is available */
 		cpu_silicon_type_set(STANDARD_PERF_SI);
 
-	} else if (cpu_is_am335x()){
+	} else if (cpu_is_am335x()) {
 		if (mem_read(EFUSE_SMA_REG, &efuse) != 0) {
 			fprintf(stderr,
 				"omapconf: (%s()): could not read EFUSE_SMA register!\n",
@@ -1356,7 +1317,6 @@ int cpu_detect(void)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_force
  * @BRIEF		Force cpu detection.
@@ -1368,8 +1328,7 @@ int cpu_detect(void)
 int cpu_force(char *forced_cpu)
 {
 	if (forced_cpu == NULL) {
-		fprintf(stderr,
-			"%s(): forced_cpu == NULL!\n", __func__);
+		fprintf(stderr, "%s(): forced_cpu == NULL!\n", __func__);
 		return OMAPCONF_ERR_ARG;
 	}
 
@@ -1396,56 +1355,56 @@ int cpu_force(char *forced_cpu)
 		cpu_revision_set(REV_ES1_0);
 		cpu_silicon_type_set(STANDARD_PERF_SI);
 		cpu_full_name_set();
-	} else if (strcmp (forced_cpu, "am3352") == 0) {
+	} else if (strcmp(forced_cpu, "am3352") == 0) {
 		cpu_forced_set(1);
 		cpu_set(AM_3352);
 		cpu_device_type_set(DEV_GP);
 		cpu_revision_set(REV_ES2_1);
 		cpu_package_type_set(ZCZ);
 		cpu_full_name_set();
-	} else if (strcmp (forced_cpu, "am3354") == 0) {
+	} else if (strcmp(forced_cpu, "am3354") == 0) {
 		cpu_forced_set(1);
 		cpu_set(AM_3354);
 		cpu_device_type_set(DEV_GP);
 		cpu_revision_set(REV_ES2_1);
 		cpu_package_type_set(ZCZ);
 		cpu_full_name_set();
-	} else if (strcmp (forced_cpu, "am3356") == 0) {
+	} else if (strcmp(forced_cpu, "am3356") == 0) {
 		cpu_forced_set(1);
 		cpu_set(AM_3356);
 		cpu_device_type_set(DEV_GP);
 		cpu_revision_set(REV_ES2_1);
 		cpu_package_type_set(ZCZ);
 		cpu_full_name_set();
-	} else if (strcmp (forced_cpu, "am3357") == 0) {
+	} else if (strcmp(forced_cpu, "am3357") == 0) {
 		cpu_forced_set(1);
 		cpu_set(AM_3357);
 		cpu_device_type_set(DEV_GP);
 		cpu_revision_set(REV_ES2_1);
 		cpu_package_type_set(ZCZ);
 		cpu_full_name_set();
-	} else if (strcmp (forced_cpu, "am3358") == 0) {
+	} else if (strcmp(forced_cpu, "am3358") == 0) {
 		cpu_forced_set(1);
 		cpu_set(AM_3358);
 		cpu_device_type_set(DEV_GP);
 		cpu_revision_set(REV_ES2_1);
 		cpu_package_type_set(ZCZ);
 		cpu_full_name_set();
-	} else if (strcmp (forced_cpu, "am3359") == 0) {
+	} else if (strcmp(forced_cpu, "am3359") == 0) {
 		cpu_forced_set(1);
 		cpu_set(AM_3359);
 		cpu_device_type_set(DEV_GP);
 		cpu_revision_set(REV_ES2_1);
 		cpu_package_type_set(ZCZ);
 		cpu_full_name_set();
-	} else if (strcmp (forced_cpu, "am335x") == 0) {
+	} else if (strcmp(forced_cpu, "am335x") == 0) {
 		cpu_forced_set(1);
 		cpu_set(AM_335X);
 		cpu_device_type_set(DEV_GP);
 		cpu_revision_set(REV_ES2_1);
 		cpu_package_type_set(ZCZ);
 		cpu_full_name_set();
-	} else if (strcmp (forced_cpu, "am437x") == 0) {
+	} else if (strcmp(forced_cpu, "am437x") == 0) {
 		cpu_forced_set(1);
 		cpu_set(AM_437X);
 		cpu_device_type_set(DEV_GP);
@@ -1508,7 +1467,6 @@ int cpu_force(char *forced_cpu)
 	return 0;
 }
 
-
 /* #define CPU_IS_ONLINE_DEBUG */
 #ifdef CPU_IS_ONLINE_DEBUG
 #undef dprintf
@@ -1528,12 +1486,12 @@ unsigned int cpu_is_online(unsigned short cpu)
 	int ret;
 	unsigned int online;
 
-	#ifdef CPU_IS_ONLINE_DEBUG
+#ifdef CPU_IS_ONLINE_DEBUG
 	if (cpu >= 9) {
 		fprintf(stderr, "%s(%u): cpu > 9!\n", __func__, cpu);
 		return 0;
 	}
-	#endif
+#endif
 
 	cpu_online_file[27] = int2char_table[cpu];
 	dprintf("%s(%u): opening %s\n", __func__, cpu, cpu_online_file);
@@ -1557,11 +1515,11 @@ unsigned int cpu_is_online(unsigned short cpu)
 	return online;
 
 }
+
 #ifdef CPU_IS_ONLINE_DEBUG
 #undef dprintf
 #define dprintf(format, ...)
 #endif
-
 
 /* #define CPU_PROC_STATS_GET_DEBUG */
 #ifdef CPU_PROC_STATS_GET_DEBUG
@@ -1584,7 +1542,8 @@ unsigned int cpu_is_online(unsigned short cpu)
  *			Time units are in USER_HZ.
  *------------------------------------------------------------------------ */
 int cpu_proc_stats_get(unsigned int cpu,
-	unsigned int *idle, unsigned int *iowait, unsigned int *sum)
+		       unsigned int *idle, unsigned int *iowait,
+		       unsigned int *sum)
 {
 	FILE *fp;
 	int ret;
@@ -1624,15 +1583,13 @@ int cpu_proc_stats_get(unsigned int cpu,
 
 		dprintf("%s(%u): line=%s", __func__, cpu, line);
 		ret = sscanf(line, "%s %u %u %u %u %u %u %u %u\n",
-			cpu_name, &user, &nice, &system, idle, iowait,
-			&irq, &softirq, &steal);
+			     cpu_name, &user, &nice, &system, idle, iowait,
+			     &irq, &softirq, &steal);
 		if ((ret != 9) || (strstr(cpu_name, "cpu") == NULL)) {
 			dprintf("%s(%u): error reading file! CPU%u offline?\n",
 				__func__, cpu, cpu);
-			dprintf("%s(%u):  line=%s",
-				__func__, cpu, line);
-			dprintf("%s(%u):  ret=%d\n",
-				__func__, cpu, ret);
+			dprintf("%s(%u):  line=%s", __func__, cpu, line);
+			dprintf("%s(%u):  ret=%d\n", __func__, cpu, ret);
 			fclose(fp);
 			return OMAPCONF_ERR_UNEXPECTED;
 		}
@@ -1647,11 +1604,11 @@ int cpu_proc_stats_get(unsigned int cpu,
 		*idle, *iowait, *sum);
 	return 0;
 }
+
 #ifdef CPU_PROC_STATS_GET_DEBUG
 #undef dprintf
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_load_get
@@ -1665,7 +1622,7 @@ int cpu_proc_stats_get(unsigned int cpu,
  * @DESCRIPTION		compute CPU load (0 - 100%)
  *------------------------------------------------------------------------ */
 double cpu_load_get(unsigned int delta_idle,
-	unsigned int delta_iowait, unsigned int delta_sum)
+		    unsigned int delta_iowait, unsigned int delta_sum)
 {
 	double load;
 
@@ -1674,8 +1631,8 @@ double cpu_load_get(unsigned int delta_idle,
 		return 0.0;
 	}
 
-	load = (double) (delta_idle + delta_iowait);
-	load = load / (double) delta_sum;
+	load = (double)(delta_idle + delta_iowait);
+	load = load / (double)delta_sum;
 	load = (1 - load) * 100;
 
 	return load;
@@ -1732,7 +1689,7 @@ unsigned int cpu_cores_count_get(void)
 				"omapconf (%s()): could not retrieve the number of CPU cores !\n",
 				__func__);
 			cpu_cores_count = 0;
-			return (unsigned int) cpu_cores_count;
+			return (unsigned int)cpu_cores_count;
 		}
 
 		/* /proc/stat is formatted like this:
@@ -1762,5 +1719,5 @@ unsigned int cpu_cores_count_get(void)
 		fclose(fp);
 	}
 
-	return (unsigned int) cpu_cores_count;
+	return (unsigned int)cpu_cores_count;
 }

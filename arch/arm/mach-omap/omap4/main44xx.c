@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <string.h>
 #include <lib.h>
 #include <help.h>
@@ -89,14 +88,12 @@
 #include <counters44xx.h>
 #include <opp.h>
 
-
 /* #define DEBUG */
 #ifdef DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_init
@@ -107,7 +104,6 @@ void main44xx_init(void)
 {
 	mod44xx_init_info_table();
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_dump
@@ -206,7 +202,6 @@ static int main44xx_dump(int argc, char *argv[])
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_read
  * @BRIEF		read selected item provided in string argv.
@@ -235,7 +230,6 @@ static int main44xx_read(int argc, char *argv[])
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_write
  * @BRIEF		write selected item provided in string argv.
@@ -256,8 +250,8 @@ static int main44xx_write(int argc, char *argv[])
 		if (argc < 3) {
 			return err_arg_missing_msg_show(HELP_CATEGORY_MAX);
 		} else if (argc == 3) {
-			return twl6040_writereg(
-				uppercase(argv[1]), uppercase(argv[2]));
+			return twl6040_writereg(uppercase(argv[1]),
+						uppercase(argv[2]));
 		} else {
 			return err_arg_too_many_msg_show(HELP_CATEGORY_MAX);
 		}
@@ -265,7 +259,6 @@ static int main44xx_write(int argc, char *argv[])
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_clear
@@ -286,12 +279,12 @@ static int main44xx_clear(int argc, char *argv[])
 	if (strcmp(argv[0], "prcm") == 0) {
 		if (argc < 3) {
 			return err_arg_missing_msg_show(HELP_PRCM);
-		} else if  (strcmp(argv[1], "statdep") == 0) {
+		} else if (strcmp(argv[1], "statdep") == 0) {
 			if (argc == 3)
 				return statdep44xx_main_set(argv[2], NULL, 0);
 			else if (argc == 4)
-				return statdep44xx_main_set(
-					argv[2], argv[3], 0);
+				return statdep44xx_main_set(argv[2], argv[3],
+							    0);
 			else
 				return err_arg_too_many_msg_show(HELP_PRCM);
 		} else {
@@ -301,7 +294,6 @@ static int main44xx_clear(int argc, char *argv[])
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_set
@@ -324,16 +316,15 @@ static int main44xx_set(int argc, char *argv[])
 
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
 
-
 	if (strcmp(argv[0], "prcm") == 0) {
 		if (argc < 3) {
 			return err_arg_missing_msg_show(HELP_PRCM);
-		} else if  (strcmp(argv[1], "statdep") == 0) {
+		} else if (strcmp(argv[1], "statdep") == 0) {
 			if (argc == 3)
 				return statdep44xx_main_set(argv[2], NULL, 1);
 			else if (argc == 4)
-				return statdep44xx_main_set(
-					argv[2], argv[3], 1);
+				return statdep44xx_main_set(argv[2], argv[3],
+							    1);
 			else
 				return err_arg_too_many_msg_show(HELP_PRCM);
 		} else {
@@ -352,26 +343,24 @@ static int main44xx_set(int argc, char *argv[])
 				return err_arg_msg_show(HELP_VOLT);
 
 			ret = sr44xx_voltage_set(vdd_id,
-				(unsigned long) (v * 1000000));
+						 (unsigned long)(v * 1000000));
 			if (ret != 0) {
-				printf(
-					"omapconf: could not set %s new voltage!!!\n\n",
-					voltdm44xx_get_name(vdd_id,
-					voltdm_name));
+				printf
+				    ("omapconf: could not set %s new voltage!!!\n\n",
+				     voltdm44xx_get_name(vdd_id, voltdm_name));
 			} else {
-				printf(
-					"%s supply voltage set to %1.3lfV (vsel = 0x%02X).\n\n",
-					voltdm44xx_get_name(vdd_id,
-						voltdm_name), v,
-					smps_uvolt2vsel(vdd_id2smps_id(vdd_id),
-						(unsigned long) (v * 1000000)));
+				printf
+				    ("%s supply voltage set to %1.3lfV (vsel = 0x%02X).\n\n",
+				     voltdm44xx_get_name(vdd_id, voltdm_name),
+				     v, smps_uvolt2vsel(vdd_id2smps_id(vdd_id),
+							(unsigned long)(v *
+									1000000)));
 				printf("### WARNING ###:\n");
-				printf(
-					"  - Do not re-enable %s smartreflex or new voltage will be overriden.\n",
-					voltdm44xx_get_name(
-						vdd_id, voltdm_name));
-				printf(
-					"  - Do not change OPP (or use CPUFREQ) or new voltage will be overriden.\n\n");
+				printf
+				    ("  - Do not re-enable %s smartreflex or new voltage will be overriden.\n",
+				     voltdm44xx_get_name(vdd_id, voltdm_name));
+				printf
+				    ("  - Do not change OPP (or use CPUFREQ) or new voltage will be overriden.\n\n");
 			}
 			return ret;
 		} else {
@@ -383,7 +372,7 @@ static int main44xx_set(int argc, char *argv[])
 		} else if (argc == 4) {
 			if (strcmp(argv[1], "devpwrgrp") == 0)
 				return twl603x_pwrgrp_set(stdout,
-					argv[2], argv[3]);
+							  argv[2], argv[3]);
 			else
 				return err_arg_msg_show(HELP_PMIC);
 		} else {
@@ -393,7 +382,6 @@ static int main44xx_set(int argc, char *argv[])
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_reset
@@ -418,7 +406,6 @@ static int main44xx_reset(int argc, char *argv[])
 	else
 		return err_unknown_argument_msg_show(argv[0]);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_show
@@ -458,19 +445,16 @@ static int main44xx_show(int argc, char *argv[])
 	} else if (strcmp(argv[0], "dpll") == 0) {
 		if (argc == 1)
 			return dpll44xx_config_show(stdout);
-		else if ((argc == 2) &&
-			(strcmp(argv[1], "cfg") == 0))
+		else if ((argc == 2) && (strcmp(argv[1], "cfg") == 0))
 			return dpll44xx_config_show(stdout);
 		else
 			return err_arg_msg_show(HELP_DPLL);
 	} else if (strcmp(argv[0], "abe") == 0) {
 		if (argc == 1)
 			return abe44xx_config_show(stdout);
-		else if ((argc == 2) &&
-			(strcmp(argv[1], "cfg") == 0))
+		else if ((argc == 2) && (strcmp(argv[1], "cfg") == 0))
 			return abe44xx_config_show(stdout);
-		else if ((argc == 2) &&
-			(strcmp(argv[1], "atc") == 0))
+		else if ((argc == 2) && (strcmp(argv[1], "atc") == 0))
 			return abe44xx_atc_status_show(stdout);
 		else
 			return err_arg_msg_show(HELP_ABE);
@@ -504,7 +488,7 @@ static int main44xx_show(int argc, char *argv[])
 		if (argc == 1) {
 			return err_arg_missing_msg_show(HELP_MPUSS);
 		} else if ((argc == 2) || ((argc == 3) &&
-			(strcmp(argv[2], "cfg") == 0))) {
+					   (strcmp(argv[2], "cfg") == 0))) {
 			if (strcmp(argv[1], "scu") == 0)
 				return mpuss44xx_scu_config_show();
 			else if (strcmp(argv[1], "gic") == 0)
@@ -539,8 +523,7 @@ static int main44xx_show(int argc, char *argv[])
 				return twl603x_config_smps(stdout);
 			else if (strcmp(argv[1], "rescfg") == 0)
 				return twl603x_config_resources(stdout);
-			else if (strcmp(argv[1],
-				"devpwrgrpstat") == 0)
+			else if (strcmp(argv[1], "devpwrgrpstat") == 0)
 				return twl603x_config_devpwrgrp_status(stdout);
 			else
 				return err_arg_msg_show(HELP_PMIC);
@@ -576,7 +559,6 @@ static int main44xx_show(int argc, char *argv[])
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_export
@@ -617,7 +599,6 @@ static int main44xx_export(int argc, char *argv[])
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_enable
  * @BRIEF		enable selected item provided in string argv.
@@ -645,7 +626,6 @@ static int main44xx_enable(int argc, char *argv[])
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_setup
@@ -684,8 +664,8 @@ static int main44xx_setup(int argc, char *argv[])
 			return err_arg_missing_msg_show(HELP_HWOBS);
 		} else if (argc == 5) {
 			if (strcmp(argv[1], "prcm") == 0)
-				return hwobs44xx_prcm_setup(
-						argv[2], argv[3], argv[4]);
+				return hwobs44xx_prcm_setup(argv[2], argv[3],
+							    argv[4]);
 			else
 				return err_arg_msg_show(HELP_HWOBS);
 		} else {
@@ -695,7 +675,6 @@ static int main44xx_setup(int argc, char *argv[])
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_test
@@ -726,7 +705,6 @@ static int main44xx_test(int argc, char *argv[])
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_search
@@ -773,13 +751,12 @@ static int main44xx_search(int argc, char *argv[])
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sigkill_handler
  * @BRIEF		catch kill signal
  * @DESCRIPTION		catch kill signal
  *------------------------------------------------------------------------ */
-static void sigkill_handler(int sigID, siginfo_t *siginfo, void *context)
+static void sigkill_handler(int sigID, siginfo_t * siginfo, void *context)
 {
 	/* just to remove "unused parameter" warnings ... */
 	sigID = sigID;
@@ -790,7 +767,6 @@ static void sigkill_handler(int sigID, siginfo_t *siginfo, void *context)
 	sci_killhandler();
 	exit(0);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_trace
@@ -827,13 +803,12 @@ int main44xx_trace(int argc, char *argv[])
 		return counters44xx_main(argc - 1, argv + 1);
 	} else if (strcmp(argv[1], "pwrdm") == 0) {
 		if (cpu_device_type_get() == DEV_HS) {
-			printf(
-				"omapconf: this function is not available on HS device, sorry.\n\n");
+			printf
+			    ("omapconf: this function is not available on HS device, sorry.\n\n");
 			return 0;
 		}
 		if (argc == 2) {
-			return trace44xx_pwrdm(
-				PERF_TRACE_DEFAULT_DURATION);
+			return trace44xx_pwrdm(PERF_TRACE_DEFAULT_DURATION);
 		} else if (argc == 3) {
 			ret = sscanf(argv[2], "%u", &capture_time);
 			if (ret != 1)
@@ -846,13 +821,12 @@ int main44xx_trace(int argc, char *argv[])
 		}
 	} else if (strcmp(argv[1], "opp") == 0) {
 		if (cpu_device_type_get() == DEV_HS) {
-			printf(
-				"omapconf: this function is not available on HS device, sorry.\n\n");
+			printf
+			    ("omapconf: this function is not available on HS device, sorry.\n\n");
 			return 0;
 		}
 		if (argc == 2) {
-			return trace44xx_opp(
-				PERF_TRACE_DEFAULT_DURATION);
+			return trace44xx_opp(PERF_TRACE_DEFAULT_DURATION);
 		} else if (argc == 3) {
 			ret = sscanf(argv[2], "%u", &capture_time);
 			if (ret != 1)
@@ -867,7 +841,6 @@ int main44xx_trace(int argc, char *argv[])
 		return err_arg_msg_show(HELP_TRACE);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_legacy
@@ -1000,24 +973,23 @@ static int main44xx_legacy(int argc, char *argv[])
 		if (ret != 1)
 			return err_arg_msg_show(HELP_VOLT);
 		/* Call function with retrieved arguments */
-		ret = sr44xx_voltage_set(vdd_id,
-			(unsigned long) (v * 1000000));
+		ret = sr44xx_voltage_set(vdd_id, (unsigned long)(v * 1000000));
 		if (ret != 0) {
 			fprintf(stderr,
 				"Error: could not set %s new voltage!!!\n\n",
 				voltdm44xx_get_name(vdd_id, voltdm_name));
 		} else {
-			printf(
-				"%s supply voltage set to %1.3lfV (vsel = 0x%02X).\n\n",
-				voltdm44xx_get_name(vdd_id, voltdm_name), v,
-				smps_uvolt2vsel(vdd_id2smps_id(vdd_id),
-					(unsigned long) (v * 1000000)));
+			printf
+			    ("%s supply voltage set to %1.3lfV (vsel = 0x%02X).\n\n",
+			     voltdm44xx_get_name(vdd_id, voltdm_name), v,
+			     smps_uvolt2vsel(vdd_id2smps_id(vdd_id),
+					     (unsigned long)(v * 1000000)));
 			printf("### WARNING ###:\n");
-			printf(
-				"  - Do not re-enable %s smartreflex or new voltage will be overriden.\n",
-				voltdm44xx_get_name(vdd_id, voltdm_name));
-			printf(
-				"  - Do not change OPP (or use CPUFREQ) or new voltage will be overriden.\n\n");
+			printf
+			    ("  - Do not re-enable %s smartreflex or new voltage will be overriden.\n",
+			     voltdm44xx_get_name(vdd_id, voltdm_name));
+			printf
+			    ("  - Do not change OPP (or use CPUFREQ) or new voltage will be overriden.\n\n");
 		}
 	} else if (strcmp(argv[0], "vminsearch") == 0) {
 		if (argc != 4)
@@ -1046,7 +1018,6 @@ static int main44xx_legacy(int argc, char *argv[])
 main44xx_legacy_end:
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main44xx

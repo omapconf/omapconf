@@ -41,12 +41,9 @@
  *
  */
 
-
 #ifndef __UC_AUDIT44XX_H__
 #define __UC_AUDIT44XX_H__
 
-
 int uc_audit44xx_main(int argc, char *argv[]);
-
 
 #endif

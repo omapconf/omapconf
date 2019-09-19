@@ -42,16 +42,13 @@
  *
  */
 
-
 #ifndef __CTT44XX_H__
 #define __CTT44XX_H__
-
 
 int ctt44xx_dump(void);
 int ctt44xx_rd1_export(char *filename);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int ctt44xx_main(int argc, char *argv[]);
-
 
 #endif

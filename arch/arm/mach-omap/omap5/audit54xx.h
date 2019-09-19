@@ -41,20 +41,17 @@
  *
  */
 
-
 #ifndef __AUDIT54XX_H__
 #define __AUDIT54XX_H__
-
 
 #include <stdio.h>
 #include <dpll54xx.h>
 #include <voltdm54xx.h>
 
-
-int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
-	unsigned short curr_opp, unsigned int *err_nbr, unsigned int *wng_nbr);
-int audit54xx_full(FILE *stream, char *logfile, unsigned int *err_nbr,
-	unsigned int *wng_nbr);
-
+int audit54xx_dpll(FILE * stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
+		   unsigned short curr_opp, unsigned int *err_nbr,
+		   unsigned int *wng_nbr);
+int audit54xx_full(FILE * stream, char *logfile, unsigned int *err_nbr,
+		   unsigned int *wng_nbr);
 
 #endif

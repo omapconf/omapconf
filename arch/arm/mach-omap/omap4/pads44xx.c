@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -53,7 +52,6 @@
 #include <cpuinfo.h>
 #include <lib.h>
 #include <mem.h>
-
 
 struct mux_reg_range {
 	char *name;
@@ -95,10 +93,8 @@ struct mux_reg_range *omap4460_4470_padconf[] = {
 
 #define OMAP4_WAKEUP_EVENT               (1 << 15)
 
-
 static int violation_count = 0;
 static int total_count = 0;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		marker
@@ -107,11 +103,10 @@ static int total_count = 0;
  * @param[in]		stream: output stream
  * @DESCRIPTION
  *------------------------------------------------------------------------ */
-static inline void marker(FILE *stream)
+static inline void marker(FILE * stream)
 {
 	fprintf(stream, "================================================\n");
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		check_mux_reg
@@ -123,8 +118,8 @@ static inline void marker(FILE *stream)
  * @param[in]		val:
  * @DESCRIPTION
  *------------------------------------------------------------------------ */
-static void check_mux_reg(FILE *stream, struct mux_reg_range *mux,
-		      unsigned int reg_addr, unsigned short val)
+static void check_mux_reg(FILE * stream, struct mux_reg_range *mux,
+			  unsigned int reg_addr, unsigned short val)
 {
 	unsigned char mux_mode = -1;
 	int pull_active = -1;
@@ -178,33 +173,40 @@ static void check_mux_reg(FILE *stream, struct mux_reg_range *mux,
 	 * if active state of the PIN is HI and OFF override state is HI.
 	 */
 	if (off_ovr_active && off_out_enable && off_out_val) {
-		fprintf(stream, "\n%d. VIOLATION:OFF_OVERRIDE OUTPUT VALUE is HI (glitch risk if active state == HIGH)",
-		       violation_count);
+		fprintf(stream,
+			"\n%d. VIOLATION:OFF_OVERRIDE OUTPUT VALUE is HI (glitch risk if active state == HIGH)",
+			violation_count);
 		/* dump reg */
 		violation_count++;
-		fprintf(stream, ":(MUX GRP-%s) control pad address:0x%08x Value:0x%04x\n",
-		       mux->name, reg_addr, val);
+		fprintf(stream,
+			":(MUX GRP-%s) control pad address:0x%08x Value:0x%04x\n",
+			mux->name, reg_addr, val);
 		fprintf(stream, "MUX_mode=%d (%s)\n", mux_mode,
-		       (mux_mode == 3) ? "gpio?" : "other?");
-		fprintf(stream, "Active direction=%s\n", active_input ? "input pin" :
-		       "output pin");
-		fprintf(stream, "Active pull=%s\n", (!pull_active) ? "Pull Down" :
-		       (pull_active == 1) ? "Pull Up" : "n/a");
-		fprintf(stream, "OFF Mode override_active=%s\n", off_ovr_active ? "yes" : "no");
+			(mux_mode == 3) ? "gpio?" : "other?");
+		fprintf(stream, "Active direction=%s\n",
+			active_input ? "input pin" : "output pin");
+		fprintf(stream, "Active pull=%s\n",
+			(!pull_active) ? "Pull Down" : (pull_active ==
+							1) ? "Pull Up" : "n/a");
+		fprintf(stream, "OFF Mode override_active=%s\n",
+			off_ovr_active ? "yes" : "no");
 		fprintf(stream, "OFF Mode direction=");
 		if (!off_out_enable)
 			fprintf(stream, "input pin\n");
 		else
-			fprintf(stream, "output Drive %s\n", off_out_val ? "HIGH " : "LOW");
-		fprintf(stream, "OFF Mode pull=%s\n", (!off_out_pull) ? "Pull Down" :
-		       (off_out_pull == 1) ? "Pull Up" : "n/a");
+			fprintf(stream, "output Drive %s\n",
+				off_out_val ? "HIGH " : "LOW");
+		fprintf(stream, "OFF Mode pull=%s\n",
+			(!off_out_pull) ? "Pull Down" : (off_out_pull ==
+							 1) ? "Pull Up" :
+			"n/a");
 
-		fprintf(stream, "Wakeup enabled = %s\n", wakeup_enable ? "yes" : "no");
+		fprintf(stream, "Wakeup enabled = %s\n",
+			wakeup_enable ? "yes" : "no");
 	}
 
 	return;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pads44xx_audit
@@ -216,7 +218,7 @@ static void check_mux_reg(FILE *stream, struct mux_reg_range *mux,
  * @DESCRIPTION		audit IO PAD configuration for potential glitch during
  *			OFF mode transition (HW bug)
  *------------------------------------------------------------------------ */
-int pads44xx_audit(FILE *stream)
+int pads44xx_audit(FILE * stream)
 {
 	struct mux_reg_range *mux;
 	unsigned int reg;
@@ -234,7 +236,7 @@ int pads44xx_audit(FILE *stream)
 	for (i = 0; i < OMAP4_NUM_MUX_RANGES; i++) {
 		mux = omap4460_4470_padconf[i];
 		fprintf(stream, "--<- Checking group %d/%d - \"%s\"\n",
-		       i + 1, OMAP4_NUM_MUX_RANGES, mux->name);
+			i + 1, OMAP4_NUM_MUX_RANGES, mux->name);
 		reg = mux->start_phy_addr;
 		while (reg <= mux->end_phy_addr) {
 			unsigned int reg_val = 0;
@@ -243,8 +245,8 @@ int pads44xx_audit(FILE *stream)
 			if (ret) {
 				fprintf(stream,
 					"error %d at 0x%08x %s start=0x%08x to 0x%08x\n",
-					ret, reg, mux->name, mux->start_phy_addr,
-					mux->end_phy_addr);
+					ret, reg, mux->name,
+					mux->start_phy_addr, mux->end_phy_addr);
 				return ret;
 			}
 			check_mux_reg(stream, mux, reg, reg_val);
@@ -255,13 +257,12 @@ int pads44xx_audit(FILE *stream)
 	}
 	marker(stream);
 	fprintf(stream, "Violations = %d out of %d pad regs checked\n",
-	       violation_count, total_count);
+		violation_count, total_count);
 	marker(stream);
 	fprintf(stream, "Detailed description:\n"
 		"If output override value is HI and "
 		"active state HI, there is a potential "
-		"for glitch while entering OFF mode. "
-		"OMAP Erratum - TBD\n");
+		"for glitch while entering OFF mode. " "OMAP Erratum - TBD\n");
 	marker(stream);
 	fprintf(stream, "IMPORTANT NOTES and DISCLAIMERS:\n"
 		"1. This is a snapshot view - does not audit padconf changes on "

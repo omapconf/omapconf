@@ -41,14 +41,12 @@
  *
  */
 
-
 #include <stdlib.h>
 #include <string.h>
 #include <lib.h>
 #include <mem.h>
 #include <autoadjust_table.h>
 #include "crossbar.h"
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dra7xx_crossbar_input_init
@@ -98,7 +96,6 @@ int dra7xx_crossbar_input_init(char *module_name,
 	return r;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dra7xx_crossbar_audit
  * @BRIEF		Does an audit of crossbar configuration
@@ -116,7 +113,7 @@ int dra7xx_crossbar_input_init(char *module_name,
  * @DESCRIPTION		Audits the cross bar to see multiple module interrupts
  *			mapping to same source.
  *------------------------------------------------------------------------ */
-int dra7xx_crossbar_audit(FILE *stream, char *type, char *module_name,
+int dra7xx_crossbar_audit(FILE * stream, char *type, char *module_name,
 			  struct cross_bar_module_input *minput,
 			  int minput_size, struct cross_bar_input *cinput,
 			  int cinput_size, int *tot_error, int *tot_checks)
@@ -189,8 +186,7 @@ int dra7xx_crossbar_audit(FILE *stream, char *type, char *module_name,
 			goto stuff_remaining;
 		}
 		snprintf(table[row][4], TABLE_MAX_ELT_LEN,
-			"valid %3d reuse with index: ",
-			 curr->input);
+			 "valid %3d reuse with index: ", curr->input);
 		strncpy(table[row][5], "FAIL", TABLE_MAX_ELT_LEN);
 		error++;
 
@@ -244,8 +240,10 @@ stuff_remaining:
 	free(cinput_usage);
 
 	r = autoadjust_table_generic_fprint(stream, table, row, 6,
-				       TABLE_HAS_SUBTITLE | TABLE_HAS_TITLE);
-	fprintf(stream, "'N/A' implies there is no alternate mapping possible\n");
+					    TABLE_HAS_SUBTITLE |
+					    TABLE_HAS_TITLE);
+	fprintf(stream,
+		"'N/A' implies there is no alternate mapping possible\n");
 	fprintf(stream, "Summary: CHECKS=%d FAILS = %d\n", checks, error);
 	fprintf(stream,
 		"Checks may be due to duplicate maps to reserved mappings\n");
@@ -257,7 +255,6 @@ stuff_remaining:
 
 	return r;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dra7xx_crossbar_dump
@@ -272,7 +269,7 @@ stuff_remaining:
  * @param[in]		cinput_size: size of crossbar array
  * @DESCRIPTION		Dumps the cross bar to see show the current config
  *------------------------------------------------------------------------ */
-int dra7xx_crossbar_dump(FILE *stream, char *type, char *module_name,
+int dra7xx_crossbar_dump(FILE * stream, char *type, char *module_name,
 			 struct cross_bar_module_input *minput,
 			 int minput_size, struct cross_bar_input *cinput,
 			 int cinput_size)
@@ -341,9 +338,9 @@ int dra7xx_crossbar_dump(FILE *stream, char *type, char *module_name,
 	}
 
 	return autoadjust_table_generic_fprint(stream, table, row, 6,
-				       TABLE_HAS_SUBTITLE | TABLE_HAS_TITLE);
+					       TABLE_HAS_SUBTITLE |
+					       TABLE_HAS_TITLE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dra7_crossbar_dump_main
@@ -367,7 +364,6 @@ int dra7_crossbar_dump_main(int argc, char *argv[])
 
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dra7_crossbar_audit_main

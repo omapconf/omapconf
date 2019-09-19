@@ -42,13 +42,10 @@
  *
  */
 
-
 #ifndef __OPP_DRA7XX_H__
 #define __OPP_DRA7XX_H__
 
-
 #include <voltdm_dra7xx.h>
-
 
 void opp_dra7xx_init(void);
 void opp_dra7xx_deinit(void);
@@ -61,6 +58,5 @@ int opp_dra7xx_id_get(const char *opp);
 const char *opp_dra7xx_get(voltdm_dra7xx_id vdd_id);
 const char *opp_dra7xx_by_rate_get(voltdm_dra7xx_id vdd_id);
 int opp_dra7xx_set(voltdm_dra7xx_id vdd_id, opp_dra7xx_id opp_id);
-
 
 #endif

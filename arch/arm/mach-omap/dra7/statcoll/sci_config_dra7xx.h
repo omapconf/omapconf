@@ -62,9 +62,9 @@
 #define SC_LAT_NUM_CNTRS_DRA  4
 #define SC_LAT_0_NUM_PROBES_DRA  6
 #define SC_LAT_1_NUM_PROBES_DRA  8
-#define SC_LAT_2_NUM_PROBES_DRA  8 	/*4 reserved*/
+#define SC_LAT_2_NUM_PROBES_DRA  8	/*4 reserved */
 #define SC_LAT_3_NUM_PROBES_DRA  8
-#define SC_LAT_4_NUM_PROBES_DRA  8	/*2 reserved*/
+#define SC_LAT_4_NUM_PROBES_DRA  8	/*2 reserved */
 #define SC_LAT_5_NUM_PROBES_DRA  8
 #define SC_LAT_6_NUM_PROBES_DRA  8	/*6 reserved; Datasheet says 7 probes but lists eight ? */
 #define SC_LAT_7_NUM_PROBES_DRA  8
@@ -101,26 +101,38 @@ struct sc_lat_reg_map_dra {
 
 /* Statistic Collector counter element definition*/
 struct sc_cnt_elements_dra {
-    int num_filters;
-    uint32_t cnt_offset;
+	int num_filters;
+	uint32_t cnt_offset;
 };
 
 struct sc_cnt_elements_dra sdram_cnt_map_dra[8] = {
-	{ 2, (uint32_t)(long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt0) },
-	{ 1, (uint32_t)(long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt1) },
-	{ 2, (uint32_t)(long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt2) },
-	{ 1, (uint32_t)(long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt3) },
-	{ 1, (uint32_t)(long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt4) },
-	{ 1, (uint32_t)(long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt5) },
-	{ 1, (uint32_t)(long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt6) },
-	{ 1, (uint32_t)(long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt7) }
+	{2,
+	 (uint32_t) (long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt0)},
+	{1,
+	 (uint32_t) (long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt1)},
+	{2,
+	 (uint32_t) (long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt2)},
+	{1,
+	 (uint32_t) (long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt3)},
+	{1,
+	 (uint32_t) (long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt4)},
+	{1,
+	 (uint32_t) (long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt5)},
+	{1,
+	 (uint32_t) (long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt6)},
+	{1,
+	 (uint32_t) (long)(&((struct sc_sdram_reg_map_dra *)0)->counters.cnt7)}
 };
 
 struct sc_cnt_elements_dra lat_cnt_map_dra[4] = {
-	{ 1, (uint32_t)(long)(&((struct sc_lat_reg_map_dra *)0)->counters.cnt[0]) },
-	{ 1, (uint32_t)(long)(&((struct sc_lat_reg_map_dra *)0)->counters.cnt[1]) },
-	{ 1, (uint32_t)(long)(&((struct sc_lat_reg_map_dra *)0)->counters.cnt[2]) },
-	{ 1, (uint32_t)(long)(&((struct sc_lat_reg_map_dra *)0)->counters.cnt[3]) }
+	{1,
+	 (uint32_t) (long)(&((struct sc_lat_reg_map_dra *)0)->counters.cnt[0])},
+	{1,
+	 (uint32_t) (long)(&((struct sc_lat_reg_map_dra *)0)->counters.cnt[1])},
+	{1,
+	 (uint32_t) (long)(&((struct sc_lat_reg_map_dra *)0)->counters.cnt[2])},
+	{1,
+	 (uint32_t) (long)(&((struct sc_lat_reg_map_dra *)0)->counters.cnt[3])}
 };
 
 struct sc_probe_element_dra {
@@ -141,12 +153,11 @@ enum sc_probe_valid_dra {
 	SCI_VALID_PROBE
 };
 
-
 enum sc_probe_valid_dra sc_sdram_no_filter_valid_probe_map_dra[] = {
-		SCI_VALID_PROBE, /*SCI_EMIF1 restricted - can not use */
-		SCI_VALID_PROBE, /*SCI_EMIF2 restricted - can not use */
-		SCI_VALID_PROBE, /*SCI_MA_MPU_P1 ok to use */
-		SCI_VALID_PROBE /*SCI_MA_MPU_P2 ok to use */
+	SCI_VALID_PROBE,	/*SCI_EMIF1 restricted - can not use */
+	SCI_VALID_PROBE,	/*SCI_EMIF2 restricted - can not use */
+	SCI_VALID_PROBE,	/*SCI_MA_MPU_P1 ok to use */
+	SCI_VALID_PROBE		/*SCI_MA_MPU_P2 ok to use */
 };
 
 struct sc_probe_element_dra sc_lat_0_probe_map_dra[] = {
@@ -235,19 +246,19 @@ struct sc_probe_element_dra sc_lat_8_probe_map_dra[] = {
 };
 
 /* Statistic Collector element definition */
-enum sc_module_type_dra {SDRAM, MSTR};
+enum sc_module_type_dra { SDRAM, MSTR };
 
 struct sc_element_map_dra {
-    enum sc_module_type_dra mod_type;
-    uint32_t base_addr;
-    int mod_size;                   /* In bytes */
-    int num_counters;
-    struct sc_cnt_elements_dra * cnt_map;
-    int num_probes;
-    struct sc_probe_element_dra * probe_map;
-    enum sc_probe_valid_dra * sc_no_filter_valid_probe_map;
-    uint32_t cnt_overflow_load;
-    uint32_t cnt_overflow_lat;
+	enum sc_module_type_dra mod_type;
+	uint32_t base_addr;
+	int mod_size;		/* In bytes */
+	int num_counters;
+	struct sc_cnt_elements_dra *cnt_map;
+	int num_probes;
+	struct sc_probe_element_dra *probe_map;
+	enum sc_probe_valid_dra *sc_no_filter_valid_probe_map;
+	uint32_t cnt_overflow_load;
+	uint32_t cnt_overflow_lat;
 };
 
 /* Statistic Collector element maps */
@@ -381,7 +392,7 @@ struct sc_element_map_dra sc_lat_8_map_dra = {
 	SC_LAT_LATENCY_CNT_OVERFLOW_DRA
 };
 
-struct sc_element_map_dra * sc_map_dra[] = {
+struct sc_element_map_dra *sc_map_dra[] = {
 	&sc_sdram_map_dra,
 	&sc_lat_0_map_dra,
 	&sc_lat_1_map_dra,
@@ -395,92 +406,92 @@ struct sc_element_map_dra * sc_map_dra[] = {
 };
 
 /* Statistic Collector names are in sc_map order */
-const char * sci_unit_name_table_dra[] = {
-    "SDRAM",
-    "LAT0",
-    "LAT1",
-    "LAT2",
-    "LAT3",
-    "LAT4",
-    "LAT5",
-    "LAT6",
-    "LAT7",
-    "LAT8"
+const char *sci_unit_name_table_dra[] = {
+	"SDRAM",
+	"LAT0",
+	"LAT1",
+	"LAT2",
+	"LAT3",
+	"LAT4",
+	"LAT5",
+	"LAT6",
+	"LAT7",
+	"LAT8"
 };
 
 /* Statistic Collector probe name tables */
-const char * sci_sdram_probe_name_table_dra[] = {
-    "EMIF1",
-    "EMIF2",
-    "MA_MPU_P1",
-    "MA_MPU_P2"
+const char *sci_sdram_probe_name_table_dra[] = {
+	"EMIF1",
+	"EMIF2",
+	"MA_MPU_P1",
+	"MA_MPU_P2"
 };
 
-const char * sci_mstr_probe_name_table_dra[] = {
-    "MPU",
-    "MMU1",
-    "EDMA_TC0_RD",
-    "EDMA_TC0_WR",
-    "EDMA_TC1_RD",
-    "EDMA_TC1_WR",
-    "VIP1_P1",
-    "VIP1_P2",
-    "VIP2_P1",
-    "VIP2_P2",
-    "VIP3_P1",
-    "VIP3_P2",
-    "VPE_P1",
-    "VPE_P2",
-    "EVE1_TC0",
-    "EVE1_TC1",
-    "EVE2_TC0",
-    "EVE2_TC1",
-    "DSP1_MDMA",
-    "DSP1_EDMA",
-    "DSP2_MDMA",
-    "DSP2_EDMA",
-    "IVA",
-    "GPU_P1",
-    "GPU_P2",
-    "BB2D_P1",
-    "DSS",
-    "MMU2",
-    "IPU1",
-    "IPU2",
-    "DMA_SYSTEM_RD",
-    "DMA_SYSTEM_WR",
-    "USB1",
-    "USB2",
-    "USB3",
-    "IUSB4",
-    "PCIe_SS1",
-    "PCIe_SS2",
-    "DSP1_CFG",
-    "DSP2_CFG",
-    "GMAC_SW",
-    "MPU",
-    "MMC1",
-    "MMC2",
-    "SATA",
-    "MLB",
-    "BB2D_P2",
-    "IEEE1500",
-    "DEBUGSS",
-    "OCMC_RAM1",
-    "OCMC_RAM2",
-    "OCMC_RAM3",
-    "GPMC",
-    "MCASP1",
-    "MCASP2",
-    "MCASP3",
+const char *sci_mstr_probe_name_table_dra[] = {
+	"MPU",
+	"MMU1",
+	"EDMA_TC0_RD",
+	"EDMA_TC0_WR",
+	"EDMA_TC1_RD",
+	"EDMA_TC1_WR",
+	"VIP1_P1",
+	"VIP1_P2",
+	"VIP2_P1",
+	"VIP2_P2",
+	"VIP3_P1",
+	"VIP3_P2",
+	"VPE_P1",
+	"VPE_P2",
+	"EVE1_TC0",
+	"EVE1_TC1",
+	"EVE2_TC0",
+	"EVE2_TC1",
+	"DSP1_MDMA",
+	"DSP1_EDMA",
+	"DSP2_MDMA",
+	"DSP2_EDMA",
+	"IVA",
+	"GPU_P1",
+	"GPU_P2",
+	"BB2D_P1",
+	"DSS",
+	"MMU2",
+	"IPU1",
+	"IPU2",
+	"DMA_SYSTEM_RD",
+	"DMA_SYSTEM_WR",
+	"USB1",
+	"USB2",
+	"USB3",
+	"IUSB4",
+	"PCIe_SS1",
+	"PCIe_SS2",
+	"DSP1_CFG",
+	"DSP2_CFG",
+	"GMAC_SW",
+	"MPU",
+	"MMC1",
+	"MMC2",
+	"SATA",
+	"MLB",
+	"BB2D_P2",
+	"IEEE1500",
+	"DEBUGSS",
+	"OCMC_RAM1",
+	"OCMC_RAM2",
+	"OCMC_RAM3",
+	"GPMC",
+	"MCASP1",
+	"MCASP2",
+	"MCASP3",
 	"VCP2"
 };
 
 /* Statistic Collector master address table */
 enum sci_master_addr_dra sci_master_addr_table_dra[] = {
-    SCI_MSTID_MPU_DRA,
-    SCI_MSTID_DAP_DRA,
-    SCI_MSTID_IEEE1500_2_OCP_DRA,
+	SCI_MSTID_MPU_DRA,
+	SCI_MSTID_DAP_DRA,
+	SCI_MSTID_IEEE1500_2_OCP_DRA,
 	SCI_MSTID_DSP1_MDMA_DRA,
 	SCI_MSTID_DSP1_CFG_DRA,
 	SCI_MSTID_DSP1_DMA_DRA,
@@ -532,7 +543,7 @@ enum sci_master_addr_dra sci_master_addr_table_dra[] = {
 /* Statistic Collector master name table.
  * In sci_master_addr_table order.
  */
-const char * sci_master_name_table_dra[] = {
+const char *sci_master_name_table_dra[] = {
 	"MPU",
 	"CS_DAP",
 	"IEEE1500_2_OCP",
@@ -638,7 +649,7 @@ enum sci_slave_addr_dra sci_slave_addr_table_dra[] = {
 /* Statistic Collector slave name table.
  * In sci_slave_addr_table order.
  */
-const char * sci_slave_name_table_dra[] = {
+const char *sci_slave_name_table_dra[] = {
 	"DMM_P1",
 	"DMM_P2",
 	"DSP1_SDMA",

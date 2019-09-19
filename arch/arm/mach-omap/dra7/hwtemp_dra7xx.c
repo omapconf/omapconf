@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <temperature.h>
 #include <hwtemp.h>
 #include <bgap_adc_o5_data.h>
@@ -54,10 +53,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-
 #define DRA7_DTEMP_REG(dom, reg_id) \
 	[DTEMP_TAG_##reg_id] = &dra7xx_ctrl_core_dtemp_##dom##_##reg_id
-
 
 /* #define TEMP_DRA7XX_DEBUG */
 #ifdef TEMP_DRA7XX_DEBUG
@@ -65,7 +62,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
 
 static reg *mpu_temperature_FIFO_reg_address[NUM_DTEMP_TAGS] = {
 	DRA7_DTEMP_REG(mpu, 0),
@@ -147,5 +143,5 @@ int hwtemp_dra7xx_get(hwtemp_dra7xx_sensor_id id)
 	return hwtemp_get(temp_reg, OMAP5_ADC_MASK, OMAP5_ADC_SHIFT,
 			  OMAP5_ADC_TABLE_BEGIN, bgap_o5_conversion_table,
 			  sizeof(bgap_o5_conversion_table) /
-				sizeof(bgap_o5_conversion_table[0]));
+			  sizeof(bgap_o5_conversion_table[0]));
 }

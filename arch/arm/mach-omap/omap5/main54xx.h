@@ -41,12 +41,9 @@
  *
  */
 
-
 #ifndef __MAIN54XX_H__
 #define __MAIN54XX_H__
 
-
 int main54xx(int argc, char *argv[]);
-
 
 #endif

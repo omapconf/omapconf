@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __TIMR44XX_H__
 #define __TIMR44XX_H__
-
 
 /* L4 Based Timers */
 #define GPTIMER01_BASE       0x4A318000
@@ -57,9 +55,9 @@
 #define WDTIMER2_BASE        0x4A314000
 #define T32KSYNCNT_BASE      0x4A304000
 
-#define T32KSYNCNT_REV       0x4A304000 /* O5: 4AE04000 */
-#define T32KSYNCNT_SYSCONFIG 0x4A304004 /* O5: 4AE04010 */
-#define T32KSYNCNT_CR        0x4A304010 /* O5: 4AE04030 */
+#define T32KSYNCNT_REV       0x4A304000	/* O5: 4AE04000 */
+#define T32KSYNCNT_SYSCONFIG 0x4A304004	/* O5: 4AE04010 */
+#define T32KSYNCNT_CR        0x4A304010	/* O5: 4AE04030 */
 
 /*
 // OMAP5 values below
@@ -88,6 +86,5 @@
 #define GPTIMER07_DSPBASE    0x01D3C000
 #define GPTIMER08_DSPBASE    0x01D3E000
 #define WDTIMER3_DSPBASE     0x01D30000
-
 
 #endif

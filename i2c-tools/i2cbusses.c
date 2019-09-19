@@ -35,9 +35,9 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/param.h>	/* for NAME_MAX */
+#include <sys/param.h>		/* for NAME_MAX */
 #include <string.h>
-#include <strings.h>	/* for strcasecmp() */
+#include <strings.h>		/* for strcasecmp() */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -52,20 +52,20 @@ enum adt { adt_dummy, adt_isa, adt_i2c, adt_smbus, adt_unknown };
 
 struct adap_type {
 	const char *funcs;
-	const char* algo;
+	const char *algo;
 };
 
 static struct adap_type adap_types[5] = {
-	{ .funcs	= "dummy",
-	  .algo		= "Dummy bus", },
-	{ .funcs	= "isa",
-	  .algo		= "ISA bus", },
-	{ .funcs	= "i2c",
-	  .algo		= "I2C adapter", },
-	{ .funcs	= "smbus",
-	  .algo		= "SMBus adapter", },
-	{ .funcs	= "unknown",
-	  .algo		= "N/A", },
+	{.funcs = "dummy",
+	 .algo = "Dummy bus",},
+	{.funcs = "isa",
+	 .algo = "ISA bus",},
+	{.funcs = "i2c",
+	 .algo = "I2C adapter",},
+	{.funcs = "smbus",
+	 .algo = "SMBus adapter",},
+	{.funcs = "unknown",
+	 .algo = "N/A",},
 };
 
 static enum adt i2c_get_funcs(int i2cbus)
@@ -84,8 +84,7 @@ static enum adt i2c_get_funcs(int i2cbus)
 	else if (funcs & I2C_FUNC_I2C)
 		ret = adt_i2c;
 	else if (funcs & (I2C_FUNC_SMBUS_BYTE |
-			  I2C_FUNC_SMBUS_BYTE_DATA |
-			  I2C_FUNC_SMBUS_WORD_DATA))
+			  I2C_FUNC_SMBUS_BYTE_DATA | I2C_FUNC_SMBUS_WORD_DATA))
 		ret = adt_smbus;
 	else
 		ret = adt_dummy;
@@ -142,7 +141,7 @@ struct i2c_adap *gather_i2c_busses(void)
 	FILE *f;
 	char fstype[NAME_MAX], sysfs[NAME_MAX], n[NAME_MAX];
 	int foundsysfs = 0;
-	int count=0;
+	int count = 0;
 	struct i2c_adap *adapters;
 
 	adapters = calloc(BUNCH, sizeof(struct i2c_adap));
@@ -206,7 +205,7 @@ struct i2c_adap *gather_i2c_busses(void)
 		}
 	}
 	fclose(f);
-	if (! foundsysfs) {
+	if (!foundsysfs) {
 		goto done;
 	}
 
@@ -214,7 +213,7 @@ struct i2c_adap *gather_i2c_busses(void)
 	   i2c-dev and what we really care about are the i2c-dev numbers.
 	   Unfortunately the names are harder to get in i2c-dev */
 	strcat(sysfs, "/class/i2c-dev");
-	if(!(dir = opendir(sysfs)))
+	if (!(dir = opendir(sysfs)))
 		goto done;
 	/* go through the busses */
 	while ((de = readdir(dir)) != NULL) {
@@ -228,16 +227,16 @@ struct i2c_adap *gather_i2c_busses(void)
 		sprintf(n, "%s/%s/name", sysfs, de->d_name);
 		f = fopen(n, "r");
 		/* this seems to work for ISA */
-		if(f == NULL) {
+		if (f == NULL) {
 			sprintf(n, "%s/%s/device/name", sysfs, de->d_name);
 			f = fopen(n, "r");
 		}
 		/* non-ISA is much harder */
 		/* and this won't find the correct bus name if a driver
 		   has more than one bus */
-		if(f == NULL) {
+		if (f == NULL) {
 			sprintf(n, "%s/%s/device", sysfs, de->d_name);
-			if(!(ddir = opendir(n)))
+			if (!(ddir = opendir(n)))
 				continue;
 			while ((dde = readdir(ddir)) != NULL) {
 				if (!strcmp(dde->d_name, "."))
@@ -247,7 +246,7 @@ struct i2c_adap *gather_i2c_busses(void)
 				if ((!strncmp(dde->d_name, "i2c-", 4))) {
 					sprintf(n, "%s/%s/device/%s/name",
 						sysfs, de->d_name, dde->d_name);
-					if((f = fopen(n, "r")))
+					if ((f = fopen(n, "r")))
 						goto found;
 				}
 			}

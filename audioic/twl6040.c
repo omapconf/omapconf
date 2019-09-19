@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <twl6040.h>
 #include <i2c-tools.h>
 #include <stdio.h>
@@ -50,7 +49,6 @@
 #include <autoadjust_table.h>
 #include <help.h>
 #include <cpuinfo.h>
-
 
 /* #define TWL6040_DEBUG */
 #ifdef TWL6040_DEBUG
@@ -101,8 +99,8 @@ static const reg_table twl6040_reg_table[TWL6040_REG_TABLE_SIZE] = {
 	{"HFOTRIM", TWL6040_REG_HFOTRIM},
 	{"ACCCTL", TWL6040_REG_ACCCTL},
 	{"STATUS", TWL6040_REG_STATUS},
-	{"END", 0} };
-
+	{"END", 0}
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_dumpregs
@@ -124,22 +122,21 @@ int twl6040_dumpregs(void)
 	row = 0;
 
 	strncpy(autoadjust_table[row][0], "Reg. Name", TABLE_MAX_ELT_LEN);
-	strncpy(autoadjust_table[row][1], "Reg. Addr",
-		TABLE_MAX_ELT_LEN);
+	strncpy(autoadjust_table[row][1], "Reg. Addr", TABLE_MAX_ELT_LEN);
 	strncpy(autoadjust_table[row][2], "Reg. Val.", TABLE_MAX_ELT_LEN);
 	row++;
 
 	while (strcmp(twl6040_reg_table[i].name, "END") != 0) {
 		ret = i2cget(TWL6040_I2C_BUS, TWL6040_I2C_ADDR,
-			twl6040_reg_table[i].addr, &val);
+			     twl6040_reg_table[i].addr, &val);
 		if (ret == 0) {
 			/* Show register name, addr & content (hex) */
 			snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
-				"%s", twl6040_reg_table[i].name);
+				 "%s", twl6040_reg_table[i].name);
 			snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN,
-				"0x%02X", twl6040_reg_table[i].addr);
+				 "0x%02X", twl6040_reg_table[i].addr);
 			snprintf(autoadjust_table[row][2], TABLE_MAX_ELT_LEN,
-				"0x%02X", val);
+				 "0x%02X", val);
 			row++;
 		} else if (ret == -4) {
 			/*
@@ -147,16 +144,16 @@ int twl6040_dumpregs(void)
 			 * its voltage domain is disabled
 			 */
 			snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
-				"%s", twl6040_reg_table[i].name);
+				 "%s", twl6040_reg_table[i].name);
 			snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN,
-				"0x%02X", twl6040_reg_table[i].addr);
+				 "0x%02X", twl6040_reg_table[i].addr);
 			snprintf(autoadjust_table[row][2], TABLE_MAX_ELT_LEN,
-				"INACTIVE");
+				 "INACTIVE");
 			row++;
 		} else {
 			printf("omapconf_twl6040_dumpregs(): read error! "
-				"(addr=0x%02X, err=%d)\n",
-				twl6040_reg_table[i].addr, ret);
+			       "(addr=0x%02X, err=%d)\n",
+			       twl6040_reg_table[i].addr, ret);
 			err = OMAPCONF_ERR_REG_ACCESS;
 			break;
 		}
@@ -167,7 +164,6 @@ int twl6040_dumpregs(void)
 
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_name2addr
@@ -183,7 +179,6 @@ int twl6040_name2addr(char *name, unsigned int *addr)
 	return name2addr(name, addr, (reg_table *) twl6040_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_config
  * @BRIEF		analyze TWL6040 audio configuration
@@ -192,7 +187,7 @@ int twl6040_name2addr(char *name, unsigned int *addr)
  * @param[in,out]	stream: output file stream
  * @DESCRIPTION		analyze TWL6040 audio configuration
  *------------------------------------------------------------------------ */
-int twl6040_config(FILE *stream)
+int twl6040_config(FILE * stream)
 {
 	unsigned char twl6040_regs[TWL6040_REG_NUM];
 	unsigned int i = 0, val;
@@ -200,11 +195,11 @@ int twl6040_config(FILE *stream)
 
 	while (strcmp(twl6040_reg_table[i].name, "END") != 0) {
 		ret = i2cget(TWL6040_I2C_BUS, TWL6040_I2C_ADDR,
-			twl6040_reg_table[i].addr, &val);
+			     twl6040_reg_table[i].addr, &val);
 		if (ret != 0) {
 			printf("twl6040_config(): read error! "
-				"(addr=0x%02X, err=%d)\n",
-				twl6040_reg_table[i].addr, ret);
+			       "(addr=0x%02X, err=%d)\n",
+			       twl6040_reg_table[i].addr, ret);
 			return OMAPCONF_ERR_REG_ACCESS;
 		}
 		twl6040_regs[twl6040_reg_table[i].addr] = val;
@@ -266,7 +261,6 @@ int twl6040_config(FILE *stream)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_gains
  * @BRIEF		analyze TWL6040 analog gains
@@ -275,7 +269,7 @@ int twl6040_config(FILE *stream)
  * @param[in,out]	stream: output file stream
  * @DESCRIPTION		analyze TWL6040 analog gains
  *------------------------------------------------------------------------ */
-int twl6040_gains(FILE *stream)
+int twl6040_gains(FILE * stream)
 {
 	unsigned char twl6040_regs[TWL6040_REG_NUM];
 	unsigned int i = 0, val;
@@ -283,11 +277,11 @@ int twl6040_gains(FILE *stream)
 
 	while (strcmp(twl6040_reg_table[i].name, "END") != 0) {
 		ret = i2cget(TWL6040_I2C_BUS, TWL6040_I2C_ADDR,
-			twl6040_reg_table[i].addr, &val);
+			     twl6040_reg_table[i].addr, &val);
 		if (ret != 0) {
 			printf("twl6040_config(): read error! "
-				"(addr=0x%02X, err=%d)\n",
-				twl6040_reg_table[i].addr, ret);
+			       "(addr=0x%02X, err=%d)\n",
+			       twl6040_reg_table[i].addr, ret);
 			return OMAPCONF_ERR_REG_ACCESS;
 		}
 		twl6040_regs[twl6040_reg_table[i].addr] = val;
@@ -298,7 +292,6 @@ int twl6040_gains(FILE *stream)
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_readreg
@@ -322,7 +315,7 @@ int twl6040_readreg(const char *reg_addr)
 		help(HELP_AUDIOIC);
 		return 0;
 	}
-	reg_addr = uppercase((char *) reg_addr);
+	reg_addr = uppercase((char *)reg_addr);
 
 	/* Retrieve and check register address */
 	if ((reg_addr[0] == '0') && (reg_addr[1] == 'X')) {
@@ -336,17 +329,17 @@ int twl6040_readreg(const char *reg_addr)
 	} else {
 		/* As a string, must start with alpha character */
 		if (isalpha(reg_addr[0])) {
-			ret = sscanf(reg_addr, "%50s", (char *) name);
+			ret = sscanf(reg_addr, "%50s", (char *)name);
 			if (ret != 1) {
 				printf("Oups, register name not recognized!!!"
-					"\n\n");
+				       "\n\n");
 				help(HELP_AUDIOIC);
 				return 0;
 			}
 			by_name = 1;
 		} else {
 			printf("Oups, register name/address not recognized!!!"
-				"\n\n");
+			       "\n\n");
 			help(HELP_AUDIOIC);
 			return 0;
 		}
@@ -359,8 +352,8 @@ int twl6040_readreg(const char *reg_addr)
 		ret = twl6040_name2addr((char *)name, &addr);
 		if (ret != 0) {
 			printf("Oups, not a valid register name!!!\n"
-				"Try \"omapconf dump audioic\" to get valid "
-				"register names.\n\n");
+			       "Try \"omapconf dump audioic\" to get valid "
+			       "register names.\n\n");
 			return 0;
 		}
 	}
@@ -383,7 +376,6 @@ int twl6040_readreg(const char *reg_addr)
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_writereg
@@ -408,16 +400,14 @@ int twl6040_writereg(const char *reg_addr, const char *reg_val)
 		help(HELP_AUDIOIC);
 		return 0;
 	}
-	reg_addr = uppercase((char *) reg_addr);
-
+	reg_addr = uppercase((char *)reg_addr);
 
 	if (reg_val == NULL) {
 		printf("Oups, missing value to be written!!!\n\n");
 		help(HELP_AUDIOIC);
 		return 0;
 	}
-	reg_val = uppercase((char *) reg_val);
-
+	reg_val = uppercase((char *)reg_val);
 
 	/* Retrieve and check register address */
 	if ((reg_addr[0] == '0') && (reg_addr[1] == 'X')) {
@@ -431,11 +421,11 @@ int twl6040_writereg(const char *reg_addr, const char *reg_val)
 	} else {
 		/* As a string, must start with alpha character */
 		if (isalpha(reg_addr[0])) {
-			ret = sscanf(reg_addr, "%50s", (char *) name);
+			ret = sscanf(reg_addr, "%50s", (char *)name);
 			if (ret != 1) {
 				printf("Oups, register address not recognized"
-					"!!!\n\n");
-			help(HELP_AUDIOIC);
+				       "!!!\n\n");
+				help(HELP_AUDIOIC);
 				return 0;
 			}
 			by_name = 1;
@@ -453,8 +443,8 @@ int twl6040_writereg(const char *reg_addr, const char *reg_val)
 		ret = twl6040_name2addr((char *)name, &addr);
 		if (ret != 0) {
 			printf("Oups, not a valid register name!!!\n"
-				"Try \"omapconf dump audioic\" to get valid "
-				"register names.\n\n");
+			       "Try \"omapconf dump audioic\" to get valid "
+			       "register names.\n\n");
 			return 0;
 		}
 	}
@@ -489,7 +479,6 @@ int twl6040_writereg(const char *reg_addr, const char *reg_val)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_chip_revision_get
  * @BRIEF		return TWL6040 chip revision
@@ -507,15 +496,14 @@ float twl6040_chip_revision_get(void)
 	ret = i2cget(TWL6040_I2C_BUS, TWL6040_I2C_ADDR, 0x02, &revcode);
 	if (ret != 0) {
 		dprintf("%s(): could not read register! (%d)\n", __func__, ret);
-		return (float) OMAPCONF_ERR_NOT_AVAILABLE;
+		return (float)OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
-	rev = 0.1 * (float) (revcode & 0x0F);
-	rev += 1 * (float) (1 + ((revcode & 0xF0) >> 4));
+	rev = 0.1 * (float)(revcode & 0x0F);
+	rev += 1 * (float)(1 + ((revcode & 0xF0) >> 4));
 
 	return rev;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_main
@@ -552,7 +540,7 @@ int twl6040_main(int argc, char *argv[])
 	} else if (argc == 4) {
 		if (strcmp(argv[1], "write") == 0) {
 			ret = twl6040_writereg(uppercase(argv[2]),
-				uppercase(argv[3]));
+					       uppercase(argv[3]));
 		} else {
 			help(HELP_AUDIOIC);
 			ret = OMAPCONF_ERR_ARG;

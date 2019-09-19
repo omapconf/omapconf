@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <main_dra7xx.h>
 #include <lib_dra7xx.h>
 #include <voltdm_dra7xx.h>
@@ -65,14 +64,12 @@
 #include <statcoll/sci_swcapture_dra.h>
 #include <ammu_dra7xx.h>
 
-
 /* #define MAIN_DRA7XX_DEBUG */
 #ifdef MAIN_DRA7XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx_dump
@@ -113,8 +110,7 @@ int main_dra7xx_dump(int argc, char *argv[])
 					return err_arg_msg_show(HELP_DPLL);
 			}
 			return dpll_dra7xx_dump(stdout, dpll_id);
-		}
-		else
+		} else
 			return err_arg_too_many_msg_show(HELP_PRCM);
 	} else if (strncmp(argv[0], "mcasp", 5) == 0) {
 		if (argc == 1) {
@@ -143,7 +139,6 @@ int main_dra7xx_dump(int argc, char *argv[])
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx_legacy
  * @BRIEF		OMAP5 LEGACY functions main entry point
@@ -161,10 +156,10 @@ int main_dra7xx_legacy(int argc, char *argv[])
 	int ret;
 
 	if ((argc == 2) && (strcmp(argv[0], "prcm") == 0) &&
-		(strcmp(argv[1], "dump") == 0)) {
+	    (strcmp(argv[1], "dump") == 0)) {
 		ret = prcm_dra7xx_dump(NULL);
 	} else if ((argc == 3) && (strcmp(argv[0], "prcm") == 0) &&
-		(strcmp(argv[1], "dump") == 0)) {
+		   (strcmp(argv[1], "dump") == 0)) {
 		ret = prcm_dra7xx_dump(argv[2]);
 	} else if (strcmp(argv[0], "dpll") == 0) {
 		ret = dpll_dra7xx_main(argc - 1, argv + 1);
@@ -185,7 +180,6 @@ int main_dra7xx_legacy(int argc, char *argv[])
 main_dra7xx_legacy_end:
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx_show
@@ -273,12 +267,11 @@ int main_dra7xx_show(int argc, char *argv[])
 				return err_arg_msg_show(HELP_AMMU);
 		} else {
 			return err_arg_too_many_msg_show(HELP_AMMU);
-                }
+		}
 	} else {
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx_dpll_audit
@@ -306,12 +299,12 @@ int main_dra7xx_dpll_audit(int argc, char *argv[])
 
 	/* Retrieve user options */
 	dprintf("%s(): argc=%u\n", __func__, argc);
-	#ifdef MAIN_DRA7XX_DEBUG
+#ifdef MAIN_DRA7XX_DEBUG
 	for (curr_opp = 0; curr_opp < argc; curr_opp++) {
 		dprintf("%s(): argv[%u]=%s\n", __func__,
 			curr_opp, argv[curr_opp]);
 	}
-	#endif
+#endif
 
 	if (argc == 0) {
 		/* Audit all DPLLs at current OPP by default */
@@ -389,7 +382,7 @@ main_dra7xx_dpll_audit_run:
 		opp_dra7xx_name_get(opp_id), curr_opp);
 
 	ret = audit_dra7xx_dpll(stdout, dpll_id, opp_id, curr_opp,
-		&err_nbr, &wng_nbr);
+				&err_nbr, &wng_nbr);
 
 	goto main_dra7xx_dpll_audit_end;
 
@@ -400,7 +393,6 @@ main_dra7xx_dpll_audit_err_arg:
 main_dra7xx_dpll_audit_end:
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx_audit
@@ -442,7 +434,6 @@ main_dra7xx_audit_end:
 	return ret;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx_export
  * @BRIEF		Export OMAP configuration into format and destination
@@ -470,7 +461,6 @@ static int main_dra7xx_export(int argc, char *argv[])
 		return err_arg_msg_show(HELP_EXPORT);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx_set
@@ -511,8 +501,8 @@ static int main_dra7xx_set(int argc, char *argv[])
 			if (sscanf(argv[2], "%lf", &volt) != 1)
 				return err_arg_msg_show(HELP_VOLT);
 
-                        return lib_dra7xx_voltage_set(vdd_id, volt);
-                } else if ((argc == 5) || (argc == 6)) {
+			return lib_dra7xx_voltage_set(vdd_id, volt);
+		} else if ((argc == 5) || (argc == 6)) {
 			lowercase(argv[1]);
 			if (strcmp(argv[1], "mpu") == 0)
 				vdd_id = VDD_DRA7XX_MPU;
@@ -536,23 +526,22 @@ static int main_dra7xx_set(int argc, char *argv[])
 			if (sscanf(argv[4], "%d", &msec) != 1)
 				return err_arg_msg_show(HELP_VOLT);
 
-                        if (argc == 6) {
-                              lowercase(argv[5]);
-                              if (strcmp(argv[5], "trans") == 0)
-                                    trans = 1;
-                              else
-                                    return err_arg_msg_show(HELP_VOLT);
-                        }
-                        return lib_dra7xx_voltage_set_walk(vdd_id, volt, step,
+			if (argc == 6) {
+				lowercase(argv[5]);
+				if (strcmp(argv[5], "trans") == 0)
+					trans = 1;
+				else
+					return err_arg_msg_show(HELP_VOLT);
+			}
+			return lib_dra7xx_voltage_set_walk(vdd_id, volt, step,
 							   msec, trans);
-                }  else {
+		} else {
 			return err_arg_too_many_msg_show(HELP_VOLT);
 		}
 	} else {
 		return err_arg_msg_show(HELP_CATEGORY_MAX);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx
@@ -593,7 +582,7 @@ int main_dra7xx(int argc, char *argv[])
 	else if (strcmp(argv[0], "set") == 0)
 		ret = main_dra7xx_set(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "trace") == 0)
-        ret = statcoll_main_dra(argc - 1, argv + 1);
+		ret = statcoll_main_dra(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "vminsearch") == 0)
 		ret = libdra7xx_vminsearch(argc - 1, argv + 1);
 	else

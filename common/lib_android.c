@@ -41,12 +41,10 @@
  *
  */
 
-
 #include <lib_android.h>
 #include <stdio.h>
 #include <lib.h>
 #include <string.h>
-
 
 /* #define LIB_ANDROID_DEBUG */
 #ifdef LIB_ANDROID_DEBUG
@@ -54,7 +52,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
 
 const char *android_pastry_names[PASTRY_ID_MAX] = {
 	[PASTRY_GB] = "GingerBread",
@@ -67,8 +64,8 @@ const char *android_pastry_names[PASTRY_ID_MAX] = {
 	[PASTRY_N] = "Nougat",
 	[PASTRY_O] = "Oreo",
 	[PASTRY_P] = "pie",
-	[PASTRY_UNKNOWN] = "Unknown"};
-
+	[PASTRY_UNKNOWN] = "Unknown"
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		os_is_android
@@ -95,7 +92,6 @@ unsigned short os_is_android(void)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		wakelock_acquire
  * @BRIEF		acquire wakelock to avoid device off mode to happen.
@@ -117,7 +113,6 @@ int wakelock_acquire(void)
 	fclose(fp);
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		wakelock_release
@@ -141,7 +136,6 @@ int wakelock_release(void)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		android_pastry_name_get
  * @BRIEF		return pastry name
@@ -156,7 +150,6 @@ const char *android_pastry_name_get(android_pastry_id id)
 
 	return android_pastry_names[id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		android_pastry_get
@@ -176,7 +169,7 @@ android_pastry_id android_pastry_get(void)
 	unsigned int version, rev_major, rev_minor;
 	int ret;
 	static android_pastry_id pastry_id =
-		(android_pastry_id) (PASTRY_ID_MAX + 1);
+	    (android_pastry_id) (PASTRY_ID_MAX + 1);
 
 	if (pastry_id != PASTRY_ID_MAX + 1) {
 		/* Pastry already retrieved, return saved value */
@@ -210,10 +203,10 @@ android_pastry_id android_pastry_get(void)
 		dprintf("%s(): ro.build.version.release line found.\n",
 			__func__);
 		ret = sscanf(line, "ro.build.version.release=%u.%u.%u",
-			&version, &rev_major, &rev_minor);
-		dprintf(
-			"%s(): sscanf()=%u, version=%u rev_major=%u rev_minor=%u\n",
-			__func__, ret, version, rev_major, rev_minor);
+			     &version, &rev_major, &rev_minor);
+		dprintf
+		    ("%s(): sscanf()=%u, version=%u rev_major=%u rev_minor=%u\n",
+		     __func__, ret, version, rev_major, rev_minor);
 		if (ret < 2) {
 			pastry_id = PASTRY_UNKNOWN;
 			dprintf("%s(): pastry unknown, sscanf()=%u\n",
@@ -225,7 +218,8 @@ android_pastry_id android_pastry_get(void)
 				pastry_id = PASTRY_HC;
 			else if ((version == 4) && (rev_major == 0))
 				pastry_id = PASTRY_ICS;
-			else if ((version == 4) && (rev_major >= 1) && (rev_major <= 3))
+			else if ((version == 4) && (rev_major >= 1)
+				 && (rev_major <= 3))
 				pastry_id = PASTRY_JB;
 			else if ((version == 4) && (rev_major == 4))
 				pastry_id = PASTRY_KK;
@@ -253,7 +247,6 @@ android_pastry_id android_pastry_get(void)
 		android_pastry_name_get(pastry_id), pastry_id);
 	return pastry_id;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		android_product_name_get

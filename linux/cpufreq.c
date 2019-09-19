@@ -41,11 +41,9 @@
  *
  */
 
-
 #include <cpufreq.h>
 #include <stdio.h>
 #include <string.h>
-
 
 /* #define CPUFREQ_DEBUG */
 #ifdef CPUFREQ_DEBUG
@@ -54,19 +52,17 @@
 #define dprintf(format, ...)
 #endif
 
-
 static char cpufreq_time_in_state_file[60] =
-	"/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state";
+    "/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state";
 static char cpufreq_total_trans_file[60] =
-	"/sys/devices/system/cpu/cpu0/cpufreq/stats/total_trans";
+    "/sys/devices/system/cpu/cpu0/cpufreq/stats/total_trans";
 static char cpufreq_scaling_gov_file[60] =
-	"/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
+    "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
 static char cpufreq_scaling_cur_freq_file[60] =
-	"/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq";
+    "/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq";
 static char cpufreq_scaling_setspeed_file[60] =
-	"/sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed";
+    "/sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed";
 static int cpufreq_opp_nbr = -1;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpufreq_total_transitions_get
@@ -104,7 +100,6 @@ uint64_t cpufreq_total_transitions_get(void)
 	return count;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpufreq_time_in_state_get
  * @BRIEF		return the time spent in a given OPP
@@ -132,8 +127,7 @@ uint64_t cpufreq_time_in_state_get(unsigned int opp)
 		ret = fscanf(fp, "%u %llu", &freq, &time);
 		if (ret != 2) {
 			fprintf(stderr, "%s(%u): i=%u error reading %s file!\n",
-				__func__, opp, i,
-				cpufreq_time_in_state_file);
+				__func__, opp, i, cpufreq_time_in_state_file);
 			fclose(fp);
 			return 0;
 		}
@@ -144,7 +138,6 @@ uint64_t cpufreq_time_in_state_get(unsigned int opp)
 
 	return time;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpufreq_scaling_governor_get
@@ -187,7 +180,6 @@ char *cpufreq_scaling_governor_get(char name[CPUFREQ_GOV_MAX_NAME_LENGTH])
 	return name;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpufreq_scaling_governor_set
  * @BRIEF		set scaling governor and return previous governor
@@ -201,7 +193,7 @@ char *cpufreq_scaling_governor_get(char name[CPUFREQ_GOV_MAX_NAME_LENGTH])
  * @DESCRIPTION		set scaling governor and return previous governor
  *------------------------------------------------------------------------ */
 int cpufreq_scaling_governor_set(char new_gov[CPUFREQ_GOV_MAX_NAME_LENGTH],
-	char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH])
+				 char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH])
 {
 	FILE *fp = NULL;
 	int ret;
@@ -240,7 +232,7 @@ int cpufreq_scaling_governor_set(char new_gov[CPUFREQ_GOV_MAX_NAME_LENGTH],
 	rewind(fp);
 	dprintf("%s(): new_gov=%s\n", __func__, new_gov);
 	if (fwrite(new_gov, sizeof(char), strlen(new_gov), fp)
-		!= strlen(new_gov)) {
+	    != strlen(new_gov)) {
 		fprintf(stderr, "could not update governor, "
 			"does it run in privileged mode?\n");
 		ret = CPUFREQ_ERR_UNEXPECTED;
@@ -255,7 +247,6 @@ cpufreq_scaling_governor_set_end:
 		fclose(fp);
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpufreq_cur_freq_get
@@ -290,7 +281,6 @@ unsigned int cpufreq_cur_freq_get(void)
 	return cur_freq;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpufreq_opp_nbr_get
  * @BRIEF		return the number of OPP available
@@ -306,14 +296,14 @@ unsigned int cpufreq_opp_nbr_get(void)
 	unsigned int freq, time;
 
 	if (cpufreq_opp_nbr != -1)
-		return (unsigned int) cpufreq_opp_nbr;
+		return (unsigned int)cpufreq_opp_nbr;
 
 	fp = fopen(cpufreq_time_in_state_file, "r");
 	if (fp == NULL) {
 		fprintf(stderr, "%s not found, no CPUFREQ?\n\n",
 			cpufreq_time_in_state_file);
 		cpufreq_opp_nbr = 0;
-		return (unsigned int) cpufreq_opp_nbr;
+		return (unsigned int)cpufreq_opp_nbr;
 	}
 
 	cpufreq_opp_nbr = 0;
@@ -324,15 +314,13 @@ unsigned int cpufreq_opp_nbr_get(void)
 				__func__, cpufreq_opp_nbr);
 			break;
 		}
-		dprintf("%s(): freq=%u time=%u\n",
-			__func__, freq, time);
+		dprintf("%s(): freq=%u time=%u\n", __func__, freq, time);
 		cpufreq_opp_nbr++;
 	} while (ret == 2);
 
 	fclose(fp);
-	return (unsigned int) cpufreq_opp_nbr;
+	return (unsigned int)cpufreq_opp_nbr;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpufreq_set
@@ -364,7 +352,7 @@ int cpufreq_set(unsigned int freq_mpu)
 
 	sprintf(freq_mpu_s, "%u", freq_mpu);
 	if (fwrite(freq_mpu_s, sizeof(char), strlen(freq_mpu_s), fp)
-		!= strlen(freq_mpu_s)) {
+	    != strlen(freq_mpu_s)) {
 		fprintf(stderr, "%s(): could not update CPU frequency!\n",
 			__func__);
 		ret = CPUFREQ_ERR_UNEXPECTED;

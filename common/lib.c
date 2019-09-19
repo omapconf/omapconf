@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <lib.h>
 #include <lib_android.h>
 #include <lib44xx.h>
@@ -58,7 +57,6 @@
 #include <pmic.h>
 #include <twl6040.h>
 #include <time.h>
-
 
 /* #define OMAPCONF_BIN2STR_DEBUG */
 /* #define OMAPCONF_NAME2ADDR_DEBUG */
@@ -80,8 +78,8 @@
 static const char workdirs[3][WORKDIR_MAX_NAME_LENGTH] = {
 	"./",
 	"/data/",
-	"/tmp/"};
-
+	"/tmp/"
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		os_supports_wakelock
@@ -107,7 +105,6 @@ unsigned short os_supports_wakelock(void)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		omapconf_revision_show
  * @BRIEF		show omapconf revision
@@ -115,7 +112,7 @@ unsigned short os_supports_wakelock(void)
  * @param[in]		stream: output file
  * @DESCRIPTION		show omapconf revision
  *------------------------------------------------------------------------ */
-void omapconf_revision_show(FILE *stream)
+void omapconf_revision_show(FILE * stream)
 {
 	if (stream == NULL) {
 		fprintf(stderr, "%s(): stream == NULL!!!\n", __func__);
@@ -123,9 +120,8 @@ void omapconf_revision_show(FILE *stream)
 	}
 
 	fprintf(stream, "OMAPCONF (rev %s built %s)\n\n",
-		 omapconf_version, builddate);
+		omapconf_version, builddate);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		linux_product_name_get
@@ -178,7 +174,6 @@ static char *linux_product_name_get(char product_name[256])
 	return NULL;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		product_name_get
  * @BRIEF		retrieve the product name
@@ -194,7 +189,6 @@ char *product_name_get(char product_name[256])
 		return linux_product_name_get(product_name);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		chips_info_show
  * @BRIEF		show chips revision (OMAP, PMIC, AUDIO IC)
@@ -203,7 +197,7 @@ char *product_name_get(char product_name[256])
  *			die_id: select whether or not to show DIE ID
  * @DESCRIPTION		show chips revision (OMAP, PMIC, AUDIO IC)
  *------------------------------------------------------------------------ */
-void chips_info_show(FILE *stream, unsigned short die_id)
+void chips_info_show(FILE * stream, unsigned short die_id)
 {
 	char name[CPU_NAME_MAX_LENGTH];
 	char rev[CPU_REVISION_MAX_NAME_LENGTH];
@@ -252,9 +246,10 @@ void chips_info_show(FILE *stream, unsigned short die_id)
 				cpu_silicon_type_gets(si_type),
 				cpu_package_type_gets(pkg_type),
 				(strlen(pkg_type) == 0) ? "" : " package ",
-				(double) max_speed / 1000.0);
+				(double)max_speed / 1000.0);
 		if ((die_id != 0) && (cpu_die_id_get(&die_id_3, &die_id_2,
-			&die_id_1, &die_id_0, s_die_id) != NULL))
+						     &die_id_1, &die_id_0,
+						     s_die_id) != NULL))
 			fprintf(stream, "    DIE ID: %s\n", s_die_id);
 	} else {
 		fprintf(stream, "  UNKNOWN CPU ARCHITECTURE\n");
@@ -265,27 +260,27 @@ void chips_info_show(FILE *stream, unsigned short die_id)
 		goto pmic_detection_err;
 	} else {
 		pmic_chip_revision[PMIC_SMPS_MPU] =
-			pmic_chip_revision_get(PMIC_SMPS_MPU);
+		    pmic_chip_revision_get(PMIC_SMPS_MPU);
 		pmic_eprom_revision[PMIC_SMPS_MPU] =
-			pmic_eprom_revision_get(PMIC_SMPS_MPU);
+		    pmic_eprom_revision_get(PMIC_SMPS_MPU);
 	}
 	pmic_chip[PMIC_SMPS_MM] = pmic_chip_get(PMIC_SMPS_MM);
 	if (pmic_chip[PMIC_SMPS_MM] == PMIC_ID_MAX) {
 		goto pmic_detection_err;
 	} else {
 		pmic_chip_revision[PMIC_SMPS_MM] =
-			pmic_chip_revision_get(PMIC_SMPS_MM);
+		    pmic_chip_revision_get(PMIC_SMPS_MM);
 		pmic_eprom_revision[PMIC_SMPS_MM] =
-			pmic_eprom_revision_get(PMIC_SMPS_MM);
+		    pmic_eprom_revision_get(PMIC_SMPS_MM);
 	}
 	pmic_chip[PMIC_SMPS_CORE] = pmic_chip_get(PMIC_SMPS_CORE);
 	if (pmic_chip[PMIC_SMPS_CORE] == PMIC_ID_MAX) {
 		goto pmic_detection_err;
 	} else {
 		pmic_chip_revision[PMIC_SMPS_CORE] =
-			pmic_chip_revision_get(PMIC_SMPS_CORE);
+		    pmic_chip_revision_get(PMIC_SMPS_CORE);
 		pmic_eprom_revision[PMIC_SMPS_CORE] =
-			pmic_eprom_revision_get(PMIC_SMPS_CORE);
+		    pmic_eprom_revision_get(PMIC_SMPS_CORE);
 	}
 
 	if (pmic_chip_revision[PMIC_SMPS_MPU] >= 0.0)
@@ -303,8 +298,8 @@ void chips_info_show(FILE *stream, unsigned short die_id)
 		fprintf(stream, "(EPROM rev%1.1f)\n",
 			pmic_eprom_revision[PMIC_SMPS_MPU]);
 	else if (pmic_is_tps62361(PMIC_SMPS_MPU) ||
-		pmic_is_tps659038(PMIC_SMPS_MPU) ||
-		pmic_is_tps65217x(PMIC_SMPS_MPU))
+		 pmic_is_tps659038(PMIC_SMPS_MPU) ||
+		 pmic_is_tps65217x(PMIC_SMPS_MPU))
 		fprintf(stream, "\n");
 	else
 		fprintf(stream, "(EPROM rev UNKNOWN)\n");
@@ -345,7 +340,6 @@ audioic_detect:
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		release_info_show
  * @BRIEF		show kernel and build version details
@@ -353,7 +347,7 @@ audioic_detect:
  * @param[in]		stream: output file
  * @DESCRIPTION		show kernel and build version details
  *------------------------------------------------------------------------ */
-void release_info_show(FILE *stream)
+void release_info_show(FILE * stream)
 {
 	char kversion[KERNEL_VERSION_MAX_LENGTH];
 	char kauthor[KERNEL_AUTHOR_MAX_LENGTH];
@@ -386,7 +380,7 @@ void release_info_show(FILE *stream)
 
 	fprintf(stream, "  Kernel:\n");
 	if (kernel_details_get(kversion, kauthor, ktoolchain, ktype, kdate)
-		!= NULL) {
+	    != NULL) {
 		fprintf(stream, "    Version: %s\n", kversion);
 		fprintf(stream, "    Author: %s\n", kauthor);
 		fprintf(stream, "    Toolchain: %s\n", ktoolchain);
@@ -396,7 +390,6 @@ void release_info_show(FILE *stream)
 		fprintf(stream, "    Version: unknown\n");
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		date_get
@@ -424,7 +417,6 @@ char *date_get(char s[17])
 	return s;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		lowercase
  * @BRIEF		convert all string characters to lowercase
@@ -434,16 +426,15 @@ char *date_get(char s[17])
  *------------------------------------------------------------------------ */
 char *lowercase(char *s)
 {
-	unsigned int  i = 0;
+	unsigned int i = 0;
 
 	while (s[i]) {
 		s[i] = tolower(s[i]);
 		i++;
 	}
 
-	return (char *) s;
+	return (char *)s;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		uppercase
@@ -454,16 +445,15 @@ char *lowercase(char *s)
  *------------------------------------------------------------------------ */
 char *uppercase(char *s)
 {
-	unsigned int  i = 0;
+	unsigned int i = 0;
 
 	while (s[i]) {
 		s[i] = toupper(s[i]);
 		i++;
 	}
 
-	return (char *) s;
+	return (char *)s;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		bin2str_32
@@ -488,13 +478,12 @@ char *bin2str_32(char s[33], unsigned int value)
 	}
 	s[32] = '\0';
 
-	#ifdef OMAPCONF_BIN2STR_DEBUG
+#ifdef OMAPCONF_BIN2STR_DEBUG
 	printf("bin2str(%8x) = %s\n", value, s);
-	#endif
+#endif
 
 	return s;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		extract_bit
@@ -513,7 +502,6 @@ inline short int extract_bit(unsigned int regVal, unsigned short pos)
 		return (regVal & (1 << pos)) >> pos;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		extract_bitfield
  * @BRIEF		extract bitfield value from register, given position and
@@ -527,7 +515,7 @@ inline short int extract_bit(unsigned int regVal, unsigned short pos)
  *			length.
  *------------------------------------------------------------------------ */
 inline int extract_bitfield(unsigned int regVal, unsigned short start,
-	unsigned short len)
+			    unsigned short len)
 {
 	if (len == 0)
 		return OMAPCONF_ERR_ARG;
@@ -538,7 +526,6 @@ inline int extract_bitfield(unsigned int regVal, unsigned short start,
 	else
 		return (regVal & (((1 << len) - 1) << start)) >> start;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		count64_delta
@@ -567,7 +554,6 @@ uint64_t count64_delta(uint64_t a, uint64_t b)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		max
  * @BRIEF		return the greatest of the 2 given 64-bit arguments
@@ -583,7 +569,6 @@ uint64_t max(uint64_t a, uint64_t b)
 	else
 		return a;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		count32_delta
@@ -612,7 +597,6 @@ unsigned int count32_delta(unsigned int a, unsigned int b)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		max32
  * @BRIEF		return the greatest of the 2 given arguments
@@ -630,7 +614,6 @@ unsigned int max32(unsigned int a, unsigned int b)
 	else
 		return a;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		max32s
@@ -650,7 +633,6 @@ int max32s(int a, int b)
 		return a;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		min32
  * @BRIEF		return the smallest of the 2 given arguments
@@ -668,7 +650,6 @@ unsigned int min32(unsigned int a, unsigned int b)
 	else
 		return b;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		min32s
@@ -688,7 +669,6 @@ int min32s(int a, int b)
 		return b;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		avg_recalc
  * @BRIEF		re-compute average based on previous avg and new data.
@@ -701,14 +681,13 @@ int min32s(int a, int b)
 double avg_recalc(double prev_avg, double new_val, unsigned int n)
 {
 	double avg;
-	avg = (prev_avg * (double) n) + new_val;
-	avg /= (double) (n + 1);
+	avg = (prev_avg * (double)n) + new_val;
+	avg /= (double)(n + 1);
 
 	dprintf("%s(prev_avg=%lf, new_val=%lf, n=%u) = %lf\n", __func__,
 		prev_avg, new_val, n, avg);
 	return avg;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mhz2string
@@ -736,7 +715,6 @@ char *mhz2string(double rate, char s[15])
 	return s;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		workdir_get
  * @BRIEF		find a writable directory where to store output file(s).
@@ -753,7 +731,7 @@ char *workdir_get(void)
 	unsigned int i;
 
 	if (!first_time)
-		return (char *) found_working_dir;
+		return (char *)found_working_dir;
 	first_time = 0;
 
 	for (i = 0; i < 3; i++) {
@@ -765,10 +743,10 @@ char *workdir_get(void)
 			/* Current directory is writable */
 			fclose(fp);
 			remove(test_filename);
-			found_working_dir = (char *) workdirs[i];
+			found_working_dir = (char *)workdirs[i];
 			dprintf("%s(): found %s is writable\n",
 				__func__, found_working_dir);
-			return (char *) found_working_dir;
+			return (char *)found_working_dir;
 		} else {
 			dprintf("%s(): %s is not writable\n",
 				__func__, found_working_dir);
@@ -777,9 +755,8 @@ char *workdir_get(void)
 	/* Reaching this point means no writable directory found */
 	found_working_dir = NULL;
 	fprintf(stderr, "No writable directory found!\n");
-	return (char *) found_working_dir;
+	return (char *)found_working_dir;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		workdir_fopen
@@ -829,7 +806,6 @@ FILE *workdir_fopen(char filename[128], const char *mode)
 	return fopen(fullname, mode);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		kernel_details_get
  * @BRIEF		retrieve kernel details (version, author, toolchain,
@@ -852,17 +828,18 @@ FILE *workdir_fopen(char filename[128], const char *mode)
  *			dedicated strings.
  *------------------------------------------------------------------------ */
 char *kernel_details_get(char version[KERNEL_VERSION_MAX_LENGTH],
-			char author[KERNEL_AUTHOR_MAX_LENGTH],
-			char toolchain[KERNEL_TOOLCHAIN_MAX_LENGTH],
-			char type[KERNEL_TYPE_MAX_LENGTH],
-			char date[KERNEL_DATE_MAX_LENGTH])
+			 char author[KERNEL_AUTHOR_MAX_LENGTH],
+			 char toolchain[KERNEL_TOOLCHAIN_MAX_LENGTH],
+			 char type[KERNEL_TYPE_MAX_LENGTH],
+			 char date[KERNEL_DATE_MAX_LENGTH])
 {
 	FILE *fp = NULL;
 	char s[PROC_VERSION_MAX_LENGTH];
 	char *str, *pch;
 	unsigned short int day, num;
 	static const char week[7][4] = {
-		"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+		"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
+	};
 
 	CHECK_NULL_ARG(version, NULL);
 	CHECK_NULL_ARG(author, NULL);
@@ -895,7 +872,7 @@ char *kernel_details_get(char version[KERNEL_VERSION_MAX_LENGTH],
 	 * Linux version "version" ("author") ("toolchain" ) "type" "date"
 	 */
 	/* Skip first 14 characters ("Linux version ") */
-	str = s  + 14 * sizeof(char);
+	str = s + 14 * sizeof(char);
 	dprintf("%s(): str=%s len=%u\n", __func__, str, strlen(str));
 	/* Extract kernel version (all characters until " (") */
 	num = strcspn(str, " (");
@@ -943,7 +920,6 @@ kernel_info_get_end:
 	return version;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		release_version_get
  * @BRIEF		retrieve release details (version, type, date) from
@@ -964,8 +940,8 @@ kernel_info_get_end:
  *			dedicated strings.
  *------------------------------------------------------------------------ */
 char *release_details_get(char version[RELEASE_VERSION_MAX_LENGTH],
-			char type[RELEASE_TYPE_MAX_LENGTH],
-			char date[RELEASE_DATE_MAX_LENGTH])
+			  char type[RELEASE_TYPE_MAX_LENGTH],
+			  char date[RELEASE_DATE_MAX_LENGTH])
 {
 	FILE *fp = NULL;
 	static const char version_file_linux[] = "/etc/issue.net";
@@ -982,9 +958,9 @@ char *release_details_get(char version[RELEASE_VERSION_MAX_LENGTH],
 	strcpy(date, "UNKNOWN");
 
 	if (os_is_android())
-		version_file = (char *) version_file_android;
+		version_file = (char *)version_file_android;
 	else
-		version_file = (char *) version_file_linux;
+		version_file = (char *)version_file_linux;
 
 	fp = fopen(version_file, "r");
 	if (fp == NULL) {
@@ -1066,7 +1042,6 @@ release_details_get_end:
 	return version;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		name2addr
  * @BRIEF		convert register name to address.
@@ -1081,31 +1056,30 @@ int name2addr(char *name, unsigned int *addr, reg_table table[])
 {
 	unsigned int i = 0;
 
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("%s(): name = %s\n", __func__, name);
-	#endif
+#endif
 
 	do {
 		if (strcmp(table[i].name, name) == 0) {
 			/* register name found */
 			*addr = table[i].addr;
-			#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 			printf("%s(): Address(%s) = 0x%x\n", __func__,
-				name, (*addr));
-			#endif
+			       name, (*addr));
+#endif
 			return 0;
 		}
 		i++;
 	} while (strcmp(table[i].name, "END") != 0);
 
 	/* Register name not found */
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("%s(): register name not found! (%s)\n", __func__, name);
-	#endif
+#endif
 
 	return -1;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		find_reg_addr
@@ -1121,22 +1095,21 @@ int find_reg_addr(char *name, unsigned int *addr)
 {
 	int ret = 0;
 
-	#ifdef OMAPCONF_FIND_REG_ADDR_DEBUG
+#ifdef OMAPCONF_FIND_REG_ADDR_DEBUG
 	printf("%s(): looking for addr of register %s...\n", __func__, name);
-	#endif
+#endif
 
 	if (cpu_is_omap44xx()) {
 		ret = reg44xx_addr_find(name, addr);
 	} else if (cpu_is_am335x()) {
 		ret = reg_am335x_addr_find(name, addr);
-	}else {
+	} else {
 		printf("%s(): unsupported chip!\n\n", __func__);
 		ret = OMAPCONF_ERR_CPU;
 	}
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dumpregs
@@ -1161,8 +1134,7 @@ int dumpregs(reg_table table[])
 	row = 0;
 
 	strncpy(autoadjust_table[row][0], "Reg. Name", TABLE_MAX_ELT_LEN);
-	strncpy(autoadjust_table[row][1], "Reg. Addr",
-		TABLE_MAX_ELT_LEN);
+	strncpy(autoadjust_table[row][1], "Reg. Addr", TABLE_MAX_ELT_LEN);
 	strncpy(autoadjust_table[row][2], "Reg. Val.", TABLE_MAX_ELT_LEN);
 	row++;
 
@@ -1171,15 +1143,15 @@ int dumpregs(reg_table table[])
 		if (ret == 0) {
 			/* Show register name, addr & content (hex) */
 			snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
-				"%s", table[i].name);
+				 "%s", table[i].name);
 			snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN,
-				"0x%08X", table[i].addr);
+				 "0x%08X", table[i].addr);
 			snprintf(autoadjust_table[row][2], TABLE_MAX_ELT_LEN,
-				"0x%08X", val);
+				 "0x%08X", val);
 			row++;
 		} else {
 			printf("%s(): read error! (addr=0x%08X, err=%d)\n",
-				__func__, table[i].addr, ret);
+			       __func__, table[i].addr, ret);
 			err = OMAPCONF_ERR_REG_ACCESS;
 			break;
 		}
@@ -1190,7 +1162,6 @@ int dumpregs(reg_table table[])
 
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_address_range_dump
@@ -1242,7 +1213,6 @@ int mem_address_range_dump(unsigned int start, unsigned int end)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		name2value
  * @BRIEF		Convert a named table entry to its value. If there are
@@ -1255,36 +1225,35 @@ int mem_address_range_dump(unsigned int start, unsigned int end)
  * @DESCRIPTION		Convert a named table entry to its value. If there are
  *			multiple matches, returns the first.
  *------------------------------------------------------------------------ */
-int name2value(
-	char *name, unsigned int *value, const name_desc_val_table table[])
+int name2value(char *name, unsigned int *value,
+	       const name_desc_val_table table[])
 {
 	unsigned int i = 0;
 
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("name2value(): name = %s\n", name);
-	#endif
+#endif
 
 	do {
 		if (strcmp(table[i].name, name) == 0) {
 			/* register name found */
 			*value = table[i].value;
-			#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 			printf("name2value(): Name %s indexes Value 0x%x\n",
-				name, (*value));
-			#endif
+			       name, (*value));
+#endif
 			return 0;
 		}
 		i++;
 	} while (strcmp(table[i].name, "END") != 0);
 
 	/* Register name not found */
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("name2value(): name not found! (%s)\n", name);
-	#endif
+#endif
 
 	return OMAPCONF_ERR_NOT_AVAILABLE;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		name2vindex
@@ -1298,36 +1267,35 @@ int name2value(
  * @DESCRIPTION		Convert a named table entry to its index. If there are
  *			multiple matches, returns the first.
  *------------------------------------------------------------------------ */
-int name2index(
-	char *name, unsigned int *index, const name_desc_val_table table[])
+int name2index(char *name, unsigned int *index,
+	       const name_desc_val_table table[])
 {
 	unsigned int i = 0;
 
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("name2value(): name = %s\n", name);
-	#endif
+#endif
 
 	do {
 		if (strcmp(table[i].name, name) == 0) {
 			/* register name found */
 			*index = i;
-			#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 			printf("name2value(): Name %s index is 0x%x\n",
-				name, (*index));
-			#endif
+			       name, (*index));
+#endif
 			return 0;
 		}
 		i++;
 	} while (strcmp(table[i].name, "END") != 0);
 
 	/* Register name not found */
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("name2value(): name not found! (%s)\n", name);
-	#endif
+#endif
 
 	return OMAPCONF_ERR_NOT_AVAILABLE;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		value2name
@@ -1341,37 +1309,35 @@ int name2index(
  * @DESCRIPTION		Convert a value table entry to its name. If there are
  *			multiple matches, returns the first.
  *------------------------------------------------------------------------ */
-int value2name(
-	unsigned int value, char *name, const name_desc_val_table table[])
+int value2name(unsigned int value, char *name,
+	       const name_desc_val_table table[])
 {
 	unsigned int i = 0;
 
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("value2name(): value = 0x%x\n", value);
-	#endif
+#endif
 
 	do {
 		if (table[i].value == value) {
 			/* register name found */
 			strcpy(name, table[i].name);
-			#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 			printf("value2name(): Value 0x%x indexes Name %s\n",
-				 (value), name);
-			#endif
+			       (value), name);
+#endif
 			return 0;
 		}
 		i++;
 	} while (strcmp(table[i].name, "END") != 0);
 
-
 	/* Register name not found */
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("value2name(): name not found! (%s)\n", name);
-	#endif
+#endif
 
 	return -1;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		name2desc
@@ -1386,37 +1352,35 @@ int value2name(
  * @DESCRIPTION		Convert a value of a table entry to its description
  *			text. If there are multiple matches, returns the first.
  *------------------------------------------------------------------------ */
-int value2desc(
-	unsigned int value, char *desc, const name_desc_val_table table[])
+int value2desc(unsigned int value, char *desc,
+	       const name_desc_val_table table[])
 {
 	unsigned int i = 0;
 
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("value2desc(): value = 0x%x\n", value);
-	#endif
+#endif
 
 	do {
 		if (table[i].value == value) {
 			/* register name found */
 			strcpy(desc, table[i].desc);
-			#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 			printf("value2name(): Value 0x%x indexes Desc %s\n",
-				 (value), desc);
-			#endif
+			       (value), desc);
+#endif
 			return 0;
 		}
 		i++;
 	} while (strcmp(table[i].name, "END") != 0);
 
-
 	/* Register name not found */
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("value2desc(): value not found! (%s)\n", desc);
-	#endif
+#endif
 
 	return -1;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		name2value
@@ -1432,35 +1396,34 @@ int value2desc(
  *			multiple matches, returns the first.
  *------------------------------------------------------------------------ */
 int name2multivalue(char *name, unsigned int *value, unsigned int index,
-	const name_desc_multival_table table[])
+		    const name_desc_multival_table table[])
 {
 	unsigned int i = 0;
 
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("name2value(): name = %s\n", name);
-	#endif
+#endif
 
 	do {
 		if (strcmp(table[i].name, name) == 0) {
 			/* register name found */
 			*value = table[i].value[index];
-			#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 			printf("name2value(): Name %s indexes Value 0x%x\n",
-				name, (*value));
-			#endif
+			       name, (*value));
+#endif
 			return 0;
 		}
 		i++;
 	} while (strcmp(table[i].name, "END") != 0);
 
 	/* Register name not found */
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("name2value(): name not found! (%s)\n", name);
-	#endif
+#endif
 
 	return -1;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		value2name
@@ -1476,36 +1439,34 @@ int name2multivalue(char *name, unsigned int *value, unsigned int index,
  *			multiple matches, returns the first.
  *------------------------------------------------------------------------ */
 int multivalue2name(unsigned int value, char *name, unsigned int index,
-	const name_desc_multival_table table[])
+		    const name_desc_multival_table table[])
 {
 	unsigned int i = 0;
 
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("value2name(): value = 0x%x\n", value);
-	#endif
+#endif
 
 	do {
 		if (table[i].value[index] == value) {
 			/* register name found */
 			strcpy(name, table[i].name);
-			#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 			printf("value2name(): Value 0x%x indexes Name %s\n",
-				 (value), name);
-			#endif
+			       (value), name);
+#endif
 			return 0;
 		}
 		i++;
 	} while (strcmp(table[i].name, "END") != 0);
 
-
 	/* Register name not found */
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("value2name(): name not found! (%s)\n", name);
-	#endif
+#endif
 
 	return -1;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		name2desc
@@ -1522,36 +1483,34 @@ int multivalue2name(unsigned int value, char *name, unsigned int index,
  *			text. If there are multiple matches, returns the first.
  *------------------------------------------------------------------------ */
 int multivalue2desc(unsigned int value, char *desc, unsigned int index,
-	const name_desc_multival_table table[])
+		    const name_desc_multival_table table[])
 {
 	unsigned int i = 0;
 
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("value2desc(): value = 0x%x\n", value);
-	#endif
+#endif
 
 	do {
 		if (table[i].value[index] == value) {
 			/* register name found */
 			strcpy(desc, table[i].desc);
-			#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 			printf("value2name(): Value 0x%x indexes Desc %s\n",
-				 (value), desc);
-			#endif
+			       (value), desc);
+#endif
 			return 0;
 		}
 		i++;
 	} while (strcmp(table[i].name, "END") != 0);
 
-
 	/* Register name not found */
-	#ifdef OMAPCONF_NAME2ADDR_DEBUG
+#ifdef OMAPCONF_NAME2ADDR_DEBUG
 	printf("value2desc(): value not found! (%s)\n", desc);
-	#endif
+#endif
 
 	return -1;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		celcius2fahrenheit
@@ -1603,8 +1562,8 @@ int celcius2fahrenheit(int d)
  *			from a file as integers... Also could add more types
  *			than ints/strings if required without breaking code.
  *------------------------------------------------------------------------ */
-int omapconf_getdefaults(
-	char *defaults_file, char *prefix, name_desc_val_table tablep[])
+int omapconf_getdefaults(char *defaults_file, char *prefix,
+			 name_desc_val_table tablep[])
 {
 	char param[80];
 	char *param_ptr;
@@ -1616,7 +1575,6 @@ int omapconf_getdefaults(
 	int newline_found = 0;
 	int param_found = 0;
 	FILE *fp = NULL;
-
 
 	dprintf("OMAPCONF INFO: Processing Defaults in LIB.\n");
 
@@ -1633,7 +1591,8 @@ int omapconf_getdefaults(
 		/* Check if a \n is found. If not, issue a warning */
 		for (i = 0; i < 128; i++) {
 			if (line[i] == '\n') {
-				newline_found = 1; break;
+				newline_found = 1;
+				break;
 			}
 		}
 		if (!newline_found) {
@@ -1646,7 +1605,8 @@ int omapconf_getdefaults(
 		/* Process line to remove anything after a # */
 		for (i = 0; i < 128; i++) {
 			if (line[i] == '#') {
-				line[i] = '\0'; break;
+				line[i] = '\0';
+				break;
 			}
 		}
 
@@ -1704,13 +1664,13 @@ int omapconf_getdefaults(
 				"\n%s(): LINE: %s\n", __func__, __func__, line);
 		}
 
-	/*
-	 * Walked through the table for a particular parameter.
-	 * End while loop to get next.
-	 */
+		/*
+		 * Walked through the table for a particular parameter.
+		 * End while loop to get next.
+		 */
 	}
 
-	fclose(fp);  /* close the file prior to exiting the routine */
+	fclose(fp);		/* close the file prior to exiting the routine */
 	return 0;
 
 }

@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __TLV320AIC3X_H__
 #define __TLV320AIC3X_H__
-
 
 #include <stdio.h>
 
@@ -55,9 +53,7 @@
 #define TLV320AIC3X_I2C_VALID_ADDR3	0x1a
 #define TLV320AIC3X_I2C_VALID_ADDR4	0x1b
 
-
 int tlv320aic3x_dumpregs(int argc, char *argv[]);
 int tlv320aic3x_main(int argc, char *argv[]);
-
 
 #endif

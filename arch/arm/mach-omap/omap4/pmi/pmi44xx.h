@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __PMI44XX_H__
 #define __PMI44XX_H__
 
@@ -59,7 +58,6 @@
 #define OMAP4430_PMI_PTCR	OMAP4430_PMI_REGADDR(OMAP4430_PMI_BASE, 0x2C)
 #define OMAP4430_PMI_PSWR	OMAP4430_PMI_REGADDR(OMAP4430_PMI_BASE, 0x30)
 
-
 typedef enum {
 	PMI_VOLTDM_CLASS_LOGIC = 0,
 	PMI_VOLTDM_CLASS_MEM = 1,
@@ -67,7 +65,6 @@ typedef enum {
 	PMI_PWRDM_CLASS_MEM = 3,
 	PMI_EVENT_CLASS_MAX
 } pmi_event_class;
-
 
 typedef enum {
 	/*
@@ -83,9 +80,9 @@ typedef enum {
 	 * logic voltage (OPP and smart-reflex adjustments), not LDOs)
 	 */
 	PMI_EVENT_VOLTDM_OPP_CHANGE = (1 << PMI_VOLTDM_CLASS_LOGIC) +
-		(1 << PMI_PWRDM_CLASS_LOGIC),
+	    (1 << PMI_PWRDM_CLASS_LOGIC),
 	PMI_EVENT_PWRDM_TRANSITION = (1 << PMI_PWRDM_CLASS_LOGIC) +
-		(1 << PMI_PWRDM_CLASS_MEM) + (1 << PMI_VOLTDM_CLASS_LOGIC),
+	    (1 << PMI_PWRDM_CLASS_MEM) + (1 << PMI_VOLTDM_CLASS_LOGIC),
 	PMI_EVENT_MAX
 } pmi_event_class_type;
 
@@ -93,17 +90,18 @@ typedef struct {
 	pmi_event_class class;
 	unsigned int data_msb;
 	unsigned int data_lsb;
-	double ts; /* relative, in micro-seconds */
+	double ts;		/* relative, in micro-seconds */
 } pmi_event;
 
 int pmi44xx_capture_enable(pmi_event_class_type class,
-	unsigned int div, unsigned int window_size);
+			   unsigned int div, unsigned int window_size);
 int pmi44xx_capture_disable(void);
 
 int pmi44xx_trace_capture(pmi_event_class_type class,
-	unsigned int time, unsigned short delay, char *file);
+			  unsigned int time, unsigned short delay, char *file);
 int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
-	char *pmi_trace, double *duration, opp44xx_id vddcore_opp);
-int pmi44xx_events_get(char *filename, genlist *pmi_events);
+			 char *pmi_trace, double *duration,
+			 opp44xx_id vddcore_opp);
+int pmi44xx_events_get(char *filename, genlist * pmi_events);
 
 #endif

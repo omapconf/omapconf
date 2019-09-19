@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __DPLL54XX_DATA_H__
 #define __DPLL54XX_DATA_H__
 
-
 #include <dpll54xx.h>
 #include <voltdm54xx.h>
-
 
 typedef struct {
 	/* Common DPLL type A & B */
@@ -76,24 +73,24 @@ typedef struct {
 	double hsdiv_rate[HSDIV54XX_ID_MAX];
 } dpll54xx_audited_settings;
 
-
 extern const char dpll54xx_names[DPLL54XX_ID_MAX][DPLL_MAX_NAME_LENGTH];
 extern const char hsdiv54xx_names[HSDIV54XX_ID_MAX][HSDIV_MAX_NAME_LENGTH];
 extern const char
-	dpll54xx_output_names[DPLL54XX_OUTPUT_ID_MAX][DPLL_OUTPUT_MAX_NAME_LENGTH];
+ dpll54xx_output_names[DPLL54XX_OUTPUT_ID_MAX][DPLL_OUTPUT_MAX_NAME_LENGTH];
 extern const dpll_clk_sources dpll54xx_sources[DPLL54XX_ID_MAX];
 
 extern dpll54xx_audited_settings
-	*dpll54xxes1_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
-extern dpll54xx_audited_settings
-	*dpll54xxes2_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
-extern dpll54xx_audited_settings
-	*dpll5432es2_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
-extern dpll54xx_audited_settings
-	*dpll5432es2_vdd_mm_hi_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
+    *
+    dpll54xxes1_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
+extern dpll54xx_audited_settings *
+    dpll54xxes2_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
+extern dpll54xx_audited_settings *
+    dpll5432es2_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
+extern dpll54xx_audited_settings *
+    dpll5432es2_vdd_mm_hi_golden_settings_19_2MHz_table[DPLL54XX_ID_MAX]
+    [OPP54XX_ID_MAX];
 
 extern dpll54xx_audited_settings
-	*dpll54xx_golden_settings_38_4MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
-
+    * dpll54xx_golden_settings_38_4MHz_table[DPLL54XX_ID_MAX][OPP54XX_ID_MAX];
 
 #endif

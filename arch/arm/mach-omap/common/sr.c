@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <sr.h>
 #include <lib.h>
 #include <cpuinfo.h>
@@ -56,14 +55,12 @@
 #include <vp.h>
 #include <opp.h>
 
-
 /* #define SR_DEBUG */
 #ifdef SR_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 #define SR_ACCUMDATA_POS		22
 #define SR_ACCUMDATA_LEN		10
@@ -155,7 +152,6 @@
 #define SR_ERRMINLIMIT_POS		0
 #define SR_ERRMINLIMIT_LEN		8
 
-
 #define SR_AUDIT_SHOW_STATUS(curr, golden) \
 		if (curr == golden) { \
 			snprintf(table[row++][3], TABLE_MAX_ELT_LEN, "Pass"); \
@@ -164,17 +160,16 @@
 			(*err_nbr)++; \
 		}
 
-
 static const char
-	sr_sensor_type_names[SR_SENSOR_TYPE_MAX + 1][SR_SENSOR_TYPE_MAX_LENGTH] = {
+ sr_sensor_type_names[SR_SENSOR_TYPE_MAX + 1][SR_SENSOR_TYPE_MAX_LENGTH] = {
 	"N",
 	"P",
 	"FIXME"
 };
 
-
 static const char
-	sr_sensor_value_type_names[SR_SENSOR_VAL_TYPE_MAX + 1][SR_SENSOR_VAL_TYPE_MAX_LENGTH] = {
+ sr_sensor_value_type_names[SR_SENSOR_VAL_TYPE_MAX +
+			    1][SR_SENSOR_VAL_TYPE_MAX_LENGTH] = {
 	"Latest",
 	"MIN",
 	"MAX",
@@ -182,18 +177,17 @@ static const char
 	"FIXME"
 };
 
-
 static const char
-	sr_sensor_value_status_names[SR_SENSOR_VAL_STATUS_MAX + 1][SR_SENSOR_VAL_STATUS_MAX_LENGTH] = {
+ sr_sensor_value_status_names[SR_SENSOR_VAL_STATUS_MAX +
+			      1][SR_SENSOR_VAL_STATUS_MAX_LENGTH] = {
 	"Invalid",
 	"Valid",
 	"Valid & Final",
 	"FIXME"
 };
 
-
 static const char
-	sr_interrupt_type_names[SR_IRQ_TYPE_MAX + 1][SR_IRQ_TYPE_MAX_LENGTH] = {
+ sr_interrupt_type_names[SR_IRQ_TYPE_MAX + 1][SR_IRQ_TYPE_MAX_LENGTH] = {
 	"MCU DisableAck",
 	"MCU Bounds",
 	"MCU Valid",
@@ -201,7 +195,6 @@ static const char
 	"VP bounds",
 	"FIXME"
 };
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_type_name_get
@@ -219,7 +212,6 @@ const char *sr_sensor_type_name_get(sr_sensor_type type)
 		return sr_sensor_type_names[SR_SENSOR_TYPE_MAX];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_value_type_name_get
  * @BRIEF		return sensor value type name
@@ -235,7 +227,6 @@ const char *sr_sensor_value_type_name_get(sr_sensor_value_type type)
 	else
 		return sr_sensor_value_type_names[SR_SENSOR_VAL_TYPE_MAX];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_value_status_name_get
@@ -253,7 +244,6 @@ const char *sr_sensor_value_status_name_get(sr_sensor_value_status status)
 		return sr_sensor_value_status_names[SR_SENSOR_VAL_STATUS_MAX];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_interrupt_type_name_get
  * @BRIEF		return SR interrupt type name
@@ -270,7 +260,6 @@ const char *sr_interrupt_type_name_get(sr_interrupt_type type)
 		return sr_interrupt_type_names[SR_IRQ_TYPE_MAX];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_enabled
  * @BRIEF		check if SR module is enabled by analyzing SRCONFIG
@@ -285,7 +274,6 @@ unsigned char sr_is_enabled(unsigned int sr_config)
 	return extract_bit(sr_config, SR_SRENABLE_POS);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_has_converged
  * @BRIEF		check if SR module has converged
@@ -298,9 +286,9 @@ unsigned char sr_has_converged(unsigned int errconfig, unsigned int senerror)
 {
 	signed char minlimit, maxlimit, avgerr;
 
-	minlimit = (signed char) sr_error_generator_minlimit_get(errconfig);
-	maxlimit = (signed char) sr_error_generator_maxlimit_get(errconfig);
-	avgerr = (signed char) sr_avg_sensor_error_value_get(senerror);
+	minlimit = (signed char)sr_error_generator_minlimit_get(errconfig);
+	maxlimit = (signed char)sr_error_generator_maxlimit_get(errconfig);
+	avgerr = (signed char)sr_avg_sensor_error_value_get(senerror);
 
 	if ((avgerr <= maxlimit) && (avgerr >= minlimit)) {
 		dprintf("%s(): minlimit=%d maxlimit=%d avgerr=%d => "
@@ -314,7 +302,6 @@ unsigned char sr_has_converged(unsigned int errconfig, unsigned int senerror)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_sensors_disabled
  * @BRIEF		check if SR sensors (N+P) are disabled
@@ -327,7 +314,6 @@ unsigned char sr_is_sensors_disabled(unsigned int sr_config)
 	return !extract_bit(sr_config, SR_SENENABLE_POS);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_lvt_sensors_disabled
  * @BRIEF		check if SR LVT sensors (N+P) are disabled
@@ -339,7 +325,6 @@ unsigned char sr_is_lvt_sensors_disabled(unsigned int sr_config)
 {
 	return !extract_bit(sr_config, SR_LVTSENENABLE_POS);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_sensor_enabled
@@ -363,7 +348,6 @@ unsigned char sr_is_sensor_enabled(unsigned int sr_config, sr_sensor_type type)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_lvt_sensor_enabled
  * @BRIEF		check if SR LVT sensor is enabled
@@ -373,7 +357,7 @@ unsigned char sr_is_sensor_enabled(unsigned int sr_config, sr_sensor_type type)
  * @DESCRIPTION		check if SR LVT sensor is enabled
  *------------------------------------------------------------------------ */
 unsigned char sr_is_lvt_sensor_enabled(unsigned int sr_config,
-	sr_sensor_type type)
+				       sr_sensor_type type)
 {
 	switch (type) {
 	case SR_SENSOR_N:
@@ -387,7 +371,6 @@ unsigned char sr_is_lvt_sensor_enabled(unsigned int sr_config,
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_error_generator_enabled
  * @BRIEF		check if SR error generator is enabled
@@ -399,7 +382,6 @@ unsigned char sr_is_error_generator_enabled(unsigned int sr_config)
 {
 	return extract_bit(sr_config, SR_ERRORGENERATORENABLE_POS);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_minmaxavg_detector_enabled
@@ -413,7 +395,6 @@ unsigned char sr_is_minmaxavg_detector_enabled(unsigned int sr_config)
 	return extract_bit(sr_config, SR_MINMAXAVGENABLE_POS);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_accumdata_count_get
  * @BRIEF		return the number of values to accumulate
@@ -423,10 +404,8 @@ unsigned char sr_is_minmaxavg_detector_enabled(unsigned int sr_config)
  *------------------------------------------------------------------------ */
 unsigned char sr_accumdata_count_get(unsigned int sr_config)
 {
-	return extract_bitfield(sr_config,
-		SR_ACCUMDATA_POS, SR_ACCUMDATA_LEN);
+	return extract_bitfield(sr_config, SR_ACCUMDATA_POS, SR_ACCUMDATA_LEN);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_clk_div_get
@@ -438,9 +417,8 @@ unsigned char sr_accumdata_count_get(unsigned int sr_config)
 unsigned char sr_clk_div_get(unsigned int sr_config)
 {
 	return extract_bitfield(sr_config,
-		SR_SRCLKLENGTH_POS, SR_SRCLKLENGTH_LEN);
+				SR_SRCLKLENGTH_POS, SR_SRCLKLENGTH_LEN);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_clk_rate_get
@@ -454,10 +432,8 @@ unsigned char sr_clk_div_get(unsigned int sr_config)
  *------------------------------------------------------------------------ */
 double sr_clk_rate_get(unsigned int sr_config, double sr_sysclk)
 {
-	return (sr_sysclk * 1000.0) /
-		(2.0 * (double) sr_clk_div_get(sr_config));
+	return (sr_sysclk * 1000.0) / (2.0 * (double)sr_clk_div_get(sr_config));
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_avg_weighting_factor_get
@@ -468,22 +444,23 @@ double sr_clk_rate_get(unsigned int sr_config, double sr_sysclk)
  * @DESCRIPTION		return the sensor averaging weighting factor (P & N)
  *------------------------------------------------------------------------ */
 unsigned char sr_avg_weighting_factor_get(unsigned int avgweight,
-	sr_sensor_type type)
+					  sr_sensor_type type)
 {
 	switch (type) {
 	case SR_SENSOR_N:
-		return (unsigned char) extract_bitfield(avgweight,
-			SR_SENNAVGWEIGHT_POS, SR_SENNAVGWEIGHT_LEN);
+		return (unsigned char)extract_bitfield(avgweight,
+						       SR_SENNAVGWEIGHT_POS,
+						       SR_SENNAVGWEIGHT_LEN);
 	case SR_SENSOR_P:
-		return (unsigned char) extract_bitfield(avgweight,
-			SR_SENPAVGWEIGHT_POS, SR_SENPAVGWEIGHT_LEN);
+		return (unsigned char)extract_bitfield(avgweight,
+						       SR_SENPAVGWEIGHT_POS,
+						       SR_SENPAVGWEIGHT_LEN);
 	default:
 		fprintf(stderr, "%s(): incorrect sensor type! (%u)\n", __func__,
 			type);
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_gain_get
@@ -498,17 +475,16 @@ unsigned char sr_gain_get(unsigned int nvaluereciprocal, sr_sensor_type type)
 	switch (type) {
 	case SR_SENSOR_N:
 		return extract_bitfield(nvaluereciprocal,
-			SR_SENNGAIN_POS, SR_SENNGAIN_LEN);
+					SR_SENNGAIN_POS, SR_SENNGAIN_LEN);
 	case SR_SENSOR_P:
 		return extract_bitfield(nvaluereciprocal,
-			SR_SENPGAIN_POS, SR_SENPGAIN_LEN);
+					SR_SENPGAIN_POS, SR_SENPGAIN_LEN);
 	default:
 		fprintf(stderr, "%s(): incorrect sensor type! (%u)\n", __func__,
 			type);
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_scale_value_get
@@ -519,22 +495,21 @@ unsigned char sr_gain_get(unsigned int nvaluereciprocal, sr_sensor_type type)
  * @DESCRIPTION		return the reciprocal scale value (P & N)
  *------------------------------------------------------------------------ */
 unsigned char sr_scale_value_get(unsigned int nvaluereciprocal,
-	sr_sensor_type type)
+				 sr_sensor_type type)
 {
 	switch (type) {
 	case SR_SENSOR_N:
 		return extract_bitfield(nvaluereciprocal,
-			SR_SENNRN_POS, SR_SENNRN_LEN);
+					SR_SENNRN_POS, SR_SENNRN_LEN);
 	case SR_SENSOR_P:
 		return extract_bitfield(nvaluereciprocal,
-			SR_SENPRN_POS, SR_SENPRN_LEN);
+					SR_SENPRN_POS, SR_SENPRN_LEN);
 	default:
 		fprintf(stderr, "%s(): incorrect sensor type! (%u)\n", __func__,
 			type);
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_ntarget_get
@@ -551,14 +526,13 @@ unsigned int sr_ntarget_get(unsigned int nvaluereciprocal, sr_sensor_type type)
 
 	gain = sr_gain_get(nvaluereciprocal, type);
 	scale = sr_scale_value_get(nvaluereciprocal, type);
-	ntarget = 1.0 / ((double) scale / (double) (1 << (gain + 8)));
+	ntarget = 1.0 / ((double)scale / (double)(1 << (gain + 8)));
 	dprintf("%s(): NVALUERECIPROCAL=0x%08X gain=%u scale=%u ntarget=%u\n",
 		__func__, nvaluereciprocal, gain, scale,
-		1 + (unsigned int) ntarget);
-	return 1 + (unsigned int) ntarget;
+		1 + (unsigned int)ntarget);
+	return 1 + (unsigned int)ntarget;
 
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_error_generator_limit_hex2percent
@@ -569,9 +543,8 @@ unsigned int sr_ntarget_get(unsigned int nvaluereciprocal, sr_sensor_type type)
  *------------------------------------------------------------------------ */
 double sr_error_generator_limit_hex2percent(signed char limit)
 {
-	return 0.8 * (double) limit;
+	return 0.8 * (double)limit;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_error_generator_minlimit_get
@@ -584,10 +557,10 @@ double sr_error_generator_limit_hex2percent(signed char limit)
  *------------------------------------------------------------------------ */
 unsigned char sr_error_generator_minlimit_get(unsigned int errconfig)
 {
-	return (unsigned char) extract_bitfield(errconfig,
-		SR_ERRMINLIMIT_POS, SR_ERRMINLIMIT_LEN);
+	return (unsigned char)extract_bitfield(errconfig,
+					       SR_ERRMINLIMIT_POS,
+					       SR_ERRMINLIMIT_LEN);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_error_generator_minlimit_percentage_get
@@ -600,10 +573,10 @@ unsigned char sr_error_generator_minlimit_get(unsigned int errconfig)
  *------------------------------------------------------------------------ */
 double sr_error_generator_minlimit_percentage_get(unsigned int errconfig)
 {
-	return sr_error_generator_limit_hex2percent(
-		(signed char) sr_error_generator_minlimit_get(errconfig));
+	return sr_error_generator_limit_hex2percent((signed char)
+						    sr_error_generator_minlimit_get
+						    (errconfig));
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_error_generator_maxlimit_get
@@ -616,10 +589,10 @@ double sr_error_generator_minlimit_percentage_get(unsigned int errconfig)
  *------------------------------------------------------------------------ */
 unsigned char sr_error_generator_maxlimit_get(unsigned int errconfig)
 {
-	return (unsigned char) extract_bitfield(errconfig,
-		SR_ERRMAXLIMIT_POS, SR_ERRMAXLIMIT_LEN);
+	return (unsigned char)extract_bitfield(errconfig,
+					       SR_ERRMAXLIMIT_POS,
+					       SR_ERRMAXLIMIT_LEN);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_error_generator_maxlimit_percentage_get
@@ -632,10 +605,10 @@ unsigned char sr_error_generator_maxlimit_get(unsigned int errconfig)
  *------------------------------------------------------------------------ */
 double sr_error_generator_maxlimit_percentage_get(unsigned int errconfig)
 {
-	return sr_error_generator_limit_hex2percent(
-		(signed char) sr_error_generator_maxlimit_get(errconfig));
+	return sr_error_generator_limit_hex2percent((signed char)
+						    sr_error_generator_maxlimit_get
+						    (errconfig));
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_error_generator_weight_get
@@ -646,10 +619,10 @@ double sr_error_generator_maxlimit_percentage_get(unsigned int errconfig)
  *------------------------------------------------------------------------ */
 unsigned char sr_error_generator_weight_get(unsigned int errconfig)
 {
-	return (unsigned char) extract_bitfield(errconfig,
-		SR_ERRWEIGHT_POS, SR_ERRWEIGHT_LEN);
+	return (unsigned char)extract_bitfield(errconfig,
+					       SR_ERRWEIGHT_POS,
+					       SR_ERRWEIGHT_LEN);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_error_generator_idle_mode_get
@@ -660,10 +633,8 @@ unsigned char sr_error_generator_weight_get(unsigned int errconfig)
  *------------------------------------------------------------------------ */
 mod_idle_mode sr_error_generator_idle_mode_get(unsigned int errconfig)
 {
-	return extract_bitfield(errconfig,
-		SR_IDLEMODE_POS, SR_IDLEMODE_LEN);
+	return extract_bitfield(errconfig, SR_IDLEMODE_POS, SR_IDLEMODE_LEN);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_error_generator_wakeup_enabled
@@ -679,7 +650,6 @@ unsigned char sr_is_error_generator_wakeup_enabled(unsigned int errconfig)
 	return extract_bit(errconfig, SR_WAKEUPENABLE_POS);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_irq_is_enabled
  * @BRIEF		check if SR interrupt of type 'irq' is enabled
@@ -690,12 +660,12 @@ unsigned char sr_is_error_generator_wakeup_enabled(unsigned int errconfig)
  * @DESCRIPTION		check if SR interrupt of type 'irq' is enabled
  *------------------------------------------------------------------------ */
 unsigned char sr_irq_is_enabled(unsigned int irqenable_set,
-	unsigned int errconfig, sr_interrupt_type type)
+				unsigned int errconfig, sr_interrupt_type type)
 {
 	switch (type) {
 	case SR_IRQ_MCUDISABLEACK:
 		return extract_bit(irqenable_set,
-			SR_MCUDISABLEACKINTENASET_POS);
+				   SR_MCUDISABLEACKINTENASET_POS);
 	case SR_IRQ_MCUBOUNDS:
 		return extract_bit(irqenable_set, SR_MCUBOUNDSINTENASET_POS);
 	case SR_IRQ_MCUVALID:
@@ -709,7 +679,6 @@ unsigned char sr_irq_is_enabled(unsigned int irqenable_set,
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_irq_status_is_set
  * @BRIEF		check if SR interrupt of type 'irq' status is set
@@ -722,12 +691,12 @@ unsigned char sr_irq_is_enabled(unsigned int irqenable_set,
  *			(pending)
  *------------------------------------------------------------------------ */
 unsigned char sr_irq_status_is_set(unsigned int irqstatus,
-	unsigned int errconfig, sr_interrupt_type type)
+				   unsigned int errconfig,
+				   sr_interrupt_type type)
 {
 	switch (type) {
 	case SR_IRQ_MCUDISABLEACK:
-		return extract_bit(irqstatus,
-			SR_MCUDISABLEACKINTSTATENA_POS);
+		return extract_bit(irqstatus, SR_MCUDISABLEACKINTSTATENA_POS);
 	case SR_IRQ_MCUBOUNDS:
 		return extract_bit(irqstatus, SR_MCUBOUNDSINTSTATENA_POS);
 	case SR_IRQ_MCUVALID:
@@ -740,7 +709,6 @@ unsigned char sr_irq_status_is_set(unsigned int irqstatus,
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_irq_raw_status_is_set
@@ -755,12 +723,12 @@ unsigned char sr_irq_status_is_set(unsigned int irqstatus,
  *			NB: VPBOUNDS interrupt has no raw interrupt status flag
  *------------------------------------------------------------------------ */
 unsigned char sr_irq_raw_status_is_set(unsigned int irqstatus_raw,
-	sr_interrupt_type type)
+				       sr_interrupt_type type)
 {
 	switch (type) {
 	case SR_IRQ_MCUDISABLEACK:
 		return extract_bit(irqstatus_raw,
-			SR_MCUDISABLEACKINTSTATRAW_POS);
+				   SR_MCUDISABLEACKINTSTATRAW_POS);
 	case SR_IRQ_MCUBOUNDS:
 		return extract_bit(irqstatus_raw, SR_MCUBOUNDSINTSTATRAW_POS);
 	case SR_IRQ_MCUVALID:
@@ -776,7 +744,6 @@ unsigned char sr_irq_raw_status_is_set(unsigned int irqstatus_raw,
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_error_value_status_get
  * @BRIEF		return the current status of sensor error value
@@ -784,15 +751,13 @@ unsigned char sr_irq_raw_status_is_set(unsigned int irqstatus_raw,
  * @param[in]		srstatus: SRSTATUS register content
  * @DESCRIPTION		return the current status of sensor error value
  *------------------------------------------------------------------------ */
-sr_sensor_value_status sr_sensor_error_value_status_get(
-	unsigned int srstatus)
+sr_sensor_value_status sr_sensor_error_value_status_get(unsigned int srstatus)
 {
 	if (extract_bit(srstatus, SR_ERRORGENERATORVALID_POS) == 1)
 		return SR_SENSOR_VAL_VALID;
 	else
 		return SR_SENSOR_VAL_INVALID;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_error_value_get
@@ -803,10 +768,10 @@ sr_sensor_value_status sr_sensor_error_value_status_get(
  *------------------------------------------------------------------------ */
 unsigned char sr_sensor_error_value_get(unsigned int senerror)
 {
-	return (unsigned char) extract_bitfield(senerror,
-		SR_SENERROR_POS, SR_SENERROR_LEN);
+	return (unsigned char)extract_bitfield(senerror,
+					       SR_SENERROR_POS,
+					       SR_SENERROR_LEN);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_error_percentage_get
@@ -817,9 +782,8 @@ unsigned char sr_sensor_error_value_get(unsigned int senerror)
  *------------------------------------------------------------------------ */
 double sr_sensor_error_percentage_get(unsigned int senerror)
 {
-	return 0.8 * (signed char) sr_sensor_error_value_get(senerror);
+	return 0.8 * (signed char)sr_sensor_error_value_get(senerror);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_avg_sensor_error_value_status_get
@@ -828,15 +792,14 @@ double sr_sensor_error_percentage_get(unsigned int senerror)
  * @param[in]		srstatus: SRSTATUS register content
  * @DESCRIPTION		return the current status of avg error value
  *------------------------------------------------------------------------ */
-sr_sensor_value_status sr_avg_sensor_error_value_status_get(
-	unsigned int srstatus)
+sr_sensor_value_status sr_avg_sensor_error_value_status_get(unsigned int
+							    srstatus)
 {
 	if (extract_bit(srstatus, SR_AVGERRVALID_POS) == 1)
 		return SR_SENSOR_VAL_VALID;
 	else
 		return SR_SENSOR_VAL_INVALID;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_avg_sensor_error_value_get
@@ -847,10 +810,10 @@ sr_sensor_value_status sr_avg_sensor_error_value_status_get(
  *------------------------------------------------------------------------ */
 unsigned char sr_avg_sensor_error_value_get(unsigned int senerror)
 {
-	return (unsigned char) extract_bitfield(senerror,
-		SR_AVGERROR_POS, SR_AVGERROR_LEN);
+	return (unsigned char)extract_bitfield(senerror,
+					       SR_AVGERROR_POS,
+					       SR_AVGERROR_LEN);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_avg_sensor_error_percentage_get
@@ -861,9 +824,8 @@ unsigned char sr_avg_sensor_error_value_get(unsigned int senerror)
  *------------------------------------------------------------------------ */
 double sr_avg_sensor_error_percentage_get(unsigned int senerror)
 {
-	return 0.8 * (signed char) sr_avg_sensor_error_value_get(senerror);
+	return 0.8 * (signed char)sr_avg_sensor_error_value_get(senerror);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_value_status_get
@@ -884,7 +846,6 @@ sr_sensor_value_status sr_sensor_value_status_get(unsigned int srstatus)
 		return SR_SENSOR_VAL_INVALID;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_value_get
  * @BRIEF		return selected SR sensor value
@@ -898,24 +859,29 @@ sr_sensor_value_status sr_sensor_value_status_get(unsigned int srstatus)
  *			NB: use sr_sensor_value_status_get() first to make sure
  *			value is valid
  *------------------------------------------------------------------------ */
-unsigned int sr_sensor_value_get(sr_registers *sr_regs, sr_sensor_type sen_type,
-	sr_sensor_value_type val_type)
+unsigned int sr_sensor_value_get(sr_registers * sr_regs,
+				 sr_sensor_type sen_type,
+				 sr_sensor_value_type val_type)
 {
 	switch (sen_type) {
 	case SR_SENSOR_N:
 		switch (val_type) {
 		case SR_SENSOR_VAL_LATEST:
-			return (unsigned int) extract_bitfield(sr_regs->senval,
-				SR_SENNVAL_POS, SR_SENNVAL_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->senval,
+							      SR_SENNVAL_POS,
+							      SR_SENNVAL_LEN);
 		case SR_SENSOR_VAL_MIN:
-			return (unsigned int) extract_bitfield(sr_regs->senmin,
-				SR_SENNMIN_POS, SR_SENNMIN_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->senmin,
+							      SR_SENNMIN_POS,
+							      SR_SENNMIN_LEN);
 		case SR_SENSOR_VAL_MAX:
-			return (unsigned int) extract_bitfield(sr_regs->senmax,
-				SR_SENNMAX_POS, SR_SENNMAX_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->senmax,
+							      SR_SENNMAX_POS,
+							      SR_SENNMAX_LEN);
 		case SR_SENSOR_VAL_AVG:
-			return (unsigned int) extract_bitfield(sr_regs->senavg,
-				SR_SENNAVG_POS, SR_SENNAVG_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->senavg,
+							      SR_SENNAVG_POS,
+							      SR_SENNAVG_LEN);
 		default:
 			fprintf(stderr, "%s(): incorrect value type! (%u)\n",
 				__func__, val_type);
@@ -925,17 +891,21 @@ unsigned int sr_sensor_value_get(sr_registers *sr_regs, sr_sensor_type sen_type,
 	case SR_SENSOR_P:
 		switch (val_type) {
 		case SR_SENSOR_VAL_LATEST:
-			return (unsigned int) extract_bitfield(sr_regs->senval,
-				SR_SENPVAL_POS, SR_SENPVAL_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->senval,
+							      SR_SENPVAL_POS,
+							      SR_SENPVAL_LEN);
 		case SR_SENSOR_VAL_MIN:
-			return (unsigned int) extract_bitfield(sr_regs->senmin,
-				SR_SENPMIN_POS, SR_SENPMIN_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->senmin,
+							      SR_SENPMIN_POS,
+							      SR_SENPMIN_LEN);
 		case SR_SENSOR_VAL_MAX:
-			return (unsigned int) extract_bitfield(sr_regs->senmax,
-				SR_SENPMAX_POS, SR_SENPMAX_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->senmax,
+							      SR_SENPMAX_POS,
+							      SR_SENPMAX_LEN);
 		case SR_SENSOR_VAL_AVG:
-			return (unsigned int) extract_bitfield(sr_regs->senavg,
-				SR_SENPAVG_POS, SR_SENPAVG_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->senavg,
+							      SR_SENPAVG_POS,
+							      SR_SENPAVG_LEN);
 		default:
 			fprintf(stderr, "%s(): incorrect value type! (%u)\n",
 				__func__, val_type);
@@ -948,7 +918,6 @@ unsigned int sr_sensor_value_get(sr_registers *sr_regs, sr_sensor_type sen_type,
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_delta_vdd_get
@@ -964,7 +933,6 @@ double sr_delta_vdd_get(double freq_error, double vp_offset, double vp_gain)
 	return (freq_error + vp_offset) * vp_gain;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_lvt_sensor_value_get
  * @BRIEF		return selected SR sensor value
@@ -978,28 +946,33 @@ double sr_delta_vdd_get(double freq_error, double vp_offset, double vp_gain)
  *			NB: use sr_sensor_value_status_get() first to make sure
  *			value is valid
  *------------------------------------------------------------------------ */
-unsigned int sr_lvt_sensor_value_get(sr_registers *sr_regs,
-	sr_sensor_type sen_type, sr_sensor_value_type val_type)
+unsigned int sr_lvt_sensor_value_get(sr_registers * sr_regs,
+				     sr_sensor_type sen_type,
+				     sr_sensor_value_type val_type)
 {
 	switch (sen_type) {
 	case SR_SENSOR_N:
 		switch (val_type) {
 		case SR_SENSOR_VAL_LATEST:
-			return (unsigned int) extract_bitfield(
-					sr_regs->lvtsenval,
-				SR_SENNVAL_POS, SR_SENNVAL_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->
+							      lvtsenval,
+							      SR_SENNVAL_POS,
+							      SR_SENNVAL_LEN);
 		case SR_SENSOR_VAL_MIN:
-			return (unsigned int) extract_bitfield(
-					sr_regs->lvtsenmin,
-				SR_SENNMIN_POS, SR_SENNMIN_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->
+							      lvtsenmin,
+							      SR_SENNMIN_POS,
+							      SR_SENNMIN_LEN);
 		case SR_SENSOR_VAL_MAX:
-			return (unsigned int) extract_bitfield(
-					sr_regs->lvtsenmax,
-				SR_SENNMAX_POS, SR_SENNMAX_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->
+							      lvtsenmax,
+							      SR_SENNMAX_POS,
+							      SR_SENNMAX_LEN);
 		case SR_SENSOR_VAL_AVG:
-			return (unsigned int) extract_bitfield(
-					sr_regs->lvtsenavg,
-				SR_SENNAVG_POS, SR_SENNAVG_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->
+							      lvtsenavg,
+							      SR_SENNAVG_POS,
+							      SR_SENNAVG_LEN);
 		default:
 			fprintf(stderr, "%s(): incorrect value type! (%u)\n",
 				__func__, val_type);
@@ -1009,21 +982,25 @@ unsigned int sr_lvt_sensor_value_get(sr_registers *sr_regs,
 	case SR_SENSOR_P:
 		switch (val_type) {
 		case SR_SENSOR_VAL_LATEST:
-			return (unsigned int) extract_bitfield(
-					sr_regs->lvtsenval,
-				SR_SENPVAL_POS, SR_SENPVAL_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->
+							      lvtsenval,
+							      SR_SENPVAL_POS,
+							      SR_SENPVAL_LEN);
 		case SR_SENSOR_VAL_MIN:
-			return (unsigned int) extract_bitfield(
-					sr_regs->lvtsenmin,
-				SR_SENPMIN_POS, SR_SENPMIN_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->
+							      lvtsenmin,
+							      SR_SENPMIN_POS,
+							      SR_SENPMIN_LEN);
 		case SR_SENSOR_VAL_MAX:
-			return (unsigned int) extract_bitfield(
-					sr_regs->lvtsenmax,
-				SR_SENPMAX_POS, SR_SENPMAX_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->
+							      lvtsenmax,
+							      SR_SENPMAX_POS,
+							      SR_SENPMAX_LEN);
 		case SR_SENSOR_VAL_AVG:
-			return (unsigned int) extract_bitfield(
-					sr_regs->lvtsenavg,
-				SR_SENPAVG_POS, SR_SENPAVG_LEN);
+			return (unsigned int)extract_bitfield(sr_regs->
+							      lvtsenavg,
+							      SR_SENPAVG_POS,
+							      SR_SENPAVG_LEN);
 		default:
 			fprintf(stderr, "%s(): incorrect value type! (%u)\n",
 				__func__, val_type);
@@ -1037,7 +1014,6 @@ unsigned int sr_lvt_sensor_value_get(sr_registers *sr_regs,
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_config_show
  * @BRIEF		analyze Smart-Reflex sensor configuration
@@ -1049,7 +1025,7 @@ unsigned int sr_lvt_sensor_value_get(sr_registers *sr_regs,
  *			(MPU, IVA/MM, CORE)
  * @DESCRIPTION		analyze Smart-Reflex sensor configuration
  *------------------------------------------------------------------------ */
-int sr_config_show(FILE *stream, sr_registers sr_regs[3])
+int sr_config_show(FILE * stream, sr_registers sr_regs[3])
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int i, val, val2, row, maxrow;
@@ -1060,10 +1036,12 @@ int sr_config_show(FILE *stream, sr_registers sr_regs[3])
 	double sys_clk, sr_sysclk;
 	static const char irq_status_table[2][10] = {
 		"Unchanged",
-		"Set"};
+		"Set"
+	};
 	static const char mode_table[2][16] = {
 		"Disabled      ",
-		"Enabled       "};
+		"Enabled       "
+	};
 	char *s1, *s2;
 	unsigned char mode, mode2;
 
@@ -1071,8 +1049,7 @@ int sr_config_show(FILE *stream, sr_registers sr_regs[3])
 		fprintf(stderr, "%s(): cpu not supported!!!\n", __func__);
 		return OMAPCONF_ERR_CPU;
 	}
-
-	#ifdef SR_DEBUG
+#ifdef SR_DEBUG
 	row = 0;
 	maxrow = 0;
 	autoadjust_table_init(table);
@@ -1090,82 +1067,83 @@ int sr_config_show(FILE *stream, sr_registers sr_regs[3])
 		row = 1;
 		autoadjust_table_strncpy(table, row, 0, "ACCESSIBLE");
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-				sr_regs[i].accessible);
+			 sr_regs[i].accessible);
 		if (sr_regs[i].accessible == 0)
 			continue;
 		row++;
 		autoadjust_table_strncpy(table, row, 0, "SRCONFIG");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].srconfig);
+			 sr_regs[i].srconfig);
 		autoadjust_table_strncpy(table, row, 0, "SRSTATUS");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].srstatus);
+			 sr_regs[i].srstatus);
 		autoadjust_table_strncpy(table, row, 0, "SENVAL");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].senval);
+			 sr_regs[i].senval);
 		autoadjust_table_strncpy(table, row, 0, "SENMIN");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].senmin);
+			 sr_regs[i].senmin);
 		autoadjust_table_strncpy(table, row, 0, "SENMAX");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].senmax);
+			 sr_regs[i].senmax);
 		autoadjust_table_strncpy(table, row, 0, "SENAVG");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].senavg);
+			 sr_regs[i].senavg);
 		autoadjust_table_strncpy(table, row, 0, "AVGWEIGHT");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].avgweight);
+			 sr_regs[i].avgweight);
 		autoadjust_table_strncpy(table, row, 0, "NVALUERECIPROCAL");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].nvaluereciprocal);
+			 sr_regs[i].nvaluereciprocal);
 		autoadjust_table_strncpy(table, row, 0, "IRQSTATUS_RAW");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].irqstatus_raw);
+			 sr_regs[i].irqstatus_raw);
 		autoadjust_table_strncpy(table, row, 0, "IRQSTATUS");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].irqstatus);
+			 sr_regs[i].irqstatus);
 		autoadjust_table_strncpy(table, row, 0, "IRQENABLE_SET");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].irqenable_set);
+			 sr_regs[i].irqenable_set);
 		autoadjust_table_strncpy(table, row, 0, "SENERROR");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].senerror);
+			 sr_regs[i].senerror);
 		autoadjust_table_strncpy(table, row, 0, "ERRCONFIG");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].errconfig);
+			 sr_regs[i].errconfig);
 
 		if (cpu_is_omap44xx())
 			continue;
 		autoadjust_table_strncpy(table, row, 0, "LVTSENVAL");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].lvtsenval);
+			 sr_regs[i].lvtsenval);
 		autoadjust_table_strncpy(table, row, 0, "LVTSENMIN");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].lvtsenmin);
+			 sr_regs[i].lvtsenmin);
 		autoadjust_table_strncpy(table, row, 0, "LVTSENMAX");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].lvtsenmax);
+			 sr_regs[i].lvtsenmax);
 		autoadjust_table_strncpy(table, row, 0, "LVTSENAVG");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].lvtsenavg);
+			 sr_regs[i].lvtsenavg);
 		autoadjust_table_strncpy(table, row, 0, "LVTNVALUERECIPROCAL");
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN, "0x%08X",
-			sr_regs[i].lvtnvaluereciprocal);
+			 sr_regs[i].lvtnvaluereciprocal);
 	}
 	autoadjust_table_print(table, maxrow, 4);
-	#endif
+#endif
 
 	if (cpu_is_omap44xx()) {
 		sys_clk = clk44xx_get_system_clock_speed();
 		/* Get VDD_CORE OPP to detect DPLL cascading mode */
 		voltdm44xx_get_opp(OMAP4_VDD_CORE, &vdd_core_opp);
 		if (vdd_core_opp == OMAP4_OPPDPLL_CASC)
-			sr_sysclk = 12.288; /* MHz */
+			sr_sysclk = 12.288;	/* MHz */
 		else
 			sr_sysclk = sys_clk;
 	} else {
 		sr_sysclk =
-			(double) module_clk_rate_get(MOD_SMARTREFLEX_MPU, 0) / 1000.0;
+		    (double)module_clk_rate_get(MOD_SMARTREFLEX_MPU,
+						0) / 1000.0;
 	}
 	dprintf("%s(): sr_sysclk = %lfMHz\n", __func__, sr_sysclk);
 
@@ -1193,53 +1171,55 @@ int sr_config_show(FILE *stream, sr_registers sr_regs[3])
 		}
 		mode = sr_is_enabled(sr_regs[i].srconfig);
 		autoadjust_table_strncpy(table, row, i + 1,
-			(char *) mode_table[mode]);
+					 (char *)mode_table[mode]);
 		row++;
 		autoadjust_table_strncpy(table, row, 0,
-			"SR_CLK Divider (SRCLKLENGTH)");
+					 "SR_CLK Divider (SRCLKLENGTH)");
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN, "0x%03X (%u)",
-			sr_clk_div_get(sr_regs[i].srconfig),
-			sr_clk_div_get(sr_regs[i].srconfig));
+			 sr_clk_div_get(sr_regs[i].srconfig),
+			 sr_clk_div_get(sr_regs[i].srconfig));
 		row++;
-		autoadjust_table_strncpy(table, row, 0,
-			"SR_CLK Frequency");
+		autoadjust_table_strncpy(table, row, 0, "SR_CLK Frequency");
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN, "%.3lfKHz",
-			sr_clk_rate_get(sr_regs[i].srconfig, sr_sysclk));
+			 sr_clk_rate_get(sr_regs[i].srconfig, sr_sysclk));
 		row += 2;
 
 		autoadjust_table_strncpy(table, row++, 0,
-			"Interrupt configuration");
+					 "Interrupt configuration");
 		for (irq_type = SR_IRQ_MCUDISABLEACK;
-			irq_type < SR_IRQ_TYPE_MAX; irq_type++) {
+		     irq_type < SR_IRQ_TYPE_MAX; irq_type++) {
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN, "  %s",
-				sr_interrupt_type_name_get(irq_type));
+				 sr_interrupt_type_name_get(irq_type));
 			mode = sr_irq_is_enabled(sr_regs[i].irqenable_set,
-				sr_regs[i].errconfig, irq_type);
+						 sr_regs[i].errconfig,
+						 irq_type);
 			autoadjust_table_strncpy(table, row++, i + 1,
-					(char *) mode_table[mode]);
+						 (char *)mode_table[mode]);
 			if (mode == 0)
 				continue;
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-				"    Status (Masked | Raw)");
+				 "    Status (Masked | Raw)");
 			val = sr_irq_status_is_set(sr_regs[i].irqstatus,
-				sr_regs[i].errconfig, irq_type);
-			s1 = (char *) irq_status_table[val];
+						   sr_regs[i].errconfig,
+						   irq_type);
+			s1 = (char *)irq_status_table[val];
 			if (irq_type != SR_IRQ_VPBOUNDS) {
-				val2 = sr_irq_raw_status_is_set(
-					sr_regs[i].irqstatus_raw, irq_type);
-				s2 = (char *) irq_status_table[val2];
+				val2 =
+				    sr_irq_raw_status_is_set(sr_regs[i].
+							     irqstatus_raw,
+							     irq_type);
+				s2 = (char *)irq_status_table[val2];
 				snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-					"%s | %s", s1, s2);
+					 "%s | %s", s1, s2);
 			} else {
 				snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-					"%s", s1);
+					 "%s", s1);
 			}
 			row++;
 		}
 		row++;
 
-		autoadjust_table_strncpy(table, row, 0,
-			"SR Sensors (N | P)");
+		autoadjust_table_strncpy(table, row, 0, "SR Sensors (N | P)");
 		if (sr_is_sensors_disabled(sr_regs[i].srconfig) == 1) {
 			autoadjust_table_strncpy(table, row, i + 1, "Disabled");
 			row += 2;
@@ -1248,32 +1228,32 @@ int sr_config_show(FILE *stream, sr_registers sr_regs[3])
 		mode = sr_is_sensor_enabled(sr_regs[i].srconfig, SR_SENSOR_N);
 		mode2 = sr_is_sensor_enabled(sr_regs[i].srconfig, SR_SENSOR_P);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN, "%s | %s",
-			mode_table[mode], mode_table[mode2]);
+			 mode_table[mode], mode_table[mode2]);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"  Reciprocal Gain (SEN[N-P]GAIN)");
+					 "  Reciprocal Gain (SEN[N-P]GAIN)");
 		val = sr_gain_get(sr_regs[i].nvaluereciprocal, SR_SENSOR_N);
 		val2 = sr_gain_get(sr_regs[i].nvaluereciprocal, SR_SENSOR_P);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"0x%04X (%05u) | 0x%04X (%05u)", val, val, val2, val2);
+			 "0x%04X (%05u) | 0x%04X (%05u)", val, val, val2, val2);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"  Reciprocal Scale Value (SEN[N-P]RN)");
+					 "  Reciprocal Scale Value (SEN[N-P]RN)");
 		val = sr_scale_value_get(sr_regs[i].nvaluereciprocal,
-			SR_SENSOR_N);
+					 SR_SENSOR_N);
 		val2 = sr_scale_value_get(sr_regs[i].nvaluereciprocal,
-			SR_SENSOR_P);
+					  SR_SENSOR_P);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"0x%04X (%05u) | 0x%04X (%05u)", val, val, val2, val2);
+			 "0x%04X (%05u) | 0x%04X (%05u)", val, val, val2, val2);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0, "  NTarget");
 		val = sr_ntarget_get(sr_regs[i].nvaluereciprocal, SR_SENSOR_N);
 		val2 = sr_ntarget_get(sr_regs[i].nvaluereciprocal, SR_SENSOR_P);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"0x%04X (%05u) | 0x%04X (%05u)", val, val, val2, val2);
+			 "0x%04X (%05u) | 0x%04X (%05u)", val, val, val2, val2);
 		row++;
 		if (cpu_is_omap44xx()) {
 			row++;
@@ -1281,95 +1261,97 @@ int sr_config_show(FILE *stream, sr_registers sr_regs[3])
 		}
 
 		autoadjust_table_strncpy(table, row, 0,
-			"SR LVT Sensors (N | P)");
+					 "SR LVT Sensors (N | P)");
 		if (sr_is_lvt_sensors_disabled(sr_regs[i].srconfig) == 1) {
 			autoadjust_table_strncpy(table, row, i + 1, "Disabled");
 			row += 5;
 			goto sr_config_show_minmaxavg;
 		}
 		mode = sr_is_lvt_sensor_enabled(sr_regs[i].srconfig,
-			SR_SENSOR_N);
+						SR_SENSOR_N);
 		mode2 = sr_is_lvt_sensor_enabled(sr_regs[i].srconfig,
-			SR_SENSOR_P);
+						 SR_SENSOR_P);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN, "%s | %s",
-			mode_table[mode], mode_table[mode2]);
+			 mode_table[mode], mode_table[mode2]);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"  Reciprocal Gain (SEN[N-P]GAIN)");
+					 "  Reciprocal Gain (SEN[N-P]GAIN)");
 		val = sr_gain_get(sr_regs[i].lvtnvaluereciprocal, SR_SENSOR_N);
 		val2 = sr_gain_get(sr_regs[i].lvtnvaluereciprocal, SR_SENSOR_P);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"0x%04X (%05u) | 0x%04X (%05u)", val, val, val2, val2);
+			 "0x%04X (%05u) | 0x%04X (%05u)", val, val, val2, val2);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"  Reciprocal Scale Value (SEN[N-P]RN)");
+					 "  Reciprocal Scale Value (SEN[N-P]RN)");
 		val = sr_scale_value_get(sr_regs[i].lvtnvaluereciprocal,
-			SR_SENSOR_N);
+					 SR_SENSOR_N);
 		val2 = sr_scale_value_get(sr_regs[i].lvtnvaluereciprocal,
-			SR_SENSOR_P);
+					  SR_SENSOR_P);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"0x%04X (%05u) | 0x%04X (%05u)", val, val, val2, val2);
+			 "0x%04X (%05u) | 0x%04X (%05u)", val, val, val2, val2);
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0, "  NTarget");
 		val = sr_ntarget_get(sr_regs[i].lvtnvaluereciprocal,
-			SR_SENSOR_N);
+				     SR_SENSOR_N);
 		val2 = sr_ntarget_get(sr_regs[i].lvtnvaluereciprocal,
-			SR_SENSOR_P);
+				      SR_SENSOR_P);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"0x%04X (%05u) | 0x%04X (%05u)", val, val, val2, val2);
+			 "0x%04X (%05u) | 0x%04X (%05u)", val, val, val2, val2);
 		row += 2;
 
 sr_config_show_minmaxavg:
 		autoadjust_table_strncpy(table, row, 0,
-			"Min/Max/Avg Detector Module");
+					 "Min/Max/Avg Detector Module");
 		mode = sr_is_minmaxavg_detector_enabled(sr_regs[i].srconfig);
 		autoadjust_table_strncpy(table, row, i + 1,
-			(char *) mode_table[mode]);
+					 (char *)mode_table[mode]);
 		row++;
 		if (mode == 0) {
 			row++;
 			goto sr_config_show_errgen;
 		}
 		autoadjust_table_strncpy(table, row, 0,
-			"  Nbr of Accumulated Values (ACCUMDATA)");
+					 "  Nbr of Accumulated Values (ACCUMDATA)");
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN, "0x%04X (%05u)",
-			sr_accumdata_count_get(sr_regs[i].srconfig),
-			sr_accumdata_count_get(sr_regs[i].srconfig));
+			 sr_accumdata_count_get(sr_regs[i].srconfig),
+			 sr_accumdata_count_get(sr_regs[i].srconfig));
 		row++;
 
 		autoadjust_table_strncpy(table, row, 0,
-			"  Averager Weighting Factor (N | P)");
+					 "  Averager Weighting Factor (N | P)");
 		val = sr_avg_weighting_factor_get(sr_regs[i].avgweight,
-			SR_SENSOR_N);
+						  SR_SENSOR_N);
 		val2 = sr_avg_weighting_factor_get(sr_regs[i].avgweight,
-			SR_SENSOR_P);
+						   SR_SENSOR_P);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"0x%04X (%05u) | 0x%04X (%05u)",
-			val, val, val2, val2);
+			 "0x%04X (%05u) | 0x%04X (%05u)", val, val, val2, val2);
 		row++;
 		autoadjust_table_strncpy(table, row++, 0,
-			"  Sensor Values (N | P)");
+					 "  Sensor Values (N | P)");
 		for (val_type = SR_SENSOR_VAL_LATEST;
-			val_type < SR_SENSOR_VAL_TYPE_MAX; val_type++) {
+		     val_type < SR_SENSOR_VAL_TYPE_MAX; val_type++) {
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN, "    %s",
-				sr_sensor_value_type_name_get(val_type));
-			status = sr_sensor_value_status_get(
-				sr_regs[i].srstatus);
+				 sr_sensor_value_type_name_get(val_type));
+			status =
+			    sr_sensor_value_status_get(sr_regs[i].srstatus);
 			if (status == SR_SENSOR_VAL_INVALID) {
 				snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-					"%s", sr_sensor_value_status_name_get(
-						status));
+					 "%s",
+					 sr_sensor_value_status_name_get
+					 (status));
 			} else {
 				val = sr_sensor_value_get(&(sr_regs[i]),
-					SR_SENSOR_N, val_type);
-				val2 = sr_sensor_value_get(&(sr_regs[i]),
-					SR_SENSOR_P, val_type);
+							  SR_SENSOR_N,
+							  val_type);
+				val2 =
+				    sr_sensor_value_get(&(sr_regs[i]),
+							SR_SENSOR_P, val_type);
 				snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-					"0x%04X (%05u) | 0x%04X (%05u)",
-					val, val, val2, val2);
+					 "0x%04X (%05u) | 0x%04X (%05u)", val,
+					 val, val2, val2);
 			}
 			row++;
 		}
@@ -1379,25 +1361,29 @@ sr_config_show_minmaxavg:
 			goto sr_config_show_errgen;
 		}
 		autoadjust_table_strncpy(table, row++, 0,
-			"  LVT Sensor Values (N | P)");
+					 "  LVT Sensor Values (N | P)");
 		for (val_type = SR_SENSOR_VAL_LATEST;
-			val_type < SR_SENSOR_VAL_TYPE_MAX; val_type++) {
+		     val_type < SR_SENSOR_VAL_TYPE_MAX; val_type++) {
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN, "    %s",
-				sr_sensor_value_type_name_get(val_type));
-			status = sr_sensor_value_status_get(
-				sr_regs[i].srstatus);
+				 sr_sensor_value_type_name_get(val_type));
+			status =
+			    sr_sensor_value_status_get(sr_regs[i].srstatus);
 			if (status == SR_SENSOR_VAL_INVALID) {
 				snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-					"%s", sr_sensor_value_status_name_get(
-						status));
+					 "%s",
+					 sr_sensor_value_status_name_get
+					 (status));
 			} else {
 				val = sr_lvt_sensor_value_get(&(sr_regs[i]),
-					SR_SENSOR_N, val_type);
-				val2 = sr_lvt_sensor_value_get(&(sr_regs[i]),
-					SR_SENSOR_P, val_type);
+							      SR_SENSOR_N,
+							      val_type);
+				val2 =
+				    sr_lvt_sensor_value_get(&(sr_regs[i]),
+							    SR_SENSOR_P,
+							    val_type);
 				snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-					"0x%04X (%05u) | 0x%04X (%05u)",
-					val, val, val2, val2);
+					 "0x%04X (%05u) | 0x%04X (%05u)", val,
+					 val, val2, val2);
 			}
 			row++;
 		}
@@ -1405,67 +1391,60 @@ sr_config_show_minmaxavg:
 
 sr_config_show_errgen:
 		autoadjust_table_strncpy(table, row, 0,
-			"Error Generator Module");
+					 "Error Generator Module");
 		mode = sr_is_error_generator_enabled(sr_regs[i].srconfig);
 		autoadjust_table_strncpy(table, row, i + 1,
-			(char *) mode_table[mode]);
+					 (char *)mode_table[mode]);
 		row++;
-		autoadjust_table_strncpy(table, row, 0,
-			"  Idle Mode");
+		autoadjust_table_strncpy(table, row, 0, "  Idle Mode");
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN, "%s",
-			mod_idle_mode_name_get(sr_error_generator_idle_mode_get(
-				sr_regs[i].errconfig)));
+			 mod_idle_mode_name_get(sr_error_generator_idle_mode_get
+						(sr_regs[i].errconfig)));
 		row++;
-		autoadjust_table_strncpy(table, row, 0,
-			"  WAKEUPENABLE");
-		val = sr_is_error_generator_wakeup_enabled(
-			sr_regs[i].errconfig);
+		autoadjust_table_strncpy(table, row, 0, "  WAKEUPENABLE");
+		val =
+		    sr_is_error_generator_wakeup_enabled(sr_regs[i].errconfig);
 		autoadjust_table_strncpy(table, row, i + 1,
-			(char *) mode_table[mode]);
+					 (char *)mode_table[mode]);
 		row++;
 
-		autoadjust_table_strncpy(table, row, 0,
-			"  ERRMINLIMIT");
+		autoadjust_table_strncpy(table, row, 0, "  ERRMINLIMIT");
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"%.1lf%% (0x%02X)",
-			sr_error_generator_minlimit_percentage_get(
-				sr_regs[i].errconfig),
-			sr_error_generator_minlimit_get(sr_regs[i].errconfig));
+			 "%.1lf%% (0x%02X)",
+			 sr_error_generator_minlimit_percentage_get(sr_regs[i].
+								    errconfig),
+			 sr_error_generator_minlimit_get(sr_regs[i].errconfig));
 		row++;
-		autoadjust_table_strncpy(table, row, 0,
-			"  ERRMAXLIMIT");
+		autoadjust_table_strncpy(table, row, 0, "  ERRMAXLIMIT");
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"%.1lf%% (0x%02X)",
-			sr_error_generator_maxlimit_percentage_get(
-				sr_regs[i].errconfig),
-			sr_error_generator_maxlimit_get(sr_regs[i].errconfig));
+			 "%.1lf%% (0x%02X)",
+			 sr_error_generator_maxlimit_percentage_get(sr_regs[i].
+								    errconfig),
+			 sr_error_generator_maxlimit_get(sr_regs[i].errconfig));
 		row++;
-		autoadjust_table_strncpy(table, row, 0,
-			"  ERRWEIGHT");
+		autoadjust_table_strncpy(table, row, 0, "  ERRWEIGHT");
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN, "0x%1X (%u)",
-			sr_error_generator_weight_get(sr_regs[i].errconfig),
-			sr_error_generator_weight_get(sr_regs[i].errconfig));
+			 sr_error_generator_weight_get(sr_regs[i].errconfig),
+			 sr_error_generator_weight_get(sr_regs[i].errconfig));
 		row += 2;
 
-		autoadjust_table_strncpy(table, row++, 0,
-			"Sensor Error");
-		autoadjust_table_strncpy(table, row, 0,
-			"  Latest");
+		autoadjust_table_strncpy(table, row++, 0, "Sensor Error");
+		autoadjust_table_strncpy(table, row, 0, "  Latest");
 		status = sr_sensor_error_value_status_get(sr_regs[i].srstatus);
 		snprintf(table[row++][i + 1], TABLE_MAX_ELT_LEN,
-			"%.1lf%% (0x%02X) (%s)",
-			sr_sensor_error_percentage_get(sr_regs[i].senerror),
-			sr_sensor_error_value_get(sr_regs[i].senerror),
-			sr_sensor_value_status_name_get(status));
-		autoadjust_table_strncpy(table, row, 0,
-			"  Average");
-		status = sr_avg_sensor_error_value_status_get(
-			sr_regs[i].srstatus);
+			 "%.1lf%% (0x%02X) (%s)",
+			 sr_sensor_error_percentage_get(sr_regs[i].senerror),
+			 sr_sensor_error_value_get(sr_regs[i].senerror),
+			 sr_sensor_value_status_name_get(status));
+		autoadjust_table_strncpy(table, row, 0, "  Average");
+		status =
+		    sr_avg_sensor_error_value_status_get(sr_regs[i].srstatus);
 		snprintf(table[row][i + 1], TABLE_MAX_ELT_LEN,
-			"%.1lf%% (0x%02X) (%s)",
-			sr_avg_sensor_error_percentage_get(sr_regs[i].senerror),
-			sr_avg_sensor_error_value_get(sr_regs[i].senerror),
-			sr_sensor_value_status_name_get(status));
+			 "%.1lf%% (0x%02X) (%s)",
+			 sr_avg_sensor_error_percentage_get(sr_regs[i].
+							    senerror),
+			 sr_avg_sensor_error_value_get(sr_regs[i].senerror),
+			 sr_sensor_value_status_name_get(status));
 		row++;
 	}
 
@@ -1474,7 +1453,6 @@ sr_config_show_errgen:
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_convergence_status_show
@@ -1488,7 +1466,7 @@ sr_config_show_errgen:
  *			(MPU, IVA/MM, CORE)
  * @DESCRIPTION		analyze Smart-Reflex convergence status
  *------------------------------------------------------------------------ */
-int sr_convergence_status_show(FILE *stream, sr_status_registers sr_regs[3])
+int sr_convergence_status_show(FILE * stream, sr_status_registers sr_regs[3])
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	int v, row, maxrow;
@@ -1496,7 +1474,8 @@ int sr_convergence_status_show(FILE *stream, sr_status_registers sr_regs[3])
 	signed char vp_offset_raw, vp_gain_raw;
 	static const char mode_table[2][16] = {
 		"Disabled      ",
-		"Enabled       "};
+		"Enabled       "
+	};
 	unsigned char mode;
 	const char *opp;
 	char s_opp[16];
@@ -1521,7 +1500,6 @@ int sr_convergence_status_show(FILE *stream, sr_status_registers sr_regs[3])
 	autoadjust_table_strncpy(table, row, 3, "SR CORE");
 	row++;
 
-
 	/* Retrieve voltage domain list and count */
 	voltdm_list = voltdm_list_get();
 	if (voltdm_list == NULL) {
@@ -1542,7 +1520,7 @@ int sr_convergence_status_show(FILE *stream, sr_status_registers sr_regs[3])
 	/* Browse voltage domains, skipping WKUP */
 	for (v = 0; v < voltdm_count - 1; v++) {
 		/* Get voltage domain details */
-		genlist_get((genlist *) voltdm_list, v + 1, (void *) &voltdm);
+		genlist_get((genlist *) voltdm_list, v + 1, (void *)&voltdm);
 
 		/* Save max number of row */
 		if (row > maxrow)
@@ -1558,7 +1536,7 @@ int sr_convergence_status_show(FILE *stream, sr_status_registers sr_regs[3])
 		}
 		mode = sr_is_enabled(sr_regs[v].srconfig);
 		autoadjust_table_strncpy(table, row, v + 1,
-			(char *) mode_table[mode]);
+					 (char *)mode_table[mode]);
 		row++;
 
 		/* Show OPP */
@@ -1573,8 +1551,8 @@ int sr_convergence_status_show(FILE *stream, sr_status_registers sr_regs[3])
 
 		/* Show convergence status */
 		autoadjust_table_strncpy(table, row, 0, "Converged?");
-		if (sr_has_converged(
-			sr_regs[v].errconfig, sr_regs[v].senerror) == 1)
+		if (sr_has_converged(sr_regs[v].errconfig, sr_regs[v].senerror)
+		    == 1)
 			autoadjust_table_strncpy(table, row, v + 1, "YES");
 		else
 			autoadjust_table_strncpy(table, row, v + 1, "NO");
@@ -1582,28 +1560,27 @@ int sr_convergence_status_show(FILE *stream, sr_status_registers sr_regs[3])
 
 		/* Show voltage error */
 		autoadjust_table_strncpy(table, row, 0,
-			"Voltage Error (%, mV)");
-		freq_error = sr_avg_sensor_error_percentage_get(
-			sr_regs[v].senerror);
-		vp_error_offset_get(sr_regs[v].vp_config,
-			&vp_offset_raw, &vp_offset);
-		vp_error_gain_get(sr_regs[v].vp_config, v + 1,
-			&vp_gain_raw, &vp_gain);
+					 "Voltage Error (%, mV)");
+		freq_error =
+		    sr_avg_sensor_error_percentage_get(sr_regs[v].senerror);
+		vp_error_offset_get(sr_regs[v].vp_config, &vp_offset_raw,
+				    &vp_offset);
+		vp_error_gain_get(sr_regs[v].vp_config, v + 1, &vp_gain_raw,
+				  &vp_gain);
 		delta_vdd = sr_delta_vdd_get(freq_error, vp_offset, vp_gain);
 		snprintf(table[row][v + 1], TABLE_MAX_ELT_LEN,
-			"%.1lf%% (%.3lfmV)", freq_error, delta_vdd);
+			 "%.1lf%% (%.3lfmV)", freq_error, delta_vdd);
 		row++;
 
 		/* Show converged voltage */
 		autoadjust_table_strncpy(table, row, 0,
-			"Converged Voltage (V)");
-		volt = (double) voltdm_voltage_get(voltdm.name) / 1000000.0;
+					 "Converged Voltage (V)");
+		volt = (double)voltdm_voltage_get(voltdm.name) / 1000000.0;
 		if (volt >= 0)
 			snprintf(table[row][v + 1], TABLE_MAX_ELT_LEN,
-				"%.6lfV", volt);
+				 "%.6lfV", volt);
 		else
-			snprintf(table[row][v + 1], TABLE_MAX_ELT_LEN,
-				"NA");
+			snprintf(table[row][v + 1], TABLE_MAX_ELT_LEN, "NA");
 		row++;
 	}
 
@@ -1612,7 +1589,6 @@ int sr_convergence_status_show(FILE *stream, sr_status_registers sr_regs[3])
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr_config_audit
@@ -1630,9 +1606,10 @@ int sr_convergence_status_show(FILE *stream, sr_status_registers sr_regs[3])
  * @DESCRIPTION		audit SR settings, by comparing current settings with
  *			predefined "golden" settings.
  *------------------------------------------------------------------------ */
-int sr_config_audit(FILE *stream, const char *sr_name, const char *opp_name,
-	sr_registers *sr_regs, const sr_audit_settings *sr_golden_settings,
-	unsigned int *err_nbr, unsigned int *wng_nbr)
+int sr_config_audit(FILE * stream, const char *sr_name, const char *opp_name,
+		    sr_registers * sr_regs,
+		    const sr_audit_settings * sr_golden_settings,
+		    unsigned int *err_nbr, unsigned int *wng_nbr)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row;
@@ -1642,10 +1619,11 @@ int sr_config_audit(FILE *stream, const char *sr_name, const char *opp_name,
 	mod_idle_mode idle_mode_curr, idle_mode_expected;
 	static const char mode_table[2][16] = {
 		"Disabled      ",
-		"Enabled       "};
+		"Enabled       "
+	};
 	unsigned char curr, expected;
 
-	if (!cpu_is_omap44xx() /* & !cpu_is_omap54xx() FIXME */) {
+	if (!cpu_is_omap44xx() /* & !cpu_is_omap54xx() FIXME */ ) {
 		fprintf(stderr, "%s(): cpu not supported!!!\n", __func__);
 		return OMAPCONF_ERR_CPU;
 	}
@@ -1663,165 +1641,143 @@ int sr_config_audit(FILE *stream, const char *sr_name, const char *opp_name,
 		/* Get VDD_CORE OPP to detect DPLL cascading mode */
 		voltdm44xx_get_opp(OMAP4_VDD_CORE, &vdd_core_opp);
 		if (vdd_core_opp == OMAP4_OPPDPLL_CASC)
-			sr_sysclk = 12.288; /* MHz */
+			sr_sysclk = 12.288;	/* MHz */
 		else
 			sr_sysclk = sys_clk;
 	} else {
 		sr_sysclk =
-			(double) module_clk_rate_get(MOD_SMARTREFLEX_MPU, 0) / 1000.0;
+		    (double)module_clk_rate_get(MOD_SMARTREFLEX_MPU,
+						0) / 1000.0;
 	}
 	dprintf("%s(): sr_sysclk = %lfMHz\n", __func__, sr_sysclk);
 
 	if (sr_regs->accessible == 0) {
 		if (stream != NULL)
 			fprintf(stream, "%s is disabled, audit cannot be "
-			"completed.\n\n", sr_name);
+				"completed.\n\n", sr_name);
 		return 0;
 	}
 	row = 0;
 	autoadjust_table_init(table);
 	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"%s AVS Configuration AUDIT (@%s)", sr_name, opp_name);
+		 "%s AVS Configuration AUDIT (@%s)", sr_name, opp_name);
 
 	autoadjust_table_strncpy(table, row, 1, "Current");
 	autoadjust_table_strncpy(table, row, 2, "Expected");
 	autoadjust_table_strncpy(table, row, 3, "STATUS");
 	row++;
 
-	autoadjust_table_strncpy(table, row, 0,
-		"SR_CLK Frequency");
+	autoadjust_table_strncpy(table, row, 0, "SR_CLK Frequency");
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.3lfKHz",
-		sr_clk_rate_get(sr_regs->srconfig, sr_sysclk));
+		 sr_clk_rate_get(sr_regs->srconfig, sr_sysclk));
 	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lfKHz",
-		sr_golden_settings->sr_sysclk);
-	SR_AUDIT_SHOW_STATUS(
-		(unsigned int) sr_clk_rate_get(sr_regs->srconfig, sr_sysclk),
-		(unsigned int) sr_golden_settings->sr_sysclk);
+		 sr_golden_settings->sr_sysclk);
+	SR_AUDIT_SHOW_STATUS((unsigned int)
+			     sr_clk_rate_get(sr_regs->srconfig, sr_sysclk),
+			     (unsigned int)sr_golden_settings->sr_sysclk);
 
-	autoadjust_table_strncpy(table, row++, 0,
-		"Interrupt configuration");
+	autoadjust_table_strncpy(table, row++, 0, "Interrupt configuration");
 	for (irqtype = SR_IRQ_MCUDISABLEACK; irqtype < SR_IRQ_TYPE_MAX;
-		irqtype++) {
+	     irqtype++) {
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "  %s",
-			sr_interrupt_type_name_get(irqtype));
-		curr = sr_irq_is_enabled(
-			sr_regs->irqenable_set,
-			sr_regs->errconfig, irqtype);
+			 sr_interrupt_type_name_get(irqtype));
+		curr = sr_irq_is_enabled(sr_regs->irqenable_set,
+					 sr_regs->errconfig, irqtype);
 		autoadjust_table_strncpy(table, row, 1,
-				(char *) mode_table[curr]);
+					 (char *)mode_table[curr]);
 		expected = sr_golden_settings->irqmode[irqtype];
 		autoadjust_table_strncpy(table, row, 2,
-				(char *) mode_table[expected]);
+					 (char *)mode_table[expected]);
 		SR_AUDIT_SHOW_STATUS(curr, expected);
 	}
 
-	autoadjust_table_strncpy(table, row, 0,
-		"SR Sensor N");
+	autoadjust_table_strncpy(table, row, 0, "SR Sensor N");
 	curr = sr_is_sensor_enabled(sr_regs->srconfig, SR_SENSOR_N);
 	expected = sr_golden_settings->sensornmode;
-	autoadjust_table_strncpy(table, row, 1,
-		(char *) mode_table[curr]);
-	autoadjust_table_strncpy(table, row, 2,
-		(char *) mode_table[expected]);
+	autoadjust_table_strncpy(table, row, 1, (char *)mode_table[curr]);
+	autoadjust_table_strncpy(table, row, 2, (char *)mode_table[expected]);
 	SR_AUDIT_SHOW_STATUS(curr, expected);
 
-
-	autoadjust_table_strncpy(table, row, 0,
-		"SR Sensor P");
+	autoadjust_table_strncpy(table, row, 0, "SR Sensor P");
 	curr = sr_is_sensor_enabled(sr_regs->srconfig, SR_SENSOR_P);
 	expected = sr_golden_settings->sensorpmode;
-	autoadjust_table_strncpy(table, row, 1,
-		(char *) mode_table[curr]);
-	autoadjust_table_strncpy(table, row, 2,
-		(char *) mode_table[expected]);
+	autoadjust_table_strncpy(table, row, 1, (char *)mode_table[curr]);
+	autoadjust_table_strncpy(table, row, 2, (char *)mode_table[expected]);
 	SR_AUDIT_SHOW_STATUS(curr, expected);
 
-	autoadjust_table_strncpy(table, row, 0,
-		"Min/Max/Avg Detector Module");
+	autoadjust_table_strncpy(table, row, 0, "Min/Max/Avg Detector Module");
 	curr = sr_is_minmaxavg_detector_enabled(sr_regs->srconfig);
 	expected = sr_golden_settings->minmaxavg_detector_mode;
-	autoadjust_table_strncpy(table, row, 1,
-		(char *) mode_table[curr]);
-	autoadjust_table_strncpy(table, row, 2,
-		(char *) mode_table[expected]);
+	autoadjust_table_strncpy(table, row, 1, (char *)mode_table[curr]);
+	autoadjust_table_strncpy(table, row, 2, (char *)mode_table[expected]);
 	SR_AUDIT_SHOW_STATUS(curr, expected);
 
-	autoadjust_table_strncpy(table, row, 0,
-		"Error Generator Module");
+	autoadjust_table_strncpy(table, row, 0, "Error Generator Module");
 	curr = sr_is_error_generator_enabled(sr_regs->srconfig);
 	expected = sr_golden_settings->errgen_mode;
-	autoadjust_table_strncpy(table, row, 1,
-		(char *) mode_table[curr]);
-	autoadjust_table_strncpy(table, row, 2,
-		(char *) mode_table[expected]);
+	autoadjust_table_strncpy(table, row, 1, (char *)mode_table[curr]);
+	autoadjust_table_strncpy(table, row, 2, (char *)mode_table[expected]);
 	SR_AUDIT_SHOW_STATUS(curr, expected);
 
 	autoadjust_table_strncpy(table, row, 0, "  Idle Mode");
-	idle_mode_curr =
-		sr_error_generator_idle_mode_get(sr_regs->errconfig);
+	idle_mode_curr = sr_error_generator_idle_mode_get(sr_regs->errconfig);
 	idle_mode_expected = sr_golden_settings->idle_mode;
 	autoadjust_table_strncpy(table, row, 1,
-		(char *) mod_idle_mode_name_get(idle_mode_curr));
+				 (char *)
+				 mod_idle_mode_name_get(idle_mode_curr));
 	autoadjust_table_strncpy(table, row, 2,
-		(char *) mod_idle_mode_name_get(idle_mode_expected));
+				 (char *)
+				 mod_idle_mode_name_get(idle_mode_expected));
 	SR_AUDIT_SHOW_STATUS(idle_mode_curr, idle_mode_expected);
 
 	autoadjust_table_strncpy(table, row, 0, "  WAKEUPENABLE");
-	curr = sr_is_error_generator_wakeup_enabled(
-		sr_regs->errconfig);
+	curr = sr_is_error_generator_wakeup_enabled(sr_regs->errconfig);
 	expected = sr_golden_settings->wakeupenable;
-	autoadjust_table_strncpy(table, row, 1,
-		(char *) mode_table[curr]);
-	autoadjust_table_strncpy(table, row, 2,
-		(char *) mode_table[expected]);
+	autoadjust_table_strncpy(table, row, 1, (char *)mode_table[curr]);
+	autoadjust_table_strncpy(table, row, 2, (char *)mode_table[expected]);
 	SR_AUDIT_SHOW_STATUS(curr, expected);
 
 	autoadjust_table_strncpy(table, row, 0, "  ERRMINLIMIT");
 	curr = sr_error_generator_minlimit_get(sr_regs->errconfig);
 	expected = sr_golden_settings->errminlimit;
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.1lf%%)", curr,
-		sr_error_generator_limit_hex2percent((signed char) curr));
+		 "0x%02X (%.1lf%%)", curr,
+		 sr_error_generator_limit_hex2percent((signed char)curr));
 	snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.1lf%%)", expected,
-		sr_error_generator_limit_hex2percent((signed char) expected));
+		 "0x%02X (%.1lf%%)", expected,
+		 sr_error_generator_limit_hex2percent((signed char)expected));
 	SR_AUDIT_SHOW_STATUS(curr, expected);
 
 	autoadjust_table_strncpy(table, row, 0, "  ERRMAXLIMIT");
 	curr = sr_error_generator_maxlimit_get(sr_regs->errconfig);
 	expected = sr_golden_settings->errmaxlimit;
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.1lf%%)", curr,
-		sr_error_generator_limit_hex2percent((signed char) curr));
+		 "0x%02X (%.1lf%%)", curr,
+		 sr_error_generator_limit_hex2percent((signed char)curr));
 	snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-		"0x%02X (%.1lf%%)", expected,
-		sr_error_generator_limit_hex2percent((signed char) expected));
+		 "0x%02X (%.1lf%%)", expected,
+		 sr_error_generator_limit_hex2percent((signed char)expected));
 	SR_AUDIT_SHOW_STATUS(curr, expected);
 
-	autoadjust_table_strncpy(table, row, 0,
-		"  ERRWEIGHT");
+	autoadjust_table_strncpy(table, row, 0, "  ERRWEIGHT");
 	curr = sr_error_generator_weight_get(sr_regs->errconfig);
 	expected = sr_golden_settings->errweight;
-	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "0x%1X (%u)",
-		curr, curr);
+	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "0x%1X (%u)", curr, curr);
 	snprintf(table[row][2], TABLE_MAX_ELT_LEN, "0x%1X (%u)",
-		expected, expected);
+		 expected, expected);
 	SR_AUDIT_SHOW_STATUS(curr, expected);
 
 	autoadjust_table_strncpy(table, row, 0, "Convergence Status");
-	curr = sr_has_converged(
-		sr_regs->errconfig, sr_regs->senerror);
+	curr = sr_has_converged(sr_regs->errconfig, sr_regs->senerror);
 	expected = sr_golden_settings->converged;
 	if (curr == 1)
 		autoadjust_table_strncpy(table, row, 1, "Converged");
 	else
-		autoadjust_table_strncpy(table, row, 1,
-			"Not Converged");
+		autoadjust_table_strncpy(table, row, 1, "Not Converged");
 	if (expected == 1)
 		autoadjust_table_strncpy(table, row, 2, "Converged");
 	else
-		autoadjust_table_strncpy(table, row, 2,
-			"Not Converged");
+		autoadjust_table_strncpy(table, row, 2, "Not Converged");
 	SR_AUDIT_SHOW_STATUS(curr, expected);
 
 	if (stream != NULL) {

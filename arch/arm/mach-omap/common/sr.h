@@ -41,20 +41,16 @@
  *
  */
 
-
 #ifndef __SR_H__
 #define __SR_H__
 
-
 #include <stdio.h>
 #include <prcm-module.h>
-
 
 #define SR_SENSOR_TYPE_MAX_LENGTH		8
 #define SR_SENSOR_VAL_TYPE_MAX_LENGTH		8
 #define SR_SENSOR_VAL_STATUS_MAX_LENGTH		16
 #define SR_IRQ_TYPE_MAX_LENGTH			16
-
 
 typedef struct {
 	unsigned char accessible;
@@ -79,7 +75,6 @@ typedef struct {
 	unsigned int lvtnvaluereciprocal;
 } sr_registers;
 
-
 typedef struct {
 	unsigned char enabled;
 	unsigned int srconfig;
@@ -88,13 +83,11 @@ typedef struct {
 	unsigned int vp_config;
 } sr_status_registers;
 
-
 typedef enum {
 	SR_SENSOR_N,
 	SR_SENSOR_P,
 	SR_SENSOR_TYPE_MAX,
 } sr_sensor_type;
-
 
 typedef enum {
 	SR_SENSOR_VAL_LATEST,
@@ -104,14 +97,12 @@ typedef enum {
 	SR_SENSOR_VAL_TYPE_MAX,
 } sr_sensor_value_type;
 
-
 typedef enum {
 	SR_SENSOR_VAL_INVALID,
 	SR_SENSOR_VAL_VALID,
 	SR_SENSOR_VAL_FINAL,
 	SR_SENSOR_VAL_STATUS_MAX
 } sr_sensor_value_status;
-
 
 typedef enum {
 	SR_IRQ_MCUDISABLEACK,
@@ -122,9 +113,8 @@ typedef enum {
 	SR_IRQ_TYPE_MAX
 } sr_interrupt_type;
 
-
 typedef struct {
-	double sr_sysclk; /* in KHz */
+	double sr_sysclk;	/* in KHz */
 	unsigned char irqmode[SR_IRQ_TYPE_MAX];
 	unsigned char sensornmode;
 	unsigned char sensorpmode;
@@ -138,12 +128,12 @@ typedef struct {
 	unsigned char converged;
 } sr_audit_settings;
 
-
-int sr_config_show(FILE *stream, sr_registers sr_regs[3]);
-int sr_convergence_status_show(FILE *stream, sr_status_registers sr_regs[3]);
-int sr_config_audit(FILE *stream, const char *sr_name, const char *opp_name,
-	sr_registers *sr_regs, const sr_audit_settings *sr_golden_settings,
-	unsigned int *err_nbr, unsigned int *wng_nbr);
+int sr_config_show(FILE * stream, sr_registers sr_regs[3]);
+int sr_convergence_status_show(FILE * stream, sr_status_registers sr_regs[3]);
+int sr_config_audit(FILE * stream, const char *sr_name, const char *opp_name,
+		    sr_registers * sr_regs,
+		    const sr_audit_settings * sr_golden_settings,
+		    unsigned int *err_nbr, unsigned int *wng_nbr);
 
 const char *sr_sensor_type_name_get(sr_sensor_type type);
 const char *sr_sensor_value_type_name_get(sr_sensor_value_type type);
@@ -158,7 +148,7 @@ double sr_clk_rate_get(unsigned int sr_config, double sr_sysclk);
 unsigned char sr_is_minmaxavg_detector_enabled(unsigned int sr_config);
 unsigned char sr_accumdata_count_get(unsigned int sr_config);
 unsigned char sr_avg_weighting_factor_get(unsigned int avgweight,
-	sr_sensor_type type);
+					  sr_sensor_type type);
 
 /* Smart-Reflex Error Generator-related functions */
 unsigned char sr_is_error_generator_enabled(unsigned int sr_config);
@@ -170,12 +160,11 @@ double sr_error_generator_minlimit_percentage_get(unsigned int errconfig);
 unsigned char sr_error_generator_maxlimit_get(unsigned int errconfig);
 double sr_error_generator_maxlimit_percentage_get(unsigned int errconfig);
 unsigned char sr_error_generator_weight_get(unsigned int errconfig);
-sr_sensor_value_status sr_sensor_error_value_status_get(
-	unsigned int srstatus);
+sr_sensor_value_status sr_sensor_error_value_status_get(unsigned int srstatus);
 unsigned char sr_sensor_error_value_get(unsigned int senerror);
 double sr_sensor_error_percentage_get(unsigned int senerror);
-sr_sensor_value_status sr_avg_sensor_error_value_status_get(
-	unsigned int srstatus);
+sr_sensor_value_status sr_avg_sensor_error_value_status_get(unsigned int
+							    srstatus);
 unsigned char sr_avg_sensor_error_value_get(unsigned int senerror);
 double sr_avg_sensor_error_percentage_get(unsigned int senerror);
 double sr_delta_vdd_get(double freq_error, double vp_offset, double vp_gain);
@@ -185,26 +174,28 @@ unsigned char sr_is_sensors_disabled(unsigned int sr_config);
 unsigned char sr_is_sensor_enabled(unsigned int sr_config, sr_sensor_type type);
 unsigned char sr_gain_get(unsigned int nvaluereciprocal, sr_sensor_type type);
 unsigned char sr_scale_value_get(unsigned int nvaluereciprocal,
-	sr_sensor_type type);
+				 sr_sensor_type type);
 unsigned int sr_ntarget_get(unsigned int nvaluereciprocal, sr_sensor_type type);
 sr_sensor_value_status sr_sensor_value_status_get(unsigned int srstatus);
-unsigned int sr_sensor_value_get(sr_registers *sr_regs, sr_sensor_type sen_type,
-	sr_sensor_value_type val_type);
-unsigned int sr_lvt_sensor_value_get(sr_registers *sr_regs,
-	sr_sensor_type sen_type, sr_sensor_value_type val_type);
+unsigned int sr_sensor_value_get(sr_registers * sr_regs,
+				 sr_sensor_type sen_type,
+				 sr_sensor_value_type val_type);
+unsigned int sr_lvt_sensor_value_get(sr_registers * sr_regs,
+				     sr_sensor_type sen_type,
+				     sr_sensor_value_type val_type);
 
 /* Smart-Reflex IRQ-related functions */
 unsigned char sr_irq_is_enabled(unsigned int irqenable_set,
-	unsigned int errconfig, sr_interrupt_type type);
+				unsigned int errconfig, sr_interrupt_type type);
 unsigned char sr_irq_status_is_set(unsigned int irqstatus,
-	unsigned int errconfig, sr_interrupt_type type);
+				   unsigned int errconfig,
+				   sr_interrupt_type type);
 unsigned char sr_irq_raw_status_is_set(unsigned int irqstatus_raw,
-	sr_interrupt_type type);
+				       sr_interrupt_type type);
 
 /* Smart-Reflex LVT Sensors-related functions */
 unsigned char sr_is_lvt_sensors_disabled(unsigned int sr_config);
 unsigned char sr_is_lvt_sensor_enabled(unsigned int sr_config,
-	sr_sensor_type type);
-
+				       sr_sensor_type type);
 
 #endif

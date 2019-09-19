@@ -42,14 +42,11 @@
  *
  */
 
-
 #ifndef __OPP_H__
 #define __OPP_H__
 
-
 #include <stdio.h>
 #include <genlist.h>
-
 
 #define OPP_MAX_NAME_LENGTH	16
 
@@ -85,13 +82,11 @@
 /* AM335X OPP */
 #define OPP_120			((const char *) "OPP120")
 
-
 typedef struct {
 	const char *name;
-	int voltage; /* in micro-volt */
-	int rate; /* in KHz */
+	int voltage;		/* in micro-volt */
+	int rate;		/* in KHz */
 } opp_t;
-
 
 void opp_init(void);
 void opp_deinit(void);
@@ -108,10 +103,9 @@ const char *opp_by_voltage_get(const char *voltdm, unsigned short quiet);
 #endif
 int opp_set(const char *voltdm, const char *opp);
 
-int opp_show(FILE *stream);
+int opp_show(FILE * stream);
 
-const char *opp_audit(FILE *stream, const char *voltdm,
-	unsigned int *err_nbr, unsigned int *wng_nbr);
-
+const char *opp_audit(FILE * stream, const char *voltdm,
+		      unsigned int *err_nbr, unsigned int *wng_nbr);
 
 #endif

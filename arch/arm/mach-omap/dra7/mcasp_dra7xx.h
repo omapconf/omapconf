@@ -107,8 +107,8 @@
 #define MCASP_RFIFOCTL_OFFSET	0x1008
 #define MCASP_RFIFOSTS_OFFSET	0x100c
 
-int dra7xx_mcasp_dumpregs(FILE *stream, int argc, char *argv[]);
-int dra7xx_mcasp_show(FILE *stream, int argc, char *argv[]);
+int dra7xx_mcasp_dumpregs(FILE * stream, int argc, char *argv[]);
+int dra7xx_mcasp_show(FILE * stream, int argc, char *argv[]);
 int dra7xx_mcasp_main(int argc, char *argv[]);
 
 #endif

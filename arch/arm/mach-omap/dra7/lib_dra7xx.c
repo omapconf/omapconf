@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <lib_dra7xx.h>
 #include <lib.h>
 #include <string.h>
@@ -55,14 +54,12 @@
 #include <opp.h>
 #include <pmic.h>
 
-
 /* #define LIB_DRA7XX_DEBUG */
 #ifdef LIB_DRA7XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		lib_dra7xx_voltage_set
@@ -92,30 +89,31 @@ int lib_dra7xx_voltage_set(voltdm_dra7xx_id vdd_id, double volt)
 	 * overriden in case of OPP change.
 	 */
 	printf("Warning: switching CPUFreq governor to 'userspace', otherwise "
-		"voltage change will be overriden...\n");
+	       "voltage change will be overriden...\n");
 	ret_cpufreq = cpufreq_scaling_governor_set("userspace", prev_gov);
 	if (ret_cpufreq < 0)
 		printf("Warning: failed to switch governor. Voltage will be "
-			"overriden in case of OPP change.\n");
+		       "overriden in case of OPP change.\n");
 	else
 		printf("CPUFreq governor switched to 'userspace'.\n");
 
 	ret = voltdm_dra7xx_voltage_set(vdd_id,
-		(unsigned long) (volt * 1000000));
+					(unsigned long)(volt * 1000000));
 	if (ret != 0) {
 		fprintf(stderr, "Oups, could not change %s voltage to "
 			"%.3lfV ... (%d)\n\n",
 			voltdm_dra7xx_name_get(vdd_id), volt, ret);
 	} else {
 		printf("%s supply voltage set to %1.3lfV (vsel = 0x%02X).\n\n",
-			voltdm_dra7xx_name_get(vdd_id), volt,
-			smps_uvolt2vsel(vdd_id2smps_id(vdd_id),
-			(unsigned long) (volt * 1000000)));
+		       voltdm_dra7xx_name_get(vdd_id), volt,
+		       smps_uvolt2vsel(vdd_id2smps_id(vdd_id),
+				       (unsigned long)(volt * 1000000)));
 		printf("Warning:\n"
-			"  - Do not re-enable %s smartreflex or new voltage "
-			"will be overriden.\n"
-			"  - Do not change OPP (or use CPUFREQ) or new voltage"
-			" will be overriden.\n\n", voltdm_dra7xx_name_get(vdd_id));
+		       "  - Do not re-enable %s smartreflex or new voltage "
+		       "will be overriden.\n"
+		       "  - Do not change OPP (or use CPUFREQ) or new voltage"
+		       " will be overriden.\n\n",
+		       voltdm_dra7xx_name_get(vdd_id));
 	}
 
 	/* Restore CPUFreq governor */
@@ -153,28 +151,33 @@ int lib_dra7xx_voltage_set_walk(voltdm_dra7xx_id vdd_id, double volt,
 	if (!msec)
 		msec = 300;
 
-        /* Assume OPPs locked out at this point */
+	/* Assume OPPs locked out at this point */
 	while (volt > 0) {
-		printf("Attempt to set %s supply voltage set to %1.3lfV (vsel = 0x%02X) with step down %1.3lfV waiting %dms between 2 steps.\n\n",
-		       voltdm_dra7xx_name_get(vdd_id), volt,
-		       smps_uvolt2vsel(vdd_id2smps_id(vdd_id),
-				       (unsigned long) (volt * 1000000)),
-		       step, msec);
-		ret = voltdm_dra7xx_voltage_set(vdd_id,
-						(unsigned long) (volt * 1000000));
+		printf
+		    ("Attempt to set %s supply voltage set to %1.3lfV (vsel = 0x%02X) with step down %1.3lfV waiting %dms between 2 steps.\n\n",
+		     voltdm_dra7xx_name_get(vdd_id), volt,
+		     smps_uvolt2vsel(vdd_id2smps_id(vdd_id),
+				     (unsigned long)(volt * 1000000)), step,
+		     msec);
+		ret =
+		    voltdm_dra7xx_voltage_set(vdd_id,
+					      (unsigned long)(volt * 1000000));
 		if (ret != 0) {
-			fprintf(stderr, "Oups, could not change %s voltage to %.3lfV ... (%d)\n\n",
+			fprintf(stderr,
+				"Oups, could not change %s voltage to %.3lfV ... (%d)\n\n",
 				voltdm_dra7xx_name_get(vdd_id), volt, ret);
 		} else {
-			printf("%s supply voltage set to %1.3lfV (vsel = 0x%02X).\n\n",
-			       voltdm_dra7xx_name_get(vdd_id), volt,
-			       smps_uvolt2vsel(vdd_id2smps_id(vdd_id),
-					       (unsigned long) (volt * 1000000)));
-                   printf("Warning:\n"
-                           "  - Do not re-enable %s smartreflex or new voltage "
-                           "will be overriden.\n"
-                           "  - Do not change OPP (or use CPUFREQ) or new voltage"
-                           " will be overriden.\n\n", voltdm_dra7xx_name_get(vdd_id));
+			printf
+			    ("%s supply voltage set to %1.3lfV (vsel = 0x%02X).\n\n",
+			     voltdm_dra7xx_name_get(vdd_id), volt,
+			     smps_uvolt2vsel(vdd_id2smps_id(vdd_id),
+					     (unsigned long)(volt * 1000000)));
+			printf("Warning:\n"
+			       "  - Do not re-enable %s smartreflex or new voltage "
+			       "will be overriden.\n"
+			       "  - Do not change OPP (or use CPUFREQ) or new voltage"
+			       " will be overriden.\n\n",
+			       voltdm_dra7xx_name_get(vdd_id));
 		}
 		volt -= step;
 
@@ -199,9 +202,9 @@ int libdra7x_vtrans(voltdm_dra7xx_id vdd_id, unsigned int ms)
 {
 	unsigned int val, val1, val2;
 	/* Approx. conversion of delay steps to toggle cycles */
-	unsigned int i = (ms*1000)/200;
+	unsigned int i = (ms * 1000) / 200;
 
-	if(vdd_id == VDD_DRA7XX_MPU) {
+	if (vdd_id == VDD_DRA7XX_MPU) {
 		/* Toggle between lock and bypass */
 		while (i > 0) {
 			reg_write(&dra7xx_ckgen_cm_core_aon_cm_clkmode_dpll_mpu,
@@ -216,25 +219,27 @@ int libdra7x_vtrans(voltdm_dra7xx_id vdd_id, unsigned int ms)
 		/* Set bypass source to SYSCLK */
 		val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_iva);
 		reg_write(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_iva,
-			  val ^ (1<<23));
+			  val ^ (1 << 23));
 
 		/* Toggle between lock and bypass - DPLL_IVA */
 		/* Toggle between slow and fast clock - DPLL_IVA */
 		while (i > 0) {
-			reg_write(&dra7xx_ckgen_cm_core_aon_cm_clkmode_dpll_iva, DPLL_LOCK);
+			reg_write(&dra7xx_ckgen_cm_core_aon_cm_clkmode_dpll_iva,
+				  DPLL_LOCK);
 			usleep(100);
-			reg_write(&dra7xx_ckgen_cm_core_aon_cm_clkmode_dpll_iva, DPLL_FAST_RELOCK_BYPASS);
+			reg_write(&dra7xx_ckgen_cm_core_aon_cm_clkmode_dpll_iva,
+				  DPLL_FAST_RELOCK_BYPASS);
 			usleep(100);
 			i--;
 		}
-        } else if (vdd_id == VDD_DRA7XX_DSPEVE) {
+	} else if (vdd_id == VDD_DRA7XX_DSPEVE) {
 		/* Set bypass source to SYSCLK */
 		val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_dsp);
 		reg_write(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_dsp,
-			  val ^ (1<<23));
+			  val ^ (1 << 23));
 		val2 = reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_eve);
 		reg_write(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_eve,
-			  val2 ^ (1<<23));
+			  val2 ^ (1 << 23));
 
 		while (i > 0) {
 			reg_write(&dra7xx_ckgen_cm_core_aon_cm_clkmode_dpll_dsp,
@@ -244,28 +249,30 @@ int libdra7x_vtrans(voltdm_dra7xx_id vdd_id, unsigned int ms)
 			usleep(100);
 			reg_write(&dra7xx_ckgen_cm_core_aon_cm_clkmode_dpll_dsp,
 				  DPLL_FAST_RELOCK_BYPASS);
-                        reg_write(&dra7xx_ckgen_cm_core_aon_cm_clkmode_dpll_eve,
+			reg_write(&dra7xx_ckgen_cm_core_aon_cm_clkmode_dpll_eve,
 				  DPLL_FAST_RELOCK_BYPASS);
-                        usleep(100);
+			usleep(100);
 			i--;
 		}
-        } else if (vdd_id == VDD_DRA7XX_GPU) {
+	} else if (vdd_id == VDD_DRA7XX_GPU) {
 		/* Set bypass source to SYSCLK */
 		val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_gpu);
 		reg_write(&dra7xx_ckgen_cm_core_aon_cm_clksel_dpll_gpu,
-			  val ^ (1<<23));
+			  val ^ (1 << 23));
 
 		val = reg_read(&dra7xx_ckgen_cm_core_aon_cm_div_h14_dpll_core);
 		while (i > 0) {
 			reg_write(&dra7xx_ckgen_cm_core_aon_cm_clkmode_dpll_gpu,
 				  DPLL_LOCK);
-			reg_write(&dra7xx_ckgen_cm_core_aon_cm_div_h14_dpll_core,
-				  0x3e);
+			reg_write
+			    (&dra7xx_ckgen_cm_core_aon_cm_div_h14_dpll_core,
+			     0x3e);
 			usleep(100);
 			reg_write(&dra7xx_ckgen_cm_core_aon_cm_clkmode_dpll_gpu,
 				  DPLL_FAST_RELOCK_BYPASS);
-			reg_write(&dra7xx_ckgen_cm_core_aon_cm_div_h14_dpll_core,
-				  val);
+			reg_write
+			    (&dra7xx_ckgen_cm_core_aon_cm_div_h14_dpll_core,
+			     val);
 			usleep(100);
 			i--;
 		}
@@ -275,13 +282,25 @@ int libdra7x_vtrans(voltdm_dra7xx_id vdd_id, unsigned int ms)
 		val1 = reg_read(&dra7xx_ckgen_cm_core_aon_cm_div_h23_dpll_core);
 		val2 = reg_read(&dra7xx_ckgen_cm_core_aon_cm_div_h24_dpll_core);
 		while (i > 0) {
-			reg_write(&dra7xx_ckgen_cm_core_aon_cm_div_h22_dpll_core, 0x3f);
-			reg_write(&dra7xx_ckgen_cm_core_aon_cm_div_h23_dpll_core, 0x3f);
-			reg_write(&dra7xx_ckgen_cm_core_aon_cm_div_h24_dpll_core, 0x3f);
+			reg_write
+			    (&dra7xx_ckgen_cm_core_aon_cm_div_h22_dpll_core,
+			     0x3f);
+			reg_write
+			    (&dra7xx_ckgen_cm_core_aon_cm_div_h23_dpll_core,
+			     0x3f);
+			reg_write
+			    (&dra7xx_ckgen_cm_core_aon_cm_div_h24_dpll_core,
+			     0x3f);
 			usleep(100);
-			reg_write(&dra7xx_ckgen_cm_core_aon_cm_div_h22_dpll_core, val);
-			reg_write(&dra7xx_ckgen_cm_core_aon_cm_div_h23_dpll_core, val1);
-			reg_write(&dra7xx_ckgen_cm_core_aon_cm_div_h24_dpll_core, val2);
+			reg_write
+			    (&dra7xx_ckgen_cm_core_aon_cm_div_h22_dpll_core,
+			     val);
+			reg_write
+			    (&dra7xx_ckgen_cm_core_aon_cm_div_h23_dpll_core,
+			     val1);
+			reg_write
+			    (&dra7xx_ckgen_cm_core_aon_cm_div_h24_dpll_core,
+			     val2);
 			usleep(100);
 			i--;
 		}
@@ -318,7 +337,7 @@ int libdra7xx_vminsearch(int argc, char *argv[])
 	unsigned char vsel;
 	voltdm_dra7xx_id vdd_id;
 	unsigned int ms;
-	char * voltdm_name = (char *)VDD_MPU;
+	char *voltdm_name = (char *)VDD_MPU;
 	char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH];
 
 	/* Retrieve arguments */
@@ -330,7 +349,7 @@ int libdra7xx_vminsearch(int argc, char *argv[])
 	} else if (strcmp(argv[0], "core") == 0) {
 		vdd_id = VDD_DRA7XX_CORE;
 		voltdm_name = (char *)VDD_CORE;
-	} else if(strcmp(argv[0], "gpu") == 0) {
+	} else if (strcmp(argv[0], "gpu") == 0) {
 		vdd_id = VDD_DRA7XX_GPU;
 		voltdm_name = (char *)VDD_GPU;
 	} else
@@ -351,11 +370,11 @@ int libdra7xx_vminsearch(int argc, char *argv[])
 	 * overriden in case of OPP change.
 	 */
 	printf("Warning: switching CPUFreq governor to 'userspace', otherwise "
-		"voltage change will be overriden...\n");
+	       "voltage change will be overriden...\n");
 	ret = cpufreq_scaling_governor_set("userspace", prev_gov);
 	if (ret < 0)
 		printf("Warning: failed to switch governor. Voltage will be "
-			"overriden in case of OPP change.\n");
+		       "overriden in case of OPP change.\n");
 	else
 		printf("CPUFreq governor switched to 'userspace'.\n");
 
@@ -370,22 +389,22 @@ int libdra7xx_vminsearch(int argc, char *argv[])
 	dprintf("%s(): vstep=%luuV\n", __func__, vstep);
 
 	printf("Vmin SEARCH on %s domain scaling voltage down from %1.3lfV in "
-		"steps of %lumV, waiting %dms between each step.\n",
-		voltdm_dra7xx_name_get(vdd_id), v, vstep / 1000, ms);
+	       "steps of %lumV, waiting %dms between each step.\n",
+	       voltdm_dra7xx_name_get(vdd_id), v, vstep / 1000, ms);
 	printf("LAST voltage displayed with OK status before crash "
-		"will be the Vmin for %s domain.\n\n",
-		voltdm_dra7xx_name_get(vdd_id));
+	       "will be the Vmin for %s domain.\n\n",
+	       voltdm_dra7xx_name_get(vdd_id));
 	printf("NB:\n  - Make sure your load generator application is "
-		"running in background during the whole procedure.\n");
+	       "running in background during the whole procedure.\n");
 	printf("  - PLATFORM MUST BE REBOOTED AFTER USE "
-		"(NO POSSIBLE RECOVERY).\n\n");
+	       "(NO POSSIBLE RECOVERY).\n\n");
 
 	/* Rounding requested initial voltage */
 	vsel = smps_uvolt2vsel(vdd_id2smps_id(vdd_id),
-		(unsigned long) (v * 1000000));
+			       (unsigned long)(v * 1000000));
 
 	prev_v = v;
-	v = (double) smps_vsel2uvolt(vdd_id2smps_id(vdd_id), vsel);
+	v = (double)smps_vsel2uvolt(vdd_id2smps_id(vdd_id), vsel);
 	v = v / 1000000;
 	if (v != prev_v)
 		printf("Note: rounded up initial voltage to %.3lfV.\n\n", v);
@@ -393,19 +412,22 @@ int libdra7xx_vminsearch(int argc, char *argv[])
 	/* Decreasing voltage step by step until it breaks */
 	printf("Starting Vmin SEARCH...\n");
 
-	for (uv = (unsigned long) (v * 1000000); uv >= 0; uv = uv - vstep) {
-		char *temp_sensor = (char *) temp_sensor_voltdm2sensor(voltdm_name);
+	for (uv = (unsigned long)(v * 1000000); uv >= 0; uv = uv - vstep) {
+		char *temp_sensor =
+		    (char *)temp_sensor_voltdm2sensor(voltdm_name);
 		/* Get vsel corresponding to target voltage */
 		vsel = smps_uvolt2vsel(vdd_id2smps_id(vdd_id), uv);
 		temp = hwtemp_sensor_get(temp_sensor);
 		if (temp != TEMP_ABSOLUTE_ZERO)
-			printf("Trying %1.3lfV (SMPS code: 0x%02X, temperature: %dC/%dF)...",
-				smps_vsel2volt(vdd_id2smps_id(vdd_id), vsel),
-				vsel, temp, celcius2fahrenheit(temp));
+			printf
+			    ("Trying %1.3lfV (SMPS code: 0x%02X, temperature: %dC/%dF)...",
+			     smps_vsel2volt(vdd_id2smps_id(vdd_id), vsel), vsel,
+			     temp, celcius2fahrenheit(temp));
 		else
-			printf("Trying %1.3lfV (SMPS code: 0x%02X, temperature: N/A)...",
-				smps_vsel2volt(vdd_id2smps_id(vdd_id), vsel),
-				vsel);
+			printf
+			    ("Trying %1.3lfV (SMPS code: 0x%02X, temperature: N/A)...",
+			     smps_vsel2volt(vdd_id2smps_id(vdd_id), vsel),
+			     vsel);
 		fflush(stdout);
 		ret = smps_voltage_set(vdd_id2smps_id(vdd_id), uv);
 		if (ret != 0) {

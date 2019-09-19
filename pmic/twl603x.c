@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <string.h>
 #include <twl603x.h>
 #include <i2c-tools.h>
@@ -52,14 +51,12 @@
 #include <help.h>
 #include <lib_android.h>
 
-
 /* #define TWL603X_DEBUG */
 #ifdef TWL603X_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 #define TWL6030_VSEL_LEN		6
 #define TWL6030_VSTEP_UV		12660
@@ -71,7 +68,6 @@
 #define TWL6030_SMPS_VOLTAGE2_UV	1823100
 #define TWL6030_SMPS_VOLTAGE3_UV	1924400
 #define TWL6030_SMPS_VOLTAGE4_UV	2127000
-
 
 #define TWL6035_I2C_BUS			1
 #define TWL6035_ID0_ADDR		0x12
@@ -86,25 +82,23 @@
 #define TWL6035_SMPS_HIGH_RANGE_UVMIN	1650000
 #define TWL6035_SMPS_HIGH_RANGE_UVMAX	3300000
 
-
 static const char
-	twl_603x_chip_name[TWL603X_TYPE_MAX + 1][TWL603x_NAME_MAX_LEN] = {
+ twl_603x_chip_name[TWL603X_TYPE_MAX + 1][TWL603x_NAME_MAX_LEN] = {
 	"TWL6030",
 	"TWL6032",
 	"TWL6035",
-	"FIXME"};
-
+	"FIXME"
+};
 
 typedef struct {
 	twl603x_type chip_type;
 	float chip_revision;
 	float eprom_revision;
-	int vsel_len; /* width of vsel command (in bits) */
-	long int vstep; /* voltage step, in microvolts */
-	long int voffset[3]; /* voltage offset (per rail), in microvolts */
+	int vsel_len;		/* width of vsel command (in bits) */
+	long int vstep;		/* voltage step, in microvolts */
+	long int voffset[3];	/* voltage offset (per rail), in microvolts */
 	unsigned long smps_voltage_uv[5];
 } t_twl603x_data;
-
 
 static t_twl603x_data twl603x_data = {
 	.chip_type = TWL603X_TYPE_MAX,
@@ -114,12 +108,12 @@ static t_twl603x_data twl603x_data = {
 	.vstep = TWL6030_VSTEP_UV,
 	.voffset = {-1.0, -1.0, -1.0},
 	.smps_voltage_uv = {
-		TWL6030_SMPS_VOLTAGE0_UV,
-		TWL6030_SMPS_VOLTAGE1_UV,
-		TWL6030_SMPS_VOLTAGE2_UV,
-		TWL6030_SMPS_VOLTAGE3_UV,
-		TWL6030_SMPS_VOLTAGE4_UV} };
-
+			    TWL6030_SMPS_VOLTAGE0_UV,
+			    TWL6030_SMPS_VOLTAGE1_UV,
+			    TWL6030_SMPS_VOLTAGE2_UV,
+			    TWL6030_SMPS_VOLTAGE3_UV,
+			    TWL6030_SMPS_VOLTAGE4_UV}
+};
 
 typedef struct {
 	int ctrl;
@@ -128,64 +122,70 @@ typedef struct {
 	int voltage;
 } twl6035_smps_registers;
 
-
 static const twl6035_smps_registers twl035_smps12 = {
 	.ctrl = 0x20,
 	.tstep = 0x21,
 	.force = 0x22,
-	.voltage = 0x23};
+	.voltage = 0x23
+};
 
 static const twl6035_smps_registers twl035_smps3 = {
 	.ctrl = 0x24,
 	.tstep = -1,
 	.force = -1,
-	.voltage = 0x27};
+	.voltage = 0x27
+};
 
 static const twl6035_smps_registers twl035_smps45 = {
 	.ctrl = 0x28,
 	.tstep = 0x29,
 	.force = 0x2A,
-	.voltage = 0x2B};
+	.voltage = 0x2B
+};
 
 static const twl6035_smps_registers twl035_smps6 = {
 	.ctrl = 0x2C,
 	.tstep = 0x2D,
 	.force = 0x2E,
-	.voltage = 0x2F};
+	.voltage = 0x2F
+};
 
 static const twl6035_smps_registers twl035_smps7 = {
 	.ctrl = 0x30,
 	.tstep = -1,
 	.force = -1,
-	.voltage = 0x33};
+	.voltage = 0x33
+};
 
 static const twl6035_smps_registers twl035_smps8 = {
 	.ctrl = 0x34,
 	.tstep = 0x35,
 	.force = 0x36,
-	.voltage = 0x37};
-
+	.voltage = 0x37
+};
 
 static const twl6035_smps_registers twl035_smps9 = {
 	.ctrl = 0x38,
 	.tstep = -1,
 	.force = -1,
-	.voltage = 0x3B};
+	.voltage = 0x3B
+};
 
 static const twl6035_smps_registers twl035_smps10 = {
 	.ctrl = 0x3C,
 	.tstep = -1,
 	.force = -1,
-	.voltage = -1};
+	.voltage = -1
+};
 
 static const twl6035_smps_registers *twl6035_smps_vdd54xx_mpu = &twl035_smps12;
 static const twl6035_smps_registers *twl6035_smps_vdd54xx_mm = &twl035_smps45;
 static const twl6035_smps_registers *twl6035_smps_vdd54xx_core = &twl035_smps8;
 static const twl6035_smps_registers **twl6035_smps_vdd54xx[3] = {
-	(const twl6035_smps_registers **) &twl6035_smps_vdd54xx_mpu,
-	(const twl6035_smps_registers **) &twl6035_smps_vdd54xx_mm,
-	(const twl6035_smps_registers **) &twl6035_smps_vdd54xx_core};
-
+	(const twl6035_smps_registers **)&twl6035_smps_vdd54xx_mpu,
+	(const twl6035_smps_registers **)&twl6035_smps_vdd54xx_mm,
+	(const twl6035_smps_registers **)&twl6035_smps_vdd54xx_core
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_is_twl6030
@@ -228,7 +228,6 @@ twl603x_is_twl6030_end:
 
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_is_twl6032
  * @BRIEF		return 1 if PMIC chip is TWL6032, 0 otherwise.
@@ -270,7 +269,6 @@ twl603x_is_twl6032_end:
 
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_is_twl6034
  * @BRIEF		return 1 if PMIC chip is TWL6034, 0 otherwise.
@@ -311,7 +309,6 @@ twl603x_is_twl6034_end:
 	return twl603x_data.chip_type == TWL6034;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_is_twl6035
  * @BRIEF		return 1 if PMIC chip is TWL6035, 0 otherwise.
@@ -321,7 +318,7 @@ twl603x_is_twl6034_end:
  *------------------------------------------------------------------------ */
 unsigned short twl603x_is_twl6035(void)
 {
-#if 0 /* FIXME: implement true detection when ID data available */
+#if 0				/* FIXME: implement true detection when ID data available */
 	int ret;
 	unsigned int val1, val2;
 
@@ -354,7 +351,6 @@ twl603x_is_twl6035_end:
 #endif
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_chip_revision_get
  * @BRIEF		return TWL6030 chip revision
@@ -375,7 +371,7 @@ float twl603x_chip_revision_get(void)
 	if (ret != 0) {
 		fprintf(stderr, "%s(): could not read register! (%d)\n",
 			__func__, ret);
-		twl603x_data.chip_revision = (float) OMAPCONF_ERR_NOT_AVAILABLE;
+		twl603x_data.chip_revision = (float)OMAPCONF_ERR_NOT_AVAILABLE;
 		goto twl603x_chip_revision_get_end;
 	}
 	dprintf("%s(): rev=%u\n", __func__, rev);
@@ -393,7 +389,7 @@ float twl603x_chip_revision_get(void)
 		twl603x_data.chip_revision = 2.1;
 		break;
 	default:
-		twl603x_data.chip_revision = (float) OMAPCONF_ERR_UNEXPECTED;
+		twl603x_data.chip_revision = (float)OMAPCONF_ERR_UNEXPECTED;
 	}
 
 twl603x_chip_revision_get_end:
@@ -401,7 +397,6 @@ twl603x_chip_revision_get_end:
 		twl603x_data.chip_revision);
 	return twl603x_data.chip_revision;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_eprom_revision_get
@@ -422,19 +417,17 @@ float twl603x_eprom_revision_get(void)
 	if (ret != 0) {
 		fprintf(stderr, "%s(): could not read register! (%d)\n",
 			__func__, ret);
-		twl603x_data.eprom_revision =
-			(float) OMAPCONF_ERR_NOT_AVAILABLE;
+		twl603x_data.eprom_revision = (float)OMAPCONF_ERR_NOT_AVAILABLE;
 		goto twl603x_eprom_revision_get_end;
 	}
 	dprintf("%s(): rev=%u\n", __func__, rev);
-	twl603x_data.eprom_revision = (float) (rev);
+	twl603x_data.eprom_revision = (float)(rev);
 
 twl603x_eprom_revision_get_end:
 	dprintf("%s(): eprom_revision = %f\n", __func__,
 		twl603x_data.eprom_revision);
 	return twl603x_data.eprom_revision;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_smps_offset_get
@@ -518,7 +511,6 @@ twl603x_smps_offset_get_end:
 	return twl603x_data.voffset[vdd_id - 1];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_smps_step_get
  * @BRIEF		return SMPS regulator voltage step for a given rail
@@ -535,7 +527,6 @@ long twl603x_smps_step_get(void)
 	return twl603x_data.vstep;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_vsel_len_get
  * @BRIEF		return the size of the vsel command
@@ -549,7 +540,6 @@ int twl603x_vsel_len_get(void)
 
 	return twl603x_data.vsel_len;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_uv_to_vsel
@@ -585,7 +575,7 @@ unsigned char twl603x_uv_to_vsel(unsigned int vdd_id, unsigned long uv)
 			vsel = 0x3A;
 		else
 			vsel = DIV_ROUND_UP(uv - smps_offset,
-				twl603x_data.vstep) + 1;
+					    twl603x_data.vstep) + 1;
 	} else {
 		if (uv == 0) {
 			range = 0;
@@ -596,12 +586,12 @@ unsigned char twl603x_uv_to_vsel(unsigned int vdd_id, unsigned long uv)
 		} else if (uv <= TWL6035_SMPS_LOW_RANGE_UVMAX) {
 			range = 0;
 			vsel = 6 + DIV_ROUND_UP(uv - TWL6035_VOFFSET_UV,
-				TWL6035_VSTEP_UV);
+						TWL6035_VSTEP_UV);
 		} else if (uv <= 3300000) {
 			range = 1;
 			vsel = 6 + DIV_ROUND_UP(uv - (TWL6035_VOFFSET_UV * 2),
-				2 * TWL6035_VSTEP_UV);
-		} else { /* > 3.3V */
+						2 * TWL6035_VSTEP_UV);
+		} else {	/* > 3.3V */
 			range = 1;
 			vsel = 0x79;
 		}
@@ -612,7 +602,6 @@ unsigned char twl603x_uv_to_vsel(unsigned int vdd_id, unsigned long uv)
 	dprintf("%s(%d, %lduV)=0x%02X\n", __func__, vdd_id, uv, vsel);
 	return vsel;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_vsel_to_uv
@@ -644,7 +633,7 @@ unsigned long twl603x_vsel_to_uv(unsigned int vdd_id, unsigned char vsel)
 		if (vsel >= 0x3A)
 			uv = twl603x_data.smps_voltage_uv[vsel - 0x3A];
 		else
-			uv =  smps_offset + ((vsel - 1) * twl603x_data.vstep);
+			uv = smps_offset + ((vsel - 1) * twl603x_data.vstep);
 	} else {
 		/* VSEL = 7-bit + range (MSB) */
 		range = extract_bit(vsel, 7);
@@ -658,7 +647,7 @@ unsigned long twl603x_vsel_to_uv(unsigned int vdd_id, unsigned char vsel)
 			uv = 1650000;
 		} else {
 			uv = TWL6035_VOFFSET_UV +
-				(TWL6035_VSTEP_UV * (vsel - 6));
+			    (TWL6035_VSTEP_UV * (vsel - 6));
 		}
 
 		/* Apply range multiplier */
@@ -669,7 +658,6 @@ unsigned long twl603x_vsel_to_uv(unsigned int vdd_id, unsigned char vsel)
 		vdd_id, vsel, vsel, uv);
 	return uv;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_vsel_to_volt
@@ -685,13 +673,12 @@ double twl603x_vsel_to_volt(unsigned int vdd_id, unsigned char vsel)
 {
 	double volt;
 
-	volt = (double) twl603x_vsel_to_uv(vdd_id, vsel);
-	volt /= (double) 1000000.0;
+	volt = (double)twl603x_vsel_to_uv(vdd_id, vsel);
+	volt /= (double)1000000.0;
 
 	dprintf("%s(%u, 0x%X) = %lfV\n", __func__, vdd_id, vsel, volt);
 	return volt;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_vsel_get
@@ -735,8 +722,7 @@ int twl603x_vsel_get(unsigned int vdd_id)
 		dprintf("%s(): SMPSxx_CTRL addr=-1!!!\n", __func__);
 		return OMAPCONF_ERR_INTERNAL;
 	}
-	ret = i2cget(TWL6035_I2C_BUS, TWL6035_ID1_ADDR,
-		smps_regs->ctrl, &val);
+	ret = i2cget(TWL6035_I2C_BUS, TWL6035_ID1_ADDR, smps_regs->ctrl, &val);
 	if (ret != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	dprintf("%s(): SMPSxx_CTRL=0x%02X\n", __func__, val);
@@ -763,7 +749,7 @@ int twl603x_vsel_get(unsigned int vdd_id)
 		vsel_addr = smps_regs->voltage;
 	} else {
 		ret = i2cget(TWL6035_I2C_BUS, TWL6035_ID1_ADDR,
-			smps_regs->force, &val);
+			     smps_regs->force, &val);
 		if (ret != 0)
 			return OMAPCONF_ERR_REG_ACCESS;
 		dprintf("%s(): SMPSxx_FORCE=0x%02X\n", __func__, val);
@@ -779,13 +765,13 @@ int twl603x_vsel_get(unsigned int vdd_id)
 	}
 
 	/* Retrieve VSEL (7-bit LSB) from relevant register */
-	if (vsel_addr == (unsigned int) smps_regs->voltage) {
+	if (vsel_addr == (unsigned int)smps_regs->voltage) {
 		if (smps_regs->voltage == -1) {
 			dprintf("%s(): SMPSxx_VOLTAGE addr=-1!!!\n", __func__);
 			return OMAPCONF_ERR_INTERNAL;
 		}
 		ret = i2cget(TWL6035_I2C_BUS, TWL6035_ID1_ADDR,
-			smps_regs->voltage, &val);
+			     smps_regs->voltage, &val);
 		if (ret != 0)
 			return OMAPCONF_ERR_REG_ACCESS;
 		dprintf("%s(): SMPSxx_VOLTAGE=0x%02X\n", __func__, val);
@@ -795,13 +781,13 @@ int twl603x_vsel_get(unsigned int vdd_id)
 		__func__, val, vsel);
 
 	/* Retrieve VSEL range from SMPSxx_VOLTAGE register (bit 7) */
-	if (vsel_addr != (unsigned int) smps_regs->voltage) {
+	if (vsel_addr != (unsigned int)smps_regs->voltage) {
 		if (smps_regs->voltage == -1) {
 			dprintf("%s(): SMPSxx_VOLTAGE addr=-1!!!\n", __func__);
 			return OMAPCONF_ERR_INTERNAL;
 		}
 		ret = i2cget(TWL6035_I2C_BUS, TWL6035_ID1_ADDR,
-			smps_regs->voltage, &val);
+			     smps_regs->voltage, &val);
 		if (ret != 0)
 			return OMAPCONF_ERR_REG_ACCESS;
 	}
@@ -814,7 +800,6 @@ int twl603x_vsel_get(unsigned int vdd_id)
 	dprintf("%s(): vsel=0x%02X\n", __func__, vsel);
 	return vsel;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_uvoltage_get
@@ -836,7 +821,6 @@ unsigned long twl603x_uvoltage_get(unsigned int vdd_id)
 	return twl603x_vsel_to_uv(vdd_id, vsel);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_voltage_get
  * @BRIEF		return voltage of a given SMPS voltage rail.
@@ -854,9 +838,8 @@ double twl603x_voltage_get(unsigned int vdd_id)
 	if (vsel < 0)
 		return 0;
 
-	return (double) twl603x_vsel_to_uv(vdd_id, vsel) / 1000000.0;
+	return (double)twl603x_vsel_to_uv(vdd_id, vsel) / 1000000.0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_uvoltage_set
@@ -902,8 +885,7 @@ int twl603x_uvoltage_set(unsigned int vdd_id, unsigned long uv)
 		dprintf("%s(): SMPSxx_CTRL addr=-1!!!\n", __func__);
 		return OMAPCONF_ERR_INTERNAL;
 	}
-	ret = i2cget(TWL6035_I2C_BUS, TWL6035_ID1_ADDR,
-		smps_regs->ctrl, &val);
+	ret = i2cget(TWL6035_I2C_BUS, TWL6035_ID1_ADDR, smps_regs->ctrl, &val);
 	if (ret != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	dprintf("%s(): SMPSxx_CTRL=0x%02X\n", __func__, val);
@@ -920,7 +902,7 @@ int twl603x_uvoltage_set(unsigned int vdd_id, unsigned long uv)
 		/* Clear ROOF_FLOOR_EN bit (6) */
 		val = val & 0xBF;
 		ret = i2cset(TWL6035_I2C_BUS, TWL6035_ID1_ADDR,
-			smps_regs->ctrl, (unsigned int) val);
+			     smps_regs->ctrl, (unsigned int)val);
 		if (ret != 0)
 			return OMAPCONF_ERR_REG_ACCESS;
 		dprintf("%s(): SMPS voltage now controlled by "
@@ -936,7 +918,7 @@ int twl603x_uvoltage_set(unsigned int vdd_id, unsigned long uv)
 
 	/* Write VSEL to SMPSxx_VOLTAGE */
 	ret = i2cset(TWL6035_I2C_BUS, TWL6035_ID1_ADDR,
-			smps_regs->voltage, (unsigned int) vsel);
+		     smps_regs->voltage, (unsigned int)vsel);
 	if (ret != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 
@@ -951,7 +933,7 @@ int twl603x_uvoltage_set(unsigned int vdd_id, unsigned long uv)
 		/* Clear bit 7 (CMD) */
 		val = vsel & 0x7F;
 		ret = i2cset(TWL6035_I2C_BUS, TWL6035_ID1_ADDR,
-			smps_regs->force, (unsigned int) val);
+			     smps_regs->force, (unsigned int)val);
 	} else {
 		dprintf("%s(): SMPSxx_FORCE does not exist.\n", __func__);
 		ret = 0;
@@ -959,7 +941,6 @@ int twl603x_uvoltage_set(unsigned int vdd_id, unsigned long uv)
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_main

@@ -14,5 +14,4 @@
     (at your option) any later version.
 */
 
-
 #define VERSION "3.1.0"

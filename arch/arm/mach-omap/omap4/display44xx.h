@@ -41,17 +41,14 @@
  *
  */
 
-
 #ifndef __DISPLAY44XX_H__
 #define __DISPLAY44XX_H__
-
 
 /* DSS Physical address */
 #define DSS_REVISION				0x58000000
 #define DSS_SYSSTATUS				0x58000014
 #define DSS_CTRL				0x58000040
 #define DSS_STATUS				0x5800005C
-
 
 /* DISPC Physical address */
 #define DISPC_REVISION				0x58001000
@@ -643,9 +640,7 @@
 #define VENC_OUTPUT_CONTROL			0x580030C4
 #define VENC_OUTPUT_TEST			0x580030C8
 
-
 int display44xx_name2addr(char *name, unsigned int *addr);
 int display44xx_dump(char *display_mod);
-
 
 #endif

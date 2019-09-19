@@ -41,16 +41,12 @@
  *
  */
 
-
 #ifndef __EMIF_H__
 #define __EMIF_H__
 
-
 #include <temperature.h>
 
-
 #define EMIF_TEMP_MAX_NAME_LENGTH	16
-
 
 typedef enum {
 	EMIF_TEMP_BELOW_85C = 0x3,
@@ -59,8 +55,6 @@ typedef enum {
 	EMIF_TEMP_RESERVED = 0x8
 } emif_mr4_code;
 
-
 const char *emif_mr4_convert(emif_mr4_code mr4, temperature_unit unit);
-
 
 #endif

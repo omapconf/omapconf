@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <ctt44xx.h>
 #include <lib.h>
 #include <lib44xx.h>
@@ -52,7 +51,6 @@
 #include <cpuinfo.h>
 #include <string.h>
 
-
 /* #define CTT44XX_DEBUG */
 #ifdef CTT44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -60,16 +58,12 @@
 #define dprintf(format, ...)
 #endif
 
-
 #define PRCM_CTT_REG_TABLE_SIZE        238
-
 
 static char ctt_filename[] = "CTT-OMAP44XX-REG_DUMP.rd1";
 static reg_table prcm_ctt_reg_table[PRCM_CTT_REG_TABLE_SIZE + 1];
 
-
 static int ctt44xx_regtable_init(void);
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctt44xx_dump
@@ -88,19 +82,19 @@ int ctt44xx_dump(void)
 	CHECK_CPU(44xx, OMAPCONF_ERR_ARG);
 
 	printf("The Clock Tree Tool can import register settings from a *.rd1 "
-		"file.\n");
+	       "file.\n");
 	printf("The format of the *.rd1 file is:\n\n");
 	printf("DeviceName OMAPxxxx_ESx.x\n");
 	printf("<register address> <register value>\n");
 	printf("<register address> <register value>\n");
 	printf("...\n\n");
 	printf("Copy the below output between the begin and end separators "
-		"into a\n");
+	       "into a\n");
 	printf("file with the extension *.rd1 and this file can be read by the"
-		"\n");
+	       "\n");
 	printf("Clock Tree Tool\n\n");
 	printf("|--------------------------- ctt dump begin ------------------"
-		"----|\n");
+	       "----|\n");
 
 	if (cpu_is_omap4430())
 		printf("DeviceName OMAP4430_ES2.x\n");
@@ -118,7 +112,7 @@ int ctt44xx_dump(void)
 		ret = mem_read(prcm_ctt_reg_table[i].addr, &val);
 		if (ret == 0)
 			printf("0x%08X 0x%08X\n", prcm_ctt_reg_table[i].addr,
-				val);
+			       val);
 		else {
 			fprintf(stderr,
 				"omapconf: read error! (addr=0x%08X, err=%d)\n",
@@ -129,11 +123,10 @@ int ctt44xx_dump(void)
 	}
 
 	printf("|---------------------------- ctt dump end --------------------"
-		"---|\n");
+	       "---|\n");
 
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctt44xx_rd1_export
@@ -198,7 +191,6 @@ ctt44xx_rd1_export_end:
 	return err;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctt44xx_main
  * @BRIEF		main entry point for ctt
@@ -232,8 +224,6 @@ int ctt44xx_main(int argc, char *argv[])
 
 	return ret;
 }
-
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctt44xx_regtable_init

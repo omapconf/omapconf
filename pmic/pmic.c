@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <pmic.h>
 #include <string.h>
 #include <i2c-tools.h>
@@ -59,7 +58,6 @@
 #include <voltdm_dra7xx.h>
 #include <voltdm_am335x.h>
 
-
 /* #define PMIC_DEBUG */
 #ifdef PMIC_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -67,28 +65,29 @@
 #define dprintf(format, ...)
 #endif
 
-
 static unsigned short pmic_detection_done_flag = 0;
 
 static pmic_id pmic_chip[PMIC_SMPS_MAX_NUMBER] = {
-	PMIC_ID_MAX, PMIC_ID_MAX, PMIC_ID_MAX, PMIC_ID_MAX, PMIC_ID_MAX};
+	PMIC_ID_MAX, PMIC_ID_MAX, PMIC_ID_MAX, PMIC_ID_MAX, PMIC_ID_MAX
+};
 
 static double pmic_chip_revision[PMIC_SMPS_MAX_NUMBER] = {
-	(double) OMAPCONF_ERR_NOT_AVAILABLE,
-	(double) OMAPCONF_ERR_NOT_AVAILABLE,
-	(double) OMAPCONF_ERR_NOT_AVAILABLE,
-	(double) OMAPCONF_ERR_NOT_AVAILABLE,
-	(double) OMAPCONF_ERR_NOT_AVAILABLE};
+	(double)OMAPCONF_ERR_NOT_AVAILABLE,
+	(double)OMAPCONF_ERR_NOT_AVAILABLE,
+	(double)OMAPCONF_ERR_NOT_AVAILABLE,
+	(double)OMAPCONF_ERR_NOT_AVAILABLE,
+	(double)OMAPCONF_ERR_NOT_AVAILABLE
+};
 
 static double pmic_eprom_revision[PMIC_SMPS_MAX_NUMBER] = {
-	(double) OMAPCONF_ERR_NOT_AVAILABLE,
-	(double) OMAPCONF_ERR_NOT_AVAILABLE,
-	(double) OMAPCONF_ERR_NOT_AVAILABLE,
-	(double) OMAPCONF_ERR_NOT_AVAILABLE,
-	(double) OMAPCONF_ERR_NOT_AVAILABLE};
+	(double)OMAPCONF_ERR_NOT_AVAILABLE,
+	(double)OMAPCONF_ERR_NOT_AVAILABLE,
+	(double)OMAPCONF_ERR_NOT_AVAILABLE,
+	(double)OMAPCONF_ERR_NOT_AVAILABLE,
+	(double)OMAPCONF_ERR_NOT_AVAILABLE
+};
 
 static unsigned short pmic_single_chip_flag = 1;
-
 
 static const char pmic_names[PMIC_ID_MAX + 1][PMIC_NAME_MAX_LENGTH] = {
 	[PMIC_TWL6030] = "TWL6030",
@@ -103,8 +102,8 @@ static const char pmic_names[PMIC_ID_MAX + 1][PMIC_NAME_MAX_LENGTH] = {
 	[PMIC_TPS65217C] = "TPS65217C",
 	[PMIC_TPS65217D] = "TPS65217D",
 	[PMIC_TPS65917] = "TPS65917",
-	[PMIC_ID_MAX] = "FIXME"};
-
+	[PMIC_ID_MAX] = "FIXME"
+};
 
 static const char smps44xx_names[PMIC_SMPS_ID_MAX + 1][PMIC_NAME_MAX_LENGTH] = {
 	[PMIC_SMPS_MPU] = "VDD_MPU",
@@ -112,8 +111,8 @@ static const char smps44xx_names[PMIC_SMPS_ID_MAX + 1][PMIC_NAME_MAX_LENGTH] = {
 	[PMIC_SMPS_CORE] = "VDD_CORE",
 	[PMIC_SMPS_GPU] = "FIXME",
 	[PMIC_SMPS_DSPEVE] = "FIXME",
-	[PMIC_SMPS_ID_MAX] = "FIXME"};
-
+	[PMIC_SMPS_ID_MAX] = "FIXME"
+};
 
 static const char smps54xx_names[PMIC_SMPS_ID_MAX + 1][PMIC_NAME_MAX_LENGTH] = {
 	[PMIC_SMPS_MPU] = "VDD_MPU",
@@ -121,26 +120,28 @@ static const char smps54xx_names[PMIC_SMPS_ID_MAX + 1][PMIC_NAME_MAX_LENGTH] = {
 	[PMIC_SMPS_CORE] = "VDD_CORE",
 	[PMIC_SMPS_GPU] = "FIXME",
 	[PMIC_SMPS_DSPEVE] = "FIXME",
-	[PMIC_SMPS_ID_MAX] = "FIXME"};
+	[PMIC_SMPS_ID_MAX] = "FIXME"
+};
 
-
-static const char smps_dra7xx_names[PMIC_SMPS_ID_MAX + 1][PMIC_NAME_MAX_LENGTH] = {
+static const char smps_dra7xx_names[PMIC_SMPS_ID_MAX +
+				    1][PMIC_NAME_MAX_LENGTH] = {
 	[PMIC_SMPS_MPU] = "VDD_MPU",
 	[PMIC_SMPS_MM] = "VDD_IVA",
 	[PMIC_SMPS_CORE] = "VDD_CORE",
 	[PMIC_SMPS_GPU] = "VDD_GPU",
 	[PMIC_SMPS_DSPEVE] = "VDD_DSPEVE",
-	[PMIC_SMPS_ID_MAX] = "FIXME"};
+	[PMIC_SMPS_ID_MAX] = "FIXME"
+};
 
-
-static const char smps_am335x_names[PMIC_SMPS_ID_MAX + 1][PMIC_NAME_MAX_LENGTH] = {
+static const char smps_am335x_names[PMIC_SMPS_ID_MAX +
+				    1][PMIC_NAME_MAX_LENGTH] = {
 	[PMIC_SMPS_MPU] = "VDD_MPU",
 	[PMIC_SMPS_MM] = "FIXME",
 	[PMIC_SMPS_CORE] = "VDD_CORE",
 	[PMIC_SMPS_GPU] = "FIXME",
 	[PMIC_SMPS_DSPEVE] = "FIXME",
-	[PMIC_SMPS_ID_MAX] = "FIXME"};
-
+	[PMIC_SMPS_ID_MAX] = "FIXME"
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmic_detection_done
@@ -157,7 +158,6 @@ unsigned short pmic_detection_done(void)
 {
 	return pmic_detection_done_flag;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vdd_id2smps_id
@@ -181,7 +181,7 @@ pmic_smps_id vdd_id2smps_id(unsigned short vdd_id)
 		if ((vdd_id == OMAP4_LDO_WKUP) || (vdd_id > OMAP4_VDD_CORE)) {
 			fprintf(stderr, "%s(): incorrect vdd_id! (%u)\n",
 				__func__, vdd_id);
-			smps_id =  PMIC_SMPS_ID_MAX;
+			smps_id = PMIC_SMPS_ID_MAX;
 			strncpy(smps_name, "FIXME", 16);
 		} else {
 			smps_id = vdd_id - 1;
@@ -195,7 +195,7 @@ pmic_smps_id vdd_id2smps_id(unsigned short vdd_id)
 		if ((vdd_id == VDD54XX_WKUP) || (vdd_id > VDD54XX_CORE)) {
 			fprintf(stderr, "%s(): incorrect vdd_id! (%u)\n",
 				__func__, vdd_id);
-			smps_id =  PMIC_SMPS_ID_MAX;
+			smps_id = PMIC_SMPS_ID_MAX;
 			strncpy(smps_name, "FIXME", 16);
 		} else {
 			smps_id = vdd_id - 1;
@@ -209,7 +209,7 @@ pmic_smps_id vdd_id2smps_id(unsigned short vdd_id)
 		if (vdd_id > VDD_DRA7XX_RTC) {
 			fprintf(stderr, "%s(): incorrect vdd_id! (%u)\n",
 				__func__, vdd_id);
-			smps_id =  PMIC_SMPS_ID_MAX;
+			smps_id = PMIC_SMPS_ID_MAX;
 			strncpy(smps_name, "FIXME", 16);
 		} else {
 			switch (vdd_id) {
@@ -245,7 +245,7 @@ pmic_smps_id vdd_id2smps_id(unsigned short vdd_id)
 		if (vdd_id > VDD_AM335X_RTC) {
 			fprintf(stderr, "%s(): incorrect vdd_id! (%u)\n",
 				__func__, vdd_id);
-			smps_id =  PMIC_SMPS_ID_MAX;
+			smps_id = PMIC_SMPS_ID_MAX;
 			strncpy(smps_name, "FIXME", 16);
 		} else {
 			switch (vdd_id) {
@@ -265,7 +265,7 @@ pmic_smps_id vdd_id2smps_id(unsigned short vdd_id)
 	default:
 		fprintf(stderr, "%s(): unsupported CPU! (%s)\n",
 			__func__, cpu_gets(smps_name));
-		smps_id =  PMIC_SMPS_ID_MAX;
+		smps_id = PMIC_SMPS_ID_MAX;
 		strncpy(smps_name, "FIXME", 16);
 	}
 
@@ -274,7 +274,6 @@ pmic_smps_id vdd_id2smps_id(unsigned short vdd_id)
 
 	return smps_id;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		smps_id2vdd_id
@@ -297,7 +296,7 @@ unsigned short smps_id2vdd_id(pmic_smps_id smps_id)
 		if (smps_id > PMIC_SMPS_ID_MAX) {
 			fprintf(stderr, "%s(): incorrect smps_id! (%u)\n",
 				__func__, smps_id);
-			vdd_id =  (unsigned short) OMAP4_VD_ID_MAX;
+			vdd_id = (unsigned short)OMAP4_VD_ID_MAX;
 			strncpy(name, "FIXME", 16);
 		} else {
 			vdd_id = smps_id + 1;
@@ -310,7 +309,7 @@ unsigned short smps_id2vdd_id(pmic_smps_id smps_id)
 		if (smps_id > PMIC_SMPS_ID_MAX) {
 			fprintf(stderr, "%s(): incorrect smps_id! (%u)\n",
 				__func__, smps_id);
-			vdd_id =  (unsigned short) VDD54XX_ID_MAX;
+			vdd_id = (unsigned short)VDD54XX_ID_MAX;
 			strncpy(name, "FIXME", 16);
 
 		} else {
@@ -324,7 +323,7 @@ unsigned short smps_id2vdd_id(pmic_smps_id smps_id)
 		if (smps_id > PMIC_SMPS_ID_MAX) {
 			fprintf(stderr, "%s(): incorrect smps_id! (%u)\n",
 				__func__, smps_id);
-			vdd_id =  (unsigned short) VDD_DRA7XX_ID_MAX;
+			vdd_id = (unsigned short)VDD_DRA7XX_ID_MAX;
 			strncpy(name, "FIXME", 16);
 
 		} else {
@@ -360,7 +359,7 @@ unsigned short smps_id2vdd_id(pmic_smps_id smps_id)
 		if (smps_id > PMIC_SMPS_ID_MAX) {
 			fprintf(stderr, "%s(): incorrect smps_id! (%u)\n",
 				__func__, smps_id);
-			vdd_id =  (unsigned short) VDD_AM335X_ID_MAX;
+			vdd_id = (unsigned short)VDD_AM335X_ID_MAX;
 			strncpy(name, "FIXME", 16);
 
 		} else {
@@ -381,7 +380,7 @@ unsigned short smps_id2vdd_id(pmic_smps_id smps_id)
 	default:
 		fprintf(stderr, "%s(): unsupported CPU! (%s)\n",
 			__func__, cpu_gets(name));
-		vdd_id = (unsigned short) VDD54XX_ID_MAX;
+		vdd_id = (unsigned short)VDD54XX_ID_MAX;
 		strncpy(name, "FIXME", 16);
 	}
 
@@ -390,7 +389,6 @@ unsigned short smps_id2vdd_id(pmic_smps_id smps_id)
 
 	return vdd_id;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmic_name_get
@@ -408,7 +406,6 @@ const char *pmic_name_get(pmic_id id)
 	return pmic_names[id];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmic_smps_init
  * @BRIEF		Initialize PMIC information related SMPS ID.
@@ -416,11 +413,11 @@ const char *pmic_name_get(pmic_id id)
  * @DESCRIPTION		Initialize PMIC information related SMPS ID.
  *------------------------------------------------------------------------ */
 void pmic_smps_init(pmic_smps_id id, unsigned short is_twl6030,
-		unsigned short is_twl6032, unsigned short is_twl6034,
-		unsigned short is_twl6035, unsigned short tps62361_present,
-		unsigned short lp87565_present,
-		unsigned short tps659038_present,
-		unsigned short tps65217x_present)
+		    unsigned short is_twl6032, unsigned short is_twl6034,
+		    unsigned short is_twl6035, unsigned short tps62361_present,
+		    unsigned short lp87565_present,
+		    unsigned short tps659038_present,
+		    unsigned short tps65217x_present)
 {
 	switch (cpu_get()) {
 	case OMAP_4430:
@@ -428,34 +425,26 @@ void pmic_smps_init(pmic_smps_id id, unsigned short is_twl6030,
 	case OMAP_4470:
 		if (tps62361_present) {
 			pmic_chip[id] = PMIC_TPS62361;
-			pmic_chip_revision[id] =
-				tps62361_chip_revision_get();
-			pmic_eprom_revision[id] =
-				tps62361_eprom_revision_get();
+			pmic_chip_revision[id] = tps62361_chip_revision_get();
+			pmic_eprom_revision[id] = tps62361_eprom_revision_get();
 		} else if (is_twl6032) {
 			pmic_chip[id] = PMIC_TWL6032;
-			pmic_chip_revision[id] =
-				twl603x_chip_revision_get();
-			pmic_eprom_revision[id] =
-				twl603x_eprom_revision_get();
+			pmic_chip_revision[id] = twl603x_chip_revision_get();
+			pmic_eprom_revision[id] = twl603x_eprom_revision_get();
 		} else if (is_twl6030) {
 			pmic_chip[id] = PMIC_TWL6030;
-			pmic_chip_revision[id] =
-				twl603x_chip_revision_get();
-			pmic_eprom_revision[id] =
-				twl603x_eprom_revision_get();
+			pmic_chip_revision[id] = twl603x_chip_revision_get();
+			pmic_eprom_revision[id] = twl603x_eprom_revision_get();
 		} else if (is_twl6034) {
 			pmic_chip[id] = PMIC_TWL6034;
-			pmic_chip_revision[id] =
-				twl603x_chip_revision_get();
-			pmic_eprom_revision[id] =
-				twl603x_eprom_revision_get();
+			pmic_chip_revision[id] = twl603x_chip_revision_get();
+			pmic_eprom_revision[id] = twl603x_eprom_revision_get();
 		} else {
 			pmic_chip[id] = PMIC_ID_MAX;
 			pmic_chip_revision[id] =
-				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+			    (double)OMAPCONF_ERR_NOT_AVAILABLE;
 			pmic_eprom_revision[id] =
-				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+			    (double)OMAPCONF_ERR_NOT_AVAILABLE;
 		}
 		break;
 
@@ -463,16 +452,14 @@ void pmic_smps_init(pmic_smps_id id, unsigned short is_twl6030,
 	case OMAP_5432:
 		if (is_twl6035) {
 			pmic_chip[id] = PMIC_TWL6035;
-			pmic_chip_revision[id] =
-				twl603x_chip_revision_get();
-			pmic_eprom_revision[id] =
-				twl603x_eprom_revision_get();
+			pmic_chip_revision[id] = twl603x_chip_revision_get();
+			pmic_eprom_revision[id] = twl603x_eprom_revision_get();
 		} else {
 			pmic_chip[id] = PMIC_ID_MAX;
 			pmic_chip_revision[id] =
-				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+			    (double)OMAPCONF_ERR_NOT_AVAILABLE;
 			pmic_eprom_revision[id] =
-				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+			    (double)OMAPCONF_ERR_NOT_AVAILABLE;
 		}
 		break;
 
@@ -480,55 +467,49 @@ void pmic_smps_init(pmic_smps_id id, unsigned short is_twl6030,
 		if (lp87565_present && ((id == PMIC_SMPS_MPU) ||
 					(id == PMIC_SMPS_GPU))) {
 			pmic_chip[id] = PMIC_LP87565;
-			pmic_chip_revision[id] =
-				lp87565_chip_revision_get();
-			pmic_eprom_revision[id] =
-				lp87565_eprom_revision_get();
+			pmic_chip_revision[id] = lp87565_chip_revision_get();
+			pmic_eprom_revision[id] = lp87565_eprom_revision_get();
 		} else if (tps659038_present) {
 			pmic_chip[id] = PMIC_TPS65917;;
-			pmic_chip_revision[id] =
-				tps659038_chip_revision_get();
+			pmic_chip_revision[id] = tps659038_chip_revision_get();
 			pmic_eprom_revision[id] =
-				tps659038_eprom_revision_get();
-		}
-		else {
+			    tps659038_eprom_revision_get();
+		} else {
 			pmic_chip[id] = PMIC_ID_MAX;
 			pmic_chip_revision[id] =
-				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+			    (double)OMAPCONF_ERR_NOT_AVAILABLE;
 			pmic_eprom_revision[id] =
-				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+			    (double)OMAPCONF_ERR_NOT_AVAILABLE;
 		}
 		break;
 
 	case DRA_75X:
 		if (tps659038_present) {
 			pmic_chip[id] = PMIC_TPS659038;
-			pmic_chip_revision[id] =
-				tps659038_chip_revision_get();
+			pmic_chip_revision[id] = tps659038_chip_revision_get();
 			pmic_eprom_revision[id] =
-				tps659038_eprom_revision_get();
+			    tps659038_eprom_revision_get();
 		} else {
 			pmic_chip[id] = PMIC_ID_MAX;
 			pmic_chip_revision[id] =
-				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+			    (double)OMAPCONF_ERR_NOT_AVAILABLE;
 			pmic_eprom_revision[id] =
-				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+			    (double)OMAPCONF_ERR_NOT_AVAILABLE;
 		}
 		break;
 
 	case DRA_72X:
 		if (tps659038_present) {
 			pmic_chip[id] = PMIC_TPS65917;
-			pmic_chip_revision[id] =
-				tps659038_chip_revision_get();
+			pmic_chip_revision[id] = tps659038_chip_revision_get();
 			pmic_eprom_revision[id] =
-				tps659038_eprom_revision_get();
+			    tps659038_eprom_revision_get();
 		} else {
 			pmic_chip[id] = PMIC_ID_MAX;
 			pmic_chip_revision[id] =
-				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+			    (double)OMAPCONF_ERR_NOT_AVAILABLE;
 			pmic_eprom_revision[id] =
-				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+			    (double)OMAPCONF_ERR_NOT_AVAILABLE;
 		}
 		break;
 
@@ -540,35 +521,30 @@ void pmic_smps_init(pmic_smps_id id, unsigned short is_twl6030,
 	case AM_3359:
 		if (tps65217x_present) {
 			pmic_chip[id] = (pmic_id) tps65217x_chip_get();
-			pmic_chip_revision[id] =
-				tps65217x_chip_revision_get();
+			pmic_chip_revision[id] = tps65217x_chip_revision_get();
 			pmic_eprom_revision[id] =
-				tps65217x_eprom_revision_get();
+			    tps65217x_eprom_revision_get();
 		} else {
 			pmic_chip[id] = PMIC_ID_MAX;
 			pmic_chip_revision[id] =
-				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+			    (double)OMAPCONF_ERR_NOT_AVAILABLE;
 			pmic_eprom_revision[id] =
-				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+			    (double)OMAPCONF_ERR_NOT_AVAILABLE;
 		}
 		break;
 
 	default:
 		pmic_chip[id] = PMIC_ID_MAX;
-			pmic_chip_revision[id] =
-				(double) OMAPCONF_ERR_NOT_AVAILABLE;
-			pmic_eprom_revision[id] =
-				(double) OMAPCONF_ERR_NOT_AVAILABLE;
+		pmic_chip_revision[id] = (double)OMAPCONF_ERR_NOT_AVAILABLE;
+		pmic_eprom_revision[id] = (double)OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 	dprintf("%s(): %s PMIC is %s (chip revision=%lf, EPROM revision=%lf)\n",
 		__func__, smps_name_get(id),
 		pmic_name_get(pmic_chip[id]),
-		pmic_chip_revision[id],
-		pmic_eprom_revision[id]);
+		pmic_chip_revision[id], pmic_eprom_revision[id]);
 
 	return;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmic_detect
@@ -579,7 +555,8 @@ void pmic_smps_init(pmic_smps_id id, unsigned short is_twl6030,
 int pmic_detect(void)
 {
 	unsigned short is_twl6030, is_twl6032, is_twl6034, is_twl6035,
-	tps62361_present, lp87565_present, tps659038_present, tps65217x_present;
+	    tps62361_present, lp87565_present, tps659038_present,
+	    tps65217x_present;
 
 	if (pmic_detection_done())
 		return 0;
@@ -592,12 +569,12 @@ int pmic_detect(void)
 	lp87565_present = lp87565_is_present();
 	tps659038_present = tps659038_is_present();
 	tps65217x_present = tps65217x_is_present();
-	dprintf(
-		"%s(): is_twl6030=%u is_twl6032=%u is_tps62361=%u is_lp87565=%u "
-		"is_twl6034=%u is_twl6035=%u is_tps659038=%u is_tps65217x=%u\n",
-		__func__, is_twl6030,
-		is_twl6032, tps62361_present, lp87565_present, is_twl6034, is_twl6035,
-		tps659038_present, tps65217x_present);
+	dprintf
+	    ("%s(): is_twl6030=%u is_twl6032=%u is_tps62361=%u is_lp87565=%u "
+	     "is_twl6034=%u is_twl6035=%u is_tps659038=%u is_tps65217x=%u\n",
+	     __func__, is_twl6030, is_twl6032, tps62361_present,
+	     lp87565_present, is_twl6034, is_twl6035, tps659038_present,
+	     tps65217x_present);
 
 	/*
 	 * Detect PMIC powering VDD_MPU rail:
@@ -606,8 +583,9 @@ int pmic_detect(void)
 	 * DRA7: TPS659038, LP87565
 	 * AM335X: TPS65217X
 	 */
-	pmic_smps_init(PMIC_SMPS_MPU, is_twl6030, is_twl6032, is_twl6034, is_twl6035,
-		tps62361_present, lp87565_present, tps659038_present, tps65217x_present);
+	pmic_smps_init(PMIC_SMPS_MPU, is_twl6030, is_twl6032, is_twl6034,
+		       is_twl6035, tps62361_present, lp87565_present,
+		       tps659038_present, tps65217x_present);
 
 	/*
 	 * Detect PMIC powering VDD_[IVA-MM] rail:
@@ -616,8 +594,9 @@ int pmic_detect(void)
 	 * DRA7: TPS659038
 	 * AM335X: N/A.
 	 */
-	pmic_smps_init(PMIC_SMPS_MM, is_twl6030, is_twl6032, is_twl6034, is_twl6035,
-		tps62361_present, lp87565_present, tps659038_present, tps65217x_present);
+	pmic_smps_init(PMIC_SMPS_MM, is_twl6030, is_twl6032, is_twl6034,
+		       is_twl6035, tps62361_present, lp87565_present,
+		       tps659038_present, tps65217x_present);
 
 	/*
 	 * Detect PMIC powering VDD_CORE rail:
@@ -626,8 +605,9 @@ int pmic_detect(void)
 	 * DRA7: TPS659038
 	 * AM335X: TPS65217X
 	 */
-	pmic_smps_init(PMIC_SMPS_CORE, is_twl6030, is_twl6032, is_twl6034, is_twl6035,
-		tps62361_present, lp87565_present, tps659038_present, tps65217x_present);
+	pmic_smps_init(PMIC_SMPS_CORE, is_twl6030, is_twl6032, is_twl6034,
+		       is_twl6035, tps62361_present, lp87565_present,
+		       tps659038_present, tps65217x_present);
 
 	/*
 	 * Detect PMIC powering VDD_GPU, DSPEVE rail:
@@ -635,17 +615,22 @@ int pmic_detect(void)
 	 * DRA7: TPS659038. LP87565
 	 * AM335X: N/A.
 	 */
-	if (cpu_get() == DRA_76X || cpu_get() == DRA_75X || cpu_get() == DRA_72X) {
-		pmic_smps_init(PMIC_SMPS_GPU, is_twl6030, is_twl6032, is_twl6034, is_twl6035,
-		tps62361_present, lp87565_present, tps659038_present, tps65217x_present);
-		pmic_smps_init(PMIC_SMPS_DSPEVE, is_twl6030, is_twl6032, is_twl6034, is_twl6035,
-		tps62361_present, lp87565_present, tps659038_present, tps65217x_present);
+	if (cpu_get() == DRA_76X || cpu_get() == DRA_75X
+	    || cpu_get() == DRA_72X) {
+		pmic_smps_init(PMIC_SMPS_GPU, is_twl6030, is_twl6032,
+			       is_twl6034, is_twl6035, tps62361_present,
+			       lp87565_present, tps659038_present,
+			       tps65217x_present);
+		pmic_smps_init(PMIC_SMPS_DSPEVE, is_twl6030, is_twl6032,
+			       is_twl6034, is_twl6035, tps62361_present,
+			       lp87565_present, tps659038_present,
+			       tps65217x_present);
 	}
 
 	/* Set single-chip flag accordingly */
 	if (((pmic_chip[PMIC_SMPS_MPU] == pmic_chip[PMIC_SMPS_MM]) &&
-		(pmic_chip[PMIC_SMPS_MPU] == pmic_chip[PMIC_SMPS_CORE])) ||
-		cpu_is_am335x()) {
+	     (pmic_chip[PMIC_SMPS_MPU] == pmic_chip[PMIC_SMPS_CORE])) ||
+	    cpu_is_am335x()) {
 		pmic_single_chip_flag = 1;
 		dprintf("%s(): PMIC is single chip\n", __func__);
 	} else {
@@ -656,7 +641,6 @@ int pmic_detect(void)
 	pmic_detection_done_flag = 1;
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmic_chip_get
@@ -676,7 +660,6 @@ pmic_id pmic_chip_get(pmic_smps_id smps_id)
 	return pmic_chip[smps_id];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_twl6030
  * @BRIEF		return 1 if PMIC chip of a given rail is TWL6030
@@ -694,7 +677,6 @@ unsigned short pmic_is_twl6030(pmic_smps_id smps_id)
 
 	return pmic_chip[smps_id] == PMIC_TWL6030;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_twl6032
@@ -714,7 +696,6 @@ unsigned short pmic_is_twl6032(pmic_smps_id smps_id)
 	return pmic_chip[smps_id] == PMIC_TWL6032;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_twl6034
  * @BRIEF		return 1 if PMIC chip of a given rail is TWL6034
@@ -733,7 +714,6 @@ unsigned short pmic_is_twl6034(pmic_smps_id smps_id)
 	return pmic_chip[smps_id] == PMIC_TWL6034;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_twl6035
  * @BRIEF		return 1 if PMIC chip of a given rail is TWL6035
@@ -751,7 +731,6 @@ unsigned short pmic_is_twl6035(pmic_smps_id smps_id)
 
 	return pmic_chip[smps_id] == PMIC_TWL6035;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_tps62361
@@ -789,7 +768,6 @@ unsigned short pmic_is_lp87565(pmic_smps_id smps_id)
 	return pmic_chip[smps_id] == PMIC_LP87565;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_tps659038
  * @BRIEF		return 1 if PMIC chip of a given rail is TPS659038
@@ -811,7 +789,6 @@ unsigned short pmic_is_tps659038(pmic_smps_id smps_id)
 	return pmic_chip[smps_id] == PMIC_TPS659038;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_tps65217x
  * @BRIEF		return 1 if PMIC chip of a given rail is TPS65217X
@@ -828,10 +805,9 @@ unsigned short pmic_is_tps65217x(pmic_smps_id smps_id)
 		pmic_detect();
 
 	return pmic_chip[smps_id] == PMIC_TPS65217A || pmic_chip[smps_id] ==
-		PMIC_TPS65217B || pmic_chip[smps_id] == PMIC_TPS65217C ||
-		pmic_chip[smps_id] == PMIC_TPS65217D;
+	    PMIC_TPS65217B || pmic_chip[smps_id] == PMIC_TPS65217C ||
+	    pmic_chip[smps_id] == PMIC_TPS65217D;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_single_chip
@@ -850,7 +826,6 @@ unsigned short pmic_is_single_chip(void)
 	return pmic_single_chip_flag;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmic_chip_revision_get
  * @BRIEF		return the PMIC chip revision of a given power rail.
@@ -863,14 +838,13 @@ unsigned short pmic_is_single_chip(void)
 double pmic_chip_revision_get(pmic_smps_id smps_id)
 {
 	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX,
-		(double) OMAPCONF_ERR_ARG);
+			    (double)OMAPCONF_ERR_ARG);
 
 	if (!pmic_detection_done())
 		pmic_detect();
 
 	return pmic_chip_revision[smps_id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmic_eprom_revision_get
@@ -884,14 +858,13 @@ double pmic_chip_revision_get(pmic_smps_id smps_id)
 double pmic_eprom_revision_get(pmic_smps_id smps_id)
 {
 	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX,
-		(double) OMAPCONF_ERR_ARG);
+			    (double)OMAPCONF_ERR_ARG);
 
 	if (!pmic_detection_done())
 		pmic_detect();
 
 	return pmic_eprom_revision[smps_id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		smps_name_get
@@ -937,7 +910,6 @@ const char *smps_name_get(pmic_smps_id smps_id)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		smps_step_get
  * @BRIEF		return SMPS regulator voltage step (in microvolts)
@@ -951,7 +923,7 @@ long smps_step_get(pmic_smps_id smps_id)
 {
 	long step;
 
-	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, (long) OMAPCONF_ERR_ARG);
+	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, (long)OMAPCONF_ERR_ARG);
 
 	if (!pmic_detection_done())
 		pmic_detect();
@@ -980,13 +952,12 @@ long smps_step_get(pmic_smps_id smps_id)
 		step = tps65217x_smps_step_get();
 		break;
 	default:
-		step = (long) OMAPCONF_ERR_NOT_AVAILABLE;
+		step = (long)OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
 	dprintf("%s(%s): step=%lduV\n", __func__, smps_name_get(smps_id), step);
 	return step;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		smps_offset_get
@@ -1001,7 +972,7 @@ long smps_offset_get(pmic_smps_id smps_id)
 {
 	long offset;
 
-	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, (long) OMAPCONF_ERR_ARG);
+	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, (long)OMAPCONF_ERR_ARG);
 
 	if (!pmic_detection_done())
 		pmic_detect();
@@ -1013,7 +984,7 @@ long smps_offset_get(pmic_smps_id smps_id)
 		offset = twl603x_smps_offset_get(smps_id2vdd_id(smps_id));
 		break;
 	case PMIC_TWL6035:
-		offset = twl603x_smps_offset_get((unsigned int) smps_id);
+		offset = twl603x_smps_offset_get((unsigned int)smps_id);
 		break;
 	case PMIC_TPS62361:
 		offset = tps62361_smps_offset_get();
@@ -1032,14 +1003,13 @@ long smps_offset_get(pmic_smps_id smps_id)
 		offset = tps65217x_smps_offset_get();
 		break;
 	default:
-		offset = (long) OMAPCONF_ERR_NOT_AVAILABLE;
+		offset = (long)OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
 	dprintf("%s(%s): offset=%lduV\n", __func__, smps_name_get(smps_id),
 		offset);
 	return offset;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		smps_vsel_len_get
@@ -1054,7 +1024,7 @@ int smps_vsel_len_get(pmic_smps_id smps_id)
 {
 	int vsel_len;
 
-	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, (int) OMAPCONF_ERR_ARG);
+	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, (int)OMAPCONF_ERR_ARG);
 
 	if (!pmic_detection_done())
 		pmic_detect();
@@ -1083,14 +1053,13 @@ int smps_vsel_len_get(pmic_smps_id smps_id)
 		vsel_len = tps65217x_vsel_len_get();
 		break;
 	default:
-		vsel_len = (long) OMAPCONF_ERR_NOT_AVAILABLE;
+		vsel_len = (long)OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
 	dprintf("%s(%s): vsel_len=%u\n", __func__,
 		smps_name_get(smps_id), vsel_len);
 	return vsel_len;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		smps_uvolt2vsel
@@ -1107,7 +1076,7 @@ int smps_vsel_len_get(pmic_smps_id smps_id)
 int smps_uvolt2vsel(pmic_smps_id smps_id, unsigned long uvolt)
 {
 	int vsel;
-	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, (int) OMAPCONF_ERR_ARG);
+	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, (int)OMAPCONF_ERR_ARG);
 
 	if (!pmic_detection_done())
 		pmic_detect();
@@ -1116,36 +1085,35 @@ int smps_uvolt2vsel(pmic_smps_id smps_id, unsigned long uvolt)
 	case PMIC_TWL6030:
 	case PMIC_TWL6032:
 	case PMIC_TWL6034:
-		vsel = (int) twl603x_uv_to_vsel(smps_id2vdd_id(smps_id), uvolt);
+		vsel = (int)twl603x_uv_to_vsel(smps_id2vdd_id(smps_id), uvolt);
 		break;
 	case PMIC_TWL6035:
-		vsel = (int) twl603x_uv_to_vsel((unsigned int) smps_id, uvolt);
+		vsel = (int)twl603x_uv_to_vsel((unsigned int)smps_id, uvolt);
 		break;
 	case PMIC_TPS62361:
-		vsel = (int) tps62361_uv_to_vsel(uvolt);
+		vsel = (int)tps62361_uv_to_vsel(uvolt);
 		break;
 	case PMIC_LP87565:
-		vsel = (int) lp87565_uv_to_vsel(uvolt);
+		vsel = (int)lp87565_uv_to_vsel(uvolt);
 		break;
 	case PMIC_TPS659038:
 	case PMIC_TPS65917:
-		vsel = (int) tps659038_uv_to_vsel(uvolt);
+		vsel = (int)tps659038_uv_to_vsel(uvolt);
 		break;
 	case PMIC_TPS65217A:
 	case PMIC_TPS65217B:
 	case PMIC_TPS65217C:
 	case PMIC_TPS65217D:
-		vsel = (int) tps65217x_uv_to_vsel(uvolt);
+		vsel = (int)tps65217x_uv_to_vsel(uvolt);
 		break;
 	default:
-		vsel = (int) OMAPCONF_ERR_NOT_AVAILABLE;
+		vsel = (int)OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
 	dprintf("%s(%s): uvolt=%lu vsel=%u (0x%08X)\n", __func__,
 		smps_name_get(smps_id), uvolt, vsel, vsel);
 	return vsel;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		smps_vsel2uvolt
@@ -1164,7 +1132,7 @@ long smps_vsel2uvolt(pmic_smps_id smps_id, unsigned char vsel)
 {
 	long uvolt;
 
-	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, (long) OMAPCONF_ERR_ARG);
+	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, (long)OMAPCONF_ERR_ARG);
 
 	if (!pmic_detection_done())
 		pmic_detect();
@@ -1176,7 +1144,7 @@ long smps_vsel2uvolt(pmic_smps_id smps_id, unsigned char vsel)
 		uvolt = twl603x_vsel_to_uv(smps_id2vdd_id(smps_id), vsel);
 		break;
 	case PMIC_TWL6035:
-		uvolt = twl603x_vsel_to_uv((unsigned int) smps_id, vsel);
+		uvolt = twl603x_vsel_to_uv((unsigned int)smps_id, vsel);
 		break;
 	case PMIC_TPS62361:
 		uvolt = tps62361_vsel_to_uv(vsel);
@@ -1195,14 +1163,12 @@ long smps_vsel2uvolt(pmic_smps_id smps_id, unsigned char vsel)
 		uvolt = tps65217x_vsel_to_uv(vsel);
 		break;
 	default:
-		uvolt = (long) OMAPCONF_ERR_NOT_AVAILABLE;
+		uvolt = (long)OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
-	dprintf("%s(%s): =%lduV\n", __func__, smps_name_get(smps_id),
-		uvolt);
+	dprintf("%s(%s): =%lduV\n", __func__, smps_name_get(smps_id), uvolt);
 	return uvolt;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		smps_vsel2volt
@@ -1220,14 +1186,13 @@ double smps_vsel2volt(pmic_smps_id smps_id, unsigned char vsel)
 {
 	double volt;
 
-	volt = (double) smps_vsel2uvolt(smps_id, vsel);
-	volt /= (double) 1000000.0;
+	volt = (double)smps_vsel2uvolt(smps_id, vsel);
+	volt /= (double)1000000.0;
 
 	dprintf("%s(%s, 0x%X) = %lfV\n", __func__,
 		smps_name_get(smps_id), vsel, volt);
 	return volt;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		smps_voltage_round
@@ -1248,9 +1213,9 @@ long smps_voltage_round(pmic_smps_id smps_id, long uvolt)
 	long rounded_uvolt;
 	int vsel;
 
-	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, (long) OMAPCONF_ERR_ARG);
+	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, (long)OMAPCONF_ERR_ARG);
 	if (uvolt < 0)
-		return (long) OMAPCONF_ERR_ARG;
+		return (long)OMAPCONF_ERR_ARG;
 
 	vsel = smps_uvolt2vsel(smps_id, uvolt);
 	rounded_uvolt = smps_vsel2uvolt(smps_id, vsel);
@@ -1259,7 +1224,6 @@ long smps_voltage_round(pmic_smps_id smps_id, long uvolt)
 		__func__, smps_name_get(smps_id), uvolt, rounded_uvolt, vsel);
 	return rounded_uvolt;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		smps_vsel_get
@@ -1277,17 +1241,16 @@ int smps_vsel_get(pmic_smps_id smps_id)
 {
 
 	if (pmic_is_lp87565(smps_id))
-		return lp87565_vsel_get((unsigned int) smps_id);
+		return lp87565_vsel_get((unsigned int)smps_id);
 	else if (pmic_is_twl6035(smps_id))
-		return twl603x_vsel_get((unsigned int) smps_id);
+		return twl603x_vsel_get((unsigned int)smps_id);
 	else if (pmic_is_tps659038(smps_id))
-		return tps659038_vsel_get((unsigned int) smps_id);
+		return tps659038_vsel_get((unsigned int)smps_id);
 	else if (pmic_is_tps65217x(smps_id))
-		return tps65217x_vsel_get((unsigned int) smps_id);
+		return tps65217x_vsel_get((unsigned int)smps_id);
 
 	return OMAPCONF_ERR_NOT_AVAILABLE;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		smps_uvoltage_get
@@ -1317,7 +1280,6 @@ unsigned long smps_uvoltage_get(pmic_smps_id smps_id)
 	return OMAPCONF_ERR_NOT_AVAILABLE;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		smps_voltage_get
  * @BRIEF		return voltage of a given SMPS voltage rail in volt.
@@ -1337,12 +1299,11 @@ double smps_voltage_get(pmic_smps_id smps_id)
 		vsel = smps_vsel_get(smps_id);
 		if (vsel < 0)
 			return 0;
-		return (double) smps_vsel2uvolt(smps_id, vsel) / 1000000.0;
+		return (double)smps_vsel2uvolt(smps_id, vsel) / 1000000.0;
 	}
 
 	return OMAPCONF_ERR_NOT_AVAILABLE;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		smps_voltage_set
@@ -1364,14 +1325,15 @@ int smps_voltage_set(pmic_smps_id smps_id, unsigned long uvolt)
 	    pmic_is_tps659038(smps_id) || pmic_is_tps65217x(smps_id)) {
 
 		if (pmic_is_lp87565(smps_id) && ((smps_id == PMIC_SMPS_MPU) ||
-		    (smps_id == PMIC_SMPS_GPU)))
-			return lp87565_uvoltage_set((unsigned int) smps_id,
+						 (smps_id == PMIC_SMPS_GPU)))
+			return lp87565_uvoltage_set((unsigned int)smps_id,
 						    uvolt);
 		else if (pmic_is_twl6035(smps_id))
-			return twl603x_uvoltage_set((unsigned int) smps_id,
+			return twl603x_uvoltage_set((unsigned int)smps_id,
 						    uvolt);
-	else
-            return tps659038_uvoltage_set((unsigned int) smps_id, uvolt);
+		else
+			return tps659038_uvoltage_set((unsigned int)smps_id,
+						      uvolt);
 	}
 
 	return OMAPCONF_ERR_NOT_AVAILABLE;

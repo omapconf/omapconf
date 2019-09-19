@@ -41,11 +41,9 @@
  *
  */
 
-
 #include <lib.h>
 #include <cstate.h>
 #include <stdio.h>
-
 
 /* #define CSTATE_DEBUG */
 #ifdef CSTATE_DEBUG
@@ -54,15 +52,13 @@
 #define dprintf(format, ...)
 #endif
 
-
 static char cstate_usagefile[50] =
-		"/sys/devices/system/cpu/cpu0/cpuidle/state*/usage";
+    "/sys/devices/system/cpu/cpu0/cpuidle/state*/usage";
 static char cstate_timefile[50] =
-		"/sys/devices/system/cpu/cpu0/cpuidle/state*/time";
+    "/sys/devices/system/cpu/cpu0/cpuidle/state*/time";
 static char cstate_namefile[50] =
-		"/sys/devices/system/cpu/cpu0/cpuidle/state*/name";
+    "/sys/devices/system/cpu/cpu0/cpuidle/state*/name";
 int cstates_nbr = -1;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cstate_get_number
@@ -102,9 +98,8 @@ unsigned int cstate_get_number(void)
 	}
 
 	dprintf("%s(): cstates_nbr = %d\n", __func__, cstates_nbr);
-	return (unsigned int) cstates_nbr;
+	return (unsigned int)cstates_nbr;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cstate_get_usage
@@ -151,7 +146,6 @@ uint64_t cstate_get_usage(unsigned int n)
 	return usage;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		cstate_get_time
  * @BRIEF		return the time spent in a given C-State
@@ -177,7 +171,7 @@ uint64_t cstate_get_time(unsigned int n)
 	}
 
 	cstate_timefile[42] = int2char_table[n];
-	dprintf("%s(): opening %s\n", __func__,	cstate_timefile);
+	dprintf("%s(): opening %s\n", __func__, cstate_timefile);
 	fp = fopen(cstate_timefile, "r");
 	if (fp == NULL) {
 		fprintf(stderr, "%s(): error opening %s time file!\n",
@@ -195,7 +189,6 @@ uint64_t cstate_get_time(unsigned int n)
 	fclose(fp);
 	return time;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cstate_get_name

@@ -41,24 +41,20 @@
  *
  */
 
-
 #ifndef __TWL603X_LIB_H_
 #define __TWL603X_LIB_H_
 
-
 #include <stdio.h>
 
-
 void twl603x_init_regtable(void);
-int twl603x_dumpregs(FILE *stream);
+int twl603x_dumpregs(FILE * stream);
 
-int twl603x_config(FILE *stream);
-int twl603x_config_smps(FILE *stream);
-int twl603x_config_ldo(FILE *stream);
-int twl603x_config_resources(FILE *stream);
-int twl603x_config_devpwrgrp_status(FILE *stream);
-int twl603x_reset(FILE *stream);
-int twl603x_pwrgrp_set(FILE *stream, char *grp, char *state);
-
+int twl603x_config(FILE * stream);
+int twl603x_config_smps(FILE * stream);
+int twl603x_config_ldo(FILE * stream);
+int twl603x_config_resources(FILE * stream);
+int twl603x_config_devpwrgrp_status(FILE * stream);
+int twl603x_reset(FILE * stream);
+int twl603x_pwrgrp_set(FILE * stream, char *grp, char *state);
 
 #endif

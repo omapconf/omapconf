@@ -41,12 +41,10 @@
  *
  */
 
-
 #include <lib.h>
 #include <timer_stats.h>
 #include <cpuinfo.h>
 #include <string.h>
-
 
 /* #define TIMERSTATS_DEBUG */
 #ifdef TIMERSTATS_DEBUG
@@ -54,7 +52,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION	timerstats_stop
@@ -187,7 +184,7 @@ int timerstats_save(char *filename)
  * @DESCRIPTION	parse snapshot of /proc/timer_stats file and fill list
  *		with information about the timer events that occurred
  *------------------------------------------------------------------------ */
-int timerstats_list_get(FILE *fp, genlist *list)
+int timerstats_list_get(FILE * fp, genlist * list)
 {
 	char line[256], count[24];
 	unsigned int timer_count;
@@ -210,8 +207,8 @@ int timerstats_list_get(FILE *fp, genlist *list)
 	while (fgets(line, sizeof(line), fp) != NULL) {
 		dprintf("%s(): line = %s\n", __func__, line);
 		if (sscanf(line, "%s %d %s %s (%s",
-				&count[0], &inf.pid, &inf.name[0],
-				&inf.init_fxn[0], &inf.callback[0]) != 5)
+			   &count[0], &inf.pid, &inf.name[0],
+			   &inf.init_fxn[0], &inf.callback[0]) != 5)
 			continue;
 
 		len = strlen(count);
@@ -232,7 +229,7 @@ int timerstats_list_get(FILE *fp, genlist *list)
 			"start=%s, callback=%s\n",
 			__func__, &inf.count, &inf.deferrable, &inf.pid,
 			&inf.name, &inf.init_fxn, &inf.callback, len);
-		genlist_addtail(list, (void *) &inf, sizeof(timerstat_info));
+		genlist_addtail(list, (void *)&inf, sizeof(timerstat_info));
 		timer_count++;
 	}
 	rewind(fp);
@@ -251,7 +248,7 @@ int timerstats_list_get(FILE *fp, genlist *list)
  * @DESCRIPTION	parse snapshot of /proc/timer_stats file and extract
  *		summary information and store in a string
  *------------------------------------------------------------------------ */
-int timerstats_get_summary(FILE *fp, char *summary)
+int timerstats_get_summary(FILE * fp, char *summary)
 {
 	char line[256];
 	char str1[24], str2[24], str3[24], str4[24];
@@ -266,14 +263,14 @@ int timerstats_get_summary(FILE *fp, char *summary)
 	while (fgets(line, sizeof(line), fp) != NULL) {
 		dprintf("%s(): line = %s\n", __func__, line);
 		sscanf(line, "%s %s %s %s",
-			&str1[0], &str2[0], &str3[0], &str4[0]);
+		       &str1[0], &str2[0], &str3[0], &str4[0]);
 
 		if (!strcmp(&str1[0], "Sample") &&
-			!(strcmp(&str2[0], "period:")))
+		    !(strcmp(&str2[0], "period:")))
 			strcpy(&sample_period[0], &str3[0]);
 
 		if (!strcmp(&str2[0], "total") &&
-			!(strcmp(&str3[0], "events,"))) {
+		    !(strcmp(&str3[0], "events,"))) {
 			strcpy(&total_events[0], &str1[0]);
 			strcpy(&event_freq[0], &str4[0]);
 		}
@@ -297,7 +294,7 @@ int timerstats_get_summary(FILE *fp, char *summary)
  * @DESCRIPTION	sort list by timer-stats occurrence decreasing order.
  *		Use bubble sort algorithm.
  *------------------------------------------------------------------------ */
-int timerstats_list_sort(genlist *list)
+int timerstats_list_sort(genlist * list)
 {
 	unsigned int i, max, tmpmax;
 	timerstat_info inf1, inf2;
@@ -311,11 +308,11 @@ int timerstats_list_sort(genlist *list)
 	while (max > 0) {
 		tmpmax = 0;
 		for (i = 0; i < max - 1; i++) {
-			genlist_get(list, i, (timerstat_info *) &inf1);
-			genlist_get(list, i + 1, (timerstat_info *) &inf2);
+			genlist_get(list, i, (timerstat_info *) & inf1);
+			genlist_get(list, i + 1, (timerstat_info *) & inf2);
 			if (inf1.count < inf2.count) {
-				genlist_add(list, (void *) &inf2,
-					sizeof(timerstat_info), i);
+				genlist_add(list, (void *)&inf2,
+					    sizeof(timerstat_info), i);
 				genlist_remove(list, i + 2);
 				tmpmax = i + 1;
 			}

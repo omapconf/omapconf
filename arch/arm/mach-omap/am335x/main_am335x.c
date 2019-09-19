@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <cm_am335x-defs.h>
 #include <cpuinfo.h>
 #include <ctt_am335x.h>
@@ -59,13 +58,11 @@
 #include <temperature.h>
 #include <unistd.h>
 
-
 #ifdef MAIN_AM3335X_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_am335x_dump
@@ -100,7 +97,7 @@ int main_am335x_dump(int argc, char *argv[])
 			return prcm_am335x_dump(argv[1]);
 		else
 			return err_arg_too_many_msg_show(HELP_PRCM);
-	}  else if (strcmp(argv[0], "dpll") == 0) {
+	} else if (strcmp(argv[0], "dpll") == 0) {
 		if (argc == 1) {
 			return dpll_am335x_dump(stdout, DPLL_AM335X_ID_MAX);
 		} else if (argc == 2) {
@@ -119,7 +116,6 @@ int main_am335x_dump(int argc, char *argv[])
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_am335x_export
@@ -161,15 +157,15 @@ static int main_am335x_export(int argc, char *argv[])
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		AM335X functions main entry point (legacy)
  *------------------------------------------------------------------------ */
-static int main_am335x_legacy(int argc, char*argv[])
+static int main_am335x_legacy(int argc, char *argv[])
 {
 	int ret;
 
 	if ((argc == 2) && (strcmp(argv[0], "prcm") == 0) &&
-		(strcmp(argv[1], "dump") == 0)) {
+	    (strcmp(argv[1], "dump") == 0)) {
 		ret = prcm_am335x_dump(NULL);
 	} else if ((argc == 3) && (strcmp(argv[0], "prcm") == 0) &&
-		(strcmp(argv[1], "dump") == 0)) {
+		   (strcmp(argv[1], "dump") == 0)) {
 		ret = prcm_am335x_dump(argv[2]);
 	} else if (strcmp(argv[0], "ctt") == 0) {
 		ret = ctt_am335x_main(argc - 1, argv + 1);
@@ -186,7 +182,6 @@ static int main_am335x_legacy(int argc, char*argv[])
 main_am335x_legacy_end:
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_am335x_show
@@ -231,7 +226,6 @@ int main_am335x_show(int argc, char *argv[])
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_am335x
  * @BRIEF		AM335X functions main entry point
@@ -265,9 +259,8 @@ int main_am335x(int argc, char *argv[])
 	else if (strcmp(argv[0], "dump") == 0)
 		ret = main_am335x_dump(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "show") == 0) {
-		ret = main_am335x_show(argc -1, argv + 1);
-	}
-	else
+		ret = main_am335x_show(argc - 1, argv + 1);
+	} else
 		ret = main_am335x_legacy(argc, argv);
 
 	goto main_am335x_end;

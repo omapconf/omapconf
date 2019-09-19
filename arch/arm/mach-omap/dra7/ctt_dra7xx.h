@@ -42,14 +42,11 @@
  *
  */
 
-
 #ifndef __CTT_DRA7XX_H__
 #define __CTT_DRA7XX_H__
-
 
 int ctt_dra7xx_dump(void);
 int ctt_dra7xx_rd1_export(char *file);
 int ctt_dra7xx_main(int argc, char *argv[]);
-
 
 #endif

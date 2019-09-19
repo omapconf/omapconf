@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <autoadjust_table.h>
 #include <clock_am335x.h>
 #include <cm_am335x-defs.h>
@@ -56,21 +55,19 @@
 #include <string.h>
 #include <voltdomain.h>
 
-
 #ifdef DPLL_AM335X_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
 
-
 dpll_am335x_settings *dpll_am335x_settings_table[DPLL_AM335X_ID_MAX] = {
-	NULL, NULL, NULL, NULL, NULL};
-
+	NULL, NULL, NULL, NULL, NULL
+};
 
 dpll_am335x_settings *dpll_am335x_locked_settings_table[DPLL_AM335X_ID_MAX] = {
-	NULL, NULL, NULL, NULL, NULL};
-
+	NULL, NULL, NULL, NULL, NULL
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		am335x_print_reg
@@ -79,8 +76,9 @@ dpll_am335x_settings *dpll_am335x_locked_settings_table[DPLL_AM335X_ID_MAX] = {
  * @param[in]		r: register. row: pointer to the row number
  * @DESCRIPTION		Show register name, addr & content
  *------------------------------------------------------------------------ */
-void am335x_print_reg(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
-		reg *r, unsigned int *row)
+void am335x_print_reg(char
+		      table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
+		      reg * r, unsigned int *row)
 {
 	unsigned int val;
 	if (r == NULL)
@@ -116,7 +114,6 @@ dpll_am335x_id dpll_am335x_s2id(char *s)
 	return DPLL_AM335X_ID_MAX;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_name_get
  * @BRIEF		return DPLL name
@@ -131,7 +128,6 @@ const char *dpll_am335x_name_get(dpll_am335x_id id)
 
 	return dpll_am335x_names[id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_output_name_get
@@ -148,7 +144,6 @@ const char *dpll_am335x_output_name_get(dpll_am335x_output_id id)
 	return dpll_am335x_output_names[id];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		hsdiv_am335x_name_get
  * @BRIEF		return HS divider name
@@ -164,7 +159,6 @@ const char *hsdiv_am335x_name_get(hsdiv_am335x_id id)
 	return hsdiv_am335x_names[id];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_dump
  * @BRIEF		dump selected DPLL registers
@@ -178,7 +172,7 @@ const char *hsdiv_am335x_name_get(hsdiv_am335x_id id)
  * @DESCRIPTION		dump selected DPLL registers and pretty-print it to
  *			output stream.
  *------------------------------------------------------------------------ */
-int dpll_am335x_dump(FILE *stream, dpll_am335x_id id)
+int dpll_am335x_dump(FILE * stream, dpll_am335x_id id)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row, i;
@@ -196,7 +190,7 @@ int dpll_am335x_dump(FILE *stream, dpll_am335x_id id)
 			autoadjust_table_init(table);
 			row = 0;
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-				"%s Reg. Name",	dpll_am335x_name_get(dpll_id));
+				 "%s Reg. Name", dpll_am335x_name_get(dpll_id));
 			strncpy(table[row][1], "Reg. Address",
 				TABLE_MAX_ELT_LEN);
 			strncpy(table[row][2], "Reg. Value", TABLE_MAX_ELT_LEN);
@@ -254,7 +248,6 @@ int dpll_am335x_dump(FILE *stream, dpll_am335x_id id)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_show
  * @BRIEF		analyze PLLs configuration
@@ -266,17 +259,17 @@ int dpll_am335x_dump(FILE *stream, dpll_am335x_id id)
  * @param[in]		stream: output stream
  * @DESCRIPTION		analyze PLLs configuration
  *------------------------------------------------------------------------ */
-int dpll_am335x_show(FILE *stream)
+int dpll_am335x_show(FILE * stream)
 {
 	int ret;
 
-	ret = dpll_am335x_type_b_show(DPLL_AM335X_PER, DPLL_AM335X_CORE, stream);
+	ret =
+	    dpll_am335x_type_b_show(DPLL_AM335X_PER, DPLL_AM335X_CORE, stream);
 	if (ret != 0)
 		return ret;
 	return dpll_am335x_type_a_show(DPLL_AM335X_CORE, DPLL_AM335X_ID_MAX,
-		stream);
+				       stream);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_type_b_show
@@ -290,7 +283,7 @@ int dpll_am335x_show(FILE *stream)
  * @DESCRIPTION		show tpye B dpll module configuration
  *------------------------------------------------------------------------ */
 int dpll_am335x_type_b_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
-	FILE *stream)
+			    FILE * stream)
 {
 	int ret = 0;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -306,8 +299,7 @@ int dpll_am335x_type_b_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 	for (id = start_id; id < end_id; id++) {
 		row = 0;
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN, "%s",
-			dpll_am335x_name_get(id));
+			 TABLE_MAX_ELT_LEN, "%s", dpll_am335x_name_get(id));
 		settings = dpll_am335x_settings_get(id, 0);
 		if (settings == NULL) {
 			fprintf(stderr, "%s(): error while getting %s "
@@ -356,41 +348,37 @@ int dpll_am335x_type_b_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 		strncpy(table[row][0], "Sigma-Delta Divider",
 			TABLE_MAX_ELT_LEN);
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN, "%u",
-			settings->dpll.sd_div);
-		strncpy(table[row][0], "SELFREQDCO",
-			TABLE_MAX_ELT_LEN);
+			 TABLE_MAX_ELT_LEN, "%u", settings->dpll.sd_div);
+		strncpy(table[row][0], "SELFREQDCO", TABLE_MAX_ELT_LEN);
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN, "%u", settings->dpll.selfreqdco);
+			 TABLE_MAX_ELT_LEN, "%u", settings->dpll.selfreqdco);
 		row++;
 
 		strncpy(table[row][0], "Ref. Frequency (MHz)",
 			TABLE_MAX_ELT_LEN);
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN, "%.3lf", settings->dpll.fref);
+			 TABLE_MAX_ELT_LEN, "%.3lf", settings->dpll.fref);
 		strncpy(table[row][0], "M Multiplier Factor",
 			TABLE_MAX_ELT_LEN);
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN, "%u",
-			settings->dpll.MN.M);
+			 TABLE_MAX_ELT_LEN, "%u", settings->dpll.MN.M);
 
 		strncpy(table[row][0], "N Divider Factor", TABLE_MAX_ELT_LEN);
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN, "%u",
-			settings->dpll.MN.N);
+			 TABLE_MAX_ELT_LEN, "%u", settings->dpll.MN.N);
 
 		strncpy(table[row][0], "Lock Frequency (MHz)",
 			TABLE_MAX_ELT_LEN);
 		if (settings->status == DPLL_STATUS_LOCKED)
 			snprintf(table[row][id - start_id + 1],
-			TABLE_MAX_ELT_LEN,
-			"%u", (unsigned int) settings->dpll.fdpll);
+				 TABLE_MAX_ELT_LEN,
+				 "%u", (unsigned int)settings->dpll.fdpll);
 		else
 			snprintf(table[row][id - start_id + 1],
-			TABLE_MAX_ELT_LEN,
-				"%u (%u)",
-				(unsigned int) settings->dpll.fdpll,
-				(unsigned int) settings_locked->dpll.fdpll);
+				 TABLE_MAX_ELT_LEN,
+				 "%u (%u)",
+				 (unsigned int)settings->dpll.fdpll,
+				 (unsigned int)settings_locked->dpll.fdpll);
 		row += 2;
 
 		strncpy(table[row][0], "CLKOUT Output", TABLE_MAX_ELT_LEN);
@@ -398,44 +386,44 @@ int dpll_am335x_type_b_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 		strncpy(table[row][0], "  Status", TABLE_MAX_ELT_LEN);
 		strncpy(table[row++][id - start_id + 1],
 			(settings->dpll.MN.M2_clkout_st == 1) ?
-				"Enabled" : "Gated",
-				TABLE_MAX_ELT_LEN);
-		strncpy(table[row][0], "  Clock Divider",
-			TABLE_MAX_ELT_LEN);
+			"Enabled" : "Gated", TABLE_MAX_ELT_LEN);
+		strncpy(table[row][0], "  Clock Divider", TABLE_MAX_ELT_LEN);
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN,
-			"%-5u", settings->dpll.MN.M2);
+			 TABLE_MAX_ELT_LEN, "%-5u", settings->dpll.MN.M2);
 		strncpy(table[row][0], "  Clock Speed (MHz)",
 			TABLE_MAX_ELT_LEN);
 		if (settings->status == DPLL_STATUS_LOCKED)
 			snprintf(table[row++][id - start_id + 1],
-				TABLE_MAX_ELT_LEN, "%u",
-				(unsigned int) settings->dpll.MN.M2_rate);
+				 TABLE_MAX_ELT_LEN, "%u",
+				 (unsigned int)settings->dpll.MN.M2_rate);
 		else
 			snprintf(table[row++][id - start_id + 1],
-				TABLE_MAX_ELT_LEN, "%u (%u)",
-				(unsigned int) settings->dpll.MN.M2_rate,
-				(unsigned int) settings_locked->dpll.MN.M2_rate);
+				 TABLE_MAX_ELT_LEN, "%u (%u)",
+				 (unsigned int)settings->dpll.MN.M2_rate,
+				 (unsigned int)settings_locked->dpll.MN.
+				 M2_rate);
 		row++;
 
 		strncpy(table[row++][0],
 			"CLK_DCO_LDO Output", TABLE_MAX_ELT_LEN);
-		strncpy(table[row][0], "  Status",
-			TABLE_MAX_ELT_LEN);
+		strncpy(table[row][0], "  Status", TABLE_MAX_ELT_LEN);
 		strncpy(table[row++][id - start_id + 1],
 			(settings->dpll.MN.clkdcoldo_clkout_st == 1) ? "Enabled"
-			: "Gated",TABLE_MAX_ELT_LEN);
-		strncpy(table[row][0], "  Clock Speed (MHz)", TABLE_MAX_ELT_LEN);
+			: "Gated", TABLE_MAX_ELT_LEN);
+		strncpy(table[row][0], "  Clock Speed (MHz)",
+			TABLE_MAX_ELT_LEN);
 
 		if (settings->status == DPLL_STATUS_LOCKED)
 			snprintf(table[row++][id - start_id + 1],
-				TABLE_MAX_ELT_LEN, "%u",
-				(unsigned int) settings->dpll.MN.clkdcoldo_rate);
+				 TABLE_MAX_ELT_LEN, "%u",
+				 (unsigned int)settings->dpll.MN.
+				 clkdcoldo_rate);
 		else
 			snprintf(table[row++][id - start_id + 1],
-				TABLE_MAX_ELT_LEN, "%u (%u)",
-				(unsigned int) settings->dpll.MN.clkdcoldo_rate,
-				(unsigned int) settings_locked->dpll.MN.clkdcoldo_rate);
+				 TABLE_MAX_ELT_LEN, "%u (%u)",
+				 (unsigned int)settings->dpll.MN.clkdcoldo_rate,
+				 (unsigned int)settings_locked->dpll.MN.
+				 clkdcoldo_rate);
 		row++;
 
 		if (row > row_max)
@@ -444,10 +432,9 @@ int dpll_am335x_type_b_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 
 	if (stream != NULL)
 		autoadjust_table_fprint(stream,
-			table, row_max, end_id - start_id + 1);
+					table, row_max, end_id - start_id + 1);
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_type_a_show
@@ -461,7 +448,7 @@ int dpll_am335x_type_b_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
  * @DESCRIPTION		show tpye A dpll module configuration
  *------------------------------------------------------------------------ */
 int dpll_am335x_type_a_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
-	FILE *stream)
+			    FILE * stream)
 {
 	int ret = 0;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -477,8 +464,8 @@ int dpll_am335x_type_a_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 
 	for (id = start_id; id < end_id; id++) {
 		row = 0;
-		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN, "%s",
-			dpll_am335x_name_get(id));
+		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN,
+			 "%s", dpll_am335x_name_get(id));
 		settings = dpll_am335x_settings_get(id, 0);
 		if (settings == NULL) {
 			fprintf(stderr, "%s(): error while getting %s "
@@ -524,80 +511,81 @@ int dpll_am335x_type_a_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 		strncpy(table[row][0], "Low-Power Mode", TABLE_MAX_ELT_LEN);
 		strncpy(table[row][id - start_id + 1],
 			(settings->dpll.lpmode_en == 1) ?
-				"Enabled" : "Disabled",
-			TABLE_MAX_ELT_LEN);
+			"Enabled" : "Disabled", TABLE_MAX_ELT_LEN);
 		row += 2;
 
 		strncpy(table[row][0], "Automatic Recalibration",
 			TABLE_MAX_ELT_LEN);
 		strncpy(table[row++][id - start_id + 1],
 			(settings->dpll.driftguard_en == 1) ?
-			"Enabled" : "Disabled",	TABLE_MAX_ELT_LEN);
+			"Enabled" : "Disabled", TABLE_MAX_ELT_LEN);
 
 		strncpy(table[row][0], "Clock Ramping during Relock",
-				TABLE_MAX_ELT_LEN);
+			TABLE_MAX_ELT_LEN);
 		strncpy(table[row++][id - start_id + 1],
 			(settings->dpll.ramp.relock_ramp_en == 1) ?
 			"Enabled" : "Disabled", TABLE_MAX_ELT_LEN);
 
 		strncpy(table[row][0], "Ramping Rate (x REFCLK(s))",
 			TABLE_MAX_ELT_LEN);
-		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN, "%u",
-			settings->dpll.ramp.ramp_rate);
+		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN,
+			 "%u", settings->dpll.ramp.ramp_rate);
 
 		strncpy(table[row][0], "Ramping Levels", TABLE_MAX_ELT_LEN);
 		strncpy(table[row][id - start_id + 1],
 			dpll_ramp_level_name_get((dpll_ramp_level)
-				settings->dpll.ramp.ramp_level),
+						 settings->dpll.ramp.
+						 ramp_level),
 			TABLE_MAX_ELT_LEN);
 		row += 2;
 
 		strncpy(table[row][0], "Bypass Clock", TABLE_MAX_ELT_LEN);
 		strncpy(table[row++][id - start_id + 1],
 			dpll_bp_clk_src_name_get((dpll_bp_clk_src)
-				settings->dpll.bypass_clk),
+						 settings->dpll.bypass_clk),
 			TABLE_MAX_ELT_LEN);
 
 		strncpy(table[row][0], "Bypass Clock Divider",
 			TABLE_MAX_ELT_LEN);
 		if (dpll_am335x_regs[id].cm_bypclk_dpll != NULL)
-			snprintf(table[row][id - start_id + 1], TABLE_MAX_ELT_LEN,
-			"%u", settings->dpll.bypass_clk_div);
+			snprintf(table[row][id - start_id + 1],
+				 TABLE_MAX_ELT_LEN, "%u",
+				 settings->dpll.bypass_clk_div);
 		row++;
 
-		strncpy(table[row][0], "REGM4XEN Mode",
-			TABLE_MAX_ELT_LEN);
+		strncpy(table[row][0], "REGM4XEN Mode", TABLE_MAX_ELT_LEN);
 		if (settings->dpll.regm4xen == 0)
-			snprintf(table[row][id - start_id + 1], TABLE_MAX_ELT_LEN,
-				"Disabled");
+			snprintf(table[row][id - start_id + 1],
+				 TABLE_MAX_ELT_LEN, "Disabled");
 		else
-			snprintf(table[row][id - start_id + 1], TABLE_MAX_ELT_LEN,
-				"Enabled");
+			snprintf(table[row][id - start_id + 1],
+				 TABLE_MAX_ELT_LEN, "Enabled");
 		row += 2;
 
 		strncpy(table[row][0], "Ref. Frequency (MHz)",
 			TABLE_MAX_ELT_LEN);
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN, "%.3lf", settings->dpll.fref);
+			 TABLE_MAX_ELT_LEN, "%.3lf", settings->dpll.fref);
 		strncpy(table[row][0], "M Multiplier Factor",
 			TABLE_MAX_ELT_LEN);
-		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN, "%u",
-			settings->dpll.MN.M);
+		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN,
+			 "%u", settings->dpll.MN.M);
 
 		strncpy(table[row][0], "N Divider Factor", TABLE_MAX_ELT_LEN);
-		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN, "%u",
-			settings->dpll.MN.N);
+		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN,
+			 "%u", settings->dpll.MN.N);
 
 		strncpy(table[row][0], "Lock Frequency (MHz)",
 			TABLE_MAX_ELT_LEN);
 		if (settings->status == DPLL_STATUS_LOCKED)
-			snprintf(table[row][id - start_id + 1], TABLE_MAX_ELT_LEN,
-			"%u", (unsigned int) settings->dpll.fdpll);
+			snprintf(table[row][id - start_id + 1],
+				 TABLE_MAX_ELT_LEN, "%u",
+				 (unsigned int)settings->dpll.fdpll);
 		else
-			snprintf(table[row][id - start_id + 1], TABLE_MAX_ELT_LEN,
-				"%u (%u)",
-				(unsigned int) settings->dpll.fdpll,
-				(unsigned int) settings_locked->dpll.fdpll);
+			snprintf(table[row][id - start_id + 1],
+				 TABLE_MAX_ELT_LEN, "%u (%u)",
+				 (unsigned int)settings->dpll.fdpll,
+				 (unsigned int)settings_locked->dpll.fdpll);
 		row += 2;
 		strncpy(table[row][0], "M2 Output", TABLE_MAX_ELT_LEN);
 		row++;
@@ -606,24 +594,26 @@ int dpll_am335x_type_a_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 			strncpy(table[row][0], "  Status", TABLE_MAX_ELT_LEN);
 			strncpy(table[row++][id - start_id + 1],
 				(settings->dpll.MN.M2_clkout_st == 1) ?
-					"Enabled" : "Gated",
-					TABLE_MAX_ELT_LEN);
+				"Enabled" : "Gated", TABLE_MAX_ELT_LEN);
 			strncpy(table[row][0], "  Clock Divider",
 				TABLE_MAX_ELT_LEN);
 			snprintf(table[row++][id - start_id + 1],
-				TABLE_MAX_ELT_LEN, "%-5u",
-				settings->dpll.MN.M2);
+				 TABLE_MAX_ELT_LEN, "%-5u",
+				 settings->dpll.MN.M2);
 			strncpy(table[row][0], "  Clock Speed (MHz)",
 				TABLE_MAX_ELT_LEN);
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id - start_id + 1],
-					TABLE_MAX_ELT_LEN, "%u",
-					(unsigned int) settings->dpll.MN.M2_rate);
+					 TABLE_MAX_ELT_LEN, "%u",
+					 (unsigned int)settings->dpll.MN.
+					 M2_rate);
 			else
 				snprintf(table[row++][id - start_id + 1],
-				TABLE_MAX_ELT_LEN, "%u (%u)",
-				(unsigned int) settings->dpll.MN.M2_rate,
-				(unsigned int) settings_locked->dpll.MN.M2_rate);
+					 TABLE_MAX_ELT_LEN, "%u (%u)",
+					 (unsigned int)settings->dpll.MN.
+					 M2_rate,
+					 (unsigned int)settings_locked->dpll.MN.
+					 M2_rate);
 		} else {
 			row += 3;
 		}
@@ -632,60 +622,67 @@ int dpll_am335x_type_a_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 		if (id == DPLL_AM335X_CORE) {
 			strncpy(table[row++][0],
 				"CLK_DCO_LDO Output", TABLE_MAX_ELT_LEN);
-			strncpy(table[row][0], "  Status",
-				TABLE_MAX_ELT_LEN);
+			strncpy(table[row][0], "  Status", TABLE_MAX_ELT_LEN);
 			strncpy(table[row++][id - start_id + 1],
 				(settings->dpll.MN.clkdcoldo_clkout_st == 1) ?
-				"Enabled" : "Gated",TABLE_MAX_ELT_LEN);
+				"Enabled" : "Gated", TABLE_MAX_ELT_LEN);
 			strncpy(table[row][0], "  Clock Speed (MHz)",
 				TABLE_MAX_ELT_LEN);
 
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id - start_id + 1],
-					TABLE_MAX_ELT_LEN, "%u",
-					(unsigned int)
-					settings->dpll.MN.clkdcoldo_rate);
+					 TABLE_MAX_ELT_LEN, "%u", (unsigned int)
+					 settings->dpll.MN.clkdcoldo_rate);
 			else
 				snprintf(table[row++][id - start_id + 1],
-					TABLE_MAX_ELT_LEN, "%u (%u)",
-					(unsigned int)
-					settings->dpll.MN.clkdcoldo_rate,
-					(unsigned int)
-					settings_locked->dpll.MN.clkdcoldo_rate);
+					 TABLE_MAX_ELT_LEN, "%u (%u)",
+					 (unsigned int)
+					 settings->dpll.MN.clkdcoldo_rate,
+					 (unsigned int)
+					 settings_locked->dpll.MN.
+					 clkdcoldo_rate);
 			row++;
 		}
 
 		for (hsdiv_id = HSDIV_AM335X_M4; hsdiv_id < HSDIV_AM335X_ID_MAX;
-			hsdiv_id++) {
+		     hsdiv_id++) {
 			row++;
 			if ((settings->hsdiv)[hsdiv_id].present == 0) {
 				row += 4;
 			} else {
 				snprintf(table[row++][0], TABLE_MAX_ELT_LEN,
-					"%s Output",
-					hsdiv_am335x_name_get(hsdiv_id));
+					 "%s Output",
+					 hsdiv_am335x_name_get(hsdiv_id));
 				strncpy(table[row][0], "  Status",
 					TABLE_MAX_ELT_LEN);
 				strncpy(table[row++][id - start_id + 1],
-				((settings->hsdiv)[hsdiv_id].status == 1) ?
-					"Enabled" : "Gated", TABLE_MAX_ELT_LEN);
+					((settings->hsdiv)[hsdiv_id].status ==
+					 1) ? "Enabled" : "Gated",
+					TABLE_MAX_ELT_LEN);
 				strncpy(table[row][0], "  Clock Divider",
 					TABLE_MAX_ELT_LEN);
 				snprintf(table[row++][id - start_id + 1],
-					TABLE_MAX_ELT_LEN,
-					"%u",
-					(settings->hsdiv)[hsdiv_id].div);
+					 TABLE_MAX_ELT_LEN, "%u",
+					 (settings->hsdiv)[hsdiv_id].div);
 				strncpy(table[row][0], "  Clock Speed (MHz)",
 					TABLE_MAX_ELT_LEN);
 				if (settings->status == DPLL_STATUS_LOCKED)
-					snprintf(table[row++][id - start_id + 1],
-						TABLE_MAX_ELT_LEN, "%u",
-						(unsigned int) (settings->hsdiv)[hsdiv_id].rate);
+					snprintf(table[row++]
+						 [id - start_id + 1],
+						 TABLE_MAX_ELT_LEN, "%u",
+						 (unsigned int)(settings->
+								hsdiv)
+						 [hsdiv_id].rate);
 				else
-					snprintf(table[row++][id - start_id + 1],
-					TABLE_MAX_ELT_LEN, "%u (%u)",
-					(unsigned int) (settings->hsdiv)[hsdiv_id].rate,
-					(unsigned int) (settings_locked->hsdiv)[hsdiv_id].rate);
+					snprintf(table[row++]
+						 [id - start_id + 1],
+						 TABLE_MAX_ELT_LEN, "%u (%u)",
+						 (unsigned int)(settings->
+								hsdiv)
+						 [hsdiv_id].rate,
+						 (unsigned
+						  int)(settings_locked->
+						       hsdiv)[hsdiv_id].rate);
 			}
 		}
 
@@ -696,10 +693,10 @@ int dpll_am335x_type_a_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 
 	if (stream != NULL)
 		autoadjust_table_fprint(stream,
-			table, row_max, (end_id - start_id + 1));
+					table, row_max,
+					(end_id - start_id + 1));
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_lock_freq_calc
@@ -711,27 +708,27 @@ int dpll_am335x_type_a_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
  *			regm4xen, fref, MN.M, MN.N INITIALIZED
  * @DESCRIPTION		compute DPLL lock frequency (in MHz)
  *------------------------------------------------------------------------ */
-double dpll_am335x_lock_freq_calc(dpll_settings *settings)
+double dpll_am335x_lock_freq_calc(dpll_settings * settings)
 {
 	CHECK_NULL_ARG(settings, 0.0);
 
 	if (settings->type == DPLL_TYPE_A) {
 		if (settings->regm4xen == 1)
 			settings->fdpll =
-				(settings->fref * 4.0 * (double) (settings->MN).M)
-				/ ((double) (settings->MN).N + 1.0);
+			    (settings->fref * 4.0 * (double)(settings->MN).M)
+			    / ((double)(settings->MN).N + 1.0);
 		else
 			settings->fdpll =
-				(settings->fref * (double) (settings->MN).M) /
-				((double) (settings->MN).N + 1.0);
+			    (settings->fref * (double)(settings->MN).M) /
+			    ((double)(settings->MN).N + 1.0);
 		dprintf("%s(%u): type=A regm4xen=%u fref=%lfMHz M=%u N=%u ==> "
 			"fdpll=%lfMHz\n", __func__, settings->id,
 			settings->regm4xen, settings->fref, (settings->MN).M,
 			(settings->MN).N, settings->fdpll);
 	} else {
 		settings->fdpll =
-			(settings->fref * (double) (settings->MN).M) /
-			((double) (settings->MN).N + 1.0);
+		    (settings->fref * (double)(settings->MN).M) /
+		    ((double)(settings->MN).N + 1.0);
 		dprintf("%s(%u): type=B fref=%lfMHz M=%u N=%u ==> "
 			"fdpll=%lfMHz\n", __func__, settings->id,
 			settings->fref, (settings->MN).M, (settings->MN).N,
@@ -740,7 +737,6 @@ double dpll_am335x_lock_freq_calc(dpll_settings *settings)
 
 	return settings->fdpll;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_clk_sources_get
@@ -755,14 +751,15 @@ double dpll_am335x_lock_freq_calc(dpll_settings *settings)
  *			(e.g. autdit, clock tree, OPP detection, etc)
  * @DESCRIPTION		retrieve DPLL input clock rates
  *------------------------------------------------------------------------ */
-int dpll_am335x_clk_sources_get(dpll_settings *settings, unsigned short ignore)
+int dpll_am335x_clk_sources_get(dpll_settings * settings, unsigned short ignore)
 {
 	CHECK_NULL_ARG(settings, OMAPCONF_ERR_ARG);
 
 	if (dpll_am335x_sources[settings->id].ref_clk != CLK_AM335X_ID_MAX)
-		settings->fref = clk_am335x_rate_get(
-			(clk_am335x_id) dpll_am335x_sources[settings->id].ref_clk,
-			ignore);
+		settings->fref = clk_am335x_rate_get((clk_am335x_id)
+						     dpll_am335x_sources
+						     [settings->id].ref_clk,
+						     ignore);
 	else
 		settings->fref = 0.0;
 
@@ -774,21 +771,28 @@ int dpll_am335x_clk_sources_get(dpll_settings *settings, unsigned short ignore)
 	 * bypass clock for M2 and M3 is not supported.
 	 */
 	if (dpll_am335x_sources[settings->id].byp_clk_m2 != CLK_AM335X_ID_MAX)
-		settings->fbyp_clk_m2 = clk_am335x_rate_get(
-			(clk_am335x_id) dpll_am335x_sources[settings->id].byp_clk_m2, ignore);
+		settings->fbyp_clk_m2 = clk_am335x_rate_get((clk_am335x_id)
+							    dpll_am335x_sources
+							    [settings->id].
+							    byp_clk_m2, ignore);
 	else
 		settings->fbyp_clk_m2 = 0.0;
 
 	if (dpll_am335x_sources[settings->id].byp_clk_m3 != CLK_AM335X_ID_MAX)
-		settings->fbyp_clk_m3 = clk_am335x_rate_get(
-			(clk_am335x_id) dpll_am335x_sources[settings->id].byp_clk_m3, ignore);
+		settings->fbyp_clk_m3 = clk_am335x_rate_get((clk_am335x_id)
+							    dpll_am335x_sources
+							    [settings->id].
+							    byp_clk_m3, ignore);
 	else
 		settings->fbyp_clk_m3 = 0.0;
 
-	if (dpll_am335x_sources[settings->id].byp_clk_hsdiv != CLK_AM335X_ID_MAX)
-		settings->fbyp_clk_hsdiv = clk_am335x_rate_get(
-			(clk_am335x_id)
-			dpll_am335x_sources[settings->id].byp_clk_hsdiv, ignore);
+	if (dpll_am335x_sources[settings->id].byp_clk_hsdiv !=
+	    CLK_AM335X_ID_MAX)
+		settings->fbyp_clk_hsdiv = clk_am335x_rate_get((clk_am335x_id)
+							       dpll_am335x_sources
+							       [settings->id].
+							       byp_clk_hsdiv,
+							       ignore);
 	else
 		settings->fbyp_clk_hsdiv = 0.0;
 
@@ -804,7 +808,6 @@ int dpll_am335x_clk_sources_get(dpll_settings *settings, unsigned short ignore)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		hsdiv_am335x_settings_extract
  * @BRIEF		extract HSDIV DPLL settings from registers
@@ -817,8 +820,8 @@ int dpll_am335x_clk_sources_get(dpll_settings *settings, unsigned short ignore)
  * @param[in,out]	settings: struct with extracted HSDIV settings
  * @DESCRIPTION		extract DPLL HSDIV settings from registers
  *------------------------------------------------------------------------ */
-int hsdiv_am335x_settings_extract(unsigned int id, reg *hsdiv_reg,
-	hsdiv_am335x_settings * settings)
+int hsdiv_am335x_settings_extract(unsigned int id, reg * hsdiv_reg,
+				  hsdiv_am335x_settings * settings)
 {
 	unsigned int val;
 
@@ -846,7 +849,6 @@ int hsdiv_am335x_settings_extract(unsigned int id, reg *hsdiv_reg,
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		hsdiv_am335x_rates_calc
  * @BRIEF		calculate DPLL HSDIV output rates
@@ -860,8 +862,8 @@ int hsdiv_am335x_settings_extract(unsigned int id, reg *hsdiv_reg,
  *			(e.g. autdit, clock tree, OPP detection, etc)
  * @DESCRIPTION		calculate DPLL HSDIV output rates
  *------------------------------------------------------------------------ */
-int hsdiv_am335x_rates_calc(dpll_am335x_settings *settings,
-	unsigned short ignore)
+int hsdiv_am335x_rates_calc(dpll_am335x_settings * settings,
+			    unsigned short ignore)
 {
 	unsigned short i;
 	dpll_status st;
@@ -887,7 +889,7 @@ int hsdiv_am335x_rates_calc(dpll_am335x_settings *settings,
 			if ((settings->hsdiv)[i].present == 0)
 				continue;
 			(settings->hsdiv)[i].rate =
-				(settings->dpll).fbyp_clk_hsdiv;
+			    (settings->dpll).fbyp_clk_hsdiv;
 			dprintf("%s(): %s bypassed, %s=%lfMHz\n", __func__,
 				dpll_am335x_name_get((settings->dpll).id),
 				hsdiv_am335x_name_get(i),
@@ -899,8 +901,8 @@ int hsdiv_am335x_rates_calc(dpll_am335x_settings *settings,
 			if ((settings->hsdiv)[i].present == 0)
 				continue;
 			(settings->hsdiv)[i].rate =
-				(settings->dpll).MN.clkdcoldo_rate /
-				(double) (settings->hsdiv)[i].div;
+			    (settings->dpll).MN.clkdcoldo_rate /
+			    (double)(settings->hsdiv)[i].div;
 			dprintf("%s(): %s locked, %s=%lfMHz\n", __func__,
 				dpll_am335x_name_get((settings->dpll).id),
 				hsdiv_am335x_name_get(i),
@@ -934,8 +936,8 @@ int hsdiv_am335x_rates_calc(dpll_am335x_settings *settings,
  *			(e.g. autdit, clock tree, OPP detection, etc)
  * @DESCRIPTION		calculate DPLL output rates
  *------------------------------------------------------------------------ */
-int dpll_am335x_rates_calc(dpll_am335x_settings *settings,
-	unsigned short ignore)
+int dpll_am335x_rates_calc(dpll_am335x_settings * settings,
+			   unsigned short ignore)
 {
 	dpll_status st;
 
@@ -969,13 +971,13 @@ int dpll_am335x_rates_calc(dpll_am335x_settings *settings,
 		if ((settings->dpll).bypass_clk) {
 			if (settings->byp_clk_sel == 0)
 				(settings->dpll).MN.M2_rate =
-					(settings->dpll).fbyp_clk_m2;
+				    (settings->dpll).fbyp_clk_m2;
 			else if (settings->byp_clk_sel == 1)
 				(settings->dpll).MN.M2_rate =
-					(settings->dpll).fbyp_clk_m3;
+				    (settings->dpll).fbyp_clk_m3;
 			else
 				(settings->dpll).MN.M2_rate =
-					(settings->dpll).fref;
+				    (settings->dpll).fref;
 		} else {
 			(settings->dpll).MN.M2_rate = (settings->dpll).fref;
 		}
@@ -990,10 +992,10 @@ int dpll_am335x_rates_calc(dpll_am335x_settings *settings,
 	case DPLL_STATUS_LOCKED:
 		if ((settings->dpll).type == DPLL_TYPE_A)
 			(settings->dpll).MN.clkdcoldo_rate =
-				(settings->dpll).fdpll * 2.0;
+			    (settings->dpll).fdpll * 2.0;
 		else
 			(settings->dpll).MN.clkdcoldo_rate =
-				(settings->dpll).fdpll;
+			    (settings->dpll).fdpll;
 		dprintf("%s(): %s locked, CLKDCOLDO=%lfMHz\n", __func__,
 			dpll_am335x_name_get((settings->dpll).id),
 			(settings->dpll).MN.clkdcoldo_rate);
@@ -1001,7 +1003,7 @@ int dpll_am335x_rates_calc(dpll_am335x_settings *settings,
 		if ((settings->dpll).MN.M2_present == 0)
 			break;
 		(settings->dpll).MN.M2_rate = (settings->dpll).fdpll /
-			(double) (settings->dpll).MN.M2;
+		    (double)(settings->dpll).MN.M2;
 		dprintf("%s(): %s locked, CLKOUT=%lfMHz\n", __func__,
 			dpll_am335x_name_get((settings->dpll).id),
 			(settings->dpll).MN.M2_rate);
@@ -1020,7 +1022,6 @@ int dpll_am335x_rates_calc(dpll_am335x_settings *settings,
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_settings_extract
  * @BRIEF		extract DPLL settings from registers
@@ -1037,8 +1038,8 @@ int dpll_am335x_rates_calc(dpll_am335x_settings *settings,
  *			(e.g. autdit, clock tree, OPP detection, etc)
  * @DESCRIPTION		extract DPLL settings from registers
  *------------------------------------------------------------------------ */
-int dpll_am335x_settings_extract(dpll_am335x_settings *settings,
-	unsigned int id, unsigned short ignore)
+int dpll_am335x_settings_extract(dpll_am335x_settings * settings,
+				 unsigned int id, unsigned short ignore)
 {
 	int ret;
 	unsigned short i;
@@ -1071,7 +1072,7 @@ int dpll_am335x_settings_extract(dpll_am335x_settings *settings,
 	dprintf("\n\n### %s() EXTRACTING %s SETTINGS (IGNORE=%u) ###\n",
 		__func__, dpll_am335x_name_get(id), ignore);
 
-	dpll_regs = (dpll_settings_regs *) &(dpll_am335x_regs[id]);
+	dpll_regs = (dpll_settings_regs *) & (dpll_am335x_regs[id]);
 	hsdiv_regs = (reg **) dpll_am335x_hsdiv_regs[id];
 
 	ret = dpll_settings_extract(id, type, dpll_regs, &(settings->dpll));
@@ -1105,7 +1106,7 @@ int dpll_am335x_settings_extract(dpll_am335x_settings *settings,
 
 	for (i = HSDIV_AM335X_M4; i < HSDIV_AM335X_ID_MAX; i++) {
 		ret = hsdiv_am335x_settings_extract(i, hsdiv_regs[i],
-			&(settings->hsdiv)[i]);
+						    &(settings->hsdiv)[i]);
 		if (ret != 0)
 			return ret;
 	}
@@ -1154,7 +1155,6 @@ int dpll_am335x_settings_extract(dpll_am335x_settings *settings,
 	return ret;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_settings_get
  * @BRIEF		return DPLL settings struct pointer
@@ -1169,7 +1169,7 @@ int dpll_am335x_settings_extract(dpll_am335x_settings *settings,
  *			If DPLL settings not yet extracted, do it.
  *------------------------------------------------------------------------ */
 dpll_am335x_settings *dpll_am335x_settings_get(unsigned int id,
-	unsigned short ignore)
+					       unsigned short ignore)
 {
 	int ret;
 	dpll_am335x_settings *settings;
@@ -1196,7 +1196,6 @@ dpll_am335x_settings *dpll_am335x_settings_get(unsigned int id,
 	return settings;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_output_rate_get
  * @BRIEF		return DPLL output clock rate (in MHz)
@@ -1212,7 +1211,8 @@ dpll_am335x_settings *dpll_am335x_settings_get(unsigned int id,
  *			If DPLL settings not yet extracted, do it.
  *------------------------------------------------------------------------ */
 double dpll_am335x_output_rate_get(dpll_am335x_id id,
-	dpll_am335x_output_id out_id, unsigned short ignore)
+				   dpll_am335x_output_id out_id,
+				   unsigned short ignore)
 {
 	int ret;
 	dpll_am335x_settings *settings;
@@ -1259,7 +1259,7 @@ double dpll_am335x_output_rate_get(dpll_am335x_id id,
 		rate = (settings->hsdiv)[HSDIV_AM335X_M6].rate;
 		break;
 	default:
-		/* should never happen, to remove compilation warning*/
+		/* should never happen, to remove compilation warning */
 		rate = 0.0;
 	}
 
@@ -1268,7 +1268,6 @@ dpll_am335x_output_rate_get_end:
 		dpll_am335x_output_name_get(out_id), ignore, rate);
 	return rate;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_init
@@ -1291,7 +1290,8 @@ int dpll_am335x_init(void)
 		DPLL_AM335X_CORE,
 		DPLL_AM335X_MPU,
 		DPLL_AM335X_DDR,
-		DPLL_AM335X_DISP};
+		DPLL_AM335X_DISP
+	};
 
 	dprintf("\n%s(): retrieving all DPLL settings\n", __func__);
 	/*
@@ -1300,13 +1300,13 @@ int dpll_am335x_init(void)
 	 */
 	for (id = DPLL_AM335X_PER; id < DPLL_AM335X_ID_MAX; id++) {
 		dpll_am335x_settings_table[id] =
-			malloc(sizeof(dpll_am335x_settings));
+		    malloc(sizeof(dpll_am335x_settings));
 		if (dpll_am335x_settings_table[id] == NULL)
 			return OMAPCONF_ERR_UNEXPECTED;
 		(dpll_am335x_settings_table[id]->dpll).initialized = 0;
 
 		dpll_am335x_locked_settings_table[id] =
-			malloc(sizeof(dpll_am335x_settings));
+		    malloc(sizeof(dpll_am335x_settings));
 		if (dpll_am335x_locked_settings_table[id] == NULL)
 			return OMAPCONF_ERR_UNEXPECTED;
 		(dpll_am335x_locked_settings_table[id]->dpll).initialized = 0;
@@ -1314,8 +1314,9 @@ int dpll_am335x_init(void)
 
 	for (i = 0; i < DPLL_AM335X_ID_MAX; i++) {
 		id = ordered_ids[i];
-		ret = dpll_am335x_settings_extract(
-			dpll_am335x_settings_table[id], id, 0);
+		ret =
+		    dpll_am335x_settings_extract(dpll_am335x_settings_table[id],
+						 id, 0);
 		if (ret < 0) {
 			fprintf(stderr, "%s(): error while extracting %s "
 				"parameters! (%d)", __func__,
@@ -1327,8 +1328,9 @@ int dpll_am335x_init(void)
 		 * Also get DPLL params ignoring DPLL STOPPED status to also
 		 * show all output speeds when DPLL is locked.
 		 */
-		ret = dpll_am335x_settings_extract(
-			dpll_am335x_locked_settings_table[id], id, 1);
+		ret =
+		    dpll_am335x_settings_extract
+		    (dpll_am335x_locked_settings_table[id], id, 1);
 		if (ret < 0) {
 			fprintf(stderr, "%s(): error while extracting %s "
 				"parameters! (%d)", __func__,
@@ -1340,7 +1342,6 @@ int dpll_am335x_init(void)
 	dprintf("%s(): all DPLL settings retrieved\n\n", __func__);
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_free
@@ -1363,7 +1364,6 @@ int dpll_am335x_free(void)
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_main

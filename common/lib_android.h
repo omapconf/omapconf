@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __LIB_ANDROID_H__
 #define __LIB_ANDROID_H__
-
 
 typedef enum {
 	PASTRY_GB,
@@ -61,13 +59,11 @@ typedef enum {
 	PASTRY_ID_MAX
 } android_pastry_id;
 
-
 unsigned short os_is_android(void);
 android_pastry_id android_pastry_get(void);
 const char *android_pastry_name_get(android_pastry_id id);
 char *android_product_name_get(char product_name[256]);
 int wakelock_acquire(void);
 int wakelock_release(void);
-
 
 #endif

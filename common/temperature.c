@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <temperature.h>
 #include <temp54xx.h>
 #include <hwtemp54xx.h>
@@ -55,7 +54,6 @@
 #include <emif.h>
 #include <voltdomain.h>
 
-
 /* #define TEMPERATURE_DEBUG */
 #ifdef TEMPERATURE_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -63,10 +61,8 @@
 #define dprintf(format, ...)
 #endif
 
-
 genlist temp_sensor_list;
 static unsigned short temp_sensor_init_done = 0;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_init
@@ -79,62 +75,107 @@ void temp_sensor_init(void)
 		genlist_init(&temp_sensor_list);
 		if (cpu_is_omap44xx()) {
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_BANDGAP,
-				(1 + strlen(TEMP_SENSOR_BANDGAP)) * sizeof(char));
+					(void *)TEMP_SENSOR_BANDGAP,
+					(1 +
+					 strlen(TEMP_SENSOR_BANDGAP)) *
+					sizeof(char));
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_HOTSPOT_MPU,
-				(1 + strlen(TEMP_SENSOR_HOTSPOT_MPU)) * sizeof(char));
+					(void *)TEMP_SENSOR_HOTSPOT_MPU,
+					(1 +
+					 strlen(TEMP_SENSOR_HOTSPOT_MPU)) *
+					sizeof(char));
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_MEM1,
-				(1 + strlen(TEMP_SENSOR_MEM1)) * sizeof(char));
+					(void *)TEMP_SENSOR_MEM1,
+					(1 +
+					 strlen(TEMP_SENSOR_MEM1)) *
+					sizeof(char));
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_MEM2,
-				(1 + strlen(TEMP_SENSOR_MEM2)) * sizeof(char));
+					(void *)TEMP_SENSOR_MEM2,
+					(1 +
+					 strlen(TEMP_SENSOR_MEM2)) *
+					sizeof(char));
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_PCB,
-				(1 + strlen(TEMP_SENSOR_PCB)) * sizeof(char));
+					(void *)TEMP_SENSOR_PCB,
+					(1 +
+					 strlen(TEMP_SENSOR_PCB)) *
+					sizeof(char));
 		} else if (cpu_is_omap54xx()) {
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_MPU,
-				(1 + strlen(TEMP_SENSOR_MPU)) * sizeof(char));
+					(void *)TEMP_SENSOR_MPU,
+					(1 +
+					 strlen(TEMP_SENSOR_MPU)) *
+					sizeof(char));
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_HOTSPOT_MPU,
-				(1 + strlen(TEMP_SENSOR_HOTSPOT_MPU)) * sizeof(char));
+					(void *)TEMP_SENSOR_HOTSPOT_MPU,
+					(1 +
+					 strlen(TEMP_SENSOR_HOTSPOT_MPU)) *
+					sizeof(char));
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_GPU,
-				(1 + strlen(TEMP_SENSOR_GPU)) * sizeof(char));
+					(void *)TEMP_SENSOR_GPU,
+					(1 +
+					 strlen(TEMP_SENSOR_GPU)) *
+					sizeof(char));
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_HOTSPOT_GPU,
-				(1 + strlen(TEMP_SENSOR_HOTSPOT_GPU)) * sizeof(char));
+					(void *)TEMP_SENSOR_HOTSPOT_GPU,
+					(1 +
+					 strlen(TEMP_SENSOR_HOTSPOT_GPU)) *
+					sizeof(char));
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_CORE,
-				(1 + strlen(TEMP_SENSOR_CORE)) * sizeof(char));
+					(void *)TEMP_SENSOR_CORE,
+					(1 +
+					 strlen(TEMP_SENSOR_CORE)) *
+					sizeof(char));
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_MEM1,
-				(1 + strlen(TEMP_SENSOR_MEM1)) * sizeof(char));
+					(void *)TEMP_SENSOR_MEM1,
+					(1 +
+					 strlen(TEMP_SENSOR_MEM1)) *
+					sizeof(char));
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_MEM2,
-				(1 + strlen(TEMP_SENSOR_MEM2)) * sizeof(char));
+					(void *)TEMP_SENSOR_MEM2,
+					(1 +
+					 strlen(TEMP_SENSOR_MEM2)) *
+					sizeof(char));
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_PCB,
-				(1 + strlen(TEMP_SENSOR_PCB)) * sizeof(char));
+					(void *)TEMP_SENSOR_PCB,
+					(1 +
+					 strlen(TEMP_SENSOR_PCB)) *
+					sizeof(char));
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_CASE,
-				(1 + strlen(TEMP_SENSOR_CASE)) * sizeof(char));
+					(void *)TEMP_SENSOR_CASE,
+					(1 +
+					 strlen(TEMP_SENSOR_CASE)) *
+					sizeof(char));
 			genlist_addtail(&temp_sensor_list,
-				(void *) TEMP_SENSOR_CHARGER,
-				(1 + strlen(TEMP_SENSOR_CHARGER)) * sizeof(char));
+					(void *)TEMP_SENSOR_CHARGER,
+					(1 +
+					 strlen(TEMP_SENSOR_CHARGER)) *
+					sizeof(char));
 		} else if (cpu_is_dra7xx()) {
-			genlist_addtail(&temp_sensor_list, (void *) TEMP_SENSOR_MPU,
-				(1 + strlen(TEMP_SENSOR_MPU)) * sizeof(char));
-			genlist_addtail(&temp_sensor_list, (void *) TEMP_SENSOR_GPU,
-				(1 + strlen(TEMP_SENSOR_GPU)) * sizeof(char));
-			genlist_addtail(&temp_sensor_list, (void *) TEMP_SENSOR_CORE,
-				(1 + strlen(TEMP_SENSOR_CORE)) * sizeof(char));
-			genlist_addtail(&temp_sensor_list, (void *) TEMP_SENSOR_IVA,
-				(1 + strlen(TEMP_SENSOR_IVA)) * sizeof(char));
-			genlist_addtail(&temp_sensor_list, (void *) TEMP_SENSOR_DSPEVE,
-				(1 + strlen(TEMP_SENSOR_DSPEVE)) * sizeof(char));
+			genlist_addtail(&temp_sensor_list,
+					(void *)TEMP_SENSOR_MPU,
+					(1 +
+					 strlen(TEMP_SENSOR_MPU)) *
+					sizeof(char));
+			genlist_addtail(&temp_sensor_list,
+					(void *)TEMP_SENSOR_GPU,
+					(1 +
+					 strlen(TEMP_SENSOR_GPU)) *
+					sizeof(char));
+			genlist_addtail(&temp_sensor_list,
+					(void *)TEMP_SENSOR_CORE,
+					(1 +
+					 strlen(TEMP_SENSOR_CORE)) *
+					sizeof(char));
+			genlist_addtail(&temp_sensor_list,
+					(void *)TEMP_SENSOR_IVA,
+					(1 +
+					 strlen(TEMP_SENSOR_IVA)) *
+					sizeof(char));
+			genlist_addtail(&temp_sensor_list,
+					(void *)TEMP_SENSOR_DSPEVE,
+					(1 +
+					 strlen(TEMP_SENSOR_DSPEVE)) *
+					sizeof(char));
 		} else {
 			fprintf(stderr,
 				"omapconf: %s(): cpu not supported!!!\n",
@@ -145,7 +186,6 @@ void temp_sensor_init(void)
 		dprintf("%s(): init done.\n", __func__);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_deinit
@@ -159,7 +199,6 @@ void temp_sensor_deinit(void)
 		genlist_free(&temp_sensor_list);
 	dprintf("%s(): deinit done.\n", __func__);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_voltdm2sensor
@@ -241,7 +280,6 @@ const char *temp_sensor_voltdm2sensor(const char *voltdm)
 	return sensor;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_count_get
  * @BRIEF		return the number of temperature sensor(s)
@@ -271,7 +309,6 @@ int temp_sensor_count_get(void)
 	return count;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_list_get
  * @BRIEF		return the list of temperature sensor(s)
@@ -284,18 +321,17 @@ const genlist *temp_sensor_list_get(void)
 	temp_sensor_init();
 
 	if (cpu_is_omap44xx()) {
-		return (const genlist *) &temp_sensor_list;
+		return (const genlist *)&temp_sensor_list;
 	} else if (cpu_is_omap54xx()) {
-		return (const genlist *) &temp_sensor_list;
+		return (const genlist *)&temp_sensor_list;
 	} else if (cpu_is_dra7xx()) {
-		return (const genlist *) &temp_sensor_list;
+		return (const genlist *)&temp_sensor_list;
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
 		return NULL;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_s2id
@@ -317,51 +353,51 @@ int temp_sensor_s2id(const char *sensor)
 
 	if (cpu_is_omap44xx()) {
 		if (strcasecmp(sensor, TEMP_SENSOR_BANDGAP) == 0)
-			id = (int) TEMP44XX_BANDGAP;
+			id = (int)TEMP44XX_BANDGAP;
 		else if (strcasecmp(sensor, TEMP_SENSOR_HOTSPOT_MPU) == 0)
-			id = (int) TEMP44XX_HOTSPOT;
+			id = (int)TEMP44XX_HOTSPOT;
 		else if (strcasecmp(sensor, TEMP_SENSOR_MEM1) == 0)
-			id = (int) TEMP44XX_DDR1_CS1;
+			id = (int)TEMP44XX_DDR1_CS1;
 		else if (strcasecmp(sensor, TEMP_SENSOR_MEM2) == 0)
-			id = (int) TEMP44XX_DDR2_CS1;
+			id = (int)TEMP44XX_DDR2_CS1;
 		else if (strcasecmp(sensor, TEMP_SENSOR_PCB) == 0)
-			id = (int) TEMP44XX_PCB;
+			id = (int)TEMP44XX_PCB;
 		else
 			id = OMAPCONF_ERR_ARG;
 	} else if (cpu_is_omap54xx()) {
 		if (strcasecmp(sensor, TEMP_SENSOR_MPU) == 0)
-			id = (int) TEMP54XX_MPU;
+			id = (int)TEMP54XX_MPU;
 		else if (strcasecmp(sensor, TEMP_SENSOR_HOTSPOT_MPU) == 0)
-			id = (int) TEMP54XX_HOTSPOT_MPU;
+			id = (int)TEMP54XX_HOTSPOT_MPU;
 		else if (strcasecmp(sensor, TEMP_SENSOR_GPU) == 0)
-			id = (int) TEMP54XX_GPU;
+			id = (int)TEMP54XX_GPU;
 		else if (strcasecmp(sensor, TEMP_SENSOR_HOTSPOT_GPU) == 0)
-			id = (int) TEMP54XX_HOTSPOT_GPU;
+			id = (int)TEMP54XX_HOTSPOT_GPU;
 		else if (strcasecmp(sensor, TEMP_SENSOR_MEM1) == 0)
-			id = (int) TEMP54XX_EMIF1;
+			id = (int)TEMP54XX_EMIF1;
 		else if (strcasecmp(sensor, TEMP_SENSOR_MEM2) == 0)
-			id = (int) TEMP54XX_EMIF2;
+			id = (int)TEMP54XX_EMIF2;
 		else if (strcasecmp(sensor, TEMP_SENSOR_CORE) == 0)
-			id = (int) TEMP54XX_CORE;
+			id = (int)TEMP54XX_CORE;
 		else if (strcasecmp(sensor, TEMP_SENSOR_PCB) == 0)
-			id = (int) TEMP54XX_PCB;
+			id = (int)TEMP54XX_PCB;
 		else if (strcasecmp(sensor, TEMP_SENSOR_CASE) == 0)
-			id = (int) TEMP54XX_CASE;
+			id = (int)TEMP54XX_CASE;
 		else if (strcasecmp(sensor, TEMP_SENSOR_CHARGER) == 0)
-			id = (int) TEMP54XX_CHARGER;
+			id = (int)TEMP54XX_CHARGER;
 		else
 			id = OMAPCONF_ERR_ARG;
 	} else if (cpu_is_dra7xx()) {
 		if (strcasecmp(sensor, TEMP_SENSOR_MPU) == 0)
-			id = (int) HWTEMP_DRA7XX_MPU;
+			id = (int)HWTEMP_DRA7XX_MPU;
 		else if (strcasecmp(sensor, TEMP_SENSOR_GPU) == 0)
-			id = (int) HWTEMP_DRA7XX_GPU;
+			id = (int)HWTEMP_DRA7XX_GPU;
 		else if (strcasecmp(sensor, TEMP_SENSOR_CORE) == 0)
-			id = (int) HWTEMP_DRA7XX_CORE;
+			id = (int)HWTEMP_DRA7XX_CORE;
 		else if (strcasecmp(sensor, TEMP_SENSOR_IVA) == 0)
-			id = (int) HWTEMP_DRA7XX_IVA;
+			id = (int)HWTEMP_DRA7XX_IVA;
 		else if (strcasecmp(sensor, TEMP_SENSOR_DSPEVE) == 0)
-			id = (int) HWTEMP_DRA7XX_DSPEVE;
+			id = (int)HWTEMP_DRA7XX_DSPEVE;
 		else
 			id = OMAPCONF_ERR_ARG;
 	} else {
@@ -373,7 +409,6 @@ int temp_sensor_s2id(const char *sensor)
 	dprintf("%s(%s) = %d\n", __func__, sensor, id);
 	return id;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwtemp_sensor_s2id
@@ -395,35 +430,35 @@ int hwtemp_sensor_s2id(const char *sensor)
 
 	if (cpu_is_omap54xx()) {
 		if (strcasecmp(sensor, TEMP_SENSOR_MPU) == 0)
-			id = (int) HWTEMP54XX_MPU;
+			id = (int)HWTEMP54XX_MPU;
 		else if (strcasecmp(sensor, TEMP_SENSOR_GPU) == 0)
-			id = (int) HWTEMP54XX_GPU;
+			id = (int)HWTEMP54XX_GPU;
 		else if (strcasecmp(sensor, TEMP_SENSOR_CORE) == 0)
-			id = (int) HWTEMP54XX_CORE;
+			id = (int)HWTEMP54XX_CORE;
 		else
 			id = OMAPCONF_ERR_ARG;
 	} else if (cpu_is_dra7xx()) {
 		if (strcasecmp(sensor, TEMP_SENSOR_MPU) == 0)
-			id = (int) HWTEMP_DRA7XX_MPU;
+			id = (int)HWTEMP_DRA7XX_MPU;
 		else if (strcasecmp(sensor, TEMP_SENSOR_GPU) == 0)
-			id = (int) HWTEMP_DRA7XX_GPU;
+			id = (int)HWTEMP_DRA7XX_GPU;
 		else if (strcasecmp(sensor, TEMP_SENSOR_CORE) == 0)
-			id = (int) HWTEMP_DRA7XX_CORE;
+			id = (int)HWTEMP_DRA7XX_CORE;
 		else if (strcasecmp(sensor, TEMP_SENSOR_IVA) == 0)
-			id = (int) HWTEMP_DRA7XX_IVA;
+			id = (int)HWTEMP_DRA7XX_IVA;
 		else if (strcasecmp(sensor, TEMP_SENSOR_DSPEVE) == 0)
-			id = (int) HWTEMP_DRA7XX_DSPEVE;
+			id = (int)HWTEMP_DRA7XX_DSPEVE;
 		else
 			id = OMAPCONF_ERR_ARG;
 	} else {
-		fprintf(stderr, "omapconf: %s(): cpu not supported!!!\n", __func__);
+		fprintf(stderr, "omapconf: %s(): cpu not supported!!!\n",
+			__func__);
 		id = OMAPCONF_ERR_CPU;
 	}
 
 	dprintf("%s(%s) = %d\n", __func__, sensor, id);
 	return id;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_is_available
@@ -450,7 +485,6 @@ int temp_sensor_is_available(const char *sensor)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwtemp_sensor_is_available
  * @BRIEF		check if temperature sensor is available.
@@ -466,18 +500,14 @@ int hwtemp_sensor_is_available(const char *sensor)
 
 	CHECK_NULL_ARG(sensor, 0);
 	id = hwtemp_sensor_s2id(sensor);
-	if (id >= 0)
-	{
+	if (id >= 0) {
 		dprintf("%s(): %s is available.\n", __func__, sensor);
 		return 1;
-	}
-	else
-	{
+	} else {
 		dprintf("%s(): %s is NOT available.\n", __func__, sensor);
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_get
@@ -513,7 +543,6 @@ int temp_sensor_get(const char *sensor)
 	return temp;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwtemp_sensor_get
  * @BRIEF		return temperature measured by temperature sensor hw registers.
@@ -537,14 +566,14 @@ int hwtemp_sensor_get(const char *sensor)
 	} else if (cpu_is_dra7xx()) {
 		temp = hwtemp_dra7xx_get(id);
 	} else {
-		fprintf(stderr, "omapconf: %s(): cpu not supported!!!\n", __func__);
+		fprintf(stderr, "omapconf: %s(): cpu not supported!!!\n",
+			__func__);
 		temp = TEMP_ABSOLUTE_ZERO;
 	}
 
 	dprintf("%s(%s) = %d\n", __func__, sensor, temp);
 	return temp;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_show
@@ -561,7 +590,7 @@ int hwtemp_sensor_get(const char *sensor)
  * @DESCRIPTION		display all available temperatures formatted in a table.
  *			Display both Celcius and Fahrenheit degrees.
  *------------------------------------------------------------------------ */
-static int _temp_sensor_show(FILE *stream, const char *sensor, const char hw)
+static int _temp_sensor_show(FILE * stream, const char *sensor, const char hw)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row = 0;
@@ -590,10 +619,10 @@ static int _temp_sensor_show(FILE *stream, const char *sensor, const char hw)
 				sensor);
 			return OMAPCONF_ERR_INTERNAL;
 		} else if ((strcasecmp(sensor, TEMP_SENSOR_MEM1) == 0) ||
-				(strcasecmp(sensor, TEMP_SENSOR_MEM2) == 0)) {
+			   (strcasecmp(sensor, TEMP_SENSOR_MEM2) == 0)) {
 			fprintf(stream, "%s\n",
 				emif_mr4_convert((emif_mr4_code) temp,
-					TEMP_CELCIUS_DEGREES));
+						 TEMP_CELCIUS_DEGREES));
 			return 0;
 		} else {
 			fprintf(stream, "%d\n", temp);
@@ -625,13 +654,13 @@ static int _temp_sensor_show(FILE *stream, const char *sensor, const char hw)
 
 	/* Fill table with temperatures */
 	for (i = 0; i < count; i++) {
-		genlist_get((genlist *) list, i, (char *) &sensor2);
+		genlist_get((genlist *) list, i, (char *)&sensor2);
 		if (sensor2 == NULL) {
 			fprintf(stderr,
 				"omapconf: could not retrieve sensor!\n");
 			return OMAPCONF_ERR_INTERNAL;
 		}
-		autoadjust_table_strncpy(table, row, 0, (char *) sensor2);
+		autoadjust_table_strncpy(table, row, 0, (char *)sensor2);
 		dprintf("%s(): sensor is %s\n", __func__, sensor2);
 		if (hw)
 			temp = hwtemp_sensor_get(sensor2);
@@ -639,23 +668,23 @@ static int _temp_sensor_show(FILE *stream, const char *sensor, const char hw)
 			temp = temp_sensor_get(sensor2);
 		if (temp != TEMP_ABSOLUTE_ZERO) {
 			if ((strcasecmp(sensor2, TEMP_SENSOR_MEM1) == 0) ||
-				(strcasecmp(sensor2, TEMP_SENSOR_MEM2) == 0)) {
+			    (strcasecmp(sensor2, TEMP_SENSOR_MEM2) == 0)) {
 				sprintf(temp_s, "%s",
 					emif_mr4_convert((emif_mr4_code) temp,
-						TEMP_CELCIUS_DEGREES));
+							 TEMP_CELCIUS_DEGREES));
 				autoadjust_table_strncpy(table, row, 1, temp_s);
 				sprintf(temp_s, "%s",
 					emif_mr4_convert((emif_mr4_code) temp,
-						TEMP_FAHRENHEIT_DEGREES));
+							 TEMP_FAHRENHEIT_DEGREES));
 				autoadjust_table_strncpy(table, row++, 2,
-					temp_s);
+							 temp_s);
 			} else {
 				sprintf(temp_s, "%d", temp);
 				autoadjust_table_strncpy(table, row, 1, temp_s);
 				temp_f = celcius2fahrenheit(temp);
 				sprintf(temp_s, "%d", temp_f);
 				autoadjust_table_strncpy(table, row++, 2,
-					temp_s);
+							 temp_s);
 			}
 		} else {
 			autoadjust_table_strncpy(table, row, 1, "NA");
@@ -667,14 +696,12 @@ static int _temp_sensor_show(FILE *stream, const char *sensor, const char hw)
 	return autoadjust_table_fprint(stream, table, row, 3);
 }
 
-
-int temp_sensor_show(FILE *stream, const char *sensor)
+int temp_sensor_show(FILE * stream, const char *sensor)
 {
 	return _temp_sensor_show(stream, sensor, 0);
 }
 
-
-int hwtemp_sensor_show(FILE *stream, const char *sensor)
+int hwtemp_sensor_show(FILE * stream, const char *sensor)
 {
 	return _temp_sensor_show(stream, sensor, 1);
 }

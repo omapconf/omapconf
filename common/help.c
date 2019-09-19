@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <help.h>
 #include <help44xx.h>
 #include <lib.h>
@@ -51,7 +50,6 @@
 #include <help_dra7xx.h>
 #include <stdio.h>
 #include <cpuinfo.h>
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		err_arg_too_many_msg_show
@@ -67,17 +65,16 @@ int err_arg_too_many_msg_show(help_category cat)
 {
 	if (cat != HELP_CATEGORY_MAX) {
 		printf("\nomapconf: too many option(s). "
-			"See supported ones below.\n\n");
+		       "See supported ones below.\n\n");
 		help(cat);
 		printf("\n");
 	} else {
 		printf("\nomapconf: too many option(s). "
-			"See 'omapconf --help' for more information.\n\n");
+		       "See 'omapconf --help' for more information.\n\n");
 	}
 
 	return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		err_arg_missing_msg_show
@@ -93,17 +90,16 @@ int err_arg_missing_msg_show(help_category cat)
 {
 	if (cat != HELP_CATEGORY_MAX) {
 		printf("\nomapconf: missing option(s). "
-			"See supported ones below.\n\n");
+		       "See supported ones below.\n\n");
 		help(cat);
 		printf("\n");
 	} else {
 		printf("\nomapconf: missing option(s). "
-			"See 'omapconf --help' for more information.\n\n");
+		       "See 'omapconf --help' for more information.\n\n");
 	}
 
 	return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		err_arg_msg_show
@@ -119,17 +115,16 @@ int err_arg_msg_show(help_category cat)
 {
 	if (cat != HELP_CATEGORY_MAX) {
 		printf("\nomapconf: incorrect option(s). "
-			"See supported ones below.\n\n");
+		       "See supported ones below.\n\n");
 		help(cat);
 		printf("\n");
 	} else {
 		printf("\nomapconf: incorrect option(s). "
-			"See 'omapconf --help' for more information.\n\n");
+		       "See 'omapconf --help' for more information.\n\n");
 	}
 
 	return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		err_internal_msg_show
@@ -144,7 +139,6 @@ int err_internal_msg_show(void)
 	return OMAPCONF_ERR_INTERNAL;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		err_unknown_argument_msg_show
  * @BRIEF		print standard "unknown argument, see help" message.
@@ -155,11 +149,10 @@ int err_internal_msg_show(void)
 int err_unknown_argument_msg_show(char *s)
 {
 	printf("\nomapconf: '%s' is not a valid omapconf argument. "
-		"See 'omapconf --help'.\n\n", s);
+	       "See 'omapconf --help'.\n\n", s);
 
 	return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		help
@@ -182,26 +175,26 @@ void help(help_category cat)
 
 		printf("\nSYNOPSIS\n");
 		printf("\tomapconf [--version] [--help] [--cpuinfo] "
-			"[--buildinfo] [--import <file>] [--force <cpu>] "
-			"[--norw] <command> [<args>]\n");
+		       "[--buildinfo] [--import <file>] [--force <cpu>] "
+		       "[--norw] <command> [<args>]\n");
 		if (cat == HELP_USAGE)
 			printf("\n\tSee 'omapconf --help' for more "
-			"information.\n\n");
+			       "information.\n\n");
 	}
 
 	if (cat == HELP_ALL) {
 		printf("\nDESCRIPTION\n");
 		printf("\tomaconf is standalone application designed to provide"
-			" a quick'n easy way to diagnose/monitor/debug/audit "
-			"TI OMAP processors configuration at runtime, with no "
-			"particular kernel dependency.\n");
+		       " a quick'n easy way to diagnose/monitor/debug/audit "
+		       "TI OMAP processors configuration at runtime, with no "
+		       "particular kernel dependency.\n");
 		printf("\tomapconf is designed to be as much platform-agnostic "
-			"as possible, being able to run on any Linux platform ("
-			"Ubuntu, Android, ...) and easily ported to "
-			"other OS.\n");
+		       "as possible, being able to run on any Linux platform ("
+		       "Ubuntu, Android, ...) and easily ported to "
+		       "other OS.\n");
 		printf("\tEven if omapconf today focuses mainly on "
-			"power management and performances diagnostic, it is "
-			"intended to be extended to any other area.\n");
+		       "power management and performances diagnostic, it is "
+		       "intended to be extended to any other area.\n");
 
 		printf("\nOPTIONS\n");
 		printf("\t--help\n");
@@ -211,43 +204,41 @@ void help(help_category cat)
 		printf("\t    Print omapconf version.\n");
 
 		printf("\n\t--cpuinfo\n");
-		printf(
-			"\t    Print CPU details (revision, type, DIE ID, ...).\n");
+		printf
+		    ("\t    Print CPU details (revision, type, DIE ID, ...).\n");
 
 		printf("\n\t--buildinfo\n");
 		printf("\t    Print SW Build Details (kernel, release).\n");
 
 		printf("\n\t--import <file> (### OMAP5 ONLY ###)\n");
 		printf("\t    Import OMAP registers content from XML <file> "
-			"(generated with command \"export <file>\").\n");
+		       "(generated with command \"export <file>\").\n");
 		printf("\t    Must be used in conjunction with option "
-			"\"--force\".\n");
+		       "\"--force\".\n");
 
 		printf("\n\t--norw\n");
 		printf("\t    Fake memory access (no real R/W done): write "
-			"accesses are discarded, read accesses return physical "
-			"address.\n");
+		       "accesses are discarded, read accesses return physical "
+		       "address.\n");
 
 		printf("\n\t--trace_read\n");
-		printf(
-			"\t    Enable console tracing of all omapconf memory read access.\n");
+		printf
+		    ("\t    Enable console tracing of all omapconf memory read access.\n");
 
 		printf("\n\t--trace_write\n");
-		printf(
-			"\t    Enable console tracing of all omapconf memory write access.\n");
+		printf
+		    ("\t    Enable console tracing of all omapconf memory write access.\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_FORCEDETECT)) {
 		printf("\n\t--force <cpu>\n");
 		printf("\t    Force CPU detection.\n");
-		printf(
-			"\t    Supported supported <cpu>: "
-			"omap4430, omap4460, omap4470, "
-			"omap5430es1, omap5432es1, omap5430, omap5432, "
-			"dra76x, dra75x, dra72x, "
-			"am3352, am3354, am3356, am3357, am3358, am3359, am335x, "
-			"am437x "
-			"\n");
+		printf("\t    Supported supported <cpu>: "
+		       "omap4430, omap4460, omap4470, "
+		       "omap5430es1, omap5432es1, omap5430, omap5432, "
+		       "dra76x, dra75x, dra72x, "
+		       "am3352, am3354, am3356, am3357, am3358, am3359, am335x, "
+		       "am437x " "\n");
 
 	}
 
@@ -256,76 +247,73 @@ void help(help_category cat)
 
 	if ((cat == HELP_ALL) || (cat == HELP_RW)) {
 		printf("\n\t### WARNING ###: use the following [read | write | "
-			"set bit | clear bit | dump] commands at your own "
-			"risk!\n");
+		       "set bit | clear bit | dump] commands at your own "
+		       "risk!\n");
 		printf("\tNo address check done, may generate:\n");
 		printf("\t  - bus error (invalid or not accessible "
-			"<physical address>,\n");
+		       "<physical address>,\n");
 		printf("\t  - platform crash/hang (bad <value>).\n");
 
 		printf("\n\tomapconf read [0x<physical address> | <name>]\n");
 		printf("\t    Read any OMAP memory address (register), given "
-			"its <physical address> or <name> as listed in TRM.\n");
+		       "its <physical address> or <name> as listed in TRM.\n");
 		printf("\t    e.g: omapconf read 0x4A306300, omapconf read "
-			"PM_MPU_PWRSTCTRL\n");
+		       "PM_MPU_PWRSTCTRL\n");
 
 		printf("\n\tomapconf write [0x<physical address> | <name>] "
-			"0x<value>\n");
+		       "0x<value>\n");
 		printf("\t    Write <value> at any OMAP memory address "
-			"(register), given its <physical address> or <name> as "
-			"listed in TRM.\n");
+		       "(register), given its <physical address> or <name> as "
+		       "listed in TRM.\n");
 		printf("\t    e.g: omapconf write 0x4A306300 0xDEADBEEF, "
-			"omapconf write PM_MPU_PWRSTCTRL 0xDEADBEEF\n");
+		       "omapconf write PM_MPU_PWRSTCTRL 0xDEADBEEF\n");
 
 		printf("\n\tomapconf set bit [0x<physical address> | <name>] "
-			"<position>"
-			"\n");
+		       "<position>" "\n");
 		printf("\t    Set bit at <position> into any OMAP memory "
-			"address (register), given its <physical address> "
-			"or <name> as listed in TRM.\n");
+		       "address (register), given its <physical address> "
+		       "or <name> as listed in TRM.\n");
 		printf("\t    e.g: omapconf set bit 0x4A306300 1, "
-			"omapconf set bit PM_MPU_PWRSTCTRL 1\n");
+		       "omapconf set bit PM_MPU_PWRSTCTRL 1\n");
 
 		printf("\n\tomapconf clear bit [0x<physical address> | <name>] "
-			"<position>\n");
+		       "<position>\n");
 		printf("\t    Clear bit at <position> into any OMAP memory "
-			"address (register), given its <physical address> "
-			"or <name> as listed in TRM.\n");
+		       "address (register), given its <physical address> "
+		       "or <name> as listed in TRM.\n");
 		printf("\t    e.g: omapconf clear bit 0x4A306300 1, "
-			"omapconf clear bit PM_MPU_PWRSTCTRL 1\n");
+		       "omapconf clear bit PM_MPU_PWRSTCTRL 1\n");
 
 		printf("\n\tomapconf dump 0x<start address> 0x<end address>\n");
 		printf("\t    Dump a range of OMAP memory addresses, from "
-			"<start address> to <end address>.\n");
+		       "<start address> to <end address>.\n");
 		printf("\t    Note all addresses within given range must be "
-			"valid and accessible.\n");
+		       "valid and accessible.\n");
 		printf("\t    e.g: omapconf dump 0x48243400 0x4824340C\n");
 	}
 
-
 	if ((cat == HELP_ALL) || (cat == HELP_RW) || (cat == HELP_I2C_RW)) {
 		printf("\n\t### WARNING ###: use the following I2C "
-			"[read | write] commands at your own risk!\n");
+		       "[read | write] commands at your own risk!\n");
 		printf("\tNo address check done, may generate:\n");
 		printf("\t  - I2C bus error (invalid or not accessible "
-			"<physical address>,\n");
+		       "<physical address>,\n");
 		printf("\t  - platform crash/hang (bad <value>).\n");
-
 
 		printf("\n\tomapconf read i2c <bus> 0x<chip-addr> 0x<addr>\n");
 		printf("\t    Read I2C register at address <addr> from I2C chip"
-			" at <chip-addr> on I2C <bus>.\n");
+		       " at <chip-addr> on I2C <bus>.\n");
 		printf("\t    e.g: omapconf i2c read 1 0x49 0x02\n");
 
 		printf("\n\tomapconf write i2c <bus> 0x<chip-addr> 0x<addr> "
-			"0x<value>\n");
+		       "0x<value>\n");
 		printf("\t    Write <value> in I2C register at address <addr> "
-			"from I2C chip at <chip-addr> on I2C <bus>.\n");
+		       "from I2C chip at <chip-addr> on I2C <bus>.\n");
 		printf("\t    e.g: omapconf i2c write 1 0x49 0x02 0xAA\n");
 	}
 
 	if ((cat == HELP_RW) || (cat == HELP_I2C_RW) ||
-		(cat == HELP_FORCEDETECT))
+	    (cat == HELP_FORCEDETECT))
 		goto help_end;
 
 	/* OMAP4-specific commands */
@@ -349,27 +337,27 @@ void help(help_category cat)
 	if (cat == HELP_ALL) {
 		printf("\nREPORTING BUGS\n");
 		printf("\tReport bugs to <omapconf_bugreport@list.ti.com> "
-			"mailing-list.\n");
+		       "mailing-list.\n");
 		printf("\tYou do not have to be subsribed to the list to send "
-			"a message there.\n");
+		       "a message there.\n");
 
 		printf("\nSUGGESTIONS\n");
 		printf("\tSuggest any new idea to "
-			"<omapconf_suggestions@list.ti.com> mailing-list.\n");
+		       "<omapconf_suggestions@list.ti.com> mailing-list.\n");
 		printf("\tYou do not have to be subsribed to the list to send "
-			"a message there.\n");
+		       "a message there.\n");
 
 		printf("\nCONTRIBUTIONS\n");
 		printf("\tSend patch to <omapconf_contribution@list.ti.com> "
-			"mailing-list.\n");
+		       "mailing-list.\n");
 		printf("\tYou do not have to be subsribed to the list to send "
-			"a message there.\n");
+		       "a message there.\n");
 
 		printf("\nNOTIFICATIONS\n");
 		printf("\tSubscribe to <omapconf_updates@list.ti.com> "
-			"mailing-list for automatic update notification.\n");
+		       "mailing-list for automatic update notification.\n");
 		printf("\tYou do not have to be subsribed to the list to send "
-			"a message there.\n");
+		       "a message there.\n");
 
 		printf("\nFURTHER DOCUMENTATION\n");
 		printf("\tVisit omapconf wiki:\n");

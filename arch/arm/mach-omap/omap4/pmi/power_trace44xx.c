@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <power_trace44xx.h>
 #include <pmi44xx.h>
 #include <pmi44xx_pwrdm.h>
@@ -61,13 +60,11 @@
 #include <counters44xx.h>
 #include <sci_swcapture.h>
 
-
 static char etb_raw_trace_file[64] = "etb_trace.txt";
 static char pmi_pwrdm_events_trace_file[64] = "pmi_pwrdm_events_trace.log";
 static char pwrdm_transitions_file[64] = "pwrdm_transitions.csv";
 static char pwrdm_transitions_stats_file[64] = "pwrdm_transitions_stats.txt";
 static char pmi44xx_voltdm_trace_file[64] = "voltage_transitions_trace.log";
-
 
 /* #define POWER_TRACE44XX_DEBUG */
 #ifdef POWER_TRACE44XX_DEBUG
@@ -76,15 +73,13 @@ static char pmi44xx_voltdm_trace_file[64] = "voltage_transitions_trace.log";
 #define dprintf(format, ...)
 #endif
 
-
 typedef struct {
 	unsigned int count;
-	double total; /* in microseconds */
-	double min; /* in microseconds */
-	double max; /* in microseconds */
-	double avg; /* in microseconds */
+	double total;		/* in microseconds */
+	double min;		/* in microseconds */
+	double max;		/* in microseconds */
+	double avg;		/* in microseconds */
 } time_stats;
-
 
 /* #define PWRDM_TRANSITIONS_STATS_PROCESS_DEBUG */
 #ifdef PWRDM_TRANSITIONS_STATS_PROCESS_DEBUG
@@ -103,16 +98,17 @@ typedef struct {
  * @DESCRIPTION		process power domain transitions statistics
  *------------------------------------------------------------------------ */
 int pwrdm_transitions_stats_process(pwrdm_transitions transitions,
-	double duration,
-	time_stats stats[OMAP4_PMI_PWRDM_MAX][PWRDM_STATE_MAX])
+				    double duration,
+				    time_stats
+				    stats[OMAP4_PMI_PWRDM_MAX][PWRDM_STATE_MAX])
 {
 	unsigned int dom, st;
 	pwrdm_transition tr;
 	int count, evt;
 	char *name;
-	#ifdef PWRDM_TRANSITIONS_STATS_PROCESS_DEBUG
+#ifdef PWRDM_TRANSITIONS_STATS_PROCESS_DEBUG
 	char s[6];
-	#endif
+#endif
 
 	CHECK_NULL_ARG(transitions, OMAPCONF_ERR_ARG);
 	CHECK_NULL_ARG(stats, OMAPCONF_ERR_ARG);
@@ -134,15 +130,15 @@ int pwrdm_transitions_stats_process(pwrdm_transitions transitions,
 
 	for (dom = 0; dom < OMAP4_PMI_PWRDM_MAX; dom++) {
 		if (dom < OMAP4_PMI_LOGIC_PWRDM_MAX)
-			name = (char *) omap4_pmi_logic_pwrdm_names_table[dom];
+			name = (char *)omap4_pmi_logic_pwrdm_names_table[dom];
 		else
-			name = (char *) omap4_pmi_mem_pwrdm_names_table[dom -
-				OMAP4_PMI_LOGIC_PWRDM_MAX];
+			name = (char *)omap4_pmi_mem_pwrdm_names_table[dom -
+								       OMAP4_PMI_LOGIC_PWRDM_MAX];
 
 		dprintf("\n-------- %s --------\n", name);
 		if (genlist_isempty(&(transitions[dom])) == 1) {
 			printf("List %d (%s) should not be empty!!!\n",
-				dom , name);
+			       dom, name);
 			return OMAPCONF_ERR_UNEXPECTED;
 		}
 
@@ -150,11 +146,11 @@ int pwrdm_transitions_stats_process(pwrdm_transitions transitions,
 		count = genlist_getcount(&(transitions[dom]));
 		for (evt = 0; evt < count; evt++) {
 			genlist_get(&(transitions[dom]), evt, &tr);
-			#ifdef PWRDM_TRANSITIONS_STATS_PROCESS_DEBUG
+#ifdef PWRDM_TRANSITIONS_STATS_PROCESS_DEBUG
 			pwrdm_state2string(s, tr.state);
 			dprintf("\tState = %s (%d) during %lfus\n",
 				s, tr.state, tr.ts);
-			#endif
+#endif
 
 			/* Update time counters accordingly */
 			stats[dom][tr.state].count++;
@@ -166,19 +162,19 @@ int pwrdm_transitions_stats_process(pwrdm_transitions transitions,
 			if (stats[dom][tr.state].count == 1)
 				stats[dom][tr.state].avg = tr.ts;
 			else
-				stats[dom][tr.state].avg = avg_recalc(
-				stats[dom][tr.state].avg,
-				tr.ts, stats[dom][tr.state].count - 1);
+				stats[dom][tr.state].avg =
+				    avg_recalc(stats[dom][tr.state].avg, tr.ts,
+					       stats[dom][tr.state].count - 1);
 		}
 	}
 
 	return 0;
 }
+
 #ifdef PWRDM_TRANSITIONS_STATS_PROCESS_DEBUG
 #undef dprintf
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_transitions_stats_format
@@ -192,11 +188,13 @@ int pwrdm_transitions_stats_process(pwrdm_transitions transitions,
  * @param[in, out]	col: table column number
  * @DESCRIPTION		format transitions statistics into table
  *------------------------------------------------------------------------ */
-int pwrdm_transitions_stats_format(
-	time_stats stats[OMAP4_PMI_PWRDM_MAX][PWRDM_STATE_MAX],
-	double duration,
-	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
-	unsigned int *row, unsigned int *col)
+int pwrdm_transitions_stats_format(time_stats
+				   stats[OMAP4_PMI_PWRDM_MAX][PWRDM_STATE_MAX],
+				   double duration,
+				   char
+				   table[TABLE_MAX_ROW][TABLE_MAX_COL]
+				   [TABLE_MAX_ELT_LEN], unsigned int *row,
+				   unsigned int *col)
 {
 	unsigned int i, dom, st;
 	char *name;
@@ -213,7 +211,7 @@ int pwrdm_transitions_stats_format(
 	autoadjust_table_init(table);
 	*row = 0;
 	snprintf(table[*row][0], TABLE_MAX_ELT_LEN,
-		"Trace Duration: %.3lfus", duration);
+		 "Trace Duration: %.3lfus", duration);
 	strncpy(table[*row][1], "Time in OFF State", TABLE_MAX_ELT_LEN);
 	strncpy(table[*row][2], "Time in RET State", TABLE_MAX_ELT_LEN);
 	strncpy(table[*row][3], "Time in INACT State", TABLE_MAX_ELT_LEN);
@@ -229,19 +227,19 @@ int pwrdm_transitions_stats_format(
 		 * => Skip these domains ...
 		 */
 		if (((sorted_domain_class[i] == PMI_PWRDM_CLASS_LOGIC) &&
-				(dom == OMAP4_PMI_LOGIC_PWRDM_A9_C1)) ||
-			((sorted_domain_class[i] == PMI_PWRDM_CLASS_LOGIC) &&
-				(dom == OMAP4_PMI_LOGIC_PWRDM_A9_C0)) ||
-			((sorted_domain_class[i] == PMI_PWRDM_CLASS_MEM) &&
-				(dom == OMAP4_PMI_MEM_PWRDM_MPU_M1)) ||
-			((sorted_domain_class[i] == PMI_PWRDM_CLASS_MEM) &&
-				(dom == OMAP4_PMI_MEM_PWRDM_MPU_M0)))
+		     (dom == OMAP4_PMI_LOGIC_PWRDM_A9_C1)) ||
+		    ((sorted_domain_class[i] == PMI_PWRDM_CLASS_LOGIC) &&
+		     (dom == OMAP4_PMI_LOGIC_PWRDM_A9_C0)) ||
+		    ((sorted_domain_class[i] == PMI_PWRDM_CLASS_MEM) &&
+		     (dom == OMAP4_PMI_MEM_PWRDM_MPU_M1)) ||
+		    ((sorted_domain_class[i] == PMI_PWRDM_CLASS_MEM) &&
+		     (dom == OMAP4_PMI_MEM_PWRDM_MPU_M0)))
 			continue;
 
 		if (sorted_domain_class[i] == PMI_PWRDM_CLASS_LOGIC) {
-			name = (char *) omap4_pmi_logic_pwrdm_names_table[dom];
+			name = (char *)omap4_pmi_logic_pwrdm_names_table[dom];
 		} else {
-			name = (char *) omap4_pmi_mem_pwrdm_names_table[dom];
+			name = (char *)omap4_pmi_mem_pwrdm_names_table[dom];
 			dom += OMAP4_PMI_LOGIC_PWRDM_MAX;
 		}
 
@@ -262,20 +260,20 @@ int pwrdm_transitions_stats_format(
 			if (stats[dom][st].count == 0)
 				continue;
 			snprintf(table[*row][st + 1],
-				TABLE_MAX_ELT_LEN, "%d", stats[dom][st].count);
+				 TABLE_MAX_ELT_LEN, "%d", stats[dom][st].count);
 			snprintf(table[*row + 1][st + 1],
-				TABLE_MAX_ELT_LEN, "%.3lfus (%.2lf%%)",
-				stats[dom][st].total,
-				((stats[dom][st].total / duration) * 100.0));
+				 TABLE_MAX_ELT_LEN, "%.3lfus (%.2lf%%)",
+				 stats[dom][st].total,
+				 ((stats[dom][st].total / duration) * 100.0));
 			snprintf(table[*row + 2][st + 1],
-				TABLE_MAX_ELT_LEN, "%.3lfus",
-				stats[dom][st].min);
+				 TABLE_MAX_ELT_LEN, "%.3lfus",
+				 stats[dom][st].min);
 			snprintf(table[*row + 3][st + 1],
-				TABLE_MAX_ELT_LEN, "%.3lfus",
-				stats[dom][st].max);
+				 TABLE_MAX_ELT_LEN, "%.3lfus",
+				 stats[dom][st].max);
 			snprintf(table[*row + 4][st + 1],
-				TABLE_MAX_ELT_LEN, "%.3lfus",
-				stats[dom][st].avg);
+				 TABLE_MAX_ELT_LEN, "%.3lfus",
+				 stats[dom][st].avg);
 		}
 		(*row) += 6;
 	}
@@ -283,7 +281,6 @@ int pwrdm_transitions_stats_format(
 	*col = 5;
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_transitions_stats_save
@@ -299,8 +296,10 @@ int pwrdm_transitions_stats_format(
  * @DESCRIPTION		save power domain transitions stats into file
  *------------------------------------------------------------------------ */
 int pwrdm_transitions_stats_save(char *filename,
-	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
-	unsigned int row, unsigned int col)
+				 char
+				 table[TABLE_MAX_ROW][TABLE_MAX_COL]
+				 [TABLE_MAX_ELT_LEN], unsigned int row,
+				 unsigned int col)
 {
 	FILE *fp = NULL;
 	int ret;
@@ -310,9 +309,9 @@ int pwrdm_transitions_stats_save(char *filename,
 
 	fp = fopen(filename, "w");
 	if (fp == NULL) {
-		printf(
-			"pwrdm_transitions_stats_save() error: could not open %s!\n",
-			filename);
+		printf
+		    ("pwrdm_transitions_stats_save() error: could not open %s!\n",
+		     filename);
 		return OMAPCONF_ERR_UNEXPECTED;
 	}
 	fprintf(fp,
@@ -325,7 +324,6 @@ int pwrdm_transitions_stats_save(char *filename,
 
 	return ret;
 }
-
 
 /* #define TRACE44XX_PWRDM_DEBUG */
 #ifdef TRACE44XX_PWRDM_DEBUG
@@ -364,7 +362,7 @@ int trace44xx_pwrdm(unsigned int duration)
 			__func__, ret);
 #ifndef SKIP_PMI_PWRDM_CAPTURE
 	ret = pmi44xx_trace_capture(PMI_EVENT_PWRDM_TRANSITION, duration,
-		OMAP44XX_UART_TIMEOUT, etb_raw_trace_file);
+				    OMAP44XX_UART_TIMEOUT, etb_raw_trace_file);
 	if (ret <= 0)
 		return ret;
 #endif
@@ -373,16 +371,17 @@ int trace44xx_pwrdm(unsigned int duration)
 	printf("Trace collected, processing it ...\n");
 	/* Decode STP PMI Trace */
 	ret = pmi44xx_trace_decode(etb_raw_trace_file, 1,
-		pmi_pwrdm_events_trace_file, &trace_duration, vddcore_opp);
+				   pmi_pwrdm_events_trace_file, &trace_duration,
+				   vddcore_opp);
 	if (ret <= 0) {
 		switch (ret) {
 		case 0:
-			printf(
-				"No power transition happened during capture, is power management really enabled?!\n\n");
+			printf
+			    ("No power transition happened during capture, is power management really enabled?!\n\n");
 			return 0;
 		case OMAPCONF_ERR_TRUNCATED:
-			printf(
-				"Warning: ETB buffer overflow detected, trace truncated.\n");
+			printf
+			    ("Warning: ETB buffer overflow detected, trace truncated.\n");
 			break;
 		case OMAPCONF_ERR_CORRUPTED:
 			printf("Error: trace got corrupted!\n\n");
@@ -407,49 +406,45 @@ int trace44xx_pwrdm(unsigned int duration)
 	}
 	dprintf("%d PM events extracted from trace.\n", ret);
 
-
 	/* Extract individual power domain transitions from pm events */
 	ret = pmi_pwrdm_transitions_find(&pm_events, trace_duration,
-		transitions);
+					 transitions);
 	genlist_free(&pm_events);
 	if (ret == 0) {
 		printf("No power domain transition found in PMI trace!\n\n");
 		return 0;
 	} else if (ret < 0) {
-		printf(
-			"Unexpected error during power domain transition extraction!\n\n");
+		printf
+		    ("Unexpected error during power domain transition extraction!\n\n");
 		return OMAPCONF_ERR_UNEXPECTED;
 	}
 	printf("%d power domain transitions found in trace.\n", ret);
 
-
 	/* Save transitions into file */
 	ret = pmi_pwrdm_transitions_save(pwrdm_transitions_file,
-		transitions, trace_duration);
+					 transitions, trace_duration);
 	if (ret < 0) {
 		printf("Unexpected error while saving pwrdm transitions!\n\n");
 		return OMAPCONF_ERR_UNEXPECTED;
 	}
 	dprintf("PMI pwrdm transitions saved.\n");
 
-
 	/* Compute transition statistics */
 	ret = pwrdm_transitions_stats_process(transitions, trace_duration,
-		stats);
+					      stats);
 	if (ret < 0) {
-		printf(
-			"Unexpected error while processing pwrdm transitions!\n\n");
+		printf
+		    ("Unexpected error while processing pwrdm transitions!\n\n");
 		return OMAPCONF_ERR_UNEXPECTED;
 	}
 	dprintf("PMI pwrdm transitions processed.\n");
 
-
 	/* Format transition statistics */
 	ret = pwrdm_transitions_stats_format(stats, trace_duration,
-		table, &row, &col);
+					     table, &row, &col);
 	if (ret < 0) {
-		printf(
-			"Unexpected error while formatting power transitions stats!\n\n");
+		printf
+		    ("Unexpected error while formatting power transitions stats!\n\n");
 		return OMAPCONF_ERR_UNEXPECTED;
 	}
 	dprintf("Power transitions formatted.\n");
@@ -457,10 +452,10 @@ int trace44xx_pwrdm(unsigned int duration)
 
 	/* Save transition statistics into file */
 	ret = pwrdm_transitions_stats_save(pwrdm_transitions_stats_file,
-		table, row, col);
+					   table, row, col);
 	if (ret < 0) {
-		printf(
-			"Unexpected error while saving power transitions stats!\n\n");
+		printf
+		    ("Unexpected error while saving power transitions stats!\n\n");
 		return OMAPCONF_ERR_UNEXPECTED;
 	}
 	printf("Low-Power modes usage statistics saved into files.\n");
@@ -469,25 +464,25 @@ int trace44xx_pwrdm(unsigned int duration)
 		genlist_free(&(transitions[dom]));
 
 	printf("\nPlease refer to file:\n");
-	#ifdef TRACE44XX_PWRDM_DEBUG
+#ifdef TRACE44XX_PWRDM_DEBUG
 	printf("  \"%s\" for RAW ETB trace.\n", etb_raw_trace_file);
 	printf("  \"%s\" for PMI power domain events trace decoding log.\n",
-		pmi_pwrdm_events_trace_file);
-	#endif
+	       pmi_pwrdm_events_trace_file);
+#endif
 	printf("  \"%s\" for power domains transitions trace in CSV format.\n",
-		pwrdm_transitions_file);
+	       pwrdm_transitions_file);
 	printf("  \"%s\" for power domains transitions statistics\n",
-		pwrdm_transitions_stats_file);
+	       pwrdm_transitions_stats_file);
 	printf("    (i.e. min/max/avg/total/count).\n\n");
 #endif
 	return 0;
 
 }
+
 #ifdef TRACE44XX_PWRDM_DEBUG
 #undef dprintf
 #define dprintf(format, ...)
 #endif
-
 
 /* #define TRACE44XX_OPP_DEBUG */
 #ifdef TRACE44XX_OPP_DEBUG
@@ -528,7 +523,7 @@ int trace44xx_opp(unsigned int capture_time)
 			__func__, ret);
 #ifndef SKIP_PMI_OPP_CAPTURE
 	ret = pmi44xx_trace_capture(PMI_EVENT_VOLTDM_OPP_CHANGE, capture_time,
-		0, etb_raw_trace_file);
+				    0, etb_raw_trace_file);
 	if (ret <= 0)
 		return ret;
 #endif
@@ -537,16 +532,17 @@ int trace44xx_opp(unsigned int capture_time)
 	printf("Trace collected, processing it ...\n");
 	/* Decode STP PMI Trace */
 	ret = pmi44xx_trace_decode(etb_raw_trace_file, 1,
-		pmi44xx_voltdm_trace_file, &trace_duration, vddcore_opp);
+				   pmi44xx_voltdm_trace_file, &trace_duration,
+				   vddcore_opp);
 	if (ret <= 0) {
 		switch (ret) {
 		case 0:
-			printf(
-				"Empty trace. No voltage transition happened during capture?!\n\n");
+			printf
+			    ("Empty trace. No voltage transition happened during capture?!\n\n");
 			return 0;
 		case OMAPCONF_ERR_TRUNCATED:
-			printf(
-				"Warning: ETB buffer overflow detected, trace truncated.\n");
+			printf
+			    ("Warning: ETB buffer overflow detected, trace truncated.\n");
 			break;
 		case OMAPCONF_ERR_CORRUPTED:
 			printf("Error: trace got corrupted!\n\n");
@@ -562,7 +558,7 @@ int trace44xx_opp(unsigned int capture_time)
 
 	/* Extract events from trace */
 	ret = pmi44xx_voltdm_transitions_extract(pmi44xx_voltdm_trace_file,
-		&transitions);
+						 &transitions);
 	if (ret == 0) {
 		printf("No voltage transition event found.\n\n");
 		return 0;
@@ -576,14 +572,15 @@ int trace44xx_opp(unsigned int capture_time)
 	ret = pmi44xx_voltdm_transitions_save(&transitions, trace_duration);
 	genlist_free(&transitions);
 	if (ret < 0) {
-		printf(
-			"Unexpected error while saving voltage transitions!\n\n");
+		printf
+		    ("Unexpected error while saving voltage transitions!\n\n");
 		return OMAPCONF_ERR_UNEXPECTED;
 	}
 #endif
 
 	return 0;
 }
+
 #ifdef TRACE44XX_OPP_DEBUG
 #undef dprintf
 #define dprintf(format, ...)

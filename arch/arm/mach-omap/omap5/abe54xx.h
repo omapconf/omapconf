@@ -41,15 +41,11 @@
  *
  */
 
-
 #ifndef __ABE54XX_H__
 #define __ABE54XX_H__
 
-
 #include <stdio.h>
 
-
-int abe54xx_atc_status_show(FILE *stream);
-
+int abe54xx_atc_status_show(FILE * stream);
 
 #endif

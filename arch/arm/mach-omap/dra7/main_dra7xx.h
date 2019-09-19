@@ -41,12 +41,9 @@
  *
  */
 
-
 #ifndef __MAIN_DRA7XX_H__
 #define __MAIN_DRA7XX_H__
 
-
 int main_dra7xx(int argc, char *argv[]);
-
 
 #endif

@@ -41,15 +41,12 @@
  *
  */
 
-
 #ifndef __DPLL_AM335X_DEFS_H__
 #define __DPLL_AM335X_DEFS_H__
-
 
 #include <dpll.h>
 
 #define AM335X_PLL_CLKINPULOW_CTRL				0x44E10458
-
 
 typedef enum {
 	HSDIV_AM335X_M4,
@@ -57,7 +54,6 @@ typedef enum {
 	HSDIV_AM335X_M6,
 	HSDIV_AM335X_ID_MAX
 } hsdiv_am335x_id;
-
 
 typedef enum {
 	DPLL_AM335X_PER,
@@ -68,7 +64,6 @@ typedef enum {
 	DPLL_AM335X_ID_MAX
 } dpll_am335x_id;
 
-
 typedef struct {
 	hsdiv_am335x_id id;
 	unsigned short present;	/* 0 if no CM_DIV_M(4-6)_xyz, 1 otherwise */
@@ -77,14 +72,12 @@ typedef struct {
 	double rate;		/* CLKOUT rate in MHz */
 } hsdiv_am335x_settings;
 
-
 typedef struct {
 	dpll_settings dpll;
 	dpll_status status;
 	int byp_clk_sel;
 	hsdiv_am335x_settings hsdiv[HSDIV_AM335X_ID_MAX];
 } dpll_am335x_settings;
-
 
 typedef enum {
 	DPLL_AM335X_CLKOUT,
@@ -96,6 +89,5 @@ typedef enum {
 	DPLL_AM335X_CORE_CLKOUT_M6,
 	DPLL_AM335X_OUTPUT_ID_MAX
 } dpll_am335x_output_id;
-
 
 #endif

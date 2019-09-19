@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __HWOBS54XX_H__
 #define __HWOBS54XX_H__
 
-
 #include <hwobs44xx.h>
 #include <prcm-common.h>
-
 
 #define HWOBS54XX_SIG_MAX_NBR		32
 #define HWOBS54XX_PAD_MAX_NBR		16
@@ -61,7 +58,6 @@
 #define HWOBS54XX_MUX_NAME_LENGTH	10
 #define HWOBS54XX_PAD_FULL_CHECK	255
 
-
 int hwobs54xx_display_pads(pad_cell pad_reg_table[HWOBS54XX_PAD_MAX_NBR + 1]);
 int hwobs54xx_display_signals(void);
 int hwobs54xx_display_hwobs_ctrl_cfg(void);
@@ -72,10 +68,8 @@ int hwobs54xx_prcm_setup(char *pos_s, char *cat_s, char *num_s);
 int hwobs54xx_mpuss_setup(char *mode_s);
 int hwobs54xx_enable(void);
 
-
 /* DEPRECATED, DO NOT USE ANYMORE */
 int hwobs54xx_main(int argc, char *argv[]);
-
 
 typedef enum {
 	HWOBS54XX_WKUP_CTRL_SYS_PADS,
@@ -85,15 +79,16 @@ typedef enum {
 } hwobs54xx_padset_select_id;
 
 static const char hwobs54xx_padset_names
-	[HWOBS54XX_PADSET_SELECT_MAX_ID+1][HWOBS54XX_NAME_LENGTH] = {
+    [HWOBS54XX_PADSET_SELECT_MAX_ID + 1][HWOBS54XX_NAME_LENGTH] = {
 	"WKUP",
 	"CORE_C2C",
 	"CORE_PER",
-	"ALL"};
-
+	"ALL"
+};
 
 /* OMAP54XX_CTRL_MODULE_PADCONFS: HWOBS signal names */
-static const char hwobs54xx_signal_names[HWOBS54XX_SIG_MAX_NBR+1][HWOBS54XX_NAME_LENGTH] = {
+static const char hwobs54xx_signal_names[HWOBS54XX_SIG_MAX_NBR +
+					 1][HWOBS54XX_NAME_LENGTH] = {
 	"hw_wkdbg0",
 	"hw_wkdbg1",
 	"hw_wkdbg2",
@@ -126,37 +121,40 @@ static const char hwobs54xx_signal_names[HWOBS54XX_SIG_MAX_NBR+1][HWOBS54XX_NAME
 	"hw_dbg29",
 	"hw_dbg30",
 	"hw_dbg31",
-	"END"};
+	"END"
+};
 
 /* OMAP54XX_CONTROL_CORE_DEBOBS_FINAL_MUX_SEL: Names depending on bit values */
 static const char hwobs54xx_debobs_final_mux_sel_names
-	[HWOBS54XX_MUX_FINAL_MAX][HWOBS54XX_MUX_NAME_LENGTH] = {
+    [HWOBS54XX_MUX_FINAL_MAX][HWOBS54XX_MUX_NAME_LENGTH] = {
 	"WKUP",
 	"CORE",
-	"END"};
+	"END"
+};
 
 /* OMAP54XX_CONTROL_WKUP_CONF_DEBUG_SEL_TST_i: Names depending on bit values */
 static const char hwobs54xx_ctrl_wkup_conf_debug_sel_tst_names
-	[HWOBS54XX_MUX_WKUP_MAX][HWOBS54XX_MUX_NAME_LENGTH] = {
+    [HWOBS54XX_MUX_WKUP_MAX][HWOBS54XX_MUX_NAME_LENGTH] = {
 	"PRM",
 	"CM1",
-	"END"};
+	"END"
+};
 
 /* OMAP54XX_CONTROL_CORE_CONF_DEBUG_SEL_TST_i: Names depending on bit values */
 static const char hwobs54xx_ctrl_core_conf_debug_sel_tst_names
-	[HWOBS54XX_MUX_CORE_MAX][HWOBS54XX_MUX_NAME_LENGTH] = {
+    [HWOBS54XX_MUX_CORE_MAX][HWOBS54XX_MUX_NAME_LENGTH] = {
 	"MPUSS",
-	"Reserved", /* FIXME: some bits contain other debug signals */
+	"Reserved",		/* FIXME: some bits contain other debug signals */
 	"Reserved",
 	"ISS",
-	"Reserved", /* FIXME: some bits contain DSP, ISS & DMM debug signals */
+	"Reserved",		/* FIXME: some bits contain DSP, ISS & DMM debug signals */
 	"CM2",
 	"IVAHD",
 	"DSS",
 	"ABE",
 	"DSPSS",
 	"USB",
-	"Reserved", /* FIXME: some bits contain other debug signals */
+	"Reserved",		/* FIXME: some bits contain other debug signals */
 	"Reserved",
 	"Reserved",
 	"Reserved",
@@ -174,7 +172,8 @@ static const char hwobs54xx_ctrl_core_conf_debug_sel_tst_names
 	"Reserved",
 	"Reserved",
 	"Reserved",
-	"END"};
+	"END"
+};
 
 /* Used by CONTROL_HWOBS_CONTROL */
 #define OMAP5430_HWOBS_MACRO_ENABLE_SHIFT			0
@@ -203,6 +202,5 @@ static const char hwobs54xx_ctrl_core_conf_debug_sel_tst_names
 /* Used by CONTROL_HWOBS_CONTROL */
 #define OMAP5430_HWOBS_CLKDIV_SEL_2_SHIFT			14
 #define OMAP5430_HWOBS_CLKDIV_SEL_2_MASK			BITFIELD(14, 18)
-
 
 #endif

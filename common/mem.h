@@ -41,15 +41,12 @@
  *
  */
 
-
 #ifndef __MEM_H__
 #define __MEM_H__
 
-
-#define MEM_ERR_ARG			-1 /* incorrect argument(s) */
-#define MEM_ERR_ACCESS			-4 /* Memory R/W access failed */
-#define MEM_ERR_MAP			-5 /* memory could not be mapped */
-
+#define MEM_ERR_ARG			-1	/* incorrect argument(s) */
+#define MEM_ERR_ACCESS			-4	/* Memory R/W access failed */
+#define MEM_ERR_MAP			-5	/* memory could not be mapped */
 
 void mem_read_trace_enable(unsigned short enable);
 void mem_write_trace_enable(unsigned short enable);
@@ -68,8 +65,7 @@ unsigned int mem_last_addr_get(void);
 
 int mem_read(unsigned int reg_addr, unsigned int *reg_val);
 int mem_address_range_read(unsigned int reg_addr, unsigned int *mem_ptr,
-	unsigned int size);
+			   unsigned int size);
 int mem_write(unsigned int reg_addr, unsigned int reg_val);
-
 
 #endif

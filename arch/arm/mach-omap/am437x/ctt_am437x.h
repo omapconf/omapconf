@@ -42,14 +42,11 @@
  *
  */
 
-
 #ifndef __CTT_AM437X_H__
 #define __CTT_AM437X_H__
-
 
 int ctt_am437x_dump(void);
 int ctt_am437x_rd1_export(char *file);
 int ctt_am437x_main(int argc, char *argv[]);
-
 
 #endif

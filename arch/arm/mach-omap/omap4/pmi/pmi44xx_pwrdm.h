@@ -42,15 +42,12 @@
  *
  */
 
-
 #ifndef __PMI_PWRDM44XX_H__
 #define __PMI_PWRDM44XX_H__
-
 
 #include <pwrdm.h>
 #include <coresight44xx.h>
 #include <pmi44xx.h>
-
 
 typedef enum {
 	OMAP4_PMI_LOGIC_PWRDM_NA1 = 0,
@@ -113,61 +110,62 @@ typedef enum {
 #define OMAP4_PMI_PWRDM_NAME_MAX 21
 
 static const char
-	omap4_pmi_logic_pwrdm_names_table
-		[OMAP4_PMI_LOGIC_PWRDM_MAX][OMAP4_PMI_PWRDM_NAME_MAX] = {
-		"LOGIC_NA1",
-		"LOGIC_NA2",
-		"LOGIC_NA3",
-		"LOGIC_CEFUSE",
-		"LOGIC_L4PER",
-		"LOGIC_L3INT",
-		"LOGIC_GFX",
-		"LOGIC_DSS",
-		"LOGIC_CAM",
-		"LOGIC_IVAHD",
-		"LOGIC_CORE",
-		"LOGIC_ABE",
-		"LOGIC_DSP",
-		"LOGIC_A9_C1",
-		"LOGIC_A9_C0",
-		"LOGIC_MPU"};
+ omap4_pmi_logic_pwrdm_names_table
+    [OMAP4_PMI_LOGIC_PWRDM_MAX][OMAP4_PMI_PWRDM_NAME_MAX] = {
+	"LOGIC_NA1",
+	"LOGIC_NA2",
+	"LOGIC_NA3",
+	"LOGIC_CEFUSE",
+	"LOGIC_L4PER",
+	"LOGIC_L3INT",
+	"LOGIC_GFX",
+	"LOGIC_DSS",
+	"LOGIC_CAM",
+	"LOGIC_IVAHD",
+	"LOGIC_CORE",
+	"LOGIC_ABE",
+	"LOGIC_DSP",
+	"LOGIC_A9_C1",
+	"LOGIC_A9_C0",
+	"LOGIC_MPU"
+};
 
 static const char
-	omap4_pmi_mem_pwrdm_names_table
-		[OMAP4_PMI_MEM_PWRDM_MAX][OMAP4_PMI_PWRDM_NAME_MAX] = {
-		"MEM_NA1",
-		"MEM_NA2",
-		"MEM_NA3",
-		"MEM_NA4",
-		"MEM_NA5",
-		"MEM_NA6",
-		"MEM_NA7",
-		"MEM_L4_PER2",
-		"MEM_L4_PER1",
-		"MEM_L3_INIT_BANK1",
-		"MEM_GFX",
-		"MEM_DSS",
-		"MEM_CAM",
-		"MEM_IVAHD_TCM2",
-		"MEM_IVAHD_TCM1",
-		"MEM_IVAHD_SL2",
-		"MEM_IVAHD_HWA",
-		"MEM_CORE_OTHER_BANKS",
-		"MEM_MPU_M3_UNICACHE",
-		"MEM_MPU_M3_L2_RAM",
-		"MEM_OCM_RAM",
-		"MEM_CORE_NON_RET",
-		"MEM_AUDIO_PER",
-		"MEM_AUDIO_ENGINE",
-		"MEM_DSP_EDMA",
-		"MEM_DSP_L2",
-		"MEM_DSP_L1",
-		"MEM_MPU_M1",
-		"MEM_MPU_M0",
-		"MEM_MPU_RAM",
-		"MEM_MPU_L2",
-		"MEM_MPU_L1"};
-
+ omap4_pmi_mem_pwrdm_names_table
+    [OMAP4_PMI_MEM_PWRDM_MAX][OMAP4_PMI_PWRDM_NAME_MAX] = {
+	"MEM_NA1",
+	"MEM_NA2",
+	"MEM_NA3",
+	"MEM_NA4",
+	"MEM_NA5",
+	"MEM_NA6",
+	"MEM_NA7",
+	"MEM_L4_PER2",
+	"MEM_L4_PER1",
+	"MEM_L3_INIT_BANK1",
+	"MEM_GFX",
+	"MEM_DSS",
+	"MEM_CAM",
+	"MEM_IVAHD_TCM2",
+	"MEM_IVAHD_TCM1",
+	"MEM_IVAHD_SL2",
+	"MEM_IVAHD_HWA",
+	"MEM_CORE_OTHER_BANKS",
+	"MEM_MPU_M3_UNICACHE",
+	"MEM_MPU_M3_L2_RAM",
+	"MEM_OCM_RAM",
+	"MEM_CORE_NON_RET",
+	"MEM_AUDIO_PER",
+	"MEM_AUDIO_ENGINE",
+	"MEM_DSP_EDMA",
+	"MEM_DSP_L2",
+	"MEM_DSP_L1",
+	"MEM_MPU_M1",
+	"MEM_MPU_M0",
+	"MEM_MPU_RAM",
+	"MEM_MPU_L2",
+	"MEM_MPU_L1"
+};
 
 #define OMAP4_USED_PMI_PWRDMS	37
 
@@ -208,8 +206,8 @@ static const unsigned int sorted_domain_ids[OMAP4_USED_PMI_PWRDMS] = {
 	OMAP4_PMI_LOGIC_PWRDM_MPU,
 	OMAP4_PMI_MEM_PWRDM_MPU_RAM,
 	OMAP4_PMI_MEM_PWRDM_MPU_L2,
-	OMAP4_PMI_MEM_PWRDM_MPU_L1};
-
+	OMAP4_PMI_MEM_PWRDM_MPU_L1
+};
 
 static const unsigned int sorted_domain_class[OMAP4_USED_PMI_PWRDMS] = {
 	PMI_PWRDM_CLASS_LOGIC,
@@ -248,26 +246,22 @@ static const unsigned int sorted_domain_class[OMAP4_USED_PMI_PWRDMS] = {
 	PMI_PWRDM_CLASS_LOGIC,
 	PMI_PWRDM_CLASS_MEM,
 	PMI_PWRDM_CLASS_MEM,
-	PMI_PWRDM_CLASS_MEM};
-
+	PMI_PWRDM_CLASS_MEM
+};
 
 typedef struct {
 	unsigned char id;
 	pmi_event_class class;
 	pwrdm_state state;
-	double ts; /* relative timestamp, in micro-seconds */
+	double ts;		/* relative timestamp, in micro-seconds */
 } pwrdm_transition;
 
+typedef genlist pwrdm_transitions[OMAP4_PMI_PWRDM_MAX];
 
-typedef genlist
-	pwrdm_transitions[OMAP4_PMI_PWRDM_MAX];
-
-
-int pmi_pwrdm_events_get(char *filename, genlist *pm_events);
-int pmi_pwrdm_transitions_find(genlist *pm_events,
-	double duration, pwrdm_transitions transitions);
+int pmi_pwrdm_events_get(char *filename, genlist * pm_events);
+int pmi_pwrdm_transitions_find(genlist * pm_events,
+			       double duration, pwrdm_transitions transitions);
 int pmi_pwrdm_transitions_save(char *filename,
-	pwrdm_transitions transitions, double duration);
-
+			       pwrdm_transitions transitions, double duration);
 
 #endif

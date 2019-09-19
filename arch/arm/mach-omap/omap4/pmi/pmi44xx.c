@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <pmi44xx.h>
 #include <lib.h>
 #include <mem.h>
@@ -59,14 +58,12 @@
 #include <string.h>
 #include <pwrdm.h>
 
-
 /* #define PMI44XX_DEBUG */
 #ifdef PMI44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 #ifdef PMI44XX_DEBUG
 static const reg_table pmi44xx_reg_table[8] = {
@@ -77,9 +74,9 @@ static const reg_table pmi44xx_reg_table[8] = {
 	{"PMI_PCFR", OMAP4430_PMI_PCFR},
 	{"PMI_PTCR", OMAP4430_PMI_PTCR},
 	{"PMI_PSWR", OMAP4430_PMI_PSWR},
-	{"END", 0} };
+	{"END", 0}
+};
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmi44xx_capture_enable
@@ -95,32 +92,31 @@ static const reg_table pmi44xx_reg_table[8] = {
  *			function.
  *------------------------------------------------------------------------ */
 int pmi44xx_capture_enable(pmi_event_class_type class,
-	unsigned int div, unsigned int window_size)
+			   unsigned int div, unsigned int window_size)
 {
 	if (!emu44xx_is_enabled()) {
 		printf("pmi44xx_capture_enable(): "
-			"trying to setup PMI but EMU domain OFF!!!\n");
+		       "trying to setup PMI but EMU domain OFF!!!\n");
 		return OMAPCONF_ERR_INTERNAL;
 	}
 
 	if (class >= PMI_EVENT_MAX) {
 		printf("pmi44xx_capture_enable(): "
-			"incorrect class (0x%08X)!!!\n", class);
+		       "incorrect class (0x%08X)!!!\n", class);
 		return OMAPCONF_ERR_ARG;
 	}
 	if (div > 16) {
 		printf("pmi44xx_capture_enable(): "
-			"incorrect div (%d)!!!\n", div);
+		       "incorrect div (%d)!!!\n", div);
 		return OMAPCONF_ERR_ARG;
 	}
 	if (div == 0) {
-		printf("pmi44xx_capture_enable(): "
-			"div == 0!!!\n");
+		printf("pmi44xx_capture_enable(): " "div == 0!!!\n");
 		return OMAPCONF_ERR_ARG;
 	}
 	if (window_size > 256) {
 		printf("pmi44xx_capture_enable(): "
-			"incorrect window_size (%d)!!!\n", window_size);
+		       "incorrect window_size (%d)!!!\n", window_size);
 		return OMAPCONF_ERR_ARG;
 	}
 
@@ -139,14 +135,13 @@ int pmi44xx_capture_enable(pmi_event_class_type class,
 	mem_write(OMAP4430_PMI_PSWR, ((div - 1) << 16) | window_size);
 	/* Enable PMI capture */
 	mem_write(OMAP4430_PMI_PCR, 0x90000080);
-	#ifdef PMI44XX_DEBUG
+#ifdef PMI44XX_DEBUG
 	dumpregs((reg_table *) pmi44xx_reg_table);
 	printf("pmi44xx_capture_enable(): PMI setup done.\n");
-	#endif
+#endif
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmi44xx_capture_disable
@@ -163,7 +158,7 @@ int pmi44xx_capture_disable(void)
 
 	if (!emu44xx_is_enabled()) {
 		printf("pmi44xx_capture_disable(): "
-			"trying to setup PMI but EMU domain OFF!!!\n");
+		       "trying to setup PMI but EMU domain OFF!!!\n");
 		return OMAPCONF_ERR_INTERNAL;
 	}
 
@@ -179,7 +174,6 @@ int pmi44xx_capture_disable(void)
 
 	return 0;
 }
-
 
 /* #define PMI44XX_TRACE_CAPTURE_DEBUG */
 #ifdef PMI44XX_TRACE_CAPTURE_DEBUG
@@ -200,7 +194,7 @@ int pmi44xx_capture_disable(void)
  * @DESCRIPTION		capture PMI trace and save it into file
  *------------------------------------------------------------------------ */
 int pmi44xx_trace_capture(pmi_event_class_type class,
-	unsigned int time, unsigned short delay, char *file)
+			  unsigned int time, unsigned short delay, char *file)
 {
 	int ret;
 	unsigned int size;
@@ -241,20 +235,20 @@ int pmi44xx_trace_capture(pmi_event_class_type class,
 	if (delay != 0) {
 		/* Initial delay before starting capture */
 		printf("Wait for UART TX timeout (%d sec) then start PMI "
-			"capture & suspend omapconf task for %d sec ...\n",
-			delay, time);
+		       "capture & suspend omapconf task for %d sec ...\n",
+		       delay, time);
 		if (class == PMI_EVENT_PWRDM_TRANSITION)
 			printf("NB: if UART console was ever used during this "
-			"time, expected CORE/PER low-power state(s) "
-			"might not be entered.\n");
+			       "time, expected CORE/PER low-power state(s) "
+			       "might not be entered.\n");
 		sleep(delay);
 	} else {
 		printf("Start PMI capture & suspend omapconf task for %d sec "
-			"...\n", time);
+		       "...\n", time);
 		if (class == PMI_EVENT_PWRDM_TRANSITION)
 			printf("NB: if UART console was ever used during this "
-			"time, expected CORE/PER low-power state(s) "
-			"might not be entered.\n");
+			       "time, expected CORE/PER low-power state(s) "
+			       "might not be entered.\n");
 	}
 
 	/* Configure PMI to capture power domain transitions */
@@ -280,7 +274,7 @@ int pmi44xx_trace_capture(pmi_event_class_type class,
 		break;
 	case OMAPCONF_ERR_FULL:
 		printf("Warning: ETB RAM buffer overflow detected, "
-			"beginning of trace is lost...\n");
+		       "beginning of trace is lost...\n");
 		dprintf("Captured trace length is %d 32-bit words'\n", size);
 		break;
 	case OMAPCONF_ERR_EMPTY:
@@ -319,11 +313,11 @@ restore_hw_cfg1:
 			__func__);
 	return ret;
 }
+
 #ifdef PMI44XX_TRACE_CAPTURE_DEBUG
 #undef dprintf
 #define dprintf(format, ...)
 #endif
-
 
 /* #define PMI44XX_TRACE_DECODE_DEBUG */
 #ifdef PMI44XX_TRACE_DECODE_DEBUG
@@ -356,7 +350,8 @@ restore_hw_cfg1:
  *			into file.
  *------------------------------------------------------------------------ */
 int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
-	char *pmi_trace, double *duration, opp44xx_id vddcore_opp)
+			 char *pmi_trace, double *duration,
+			 opp44xx_id vddcore_opp)
 {
 	unsigned int next_header;
 	unsigned char stp_header;
@@ -378,8 +373,8 @@ int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 	FILE *fp_in;
 	FILE *fp_out;
 	int ret;
-	static const double atclk_locked_opp50 = 200.0; /* MHz */
-	static const double atclk_locked_opp100 = 266.66; /* MHz */
+	static const double atclk_locked_opp50 = 200.0;	/* MHz */
+	static const double atclk_locked_opp100 = 266.66;	/* MHz */
 	double volt;
 
 	if (etb_trace == NULL) {
@@ -387,26 +382,24 @@ int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 		return OMAPCONF_ERR_ARG;
 	}
 	if (pmi_trace == NULL) {
-		printf("pmi44xx_trace_decode() error: "
-			"pmi_trace == NULL!\n");
+		printf("pmi44xx_trace_decode() error: " "pmi_trace == NULL!\n");
 		return OMAPCONF_ERR_ARG;
 	}
 	if (duration == NULL) {
-		printf("pmi44xx_trace_decode() error: "
-			"duration == NULL!\n");
+		printf("pmi44xx_trace_decode() error: " "duration == NULL!\n");
 		return OMAPCONF_ERR_ARG;
 	}
 
 	fp_in = fopen(etb_trace, "r");
 	if (fp_in == NULL) {
 		printf("pmi44xx_trace_decode() error: "
-			"could not open %s!\n", etb_trace);
+		       "could not open %s!\n", etb_trace);
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 	fp_out = fopen(pmi_trace, "w");
 	if (fp_out == NULL) {
 		printf("pmi44xx_trace_decode() error: "
-			"could not open %s!\n", pmi_trace);
+		       "could not open %s!\n", pmi_trace);
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
@@ -432,8 +425,8 @@ int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 	 * OMAP4 WORKAROUND:
 	 * ATCLK derives from CORE_DPLL_EMU_CLK (CORE DPLL M6 output),
 	 * dependent on:
-	 *	- CORE domain OPP
-	 *	- CORE DPLL state (locked / not locked)
+	 *      - CORE domain OPP
+	 *      - CORE DPLL state (locked / not locked)
 	 * MUST track CORE DPLL status & OPP to accurately compute timestamp.
 	 * Assumption: we are either in or not in DPLL cascading mode
 	 * for the whole capture + decode time.
@@ -443,7 +436,7 @@ int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 	ret = dpll44xx_dpll_params_get(DPLL44XX_CORE, &dpll_params, 0);
 	if (ret < 0) {
 		printf("pmi44xx_trace_decode(): error while getting "
-			"CORE DPLL parameters! (%d)", ret);
+		       "CORE DPLL parameters! (%d)", ret);
 		return OMAPCONF_ERR_INTERNAL;
 	}
 
@@ -454,10 +447,8 @@ int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 	} else {
 		in_dpll_cascading = 0;
 	}
-	dprintf("atclk_locked_opp50 = %.3lfMHz\n",
-		atclk_locked_opp50);
-	dprintf("atclk_locked_opp100 = %.3lfMHz\n",
-		atclk_locked_opp100);
+	dprintf("atclk_locked_opp50 = %.3lfMHz\n", atclk_locked_opp50);
+	dprintf("atclk_locked_opp100 = %.3lfMHz\n", atclk_locked_opp100);
 	dprintf("atclk_dpll_unlocked = %.3lfMHz\n", atclk_dpll_unlocked);
 	atclk_dpll_locked = atclk_locked_opp100;
 	if (vddcore_opp == OMAP4_OPP100)
@@ -562,9 +553,12 @@ int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 					/* Garbage ... */
 					dprintf("\t\tIgnore 0x8C garbage...\n");
 				} else {
-					volt = (double) smps_vsel2uvolt(
-						vdd_id2smps_id(OMAP4_VDD_CORE),
-						evt_data_prev & 0x000000FF);
+					volt =
+					    (double)
+					    smps_vsel2uvolt(vdd_id2smps_id
+							    (OMAP4_VDD_CORE),
+							    evt_data_prev &
+							    0x000000FF);
 					volt = volt / 1000000.0;
 					dprintf("\t\tVDD_CORE voltage = 0x%2X "
 						"(%.3lfV)\n",
@@ -572,7 +566,7 @@ int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 						volt);
 					if (volt <= 1.0) {
 						atclk_dpll_locked =
-							atclk_locked_opp50;
+						    atclk_locked_opp50;
 						dprintf("\t\tVDD_CORE OPP is "
 							"OPP50, "
 							"atclk_dpll_locked="
@@ -580,7 +574,7 @@ int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 							atclk_dpll_locked);
 					} else {
 						atclk_dpll_locked =
-							atclk_locked_opp100;
+						    atclk_locked_opp100;
 						dprintf("\t\tVDD_CORE OPP is "
 							"OPP100, "
 							"atclk_dpll_locked="
@@ -608,14 +602,14 @@ int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 				 * OMAP4 WORKAROUND:
 				 * ATCLK derives from CORE_DPLL_EMU_CLK
 				 * (CORE DPLL M6 output), dependent on:
-				 *	- CORE domain OPP
-				 *	- CORE DPLL state (locked / not locked)
+				 *      - CORE domain OPP
+				 *      - CORE DPLL state (locked / not locked)
 				 * Need to track CORE DPLL status to
 				 * correctly compute timestamp.
 				 * Assumption: same EMU clock at OPP100 & OPP50
 				 */
 				core_pwrdm_state = (pwrdm_state)
-					((evt_data & 0x00000C00) >> 10);
+				    ((evt_data & 0x00000C00) >> 10);
 			} else if (evt_class == PMI_PWRDM_CLASS_MEM) {
 				dprintf("\tEvent Class: Memory Power Domain "
 					"(0x%02X)\n", evt_class);
@@ -639,15 +633,15 @@ int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 				ts_rel_g = ts_rel * (1 << ts_gr);
 			else if (ts_gr >= 7)
 				ts_rel_g =
-					ts_rel * (1 << (6 + 2 * (ts_gr - 6)));
+				    ts_rel * (1 << (6 + 2 * (ts_gr - 6)));
 			dprintf("\tts_rel_g = %lf\n", ts_rel_g);
 			/* Taking into account ATCLK frequency and pre-scaler */
 			/*
 			 * OMAP4 WORKAROUND:
 			 * ATCLK derives from CORE_DPLL_EMU_CLK
 			 * (CORE DPLL M6 output), dependent on:
-			 *	- CORE domain OPP
-			 *	- CORE DPLL state (locked / not locked)
+			 *      - CORE domain OPP
+			 *      - CORE DPLL state (locked / not locked)
 			 * Need to track CORE DPLL status & OPP to correctly
 			 * compute timestamp.
 			 */
@@ -668,14 +662,14 @@ int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 			}
 
 			dprintf("\tatclk = %.3lfMHz\n", atclk);
-			user_ts_rel = atclk / (double) lts_ref_clk;
+			user_ts_rel = atclk / (double)lts_ref_clk;
 			user_ts_rel = ts_rel_g / user_ts_rel;
 			user_ts_abs += user_ts_rel;
 			dprintf("\tuser_ts_rel = %lfus\n", user_ts_rel);
 			dprintf("\tuser_ts_abs = %lfus\n", user_ts_abs);
 			fprintf(fp_out,
 				"\tTimestamp (relative) = %lfus\n",
-					user_ts_rel);
+				user_ts_rel);
 			evt_count++;
 			ret = 0;
 			break;
@@ -783,8 +777,7 @@ int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 				dprintf("get granularity from str failed!\n");
 				goto err_trace_unexpected;
 			}
-			dprintf("\tts_gr = 0x%X (%d)\n",
-				ts_gr, ts_gr);
+			dprintf("\tts_gr = 0x%X (%d)\n", ts_gr, ts_gr);
 			fprintf(fp_out, "\tTimestamp Granularity = 0x%X (%d)\n",
 				ts_gr, ts_gr);
 			ret = 0;
@@ -800,8 +793,7 @@ int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 
 err_trace_unexpected:
 	dprintf("----- END OF Decoded PMI Trace -----\n");
-	fprintf(fp_out,
-		"----- END OF Decoded PMI Trace -----\n");
+	fprintf(fp_out, "----- END OF Decoded PMI Trace -----\n");
 	fprintf(fp_out, "\nInternal error during trace decoding!\n");
 	*duration = 0.0;
 	ret = OMAPCONF_ERR_UNEXPECTED;
@@ -809,8 +801,7 @@ err_trace_unexpected:
 
 err_trace_corrupted:
 	dprintf("----- END OF Decoded PMI Trace -----\n");
-	fprintf(fp_out,
-		"----- END OF Decoded PMI Trace -----\n");
+	fprintf(fp_out, "----- END OF Decoded PMI Trace -----\n");
 	fprintf(fp_out, "\nError: trace is corrupted!\n");
 	*duration = 0.0;
 	ret = OMAPCONF_ERR_CORRUPTED;
@@ -819,31 +810,25 @@ err_trace_corrupted:
 err_trace_truncated:
 	dprintf("Warning: trace truncated, ETB buffer overflow?\n");
 	dprintf("----- END OF Decoded PMI Trace -----\n");
-	fprintf(fp_out,
-		"----- END OF Decoded PMI Trace -----\n");
+	fprintf(fp_out, "----- END OF Decoded PMI Trace -----\n");
 	*duration = user_ts_abs;
 	ret = evt_count;
 	dprintf("\nNumber of events found: %d\n", evt_count);
-	fprintf(fp_out, "\nNumber of events found: %d\n",
-		evt_count);
+	fprintf(fp_out, "\nNumber of events found: %d\n", evt_count);
 	dprintf("Total Trace Duration: %lfus\n", user_ts_abs);
-	fprintf(fp_out, "Total Trace Duration: %lfus\n",
-		user_ts_abs);
+	fprintf(fp_out, "Total Trace Duration: %lfus\n", user_ts_abs);
 	fprintf(fp_out, "\nWarning: trace truncated, ETB buffer overflow?\n");
 	ret = OMAPCONF_ERR_TRUNCATED;
 	goto pmi44xx_trace_decode_end;
 
 pmi_trace_decode_success:
 	dprintf("----- END OF Decoded PMI Trace -----\n");
-	fprintf(fp_out,
-		"----- END OF Decoded PMI Trace -----\n");
+	fprintf(fp_out, "----- END OF Decoded PMI Trace -----\n");
 	*duration = user_ts_abs;
 	dprintf("\nNumber of events found: %d\n", evt_count);
-	fprintf(fp_out, "\nNumber of events found: %d\n",
-		evt_count);
+	fprintf(fp_out, "\nNumber of events found: %d\n", evt_count);
 	dprintf("Total Trace Duration: %lfus\n", user_ts_abs);
-	fprintf(fp_out, "Total Trace Duration: %lfus\n",
-		user_ts_abs);
+	fprintf(fp_out, "Total Trace Duration: %lfus\n", user_ts_abs);
 	dprintf("Full trace decoded with no error.\n\n");
 	fprintf(fp_out, "\nFull trace decoded with no error.\n");
 	ret = evt_count;
@@ -853,11 +838,11 @@ pmi44xx_trace_decode_end:
 	fclose(fp_in);
 	return ret;
 }
+
 #ifdef PMI44XX_TRACE_DECODE_DEBUG
 #undef dprintf
 #define dprintf(format, ...)
 #endif
-
 
 /* #define PMI_EVENTS_GET_DEBUG */
 #ifdef PMI_EVENTS_GET_DEBUG
@@ -878,7 +863,7 @@ pmi44xx_trace_decode_end:
  *				trace file
  * @DESCRIPTION		retrieve PM event(s) from PMI trace file.
  *------------------------------------------------------------------------ */
-int pmi44xx_events_get(char *filename, genlist *pmi_events)
+int pmi44xx_events_get(char *filename, genlist * pmi_events)
 {
 	double ts;
 	unsigned int evt_class, evt_state_lsb, evt_state_msb;
@@ -889,28 +874,25 @@ int pmi44xx_events_get(char *filename, genlist *pmi_events)
 	unsigned int evt_count;
 
 	if (pmi_events == NULL) {
-		printf("pmi44xx_events_get() error: "
-			"pmi_events == NULL!\n");
+		printf("pmi44xx_events_get() error: " "pmi_events == NULL!\n");
 		return OMAPCONF_ERR_ARG;
 	}
 	if (filename == NULL) {
-		printf("pmi44xx_events_get() error: "
-			"filename == NULL!\n");
+		printf("pmi44xx_events_get() error: " "filename == NULL!\n");
 		return OMAPCONF_ERR_ARG;
 	}
 
 	fp = fopen(filename, "r");
 	if (fp == NULL) {
 		printf("pmi44xx_events_get() error: "
-			"could not open %s!\n", filename);
+		       "could not open %s!\n", filename);
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
 	genlist_init(pmi_events);
 	evt_count = 0;
 
-	dprintf("pmi44xx_events_get(): "
-		"parsing trace file...\n");
+	dprintf("pmi44xx_events_get(): " "parsing trace file...\n");
 	while (fgets(line, sizeof(line), fp) != NULL) {
 		/* Looking for D8 headers */
 		if (strstr(line, "D8 (0x4)") == NULL)
@@ -924,7 +906,7 @@ int pmi44xx_events_get(char *filename, genlist *pmi_events)
 			return OMAPCONF_ERR_UNEXPECTED;
 		}
 		if (sscanf(line, "\tEvent Class is %s %s Domain (0x%02X)",
-			dummy, dummy2, &evt_class) != 3) {
+			   dummy, dummy2, &evt_class) != 3) {
 			printf("could not get class from %s", line);
 			fclose(fp);
 			return OMAPCONF_ERR_UNEXPECTED;
@@ -944,9 +926,9 @@ int pmi44xx_events_get(char *filename, genlist *pmi_events)
 			return OMAPCONF_ERR_UNEXPECTED;
 		}
 		if ((evt_class == PMI_PWRDM_CLASS_LOGIC) ||
-			(evt_class == PMI_VOLTDM_CLASS_MEM)) {
+		    (evt_class == PMI_VOLTDM_CLASS_MEM)) {
 			if (sscanf(line, "\t\tEvent Data = 0x%08X",
-				&evt_state_lsb) != 1) {
+				   &evt_state_lsb) != 1) {
 				printf("could not get state from %s", line);
 				fclose(fp);
 				return OMAPCONF_ERR_UNEXPECTED;
@@ -955,7 +937,7 @@ int pmi44xx_events_get(char *filename, genlist *pmi_events)
 			evt_state_msb = 0;
 		} else {
 			if (sscanf(line, "\t\tEvent Data = 0x%08X%08X",
-				&evt_state_msb, &evt_state_lsb) != 2) {
+				   &evt_state_msb, &evt_state_lsb) != 2) {
 				printf("could not get state from %s", line);
 				fclose(fp);
 				return OMAPCONF_ERR_UNEXPECTED;
@@ -983,11 +965,11 @@ int pmi44xx_events_get(char *filename, genlist *pmi_events)
 		evt.ts = ts;
 	}
 	fclose(fp);
-	dprintf("pmi44xx_events_get(): found %d pwrdm events.\n",
-		evt_count);
+	dprintf("pmi44xx_events_get(): found %d pwrdm events.\n", evt_count);
 
 	return evt_count;
 }
+
 #ifdef PMI_EVENTS_GET_DEBUG
 #undef dprintf
 #define dprintf(format, ...)

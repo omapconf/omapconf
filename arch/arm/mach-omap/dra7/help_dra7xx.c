@@ -41,12 +41,10 @@
  *
  */
 
-
 #include <help_dra7xx.h>
 #include <stdio.h>
 #include <cpuinfo.h>
 #include <tlv320aic3x.h>
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		help_dra7xx
@@ -70,75 +68,82 @@ void help_dra7xx(help_category cat, char *context)
 	if ((cat == HELP_ALL) || (cat == HELP_EXPORT)) {
 		printf("\n\tomapconf export ctt [<filename>]\n");
 		printf("\t    Export PRCM registers to "
-			"<filename> or stdout if omitted.\n");
+		       "<filename> or stdout if omitted.\n");
 
-		printf("\n\tomapconf ctt dump (alternative call of omapconf-export-ctt)\n");
+		printf
+		    ("\n\tomapconf ctt dump (alternative call of omapconf-export-ctt)\n");
 		printf("\t    Export PRCM registers to stdout.\n");
 
 		printf("\n\tomapconf ctt rd1\n");
 		printf("\t    Export PRCM registers in rd1 format for Clock "
-			"Tree Tool (CTT, <http://omappedia.org/wiki/CTT>).\n");
+		       "Tree Tool (CTT, <http://omappedia.org/wiki/CTT>).\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_VOLT)) {
 		printf("\n\tomapconf set volt <rail> <voltage>\n");
 		printf("\t    Set <rail> voltage to <voltage>.\n");
-		printf("\t    Supported <rail>: mpu, iva, core, gpu, dspeve.\n");
+		printf
+		    ("\t    Supported <rail>: mpu, iva, core, gpu, dspeve.\n");
 		printf("\t    <voltage> is in volts.\n");
 		printf("\t    ### WARNING ###: do it at your own risk. "
-			"Unsupported voltage may crash or damage device!\n");
+		       "Unsupported voltage may crash or damage device!\n");
 		printf("\t    e.g. omapconf set volt mpu 1.25\n");
-		printf("\n\tomapconf set volt <rail> <voltage> <step> <msec>\n");
-		printf("\t    Set <rail> voltage to <voltage> in steps of <step> and waiting <msec> after each step.\n");
-		printf("\t    Supported <rail>: mpu, iva, core, gpu, dspeve.\n");
+		printf
+		    ("\n\tomapconf set volt <rail> <voltage> <step> <msec>\n");
+		printf
+		    ("\t    Set <rail> voltage to <voltage> in steps of <step> and waiting <msec> after each step.\n");
+		printf
+		    ("\t    Supported <rail>: mpu, iva, core, gpu, dspeve.\n");
 		printf("\t    <voltage> is in volts.\n");
 		printf("\t    <step> is in volts.\n");
 		printf("\t    <msec> is in millisecond.\n");
 		printf("\t    ### WARNING ###: do it at your own risk. "
-			"Unsupported voltage may crash or damage device!\n");
+		       "Unsupported voltage may crash or damage device!\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_VMINSEARCH)) {
 		printf("\n\tomapconf vminsearch <rail> <voltage> <msec>\n");
-		printf("\t    Search minimum supply voltage by decreasing voltage step by step, until it breaks.\n");
+		printf
+		    ("\t    Search minimum supply voltage by decreasing voltage step by step, until it breaks.\n");
 		printf("\t    Supported <rail>: mpu, core, gpu.\n");
 		printf("\t    <voltage> is initial voltage in volts.\n");
 		printf("\t    <msec> is delay between steps.\n");
 		printf("\t    ### WARNING ###: do it at your own risk. "
-			"Unsupported voltage may crash or damage device!\n");
+		       "Unsupported voltage may crash or damage device!\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_DPLL)) {
 		printf("\n\tomapconf dump dpll [<dpll>]\n");
 		printf("\t    RAW dump of <dpll> registers ('all' assumed if "
-			"omitted).\n");
+		       "omitted).\n");
 		printf("\t    Supported <dpll>: all, abe, core, ddr, dsp, eve, "
-			"gmac, gpu, iva, mpu, pcieref, per, usb.\n");
+		       "gmac, gpu, iva, mpu, pcieref, per, usb.\n");
 
 		printf("\n\tomapconf show dpll [cfg]\n");
 		printf("\t    Print the complete configuration of all DPLL "
-			"([cfg] may be omitted).\n");
+		       "([cfg] may be omitted).\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_AUDIT)) {
 		printf("\n\tomapconf audit dpll [-d <dpll>] [-o <opp>]\n");
 		printf("\t    Audit DPLL settings at selected OPP(s).\n");
 		printf("\t    By default, audit ALL DPLLs at CURRENT OPP. "
-			"Use optional '-d <dpll>' to select a given DPLL.\n");
+		       "Use optional '-d <dpll>' to select a given DPLL.\n");
 		printf("\t    Supported <dpll> ('all' considered if omitted):"
-			" abe, core, ddr, dsp, eve, gmac, gpu, iva, mpu,"
-			" pcieref, per, usb.\n");
+		       " abe, core, ddr, dsp, eve, gmac, gpu, iva, mpu,"
+		       " pcieref, per, usb.\n");
 		printf("\t    Use optional '-o all' to run audit at all "
-			"### MPU ### OPerating Points (OPP).\n");
+		       "### MPU ### OPerating Points (OPP).\n");
 		printf("\t    Use optional '-o <opp>' to force a particular "
-			"### MPU ### OPerating Points (OPP). For example "
-			"when MPU OPP is not correctly detected.\n");
+		       "### MPU ### OPerating Points (OPP). For example "
+		       "when MPU OPP is not correctly detected.\n");
 		printf("\t    Supported <opp>: nom, od, high.\n");
 
 		printf("\n\tomapconf audit crossbar <type> <module>\n");
 		printf("\t    Dump crossbar mapping for type of module\n");
 		printf("\t    'type' is irq - if omitted or 'all', show all\n");
-		printf("\t    for type 'irq', 'module' is one of the following - if omitted or 'all', show all\n");
+		printf
+		    ("\t    for type 'irq', 'module' is one of the following - if omitted or 'all', show all\n");
 		printf("\t        mpu - chooses mpu crossbar\n");
 		printf("\t        dsp - chooses dsp1 and dsp2\n");
 		printf("\t        dsp1 - chooses dsp1\n");
@@ -153,101 +158,108 @@ void help_dra7xx(help_category cat, char *context)
 		printf("\t        pruss1 - chooses pruss1\n");
 		printf("\t        pruss2 - chooses pruss2\n");
 		printf("\t    NOTE:\n");
-		printf("\t        pruss modules are supported only on AM57xx SoCs, behavior undefined on others\n");
+		printf
+		    ("\t        pruss modules are supported only on AM57xx SoCs, behavior undefined on others\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_PRCM)) {
 		printf("\n\tomapconf dump prcm [<pwrdm>]\n");
 		printf("\t    Dump PRCM Registers related to <pwrdm> power"
-			" domain ('all' assumed if omitted).\n");
+		       " domain ('all' assumed if omitted).\n");
 		printf("\t    Supported <pwrdm>: all, cam, core, coreaon, "
-			"ckgen, dev, dsp, dss, emu, eve, gpu, instr, ipu, "
-			"iva, l3init, l4per, mpu, rtc, vpe, wkupaon.\n");
+		       "ckgen, dev, dsp, dss, emu, eve, gpu, instr, ipu, "
+		       "iva, l3init, l4per, mpu, rtc, vpe, wkupaon.\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_TEMPERATURE)) {
 		printf("\n\tomapconf show temp [<sensor>]\n");
-		printf("\t    Print temperature reported by thermal driver, in celcius degrees.\n");
-		printf("\t    Supported <sensor>: mpu, gpu, core, dspeve, iva,  all.\n");
+		printf
+		    ("\t    Print temperature reported by thermal driver, in celcius degrees.\n");
+		printf
+		    ("\t    Supported <sensor>: mpu, gpu, core, dspeve, iva,  all.\n");
 		printf("\t    If <sensor> is omitted or <sensor> = all, all"
-			"available sensors will be printed in a table, with both"
-			"celcius and fahrenheit degrees.\n");
+		       "available sensors will be printed in a table, with both"
+		       "celcius and fahrenheit degrees.\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_HWTEMPERATURE)) {
 		printf("\n\tomapconf show hwtemp [<sensor>]\n");
-		printf("\t    Print temperature reported by <sensor>, in celcius degrees.\n");
-		printf("\t    Supported <sensor>: mpu, gpu, core, dspeve, iva, all.\n");
+		printf
+		    ("\t    Print temperature reported by <sensor>, in celcius degrees.\n");
+		printf
+		    ("\t    Supported <sensor>: mpu, gpu, core, dspeve, iva, all.\n");
 		printf("\t    If <sensor> is omitted or <sensor> = all, all"
-			"available sensors will be printed in a table, with both"
-			"celcius and fahrenheit degrees.\n");
+		       "available sensors will be printed in a table, with both"
+		       "celcius and fahrenheit degrees.\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_SOC_OPP)) {
 		printf("\n\tomapconf show opp\n");
 		printf("\t    Print DRA7 current OPerating Points (OPP) "
-			"(voltage, frequency) for MPU/IVA/GPU/DSPEVE/CORE voltage "
-			"domains), including main modules frequencies.\n");
+		       "(voltage, frequency) for MPU/IVA/GPU/DSPEVE/CORE voltage "
+		       "domains), including main modules frequencies.\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_AMMU)) {
 		printf("\n\tomapconf show ammu [<instance>]\n");
 		printf("\t    Show AMMU mappings for <instance>.\n");
 		printf("\t    Supported <instance>: ipu1, ipu2, all.\n");
-		printf("\t    If <instance> is omitted or <instance> = all, all\n");
+		printf
+		    ("\t    If <instance> is omitted or <instance> = all, all\n");
 		printf("\t    ipu ammu mappings will be shown.\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_TRACE)) {
 		printf("\n\tomapconf trace perf setup [<cfgfile>]\n");
-		printf(
-			"\t    Interactive performance trace configurator. To be used to:\n");
+		printf
+		    ("\t    Interactive performance trace configurator. To be used to:\n");
 		printf("\t      - Generate default trace,\n");
-		printf(
-			"\t      - Select which predefined item(s) to trace for,\n");
-		printf(
-			"\t      - Add/remove user defined items. Any file which contains a dynamic variable (integer, accumulating or not) can be traced.\n");
-		printf(
-			"\t    Use optional <cfgfile> to select a trace configuration file name. Default one used otherwise.\n");
+		printf
+		    ("\t      - Select which predefined item(s) to trace for,\n");
+		printf
+		    ("\t      - Add/remove user defined items. Any file which contains a dynamic variable (integer, accumulating or not) can be traced.\n");
+		printf
+		    ("\t    Use optional <cfgfile> to select a trace configuration file name. Default one used otherwise.\n");
 
-		printf(
-			"\n\tomapconf trace perf [-d <delay>] [-t <duration>] [-s <rate>] [-p <prefix>] [-c <cfgfile>]\n");
-		printf(
-			"\t    Capture predefined items (CPUs Load, MPU/GPU/L3 OPP Changes, EMIF bandwidth & temperatures (bandgap, PCB, hotspot) or custom (user defined) items over time.\n");
-		printf(
-			"\t    Trace customization is done via trace configuration file, built using the trace configurator.\n");
-		printf(
-			"\t    If no configuration file found or selected via <cfgfile>, create a default one that will trace for all predefined items.\n");
-		printf(
-			"\t    Generate GNUPlot scripts to plot trace charts.\n");
-		printf(
-			"\t    Use optional <delay> to add initial delay before capture starts (in seconds, default: 0s).\n");
-		printf(
-			"\t    Use optional <duration> to change capture duration (in seconds, default: 10s).\n");
-		printf(
-			"\t    Use optional <rate> to change capture sampling rate (in seconds, default: 0.1s).\n");
-		printf(
-			"\t    Use optional <prefix> to add <prefix> to default output file names.\n");
-		printf(
-			"\t    Use optional <cfgfile> to select a particular trace configuration file.\n");
-		printf(
-			"\t    e.g. to capture a trace of 30s, with initial delay of 3s, sampling rate of 0.1s, output files prefixed with 'db175_mp3_', using default configuration file:\n");
-		printf(
-			"\t    # omapconf trace perf -t 30 -d 3 -s 0.1 -p db175_mp3_\n");
+		printf
+		    ("\n\tomapconf trace perf [-d <delay>] [-t <duration>] [-s <rate>] [-p <prefix>] [-c <cfgfile>]\n");
+		printf
+		    ("\t    Capture predefined items (CPUs Load, MPU/GPU/L3 OPP Changes, EMIF bandwidth & temperatures (bandgap, PCB, hotspot) or custom (user defined) items over time.\n");
+		printf
+		    ("\t    Trace customization is done via trace configuration file, built using the trace configurator.\n");
+		printf
+		    ("\t    If no configuration file found or selected via <cfgfile>, create a default one that will trace for all predefined items.\n");
+		printf
+		    ("\t    Generate GNUPlot scripts to plot trace charts.\n");
+		printf
+		    ("\t    Use optional <delay> to add initial delay before capture starts (in seconds, default: 0s).\n");
+		printf
+		    ("\t    Use optional <duration> to change capture duration (in seconds, default: 10s).\n");
+		printf
+		    ("\t    Use optional <rate> to change capture sampling rate (in seconds, default: 0.1s).\n");
+		printf
+		    ("\t    Use optional <prefix> to add <prefix> to default output file names.\n");
+		printf
+		    ("\t    Use optional <cfgfile> to select a particular trace configuration file.\n");
+		printf
+		    ("\t    e.g. to capture a trace of 30s, with initial delay of 3s, sampling rate of 0.1s, output files prefixed with 'db175_mp3_', using default configuration file:\n");
+		printf
+		    ("\t    # omapconf trace perf -t 30 -d 3 -s 0.1 -p db175_mp3_\n");
 
-		printf(
-			"\n\tomapconf trace bw [-h] [<-m | --m<x>> <0xyy | ma_mpu | alldmm | dss | iva | ...>] [<-p | --p<x> <emif1 | emif2>] [<--tr | --tr<x>> <r|w|r+w>] [-d x] [-a 1 or 2] [-i x] [--overflow_delay x] [-o x -t y] [-r 0xaaaaaaaa-0xbbbbbbbb] [-n]\n");
-		printf(
-			"\t    EMIF traffic monitoring. Type 'omapconf trace bw -h' for detailed help.\n");
-		printf(
-			"\t    Visit wiki: <http://opbuwiki.dal.design.ti.com/index.php/L3_bus_monitoring_SW_tool>\n");
+		printf
+		    ("\n\tomapconf trace bw [-h] [<-m | --m<x>> <0xyy | ma_mpu | alldmm | dss | iva | ...>] [<-p | --p<x> <emif1 | emif2>] [<--tr | --tr<x>> <r|w|r+w>] [-d x] [-a 1 or 2] [-i x] [--overflow_delay x] [-o x -t y] [-r 0xaaaaaaaa-0xbbbbbbbb] [-n]\n");
+		printf
+		    ("\t    EMIF traffic monitoring. Type 'omapconf trace bw -h' for detailed help.\n");
+		printf
+		    ("\t    Visit wiki: <http://opbuwiki.dal.design.ti.com/index.php/L3_bus_monitoring_SW_tool>\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_AUDIOIC)) {
 		printf("\n\tomapconf dump audioic\n");
 		printf("\t    Dump tlv320aic3106 (Audio IC) registers.\n");
-		printf("\t    Default audioic is in bus %u with address 0x%02x\n",
-		       TLV320AIC3X_I2C_DFLT_BUS, TLV320AIC3X_I2C_VALID_ADDR1);
+		printf
+		    ("\t    Default audioic is in bus %u with address 0x%02x\n",
+		     TLV320AIC3X_I2C_DFLT_BUS, TLV320AIC3X_I2C_VALID_ADDR1);
 
 		printf("\n\tomapconf dump audioic 'bus' 0x'chip\n");
 		printf("\t    Dump tlv320aic3106 (Audio IC) registers:\n");
@@ -269,7 +281,8 @@ void help_dra7xx(help_category cat, char *context)
 		printf("\n\tomapconf dump crossbar <type> <module>\n");
 		printf("\t    Dump crossbar mapping for type of module\n");
 		printf("\t    'type' is irq - if omitted or 'all', show all\n");
-		printf("\t    for type 'irq', 'module' is one of the following - if omitted or 'all', show all\n");
+		printf
+		    ("\t    for type 'irq', 'module' is one of the following - if omitted or 'all', show all\n");
 		printf("\t        mpu - chooses mpu crossbar\n");
 		printf("\t        dsp - chooses dsp1 and dsp2\n");
 		printf("\t        dsp1 - chooses dsp1\n");
@@ -284,7 +297,8 @@ void help_dra7xx(help_category cat, char *context)
 		printf("\t        pruss1 - chooses pruss1\n");
 		printf("\t        pruss2 - chooses pruss2\n");
 		printf("\t    NOTE:\n");
-		printf("\t        pruss modules are supported only on AM57xx SoCs, behavior undefined on others\n");
+		printf
+		    ("\t        pruss modules are supported only on AM57xx SoCs, behavior undefined on others\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_ABB)) {

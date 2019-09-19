@@ -41,19 +41,15 @@
  *
  */
 
-
 #ifndef __POWERDOMAIN_H__
 #define __POWERDOMAIN_H__
-
 
 #include <reg.h>
 #include <genlist.h>
 #include <pwrdm.h>
 #include <stdio.h>
 
-
 #define PWRDM_MAX_NAME_LENGTH		16
-
 
 #define PWRDM_EMU			((const char *) "EMU")
 #define PWRDM_WKUP			((const char *) "WKUP")
@@ -82,7 +78,6 @@
 #define PWRDM_EFUSE			((const char *) "CEFUSE")
 #define PWRDM_UNKNOWN			((const char *) "UNKNOWN")
 
-
 typedef struct {
 	const char *name;
 	int id;
@@ -91,7 +86,6 @@ typedef struct {
 	reg *pwrstst;
 	int properties;
 } powerdm_info;
-
 
 void powerdm_init(void);
 void powerdm_deinit(void);
@@ -110,11 +104,9 @@ unsigned int powerdm_has_last_power_state(const char *powerdm);
 pwrdm_state powerdm_state_get(const char *powerdm, pwrdm_state_type type);
 unsigned int powerdm_in_transition(const char *powerdm);
 
-int powerdm_config_show(FILE *stream, const char *powerdm);
-
+int powerdm_config_show(FILE * stream, const char *powerdm);
 
 void powerdm_emu_enable(void);
 void powerdm_emu_disable(void);
-
 
 #endif

@@ -41,13 +41,11 @@
  *
  */
 
-
 #include <emif54xx.h>
 #include <autoadjust_table.h>
 #include <lib.h>
 #include <cpuinfo.h>
 #include <module.h>
-
 
 /* #define EMIF54XX_DEBUG */
 #ifdef EMIF54XX_DEBUG
@@ -56,11 +54,10 @@
 #define dprintf(format, ...)
 #endif
 
-
 const char *emif54xx_mods_name[EMIF54XX_MODS_COUNT] = {
 	"EMIF1",
-	"EMIF2"};
-
+	"EMIF2"
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		emif54xx_mod_name_get
@@ -81,7 +78,6 @@ const char *emif54xx_mod_name_get(emif54xx_mod_id id)
 	return emif54xx_mods_name[id];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		emif54xx_dump
  * @BRIEF		dump selected registers
@@ -94,7 +90,7 @@ const char *emif54xx_mod_name_get(emif54xx_mod_id id)
  * @DESCRIPTION		dump selected registers and pretty-print it in selected
  *			output stream
  *------------------------------------------------------------------------ */
-int emif54xx_dump(FILE *stream, emif54xx_mod_id id)
+int emif54xx_dump(FILE * stream, emif54xx_mod_id id)
 {
 	unsigned int i = 0, mid, accessible;
 	unsigned int val = 0;
@@ -104,7 +100,6 @@ int emif54xx_dump(FILE *stream, emif54xx_mod_id id)
 	char s[TABLE_MAX_ELT_LEN];
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row;
-
 
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(stream, OMAPCONF_ERR_ARG);
@@ -121,11 +116,10 @@ int emif54xx_dump(FILE *stream, emif54xx_mod_id id)
 
 	if (id != EMIF54XX_MODS_COUNT)
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s Reg. Name",
-			emif54xx_mod_name_get(id));
+			 emif54xx_mod_name_get(id));
 	else
 		strncpy(table[row][0], "EMIF Reg. Name", TABLE_MAX_ELT_LEN);
-	strncpy(table[row][1], "Reg. Address",
-		TABLE_MAX_ELT_LEN);
+	strncpy(table[row][1], "Reg. Address", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][2], "Reg. Value", TABLE_MAX_ELT_LEN);
 	row++;
 
@@ -146,8 +140,8 @@ int emif54xx_dump(FILE *stream, emif54xx_mod_id id)
 
 			if (!accessible) {
 				printf("%s module is not running, registers not"
-					" accessible.\n",
-					emif54xx_mod_name_get(mid));
+				       " accessible.\n",
+				       emif54xx_mod_name_get(mid));
 				return 0;
 			}
 
@@ -167,7 +161,7 @@ int emif54xx_dump(FILE *stream, emif54xx_mod_id id)
 				autoadjust_table_strncpy(table, row, 0, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X",
-					r->addr);
+					 r->addr);
 				autoadjust_table_strncpy(table, row, 1, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X", val);
@@ -182,7 +176,6 @@ emif54xx_dump_end:
 	return err;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		emif54xx_export
  * @BRIEF		export module register content to file, in XML format.
@@ -195,7 +188,7 @@ emif54xx_dump_end:
  * @param[in]		id: EMIF module ID
  * @DESCRIPTION		export module register content to file, in XML format.
  *------------------------------------------------------------------------ */
-int emif54xx_export(FILE *fp, emif54xx_mod_id id)
+int emif54xx_export(FILE * fp, emif54xx_mod_id id)
 {
 	reg **mod;
 	unsigned int i, accessible;
@@ -211,13 +204,13 @@ int emif54xx_export(FILE *fp, emif54xx_mod_id id)
 	case EMIF54XX_EMIF2:
 		accessible = module_is_accessible(MOD_EMIF2);
 		break;
-	default: /* should not happen as already checked just before ... */
+	default:		/* should not happen as already checked just before ... */
 		return OMAPCONF_ERR_INTERNAL;
 	}
 
 	if (!accessible) {
 		printf("%s export: module not running, skipping "
-			"registers export.\n", emif54xx_mod_name_get(id));
+		       "registers export.\n", emif54xx_mod_name_get(id));
 		return 0;
 	}
 
@@ -231,21 +224,24 @@ int emif54xx_export(FILE *fp, emif54xx_mod_id id)
 
 	if (cpu_revision_get() == REV_ES1_0) {
 		for (i = 0; i < OMAP5430ES1_EMIF1_MOD_REGCOUNT; i++)
-			fprintf(fp, "            <register id=\"%u\" name=\"%s\" "
+			fprintf(fp,
+				"            <register id=\"%u\" name=\"%s\" "
 				"addr=\"0x%08X\" data=\"0x%08X\" />\n", i,
-				(mod[i])->name, (mod[i])->addr, reg_read(mod[i]));
+				(mod[i])->name, (mod[i])->addr,
+				reg_read(mod[i]));
 	} else {
 		for (i = 0; i < OMAP5430_EMIF1_MOD_REGCOUNT; i++)
-			fprintf(fp, "            <register id=\"%u\" name=\"%s\" "
+			fprintf(fp,
+				"            <register id=\"%u\" name=\"%s\" "
 				"addr=\"0x%08X\" data=\"0x%08X\" />\n", i,
-				(mod[i])->name, (mod[i])->addr, reg_read(mod[i]));
+				(mod[i])->name, (mod[i])->addr,
+				reg_read(mod[i]));
 	}
 
 	fprintf(fp, "          </submodule>\n");
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		emif54xx_import
@@ -258,7 +254,7 @@ int emif54xx_export(FILE *fp, emif54xx_mod_id id)
  * @DESCRIPTION		import OMAP EMIF registers from XML file,
  *			generated with lib54xx_export().
  *------------------------------------------------------------------------ */
-int emif54xx_import(FILE *fp, emif54xx_mod_id id)
+int emif54xx_import(FILE * fp, emif54xx_mod_id id)
 {
 	reg **mod;
 	char line[256], sline[256];
@@ -284,24 +280,25 @@ int emif54xx_import(FILE *fp, emif54xx_mod_id id)
 		/* Import register content */
 		if (cpu_revision_get() == REV_ES1_0) {
 			regcount = OMAP5430ES1_EMIF1_MOD_REGCOUNT;
-		} else { /* FIXME WITH ES2 */
+		} else {	/* FIXME WITH ES2 */
 			regcount = OMAP5430_EMIF1_MOD_REGCOUNT;
 		}
 		for (i = 0; i < regcount; i++) {
 			if (fgets(line, sizeof(line), fp) == NULL)
 				return OMAPCONF_ERR_UNEXPECTED;
-			line[strlen(line) - 1] = '\0'; /* remove ending '\n' */
-			xml_entry = strstr(line, "<"); /* remove spaces */
+			line[strlen(line) - 1] = '\0';	/* remove ending '\n' */
+			xml_entry = strstr(line, "<");	/* remove spaces */
 
 			dprintf("%s(%u (%s)): xml_entry=%s\n", __func__, id,
 				emif54xx_mod_name_get(id), xml_entry);
 
 			/* Check register id is correct */
 			ret = sscanf(xml_entry, "<register id=\"%u\" %s",
-				&n, sline);
+				     &n, sline);
 			if (ret != 2) {
 				dprintf("%s(%u (%s)): could not get id\n",
-					__func__, id, emif54xx_mod_name_get(id));
+					__func__, id,
+					emif54xx_mod_name_get(id));
 				return OMAPCONF_ERR_UNEXPECTED;
 			}
 			if (n != i) {

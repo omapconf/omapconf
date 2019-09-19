@@ -82,4 +82,4 @@ int dra7_audit_crossbar_irq(FILE * stream, int argc, char *argv[]);
 int dra7_crossbar_dump_main(int argc, char *argv[]);
 int dra7_crossbar_audit_main(int argc, char *argv[]);
 
-#endif				/* _DRA7_CROSS_BAR_H */
+#endif /* _DRA7_CROSS_BAR_H */

@@ -42,10 +42,8 @@
  *
  */
 
-
 #ifndef __TPS62361_H__
 #define __TPS62361_H__
-
 
 unsigned short int tps62361_is_present(void);
 double tps62361_chip_revision_get(void);
@@ -56,6 +54,5 @@ int tps62361_vsel_len_get(void);
 
 unsigned char tps62361_uv_to_vsel(unsigned long uv);
 unsigned long tps62361_vsel_to_uv(unsigned char vsel);
-
 
 #endif

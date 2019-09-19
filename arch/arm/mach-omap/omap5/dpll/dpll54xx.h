@@ -41,16 +41,13 @@
  *
  */
 
-
 #ifndef __DPLL54XX_H__
 #define __DPLL54XX_H__
-
 
 #include <dpll.h>
 #include <cm54xxes1-defs.h>
 #include <voltdm54xx.h>
 #include <stdio.h>
-
 
 typedef struct {
 	hsdiv54xx_id id;
@@ -60,13 +57,11 @@ typedef struct {
 	double rate;		/* CLKOUTX2_Hmn rate in MHz */
 } hsdiv54xx_settings;
 
-
 typedef struct {
 	dpll_settings dpll;
 	dpll_status status;
 	hsdiv54xx_settings hsdiv[HSDIV54XX_ID_MAX];
 } dpll54xx_settings;
-
 
 typedef enum {
 	DPLL54XX_CLKOUT_M2,
@@ -84,32 +79,29 @@ typedef enum {
 	DPLL54XX_OUTPUT_ID_MAX
 } dpll54xx_output_id;
 
-
 int dpll54xx_init(void);
 
 int dpll54xx_free(void);
 
 int dpll54xx_main(int argc, char *argv[]);
 
-int dpll54xx_settings_extract(dpll54xx_settings *settings,
-	unsigned int id, unsigned short ignore);
+int dpll54xx_settings_extract(dpll54xx_settings * settings,
+			      unsigned int id, unsigned short ignore);
 
-dpll54xx_settings *dpll54xx_settings_get(
-	unsigned int id, unsigned short ignore);
+dpll54xx_settings *dpll54xx_settings_get(unsigned int id,
+					 unsigned short ignore);
 
 dpll_status dpll54xx_status_get(dpll54xx_id id);
 
-double dpll54xx_output_rate_get(
-	dpll54xx_id id, dpll54xx_output_id out_id, unsigned short ignore);
+double dpll54xx_output_rate_get(dpll54xx_id id, dpll54xx_output_id out_id,
+				unsigned short ignore);
 
 int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
-	FILE *stream, unsigned int *err_nbr, unsigned int *wng_nbr);
+		   FILE * stream, unsigned int *err_nbr, unsigned int *wng_nbr);
 
 dpll54xx_id dpll54xx_s2id(char *s);
 
-
-int dpll54xx_dump(FILE *stream, dpll54xx_id id);
-int dpll54xx_show(FILE *stream);
-
+int dpll54xx_dump(FILE * stream, dpll54xx_id id);
+int dpll54xx_show(FILE * stream);
 
 #endif

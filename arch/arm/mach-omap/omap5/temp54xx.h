@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __TEMP54XX_H__
 #define __TEMP54XX_H__
 
-
 #include <stdio.h>
 #include <voltdm54xx.h>
-
 
 typedef enum {
 	TEMP54XX_MPU,
@@ -64,10 +61,8 @@ typedef enum {
 	TEMP54XX_ID_MAX
 } temp54xx_sensor_id;
 
-
 const char *temp54xx_name_get(temp54xx_sensor_id id);
 temp54xx_sensor_id voltdm2sensor_id(voltdm54xx_id vdd_id);
 int temp54xx_get(temp54xx_sensor_id id);
-
 
 #endif

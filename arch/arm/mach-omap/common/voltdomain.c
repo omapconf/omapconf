@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <string.h>
 #include <voltdomain.h>
 #include <voltdm44xx.h>
@@ -52,14 +51,12 @@
 #include <cpuinfo.h>
 #include <opp.h>
 
-
 /* #define VOLTDM_DEBUG */
 #ifdef VOLTDM_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_init
@@ -68,11 +65,11 @@
  *------------------------------------------------------------------------ */
 void voltdm_init(void)
 {
-	#ifdef VOLTDM_DEBUG
+#ifdef VOLTDM_DEBUG
 	int i, count;
 	const genlist *voltdm_list;
 	voltdm_info voltdm;
-	#endif
+#endif
 
 	if (cpu_is_omap44xx()) {
 		voltdm44xx_init();
@@ -87,26 +84,25 @@ void voltdm_init(void)
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
 	}
 
-	#ifdef VOLTDM_DEBUG
+#ifdef VOLTDM_DEBUG
 	voltdm_list = voltdm_list_get();
 	count = genlist_getcount((genlist *) voltdm_list);
 	printf("Voltage Domain List:\n");
 	for (i = 0; i < count; i++) {
 		genlist_get((genlist *) voltdm_list, i,
-			(voltdm_info *) &voltdm);
+			    (voltdm_info *) & voltdm);
 		printf(" %s:\n", voltdm.name);
 		printf("  ID:%d\n", voltdm.id);
 		if (voltdm.voltst == NULL)
 			printf("  Status Register: does not exist\n");
 		else
 			printf("  Status Register: %s\n",
-				reg_name_get(voltdm.voltst));
+			       reg_name_get(voltdm.voltst));
 		printf("\n\n");
 	}
 	printf("Voltage Domain count: %d\n\n", count);
-	#endif
+#endif
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_deinit
@@ -129,7 +125,6 @@ void voltdm_deinit(void)
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_list_get
@@ -155,7 +150,6 @@ const genlist *voltdm_list_get(void)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_s2id
  * @BRIEF		convert voltage domain provided as a string
@@ -175,48 +169,48 @@ int voltdm_s2id(const char *voltdm)
 
 	if (cpu_is_omap44xx()) {
 		if (strcmp(voltdm, VDD_WKUP) == 0)
-			return (int) OMAP4_LDO_WKUP;
+			return (int)OMAP4_LDO_WKUP;
 		else if (strcmp(voltdm, VDD_MPU) == 0)
-			return (int) OMAP4_VDD_MPU;
+			return (int)OMAP4_VDD_MPU;
 		else if (strcmp(voltdm, VDD_IVA) == 0)
-			return (int) OMAP4_VDD_IVA;
+			return (int)OMAP4_VDD_IVA;
 		else if (strcmp(voltdm, VDD_CORE) == 0)
-			return (int) OMAP4_VDD_CORE;
+			return (int)OMAP4_VDD_CORE;
 		else
 			return OMAPCONF_ERR_ARG;
 	} else if (cpu_is_omap54xx()) {
 		if (strcmp(voltdm, VDD_WKUP) == 0)
-			return (int) VDD54XX_WKUP;
+			return (int)VDD54XX_WKUP;
 		else if (strcmp(voltdm, VDD_MPU) == 0)
-			return (int) VDD54XX_MPU;
+			return (int)VDD54XX_MPU;
 		else if (strcmp(voltdm, VDD_MM) == 0)
-			return (int) VDD54XX_MM;
+			return (int)VDD54XX_MM;
 		else if (strcmp(voltdm, VDD_CORE) == 0)
-			return (int) VDD54XX_CORE;
+			return (int)VDD54XX_CORE;
 		else
 			return OMAPCONF_ERR_ARG;
 	} else if (cpu_is_dra7xx()) {
 		if (strcmp(voltdm, VDD_MPU) == 0)
-			return (int) VDD_DRA7XX_MPU;
+			return (int)VDD_DRA7XX_MPU;
 		else if (strcmp(voltdm, VDD_IVA) == 0)
-			return (int) VDD_DRA7XX_IVA;
+			return (int)VDD_DRA7XX_IVA;
 		else if (strcmp(voltdm, VDD_DSPEVE) == 0)
-			return (int) VDD_DRA7XX_DSPEVE;
+			return (int)VDD_DRA7XX_DSPEVE;
 		else if (strcmp(voltdm, VDD_GPU) == 0)
-			return (int) VDD_DRA7XX_GPU;
+			return (int)VDD_DRA7XX_GPU;
 		else if (strcmp(voltdm, VDD_CORE) == 0)
-			return (int) VDD_DRA7XX_CORE;
+			return (int)VDD_DRA7XX_CORE;
 		else if (strcmp(voltdm, VDD_RTC) == 0)
-			return (int) VDD_DRA7XX_RTC;
+			return (int)VDD_DRA7XX_RTC;
 		else
 			return OMAPCONF_ERR_ARG;
 	} else if (cpu_is_am335x()) {
 		if (strcmp(voltdm, VDD_CORE) == 0)
-			return (int) VDD_AM335X_CORE;
+			return (int)VDD_AM335X_CORE;
 		else if (strcmp(voltdm, VDD_MPU) == 0)
-			return (int) VDD_AM335X_MPU;
+			return (int)VDD_AM335X_MPU;
 		else if (strcmp(voltdm, VDD_RTC) == 0)
-			return (int) VDD_AM335X_RTC;
+			return (int)VDD_AM335X_RTC;
 		else
 			return OMAPCONF_ERR_ARG;
 	} else {
@@ -225,7 +219,6 @@ int voltdm_s2id(const char *voltdm)
 		return OMAPCONF_ERR_CPU;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_count_get
@@ -251,7 +244,6 @@ int voltdm_count_get(void)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_voltage_get
  * @BRIEF		return the current voltage supplied to a voltage domain.
@@ -275,12 +267,12 @@ int voltdm_voltage_get(const char *voltdm)
 
 	id = voltdm_s2id(voltdm);
 	if (id < 0)
-		return (double) OMAPCONF_ERR_ARG;
+		return (double)OMAPCONF_ERR_ARG;
 
 	if (cpu_is_omap44xx()) {
 		ret = voltdm44xx_get_voltage((voltdm44xx_id) id, &volt);
 		if (ret < 0)
-			return (double) ret;
+			return (double)ret;
 		else
 			return v2uv(volt);
 	} else if (cpu_is_omap54xx()) {
@@ -292,10 +284,9 @@ int voltdm_voltage_get(const char *voltdm)
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
-		return (double) OMAPCONF_ERR_CPU;
+		return (double)OMAPCONF_ERR_CPU;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_voltage_set
@@ -321,21 +312,19 @@ int voltdm_voltage_set(const char *voltdm, int uv)
 
 	id = voltdm_s2id(voltdm);
 	if (id < 0)
-		return (double) OMAPCONF_ERR_ARG;
+		return (double)OMAPCONF_ERR_ARG;
 
 	if (cpu_is_omap44xx()) {
-		return sr44xx_voltage_set(
-			(unsigned int) id, (unsigned long) uv);
+		return sr44xx_voltage_set((unsigned int)id, (unsigned long)uv);
 	} else if (cpu_is_omap54xx()) {
-		return voltdm54xx_voltage_set(
-			(voltdm54xx_id) id, (unsigned long) uv);
+		return voltdm54xx_voltage_set((voltdm54xx_id) id,
+					      (unsigned long)uv);
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
 		return OMAPCONF_ERR_CPU;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_nominal_voltage_get
@@ -361,11 +350,11 @@ int voltdm_nominal_voltage_get(const char *voltdm)
 	if (id < 0) {
 		uvolt = OMAPCONF_ERR_ARG;
 	} else if (cpu_is_omap44xx()) {
-		uvolt = v2uv(voltdm44xx_nominal_voltage_get(
-			(voltdm44xx_id) id));
+		uvolt = v2uv(voltdm44xx_nominal_voltage_get((voltdm44xx_id)
+							    id));
 	} else if (cpu_is_omap54xx()) {
-		uvolt = v2uv(voltdm54xx_nominal_voltage_get(
-			(voltdm54xx_id) id));
+		uvolt = v2uv(voltdm54xx_nominal_voltage_get((voltdm54xx_id)
+							    id));
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
@@ -375,7 +364,6 @@ int voltdm_nominal_voltage_get(const char *voltdm)
 	dprintf("%s(%s) = %duV\n", __func__, voltdm, uvolt);
 	return uvolt;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_por_nominal_voltage_get
@@ -407,11 +395,15 @@ int voltdm_por_nominal_voltage_get(const char *voltdm, const char *opp)
 		return opp_id;
 
 	if (cpu_is_omap44xx()) {
-		return v2uv(voltdm44xx_por_nominal_voltage_get(
-			(voltdm44xx_id) vdd_id, (opp44xx_id) opp_id));
+		return v2uv(voltdm44xx_por_nominal_voltage_get((voltdm44xx_id)
+							       vdd_id,
+							       (opp44xx_id)
+							       opp_id));
 	} else if (cpu_is_omap54xx()) {
-		return v2uv(voltdm54xx_por_nominal_voltage_get(
-			(voltdm54xx_id) vdd_id, (opp54xx_id) opp_id));
+		return v2uv(voltdm54xx_por_nominal_voltage_get((voltdm54xx_id)
+							       vdd_id,
+							       (opp54xx_id)
+							       opp_id));
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);

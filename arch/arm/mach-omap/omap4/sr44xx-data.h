@@ -42,19 +42,15 @@
  *
  */
 
-
 #ifndef __SR44XX_DATA_H__
 #define __SR44XX_DATA_H__
-
 
 #include <sr.h>
 #include <voltdm44xx.h>
 #include <smartreflex44xx.h>
 #include <cpuinfo.h>
 
-
 extern const char sr44xx_mod_names[OMAP4_SR_ID_MAX + 1][12];
-
 
 extern const sr_audit_settings sr4430_mpu_opp50_golden_settings;
 extern const sr_audit_settings sr4430_mpu_opp100_golden_settings;
@@ -73,7 +69,6 @@ extern const sr_audit_settings sr4430_core_opp100_golden_settings;
 extern const sr_audit_settings *sr4430_core_golden_settings[OPP44XX_ID_MAX];
 
 extern const sr_audit_settings **sr4430_golden_settings[OMAP4_SR_ID_MAX];
-
 
 extern const sr_audit_settings sr4460_mpu_opp50_golden_settings;
 extern const sr_audit_settings sr4460_mpu_opp100_golden_settings;
@@ -96,8 +91,7 @@ extern const sr_audit_settings *sr4460_core_golden_settings[OPP44XX_ID_MAX];
 
 extern const sr_audit_settings **sr4460_golden_settings[OMAP4_SR_ID_MAX];
 
-
-#if 0 /* FIXME when OMAP4470 golden settings available */
+#if 0				/* FIXME when OMAP4470 golden settings available */
 extern const sr_audit_settings sr4470_mpu_opp50_golden_settings;
 extern const sr_audit_settings sr4470_mpu_opp100_golden_settings;
 extern const sr_audit_settings sr4470_mpu_oppturbo_golden_settings;
@@ -120,8 +114,6 @@ extern const sr_audit_settings *sr4470_core_golden_settings[OPP44XX_ID_MAX];
 extern const sr_audit_settings **sr4470_golden_settings[OMAP4_SR_ID_MAX];
 #endif
 
-
 extern const sr_audit_settings ***sr44xx_golden_settings[OMAP_MAX];
-
 
 #endif

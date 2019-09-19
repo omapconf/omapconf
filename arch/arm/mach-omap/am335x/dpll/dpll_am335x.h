@@ -41,37 +41,34 @@
  *
  */
 
-
 #ifndef __DPLL_AM335X_H__
 #define __DPLL_AM335X_H__
-
 
 #include <cm_am335x-defs.h>
 #include <stdio.h>
 
-
 int dpll_am335x_init(void);
 int dpll_am335x_free(void);
 
-int dpll_am335x_settings_extract(dpll_am335x_settings *settings,
-	unsigned int id, unsigned short ignore);
+int dpll_am335x_settings_extract(dpll_am335x_settings * settings,
+				 unsigned int id, unsigned short ignore);
 
 dpll_am335x_settings *dpll_am335x_settings_get(unsigned int id,
-	unsigned short ignore);
+					       unsigned short ignore);
 
 dpll_status dpll_am335x_status_get(dpll_am335x_id id);
 
 double dpll_am335x_output_rate_get(dpll_am335x_id id,
-	dpll_am335x_output_id out_id, unsigned short ignore);
+				   dpll_am335x_output_id out_id,
+				   unsigned short ignore);
 
 int dpll_am335x_type_b_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
-	FILE *stream);
+			    FILE * stream);
 int dpll_am335x_type_a_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
-	FILE *stream);
+			    FILE * stream);
 dpll_am335x_id dpll_am335x_s2id(char *s);
-int dpll_am335x_dump(FILE *stream, dpll_am335x_id id);
-int dpll_am335x_show(FILE *stream);
+int dpll_am335x_dump(FILE * stream, dpll_am335x_id id);
+int dpll_am335x_show(FILE * stream);
 int dpll_am335x_main(int argc, char *argv[]);
-
 
 #endif

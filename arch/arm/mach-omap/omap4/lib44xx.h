@@ -41,25 +41,18 @@
  *
  */
 
-
 #ifndef __LIB44XX_H__
 #define __LIB44XX_H__
-
 
 #include <pwrdm.h>
 #include <stdio.h>
 
-
 #define OMAP44XX_UART_TIMEOUT		10
 
+int reg44xx_addr_find(char *name, unsigned int *addr);
 
-int reg44xx_addr_find(char *name, unsigned int* addr);
-
-
-int cpu44xx_power_state_get(unsigned int cpu,
-	pwrdm_state *state);
+int cpu44xx_power_state_get(unsigned int cpu, pwrdm_state * state);
 
 int power44xx_status_show(void);
-
 
 #endif

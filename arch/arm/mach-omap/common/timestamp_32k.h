@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __TIMESTAMP_32K_H__
 #define __TIMESTAMP_32K_H__
-
 
 volatile unsigned int *mem_map_32k(void);
 void mem_unmap_32k(volatile unsigned int *addr);
 int timestamp_32k_main(int argc, char **argv);
-
 
 #endif

@@ -41,13 +41,10 @@
  *
  */
 
-
 #ifndef __REG_H__
 #define __REG_H__
 
-
 #define OMAPCONF_REG_NAME_MAX_LENGTH 72
-
 
 typedef struct {
 	char name[OMAPCONF_REG_NAME_MAX_LENGTH];
@@ -56,19 +53,16 @@ typedef struct {
 	unsigned char data_valid;
 } reg;
 
+int reg_init(reg * r,
+	     char name[OMAPCONF_REG_NAME_MAX_LENGTH],
+	     unsigned int addr, unsigned int data);
 
-int reg_init(reg *r,
-	char name[OMAPCONF_REG_NAME_MAX_LENGTH],
-	unsigned int addr,
-	unsigned int data);
+unsigned int reg_read(reg * r);
+int reg_write(reg * r, unsigned int val);
+char *reg_name_get(reg * r);
+unsigned int reg_addr_get(reg * r);
 
-unsigned int reg_read(reg *r);
-int reg_write(reg *r, unsigned int val);
-char *reg_name_get(reg *r);
-unsigned int reg_addr_get(reg *r);
-
-int reg_xml_import(reg *r, char *xml_entry);
+int reg_xml_import(reg * r, char *xml_entry);
 int reg_xml_export(reg r, char *xml_entry);
-
 
 #endif

@@ -42,10 +42,8 @@
  *
  */
 
-
 #ifndef __CORESIGHT44XX_H__
 #define __CORESIGHT44XX_H__
-
 
 #define OMAP4_CORESIGHT_UNLOCK_VALUE	0xC5ACCE55
 
@@ -75,10 +73,8 @@
 #define OMAP4430_CSTF_LOCK	OMAP4430_CORESIGHT_REGADDR(OMAP4430_CSTF_BASE, 0xFB0)
 #define OMAP4430_CSTF_LOCK_STS	OMAP4430_CORESIGHT_REGADDR(OMAP4430_CSTF_BASE, 0xFB4)
 
-
 int coresight_etb_capture_enable(void);
 int coresight_etb_capture_disable(unsigned int *size);
 int coresight_etb_save_trace(char *filename);
-
 
 #endif

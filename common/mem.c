@@ -41,17 +41,14 @@
  *
  */
 
-
 #include <mem.h>
 #include <linux_mem.h>
 #include <stdio.h>
-
 
 static unsigned int last_mem_addr;
 static unsigned short fake_mem_access = 0;
 static unsigned short mem_read_trace = 0;
 static unsigned short mem_write_trace = 0;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_read_trace_enable
@@ -65,7 +62,6 @@ void mem_read_trace_enable(unsigned short enable)
 	mem_read_trace = enable;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_write_trace_enable
  * @BRIEF		enable tracing of all memory write access.
@@ -77,7 +73,6 @@ void mem_write_trace_enable(unsigned short enable)
 {
 	mem_write_trace = enable;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_map
@@ -101,7 +96,6 @@ int mem_map(unsigned int addr)
 	return ret;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_unmap
  * @BRIEF		unmap last 1MB memory chunk.
@@ -113,7 +107,6 @@ void mem_unmap(void)
 {
 	lmem_unmap();
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_map_address
@@ -130,7 +123,6 @@ void *mem_map_address(unsigned int addr)
 	return lmem_map_address(addr);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_unmap_address
  * @BRIEF		unmap specific virtual address.
@@ -143,7 +135,6 @@ void mem_unmap_address(void *vaddr)
 	lmem_unmap_address(vaddr);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_phys2virt
  * @BRIEF		convert memory physical address to virtual address.
@@ -155,7 +146,6 @@ void *mem_phys2virt(void *addr)
 {
 	return lmem_phys2virt(addr);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_read
@@ -172,7 +162,7 @@ int mem_read(unsigned int addr, unsigned int *val)
 {
 	int ret;
 
-	if ((void *) val == NULL) {
+	if ((void *)val == NULL) {
 		fprintf(stderr, "%s(): val == NULL!!!\n", __func__);
 		return MEM_ERR_ARG;
 	}
@@ -189,7 +179,7 @@ int mem_read(unsigned int addr, unsigned int *val)
 	}
 
 	if (mem_fake_access_get()) {
-		*val = (unsigned int) addr;
+		*val = (unsigned int)addr;
 		ret = 0;
 	} else {
 		ret = lmem_read(addr, val);
@@ -204,7 +194,6 @@ int mem_read(unsigned int addr, unsigned int *val)
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_write
@@ -228,7 +217,7 @@ int mem_write(unsigned int addr, unsigned int val)
 
 	if (mem_write_trace) {
 		printf("omapconf: writing 0x%08X at address 0x%08X...",
-			val, addr);
+		       val, addr);
 		fflush(stdin);
 	}
 
@@ -248,7 +237,6 @@ int mem_write(unsigned int addr, unsigned int val)
 	return ret;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_address_range_read
  * @BRIEF		Fill 'mem_ptr' array of size 'size' with
@@ -265,12 +253,12 @@ int mem_write(unsigned int addr, unsigned int val)
  *			'addr'.
  *------------------------------------------------------------------------ */
 int mem_address_range_read(unsigned int addr, unsigned int *mem_ptr,
-	unsigned int size)
+			   unsigned int size)
 {
 	unsigned int i;
 	int ret = 0;
 
-	if ((void *) mem_ptr == NULL) {
+	if ((void *)mem_ptr == NULL) {
 		fprintf(stderr, "%s(): mem_ptr == NULL!!!\n", __func__);
 		return MEM_ERR_ARG;
 	}
@@ -287,7 +275,6 @@ int mem_address_range_read(unsigned int addr, unsigned int *mem_ptr,
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_last_addr_get
  * @BRIEF		return last physical memory address accessed
@@ -300,7 +287,6 @@ unsigned int mem_last_addr_get(void)
 {
 	return last_mem_addr;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_fake_access_set
@@ -326,7 +312,6 @@ void mem_fake_access_set(unsigned short enable)
 {
 	fake_mem_access = enable;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_fake_access_get

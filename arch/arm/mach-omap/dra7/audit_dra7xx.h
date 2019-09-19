@@ -41,18 +41,15 @@
  *
  */
 
-
 #ifndef __AUDIT_DRA7XX_H__
 #define __AUDIT_DRA7XX_H__
-
 
 #include <stdio.h>
 #include <dpll_dra7xx.h>
 #include <voltdm_dra7xx.h>
 
-
-int audit_dra7xx_dpll(FILE *stream, dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id,
-	unsigned short curr_opp, unsigned int *err_nbr, unsigned int *wng_nbr);
-
+int audit_dra7xx_dpll(FILE * stream, dpll_dra7xx_id dpll_id,
+		      opp_dra7xx_id opp_id, unsigned short curr_opp,
+		      unsigned int *err_nbr, unsigned int *wng_nbr);
 
 #endif

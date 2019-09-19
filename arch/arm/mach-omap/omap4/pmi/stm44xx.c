@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <stm44xx.h>
 #include <emu44xx.h>
 #include <coresight44xx.h>
@@ -49,7 +48,6 @@
 #include <lib44xx.h>
 #include <mem.h>
 #include <stdio.h>
-
 
 /* #define STM_OMAP4_DEBUG */
 #ifdef STM_OMAP4_DEBUG
@@ -76,8 +74,8 @@ static const reg_table omap4_stm_reg_table[18] = {
 	{"STM_CTC", OMAP4430_STM_CTC},
 	{"STM_LOCK", OMAP4430_STM_LOCK},
 	{"STM_LOCK_STS", OMAP4430_STM_LOCK_STS},
-	{"END", 0} };
-
+	{"END", 0}
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		stm_claim_ownership
@@ -94,7 +92,7 @@ int stm_claim_ownership(void)
 {
 	if (!emu44xx_is_enabled()) {
 		printf("stm_claim_ownership(): "
-			"trying to enable ETB but EMU domain OFF!!!\n");
+		       "trying to enable ETB but EMU domain OFF!!!\n");
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
@@ -113,7 +111,6 @@ int stm_claim_ownership(void)
 	dprintf("stm_claim_ownership(): STM claimed.\n");
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		stm_is_claimed
@@ -136,7 +133,6 @@ int stm_is_claimed(void)
 	return ((stm_swmctrl0 & 0xC0000000) == 0x80000000);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		stm_release_ownership
  * @BRIEF		release STM ownership.
@@ -152,7 +148,7 @@ int stm_release_ownership(void)
 {
 	if (!emu44xx_is_enabled()) {
 		printf("stm_release_ownership(): "
-			"trying to enable ETB but EMU domain OFF!!!\n");
+		       "trying to enable ETB but EMU domain OFF!!!\n");
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
@@ -168,7 +164,6 @@ int stm_release_ownership(void)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		stm_dump_regs
  * @BRIEF		dump STM registers
@@ -180,7 +175,7 @@ int stm_dump_regs(void)
 {
 	if (!emu44xx_is_enabled()) {
 		printf("stm_dump_regs(): "
-			"trying to enable ETB but EMU domain OFF!!!\n");
+		       "trying to enable ETB but EMU domain OFF!!!\n");
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
@@ -191,7 +186,6 @@ int stm_dump_regs(void)
 
 	return dumpregs((reg_table *) omap4_stm_reg_table);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		stm_hw_master_enable
@@ -210,7 +204,7 @@ int stm_hw_master_enable(stm_hw_masters hwmid, unsigned char pos)
 
 	if (!emu44xx_is_enabled()) {
 		printf("stm_hw_master_enable(): "
-			"trying to enable ETB but EMU domain OFF!!!\n");
+		       "trying to enable ETB but EMU domain OFF!!!\n");
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 	if (!stm_is_claimed()) {
@@ -219,12 +213,11 @@ int stm_hw_master_enable(stm_hw_masters hwmid, unsigned char pos)
 	}
 	if (hwmid >= HW_MASTER_MAX) {
 		printf("stm_hw_master_enable(): "
-			"hwmid (0x%02X) >= HW_MASTER_MAX!\n", hwmid);
+		       "hwmid (0x%02X) >= HW_MASTER_MAX!\n", hwmid);
 		return OMAPCONF_ERR_ARG;
 	}
 	if (pos > 3) {
-		printf("stm_hw_master_enable(): "
-			"pos (%d) > 3!\n", pos);
+		printf("stm_hw_master_enable(): " "pos (%d) > 3!\n", pos);
 		return OMAPCONF_ERR_ARG;
 	}
 
@@ -237,7 +230,6 @@ int stm_hw_master_enable(stm_hw_masters hwmid, unsigned char pos)
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		stm_hw_master_disable
@@ -255,7 +247,7 @@ int stm_hw_master_disable(unsigned char pos)
 
 	if (!emu44xx_is_enabled()) {
 		printf("stm_hw_master_disable(): "
-			"trying to enable ETB but EMU domain OFF!!!\n");
+		       "trying to enable ETB but EMU domain OFF!!!\n");
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 	if (!stm_is_claimed()) {
@@ -276,7 +268,6 @@ int stm_hw_master_disable(unsigned char pos)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		stm_atb_capture_enable
  * @BRIEF		enable STM trace to be captured in ETB via ATB
@@ -290,7 +281,7 @@ int stm_atb_capture_enable(void)
 {
 	if (!emu44xx_is_enabled()) {
 		printf("stm_atb_capture_enable(): "
-			"trying to enable ETB but EMU domain OFF!!!\n");
+		       "trying to enable ETB but EMU domain OFF!!!\n");
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 	if (!stm_is_claimed()) {
@@ -300,14 +291,13 @@ int stm_atb_capture_enable(void)
 
 	mem_write(OMAP4430_ATB_CONFIG, 0x00010000);
 
-	#ifdef STM_OMAP4_DEBUG
+#ifdef STM_OMAP4_DEBUG
 	printf("stm_atb_capture_enable(): ATB capture enabled.\n");
 	dumpregs((reg_table *) omap4_stm_reg_table);
-	#endif
+#endif
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		stm_atb_capture_disable
@@ -342,14 +332,13 @@ int stm_atb_capture_disable(void)
 
 	dprintf("stm_atb_capture_disable(): ATB capture disabled.\n");
 
-	#ifdef STM_OMAP4_DEBUG
+#ifdef STM_OMAP4_DEBUG
 	stm_last_header_pos_get();
 	stm_dump_regs();
-	#endif
+#endif
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		stm_last_header_pos_get
@@ -371,7 +360,7 @@ int stm_last_header_pos_get(void)
 
 	if (!emu44xx_is_enabled()) {
 		printf("stm_atb_capture_disable(): "
-			"trying to enable ETB but EMU domain OFF!!!\n");
+		       "trying to enable ETB but EMU domain OFF!!!\n");
 		return OMAPCONF_ERR_INTERNAL;
 	}
 	if (!stm_is_claimed()) {
@@ -398,7 +387,6 @@ int stm_last_header_pos_get(void)
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		stm_atb_prescaler_set
@@ -437,10 +425,9 @@ int stm_atb_prescaler_set(unsigned char div)
 	}
 
 	printf("stm_atb_prescaler_set(): div (%d) must be "
-		"power of 2 and <= 128!\n", div);
+	       "power of 2 and <= 128!\n", div);
 	return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		stm_atb_prescaler_get
@@ -458,7 +445,7 @@ int stm_atb_prescaler_get(void)
 
 	if (!emu44xx_is_enabled()) {
 		printf("stm_atb_prescaler_get(): "
-			"trying to enable ETB but EMU domain OFF!!!\n");
+		       "trying to enable ETB but EMU domain OFF!!!\n");
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 	if (!stm_is_claimed()) {

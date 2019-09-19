@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <cpuinfo.h>
 #include <help.h>
 #include <lib.h>
@@ -140,7 +139,7 @@ static int main_am437x_export(int argc, char *argv[])
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		AM437X functions main entry point (legacy)
  *------------------------------------------------------------------------ */
-static int main_am437x_legacy(int argc, char*argv[])
+static int main_am437x_legacy(int argc, char *argv[])
 {
 	int ret;
 
@@ -152,7 +151,7 @@ static int main_am437x_legacy(int argc, char*argv[])
 	    (strcmp(argv[1], "dump") == 0)) {
 		ret = prcm_am437x_dump(NULL);
 	} else if ((argc == 3) && (strcmp(argv[0], "prcm") == 0) &&
-		(strcmp(argv[1], "dump") == 0)) {
+		   (strcmp(argv[1], "dump") == 0)) {
 		ret = prcm_am437x_dump(argv[2]);
 	} else if (strcmp(argv[0], "ctt") == 0) {
 		ret = ctt_am437x_main(argc - 1, argv + 1);
@@ -194,7 +193,7 @@ int main_am437x(int argc, char *argv[])
 		goto main_am437x_err_arg;
 
 	if (strcmp(argv[0], "export") == 0)
-	        ret = main_am437x_export(argc - 1, argv + 1);
+		ret = main_am437x_export(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "dump") == 0)
 		ret = main_am437x_dump(argc - 1, argv + 1);
 	else

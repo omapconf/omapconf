@@ -41,12 +41,10 @@
  *
  */
 
-
 #include <lib.h>
 #include <interrupts.h>
 #include <cpuinfo.h>
 #include <string.h>
-
 
 /* #define INTERRUPTS_DEBUG */
 #ifdef INTERRUPTS_DEBUG
@@ -54,7 +52,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		irq_snapshot_save
@@ -125,7 +122,6 @@ int irq_snapshot_save(char *file)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		irq_total_count_get
  * @BRIEF		return the total number of times CPU was interrupted
@@ -136,13 +132,13 @@ int irq_snapshot_save(char *file)
  * @param[in,out]	fp: file descriptor of an opened /proc/interrupts file
  * @DESCRIPTION		return the total number of times CPU was interrupted
  *------------------------------------------------------------------------ */
-int irq_total_count_get(FILE *fp)
+int irq_total_count_get(FILE * fp)
 {
 	unsigned int cpu_count;
 	char line[256];
 	unsigned int irq_nbr, cpu0_irq_count, cpu1_irq_count, cpu2_irq_count,
-		cpu3_irq_count, cpu4_irq_count, cpu5_irq_count, cpu6_irq_count,
-		cpu7_irq_count, total_irq_count;
+	    cpu3_irq_count, cpu4_irq_count, cpu5_irq_count, cpu6_irq_count,
+	    cpu7_irq_count, total_irq_count;
 	char irq_ctrl_name[256], dev_name[256];
 	int ret;
 
@@ -165,42 +161,42 @@ int irq_total_count_get(FILE *fp)
 		switch (cpu_count) {
 		case 1:
 			ret = sscanf(line, "%d: %d %s %s",
-				&irq_nbr, &cpu0_irq_count,
-				irq_ctrl_name, dev_name);
+				     &irq_nbr, &cpu0_irq_count,
+				     irq_ctrl_name, dev_name);
 			if (ret != 4)
 				continue;
 			break;
 		case 2:
 			ret = sscanf(line, "%d: %d %d %s %s",
-				&irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
-				irq_ctrl_name, dev_name);
+				     &irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
+				     irq_ctrl_name, dev_name);
 			if (ret != 5)
 				continue;
 			break;
 		case 4:
 			ret = sscanf(line, "%d: %d %d %d %d %s %s",
-				&irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
-				&cpu2_irq_count, &cpu3_irq_count,
-				irq_ctrl_name, dev_name);
+				     &irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
+				     &cpu2_irq_count, &cpu3_irq_count,
+				     irq_ctrl_name, dev_name);
 			if (ret != 7)
 				continue;
 			break;
 		case 6:
 			ret = sscanf(line, "%d: %d %d %d %d %d %d %s %s",
-				&irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
-				&cpu2_irq_count, &cpu3_irq_count,
-				&cpu4_irq_count, &cpu5_irq_count,
-				irq_ctrl_name, dev_name);
+				     &irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
+				     &cpu2_irq_count, &cpu3_irq_count,
+				     &cpu4_irq_count, &cpu5_irq_count,
+				     irq_ctrl_name, dev_name);
 			if (ret != 9)
 				continue;
 			break;
 		case 8:
 			ret = sscanf(line, "%d: %d %d %d %d %d %d %d %d %s %s",
-				&irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
-				&cpu2_irq_count, &cpu3_irq_count,
-				&cpu4_irq_count, &cpu5_irq_count,
-				&cpu6_irq_count, &cpu7_irq_count,
-				irq_ctrl_name, dev_name);
+				     &irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
+				     &cpu2_irq_count, &cpu3_irq_count,
+				     &cpu4_irq_count, &cpu5_irq_count,
+				     &cpu6_irq_count, &cpu7_irq_count,
+				     irq_ctrl_name, dev_name);
 			if (ret != 11)
 				continue;
 			break;
@@ -220,7 +216,6 @@ int irq_total_count_get(FILE *fp)
 	return total_irq_count;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		irq_count_get
  * @BRIEF		return the number of times a given interrupt woke up
@@ -234,13 +229,13 @@ int irq_total_count_get(FILE *fp)
  * @DESCRIPTION		return the number of times a given interrupt woke up
  *			the CPU
  *------------------------------------------------------------------------ */
-int irq_count_get(unsigned int n, FILE *fp)
+int irq_count_get(unsigned int n, FILE * fp)
 {
 	unsigned int cpu_count;
 	char line[256];
 	unsigned int irq_nbr, cpu0_irq_count, cpu1_irq_count, cpu2_irq_count,
-		cpu3_irq_count, cpu4_irq_count, cpu5_irq_count,
-		cpu6_irq_count, cpu7_irq_count;
+	    cpu3_irq_count, cpu4_irq_count, cpu5_irq_count,
+	    cpu6_irq_count, cpu7_irq_count;
 	char irq_ctrl_name[256], dev_name[256];
 	int ret;
 
@@ -261,47 +256,47 @@ int irq_count_get(unsigned int n, FILE *fp)
 	while (fgets(line, sizeof(line), fp) != NULL) {
 		dprintf("%s(): line = %s\n", __func__, line);
 		cpu0_irq_count = cpu1_irq_count = cpu2_irq_count =
-			cpu3_irq_count = cpu4_irq_count = cpu5_irq_count =
-			cpu6_irq_count = cpu7_irq_count = 0;
+		    cpu3_irq_count = cpu4_irq_count = cpu5_irq_count =
+		    cpu6_irq_count = cpu7_irq_count = 0;
 		switch (cpu_count) {
 		case 1:
 			ret = sscanf(line, "%d: %d %s %s",
-				&irq_nbr, &cpu0_irq_count,
-				irq_ctrl_name, dev_name);
+				     &irq_nbr, &cpu0_irq_count,
+				     irq_ctrl_name, dev_name);
 			if (ret != 4)
 				continue;
 			break;
 		case 2:
 			ret = sscanf(line, "%d: %d %d %s %s",
-				&irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
-				irq_ctrl_name, dev_name);
+				     &irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
+				     irq_ctrl_name, dev_name);
 			if (ret != 5)
 				continue;
 			break;
 		case 4:
 			ret = sscanf(line, "%d: %d %d %d %d %s %s",
-				&irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
-				&cpu2_irq_count, &cpu3_irq_count,
-				irq_ctrl_name, dev_name);
+				     &irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
+				     &cpu2_irq_count, &cpu3_irq_count,
+				     irq_ctrl_name, dev_name);
 			if (ret != 7)
 				continue;
 			break;
 		case 6:
 			ret = sscanf(line, "%d: %d %d %d %d %d %d %s %s",
-				&irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
-				&cpu2_irq_count, &cpu3_irq_count,
-				&cpu4_irq_count, &cpu5_irq_count,
-				irq_ctrl_name, dev_name);
+				     &irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
+				     &cpu2_irq_count, &cpu3_irq_count,
+				     &cpu4_irq_count, &cpu5_irq_count,
+				     irq_ctrl_name, dev_name);
 			if (ret != 9)
 				continue;
 			break;
 		case 8:
 			ret = sscanf(line, "%d: %d %d %d %d %d %d %d %d %s %s",
-				&irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
-				&cpu2_irq_count, &cpu3_irq_count,
-				&cpu4_irq_count, &cpu5_irq_count,
-				&cpu6_irq_count, &cpu7_irq_count,
-				irq_ctrl_name, dev_name);
+				     &irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
+				     &cpu2_irq_count, &cpu3_irq_count,
+				     &cpu4_irq_count, &cpu5_irq_count,
+				     &cpu6_irq_count, &cpu7_irq_count,
+				     irq_ctrl_name, dev_name);
 			if (ret != 11)
 				continue;
 			break;
@@ -316,15 +311,14 @@ int irq_count_get(unsigned int n, FILE *fp)
 			" cpu2_irq_count=%d cpu3_irq_count=%d cpu4_irq_count=%d"
 			" cpu5_irq_count=%d, cpu6_irq_count=%d, "
 			"cpu7_irq_count=%d\n", __func__, irq_nbr,
-				cpu0_irq_count, cpu1_irq_count,
-				cpu2_irq_count, cpu3_irq_count,
-				cpu4_irq_count, cpu5_irq_count,
-				cpu6_irq_count, cpu7_irq_count);
+			cpu0_irq_count, cpu1_irq_count,
+			cpu2_irq_count, cpu3_irq_count,
+			cpu4_irq_count, cpu5_irq_count,
+			cpu6_irq_count, cpu7_irq_count);
 		if (irq_nbr == n) {
 			ret = cpu0_irq_count + cpu1_irq_count + cpu2_irq_count +
-				cpu3_irq_count + cpu4_irq_count +
-				cpu5_irq_count + cpu6_irq_count +
-				cpu7_irq_count;
+			    cpu3_irq_count + cpu4_irq_count +
+			    cpu5_irq_count + cpu6_irq_count + cpu7_irq_count;
 			break;
 		}
 	}
@@ -333,7 +327,6 @@ int irq_count_get(unsigned int n, FILE *fp)
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		irq_dev_name_get
@@ -348,13 +341,13 @@ int irq_count_get(unsigned int n, FILE *fp)
  * @DESCRIPTION		return the name of the device associated to the
  *			interrupt line n
  *------------------------------------------------------------------------ */
-char *irq_dev_name_get(unsigned int n, FILE *fp, char name[256])
+char *irq_dev_name_get(unsigned int n, FILE * fp, char name[256])
 {
 	unsigned int cpu_count;
 	char line[256];
 	unsigned int irq_nbr, cpu0_irq_count, cpu1_irq_count, cpu2_irq_count,
-		cpu3_irq_count, cpu4_irq_count, cpu5_irq_count,
-		cpu6_irq_count, cpu7_irq_count;
+	    cpu3_irq_count, cpu4_irq_count, cpu5_irq_count,
+	    cpu6_irq_count, cpu7_irq_count;
 	char irq_ctrl_name[256], dev_name[256];
 	char *pch;
 	int ret;
@@ -382,42 +375,42 @@ char *irq_dev_name_get(unsigned int n, FILE *fp, char name[256])
 		switch (cpu_count) {
 		case 1:
 			ret = sscanf(line, "%d: %d %s %s",
-				&irq_nbr, &cpu0_irq_count,
-				irq_ctrl_name, dev_name);
+				     &irq_nbr, &cpu0_irq_count,
+				     irq_ctrl_name, dev_name);
 			if (ret != 4)
 				continue;
 			break;
 		case 2:
 			ret = sscanf(line, "%d: %d %d %s %s",
-				&irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
-				irq_ctrl_name, dev_name);
+				     &irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
+				     irq_ctrl_name, dev_name);
 			if (ret != 5)
 				continue;
 			break;
 		case 4:
 			ret = sscanf(line, "%d: %d %d %d %d %s %s",
-				&irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
-				&cpu2_irq_count, &cpu3_irq_count,
-				irq_ctrl_name, dev_name);
+				     &irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
+				     &cpu2_irq_count, &cpu3_irq_count,
+				     irq_ctrl_name, dev_name);
 			if (ret != 7)
 				continue;
 			break;
 		case 6:
 			ret = sscanf(line, "%d: %d %d %d %d %d %d %s %s",
-				&irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
-				&cpu2_irq_count, &cpu3_irq_count,
-				&cpu4_irq_count, &cpu5_irq_count,
-				irq_ctrl_name, dev_name);
+				     &irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
+				     &cpu2_irq_count, &cpu3_irq_count,
+				     &cpu4_irq_count, &cpu5_irq_count,
+				     irq_ctrl_name, dev_name);
 			if (ret != 9)
 				continue;
 			break;
 		case 8:
 			ret = sscanf(line, "%d: %d %d %d %d %d %d %d %d %s %s",
-				&irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
-				&cpu2_irq_count, &cpu3_irq_count,
-				&cpu4_irq_count, &cpu5_irq_count,
-				&cpu6_irq_count, &cpu7_irq_count,
-				irq_ctrl_name, dev_name);
+				     &irq_nbr, &cpu0_irq_count, &cpu1_irq_count,
+				     &cpu2_irq_count, &cpu3_irq_count,
+				     &cpu4_irq_count, &cpu5_irq_count,
+				     &cpu6_irq_count, &cpu7_irq_count,
+				     irq_ctrl_name, dev_name);
 			if (ret != 11)
 				continue;
 			break;
@@ -447,13 +440,13 @@ char *irq_dev_name_get(unsigned int n, FILE *fp, char name[256])
 	rewind(fp);
 	return NULL;
 }
+
 #undef dprintf
 #ifdef INTERRUPTS_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		irq_occurred
@@ -469,7 +462,7 @@ char *irq_dev_name_get(unsigned int n, FILE *fp, char name[256])
  * @DESCRIPTION		check if an interrupt fired between 2 /proc/interrupts
  *			snapshots
  *------------------------------------------------------------------------ */
-int irq_occurred(unsigned int n, FILE *fp1, FILE *fp2)
+int irq_occurred(unsigned int n, FILE * fp1, FILE * fp2)
 {
 	int count1, count2;
 
@@ -492,7 +485,6 @@ int irq_occurred(unsigned int n, FILE *fp1, FILE *fp2)
 	return count2 - count1;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		irq_occurred_list_get
  * @BRIEF		parse 2 snapshots of /proc/interrupts file and fill list
@@ -506,7 +498,7 @@ int irq_occurred(unsigned int n, FILE *fp1, FILE *fp2)
  * @DESCRIPTION		parse 2 snapshots of /proc/interrupts file and fill list
  *			with information about occurred interrupt(s)
  *------------------------------------------------------------------------ */
-int irq_occurred_list_get(FILE *fp1, FILE *fp2, genlist *list)
+int irq_occurred_list_get(FILE * fp1, FILE * fp2, genlist * list)
 {
 	unsigned int occurred_irqs_count;
 	unsigned int irq_nbr;
@@ -538,13 +530,12 @@ int irq_occurred_list_get(FILE *fp1, FILE *fp2, genlist *list)
 		inf.nbr = irq_nbr;
 		inf.count = count;
 		irq_dev_name_get(irq_nbr, fp1, inf.dev_name);
-		genlist_addtail(list, (void *) &inf, sizeof(irq_info));
+		genlist_addtail(list, (void *)&inf, sizeof(irq_info));
 		occurred_irqs_count++;
 	}
 
 	return occurred_irqs_count;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		irq_occurred_list_sort
@@ -556,7 +547,7 @@ int irq_occurred_list_get(FILE *fp1, FILE *fp2, genlist *list)
  * @DESCRIPTION		sort list by irq occurrence decreasing order.
  *			Use bubble sort algorithm.
  *------------------------------------------------------------------------ */
-int irq_occurred_list_sort(genlist *list)
+int irq_occurred_list_sort(genlist * list)
 {
 	unsigned int i, max, tmpmax;
 	irq_info inf1, inf2;
@@ -570,11 +561,11 @@ int irq_occurred_list_sort(genlist *list)
 	while (max > 0) {
 		tmpmax = 0;
 		for (i = 0; i < max - 1; i++) {
-			genlist_get(list, i, (irq_info *) &inf1);
-			genlist_get(list, i + 1, (irq_info *) &inf2);
+			genlist_get(list, i, (irq_info *) & inf1);
+			genlist_get(list, i + 1, (irq_info *) & inf2);
 			if (inf1.count < inf2.count) {
-				genlist_add(list, (void *) &inf2,
-					sizeof(irq_info), i);
+				genlist_add(list, (void *)&inf2,
+					    sizeof(irq_info), i);
 				genlist_remove(list, i + 2);
 				tmpmax = i + 1;
 			}

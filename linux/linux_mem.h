@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __LINUX_MEM_H__
 #define __LINUX_MEM_H__
-
 
 int lmem_map(unsigned int addr);
 void lmem_unmap(void);

@@ -42,7 +42,6 @@
  *
  */
 
-
 #ifndef __SR54XX_DEFS_H__
 #define __SR54XX_DEFS_H__
 
@@ -88,7 +87,8 @@ extern reg omap5430_smartreflex_mpu_lvtsenavg;
 #define OMAP5430_SMARTREFLEX_MPU_LVTNVALUERECIPROCAL		0x4a0d904c
 extern reg omap5430_smartreflex_mpu_lvtnvaluereciprocal;
 #define OMAP5430_SMARTREFLEX_MPU_MOD_REGCOUNT			19
-extern reg *omap5430_smartreflex_mpu_mod[OMAP5430_SMARTREFLEX_MPU_MOD_REGCOUNT + 1];
+extern reg *omap5430_smartreflex_mpu_mod[OMAP5430_SMARTREFLEX_MPU_MOD_REGCOUNT +
+					 1];
 
 #define OMAP5430_SMARTREFLEX_MM_SRCONFIG			0x4a0db000
 extern reg omap5430_smartreflex_mm_srconfig;
@@ -129,7 +129,8 @@ extern reg omap5430_smartreflex_mm_lvtsenavg;
 #define OMAP5430_SMARTREFLEX_MM_LVTNVALUERECIPROCAL		0x4a0db04c
 extern reg omap5430_smartreflex_mm_lvtnvaluereciprocal;
 #define OMAP5430_SMARTREFLEX_MM_MOD_REGCOUNT			19
-extern reg *omap5430_smartreflex_mm_mod[OMAP5430_SMARTREFLEX_MM_MOD_REGCOUNT + 1];
+extern reg *omap5430_smartreflex_mm_mod[OMAP5430_SMARTREFLEX_MM_MOD_REGCOUNT +
+					1];
 
 #define OMAP5430_SMARTREFLEX_CORE_SRCONFIG			0x4a0dd000
 extern reg omap5430_smartreflex_core_srconfig;
@@ -170,7 +171,8 @@ extern reg omap5430_smartreflex_core_lvtsenavg;
 #define OMAP5430_SMARTREFLEX_CORE_LVTNVALUERECIPROCAL		0x4a0dd04c
 extern reg omap5430_smartreflex_core_lvtnvaluereciprocal;
 #define OMAP5430_SMARTREFLEX_CORE_MOD_REGCOUNT			19
-extern reg *omap5430_smartreflex_core_mod[OMAP5430_SMARTREFLEX_CORE_MOD_REGCOUNT + 1];
+extern reg *omap5430_smartreflex_core_mod[OMAP5430_SMARTREFLEX_CORE_MOD_REGCOUNT
+					  + 1];
 
 typedef enum {
 	SR54XX_SMARTREFLEX_MPU,
@@ -182,6 +184,5 @@ typedef enum {
 extern reg **sr54xx_mods[SR54XX_MODS_COUNT + 1];
 
 extern const char *sr54xx_mods_name[SR54XX_MODS_COUNT];
-
 
 #endif

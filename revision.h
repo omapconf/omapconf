@@ -41,12 +41,10 @@
  *
  */
 
-
 #ifndef __REVISION_H__
 #define __REVISION_H__
 
 extern char *omapconf_version;
 extern char *builddate;
-
 
 #endif

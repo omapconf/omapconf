@@ -42,13 +42,10 @@
  *
  */
 
-
 #ifndef __OPP54XX_H__
 #define __OPP54XX_H__
 
-
 #include <voltdm54xx.h>
-
 
 void opp54xx_init(void);
 void opp54xx_deinit(void);
@@ -64,6 +61,5 @@ const char *opp54xx_by_voltage_get(voltdm54xx_id vdd_id);
 #endif
 const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id);
 int opp54xx_set(voltdm54xx_id vdd_id, opp54xx_id opp_id);
-
 
 #endif

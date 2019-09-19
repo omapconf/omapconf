@@ -41,12 +41,10 @@
  *
  */
 
-
 #ifndef __EMIF44XX_H__
 #define __EMIF44XX_H__
 
 #include <lib44xx.h>
-
 
 /* Base address */
 #define OMAP44XX_EMIF1_BASE			0x4c000000
@@ -156,7 +154,6 @@
 #define OMAP44XX_EMIF1_DDR_PHY_CTRL_1_SHDW	OMAP44XX_EMIF_REGADDR(OMAP44XX_EMIF1_BASE, 0x00e8)
 #define OMAP44XX_EMIF1_DDR_PHY_CTRL_2		OMAP44XX_EMIF_REGADDR(OMAP44XX_EMIF1_BASE, 0x00ec)
 
-
 /* EMIF2 Registers */
 #define OMAP44XX_EMIF2_MOD_ID_REV		OMAP44XX_EMIF_REGADDR(OMAP44XX_EMIF2_BASE, 0x0000)
 #define OMAP44XX_EMIF2_STATUS			OMAP44XX_EMIF_REGADDR(OMAP44XX_EMIF2_BASE, 0x0004)
@@ -208,20 +205,17 @@
 #define OMAP44XX_EMIF2_DDR_PHY_CTRL_1_SHDW	OMAP44XX_EMIF_REGADDR(OMAP44XX_EMIF2_BASE, 0x00e8)
 #define OMAP44XX_EMIF2_DDR_PHY_CTRL_2		OMAP44XX_EMIF_REGADDR(OMAP44XX_EMIF2_BASE, 0x00ec)
 
-
 typedef enum {
 	EMIF44XX_0 = 0,
 	EMIF44XX_1 = 1,
 	EMIF44XX_MAX = 2
 } emif44xx_ids;
 
-
 typedef enum {
 	EMIF44XX_PERF_CNT_0 = 0,
 	EMIF44XX_PERF_CNT_1 = 1,
 	EMIF44XX_PERF_CNT_MAX = 2
 } emif44xx_perf_cnt_ids;
-
 
 /*
  * NB:	When MReqDbg (cemudbg) is set to '1' for a command on the
@@ -244,61 +238,74 @@ typedef enum {
 	EMIF44XX_PERF_CNT_FILTER_PRIORITY_ELEV_CNT = 0x8,
 	EMIF44XX_PERF_CNT_FILTER_CMD_PENDING_CYC = 0x9,
 	EMIF44XX_PERF_CNT_FILTER_DATA_TRANSFER_CYCLES = 0xA,
-	EMIF44XX_PERF_CNT_FILTER_DISABLED = 0x10, /* Like MAX below, this value is not used in the EMIF. */
-	EMIF44XX_PERF_CNT_FILTER_MAX = 0x11 /* Value is not used. */
+	EMIF44XX_PERF_CNT_FILTER_DISABLED = 0x10,	/* Like MAX below, this value is not used in the EMIF. */
+	EMIF44XX_PERF_CNT_FILTER_MAX = 0x11	/* Value is not used. */
 } emif44xx_perf_cnt_filter_ids;
 
-
 typedef enum {
-	EMIF44XX_MEMADDRSPACE_CS1ANDCS0 = 0x0, /* These match EMIF fields (i.e. enum numbering is intentional.) */
-	EMIF44XX_MEMADDRSPACE_CS0       = 0x1,
-	EMIF44XX_MEMADDRSPACE_RESERVED  = 0x2,
-	EMIF44XX_MEMADDRSPACE_INTERNAL  = 0x3,
-	EMIF44XX_MEMADDRSPACE_DISABLED  = 0x4, /* Like MAX below, this value is not used in the EMIF. */
-	EMIF44XX_MEMADDRSPACE_MAX       = 0x5  /* Value is not used. */
+	EMIF44XX_MEMADDRSPACE_CS1ANDCS0 = 0x0,	/* These match EMIF fields (i.e. enum numbering is intentional.) */
+	EMIF44XX_MEMADDRSPACE_CS0 = 0x1,
+	EMIF44XX_MEMADDRSPACE_RESERVED = 0x2,
+	EMIF44XX_MEMADDRSPACE_INTERNAL = 0x3,
+	EMIF44XX_MEMADDRSPACE_DISABLED = 0x4,	/* Like MAX below, this value is not used in the EMIF. */
+	EMIF44XX_MEMADDRSPACE_MAX = 0x5	/* Value is not used. */
 } emif44xx_memaddrspace;
 
-
-static const name_desc_val_table emif_event_counters[] =  {
-	{"TOTAL_ACCESS",	"Total SDRAM Accesses.",					EMIF44XX_PERF_CNT_FILTER_TOTAL_ACCESS},
-	{"TOTAL_ACT",		"Total SDRAM Activates.",					EMIF44XX_PERF_CNT_FILTER_TOTAL_ACT},
-	{"TOTAL_READ",		"Total READs.",							EMIF44XX_PERF_CNT_FILTER_TOTAL_READ},
-	{"TOTAL_WRITE",		"Total WRITES.",						EMIF44XX_PERF_CNT_FILTER_TOTAL_WRITE},
-	{"CMDFIFO_FULL",	"Number of m_clk cycles OCP Command FIFO is full.",		EMIF44XX_PERF_CNT_FILTER_CMDFIFO_FULL_CYC},
-	{"WRBUF_FULL",		"Number of m_clk cycles OCP Write Data FIFO is full.",		EMIF44XX_PERF_CNT_FILTER_WRBUF_FULL_CYC},
-	{"RDFIFO_FULL",		"Number of m_clk cycles OCP Read Data FIFO is full.",		EMIF44XX_PERF_CNT_FILTER_RDFIFO_FULL_CYC},
-	{"WSFIFO_FULL",		"Number of m_clk cycles OCP Return Command FIFO is full.",	EMIF44XX_PERF_CNT_FILTER_WSFIFO_FULL_CYC},
-	{"PRIORITY_ELEV",	"Number of priority elevations.",				EMIF44XX_PERF_CNT_FILTER_PRIORITY_ELEV_CNT},
-	{"CMD_PENDING",		"Number of m_clk cycles that a command was pending.",		EMIF44XX_PERF_CNT_FILTER_CMD_PENDING_CYC},
-	{"DATA_TRANSFER",	"Number of m_clk cycles memory bus xferring data.",		EMIF44XX_PERF_CNT_FILTER_DATA_TRANSFER_CYCLES},
-	{"DISABLED",		"Counts Disabled.",						EMIF44XX_PERF_CNT_FILTER_DISABLED},
+static const name_desc_val_table emif_event_counters[] = {
+	{"TOTAL_ACCESS", "Total SDRAM Accesses.",
+	 EMIF44XX_PERF_CNT_FILTER_TOTAL_ACCESS},
+	{"TOTAL_ACT", "Total SDRAM Activates.",
+	 EMIF44XX_PERF_CNT_FILTER_TOTAL_ACT},
+	{"TOTAL_READ", "Total READs.", EMIF44XX_PERF_CNT_FILTER_TOTAL_READ},
+	{"TOTAL_WRITE", "Total WRITES.", EMIF44XX_PERF_CNT_FILTER_TOTAL_WRITE},
+	{"CMDFIFO_FULL", "Number of m_clk cycles OCP Command FIFO is full.",
+	 EMIF44XX_PERF_CNT_FILTER_CMDFIFO_FULL_CYC},
+	{"WRBUF_FULL", "Number of m_clk cycles OCP Write Data FIFO is full.",
+	 EMIF44XX_PERF_CNT_FILTER_WRBUF_FULL_CYC},
+	{"RDFIFO_FULL", "Number of m_clk cycles OCP Read Data FIFO is full.",
+	 EMIF44XX_PERF_CNT_FILTER_RDFIFO_FULL_CYC},
+	{"WSFIFO_FULL",
+	 "Number of m_clk cycles OCP Return Command FIFO is full.",
+	 EMIF44XX_PERF_CNT_FILTER_WSFIFO_FULL_CYC},
+	{"PRIORITY_ELEV", "Number of priority elevations.",
+	 EMIF44XX_PERF_CNT_FILTER_PRIORITY_ELEV_CNT},
+	{"CMD_PENDING", "Number of m_clk cycles that a command was pending.",
+	 EMIF44XX_PERF_CNT_FILTER_CMD_PENDING_CYC},
+	{"DATA_TRANSFER", "Number of m_clk cycles memory bus xferring data.",
+	 EMIF44XX_PERF_CNT_FILTER_DATA_TRANSFER_CYCLES},
+	{"DISABLED", "Counts Disabled.", EMIF44XX_PERF_CNT_FILTER_DISABLED},
 	/* END OF TABLE IS REQUIRED! */
-	{"END",			"End of Table.",						0} };
+	{"END", "End of Table.", 0}
+};
 
-
-static const name_desc_val_table emif_event_memaddrspace[] =  {
-	{"CS_1_AND_0",	"Count for access to PAD_CS_N[1] and PAD_CS_N[0] regions.",		EMIF44XX_MEMADDRSPACE_CS1ANDCS0},
-	{"CS_0",	"Count for access to PAD_CS_N[0] region.",				EMIF44XX_MEMADDRSPACE_CS0},
-	{"RESERVED",	"Reserved. Usage is unpredictable.",					EMIF44XX_MEMADDRSPACE_RESERVED},
-	{"INTERNAL",	"Count for access to internal registers.",				EMIF44XX_MEMADDRSPACE_INTERNAL},
-	{"DISABLED",	"Count All. Region filtering is disabled.",				EMIF44XX_MEMADDRSPACE_DISABLED},
+static const name_desc_val_table emif_event_memaddrspace[] = {
+	{"CS_1_AND_0",
+	 "Count for access to PAD_CS_N[1] and PAD_CS_N[0] regions.",
+	 EMIF44XX_MEMADDRSPACE_CS1ANDCS0},
+	{"CS_0", "Count for access to PAD_CS_N[0] region.",
+	 EMIF44XX_MEMADDRSPACE_CS0},
+	{"RESERVED", "Reserved. Usage is unpredictable.",
+	 EMIF44XX_MEMADDRSPACE_RESERVED},
+	{"INTERNAL", "Count for access to internal registers.",
+	 EMIF44XX_MEMADDRSPACE_INTERNAL},
+	{"DISABLED", "Count All. Region filtering is disabled.",
+	 EMIF44XX_MEMADDRSPACE_DISABLED},
 	/* END OF TABLEIS REQUIRED! */
-	{"END",		"End of Table.",							0} };
-
+	{"END", "End of Table.", 0}
+};
 
 int emif44xx_name2addr(char *name, unsigned int *addr);
 int emif44xx_dump(void);
 int emif44xx_main(int argc, char *argv[]);
 
 int emif44xx_perf_cnt_configure(emif44xx_ids emif_id,
-	emif44xx_perf_cnt_ids cnt_id, emif44xx_perf_cnt_filter_ids filter,
-	int conn_id, emif44xx_memaddrspace addr_sel);
+				emif44xx_perf_cnt_ids cnt_id,
+				emif44xx_perf_cnt_filter_ids filter,
+				int conn_id, emif44xx_memaddrspace addr_sel);
 unsigned int emif44xx_perf_cnt_get_time(emif44xx_ids emif_id);
 unsigned int emif44xx_perf_cnt_get_count(emif44xx_ids emif_id,
-	emif44xx_perf_cnt_ids cnt_id);
-
+					 emif44xx_perf_cnt_ids cnt_id);
 
 unsigned char emif44xx_cs_count_get(void);
-
 
 #endif

@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <hwobs44xx.h>
 #include <hwobs_regs44xx.h>
 #include <lib44xx.h>
@@ -56,7 +55,6 @@
 #include <ctype.h>
 #include <autoadjust_table.h>
 
-
 /* #define HWOBS44XX_DEBUG */
 #ifdef HWOBS44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -64,12 +62,10 @@
 #define dprintf(format, ...)
 #endif
 
-
 pad_cell hwobs_pad_reg_table[OMAP4430_HWOBS_MAX_NBR + 1];
 
 reg_table hwobs_core_debug_mux_table[OMAP4430_HWOBS_MAX_NBR + 1];
 reg_table hwobs_wkup_debug_mux_table[OMAP4430_HWOBS_MAX_NBR + 1];
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_padreg_read
@@ -102,7 +98,6 @@ int hwobs44xx_padreg_read(unsigned int padreg_addr, unsigned short *pad_val)
 	return ret;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_padreg_write
  * @BRIEF		write 16 bits pad value at given pad address
@@ -126,7 +121,7 @@ int hwobs44xx_padreg_write(unsigned int padreg_addr, unsigned short pad_val)
 		reg_val = (reg_val & 0xFFFF0000) | ((pad_val) << 0);
 		ret = mem_write(padreg_addr, reg_val);
 	} else if (padreg_addr % 0x4 == 2) {
-		ret = mem_read(padreg_addr-2, &reg_val);
+		ret = mem_read(padreg_addr - 2, &reg_val);
 		reg_val = ((pad_val) << 16) | (reg_val & 0x0000FFFF);
 		ret = mem_write(padreg_addr - 2, reg_val);
 	} else {
@@ -135,7 +130,6 @@ int hwobs44xx_padreg_write(unsigned int padreg_addr, unsigned short pad_val)
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_blkmuxreg_modify
@@ -152,7 +146,7 @@ int hwobs44xx_padreg_write(unsigned int padreg_addr, unsigned short pad_val)
  *			reg address
  *------------------------------------------------------------------------ */
 int hwobs44xx_blkmuxreg_modify(unsigned int muxreg_addr,
-	unsigned int block_pos, char mux_val)
+			       unsigned int block_pos, char mux_val)
 {
 	int ret = 0;
 	unsigned int reg_val;
@@ -161,13 +155,12 @@ int hwobs44xx_blkmuxreg_modify(unsigned int muxreg_addr,
 
 	if (ret == 0) {
 		reg_val = (reg_val & char_mask[block_pos]) |
-			((mux_val) << (block_pos * 8));
+		    ((mux_val) << (block_pos * 8));
 		ret = mem_write(muxreg_addr, reg_val);
 	}
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_pad_regtable_init
@@ -226,40 +219,40 @@ static int hwobs44xx_pad_regtable_init(void)
 
 	strcpy(hwobs_pad_reg_table[i].name, "PAD1_USBB1_ULPITLL_CLK");
 	hwobs_pad_reg_table[i++].addr =
-		OMAP4430_CONTROL_CORE_PAD1_USBB1_ULPITLL_CLK;
+	    OMAP4430_CONTROL_CORE_PAD1_USBB1_ULPITLL_CLK;
 	strcpy(hwobs_pad_reg_table[i].name, "PAD0_USBB1_ULPITLL_STP");
 	hwobs_pad_reg_table[i++].addr =
-		OMAP4430_CONTROL_CORE_PAD0_USBB1_ULPITLL_STP;
+	    OMAP4430_CONTROL_CORE_PAD0_USBB1_ULPITLL_STP;
 	strcpy(hwobs_pad_reg_table[i].name, "PAD1_USBB1_ULPITLL_DIR");
 	hwobs_pad_reg_table[i++].addr =
-		OMAP4430_CONTROL_CORE_PAD1_USBB1_ULPITLL_DIR;
+	    OMAP4430_CONTROL_CORE_PAD1_USBB1_ULPITLL_DIR;
 	strcpy(hwobs_pad_reg_table[i].name, "PAD0_USBB1_ULPITLL_NXT");
 	hwobs_pad_reg_table[i++].addr =
-		OMAP4430_CONTROL_CORE_PAD0_USBB1_ULPITLL_NXT;
+	    OMAP4430_CONTROL_CORE_PAD0_USBB1_ULPITLL_NXT;
 	strcpy(hwobs_pad_reg_table[i].name, "PAD1_USBB1_ULPITLL_DAT0");
 	hwobs_pad_reg_table[i++].addr =
-		OMAP4430_CONTROL_CORE_PAD1_USBB1_ULPITLL_DAT0;
+	    OMAP4430_CONTROL_CORE_PAD1_USBB1_ULPITLL_DAT0;
 	strcpy(hwobs_pad_reg_table[i].name, "PAD1_USBB1_ULPITLL_DAT1");
 	hwobs_pad_reg_table[i++].addr =
-		OMAP4430_CONTROL_CORE_PAD0_USBB1_ULPITLL_DAT1;
+	    OMAP4430_CONTROL_CORE_PAD0_USBB1_ULPITLL_DAT1;
 	strcpy(hwobs_pad_reg_table[i].name, "PAD1_USBB1_ULPITLL_DAT2");
 	hwobs_pad_reg_table[i++].addr =
-		OMAP4430_CONTROL_CORE_PAD1_USBB1_ULPITLL_DAT2;
+	    OMAP4430_CONTROL_CORE_PAD1_USBB1_ULPITLL_DAT2;
 	strcpy(hwobs_pad_reg_table[i].name, "PAD1_USBB1_ULPITLL_DAT3");
 	hwobs_pad_reg_table[i++].addr =
-		OMAP4430_CONTROL_CORE_PAD0_USBB1_ULPITLL_DAT3;
+	    OMAP4430_CONTROL_CORE_PAD0_USBB1_ULPITLL_DAT3;
 	strcpy(hwobs_pad_reg_table[i].name, "PAD1_USBB1_ULPITLL_DAT4");
 	hwobs_pad_reg_table[i++].addr =
-		OMAP4430_CONTROL_CORE_PAD1_USBB1_ULPITLL_DAT4;
+	    OMAP4430_CONTROL_CORE_PAD1_USBB1_ULPITLL_DAT4;
 	strcpy(hwobs_pad_reg_table[i].name, "PAD1_USBB1_ULPITLL_DAT5");
 	hwobs_pad_reg_table[i++].addr =
-		OMAP4430_CONTROL_CORE_PAD0_USBB1_ULPITLL_DAT5;
+	    OMAP4430_CONTROL_CORE_PAD0_USBB1_ULPITLL_DAT5;
 	strcpy(hwobs_pad_reg_table[i].name, "PAD1_USBB1_ULPITLL_DAT6");
 	hwobs_pad_reg_table[i++].addr =
-		OMAP4430_CONTROL_CORE_PAD1_USBB1_ULPITLL_DAT6;
+	    OMAP4430_CONTROL_CORE_PAD1_USBB1_ULPITLL_DAT6;
 	strcpy(hwobs_pad_reg_table[i].name, "PAD1_USBB1_ULPITLL_DAT7");
 	hwobs_pad_reg_table[i++].addr =
-		OMAP4430_CONTROL_CORE_PAD0_USBB1_ULPITLL_DAT7;
+	    OMAP4430_CONTROL_CORE_PAD0_USBB1_ULPITLL_DAT7;
 
 	strcpy(hwobs_pad_reg_table[i].name, "END");
 	hwobs_pad_reg_table[i].addr = 0;
@@ -267,7 +260,6 @@ static int hwobs44xx_pad_regtable_init(void)
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_mux_regtable_init
@@ -283,78 +275,141 @@ static int hwobs44xx_mux_regtable_init(void)
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
 
 	/* Init wkup mux registers table */
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_0;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_1;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_2;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_3;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_4;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_5;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_6;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_7;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_8;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_9;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_10;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_11;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_12;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_13;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_14;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_15;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_16;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_17;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_18;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_19;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_20;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_21;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_22;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_23;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_24;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_25;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_26;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_27;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_28;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_29;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_30;
-	hwobs_wkup_debug_mux_table[i++].addr = OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_31;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_0;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_1;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_2;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_3;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_4;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_5;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_6;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_7;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_8;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_9;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_10;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_11;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_12;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_13;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_14;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_15;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_16;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_17;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_18;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_19;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_20;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_21;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_22;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_23;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_24;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_25;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_26;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_27;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_28;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_29;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_30;
+	hwobs_wkup_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_31;
 
 	i = 0;
 
 	/* Init core mux registers table */
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_0;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_1;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_2;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_3;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_4;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_5;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_6;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_7;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_8;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_9;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_10;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_11;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_12;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_13;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_14;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_15;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_16;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_17;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_18;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_19;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_20;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_21;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_22;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_23;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_24;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_25;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_26;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_27;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_28;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_29;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_30;
-	hwobs_core_debug_mux_table[i++].addr = OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_31;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_0;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_1;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_2;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_3;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_4;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_5;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_6;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_7;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_8;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_9;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_10;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_11;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_12;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_13;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_14;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_15;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_16;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_17;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_18;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_19;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_20;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_21;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_22;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_23;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_24;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_25;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_26;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_27;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_28;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_29;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_30;
+	hwobs_core_debug_mux_table[i++].addr =
+	    OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_31;
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_regtable_init
@@ -372,7 +427,6 @@ static int hwobs44xx_regtable_init(void)
 
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_pinmux_check
@@ -394,33 +448,40 @@ static int hwobs44xx_pinmux_check(unsigned int check_field)
 
 	if (check_field == OMAP4430_HWOBS_PAD_FULL_CHECK) {
 		while (strcmp(hwobs_pad_reg_table[i].name, "END") != 0) {
-			hwobs44xx_padreg_read(hwobs_pad_reg_table[i].addr, &reg_pad_val);
+			hwobs44xx_padreg_read(hwobs_pad_reg_table[i].addr,
+					      &reg_pad_val);
 			if (((reg_pad_val) & 0x0006) != 0x0006)
 				err++;
 			i++;
 		}
 
 		if (err == OMAP4430_HWOBS_MAX_NBR) {
-			printf("Note: Pinmux are not configured to drive HWOBS signals on external pads\n");
+			printf
+			    ("Note: Pinmux are not configured to drive HWOBS signals on external pads\n");
 			printf("\n");
-			printf("Use following command: ./omapconf hwobs setup pinmux\n");
+			printf
+			    ("Use following command: ./omapconf hwobs setup pinmux\n");
 			printf("\n");
 		} else if (err != 0) {
-			printf("Warning: NOT all Pinmux are configured to drive HWOBS signals on external pads:\n");
-			printf("         > Number of non-configured Pinmux: %d\n", err);
+			printf
+			    ("Warning: NOT all Pinmux are configured to drive HWOBS signals on external pads:\n");
+			printf
+			    ("         > Number of non-configured Pinmux: %d\n",
+			     err);
 			printf("\n");
-			printf("Use following command: ./omapconf hwobs setup pinmux\n");
+			printf
+			    ("Use following command: ./omapconf hwobs setup pinmux\n");
 			printf("\n");
 		}
 	} else if (check_field < OMAP4430_HWOBS_MAX_NBR) {
-		hwobs44xx_padreg_read(hwobs_pad_reg_table[check_field].addr, &reg_pad_val);
+		hwobs44xx_padreg_read(hwobs_pad_reg_table[check_field].addr,
+				      &reg_pad_val);
 		if (((reg_pad_val) & 0x0006) != 0x0006)
 			err++;
 	}
 
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_gating_check
@@ -441,32 +502,37 @@ static int hwobs44xx_gating_check()
 
 	hwobs44xx_padreg_read(OMAP4430_CONTROL_CORE_HWOBS_CONTROL, &reg_val);
 
-	#ifdef HWOBS44XX_DEBUG
+#ifdef HWOBS44XX_DEBUG
 	reg_val = 0x7FEF9;
-	#endif
+#endif
 
 	if (((reg_val) & 0x1) == 0x0) {
-		printf("Warning: All HWOBS signals outputs are gated at hwobs ctrl mux level\n");
+		printf
+		    ("Warning: All HWOBS signals outputs are gated at hwobs ctrl mux level\n");
 		err = OMAPCONF_ERR_INTERNAL;
 	}
 
 	if (((reg_val) & 0x2) == 0x2) {
-		printf("Warning: All HWOBS signals outputs are tied to '1' at hwobs ctrl mux level\n");
+		printf
+		    ("Warning: All HWOBS signals outputs are tied to '1' at hwobs ctrl mux level\n");
 		err = OMAPCONF_ERR_INTERNAL;
 	}
 
 	if (((reg_val) & 0x4) == 0x4) {
-		printf("Warning: All HWOBS signals outputs are tied to '0' at hwobs ctrl mux level\n");
+		printf
+		    ("Warning: All HWOBS signals outputs are tied to '0' at hwobs ctrl mux level\n");
 		err = OMAPCONF_ERR_INTERNAL;
 	}
 
 	if (((reg_val) & 0x100) == 0x100) {
-		printf("Warning: All HWOBS signals output at the DPLL are gated\n");
+		printf
+		    ("Warning: All HWOBS signals output at the DPLL are gated\n");
 		err = OMAPCONF_ERR_INTERNAL;
 	}
 
 	if (((reg_val) & 0xF8) == 0x0) {
-		printf("Warning: CONTROL_CORE_HWOBS_CONTROL <HWOBS_CLKDIV_SEL> must be configured\n");
+		printf
+		    ("Warning: CONTROL_CORE_HWOBS_CONTROL <HWOBS_CLKDIV_SEL> must be configured\n");
 		err = OMAPCONF_ERR_INTERNAL;
 	}
 
@@ -478,7 +544,6 @@ static int hwobs44xx_gating_check()
 
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_ctrl_cfg_show
@@ -519,12 +584,10 @@ int hwobs44xx_ctrl_cfg_show(void)
 	if (((reg_val) & 0x1) == 0x0) {
 		strncpy(autoadjust_table[row][1], "GATED", TABLE_MAX_ELT_LEN);
 	} else {
-		if (((reg_val) & 0x4) ==
-			0x4) {
+		if (((reg_val) & 0x4) == 0x4) {
 			strncpy(autoadjust_table[row][1], "FORCED ZERO",
 				TABLE_MAX_ELT_LEN);
-		} else if (((reg_val) & 0x2) ==
-			0x2) {
+		} else if (((reg_val) & 0x2) == 0x2) {
 			strncpy(autoadjust_table[row][1], "FORCED ONE",
 				TABLE_MAX_ELT_LEN);
 		} else {
@@ -536,10 +599,8 @@ int hwobs44xx_ctrl_cfg_show(void)
 
 	strncpy(autoadjust_table[row][0], "Observable DPLLs Signals Gating",
 		TABLE_MAX_ELT_LEN);
-	if (((reg_val) & 0x100) ==
-		0x100) {
-		strncpy(autoadjust_table[row][1], "GATED",
-			TABLE_MAX_ELT_LEN);
+	if (((reg_val) & 0x100) == 0x100) {
+		strncpy(autoadjust_table[row][1], "GATED", TABLE_MAX_ELT_LEN);
 	} else {
 		strncpy(autoadjust_table[row][1], "ENABLED (NOT GATED)",
 			TABLE_MAX_ELT_LEN);
@@ -552,22 +613,21 @@ int hwobs44xx_ctrl_cfg_show(void)
 		TABLE_MAX_ELT_LEN);
 	strncpy(autoadjust_table[row][0], "    po_hwobs(0)", TABLE_MAX_ELT_LEN);
 	snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN, "0x%02X",
-		((reg_val) & 0xF8) >> 3);
+		 ((reg_val) & 0xF8) >> 3);
 	snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN, "0x%02X", 0);
 	strncpy(autoadjust_table[row][0], "    po_hwobs(1)", TABLE_MAX_ELT_LEN);
 	snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN, "0x%02X",
-		((reg_val) & 0x3E00) >> 9);
+		 ((reg_val) & 0x3E00) >> 9);
 	snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN, "0x%02X", 0);
 	strncpy(autoadjust_table[row][0], "    po_hwobs(2)", TABLE_MAX_ELT_LEN);
 	snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN, "0x%02X",
-		((reg_val) & 0x7C000) >> 14);
+		 ((reg_val) & 0x7C000) >> 14);
 	snprintf(autoadjust_table[row++][2], TABLE_MAX_ELT_LEN, "0x%02X", 0);
 
 	autoadjust_table_print(autoadjust_table, row, 3);
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_test
@@ -593,30 +653,42 @@ int hwobs44xx_test(char *level)
 	if (hwobs44xx_pinmux_check(OMAP4430_HWOBS_PAD_FULL_CHECK) == 0) {
 		if (strcmp(level, "zero") == 0) {
 			/* write register mux tied low value */
-			ret = mem_write(OMAP4430_CONTROL_CORE_HWOBS_CONTROL, 0xD);
+			ret =
+			    mem_write(OMAP4430_CONTROL_CORE_HWOBS_CONTROL, 0xD);
 			if (ret != 0) {
-				fprintf(stderr, "omapconf: write error! (addr=0x%08X, err=%d)\n",
-					OMAP4430_CONTROL_CORE_HWOBS_CONTROL, ret);
+				fprintf(stderr,
+					"omapconf: write error! (addr=0x%08X, err=%d)\n",
+					OMAP4430_CONTROL_CORE_HWOBS_CONTROL,
+					ret);
 				err = OMAPCONF_ERR_REG_ACCESS;
 			} else {
-				printf("OK: All HWOBS signals should now be tied low (forced to '0')\n");
+				printf
+				    ("OK: All HWOBS signals should now be tied low (forced to '0')\n");
 				printf("\n");
-				printf("Note: If observations are NOT aligned, then there is probably an issue\n");
-				printf("with observability HW (device, connector): modify your HW setup.\n");
+				printf
+				    ("Note: If observations are NOT aligned, then there is probably an issue\n");
+				printf
+				    ("with observability HW (device, connector): modify your HW setup.\n");
 				printf("\n");
 			}
 		} else if (strcmp(level, "one") == 0) {
 			/* write register mux tied high value */
-			ret = mem_write(OMAP4430_CONTROL_CORE_HWOBS_CONTROL, 0xB);
+			ret =
+			    mem_write(OMAP4430_CONTROL_CORE_HWOBS_CONTROL, 0xB);
 			if (ret != 0) {
-				fprintf(stderr, "omapconf: write error! (addr=0x%08X, err=%d)\n",
-					OMAP4430_CONTROL_CORE_HWOBS_CONTROL, ret);
+				fprintf(stderr,
+					"omapconf: write error! (addr=0x%08X, err=%d)\n",
+					OMAP4430_CONTROL_CORE_HWOBS_CONTROL,
+					ret);
 				err = OMAPCONF_ERR_REG_ACCESS;
 			} else {
-				printf("OK: All HWOBS signals should now be tied high (forced to '1')\n");
+				printf
+				    ("OK: All HWOBS signals should now be tied high (forced to '1')\n");
 				printf("\n");
-				printf("Note: If observations are NOT aligned, then there is probably an issue\n");
-				printf("with observability HW (device, connector): modify your HW setup.\n");
+				printf
+				    ("Note: If observations are NOT aligned, then there is probably an issue\n");
+				printf
+				    ("with observability HW (device, connector): modify your HW setup.\n");
 				printf("\n");
 			}
 		} else {
@@ -625,7 +697,7 @@ int hwobs44xx_test(char *level)
 	} else {
 		ret = hwobs44xx_pads_config_show();
 		printf("omapconf: all pinmux should be configured before "
-			"testing setup!\n\n");
+		       "testing setup!\n\n");
 		err = OMAPCONF_ERR_INTERNAL;
 	}
 
@@ -640,29 +712,28 @@ hwobs44xx_test_err:
 	autoadjust_table_strncpy(table, row, 1, "Command (## OMAP4-ONLY ##)");
 	autoadjust_table_strncpy(table, row, 2, "Description & Options");
 	row++;
-	autoadjust_table_strncpy(table, row, 0,	"Arguments for HWOBS test:");
+	autoadjust_table_strncpy(table, row, 0, "Arguments for HWOBS test:");
 	row++;
 
 	autoadjust_table_strncpy(table, row, 1, "omapconf hwobs test zero");
 	autoadjust_table_strncpy(table, row, 2,
-		"hw observability ports are all tied low '0'.");
+				 "hw observability ports are all tied low '0'.");
 	row++;
-	autoadjust_table_strncpy(table, row, 1,	"omapconf hwobs test one");
+	autoadjust_table_strncpy(table, row, 1, "omapconf hwobs test one");
 	autoadjust_table_strncpy(table, row, 2,
-		"hw observability ports are all tied high '1'.");
+				 "hw observability ports are all tied high '1'.");
 	row += 2;
-	autoadjust_table_strncpy(table, row, 1,	"omapconf hwobs test enable");
+	autoadjust_table_strncpy(table, row, 1, "omapconf hwobs test enable");
 	autoadjust_table_strncpy(table, row, 2,
-		"Enable signals through hwobs main mux:");
+				 "Enable signals through hwobs main mux:");
 	row++;
 	autoadjust_table_strncpy(table, row, 2,
-		"  not tied low/high, not gated.");
+				 "  not tied low/high, not gated.");
 	row += 2;
 
 	autoadjust_table_print(table, row, 3);
 	return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_setup_enable
@@ -691,20 +762,19 @@ int hwobs44xx_setup_enable(void)
 			err = OMAPCONF_ERR_REG_ACCESS;
 		} else {
 			printf("OK: hwobs ctrl mux is now configured to output "
-				"debug signals "
-				"(not tied low/high, not gated)\n\n");
+			       "debug signals "
+			       "(not tied low/high, not gated)\n\n");
 		}
 	} else {
 		ret = hwobs44xx_pads_config_show();
 		printf("omapconf: all pinmux should be configured before "
-			"enabling setup.\n\n");
+		       "enabling setup.\n\n");
 		err = OMAPCONF_ERR_INTERNAL;
 	}
 
 	hwobs44xx_ctrl_cfg_show();
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_signals_show
@@ -723,7 +793,8 @@ int hwobs44xx_signals_show(void)
 	unsigned int pad_check = 0, ret = 0, i = 0;
 	int err = 0;
 
-	unsigned int hwobs_mux, hwobs_mux_bit, debug_mux, final_mux, final_mux_bit;
+	unsigned int hwobs_mux, hwobs_mux_bit, debug_mux, final_mux,
+	    final_mux_bit;
 	char str_final_mux[OMAPCONF_REG_NAME_MAX_LENGTH + 1] = "";
 	char str_debug_mux[OMAPCONF_REG_NAME_MAX_LENGTH + 1] = "";
 	char str_hwobs_sig[OMAPCONF_REG_NAME_MAX_LENGTH + 1] = "";
@@ -742,38 +813,53 @@ int hwobs44xx_signals_show(void)
 	if (pad_check != OMAP4430_HWOBS_MAX_NBR) {
 		pad_check = 0;
 
-		ret = mem_read(OMAP4430_CONTROL_CORE_DEBOBS_FINAL_MUX_SEL, &final_mux);
+		ret =
+		    mem_read(OMAP4430_CONTROL_CORE_DEBOBS_FINAL_MUX_SEL,
+			     &final_mux);
 		if (ret != 0) {
-			fprintf(stderr, "omapconf: internal error (failed to read)!\n");
+			fprintf(stderr,
+				"omapconf: internal error (failed to read)!\n");
 			return OMAPCONF_ERR_REG_ACCESS;
 		}
 
-		printf("|-------------------------------------------------------------------------|\n");
-		printf("| %-3s | %-16s | %-10s | %-10s | %-21s |\n",
-			"bit", "pin mux", "final mux", "debug mux", "hwobs debug signal");
-		printf("|-------------------------------------------------------------------------|\n");
-
+		printf
+		    ("|-------------------------------------------------------------------------|\n");
+		printf("| %-3s | %-16s | %-10s | %-10s | %-21s |\n", "bit",
+		       "pin mux", "final mux", "debug mux",
+		       "hwobs debug signal");
+		printf
+		    ("|-------------------------------------------------------------------------|\n");
 
 		while (strcmp(omap4430_hwobs_names[i], "END") != 0) {
 			pad_check = hwobs44xx_pinmux_check(i);
 
 			final_mux_bit = ((final_mux & (1 << i)) >> i);
-			strcpy(str_final_mux, debobs_final_mux_sel_names[final_mux_bit]);
+			strcpy(str_final_mux,
+			       debobs_final_mux_sel_names[final_mux_bit]);
 			strcpy(str_hwobs_sig, "");
 			strcpy(str_hwobs_bit, "");
 
 			if (final_mux_bit) {
-				ret = mem_read(hwobs_core_debug_mux_table[i].addr, &debug_mux);
+				ret =
+				    mem_read(hwobs_core_debug_mux_table[i].addr,
+					     &debug_mux);
 				debug_mux &= 0xF;
-				strcpy(str_debug_mux, ctrl_core_conf_debug_sel_tst_names[debug_mux]);
+				strcpy(str_debug_mux,
+				       ctrl_core_conf_debug_sel_tst_names
+				       [debug_mux]);
 
 				switch (debug_mux) {
 				case 0x0:
-					ret = mem_read(OMAP4430_CONTROL_CORE_DEBOBS_MMR_MPU, &hwobs_mux);
+					ret =
+					    mem_read
+					    (OMAP4430_CONTROL_CORE_DEBOBS_MMR_MPU,
+					     &hwobs_mux);
 					break;
 
 				case 0x5:
-					ret = mem_read(OMAP4430_CM_CM2_DEBUG_CFG, &hwobs_mux);
+					ret =
+					    mem_read(OMAP4430_CM_CM2_DEBUG_CFG,
+						     &hwobs_mux);
 					break;
 
 				case 0x8:
@@ -786,19 +872,25 @@ int hwobs44xx_signals_show(void)
 					break;
 				}
 			} else {
-				ret = mem_read(hwobs_wkup_debug_mux_table[i].addr, &debug_mux);
+				ret =
+				    mem_read(hwobs_wkup_debug_mux_table[i].addr,
+					     &debug_mux);
 				debug_mux &= 0xF;
-				strcpy(str_debug_mux, ctrl_wkup_conf_debug_sel_tst_names[debug_mux]);
+				strcpy(str_debug_mux,
+				       ctrl_wkup_conf_debug_sel_tst_names
+				       [debug_mux]);
 
 				switch (debug_mux) {
 				case 0x0:
-					ret = mem_read(OMAP4430_PM_PRM_DEBUG_CFG,
-						&hwobs_mux);
+					ret =
+					    mem_read(OMAP4430_PM_PRM_DEBUG_CFG,
+						     &hwobs_mux);
 					break;
 
 				case 0x1:
-					ret = mem_read(OMAP4430_CM_CM1_DEBUG_CFG,
-						&hwobs_mux);
+					ret =
+					    mem_read(OMAP4430_CM_CM1_DEBUG_CFG,
+						     &hwobs_mux);
 					break;
 
 				default:
@@ -810,10 +902,12 @@ int hwobs44xx_signals_show(void)
 
 			/* PRCM signals formating */
 			if (((final_mux_bit == 1) && (debug_mux == 0x5)) ||
-				((final_mux_bit == 0) && (debug_mux == 0x0)) ||
-				((final_mux_bit == 0) && (debug_mux == 0x1))) {
+			    ((final_mux_bit == 0) && (debug_mux == 0x0)) ||
+			    ((final_mux_bit == 0) && (debug_mux == 0x1))) {
 				strcat(str_hwobs_sig, "block: 0x");
-				hwobs_mux = ((hwobs_mux & ~(char_mask[(i / 8)])) >> ((i / 8) * 8));
+				hwobs_mux =
+				    ((hwobs_mux & ~(char_mask[(i / 8)])) >>
+				     ((i / 8) * 8));
 				sprintf(str_buf, "%x", hwobs_mux);
 				strcat(str_hwobs_sig, str_buf);
 
@@ -821,7 +915,7 @@ int hwobs44xx_signals_show(void)
 				hwobs_mux_bit = (i % 8);
 				sprintf(str_buf, "%u", hwobs_mux_bit);
 				strcat(str_hwobs_bit, str_buf);
-			/* MPUSS signals formating */
+				/* MPUSS signals formating */
 			} else if ((final_mux_bit == 1) && (debug_mux == 0x0)) {
 				strcat(str_hwobs_sig, "mode : ");
 				sprintf(str_buf, "%u", hwobs_mux);
@@ -830,9 +924,11 @@ int hwobs44xx_signals_show(void)
 				strcat(str_hwobs_bit, "bit: ");
 				sprintf(str_buf, "%u", i);
 				strcat(str_hwobs_bit, str_buf);
-			/* ABE SS signals formating */
+				/* ABE SS signals formating */
 			} else if ((final_mux_bit == 1) && (debug_mux == 0x8)) {
-				if ((i >= OMAP4430_HWOBS_ABE_UNRESERVED_FIRST) && (i <= OMAP4430_HWOBS_ABE_UNRESERVED_LAST))
+				if ((i >= OMAP4430_HWOBS_ABE_UNRESERVED_FIRST)
+				    && (i <=
+					OMAP4430_HWOBS_ABE_UNRESERVED_LAST))
 					strcat(str_hwobs_sig, "mode : n/a");
 				else
 					strcat(str_hwobs_sig, "reserved");
@@ -844,24 +940,30 @@ int hwobs44xx_signals_show(void)
 
 			/* display register pad name, addr & content (hex) */
 			if (pad_check == 0)
-				printf("| %-3d | %-16s | %-10s | %-10s | %-11s | %-7s |\n", i,
-						omap4430_hwobs_names[i], str_final_mux, str_debug_mux, str_hwobs_sig, str_hwobs_bit);
+				printf
+				    ("| %-3d | %-16s | %-10s | %-10s | %-11s | %-7s |\n",
+				     i, omap4430_hwobs_names[i], str_final_mux,
+				     str_debug_mux, str_hwobs_sig,
+				     str_hwobs_bit);
 			else
-				printf("| %-3d | %-16s | %-10s | %-10s | %-11s | %-7s |\n", i,
-						"not configured", str_final_mux, str_debug_mux, "???????????", "??????");
+				printf
+				    ("| %-3d | %-16s | %-10s | %-10s | %-11s | %-7s |\n",
+				     i, "not configured", str_final_mux,
+				     str_debug_mux, "???????????", "??????");
 
 			if (i == 19)
-				printf("|-------------------------------------------------------------------------|\n");
+				printf
+				    ("|-------------------------------------------------------------------------|\n");
 
 			i++;
 		}
 
-		printf("|-------------------------------------------------------------------------|\n");
+		printf
+		    ("|-------------------------------------------------------------------------|\n");
 	}
 
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_pads_setup
@@ -884,10 +986,13 @@ int hwobs44xx_pads_setup(void)
 
 	while (strcmp(hwobs_pad_reg_table[i].name, "END") != 0) {
 		/* write register pad value */
-		ret = hwobs44xx_padreg_write(hwobs_pad_reg_table[i].addr, 0x0006);
+		ret =
+		    hwobs44xx_padreg_write(hwobs_pad_reg_table[i].addr, 0x0006);
 		if (ret != 0) {
-			fprintf(stderr, "omapconf: write error! (addr=0x%08X, err=%d)\n",
-				(unsigned int)(hwobs_pad_reg_table[i].addr), ret);
+			fprintf(stderr,
+				"omapconf: write error! (addr=0x%08X, err=%d)\n",
+				(unsigned int)(hwobs_pad_reg_table[i].addr),
+				ret);
 			err = OMAPCONF_ERR_REG_ACCESS;
 		}
 		i++;
@@ -897,13 +1002,13 @@ int hwobs44xx_pads_setup(void)
 		printf("Error: Pinmux configuration failed!\n");
 		printf("\n");
 	} else {
-		printf("OK: Pinmux are now configured to drive HWOBS signals on external pads:\n");
+		printf
+		    ("OK: Pinmux are now configured to drive HWOBS signals on external pads:\n");
 		printf("\n");
 	}
 
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_prcm_setup
@@ -930,9 +1035,9 @@ int hwobs44xx_prcm_setup(char *pos_s, char *type_s, char *num_s)
 	int err = 0;
 	char cat[OMAPCONF_REG_NAME_MAX_LENGTH + 1] = "";
 
-	#ifdef HWOBS44XX_DEBUG
+#ifdef HWOBS44XX_DEBUG
 	unsigned int reg_val;
-	#endif
+#endif
 
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
 	if ((pos_s == NULL) || (type_s == NULL) || (num_s == NULL))
@@ -960,7 +1065,7 @@ int hwobs44xx_prcm_setup(char *pos_s, char *type_s, char *num_s)
 
 	/* Retrieve and check signals block category */
 	if (isalpha(type_s[0])) {
-		ret = sscanf(type_s, "%50s", (char *) cat);
+		ret = sscanf(type_s, "%50s", (char *)cat);
 		if (ret != 1) {
 			dprintf("%s(): could not retrieve category string\n",
 				__func__);
@@ -971,8 +1076,8 @@ int hwobs44xx_prcm_setup(char *pos_s, char *type_s, char *num_s)
 	}
 
 	if ((strcmp(cat, ctrl_wkup_conf_debug_sel_tst_names[0]) != 0) &&
-		(strcmp(cat, ctrl_wkup_conf_debug_sel_tst_names[1]) != 0) &&
-		(strcmp(cat, ctrl_core_conf_debug_sel_tst_names[5]) != 0)) {
+	    (strcmp(cat, ctrl_wkup_conf_debug_sel_tst_names[1]) != 0) &&
+	    (strcmp(cat, ctrl_core_conf_debug_sel_tst_names[5]) != 0)) {
 		printf("Invalid PRCM signals category! (%s)\n\n", type_s);
 		goto hwobs44xx_prcm_setup_end;
 	}
@@ -998,17 +1103,19 @@ int hwobs44xx_prcm_setup(char *pos_s, char *type_s, char *num_s)
 		/* CORE - CM2 */
 		final_mux = 0xFF;
 		debug_mux = 0x5;
-		ret = hwobs44xx_blkmuxreg_modify(OMAP4430_CM_CM2_DEBUG_CFG, pos, num);
+		ret =
+		    hwobs44xx_blkmuxreg_modify(OMAP4430_CM_CM2_DEBUG_CFG, pos,
+					       num);
 
 		for (i = (pos * 8); i <= (pos * 8) + 7; i++) {
 			ret = mem_write(hwobs_core_debug_mux_table[i].addr,
-				debug_mux);
-			#ifdef HWOBS44XX_DEBUG
+					debug_mux);
+#ifdef HWOBS44XX_DEBUG
 			mem_read(hwobs_core_debug_mux_table[i].addr, &reg_val);
 			printf("%s(): core_conf_debug_mux_id%d addr: "
-				"0x%08x val: 0x%08x\n", __func__,
-				i, hwobs_core_debug_mux_table[i].addr, reg_val);
-			#endif
+			       "0x%08x val: 0x%08x\n", __func__,
+			       i, hwobs_core_debug_mux_table[i].addr, reg_val);
+#endif
 		}
 	} else {
 		final_mux = 0x00;
@@ -1016,30 +1123,32 @@ int hwobs44xx_prcm_setup(char *pos_s, char *type_s, char *num_s)
 		/* WKUP - PRM */
 		if (strcmp(cat, ctrl_wkup_conf_debug_sel_tst_names[0]) == 0) {
 			debug_mux = 0x0;
-			ret = hwobs44xx_blkmuxreg_modify(OMAP4430_PM_PRM_DEBUG_CFG,
-				pos, num);
+			ret =
+			    hwobs44xx_blkmuxreg_modify
+			    (OMAP4430_PM_PRM_DEBUG_CFG, pos, num);
 
-		/* WKUP - CM1 */
+			/* WKUP - CM1 */
 		} else {
 			debug_mux = 0x1;
-			ret = hwobs44xx_blkmuxreg_modify(OMAP4430_CM_CM1_DEBUG_CFG,
-				pos, num);
+			ret =
+			    hwobs44xx_blkmuxreg_modify
+			    (OMAP4430_CM_CM1_DEBUG_CFG, pos, num);
 		}
 
 		for (i = (pos * 8); i <= (pos * 8) + 7; i++) {
 			ret = mem_write(hwobs_wkup_debug_mux_table[i].addr,
-				debug_mux);
-			#ifdef HWOBS44XX_DEBUG
+					debug_mux);
+#ifdef HWOBS44XX_DEBUG
 			mem_read(hwobs_wkup_debug_mux_table[i].addr, &reg_val);
 			printf("%s(): wkup_conf_debug_mux_id%d addr: "
-				"0x%08x val: 0x%08x\n", __func__, i,
-				hwobs_wkup_debug_mux_table[i].addr, reg_val);
-			#endif
+			       "0x%08x val: 0x%08x\n", __func__, i,
+			       hwobs_wkup_debug_mux_table[i].addr, reg_val);
+#endif
 		}
 	}
 
 	hwobs44xx_blkmuxreg_modify(OMAP4430_CONTROL_CORE_DEBOBS_FINAL_MUX_SEL,
-		pos, final_mux);
+				   pos, final_mux);
 	hwobs44xx_signals_show();
 
 	return err;
@@ -1051,29 +1160,44 @@ hwobs44xx_prcm_setup_end:
 	printf("\n");
 	printf("DESCRIPTION:\n");
 	printf("\n");
-	printf("  This hwobs setup command allows to control HWOBS mux configuration to select PRCM debug signals.\n");
-	printf("  PRCM signals are split in 3 debug mux categories (CM1, CM2 and PRM) which are organized in 'blocks' of 8 debug signals.\n");
-	printf("  Each signal is being mapped on a single HWOBS pin or hw_dbg bit. In order to choose a given block of signals from\n");
-	printf("  any of the PRCM signals debug mux category, user should refer to TRM documentation detailing all blocks signals content.\n");
+	printf
+	    ("  This hwobs setup command allows to control HWOBS mux configuration to select PRCM debug signals.\n");
+	printf
+	    ("  PRCM signals are split in 3 debug mux categories (CM1, CM2 and PRM) which are organized in 'blocks' of 8 debug signals.\n");
+	printf
+	    ("  Each signal is being mapped on a single HWOBS pin or hw_dbg bit. In order to choose a given block of signals from\n");
+	printf
+	    ("  any of the PRCM signals debug mux category, user should refer to TRM documentation detailing all blocks signals content.\n");
 	printf("\n");
 	printf("PARAMETERS:\n");
 	printf("\n");
-	printf(" <pos> select block (8 bits) positon whithin 32 bits of observability\n");
+	printf
+	    (" <pos> select block (8 bits) positon whithin 32 bits of observability\n");
 	printf("\n");
-	printf("   0  -> map selected block on hw_dbg[00:07] observability bits\n");
-	printf("   1  -> map selected block on hw_dbg[08:15] observability bits\n");
-	printf("   2  -> map selected block on hw_dbg[16:23] observability bits\n");
-	printf("   3  -> map selected block on hw_dbg[24:31] observability bits\n");
+	printf
+	    ("   0  -> map selected block on hw_dbg[00:07] observability bits\n");
+	printf
+	    ("   1  -> map selected block on hw_dbg[08:15] observability bits\n");
+	printf
+	    ("   2  -> map selected block on hw_dbg[16:23] observability bits\n");
+	printf
+	    ("   3  -> map selected block on hw_dbg[24:31] observability bits\n");
 	printf("\n");
-	printf(" <cat> select PRCM signals debug mux category: CM1, CM2 or PRM\n");
+	printf
+	    (" <cat> select PRCM signals debug mux category: CM1, CM2 or PRM\n");
 	printf("\n");
-	printf("  CM1 -> map selected <pos> hw_dbg bits to CM1 category of hwobs signals\n");
-	printf("  CM2 -> map selected <pos> hw_dbg bits to CM2 category of hwobs signals\n");
-	printf("  PRM -> map selected <pos> hw_dbg bits to PRM category of hwobs signals\n");
+	printf
+	    ("  CM1 -> map selected <pos> hw_dbg bits to CM1 category of hwobs signals\n");
+	printf
+	    ("  CM2 -> map selected <pos> hw_dbg bits to CM2 category of hwobs signals\n");
+	printf
+	    ("  PRM -> map selected <pos> hw_dbg bits to PRM category of hwobs signals\n");
 	printf("\n");
-	printf(" <num> block number whithin selected signals category (value in hexa-decimal)\n");
+	printf
+	    (" <num> block number whithin selected signals category (value in hexa-decimal)\n");
 	printf("\n");
-	printf("  0x? -> map <num> block from <cat> onto selected <pos> hw_dbg bits\n");
+	printf
+	    ("  0x? -> map <num> block from <cat> onto selected <pos> hw_dbg bits\n");
 	printf("\n");
 	printf("EXAMPLES:\n");
 	printf("\n");
@@ -1085,12 +1209,13 @@ hwobs44xx_prcm_setup_end:
 	printf("\n");
 	printf("TIPS:\n");
 	printf("\n");
-	printf("  If you need to stick to the same observability settings following platform reboot, you can\n");
-	printf("  create a shell script calling omapconf commands to keep your observability setup up-to-date.\n");
+	printf
+	    ("  If you need to stick to the same observability settings following platform reboot, you can\n");
+	printf
+	    ("  create a shell script calling omapconf commands to keep your observability setup up-to-date.\n");
 	printf("\n");
 	return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_mpuss_setup
@@ -1114,9 +1239,9 @@ int hwobs44xx_mpuss_setup(char *mode_s)
 
 	int err = 0;
 
-	#ifdef HWOBS44XX_DEBUG
+#ifdef HWOBS44XX_DEBUG
 	unsigned int reg_val;
-	#endif
+#endif
 
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
 
@@ -1146,12 +1271,12 @@ int hwobs44xx_mpuss_setup(char *mode_s)
 
 	for (i = 0; i < OMAP4430_HWOBS_MAX_NBR; i++) {
 		ret = mem_write(hwobs_core_debug_mux_table[i].addr, debug_mux);
-		#ifdef HWOBS44XX_DEBUG
+#ifdef HWOBS44XX_DEBUG
 		mem_read(hwobs_core_debug_mux_table[i].addr, &reg_val);
 		printf("%s(): core_conf_debug_mux_id%d addr: "
-			"0x%08x val: 0x%08x\n", __func__, i,
-			hwobs_core_debug_mux_table[i].addr, reg_val);
-		#endif
+		       "0x%08x val: 0x%08x\n", __func__, i,
+		       hwobs_core_debug_mux_table[i].addr, reg_val);
+#endif
 	}
 
 	ret = mem_write(OMAP4430_CONTROL_CORE_DEBOBS_FINAL_MUX_SEL, final_mux);
@@ -1166,14 +1291,19 @@ hwobs44xx_mpuss_setup_err:
 	printf("\n");
 	printf("DESCRIPTION:\n");
 	printf("\n");
-	printf("  This hwobs setup command allows to control HWOBS mux configuration to select MPUSS debug signals.\n");
-	printf("  MPUSS signals are split in 7 mux modes allowing to display various debug profiles over 32 bits.\n");
-	printf("  Each signal is being mapped on a single HWOBS pin or hw_dbg bit. In order to choose a given mux mode\n");
-	printf("  with particular debug signals of interest, user should refer to TRM documentation detailing mpuss mux modes.\n");
+	printf
+	    ("  This hwobs setup command allows to control HWOBS mux configuration to select MPUSS debug signals.\n");
+	printf
+	    ("  MPUSS signals are split in 7 mux modes allowing to display various debug profiles over 32 bits.\n");
+	printf
+	    ("  Each signal is being mapped on a single HWOBS pin or hw_dbg bit. In order to choose a given mux mode\n");
+	printf
+	    ("  with particular debug signals of interest, user should refer to TRM documentation detailing mpuss mux modes.\n");
 	printf("\n");
 	printf("PARAMETERS:\n");
 	printf("\n");
-	printf(" <mode> mpuss mux mode value (decimal): mpuss mux modes range from mode 0 to mode 7\n");
+	printf
+	    (" <mode> mpuss mux mode value (decimal): mpuss mux modes range from mode 0 to mode 7\n");
 	printf("\n");
 	printf("EXAMPLE:\n");
 	printf("\n");
@@ -1182,16 +1312,20 @@ hwobs44xx_mpuss_setup_err:
 	printf("\n");
 	printf("TIPS:\n");
 	printf("\n");
-	printf("  If you need to mix MPUSS debug signals (32 bits) with PRCM debug signals (blocks of 8 bits):\n");
-	printf("  You can configure MPUSS mux mode first (MPUSS debug bits can not be moved) then overwrite HWOBS\n");
-	printf("  configuration of useless MPUSS signals with PRCM blocks of interest.\n");
+	printf
+	    ("  If you need to mix MPUSS debug signals (32 bits) with PRCM debug signals (blocks of 8 bits):\n");
+	printf
+	    ("  You can configure MPUSS mux mode first (MPUSS debug bits can not be moved) then overwrite HWOBS\n");
+	printf
+	    ("  configuration of useless MPUSS signals with PRCM blocks of interest.\n");
 	printf("\n");
-	printf("  If you need to stick to the same observability settings following platform reboot, you can\n");
-	printf("  create a shell script calling omapconf commands to keep your observability setup up-to-date.\n");
+	printf
+	    ("  If you need to stick to the same observability settings following platform reboot, you can\n");
+	printf
+	    ("  create a shell script calling omapconf commands to keep your observability setup up-to-date.\n");
 	printf("\n");
 	return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_abe_setup
@@ -1213,9 +1347,9 @@ int hwobs44xx_abe_setup(char *enable)
 	unsigned int debug_mux, final_mux;
 	int err = 0;
 
-	#ifdef HWOBS44XX_DEBUG
+#ifdef HWOBS44XX_DEBUG
 	unsigned int reg_val;
-	#endif
+#endif
 
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
 
@@ -1226,8 +1360,7 @@ int hwobs44xx_abe_setup(char *enable)
 		goto hwobs44xx_abe_setup_err;
 	enable = lowercase(enable);
 	dprintf("%s(): enable=%s\n", __func__, enable);
-	if ((strcmp(enable, "on") != 0) &&
-		(strcmp(enable, "reserved") != 0)) {
+	if ((strcmp(enable, "on") != 0) && (strcmp(enable, "reserved") != 0)) {
 		printf("Invalid abe enable option! (%s)\n\n", enable);
 		goto hwobs44xx_abe_setup_err;
 	}
@@ -1236,32 +1369,33 @@ int hwobs44xx_abe_setup(char *enable)
 	debug_mux = 0x08;
 
 	if (strcmp(enable, "on") == 0) {
-		mem_read(OMAP4430_CONTROL_CORE_DEBOBS_FINAL_MUX_SEL, &final_mux);
+		mem_read(OMAP4430_CONTROL_CORE_DEBOBS_FINAL_MUX_SEL,
+			 &final_mux);
 		final_mux |= OMAP4430_HWOBS_ABE_UNRESERVED_MASK;
 
 		for (i = OMAP4430_HWOBS_ABE_UNRESERVED_FIRST;
-			i <= OMAP4430_HWOBS_ABE_UNRESERVED_LAST; i++) {
+		     i <= OMAP4430_HWOBS_ABE_UNRESERVED_LAST; i++) {
 			mem_write(hwobs_core_debug_mux_table[i].addr,
-				debug_mux);
-			#ifdef HWOBS44XX_DEBUG
+				  debug_mux);
+#ifdef HWOBS44XX_DEBUG
 			mem_read(hwobs_core_debug_mux_table[i].addr, &reg_val);
 			printf("%s(): core_conf_debug_mux_id%d addr: "
-				"0x%08x val: 0x%08x\n", __func__, i,
-				hwobs_core_debug_mux_table[i].addr, reg_val);
-			#endif
+			       "0x%08x val: 0x%08x\n", __func__, i,
+			       hwobs_core_debug_mux_table[i].addr, reg_val);
+#endif
 		}
 	} else if (strcmp(enable, "reserved") == 0) {
 		final_mux = 0xFFFFFFFF;
 
 		for (i = 0; i < OMAP4430_HWOBS_MAX_NBR; i++) {
 			mem_write(hwobs_core_debug_mux_table[i].addr,
-				debug_mux);
-			#ifdef HWOBS44XX_DEBUG
+				  debug_mux);
+#ifdef HWOBS44XX_DEBUG
 			mem_read(hwobs_core_debug_mux_table[i].addr, &reg_val);
 			printf("%s(): core_conf_debug_mux_id%d addr: "
-				"0x%08x val: 0x%08x\n", __func__, i,
-				hwobs_core_debug_mux_table[i].addr, reg_val);
-			#endif
+			       "0x%08x val: 0x%08x\n", __func__, i,
+			       hwobs_core_debug_mux_table[i].addr, reg_val);
+#endif
 		}
 	} else {
 		goto hwobs44xx_abe_setup_err;
@@ -1279,26 +1413,32 @@ hwobs44xx_abe_setup_err:
 	printf("\n");
 	printf("DESCRIPTION:\n");
 	printf("\n");
-	printf("  This hwobs setup command allows to control HWOBS mux configuration to select ABE debug signals.\n");
-	printf("  No observability signals multiplexing is implemented at ABE subsystem level. Each ABE SS signal is mapped\n");
-	printf("  on a single HWOBS pin or hw_dbg bit. User should refer to TRM documentation detailing ABE SS debug signals.\n");
+	printf
+	    ("  This hwobs setup command allows to control HWOBS mux configuration to select ABE debug signals.\n");
+	printf
+	    ("  No observability signals multiplexing is implemented at ABE subsystem level. Each ABE SS signal is mapped\n");
+	printf
+	    ("  on a single HWOBS pin or hw_dbg bit. User should refer to TRM documentation detailing ABE SS debug signals.\n");
 	printf("\n");
 	printf("USAGE:\n");
 	printf("\n");
-	printf("- Configure hw_dbg[17:25] bits from ABE (other bits are reserved, hence not configured)\n");
+	printf
+	    ("- Configure hw_dbg[17:25] bits from ABE (other bits are reserved, hence not configured)\n");
 	printf("     omapconf hwobs setup abe on\n");
 	printf("\n");
-	printf("- Configure hw_dbg[00:31] bits from ABE (force configuration of reserved bits as well)\n");
+	printf
+	    ("- Configure hw_dbg[00:31] bits from ABE (force configuration of reserved bits as well)\n");
 	printf("     omapconf hwobs setup abe reserved\n");
 	printf("\n");
 	printf("TIPS:\n");
 	printf("\n");
-	printf("  If you need to stick to the same observability settings following platform reboot, you can\n");
-	printf("  create a shell script calling omapconf commands to keep your observability setup up-to-date.\n");
+	printf
+	    ("  If you need to stick to the same observability settings following platform reboot, you can\n");
+	printf
+	    ("  create a shell script calling omapconf commands to keep your observability setup up-to-date.\n");
 	printf("\n");
 	return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_pads_config_show
@@ -1318,19 +1458,23 @@ int hwobs44xx_pads_config_show(void)
 
 	hwobs44xx_regtable_init();
 
-	printf("|----------------------------------------------------------|\n");
-	printf("| %-3s | %-25s | %-10s | %-9s |\n",
-		"bit", "16 bits pad. reg.", "pad. addr", "pad. val.");
-	printf("|----------------------------------------------------------|\n");
+	printf
+	    ("|----------------------------------------------------------|\n");
+	printf("| %-3s | %-25s | %-10s | %-9s |\n", "bit", "16 bits pad. reg.",
+	       "pad. addr", "pad. val.");
+	printf
+	    ("|----------------------------------------------------------|\n");
 
 	while (strcmp(hwobs_pad_reg_table[i].name, "END") != 0) {
 		/* display register pad name, addr & content (hex) */
-		ret = hwobs44xx_padreg_read(hwobs_pad_reg_table[i].addr, &pad_val);
+		ret =
+		    hwobs44xx_padreg_read(hwobs_pad_reg_table[i].addr,
+					  &pad_val);
 		if (ret == 0)
 			printf("| %-3d | %-25s | 0x%08X |  0x%04X   |\n",
-				i, hwobs_pad_reg_table[i].name,
-				(unsigned int)(hwobs_pad_reg_table[i].addr),
-				pad_val);
+			       i, hwobs_pad_reg_table[i].name,
+			       (unsigned int)(hwobs_pad_reg_table[i].addr),
+			       pad_val);
 		else {
 			fprintf(stderr,
 				"omapconf: read error! (addr=0x%08X, err=%d)\n",
@@ -1340,15 +1484,16 @@ int hwobs44xx_pads_config_show(void)
 		}
 
 		if (i == 19)
-			printf("|----------------------------------------------------------|\n");
+			printf
+			    ("|----------------------------------------------------------|\n");
 		i++;
 	}
 
-	printf("|----------------------------------------------------------|\n\n");
+	printf
+	    ("|----------------------------------------------------------|\n\n");
 
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_setup_help
@@ -1367,32 +1512,31 @@ static void hwobs44xx_setup_help(void)
 	autoadjust_table_strncpy(table, row, 1, "Command (## OMAP4-ONLY ##)");
 	autoadjust_table_strncpy(table, row, 2, "Description & Options");
 	row++;
-	autoadjust_table_strncpy(table, row, 0,	"Arguments for HWOBS setup:");
+	autoadjust_table_strncpy(table, row, 0, "Arguments for HWOBS setup:");
 	row++;
 
 	autoadjust_table_strncpy(table, row, 1, "omapconf hwobs setup pinmux");
 	autoadjust_table_strncpy(table, row, 2,
-		"Change pinmux to drive HWOBS signals on external pads.");
+				 "Change pinmux to drive HWOBS signals on external pads.");
 	row += 2;
 	autoadjust_table_strncpy(table, row, 1,
-		"omapconf hwobs setup prcm [pos][type][num]");
+				 "omapconf hwobs setup prcm [pos][type][num]");
 	autoadjust_table_strncpy(table, row, 2,
-		"Select desired HWOBS PRCM 'block' Signals.");
+				 "Select desired HWOBS PRCM 'block' Signals.");
 	row++;
 	autoadjust_table_strncpy(table, row, 1,
-		"omapconf hwobs setup mpuss [mode]");
+				 "omapconf hwobs setup mpuss [mode]");
 	autoadjust_table_strncpy(table, row, 2,
-		"Select desired MPUSS mux mode and Signals.");
+				 "Select desired MPUSS mux mode and Signals.");
 	row++;
 	autoadjust_table_strncpy(table, row, 1,
-		"omapconf hwobs setup abe [on | reserved]");
+				 "omapconf hwobs setup abe [on | reserved]");
 	autoadjust_table_strncpy(table, row, 2,
-		"Select desired ABE SS mux mode and Signals.");
+				 "Select desired ABE SS mux mode and Signals.");
 	row += 2;
 
 	autoadjust_table_print(table, row, 3);
 }
-
 
 int hwobs44xx_config_show(void)
 {
@@ -1407,7 +1551,6 @@ int hwobs44xx_config_show(void)
 	return ret;
 }
 
-
 int hwobs44xx_pinmux_setup(void)
 {
 	int ret;
@@ -1420,7 +1563,6 @@ int hwobs44xx_pinmux_setup(void)
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_main
@@ -1443,21 +1585,20 @@ int hwobs44xx_main(int argc, char *argv[])
 		hwobs44xx_regtable_init();
 		/* HWOBS Setup Menu */
 		if (strcmp(argv[1], "setup") == 0) {
-			if ((argc == 3) &&
-				(strcmp(argv[2], "pinmux") == 0)) {
+			if ((argc == 3) && (strcmp(argv[2], "pinmux") == 0)) {
 				/* Setup HWOBS Pinmux */
 				ret = hwobs44xx_pads_setup();
 			} else if ((argc == 6) &&
-				(strcmp(argv[2], "prcm") == 0)) {
+				   (strcmp(argv[2], "prcm") == 0)) {
 				/* Setup HWOBS PRCM Debug Signals */
-				ret = hwobs44xx_prcm_setup(
-						argv[3], argv[4], argv[5]);
-			} else if ((argc == 4) &&
-				(strcmp(argv[2], "mpuss") == 0)) {
+				ret =
+				    hwobs44xx_prcm_setup(argv[3], argv[4],
+							 argv[5]);
+			} else if ((argc == 4)
+				   && (strcmp(argv[2], "mpuss") == 0)) {
 				/* Setup HWOBS MPUSS Debug Signals */
 				ret = hwobs44xx_mpuss_setup(argv[3]);
-			} else if ((argc == 4) &&
-				(strcmp(argv[2], "abe") == 0)) {
+			} else if ((argc == 4) && (strcmp(argv[2], "abe") == 0)) {
 				/* Setup HWOBS ABE Debug Signals */
 				ret = hwobs44xx_abe_setup(argv[3]);
 			} else {

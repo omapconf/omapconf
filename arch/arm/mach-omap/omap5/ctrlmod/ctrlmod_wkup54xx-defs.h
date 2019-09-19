@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __CTRLMOD_WKUP54XX_DEFS_H__
 #define __CTRLMOD_WKUP54XX_DEFS_H__
 
@@ -187,9 +186,11 @@ extern reg omap5430_control_wkup_conf_xbar_sel_28;
 #define OMAP5430_CONTROL_WKUP_CONF_XBAR_BYPASS			0x4ae0c5fc
 extern reg omap5430_control_wkup_conf_xbar_bypass;
 #define OMAP5430ES1_CTRL_MODULE_WKUP_MOD_REGCOUNT		53
-extern reg *omap5430es1_ctrl_module_wkup_mod[OMAP5430ES1_CTRL_MODULE_WKUP_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430es1_ctrl_module_wkup_mod[OMAP5430ES1_CTRL_MODULE_WKUP_MOD_REGCOUNT
+				      + 1];
 #define OMAP5430_CTRL_MODULE_WKUP_MOD_REGCOUNT			68
-extern reg *omap5430_ctrl_module_wkup_mod[OMAP5430_CTRL_MODULE_WKUP_MOD_REGCOUNT + 1];
-
+extern reg *omap5430_ctrl_module_wkup_mod[OMAP5430_CTRL_MODULE_WKUP_MOD_REGCOUNT
+					  + 1];
 
 #endif

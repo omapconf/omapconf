@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <abe54xx.h>
 #include <clockdomain.h>
 #include <lib54xx.h>
@@ -51,7 +50,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
-
 
 /* #define ABE54XX_DEBUG */
 #ifdef ABE54XX_DEBUG
@@ -91,75 +89,74 @@ struct atc_desc {
 
 struct atc_item atc54xx_list[OMAP_ABE_ATC_LIST_SIZE] = {
 	{
-		.name = "DMIC",
-		.offset = 0x0000,
-	},
+	 .name = "DMIC",
+	 .offset = 0x0000,
+	 },
 	{
-		.name = "McPDM DL",
-		.offset = 0x0010,
-	},
+	 .name = "McPDM DL",
+	 .offset = 0x0010,
+	 },
 	{
-		.name = "McPDM UL",
-		.offset = 0x0018,
-	},
+	 .name = "McPDM UL",
+	 .offset = 0x0018,
+	 },
 	{
-		.name = "McBSP 1 TX",
-		.offset = 0x0020,
-	},
+	 .name = "McBSP 1 TX",
+	 .offset = 0x0020,
+	 },
 	{
-		.name = "McBSP 1 RX",
-		.offset = 0x0028,
-	},
+	 .name = "McBSP 1 RX",
+	 .offset = 0x0028,
+	 },
 	{
-		.name = "McBSP 2 TX",
-		.offset = 0x0030,
-	},
+	 .name = "McBSP 2 TX",
+	 .offset = 0x0030,
+	 },
 	{
-		.name = "McBSP 2 RX",
-		.offset = 0x0038,
-	},
+	 .name = "McBSP 2 RX",
+	 .offset = 0x0038,
+	 },
 	{
-		.name = "McBSP 3 TX",
-		.offset = 0x0040,
-	},
+	 .name = "McBSP 3 TX",
+	 .offset = 0x0040,
+	 },
 	{
-		.name = "McBSP 3 RX",
-		.offset = 0x0048,
-	},
+	 .name = "McBSP 3 RX",
+	 .offset = 0x0048,
+	 },
 	{
-		.name = "CBPr0",
-		.offset = 0x0100,
-	},
+	 .name = "CBPr0",
+	 .offset = 0x0100,
+	 },
 	{
-		.name = "CBPr1",
-		.offset = 0x0108,
-	},
+	 .name = "CBPr1",
+	 .offset = 0x0108,
+	 },
 	{
-		.name = "CBPr2",
-		.offset = 0x0110,
-	},
+	 .name = "CBPr2",
+	 .offset = 0x0110,
+	 },
 	{
-		.name = "CBPr3",
-		.offset = 0x0118,
-	},
+	 .name = "CBPr3",
+	 .offset = 0x0118,
+	 },
 	{
-		.name = "CBPr4",
-		.offset = 0x0120,
-	},
+	 .name = "CBPr4",
+	 .offset = 0x0120,
+	 },
 	{
-		.name = "CBPr5",
-		.offset = 0x0128,
-	},
+	 .name = "CBPr5",
+	 .offset = 0x0128,
+	 },
 	{
-		.name = "CBPr6",
-		.offset = 0x0130,
-	},
+	 .name = "CBPr6",
+	 .offset = 0x0130,
+	 },
 	{
-		.name = "CBPr7",
-		.offset = 0x0138,
-	}
+	 .name = "CBPr7",
+	 .offset = 0x0138,
+	 }
 };
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		abe54xx_atc_status_show
@@ -170,7 +167,7 @@ struct atc_item atc54xx_list[OMAP_ABE_ATC_LIST_SIZE] = {
  * @param[in,out]	stream: output file stream
  * @DESCRIPTION		analyze ABE ATC configuration
  *------------------------------------------------------------------------ */
-int abe54xx_atc_status_show(FILE *stream)
+int abe54xx_atc_status_show(FILE * stream)
 {
 	int i, j;
 	int read_count, write_count;
@@ -207,8 +204,9 @@ int abe54xx_atc_status_show(FILE *stream)
 	for (i = 0; i < OMAP_ABE_ATC_LIST_SIZE; i++) {
 		/* Read ATC descriptor */
 		reg_addr = OMAP_ABE_DMEM_ADDR + atc54xx_list[i].offset;
-		ret = mem_address_range_read(
-			reg_addr, (unsigned int *)(&atc[0]), 2);
+		ret =
+		    mem_address_range_read(reg_addr, (unsigned int *)(&atc[0]),
+					   2);
 		if (ret)
 			return ret;
 
@@ -219,17 +217,18 @@ int abe54xx_atc_status_show(FILE *stream)
 			/* Make several read to check the activity */
 			for (j = 0; j < OMAP_ABE_ATC_NB_READ; j++) {
 				ret = mem_address_range_read(reg_addr,
-					(unsigned int *)&atc[j], 2);
+							     (unsigned int *)
+							     &atc[j], 2);
 				if (ret)
 					return ret;
 				usleep(250);
 			}
 
 			/* Check Read/write pointer (moving or not) */
-			for (j = 0; j < (OMAP_ABE_ATC_NB_READ-1); j++) {
-				if (atc[j].rdpt != atc[j+1].rdpt)
+			for (j = 0; j < (OMAP_ABE_ATC_NB_READ - 1); j++) {
+				if (atc[j].rdpt != atc[j + 1].rdpt)
 					read_count++;
-				if (atc[j].wrpt != atc[j+1].wrpt)
+				if (atc[j].wrpt != atc[j + 1].wrpt)
 					write_count++;
 			}
 
@@ -272,8 +271,7 @@ int abe54xx_atc_status_show(FILE *stream)
 
 			if ((atc[0].badd == 0) || ((atc[0].badd & 0x00F) != 0))
 				fprintf(stream, "\t!!! Base Address for DMEM "
-					"is not good (0x%04x)\n",
-					atc[0].badd);
+					"is not good (0x%04x)\n", atc[0].badd);
 
 			fprintf(stream,
 				"\tBase:0x%08x, iter: %d, FIFO size:%d\n",

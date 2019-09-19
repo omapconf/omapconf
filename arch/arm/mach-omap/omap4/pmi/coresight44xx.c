@@ -42,14 +42,12 @@
  *
  */
 
-
 #include <coresight44xx.h>
 #include <lib.h>
 #include <mem.h>
 #include <stdio.h>
 #include <emu44xx.h>
 #include <stm44xx.h>
-
 
 /* #define CORESIGHT44XX_DEBUG */
 #ifdef CORESIGHT44XX_DEBUG
@@ -71,9 +69,8 @@
 #ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG
 #define OMAP44xx_ETB_RAM_SIZE		40
 #else
-#define OMAP44xx_ETB_RAM_SIZE		8192 /* 8KB, in bytes */
+#define OMAP44xx_ETB_RAM_SIZE		8192	/* 8KB, in bytes */
 #endif
-
 
 #ifdef CORESIGHT44XX_DEBUG
 static const reg_table coresight_etb_reg_table[15] = {
@@ -89,8 +86,8 @@ static const reg_table coresight_etb_reg_table[15] = {
 	{"ETB_CTC", OMAP4430_ETB_CTC},
 	{"ETB_LOCK", OMAP4430_ETB_LOCK},
 	{"ETB_LOCK_STS", OMAP4430_ETB_LOCK_STS},
-	{"END", 0x0} };
-
+	{"END", 0x0}
+};
 
 static const reg_table coresight_cstf_reg_table[7] = {
 	{"CSTF_FCR", OMAP4430_CSTF_FCR},
@@ -99,9 +96,9 @@ static const reg_table coresight_cstf_reg_table[7] = {
 	{"CSTF_CTC", OMAP4430_CSTF_CTC},
 	{"CSTF_LOCK", OMAP4430_CSTF_LOCK},
 	{"CSTF_LOCK_STS", OMAP4430_CSTF_LOCK_STS},
-	{"END", 0} };
+	{"END", 0}
+};
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		coresight_etb_capture_enable
@@ -114,13 +111,13 @@ static const reg_table coresight_cstf_reg_table[7] = {
  *------------------------------------------------------------------------ */
 int coresight_etb_capture_enable(void)
 {
-	#ifdef CORESIGHT44XX_DEBUG
+#ifdef CORESIGHT44XX_DEBUG
 	unsigned int i, rrp, rwp, rrd;
-	#endif
+#endif
 
 	if (!emu44xx_is_enabled()) {
 		printf("coresight_etb_capture_enable(): "
-			"trying to enable ETB but EMU domain OFF!!!\n");
+		       "trying to enable ETB but EMU domain OFF!!!\n");
 		return OMAPCONF_ERR_INTERNAL;
 	}
 
@@ -135,14 +132,14 @@ int coresight_etb_capture_enable(void)
 	mem_write(OMAP4430_ETB_RWP, 0);
 	mem_write(OMAP4430_ETB_RRP, 0);
 
-	#ifdef CORESIGHT44XX_DEBUG
+#ifdef CORESIGHT44XX_DEBUG
 	/* Initialise ETB RAM content */
 	printf("coresight_etb_capture_enable(): init RAM content...\n");
 	for (i = 0; i < (OMAP44xx_ETB_RAM_SIZE / 4); i += 4) {
 		if (i < 64) {
 			mem_read(OMAP4430_ETB_RWP, &rwp);
 			printf("write 0xDEADBEEF at RWP = 0x%08X (i = %d)\n",
-				rwp, i);
+			       rwp, i);
 		}
 		mem_write(OMAP4430_ETB_RWD, 0xDEADBEEF);
 	}
@@ -159,7 +156,7 @@ int coresight_etb_capture_enable(void)
 	mem_write(OMAP4430_ETB_RRP, 0);
 	dumpregs((reg_table *) coresight_etb_reg_table);
 	printf("coresight_etb_capture_enable(): setup ETB done.\n");
-	#endif
+#endif
 
 	/* Enable ETB Capture */
 	mem_write(OMAP4430_ETB_CTL, 0x1);
@@ -175,15 +172,14 @@ int coresight_etb_capture_enable(void)
 	/* Give STM path highest priority */
 	mem_write(OMAP4430_CSTF_PCR, 0x00053977);
 
-	#ifdef CORESIGHT44XX_DEBUG
+#ifdef CORESIGHT44XX_DEBUG
 	dumpregs((reg_table *) coresight_cstf_reg_table);
 	printf("coresight_etb_capture_enable(): Coresight Trace "
-		"Funnel setup done.\n");
-	#endif
+	       "Funnel setup done.\n");
+#endif
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		coresight_etb_buffer_overflow
@@ -201,7 +197,6 @@ int coresight_etb_buffer_overflow(void)
 
 	return (sts & 0x00000001);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		coresight_etb_buffer_read
@@ -230,15 +225,14 @@ int coresight_etb_buffer_read(unsigned int rrp, unsigned int *rrd)
 	mem_write(OMAP4430_ETB_RRP, rrp);
 
 	/* Read data in ETB at location pointed by  rrp */
-	#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG
+#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG
 	*rrd = rrp;
-	#else
+#else
 	mem_read(OMAP4430_ETB_RRD, rrd);
-	#endif
+#endif
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		coresight_etb_capture_disable
@@ -260,7 +254,7 @@ int coresight_etb_capture_disable(unsigned int *size)
 
 	if (!emu44xx_is_enabled()) {
 		printf("coresight_etb_capture_disable(): "
-			"trying to enable ETB but EMU domain OFF!!!\n");
+		       "trying to enable ETB but EMU domain OFF!!!\n");
 		return OMAPCONF_ERR_INTERNAL;
 	}
 	if (size == NULL)
@@ -304,7 +298,6 @@ int coresight_etb_capture_disable(unsigned int *size)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		coresight_etb_save_trace
  * @BRIEF		save capture ETB trace into file
@@ -329,7 +322,7 @@ int coresight_etb_save_trace(char *filename)
 	}
 	if (!emu44xx_is_enabled()) {
 		printf("coresight_etb_save_trace(): "
-			"trying to enable ETB but EMU domain OFF!!!\n");
+		       "trying to enable ETB but EMU domain OFF!!!\n");
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
@@ -337,7 +330,7 @@ int coresight_etb_save_trace(char *filename)
 	pos = stm_last_header_pos_get();
 	if (pos < 0) {
 		printf("coresight_etb_save_trace(): "
-			"last STP header not available!!!\n");
+		       "last STP header not available!!!\n");
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 	/* Get current write pointer */
@@ -348,62 +341,60 @@ int coresight_etb_save_trace(char *filename)
 		printf("WARNING: no PMI messages in ETB RAM\n");
 		return 0;
 	}
-
-	#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG
-	#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO1A
+#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG
+#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO1A
 	dprintf("Case 1a: no overflow\n");
 	rwp = 10;
 	overflow = 0;
 	pos = 2;
-	#endif
-	#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO1B
+#endif
+#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO1B
 	dprintf("Case 1b: no overflow, ETB buffer full\n");
 	rwp = 0;
 	overflow = 1;
 	pos = 2;
-	#endif
-	#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO1C
+#endif
+#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO1C
 	dprintf("Case 1c: no overflow, ETB buffer empty\n");
 	rwp = 0;
 	overflow = 0;
 	pos = 2;
-	#endif
-	#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO1D
+#endif
+#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO1D
 	dprintf("Case 1d: no overflow, only HW footer in ETB buffer\n");
 	rwp = 4;
 	overflow = 0;
 	pos = 2;
-	#endif
-	#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO2
+#endif
+#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO2
 	dprintf("Case 2: overflow, no HW footer split\n");
 	rwp = 6;
 	overflow = 1;
 	pos = 2;
-	#endif
-	#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO3
+#endif
+#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO3
 	dprintf("Case 3: overflow, HW footer split\n");
 	rwp = 2;
 	overflow = 1;
 	pos = 2;
-	#endif
-	#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO4
+#endif
+#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO4
 	dprintf("Case 4: overflow, only HW footer "
 		"(only 4 first words overwritten by HW footer\n");
 	rwp = 4;
 	overflow = 1;
 	pos = 2;
-	#endif
-	#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO5
+#endif
+#ifdef CORESIGHT_ETB_SAVE_TRACE_DEBUG_SCENARIO5
 	dprintf("Case 5: overflow, 1 word overwritten but "
 		"it's not the last STP message\n");
 	rwp = 5;
 	overflow = 1;
 	pos = 8;
-	#endif
+#endif
 	printf("coresight_etb_save_trace(): rwp = %d, overflow = %d,\n",
-		rwp, overflow);
-	#endif
-
+	       rwp, overflow);
+#endif
 
 	/*
 	 * The last 4 32-bit words are not STP elements but
@@ -419,7 +410,7 @@ int coresight_etb_save_trace(char *filename)
 		 * 2/ RWP points to next location to be written,
 		 * not the last written.
 		 */
-		 trace_in_2_parts = 0;
+		trace_in_2_parts = 0;
 	} else {
 		/*
 		 * In case of overflow, check if HW footer is split accross
@@ -462,8 +453,7 @@ int coresight_etb_save_trace(char *filename)
 	}
 
 	/* Save ETB RAM content into file */
-	dprintf("coresight_etb_save_trace(): "
-				"dumping ETB RAM content...\n");
+	dprintf("coresight_etb_save_trace(): " "dumping ETB RAM content...\n");
 	dprintf("trace_in_2_parts = %d, last = %d, first = %d\n",
 		trace_in_2_parts, last, first);
 	size = 0;
@@ -500,8 +490,7 @@ int coresight_etb_save_trace(char *filename)
 			for (j = pos; j >= 0; j--) {
 				shift = 4 * j;
 				mask = 0xF << shift;
-				fprintf(fp, "%X",
-					(rrd & mask) >> shift);
+				fprintf(fp, "%X", (rrd & mask) >> shift);
 				dprintf("%X", (rrd & mask) >> shift);
 				size++;
 			}
@@ -514,7 +503,7 @@ int coresight_etb_save_trace(char *filename)
 	}
 
 	dprintf("coresight_etb_save_trace(): "
-			"dumping ETB RAM content done.\n");
+		"dumping ETB RAM content done.\n");
 	fclose(fp);
 
 	/* Return the ETB trace length */

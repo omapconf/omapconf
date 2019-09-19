@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <temperature.h>
 #include <temp_dra7xx.h>
 #include <hwtemp_dra7xx.h>
@@ -53,10 +52,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-
 /* increase this num for each back up fn list*/
 #define NUM_SENSOR_FILENAMES_LIST  1
-
 
 /* #define TEMP_DRA7XX_DEBUG */
 #ifdef TEMP_DRA7XX_DEBUG
@@ -65,15 +62,14 @@
 #define dprintf(format, ...)
 #endif
 
-
 const char *temp_dra7xx_sensor_names[TEMP_DRA7XX_ID_MAX + 1] = {
 	"MPU",
 	"GPU",
 	"CORE",
 	"IVA",
 	"DSPEVE",
-	"FIXME"};
-
+	"FIXME"
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		temp_dra7xx_name_get
@@ -90,7 +86,6 @@ const char *temp_dra7xx_name_get(temp_dra7xx_sensor_id id)
 
 	return temp_dra7xx_sensor_names[id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION           temp_dra7xx_get
@@ -110,11 +105,12 @@ int temp_dra7xx_get(temp_dra7xx_sensor_id id)
 	unsigned int i;
 	FILE *fp = NULL;
 	static const char *sensor_filenames1[TEMP_DRA7XX_ID_MAX] = {
-			"/sys/class/thermal/thermal_zone0/temp",
-			"/sys/class/thermal/thermal_zone1/temp",
-			"/sys/class/thermal/thermal_zone2/temp",
-			"/sys/class/thermal/thermal_zone4/temp",
-			"/sys/class/thermal/thermal_zone3/temp"};
+		"/sys/class/thermal/thermal_zone0/temp",
+		"/sys/class/thermal/thermal_zone1/temp",
+		"/sys/class/thermal/thermal_zone2/temp",
+		"/sys/class/thermal/thermal_zone4/temp",
+		"/sys/class/thermal/thermal_zone3/temp"
+	};
 
 	static const char **sensor_filenames_list[NUM_SENSOR_FILENAMES_LIST] = {
 		sensor_filenames1,
@@ -123,10 +119,10 @@ int temp_dra7xx_get(temp_dra7xx_sensor_id id)
 	CHECK_ARG_LESS_THAN(id, TEMP_DRA7XX_ID_MAX, TEMP_ABSOLUTE_ZERO);
 
 	/* Open file exported by temp. sensor driver (if loaded) */
-	for (i = 0; i <  NUM_SENSOR_FILENAMES_LIST; i++) {
+	for (i = 0; i < NUM_SENSOR_FILENAMES_LIST; i++) {
 		dprintf("%s(): i=%u id=%u filename=%s\n", __func__, i, id,
-			(char *) sensor_filenames_list[i][id]);
-		fp = fopen((char *) sensor_filenames_list[i][id], "r");
+			(char *)sensor_filenames_list[i][id]);
+		fp = fopen((char *)sensor_filenames_list[i][id], "r");
 		if (fp != NULL)
 			break;
 	}
@@ -150,7 +146,6 @@ int temp_dra7xx_get(temp_dra7xx_sensor_id id)
 	line[strlen(line) - 1] = '\0';
 	dprintf("%s(): line=%s len=%u\n", __func__, line, strlen(line));
 
-
 	/* Retrieve temperature, in millidegrees celcius */
 	ret = sscanf(line, "%d", &temp);
 	if (ret != 1) {
@@ -159,7 +154,7 @@ int temp_dra7xx_get(temp_dra7xx_sensor_id id)
 		goto temp_dra7xx_get_end;
 	}
 
-	temp = temp / 1000; /* convert to degrees */
+	temp = temp / 1000;	/* convert to degrees */
 
 temp_dra7xx_get_end:
 	dprintf("%s(%s): temp is %d C\n", __func__, temp_dra7xx_name_get(id),

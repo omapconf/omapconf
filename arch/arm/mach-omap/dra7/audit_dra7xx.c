@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <audit_dra7xx.h>
 #include <module_dra7xx.h>
 #include <module.h>
@@ -54,7 +53,6 @@
 #include <opp.h>
 #include <voltdomain.h>
 
-
 /* #define AUDIT_DRA7XX_DEBUG */
 #ifdef AUDIT_DRA7XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -62,12 +60,10 @@
 #define dprintf(format, ...)
 #endif
 
-
 static const char pass[5] = "Pass";
 static const char fail[5] = "FAIL";
 static const char ignore[12] = "Ignored (1)";
 static const char warning[8] = "Warning";
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		audit_dra7xx_dpll
@@ -86,8 +82,9 @@ static const char warning[8] = "Warning";
  * @param[in,out]	wng_nbr: audit warning number
  * @DESCRIPTION		audit DPLL Configuration
  *------------------------------------------------------------------------ */
-int audit_dra7xx_dpll(FILE *stream, dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id,
-	unsigned short curr_opp, unsigned int *err_nbr, unsigned int *wng_nbr)
+int audit_dra7xx_dpll(FILE * stream, dpll_dra7xx_id dpll_id,
+		      opp_dra7xx_id opp_id, unsigned short curr_opp,
+		      unsigned int *err_nbr, unsigned int *wng_nbr)
 {
 	int ret = 0;
 	char s[256];
@@ -119,8 +116,7 @@ int audit_dra7xx_dpll(FILE *stream, dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id
 		return 0;
 	}
 
-	fprintf(fp,
-		"OMAPCONF DPLL Configuration Audit Detailed Log:\n\n");
+	fprintf(fp, "OMAPCONF DPLL Configuration Audit Detailed Log:\n\n");
 	omapconf_revision_show(fp);
 	chips_info_show(fp, 1);
 	release_info_show(fp);
@@ -129,7 +125,9 @@ int audit_dra7xx_dpll(FILE *stream, dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id
 		ret = dpll_dra7xx_audit(dpll_id, opp_id, fp, err_nbr, wng_nbr);
 		if (ret != 0)
 			goto audit_dra7xx_dpll_end;
-		ret = dpll_dra7xx_audit(dpll_id, opp_id, stream, err_nbr, wng_nbr);
+		ret =
+		    dpll_dra7xx_audit(dpll_id, opp_id, stream, err_nbr,
+				      wng_nbr);
 		if (ret != 0)
 			goto audit_dra7xx_dpll_end;
 
@@ -140,7 +138,8 @@ int audit_dra7xx_dpll(FILE *stream, dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id
 		else
 			sprintf(s,
 				"FAILED! DPLL Configuration audit completed with "
-				"%u error(s) and %u warning(s).\n\n", *err_nbr, *wng_nbr);
+				"%u error(s) and %u warning(s).\n\n", *err_nbr,
+				*wng_nbr);
 
 		if (stream != NULL) {
 			fprintf(stream, "Audit details saved in %s file.\n\n\n",
@@ -175,7 +174,7 @@ int audit_dra7xx_dpll(FILE *stream, dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id
 	row = 0;
 	autoadjust_table_init(table);
 	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"DPLL Configuration AUDIT Summary");
+		 "DPLL Configuration AUDIT Summary");
 	autoadjust_table_strncpy(table, row, 1, "Audit STATUS");
 	row++;
 
@@ -184,7 +183,7 @@ int audit_dra7xx_dpll(FILE *stream, dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id
 		_wng_nbr = 0;
 
 		/* Set MPU OPP */
-		ret = genlist_get((genlist *) opp_list, i, (void *) &opp);
+		ret = genlist_get((genlist *) opp_list, i, (void *)&opp);
 		if (ret != 0) {
 			ret = OMAPCONF_ERR_INTERNAL;
 			goto audit_dra7xx_dpll_end;
@@ -195,7 +194,7 @@ int audit_dra7xx_dpll(FILE *stream, dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id
 			err_internal_msg_show();
 			goto audit_dra7xx_dpll_end;
 		}
-		ret = cpufreq_set((unsigned int) freq_mpu);
+		ret = cpufreq_set((unsigned int)freq_mpu);
 		if (ret != 0) {
 			err_internal_msg_show();
 			goto audit_dra7xx_dpll_end;
@@ -204,11 +203,11 @@ int audit_dra7xx_dpll(FILE *stream, dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id
 		fprintf(fp, "DPLLs Configuration Audit at MPU %s:\n\n",
 			opp.name);
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "At MPU %s",
-			opp.name);
+			 opp.name);
 
 		/* Run audit at this OPP */
-		ret = dpll_dra7xx_audit(dpll_id, (opp_dra7xx_id)i, fp,
-			&_err_nbr, &_wng_nbr);
+		ret = dpll_dra7xx_audit(dpll_id, (opp_dra7xx_id) i, fp,
+					&_err_nbr, &_wng_nbr);
 		if (ret != 0) {
 			err_internal_msg_show();
 			goto audit_dra7xx_dpll_end;
@@ -216,11 +215,11 @@ int audit_dra7xx_dpll(FILE *stream, dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id
 
 		if (_err_nbr == 0)
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-				"PASS (0 error, %u warning(s))", _wng_nbr);
+				 "PASS (0 error, %u warning(s))", _wng_nbr);
 		else
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-				"FAIL (%u error, %u warning(s))",
-				_err_nbr, _wng_nbr);
+				 "FAIL (%u error, %u warning(s))",
+				 _err_nbr, _wng_nbr);
 		(*err_nbr) += _err_nbr;
 		(*wng_nbr) += _wng_nbr;
 		row++;
@@ -241,7 +240,8 @@ int audit_dra7xx_dpll(FILE *stream, dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id
 			"0 error (%u warning(s)).\n\n\n", *wng_nbr);
 	else
 		sprintf(s, "\nFAILED! DPLLs Configuration audit completed with"
-			"%u error(s) and %u warning(s).\n\n\n", *err_nbr, *wng_nbr);
+			"%u error(s) and %u warning(s).\n\n\n", *err_nbr,
+			*wng_nbr);
 	fputs(s, fp);
 	if (stream != NULL) {
 		fprintf(stream,
@@ -249,7 +249,6 @@ int audit_dra7xx_dpll(FILE *stream, dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id
 			logfilename);
 		fputs(s, stream);
 	}
-
 
 audit_dra7xx_dpll_end:
 	/* Restore CPUFreq governor */

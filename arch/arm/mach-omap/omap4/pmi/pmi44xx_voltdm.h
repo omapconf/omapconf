@@ -42,13 +42,11 @@
  *
  */
 
-
 #ifndef __PMI44XX_VOLTDM_H__
 #define __PMI44XX_VOLTDM_H__
 
 #include <pmi44xx.h>
 #include <genlist.h>
-
 
 typedef enum {
 	PMI44XX_VOLTDM_LOGIC_MPU = 0,
@@ -57,7 +55,6 @@ typedef enum {
 	PMI44XX_VOLTDM_LOGIC_MAX = 3
 } pmi44xx_logic_voltdm_id;
 
-
 typedef enum {
 	PMI44XX_VOLTDM_MEM_MPU = 0,
 	PMI44XX_VOLTDM_MEM_IVA = 1,
@@ -65,9 +62,7 @@ typedef enum {
 	PMI44XX_VOLTDM_MEM_MAX = 3
 } pmi44xx_mem_voltdm_id;
 
-
-int pmi44xx_voltdm_transitions_extract(char *filename, genlist *transitions);
-int pmi44xx_voltdm_transitions_save(genlist *transitions, double duration);
-
+int pmi44xx_voltdm_transitions_extract(char *filename, genlist * transitions);
+int pmi44xx_voltdm_transitions_save(genlist * transitions, double duration);
 
 #endif

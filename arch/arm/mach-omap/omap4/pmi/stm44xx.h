@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __STM44XX_H__
 #define __STM44XX_H__
-
 
 #define OMAP4430_STM_REGADDR(module, reg) ((module) + (reg))
 
@@ -67,14 +65,12 @@
 #define OMAP4430_STM_LOCK	OMAP4430_STM_REGADDR(OMAP4430_STM_CFG_BASE, 0xFB0)
 #define OMAP4430_STM_LOCK_STS	OMAP4430_STM_REGADDR(OMAP4430_STM_CFG_BASE, 0xFB4)
 
-
 typedef enum {
 	HW_MASTER_PMI = 0x1D,
 	HW_MASTER_CMI1 = 0x1E,
 	HW_MASTER_CMI2 = 0x1F,
 	HW_MASTER_MAX
 } stm_hw_masters;
-
 
 int stm_claim_ownership(void);
 int stm_release_ownership(void);
@@ -92,6 +88,5 @@ int stm_atb_capture_enable(void);
 int stm_atb_capture_disable(void);
 
 int stm_last_header_pos_get(void);
-
 
 #endif

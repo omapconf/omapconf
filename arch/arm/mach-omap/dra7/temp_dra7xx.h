@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __TEMP_DRA7XX_H__
 #define __TEMP_DRA7XX_H__
 
-
 #include <stdio.h>
 #include <voltdm_dra7xx.h>
-
 
 typedef enum {
 	TEMP_DRA7XX_MPU,
@@ -59,9 +56,7 @@ typedef enum {
 	TEMP_DRA7XX_ID_MAX
 } temp_dra7xx_sensor_id;
 
-
 const char *temp_dra7xx_name_get(temp_dra7xx_sensor_id id);
 int temp_dra7xx_get(temp_dra7xx_sensor_id id);
-
 
 #endif

@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __CTRLMOD_CORE54XX_DEFS_H__
 #define __CTRLMOD_CORE54XX_DEFS_H__
 
@@ -501,9 +500,11 @@ extern reg omap5430_control_core_conf_xbar_sel_28;
 #define OMAP5430_CONTROL_CORE_CONF_XBAR_BYPASS			0x4a0025fc
 extern reg omap5430_control_core_conf_xbar_bypass;
 #define OMAP5430ES1_CTRL_MODULE_CORE_MOD_REGCOUNT		189
-extern reg *omap5430es1_ctrl_module_core_mod[OMAP5430ES1_CTRL_MODULE_CORE_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430es1_ctrl_module_core_mod[OMAP5430ES1_CTRL_MODULE_CORE_MOD_REGCOUNT
+				      + 1];
 #define OMAP5430_CTRL_MODULE_CORE_MOD_REGCOUNT			204
-extern reg *omap5430_ctrl_module_core_mod[OMAP5430_CTRL_MODULE_CORE_MOD_REGCOUNT + 1];
-
+extern reg *omap5430_ctrl_module_core_mod[OMAP5430_CTRL_MODULE_CORE_MOD_REGCOUNT
+					  + 1];
 
 #endif

@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <audit.h>
 #include <audit44xx.h>
 #include <lib_android.h>
@@ -64,7 +63,6 @@
 #include <vp44xx.h>
 #include <pads44xx.h>
 
-
 /* #define AUDIT44XX_DEBUG */
 #ifdef AUDIT44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -76,7 +74,6 @@ static const char pass[5] = "Pass";
 static const char fail[5] = "FAIL";
 static const char ignore[12] = "Ignored (1)";
 static const char warning[8] = "Warning";
-
 
 /* #define MODULE_AUTOIDLE_MODE_AUDIT44XX_DEBUG */
 #ifdef MODULE_AUTOIDLE_MODE_AUDIT44XX_DEBUG
@@ -99,17 +96,19 @@ static const char warning[8] = "Warning";
  * @DESCRIPTION		module autoidle mode audit.
  *------------------------------------------------------------------------ */
 char *module_autoidle_mode_audit44xx(mod44xx_id mod_id,
-	mod_autoidle_mode *mode, mod_autoidle_mode *mode_por,
-	unsigned int *err_nbr, unsigned int *wng_nbr)
+				     mod_autoidle_mode * mode,
+				     mod_autoidle_mode * mode_por,
+				     unsigned int *err_nbr,
+				     unsigned int *wng_nbr)
 {
 	int ret;
 	char mod_name[MOD44XX_MAX_NAME_LENGTH];
 
-	CHECK_CPU(44xx, (char *) ignore);
-	CHECK_NULL_ARG(mode, (char *) ignore);
-	CHECK_NULL_ARG(mode_por, (char *) ignore);
-	CHECK_NULL_ARG(err_nbr, (char *) ignore);
-	CHECK_NULL_ARG(wng_nbr, (char *) ignore);
+	CHECK_CPU(44xx, (char *)ignore);
+	CHECK_NULL_ARG(mode, (char *)ignore);
+	CHECK_NULL_ARG(mode_por, (char *)ignore);
+	CHECK_NULL_ARG(err_nbr, (char *)ignore);
+	CHECK_NULL_ARG(wng_nbr, (char *)ignore);
 
 	*err_nbr = 0;
 	*wng_nbr = 0;
@@ -123,33 +122,33 @@ char *module_autoidle_mode_audit44xx(mod44xx_id mod_id,
 			dprintf("%s(): %s AUTOIDLE mode disabled.\n", __func__,
 				mod44xx_get_name(mod_id, mod_name));
 			(*err_nbr)++;
-			return (char *) fail;
+			return (char *)fail;
 		} else {
 			dprintf("%s(): %s AUTOIDLE mode enabled.\n", __func__,
 				mod44xx_get_name(mod_id, mod_name));
-			return (char *) pass;
+			return (char *)pass;
 		}
 	} else if (ret == 0) {
-		dprintf(
-			"%s(): %s disabled. Module registers cannot be audited.\n",
-			__func__, mod44xx_get_name(mod_id, mod_name));
-		return (char *) ignore;
+		dprintf
+		    ("%s(): %s disabled. Module registers cannot be audited.\n",
+		     __func__, mod44xx_get_name(mod_id, mod_name));
+		return (char *)ignore;
 	} else if (ret == OMAPCONF_ERR_NOT_AVAILABLE) {
 		dprintf("%s(): %s has no AUTOIDLE bit\n",
 			__func__, mod44xx_get_name(mod_id, mod_name));
-		return (char *) ignore;
+		return (char *)ignore;
 	} else {
 		fprintf(stderr,
 			"omapconf: internal error while checking module %s AUTOIDLE bit! (%d)\n",
 			mod44xx_get_name(mod_id, mod_name), ret);
-		return (char *) ignore;
+		return (char *)ignore;
 	}
 }
+
 #ifdef MODULE_AUTOIDLE_MODE_AUDIT44XX_DEBUG
 #undef dprintf
 #define dprintf(format, ...)
 #endif
-
 
 /* #define MODULE_IDLE_MODE_AUDIT44XX_DEBUG */
 #ifdef MODULE_IDLE_MODE_AUDIT44XX_DEBUG
@@ -174,18 +173,18 @@ char *module_autoidle_mode_audit44xx(mod44xx_id mod_id,
  * @DESCRIPTION		module idle mode audit.
  *------------------------------------------------------------------------ */
 char *module_idle_mode_audit44xx(mod44xx_id mod_id,
-	mod_idle_mode *mode, mod_idle_mode *mode_por,
-	unsigned int *err_nbr, unsigned int *wng_nbr)
+				 mod_idle_mode * mode, mod_idle_mode * mode_por,
+				 unsigned int *err_nbr, unsigned int *wng_nbr)
 {
 	int ret;
 	char mod_name[MOD44XX_MAX_NAME_LENGTH];
 	char *status;
 
-	CHECK_CPU(44xx, (char *) ignore);
-	CHECK_NULL_ARG(mode, (char *) ignore);
-	CHECK_NULL_ARG(mode_por, (char *) ignore);
-	CHECK_NULL_ARG(err_nbr, (char *) ignore);
-	CHECK_NULL_ARG(wng_nbr, (char *) ignore);
+	CHECK_CPU(44xx, (char *)ignore);
+	CHECK_NULL_ARG(mode, (char *)ignore);
+	CHECK_NULL_ARG(mode_por, (char *)ignore);
+	CHECK_NULL_ARG(err_nbr, (char *)ignore);
+	CHECK_NULL_ARG(wng_nbr, (char *)ignore);
 
 	*err_nbr = 0;
 	*wng_nbr = 0;
@@ -199,78 +198,77 @@ char *module_idle_mode_audit44xx(mod44xx_id mod_id,
 		break;
 
 	case 0:
-		dprintf(
-			"%s(): %s disabled. Module registers cannot be audited.\n",
-			__func__, mod44xx_get_name(mod_id, mod_name));
-		status = (char *) ignore;
+		dprintf
+		    ("%s(): %s disabled. Module registers cannot be audited.\n",
+		     __func__, mod44xx_get_name(mod_id, mod_name));
+		status = (char *)ignore;
 		goto module_idle_mode_audit44xx_end;
 
 	case OMAPCONF_ERR_NOT_AVAILABLE:
 		dprintf("%s(): %s has no IDLE bit\n",
 			__func__, mod44xx_get_name(mod_id, mod_name));
-		status = (char *) ignore;
+		status = (char *)ignore;
 		goto module_idle_mode_audit44xx_end;
 
 	default:
 		fprintf(stderr,
 			"omapconf: internal error while checking module %s IDLE mode! (%d)\n",
 			mod44xx_get_name(mod_id, mod_name), ret);
-		status = (char *) ignore;
+		status = (char *)ignore;
 		goto module_idle_mode_audit44xx_end;
 	}
 
 	switch (*mode) {
 	case MOD_SMART_IDLE_WAKEUP:
-		dprintf(
-			"%s(): %s IDLE  mode correctly configured to SMART-IDLE WAKEUP.\n",
-			__func__, mod44xx_get_name(mod_id, mod_name));
-		status = (char *) pass;
+		dprintf
+		    ("%s(): %s IDLE  mode correctly configured to SMART-IDLE WAKEUP.\n",
+		     __func__, mod44xx_get_name(mod_id, mod_name));
+		status = (char *)pass;
 		goto module_idle_mode_audit44xx_end;
 
 	case MOD_SMART_IDLE:
 		if (mod44xx_has_smart_idle_wakeup_mode(mod_id)) {
-			dprintf(
-				"%s(): %s IDLE mode set to SMART-IDLE instead of SMART-IDLE WAKEUP!\n",
-				__func__, mod44xx_get_name(mod_id, mod_name));
-			status = (char *) fail;
+			dprintf
+			    ("%s(): %s IDLE mode set to SMART-IDLE instead of SMART-IDLE WAKEUP!\n",
+			     __func__, mod44xx_get_name(mod_id, mod_name));
+			status = (char *)fail;
 			(*err_nbr)++;
 		} else {
-			dprintf(
-				"%s(): %s IDLE mode correctly configured to SMART-IDLE.\n",
-				__func__, mod44xx_get_name(mod_id, mod_name));
-			status = (char *) pass;
+			dprintf
+			    ("%s(): %s IDLE mode correctly configured to SMART-IDLE.\n",
+			     __func__, mod44xx_get_name(mod_id, mod_name));
+			status = (char *)pass;
 		}
 		goto module_idle_mode_audit44xx_end;
 
 	case MOD_FORCE_IDLE:
-		dprintf(
-			"%s(): %s IDLE mode = FORCE-IDLE instead of SMART-IDLE.\n",
-			__func__, mod44xx_get_name(mod_id, mod_name));
+		dprintf
+		    ("%s(): %s IDLE mode = FORCE-IDLE instead of SMART-IDLE.\n",
+		     __func__, mod44xx_get_name(mod_id, mod_name));
 		if (mod_id == OMAP4_SYNCTIMER) {
 			/* This module has no Smart-Idle mode */
-			status = (char *) pass;
+			status = (char *)pass;
 		} else {
-			status = (char *) warning;
+			status = (char *)warning;
 			(*wng_nbr)++;
 		}
 		goto module_idle_mode_audit44xx_end;
 
 	default:
 		if ((mod_id == OMAP4_UART1) ||
-			(mod_id == OMAP4_UART2) ||
-			(mod_id == OMAP4_UART3) ||
-			(mod_id == OMAP4_UART4)) {
+		    (mod_id == OMAP4_UART2) ||
+		    (mod_id == OMAP4_UART3) || (mod_id == OMAP4_UART4)) {
 			/*
 			 * UART IP idle management is buggy (cf errata).
 			 * When active, must be used in no-idle mode.
 			 */
-			 status = (char *) pass;
+			status = (char *)pass;
 		} else {
-			dprintf(
-				"%s(): %s IDLE mode not set to SMART-IDLE but %s!\n",
-				__func__, mod44xx_get_name(mod_id, mod_name),
-				mod_idle_mode_name_get(*mode));
-			status = (char *) fail;
+			dprintf
+			    ("%s(): %s IDLE mode not set to SMART-IDLE but %s!\n",
+			     __func__, mod44xx_get_name(mod_id, mod_name),
+			     mod_idle_mode_name_get(*mode));
+			status = (char *)fail;
 			(*err_nbr)++;
 		}
 		goto module_idle_mode_audit44xx_end;
@@ -279,11 +277,11 @@ char *module_idle_mode_audit44xx(mod44xx_id mod_id,
 module_idle_mode_audit44xx_end:
 	return status;
 }
+
 #ifdef MODULE_IDLE_MODE_AUDIT44XX_DEBUG
 #undef dprintf
 #define dprintf(format, ...)
 #endif
-
 
 /* #define MODULE_STANDBY_MODE_AUDIT44XX_DEBUG */
 #ifdef MODULE_STANDBY_MODE_AUDIT44XX_DEBUG
@@ -308,17 +306,19 @@ module_idle_mode_audit44xx_end:
  * @DESCRIPTION		module standby mode audit.
  *------------------------------------------------------------------------ */
 char *module_standby_mode_audit44xx(mod44xx_id mod_id,
-	mod_standby_mode *mode, mod_standby_mode *mode_por,
-	unsigned int *err_nbr, unsigned int *wng_nbr)
+				    mod_standby_mode * mode,
+				    mod_standby_mode * mode_por,
+				    unsigned int *err_nbr,
+				    unsigned int *wng_nbr)
 {
 	int ret;
 	char mod_name[MOD44XX_MAX_NAME_LENGTH];
 
-	CHECK_CPU(44xx, (char *) ignore);
-	CHECK_NULL_ARG(mode, (char *) ignore);
-	CHECK_NULL_ARG(mode_por, (char *) ignore);
-	CHECK_NULL_ARG(err_nbr, (char *) ignore);
-	CHECK_NULL_ARG(wng_nbr, (char *) ignore);
+	CHECK_CPU(44xx, (char *)ignore);
+	CHECK_NULL_ARG(mode, (char *)ignore);
+	CHECK_NULL_ARG(mode_por, (char *)ignore);
+	CHECK_NULL_ARG(err_nbr, (char *)ignore);
+	CHECK_NULL_ARG(wng_nbr, (char *)ignore);
 
 	*err_nbr = 0;
 	*wng_nbr = 0;
@@ -331,64 +331,64 @@ char *module_standby_mode_audit44xx(mod44xx_id mod_id,
 	case 1:
 		switch (*mode) {
 		case MOD_SMART_STANDBY:
-			dprintf(
-				"%s(): %s STANDBY mode correctly configured to MOD_SMART_STANDBY.\n",
-				__func__, mod44xx_get_name(mod_id, mod_name));
-			return (char *) pass;
+			dprintf
+			    ("%s(): %s STANDBY mode correctly configured to MOD_SMART_STANDBY.\n",
+			     __func__, mod44xx_get_name(mod_id, mod_name));
+			return (char *)pass;
 		case MOD_FORCE_STANDBY:
 			(*wng_nbr)++;
-			dprintf(
-				"%s(): %s STANDBY mode = FORCE-IDLE instead of SMART-STANDBY.\n",
-				__func__, mod44xx_get_name(mod_id, mod_name));
-			return (char *) warning;
+			dprintf
+			    ("%s(): %s STANDBY mode = FORCE-IDLE instead of SMART-STANDBY.\n",
+			     __func__, mod44xx_get_name(mod_id, mod_name));
+			return (char *)warning;
 		case MOD_STANDBY_MODE_RESERVED:
 			if (mod_id == OMAP4_FSUSBHOST) {
-				dprintf(
-					"%s(): FSUSBHOST STANDBY mode correctly set to SMART-STANDBY WITH WAKEUP\n",
-					__func__);
-				return (char *) pass;
+				dprintf
+				    ("%s(): FSUSBHOST STANDBY mode correctly set to SMART-STANDBY WITH WAKEUP\n",
+				     __func__);
+				return (char *)pass;
 			} else {
 				(*err_nbr)++;
-				#ifdef MODULE_STANDBY_MODE_AUDIT44XX_DEBUG
-				dprintf(
-					"%s(): %s STANDBY mode not set to SMART-STANDBY but %s!\n",
-					__func__,
-					mod44xx_get_name(mod_id, mod_name),
-					mod_standby_mode_name_get(*mode));
-				#endif
-				return (char *) fail;
+#ifdef MODULE_STANDBY_MODE_AUDIT44XX_DEBUG
+				dprintf
+				    ("%s(): %s STANDBY mode not set to SMART-STANDBY but %s!\n",
+				     __func__, mod44xx_get_name(mod_id,
+								mod_name),
+				     mod_standby_mode_name_get(*mode));
+#endif
+				return (char *)fail;
 			}
 		default:
 			(*err_nbr)++;
-			#ifdef MODULE_STANDBY_MODE_AUDIT44XX_DEBUG
-			dprintf(
-				"%s(): %s STANDBY mode not set to SMART-STANDBY but %s!\n",
-				__func__, mod44xx_get_name(mod_id, mod_name),
-				mod_standby_mode_name_get(*mode));
-			#endif
-			return (char *) fail;
+#ifdef MODULE_STANDBY_MODE_AUDIT44XX_DEBUG
+			dprintf
+			    ("%s(): %s STANDBY mode not set to SMART-STANDBY but %s!\n",
+			     __func__, mod44xx_get_name(mod_id, mod_name),
+			     mod_standby_mode_name_get(*mode));
+#endif
+			return (char *)fail;
 		}
 	case 0:
-		dprintf(
-			"%s(): %s disabled. Module registers cannot be audited.\n",
-			__func__, mod44xx_get_name(mod_id, mod_name));
-		return (char *) ignore;
+		dprintf
+		    ("%s(): %s disabled. Module registers cannot be audited.\n",
+		     __func__, mod44xx_get_name(mod_id, mod_name));
+		return (char *)ignore;
 	case OMAPCONF_ERR_NOT_AVAILABLE:
 		dprintf("%s(): %s has no STANDBY mode\n",
 			__func__, mod44xx_get_name(mod_id, mod_name));
-		return (char *) ignore;
+		return (char *)ignore;
 	default:
 		fprintf(stderr,
 			"omapconf: internal error while checking module %s STANDBY mode! (%d)\n",
 			mod44xx_get_name(mod_id, mod_name), ret);
-		return (char *) ignore;
+		return (char *)ignore;
 	}
 }
+
 #ifdef MODULE_STANDBY_MODE_AUDIT44XX_DEBUG
 #undef dprintf
 #define dprintf(format, ...)
 #endif
-
 
 /* #define MODULE_CLOCKACTIVITY_BIT_AUDIT44XX_DEBUG */
 #ifdef MODULE_CLOCKACTIVITY_BIT_AUDIT44XX_DEBUG
@@ -413,18 +413,19 @@ char *module_standby_mode_audit44xx(mod44xx_id mod_id,
  * @DESCRIPTION		module clock activity mode audit.
  *------------------------------------------------------------------------ */
 char *module_clockactivity_bit_audit44xx(mod44xx_id mod_id,
-	mod_clock_activity_mode *mode,
-	mod_clock_activity_mode *mode_por,
-	unsigned int *err_nbr, unsigned int *wng_nbr)
+					 mod_clock_activity_mode * mode,
+					 mod_clock_activity_mode * mode_por,
+					 unsigned int *err_nbr,
+					 unsigned int *wng_nbr)
 {
 	int ret;
 	char mod_name[MOD44XX_MAX_NAME_LENGTH];
 
-	CHECK_CPU(44xx, (char *) ignore);
-	CHECK_NULL_ARG(mode, (char *) ignore);
-	CHECK_NULL_ARG(mode_por, (char *) ignore);
-	CHECK_NULL_ARG(err_nbr, (char *) ignore);
-	CHECK_NULL_ARG(wng_nbr, (char *) ignore);
+	CHECK_CPU(44xx, (char *)ignore);
+	CHECK_NULL_ARG(mode, (char *)ignore);
+	CHECK_NULL_ARG(mode_por, (char *)ignore);
+	CHECK_NULL_ARG(err_nbr, (char *)ignore);
+	CHECK_NULL_ARG(wng_nbr, (char *)ignore);
 
 	*err_nbr = 0;
 	*wng_nbr = 0;
@@ -441,10 +442,10 @@ char *module_clockactivity_bit_audit44xx(mod44xx_id mod_id,
 			 * Functional clock can be switched-off;
 			 * L4 clock can be switched-off
 			 */
-			dprintf(
-				"%s(): CLOCKACTIVITY bit correctly configured\n",
-				__func__);
-			return (char *) pass;
+			dprintf
+			    ("%s(): CLOCKACTIVITY bit correctly configured\n",
+			     __func__);
+			return (char *)pass;
 		case MOD_FCLK_AUTO_ICLK_ON:
 			/*
 			 * Functional clock can be switched-off;
@@ -456,13 +457,13 @@ char *module_clockactivity_bit_audit44xx(mod44xx_id mod_id,
 			 * L4 clock can be switched-off
 			 */
 			(*wng_nbr)++;
-			#ifdef MODULE_CLOCKACTIVITY_BIT_AUDIT44XX_DEBUG
+#ifdef MODULE_CLOCKACTIVITY_BIT_AUDIT44XX_DEBUG
 			dprintf("%s(): Warning: %s CLOCKACTIVITY = %s\n",
 				__func__,
 				mod44xx_get_name(mod_id, mod_name),
 				mod_clock_activity_mode_name_get(*mode));
-			#endif
-			return (char *) warning;
+#endif
+			return (char *)warning;
 		case MOD_FCLK_ON_ICLK_ON:
 			/*
 			 * Functional clock is maintained during wake-up period;
@@ -470,35 +471,35 @@ char *module_clockactivity_bit_audit44xx(mod44xx_id mod_id,
 			 */
 		default:
 			(*err_nbr)++;
-			#ifdef MODULE_CLOCKACTIVITY_BIT_AUDIT44XX_DEBUG
+#ifdef MODULE_CLOCKACTIVITY_BIT_AUDIT44XX_DEBUG
 			dprintf("%s(): Warning: %s CLOCKACTIVITY = %s\n",
 				__func__,
 				mod44xx_get_name(mod_id, mod_name),
 				mod_clock_activity_mode_name_get(*mode));
-			#endif
-			return (char *) fail;
+#endif
+			return (char *)fail;
 		}
 	case 0:
-		dprintf(
-			"%s(): %s disabled. Module registers cannot be audited.\n",
-			__func__, mod44xx_get_name(mod_id, mod_name));
-		return (char *) ignore;
+		dprintf
+		    ("%s(): %s disabled. Module registers cannot be audited.\n",
+		     __func__, mod44xx_get_name(mod_id, mod_name));
+		return (char *)ignore;
 	case OMAPCONF_ERR_NOT_AVAILABLE:
 		dprintf("%s(): %s has no CLOCKACTIVITY mode\n", __func__,
 			mod44xx_get_name(mod_id, mod_name));
-		return (char *) ignore;
+		return (char *)ignore;
 	default:
 		fprintf(stderr,
 			"omapconf: internal error while checking %s CLOCKACTIVITY mode! (%d)\n",
 			mod44xx_get_name(mod_id, mod_name), ret);
-		return (char *) ignore;
+		return (char *)ignore;
 	}
 }
+
 #ifdef MODULE_CLOCKACTIVITY_BIT_AUDIT44XX_DEBUG
 #undef dprintf
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		audit44xx_dpll
@@ -517,8 +518,9 @@ char *module_clockactivity_bit_audit44xx(mod44xx_id mod_id,
  * @param[in,out]	wng_nbr: audit warning number
  * @DESCRIPTION		audit DPLL Configuration
  *------------------------------------------------------------------------ */
-int audit44xx_dpll(FILE *stream, dpll44xx_id dpll_id, opp44xx_id opp_id,
-	unsigned short curr_opp, unsigned int *err_nbr, unsigned int *wng_nbr)
+int audit44xx_dpll(FILE * stream, dpll44xx_id dpll_id, opp44xx_id opp_id,
+		   unsigned short curr_opp, unsigned int *err_nbr,
+		   unsigned int *wng_nbr)
 {
 	int ret = 0;
 	char s[256];
@@ -550,8 +552,7 @@ int audit44xx_dpll(FILE *stream, dpll44xx_id dpll_id, opp44xx_id opp_id,
 		return 0;
 	}
 
-	fprintf(fp,
-		"OMAPCONF DPLL Configuration Audit Detailed Log:\n\n");
+	fprintf(fp, "OMAPCONF DPLL Configuration Audit Detailed Log:\n\n");
 	omapconf_revision_show(fp);
 	chips_info_show(fp, 1);
 	release_info_show(fp);
@@ -598,12 +599,12 @@ int audit44xx_dpll(FILE *stream, dpll44xx_id dpll_id, opp44xx_id opp_id,
 	row = 0;
 	autoadjust_table_init(table);
 	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"DPLL Configuration AUDIT Summary");
+		 "DPLL Configuration AUDIT Summary");
 	autoadjust_table_strncpy(table, row, 1, "Audit STATUS");
 	row++;
 
-	for (opp = OMAP4_OPP50; (unsigned int) opp <= cpufreq_opp_nbr_get();
-		opp++) {
+	for (opp = OMAP4_OPP50; (unsigned int)opp <= cpufreq_opp_nbr_get();
+	     opp++) {
 		_err_nbr = 0;
 		_wng_nbr = 0;
 
@@ -614,7 +615,7 @@ int audit44xx_dpll(FILE *stream, dpll44xx_id dpll_id, opp44xx_id opp_id,
 			goto audit44xx_dpll_end;
 		}
 
-		ret = cpufreq_set((unsigned int) (freq_mpu * 1000));
+		ret = cpufreq_set((unsigned int)(freq_mpu * 1000));
 		if (ret != 0) {
 			err_internal_msg_show();
 			goto audit44xx_dpll_end;
@@ -623,11 +624,11 @@ int audit44xx_dpll(FILE *stream, dpll44xx_id dpll_id, opp44xx_id opp_id,
 		fprintf(fp, "DPLLs Configuration Audit at MPU %s:\n\n",
 			opp44xx_name_get(opp, OMAP4_VDD_MPU));
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "At MPU %s",
-			opp44xx_name_get(opp, OMAP4_VDD_MPU));
+			 opp44xx_name_get(opp, OMAP4_VDD_MPU));
 
 		/* Run audit at this OPP */
 		ret = dpll44xx_audit(dpll_id, OPP44XX_ID_MAX, fp,
-			&_err_nbr, &_wng_nbr);
+				     &_err_nbr, &_wng_nbr);
 		if (ret != 0) {
 			err_internal_msg_show();
 			goto audit44xx_dpll_end;
@@ -635,11 +636,11 @@ int audit44xx_dpll(FILE *stream, dpll44xx_id dpll_id, opp44xx_id opp_id,
 
 		if (_err_nbr == 0)
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-				"PASS (0 error, %u warning(s))", _wng_nbr);
+				 "PASS (0 error, %u warning(s))", _wng_nbr);
 		else
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-				"FAIL (%u error, %u warning(s))",
-				_err_nbr, _wng_nbr);
+				 "FAIL (%u error, %u warning(s))",
+				 _err_nbr, _wng_nbr);
 		(*err_nbr) += _err_nbr;
 		(*wng_nbr) += _wng_nbr;
 		row++;
@@ -671,7 +672,6 @@ int audit44xx_dpll(FILE *stream, dpll44xx_id dpll_id, opp44xx_id opp_id,
 		fputs(s, stream);
 	}
 
-
 audit44xx_dpll_end:
 	/* Restore CPUFreq governor */
 	if (strlen(prev_gov) != 0)
@@ -681,7 +681,6 @@ audit44xx_dpll_end:
 		fclose(fp);
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		audit44xx_dpll_main
@@ -710,12 +709,12 @@ int audit44xx_dpll_main(int argc, char *argv[])
 
 	/* Retrieve user options */
 	dprintf("%s(): argc=%u\n", __func__, argc);
-	#ifdef AUDIT44XX_DEBUG
+#ifdef AUDIT44XX_DEBUG
 	for (curr_opp = 0; curr_opp < argc; curr_opp++) {
 		dprintf("%s(): argv[%u]=%s\n", __func__,
 			curr_opp, argv[curr_opp]);
 	}
-	#endif
+#endif
 
 	if (argc == 0) {
 		/* Audit all DPLLs at current OPP by default */
@@ -793,7 +792,7 @@ audit44xx_dpll_audit:
 		opp44xx_name_get(opp_id, OMAP4_VDD_MPU), curr_opp);
 
 	ret = audit44xx_dpll(stdout, dpll_id, opp_id, curr_opp,
-		&err_nbr, &wng_nbr);
+			     &err_nbr, &wng_nbr);
 
 	goto audit44xx_dpll_end;
 
@@ -804,7 +803,6 @@ audit44xx_dpll_err_arg:
 audit44xx_dpll_end:
 	return ret;
 }
-
 
 /* #define SYSCONFIG_AUDIT44XX_DEBUG */
 #ifdef SYSCONFIG_AUDIT44XX_DEBUG
@@ -823,16 +821,15 @@ audit44xx_dpll_end:
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		OMAP4 SYSCONFIG registers audit.
  *------------------------------------------------------------------------ */
-int sysconfig_audit44xx(FILE *stream, unsigned int *err_nbr,
-	unsigned int *wng_nbr)
+int sysconfig_audit44xx(FILE * stream, unsigned int *err_nbr,
+			unsigned int *wng_nbr)
 {
 	mod44xx_id i;
 	mod_autoidle_mode autoidle_mode, autoidle_mode_por;
 	mod_idle_mode idle_mode, idle_mode_por;
 	mod_interface_type type;
 	mod_standby_mode standby_mode, standby_mode_por;
-	mod_clock_activity_mode clock_activity_mode,
-		clock_activity_mode_por;
+	mod_clock_activity_mode clock_activity_mode, clock_activity_mode_por;
 	char *status;
 	unsigned int err_nbr_tmp = 0, wng_nbr_tmp = 0;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -936,7 +933,8 @@ int sysconfig_audit44xx(FILE *stream, unsigned int *err_nbr,
 					__func__);
 				continue;
 			} else if (strcmp(pwst, "ON") != 0) {
-				dprintf("\t%s skipped.\n", mod44xx_get_name(i, mod_name));
+				dprintf("\t%s skipped.\n",
+					mod44xx_get_name(i, mod_name));
 				continue;
 			} else {
 				goto sysconfig_audit44xx_default;
@@ -966,44 +964,45 @@ sysconfig_audit44xx_default:
 			/* Check if module is accessible */
 			if (mod44xx_is_accessible(i) != 1) {
 				snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-					"%s", mod44xx_get_name(i, mod_name));
+					 "%s", mod44xx_get_name(i, mod_name));
 				snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-					"NA");
+					 "NA");
 				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-					"NA");
+					 "NA");
 				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
-					"NA");
+					 "NA");
 				snprintf(table[row][4], TABLE_MAX_ELT_LEN,
-					"NA");
+					 "NA");
 				row++;
 				dprintf("\tModule is not accessible.\n");
 				continue;
 			}
 
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-				"%s", mod44xx_get_name(i, mod_name));
+				 "%s", mod44xx_get_name(i, mod_name));
 			/* Audit module's autoidle bit */
 			status = module_autoidle_mode_audit44xx(i,
-				&autoidle_mode, &autoidle_mode_por,
-				&err_nbr_tmp, &wng_nbr_tmp);
+								&autoidle_mode,
+								&autoidle_mode_por,
+								&err_nbr_tmp,
+								&wng_nbr_tmp);
 			if (status == pass) {
 				strncpy(table[row][1], status,
 					TABLE_MAX_ELT_LEN);
 
-			} else if ((i == OMAP4_ICR_MDM) ||
-				(i == OMAP4_ICR_MPU)) {
+			} else if ((i == OMAP4_ICR_MDM) || (i == OMAP4_ICR_MPU)) {
 				/* by default no C2C driver */
-				status = (char *) warning;
+				status = (char *)warning;
 				(*wng_nbr)++;
-				snprintf(table[row][1],	TABLE_MAX_ELT_LEN,
-					"Warning (%s)",
-					mod_autoidle_mode_name_get(
-						autoidle_mode));
+				snprintf(table[row][1], TABLE_MAX_ELT_LEN,
+					 "Warning (%s)",
+					 mod_autoidle_mode_name_get
+					 (autoidle_mode));
 			} else if (status == fail) {
 				(*err_nbr)++;
 				strncpy(table[row][1], status,
 					TABLE_MAX_ELT_LEN);
-			} /* else do nothing in case of status == ignore */
+			}	/* else do nothing in case of status == ignore */
 			dprintf("\tAutoidle audit: mode=%s, status=%s\n",
 				mod_autoidle_mode_name_get(autoidle_mode),
 				status);
@@ -1012,31 +1011,32 @@ sysconfig_audit44xx_default:
 
 			/* Audit module's IDLE mode */
 			status = module_idle_mode_audit44xx(i,
-				&idle_mode, &idle_mode_por,
-				&err_nbr_tmp, &wng_nbr_tmp);
+							    &idle_mode,
+							    &idle_mode_por,
+							    &err_nbr_tmp,
+							    &wng_nbr_tmp);
 			if (status == pass) {
 				strncpy(table[row][2], status,
 					TABLE_MAX_ELT_LEN);
 			} else if (status == warning) {
 				(*wng_nbr)++;
 				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-					"Warning (Force-Idle)");
+					 "Warning (Force-Idle)");
 			} else if ((i == OMAP4_TIMER1) ||
-				(i == OMAP4_DSI1) ||
-				(i == OMAP4_DSI2) ||
-				(i == OMAP4_HDMI)) {
+				   (i == OMAP4_DSI1) ||
+				   (i == OMAP4_DSI2) || (i == OMAP4_HDMI)) {
 				/* still configured to no-idle ... */
-				status = (char *) warning;
+				status = (char *)warning;
 				(*wng_nbr)++;
 				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-					"Warning (%s)",
-					mod_idle_mode_name_get(idle_mode));
+					 "Warning (%s)",
+					 mod_idle_mode_name_get(idle_mode));
 			} else if (status == fail) {
 				(*err_nbr)++;
 				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-					"FAIL (%s)",
-					mod_idle_mode_name_get(idle_mode));
-			} /* else do nothing in case of status == ignore */
+					 "FAIL (%s)",
+					 mod_idle_mode_name_get(idle_mode));
+			}	/* else do nothing in case of status == ignore */
 			dprintf("\tIdle mode audit: mode=%s, status=%s\n",
 				mod_idle_mode_name_get(idle_mode), status);
 			dprintf("\t\tTotal error number=%u, total warning "
@@ -1044,21 +1044,24 @@ sysconfig_audit44xx_default:
 
 			/* Audit module's STANDBY mode */
 			status = module_standby_mode_audit44xx(i,
-				&standby_mode, &standby_mode_por,
-				&err_nbr_tmp, &wng_nbr_tmp);
+							       &standby_mode,
+							       &standby_mode_por,
+							       &err_nbr_tmp,
+							       &wng_nbr_tmp);
 			if (status == pass) {
 				strncpy(table[row][3], status,
 					TABLE_MAX_ELT_LEN);
 			} else if (status == fail) {
 				(*err_nbr)++;
 				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
-					"FAIL (%s)", mod_standby_mode_name_get(
-						standby_mode));
+					 "FAIL (%s)",
+					 mod_standby_mode_name_get
+					 (standby_mode));
 			} else if (status == warning) {
 				(*wng_nbr)++;
 				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
-					"Warning (Force-standby)");
-			} /* else do nothing in case of status == ignore */
+					 "Warning (Force-standby)");
+			}	/* else do nothing in case of status == ignore */
 			dprintf("\tStandby mode audit: mode=%s, status=%s\n",
 				mod_standby_mode_name_get(standby_mode),
 				status);
@@ -1067,28 +1070,30 @@ sysconfig_audit44xx_default:
 
 			/* Audit module's CLOCKACTIVITY bit configuration */
 			status = module_clockactivity_bit_audit44xx(i,
-				&clock_activity_mode, &clock_activity_mode_por,
-				&err_nbr_tmp, &wng_nbr_tmp);
+								    &clock_activity_mode,
+								    &clock_activity_mode_por,
+								    &err_nbr_tmp,
+								    &wng_nbr_tmp);
 			if (status == pass) {
 				strncpy(table[row][4], status,
 					TABLE_MAX_ELT_LEN);
 			} else if (status == fail) {
 				(*err_nbr)++;
 				snprintf(table[row][4], TABLE_MAX_ELT_LEN,
-					"FAIL (%s)",
-					mod_clock_activity_mode_name_get(
-						clock_activity_mode));
+					 "FAIL (%s)",
+					 mod_clock_activity_mode_name_get
+					 (clock_activity_mode));
 			} else if (status == warning) {
 				(*wng_nbr)++;
 				snprintf(table[row][4], TABLE_MAX_ELT_LEN,
-					"Warning (%s)",
-					mod_clock_activity_mode_name_get(
-						clock_activity_mode));
-			} /* else do nothing in case of status == ignore */
+					 "Warning (%s)",
+					 mod_clock_activity_mode_name_get
+					 (clock_activity_mode));
+			}	/* else do nothing in case of status == ignore */
 			dprintf("\tCLOCKACTIVITY mode audit: mode=%s, "
-				"status=%s\n", mod_clock_activity_mode_name_get(
-					clock_activity_mode),
-				status);
+				"status=%s\n",
+				mod_clock_activity_mode_name_get
+				(clock_activity_mode), status);
 			dprintf("\t\tTotal error number=%u, total warning "
 				"number=%u\n", *err_nbr, *wng_nbr);
 			row++;
@@ -1135,23 +1140,21 @@ sysconfig_audit44xx_default:
 		if (*err_nbr == 0) {
 			fprintf(stream, "SUCCESS! Modules SYSCONFIG registers "
 				"audit completed with 0 error "
-				"(%d warning(s))\n\n",
-				*wng_nbr);
+				"(%d warning(s))\n\n", *wng_nbr);
 		} else {
 			fprintf(stream, "FAILED! Modules SYSCONFIG registers "
 				"audit completed with %d error and "
-				"%d warning.\n\n",
-				*err_nbr, *wng_nbr);
+				"%d warning.\n\n", *err_nbr, *wng_nbr);
 		}
 	}
 
 	return 0;
 }
+
 #ifdef SYSCONFIG_AUDIT44XX_DEBUG
 #undef dprintf
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clkspeed_audit44xx
@@ -1166,8 +1169,8 @@ sysconfig_audit44xx_default:
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		OMAP4 Clock Speed audit.
  *------------------------------------------------------------------------ */
-int clkspeed_audit44xx(FILE *stream, unsigned int *err_nbr,
-	unsigned int *wng_nbr)
+int clkspeed_audit44xx(FILE * stream, unsigned int *err_nbr,
+		       unsigned int *wng_nbr)
 {
 	mod44xx_id module_id;
 	voltdm44xx_id volt_dom_id;
@@ -1291,8 +1294,7 @@ int clkspeed_audit44xx(FILE *stream, unsigned int *err_nbr,
 			 * Part of CAM subsystem
 			 * all clocked by same OMAP4_ISS_CLK clock
 			 */
-			dprintf("%s(): part of CAM SS, skip it.\n",
-				__func__);
+			dprintf("%s(): part of CAM SS, skip it.\n", __func__);
 			break;
 
 		case OMAP4_CRYPTODMA:
@@ -1310,15 +1312,14 @@ int clkspeed_audit44xx(FILE *stream, unsigned int *err_nbr,
 			 * Secure Modules, not accessible on HS,
 			 * not referenced on GP
 			 */
-			dprintf("%s(): secure module, skip it.\n",
-				__func__);
+			dprintf("%s(): secure module, skip it.\n", __func__);
 			break;
 
 		case OMAP4_UNIPRO1:
 			/* Only present in OMAP4430ES1.0, skip it otherwise */
 			if ((cpu_is_omap4430() &&
-				(cpu_revision_get() != REV_ES1_0))
-				|| cpu_is_omap4460() || cpu_is_omap4470())
+			     (cpu_revision_get() != REV_ES1_0))
+			    || cpu_is_omap4460() || cpu_is_omap4470())
 				break;
 
 		case OMAP4_DDRPHY:
@@ -1327,9 +1328,8 @@ int clkspeed_audit44xx(FILE *stream, unsigned int *err_nbr,
 			 * No need to show it, tend to confuse people.
 			 * Showing EMIF speed is sufficient.
 			 */
-			dprintf("%s(): internal, skip it.\n",
-				__func__);
-			 break;
+			dprintf("%s(): internal, skip it.\n", __func__);
+			break;
 
 		case OMAP4_FSUSBHOST:
 			if (cpu_is_omap4470())
@@ -1346,7 +1346,7 @@ int clkspeed_audit44xx(FILE *stream, unsigned int *err_nbr,
 clkspeed_audit44xx_default:
 		default:
 			/* init variables */
-			status = (char *) ignore4;
+			status = (char *)ignore4;
 			speed_curr = -1.0;
 			snprintf(s_curr, 12, "%s", "NOT FOUND");
 			snprintf(s_src, 21, "%s", "NOT FOUND");
@@ -1357,17 +1357,16 @@ clkspeed_audit44xx_default:
 
 			volt_dom_id = mod44xx_get_voltdm(module_id);
 			ret = mod44xx_get_clk_speed(module_id,
-				&src_clk_id,
-				&current_opp,
-				&speed_curr);
+						    &src_clk_id,
+						    &current_opp, &speed_curr);
 
 			if (src_clk_id != OMAP4_CLOCK_ID_MAX) {
 				snprintf(s_src, CLOCK44XX_MAX_NAME_LENGTH, "%s",
-					clk44xx_get_name(src_clk_id,
-						src_clk_name));
+					 clk44xx_get_name(src_clk_id,
+							  src_clk_name));
 			} else {
 				dprintf("%s(): src_clk not found!\n", __func__);
-				status = (char *) warning1;
+				status = (char *)warning1;
 				(*wng_nbr)++;
 				goto clkspeed_audit44xx_show;
 			}
@@ -1375,29 +1374,28 @@ clkspeed_audit44xx_default:
 				mhz2string(speed_curr, s_curr);
 			} else {
 				dprintf("%s(): speed not found!\n", __func__);
-				status = (char *) warning1;
+				status = (char *)warning1;
 				(*wng_nbr)++;
 				goto clkspeed_audit44xx_show;
 			}
 			if (current_opp != OPP44XX_ID_MAX) {
 				voltdm44xx_opp2string(s_opp,
-					current_opp, volt_dom_id);
+						      current_opp, volt_dom_id);
 			} else {
 				dprintf("%s(): opp not found!\n", __func__);
-				status = (char *) warning2;
+				status = (char *)warning2;
 				(*wng_nbr)++;
 				goto clkspeed_audit44xx_show;
 			}
 			if (ret != 0) {
 				dprintf("%s(): src_clk/speed/opp not found!\n",
 					__func__);
-				status = (char *) warning1;
+				status = (char *)warning1;
 				(*wng_nbr)++;
 				goto clkspeed_audit44xx_show;
 			}
 			/* Keep only 3 decimals for comparison */
-			speed_curr = (int)(speed_curr * 1000.0) /
-				1000.0;
+			speed_curr = (int)(speed_curr * 1000.0) / 1000.0;
 			dprintf("%s(): speed=%.3lfMHz\n", __func__, speed_curr);
 
 			/*
@@ -1405,26 +1403,25 @@ clkspeed_audit44xx_default:
 			 * source clock speed
 			 */
 			ret = mod44xx_get_por_clk_speed(module_id,
-				current_opp, &speed_por);
+							current_opp,
+							&speed_por);
 			mod44xx_get_mode(module_id, &mmode);
 			if ((ret == 0) && (speed_por != -1.0)) {
 				mhz2string(speed_por, s_por);
 				/*
 				 * Keep only 3 decimals for comparison
 				 */
-				speed_por = (int)(speed_por * 1000.0) /
-					1000.0;
+				speed_por = (int)(speed_por * 1000.0) / 1000.0;
 				dprintf("%s(): PoR speed=%.3lfMHz\n",
-						__func__, speed_por);
+					__func__, speed_por);
 
 				if (speed_curr == speed_por) {
-					status = (char *) pass;
-					dprintf("%s(): pass!\n",
-						__func__);
+					status = (char *)pass;
+					dprintf("%s(): pass!\n", __func__);
 				} else if (((module_id == OMAP4_AESS) ||
-					(module_id == OMAP4_DMIC) ||
-					(module_id == OMAP4_L4_ABE)) &&
-					(current_opp == OMAP4_OPP100)) {
+					    (module_id == OMAP4_DMIC) ||
+					    (module_id == OMAP4_L4_ABE)) &&
+					   (current_opp == OMAP4_OPP100)) {
 					/*
 					 * From ICS pastry,
 					 * ABE is not always following
@@ -1432,21 +1429,19 @@ clkspeed_audit44xx_default:
 					 * that VDD_IVA=OPP100 but ABE
 					 * stays at OPP50 clock rates.
 					 */
-					mod44xx_get_por_clk_speed(
-						module_id, OMAP4_OPP50,
-						&speed_opp50_por);
-					if (speed_curr ==
-						speed_opp50_por) {
-						status = (char *) pass;
-						mhz2string(
-							speed_opp50_por,
-							s_por);
+					mod44xx_get_por_clk_speed(module_id,
+								  OMAP4_OPP50,
+								  &speed_opp50_por);
+					if (speed_curr == speed_opp50_por) {
+						status = (char *)pass;
+						mhz2string(speed_opp50_por,
+							   s_por);
 						dprintf("%s(): pass!\n",
 							__func__);
 					} else {
 						dprintf("%s(): FAILED!"
 							"\n", __func__);
-						status = (char *) fail;
+						status = (char *)fail;
 						(*err_nbr)++;
 					}
 				} else if (mmode == MOD_DISABLED_MODE) {
@@ -1457,20 +1452,18 @@ clkspeed_audit44xx_default:
 					 * impact power.
 					 */
 					dprintf("%s(): disabled "
-						"module.\n",
-						__func__);
-					status = (char *) warning3;
+						"module.\n", __func__);
+					status = (char *)warning3;
 					(*wng_nbr)++;
 				} else {
-					dprintf("%s(): FAILED!\n",
-						__func__);
-					status = (char *) fail;
+					dprintf("%s(): FAILED!\n", __func__);
+					status = (char *)fail;
 					(*err_nbr)++;
 				}
 			} else {
 				dprintf("%s(): warning POR speed "
 					"not found!\n", __func__);
-				status = (char *) warning1;
+				status = (char *)warning1;
 				(*wng_nbr)++;
 			}
 
@@ -1514,7 +1507,6 @@ clkspeed_audit44xx_show:
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		audit44xx_sr_avs
  * @BRIEF		audit Smart-Reflex AVS Configuration
@@ -1529,8 +1521,9 @@ clkspeed_audit44xx_show:
  * @param[in,out]	wng_nbr: audit warning number
  * @DESCRIPTION		audit Smart-Reflex AVS Configuration (SR + VP modules)
  *------------------------------------------------------------------------ */
-int audit44xx_sr_avs(FILE *stream, omap4_sr_module_id sr_id,
-	unsigned short curr_opp, unsigned int *err_nbr, unsigned int *wng_nbr)
+int audit44xx_sr_avs(FILE * stream, omap4_sr_module_id sr_id,
+		     unsigned short curr_opp, unsigned int *err_nbr,
+		     unsigned int *wng_nbr)
 {
 	unsigned int vp_err_nbr = 0, vp_wng_nbr = 0;
 	unsigned int sr_err_nbr = 0, sr_wng_nbr = 0;
@@ -1550,12 +1543,11 @@ int audit44xx_sr_avs(FILE *stream, omap4_sr_module_id sr_id,
 	CHECK_NULL_ARG(err_nbr, OMAPCONF_ERR_ARG);
 	CHECK_NULL_ARG(wng_nbr, OMAPCONF_ERR_ARG);
 
-
 	if (cpu_is_omap4470()) {
 		(*wng_nbr) += 1;
 		if (stream != NULL)
 			fprintf(stream, "SR AVS Golden settings not yet "
-			"available, audit cannot be run.\n\n");
+				"available, audit cannot be run.\n\n");
 		return 0;
 	}
 
@@ -1572,8 +1564,7 @@ int audit44xx_sr_avs(FILE *stream, omap4_sr_module_id sr_id,
 		fprintf(stderr, "Could not create %s file!\n\n", s);
 		return 0;
 	}
-	fprintf(fp,
-		"OMAPCONF SR AVS Configuration Audit Detailed Log:\n\n");
+	fprintf(fp, "OMAPCONF SR AVS Configuration Audit Detailed Log:\n\n");
 	omapconf_revision_show(fp);
 	chips_info_show(fp, 1);
 	release_info_show(fp);
@@ -1588,7 +1579,7 @@ int audit44xx_sr_avs(FILE *stream, omap4_sr_module_id sr_id,
 		(*wng_nbr) += sr_wng_nbr;
 
 		ret = vp44xx_config_audit(fp, (vp44xx_mod_id) sr_id,
-			&vp_err_nbr, &vp_wng_nbr);
+					  &vp_err_nbr, &vp_wng_nbr);
 		if (ret != 0) {
 			fclose(fp);
 			return ret;
@@ -1597,7 +1588,7 @@ int audit44xx_sr_avs(FILE *stream, omap4_sr_module_id sr_id,
 		(*wng_nbr) += vp_wng_nbr;
 
 		rewind(fp);
-		while ((fgets(s, 256, fp) != NULL) && (s[0] != '|'));
+		while ((fgets(s, 256, fp) != NULL) && (s[0] != '|')) ;
 		fputs(s, stream);
 		if (stream != NULL) {
 			while (fgets(s, 256, fp) != NULL)
@@ -1632,11 +1623,10 @@ int audit44xx_sr_avs(FILE *stream, omap4_sr_module_id sr_id,
 		goto audit44xx_sr_avs_end;
 	}
 
-
 	row = 0;
 	autoadjust_table_init(table);
 	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"SR AVS Configuration AUDIT Summary");
+		 "SR AVS Configuration AUDIT Summary");
 	autoadjust_table_strncpy(table, row, 1, "SR Audit STATUS");
 	autoadjust_table_strncpy(table, row, 2, "VP Audit STATUS");
 	row++;
@@ -1644,8 +1634,8 @@ int audit44xx_sr_avs(FILE *stream, omap4_sr_module_id sr_id,
 	/* Save current governor (will be altered by cpufreq_set() call */
 	cpufreq_scaling_governor_get(prev_gov);
 
-	for (opp = OMAP4_OPP50; (unsigned int) opp <= cpufreq_opp_nbr_get();
-		opp++) {
+	for (opp = OMAP4_OPP50; (unsigned int)opp <= cpufreq_opp_nbr_get();
+	     opp++) {
 		sr_err_nbr = 0;
 		sr_wng_nbr = 0;
 		vp_err_nbr = 0;
@@ -1657,47 +1647,46 @@ int audit44xx_sr_avs(FILE *stream, omap4_sr_module_id sr_id,
 			fclose(fp);
 			goto audit44xx_sr_avs_end;
 		}
-		ret = cpufreq_set((unsigned int) (freq_mpu * 1000));
+		ret = cpufreq_set((unsigned int)(freq_mpu * 1000));
 		if (ret != 0) {
 			fclose(fp);
 			goto audit44xx_sr_avs_end;
 		}
 		voltdm44xx_opp2string(opp_name, opp, OMAP4_VDD_MPU);
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "At MPU %s",
-			opp_name);
+			 opp_name);
 		fprintf(fp, "SR AVS Configuration Audit at MPU %s:\n\n",
 			opp_name);
 
 		/* Run audit at this OPP */
-		ret = sr44xx_audit(fp, sr_id, &sr_err_nbr,
-			&sr_wng_nbr);
+		ret = sr44xx_audit(fp, sr_id, &sr_err_nbr, &sr_wng_nbr);
 		if (ret != 0) {
 			fclose(fp);
 			goto audit44xx_sr_avs_end;
 		}
 		if (sr_err_nbr == 0)
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-				"PASS (0 error, %u warning(s))", sr_wng_nbr);
+				 "PASS (0 error, %u warning(s))", sr_wng_nbr);
 		else
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-				"FAIL (%u error, %u warning(s))",
-				sr_err_nbr, sr_wng_nbr);
+				 "FAIL (%u error, %u warning(s))",
+				 sr_err_nbr, sr_wng_nbr);
 		(*err_nbr) += sr_err_nbr;
 		(*wng_nbr) += sr_wng_nbr;
 
 		ret = vp44xx_config_audit(fp, (vp44xx_mod_id) sr_id,
-			&vp_err_nbr, &vp_wng_nbr);
+					  &vp_err_nbr, &vp_wng_nbr);
 		if (ret != 0) {
 			fclose(fp);
 			goto audit44xx_sr_avs_end;
 		}
 		if (vp_err_nbr == 0)
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-				"PASS (0 error, %u warning(s))", vp_wng_nbr);
+				 "PASS (0 error, %u warning(s))", vp_wng_nbr);
 		else
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-				"FAIL (%u error, %u warning(s))",
-				vp_err_nbr, vp_wng_nbr);
+				 "FAIL (%u error, %u warning(s))",
+				 vp_err_nbr, vp_wng_nbr);
 		row++;
 		(*err_nbr) += vp_err_nbr;
 		(*wng_nbr) += vp_wng_nbr;
@@ -1737,13 +1726,11 @@ int audit44xx_sr_avs(FILE *stream, omap4_sr_module_id sr_id,
 				"warning(s).\n\n", *err_nbr, *wng_nbr);
 	}
 
-
 audit44xx_sr_avs_end:
 	/* Restore CPUFreq governor */
 	cpufreq_scaling_governor_set(prev_gov, prev_gov2);
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		full_audit44xx
@@ -1793,107 +1780,97 @@ int full_audit44xx(void)
 	release_info_show(fp);
 
 	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"Full Power Configuration AUDIT Summary");
-	snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-		"STATUS");
+		 "Full Power Configuration AUDIT Summary");
+	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "STATUS");
 	row++;
 
 	audit44xx_dpll(fp, DPLL44XX_ID_MAX, OPP44XX_ID_MAX,
-			0, &dplls_err_nbr, &dplls_wng_nbr);
+		       0, &dplls_err_nbr, &dplls_wng_nbr);
 	fputs("\n\n\n", fp);
-	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"DPLLs Configuration Audit");
+	snprintf(table[row][0], TABLE_MAX_ELT_LEN, "DPLLs Configuration Audit");
 	if (dplls_err_nbr == 0)
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"PASS (0 error, %u warning(s))", dplls_wng_nbr);
+			 "PASS (0 error, %u warning(s))", dplls_wng_nbr);
 	else
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"FAIL (%u error(s), %u warning(s))",
-			dplls_err_nbr, dplls_wng_nbr);
+			 "FAIL (%u error(s), %u warning(s))",
+			 dplls_err_nbr, dplls_wng_nbr);
 	row++;
 	err_nbr += dplls_err_nbr;
 	wng_nbr += dplls_wng_nbr;
 
-	sysconfig_audit44xx(fp,
-		&syscfg_err_nbr, &syscfg_wng_nbr);
+	sysconfig_audit44xx(fp, &syscfg_err_nbr, &syscfg_wng_nbr);
 	fputs("\n\n\n", fp);
 	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"SYSCONFIG IP Registers Audit");
+		 "SYSCONFIG IP Registers Audit");
 	if (syscfg_err_nbr == 0)
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"PASS (0 error, %u warning(s))", syscfg_wng_nbr);
+			 "PASS (0 error, %u warning(s))", syscfg_wng_nbr);
 	else
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"FAIL (%u error(s), %u warning(s))",
-			syscfg_err_nbr, syscfg_wng_nbr);
+			 "FAIL (%u error(s), %u warning(s))",
+			 syscfg_err_nbr, syscfg_wng_nbr);
 	row++;
 	err_nbr += syscfg_err_nbr;
 	wng_nbr += syscfg_wng_nbr;
 
-	clkspeed_audit44xx(fp,
-		&clkspeed_err_nbr, &clkspeed_wng_nbr);
+	clkspeed_audit44xx(fp, &clkspeed_err_nbr, &clkspeed_wng_nbr);
 	fputs("\n\n\n", fp);
-	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"Clock Speed Audit");
+	snprintf(table[row][0], TABLE_MAX_ELT_LEN, "Clock Speed Audit");
 	if (clkspeed_err_nbr == 0)
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"PASS (0 error, %u warning(s))", clkspeed_wng_nbr);
+			 "PASS (0 error, %u warning(s))", clkspeed_wng_nbr);
 	else
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"FAIL (%u error(s), %u warning(s))",
-			clkspeed_err_nbr, clkspeed_wng_nbr);
+			 "FAIL (%u error(s), %u warning(s))",
+			 clkspeed_err_nbr, clkspeed_wng_nbr);
 	row++;
 	err_nbr += clkspeed_err_nbr;
 	wng_nbr += clkspeed_wng_nbr;
 
-	statdep44xx_audit(fp,
-		&statdep_err_nbr, &statdep_wng_nbr);
+	statdep44xx_audit(fp, &statdep_err_nbr, &statdep_wng_nbr);
 	fputs("\n\n\n", fp);
-	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"Static Dependencies Audit");
+	snprintf(table[row][0], TABLE_MAX_ELT_LEN, "Static Dependencies Audit");
 	if (statdep_err_nbr == 0)
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"PASS (0 error, %u warning(s))", statdep_wng_nbr);
+			 "PASS (0 error, %u warning(s))", statdep_wng_nbr);
 	else
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"FAIL (%u error(s), %u warning(s))",
-			statdep_err_nbr, statdep_wng_nbr);
+			 "FAIL (%u error(s), %u warning(s))",
+			 statdep_err_nbr, statdep_wng_nbr);
 	row++;
 	err_nbr += statdep_err_nbr;
 	wng_nbr += statdep_wng_nbr;
 
-	audit44xx_sr_avs(fp, OMAP4_SR_ID_MAX, 0,
-		&avs_err_nbr, &avs_wng_nbr);
+	audit44xx_sr_avs(fp, OMAP4_SR_ID_MAX, 0, &avs_err_nbr, &avs_wng_nbr);
 	fputs("\n\n\n", fp);
-	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"SR AVS Audit");
+	snprintf(table[row][0], TABLE_MAX_ELT_LEN, "SR AVS Audit");
 	if (avs_err_nbr == 0)
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"PASS (0 error, %u warning(s))", avs_wng_nbr);
+			 "PASS (0 error, %u warning(s))", avs_wng_nbr);
 	else
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"FAIL (%u error(s), %u warning(s))",
-			avs_err_nbr, avs_wng_nbr);
+			 "FAIL (%u error(s), %u warning(s))",
+			 avs_err_nbr, avs_wng_nbr);
 	row++;
 	err_nbr += avs_err_nbr;
 	wng_nbr += avs_wng_nbr;
 
 	pad_violation_count = pads44xx_audit(fp);
 	fputs("\n\n\n", fp);
-	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"IO PAD Audit");
+	snprintf(table[row][0], TABLE_MAX_ELT_LEN, "IO PAD Audit");
 	if (pad_violation_count < 0) {
 		wng_nbr++;
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"ABORTED (0 error, 1 warning(s))");
+			 "ABORTED (0 error, 1 warning(s))");
 	} else if (pad_violation_count == 0) {
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"PASS (0 error, 0 warning(s))");
+			 "PASS (0 error, 0 warning(s))");
 	} else {
 		err_nbr++;
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"FAIL (%u error(s), 0 warning(s))",
-			pad_violation_count);
+			 "FAIL (%u error(s), 0 warning(s))",
+			 pad_violation_count);
 	}
 	row++;
 
@@ -1914,7 +1891,6 @@ int full_audit44xx(void)
 	fclose(fp);
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		audit44xx_main
@@ -1945,42 +1921,37 @@ int audit44xx_main(int argc, char *argv[])
 		if (strcmp(argv[1], "full") == 0) {
 			ret = full_audit44xx();
 		} else if (strcmp(argv[1], "sysconfig") == 0) {
-			ret = sysconfig_audit44xx(stdout,
-				&err_nbr, &wng_nbr);
+			ret = sysconfig_audit44xx(stdout, &err_nbr, &wng_nbr);
 		} else if (strcmp(argv[1], "clkspeed") == 0) {
-			ret = clkspeed_audit44xx(stdout,
-				&err_nbr, &wng_nbr);
+			ret = clkspeed_audit44xx(stdout, &err_nbr, &wng_nbr);
 		} else if (strcmp(argv[1], "statdep") == 0) {
-			ret = statdep44xx_audit(stdout,
-				&err_nbr, &wng_nbr);
+			ret = statdep44xx_audit(stdout, &err_nbr, &wng_nbr);
 		} else if (strcmp(argv[1], "avs") == 0) {
 			ret = audit44xx_sr_avs(stdout, OMAP4_SR_ID_MAX, 1,
-				&err_nbr, &wng_nbr);
+					       &err_nbr, &wng_nbr);
 		} else if (strcmp(argv[1], "pads") == 0) {
 			ret = pads44xx_audit(stdout);
 		} else {
 			ret = uc_audit44xx_main(argc, argv);
 		}
-	} else if ((argc == 3) &&
-		(strcmp(argv[1], "avs") == 0)) {
+	} else if ((argc == 3) && (strcmp(argv[1], "avs") == 0)) {
 		if (strcmp(argv[2], "mpu") == 0) {
 			ret = audit44xx_sr_avs(stdout, OMAP4_SR_MPU, 1,
-				&err_nbr, &wng_nbr);
+					       &err_nbr, &wng_nbr);
 		} else if (strcmp(argv[2], "iva") == 0) {
 			ret = audit44xx_sr_avs(stdout, OMAP4_SR_IVA, 1,
-				&err_nbr, &wng_nbr);
+					       &err_nbr, &wng_nbr);
 		} else if (strcmp(argv[2], "core") == 0) {
 			ret = audit44xx_sr_avs(stdout, OMAP4_SR_CORE, 1,
-				&err_nbr, &wng_nbr);
+					       &err_nbr, &wng_nbr);
 		} else if (strcmp(argv[2], "full") == 0) {
 			ret = audit44xx_sr_avs(stdout, OMAP4_SR_ID_MAX, 0,
-				&err_nbr, &wng_nbr);
+					       &err_nbr, &wng_nbr);
 		} else {
 			help(HELP_AUDIT);
 			ret = 0;
 		}
-	} else if ((argc == 3) &&
-		(strcmp(argv[2], "full_log") == 0)) {
+	} else if ((argc == 3) && (strcmp(argv[2], "full_log") == 0)) {
 		ret = uc_audit44xx_main(argc, argv);
 	} else {
 		help(HELP_AUDIT);

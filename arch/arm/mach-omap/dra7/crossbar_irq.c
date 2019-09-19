@@ -41,12 +41,10 @@
  *
  */
 
-
 #include "lib.h"
 #include "help.h"
 #include "crossbar.h"
 #include "crossbar_irq_data.h"
-
 
 /* indices to each module crossbar */
 #define MPU_IRQ		0
@@ -61,14 +59,12 @@
 
 #define ASIZE(x) (sizeof(x) / sizeof((x)[0]))
 
-
 struct irq_crossbar_list {
 	struct cross_bar_module_input *ip;
 	int size;
 	char *name;
 	char do_op;
 };
-
 
 static struct irq_crossbar_list dra7_irq_list[] = {
 	[MPU_IRQ] = {
@@ -107,17 +103,16 @@ static struct irq_crossbar_list dra7_irq_list[] = {
 		      .name = "eve2",
 		      },
 	[PRUSS1_IRQ] = {
-		      .ip = dra7_pruss1_irq_crossbar,
-		      .size = ASIZE(dra7_pruss1_irq_crossbar),
-		      .name = "pruss1",
-		      },
+			.ip = dra7_pruss1_irq_crossbar,
+			.size = ASIZE(dra7_pruss1_irq_crossbar),
+			.name = "pruss1",
+			},
 	[PRUSS2_IRQ] = {
-		      .ip = dra7_pruss2_irq_crossbar,
-		      .size = ASIZE(dra7_pruss2_irq_crossbar),
-		      .name = "pruss2",
-		      },
+			.ip = dra7_pruss2_irq_crossbar,
+			.size = ASIZE(dra7_pruss2_irq_crossbar),
+			.name = "pruss2",
+			},
 };
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dra7_crossbar_irq_op
@@ -129,7 +124,7 @@ static struct irq_crossbar_list dra7_irq_list[] = {
  * @param[in]		argv:	argument value
  * @param[in]		dump:	if 1, it does a dump operation, else audits
  *------------------------------------------------------------------------ */
-static int dra7_crossbar_irq_op(FILE *stream, int argc, char *argv[], int dump)
+static int dra7_crossbar_irq_op(FILE * stream, int argc, char *argv[], int dump)
 {
 	int r;
 	unsigned int i;
@@ -217,20 +212,19 @@ skip_further:
 	}
 
 	if (!dump)
-		fprintf(stream, "\nCUMULATIVE SUMMARY: CHECKS=%d FAILS = %d\n\n",
+		fprintf(stream,
+			"\nCUMULATIVE SUMMARY: CHECKS=%d FAILS = %d\n\n",
 			checks, errors);
 
 	return 0;
 }
 
-
-int dra7_dump_crossbar_irq(FILE *stream, int argc, char *argv[])
+int dra7_dump_crossbar_irq(FILE * stream, int argc, char *argv[])
 {
 	return dra7_crossbar_irq_op(stream, argc, argv, 1);
 }
 
-
-int dra7_audit_crossbar_irq(FILE *stream, int argc, char *argv[])
+int dra7_audit_crossbar_irq(FILE * stream, int argc, char *argv[])
 {
 	return dra7_crossbar_irq_op(stream, argc, argv, 0);
 }

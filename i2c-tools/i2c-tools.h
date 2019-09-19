@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __I2C_TOOLS_H__
 #define __I2C_TOOLS_H__
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		i2cget
@@ -61,10 +59,8 @@
  * @DESCRIPTION		read given data from given address of given device of
  *			given I2C bus
  *------------------------------------------------------------------------ */
-int i2cget(
-	unsigned int i2cbus, unsigned int address, unsigned int daddress,
-	unsigned int *data);
-
+int i2cget(unsigned int i2cbus, unsigned int address, unsigned int daddress,
+	   unsigned int *data);
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		i2cset
@@ -81,10 +77,8 @@ int i2cget(
  * @DESCRIPTION		write given data at given address of given device of
  *			given I2C bus
  *------------------------------------------------------------------------ */
-int i2cset(
-	unsigned int i2cbus, unsigned int address, unsigned int daddress,
-	unsigned int data);
-
+int i2cset(unsigned int i2cbus, unsigned int address, unsigned int daddress,
+	   unsigned int data);
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		i2cget_word
@@ -101,10 +95,8 @@ int i2cset(
  * @DESCRIPTION		read given data from given address of given device of
  *			given I2C bus
  *------------------------------------------------------------------------ */
-int i2cget_word(
-	unsigned int i2cbus, unsigned int address, unsigned int daddress,
-	unsigned int *data);
-
+int i2cget_word(unsigned int i2cbus, unsigned int address,
+		unsigned int daddress, unsigned int *data);
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		i2cset_word
@@ -121,9 +113,7 @@ int i2cget_word(
  * @DESCRIPTION		write given data at given address of given device of
  *			given I2C bus
  *------------------------------------------------------------------------ */
-int i2cset_word(
-	unsigned int i2cbus, unsigned int address, unsigned int daddress,
-	unsigned int data);
-
+int i2cset_word(unsigned int i2cbus, unsigned int address,
+		unsigned int daddress, unsigned int data);
 
 #endif

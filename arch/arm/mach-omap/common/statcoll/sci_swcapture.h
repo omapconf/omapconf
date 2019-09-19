@@ -41,13 +41,10 @@
  *
  */
 
-
 #ifndef __SCI_SWCAPTURE_H__
 #define __SCI_SWCAPTURE_H__
 
-
 int statcoll_main(int argc, char **argv);
 void sci_killhandler(void);
-
 
 #endif

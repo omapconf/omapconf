@@ -41,11 +41,9 @@
  *
  */
 
-
 #include <cpuinfo.h>
 #include <help_am335x.h>
 #include <stdio.h>
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		help_am335x
@@ -70,8 +68,8 @@ void help_am335x(help_category cat, char *context)
 	if ((cat == HELP_ALL) || (cat == HELP_EXPORT)) {
 		printf("\n\tomapconf export ctt [<filename>]\n");
 		printf("\t    Export PRCM registers in .rd1 format for Clock "
-			"Tree Tool (CTT, <http://omappedia.org/wiki/CTT>), to "
-			"<filename> or stdout if omitted.\n");
+		       "Tree Tool (CTT, <http://omappedia.org/wiki/CTT>), to "
+		       "<filename> or stdout if omitted.\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_EMIF)) {
@@ -79,37 +77,37 @@ void help_am335x(help_category cat, char *context)
 		printf("\t    Dump EMIF4D registers to stdout\n");
 	}
 
-	if((cat == HELP_ALL) || (cat == HELP_PRCM)) {
+	if ((cat == HELP_ALL) || (cat == HELP_PRCM)) {
 		printf("\n\tomapconf dump prcm [<pwrdm>]\n");
 		printf("\t    Dump PRCM Registers related to <pwrdm> power "
-			"domain ('all' assumed if omitted).\n");
+		       "domain ('all' assumed if omitted).\n");
 		printf("\t    Support <pwrdm>: all, dev, efuse, gfx, mpu, per, "
-			"rtc, wkup\n");
+		       "rtc, wkup\n");
 	}
 
-	if((cat == HELP_ALL) || (cat == HELP_DPLL)) {
+	if ((cat == HELP_ALL) || (cat == HELP_DPLL)) {
 		printf("\n\tomapconf dump dpll [<dpll>]\n");
 		printf("\t    Dump of <dpll> registers ('all' assumed if )"
-			"omitted).\n");
+		       "omitted).\n");
 		printf("\t    Supported <dpll>: all, core, disp, ddr, mpu, "
-			"per\n");
+		       "per\n");
 
 		printf("\n\tomapconf show dpll [cfg]\n");
 		printf("\t    Print the complete configuration of all DPLL "
-			"([cfg] may be omitted).\n");
+		       "([cfg] may be omitted).\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_SOC_OPP)) {
 		printf("\n\tomapconf show opp\n");
 		printf("\t    Print AM335X current OPerating Points (OPP) "
-			"(voltage, frequency for MPU/CORE voltage domains), "
-			"including main modules frequencies.\n");
+		       "(voltage, frequency for MPU/CORE voltage domains), "
+		       "including main modules frequencies.\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_SOC_PWST)) {
 		printf("\n\tomapconf show pwst\n");
 		printf("\t    Print AM335X power status (OPP, voltage/power/"
-			"clock domains states, modules frequency and "
-			"status).\n");
+		       "clock domains states, modules frequency and "
+		       "status).\n");
 	}
 }

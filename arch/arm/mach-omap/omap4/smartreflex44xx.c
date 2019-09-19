@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <smartreflex44xx.h>
 #include <sr44xx-data.h>
 #include <sr.h>
@@ -60,14 +59,12 @@
 #include <string.h>
 #include <pmic.h>
 
-
 /* #define SR44XX_DEBUG */
 #ifdef SR44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 #define PMIC_SLAVE_ADDR			0x12
 #define VOLT_REG_MPU_ADDR		0x55
@@ -91,13 +88,12 @@
 #define VC_BYPASS_CMD_VALID_MASK	0x01000000
 #define VC_BYPASS_CMD_VALID_SHIFT	24
 
-#define OMAP4_VOLTAGE_MAX		((double) 1500000) /* micro-volts */
-#define OMAP4_VOLTAGE_MIN		((double) 600000) /* micro-volts */
+#define OMAP4_VOLTAGE_MAX		((double) 1500000)	/* micro-volts */
+#define OMAP4_VOLTAGE_MIN		((double) 600000)	/* micro-volts */
 
 #define PRCM_SR_REG_TABLE_SIZE		15
 #define PRCM_SR_VC_REG_TABLE_SIZE	11
 #define PRCM_SR_VP_REG_TABLE_SIZE	7
-
 
 static reg_table prcm_sr_mpu_reg_table[PRCM_SR_REG_TABLE_SIZE];
 static reg_table prcm_sr_iva_reg_table[PRCM_SR_REG_TABLE_SIZE];
@@ -109,7 +105,6 @@ static reg_table prcm_sr_vc_reg_table[PRCM_SR_VC_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
 
 static int sr44xx_regtable_init(void);
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_name2addr
@@ -177,7 +172,6 @@ int sr44xx_name2addr(char *name, unsigned int *addr)
 	return OMAPCONF_ERR_NOT_AVAILABLE;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_dump
  * @BRIEF		dump SR PRCM registers
@@ -232,7 +226,6 @@ int sr44xx_dump(void)
 	return dumpregs(prcm_sr_vc_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_is_enabled
  * @BRIEF		Check if SR module is enabled
@@ -274,7 +267,6 @@ unsigned int sr44xx_is_enabled(omap4_sr_module_id sr_id)
 
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_name_get
  * @BRIEF		return SR module name.
@@ -291,7 +283,6 @@ const char *sr44xx_name_get(omap4_sr_module_id sr_id)
 		return sr44xx_mod_names[OMAP4_SR_ID_MAX];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_golden_settings_get
  * @BRIEF		return SR module golden settings.
@@ -303,7 +294,7 @@ const char *sr44xx_name_get(omap4_sr_module_id sr_id)
  *			module and OPP.
  *------------------------------------------------------------------------ */
 const sr_audit_settings *sr44xx_golden_settings_get(omap4_sr_module_id sr_id,
-	opp44xx_id opp_id)
+						    opp44xx_id opp_id)
 {
 	omap_chip chip_id;
 
@@ -316,7 +307,6 @@ const sr_audit_settings *sr44xx_golden_settings_get(omap4_sr_module_id sr_id,
 	return sr44xx_golden_settings[chip_id][sr_id][opp_id];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_registers_get
  * @BRIEF		save SR registers content into sr_regs structure.
@@ -328,7 +318,7 @@ const sr_audit_settings *sr44xx_golden_settings_get(omap4_sr_module_id sr_id,
  * @param[in,out]	sr_regs: SR module registers content
  * @DESCRIPTION		save SR registers content into sr_regs structure.
  *------------------------------------------------------------------------ */
-int sr44xx_registers_get(omap4_sr_module_id sr_id, sr_registers *sr_regs)
+int sr44xx_registers_get(omap4_sr_module_id sr_id, sr_registers * sr_regs)
 {
 	int ret;
 
@@ -344,31 +334,31 @@ int sr44xx_registers_get(omap4_sr_module_id sr_id, sr_registers *sr_regs)
 		} else {
 			sr_regs->accessible = 1;
 			ret = mem_read(OMAP4430_SR_MPU_SRCONFIG,
-				&(sr_regs->srconfig));
+				       &(sr_regs->srconfig));
 			ret += mem_read(OMAP4430_SR_MPU_SRSTATUS,
-				&(sr_regs->srstatus));
+					&(sr_regs->srstatus));
 			ret += mem_read(OMAP4430_SR_MPU_SENVAL,
-				&(sr_regs->senval));
+					&(sr_regs->senval));
 			ret += mem_read(OMAP4430_SR_MPU_SENMIN,
-				&(sr_regs->senmin));
+					&(sr_regs->senmin));
 			ret += mem_read(OMAP4430_SR_MPU_SENMAX,
-				&(sr_regs->senmax));
+					&(sr_regs->senmax));
 			ret += mem_read(OMAP4430_SR_MPU_SENAVG,
-				&(sr_regs->senavg));
+					&(sr_regs->senavg));
 			ret += mem_read(OMAP4430_SR_MPU_AVGWEIGHT,
-				&(sr_regs->avgweight));
+					&(sr_regs->avgweight));
 			ret += mem_read(OMAP4430_SR_MPU_NVALUERECIPROCAL,
-				&(sr_regs->nvaluereciprocal));
+					&(sr_regs->nvaluereciprocal));
 			ret += mem_read(OMAP4430_SR_MPU_IRQSTATUS_RAW,
-				&(sr_regs->irqstatus_raw));
+					&(sr_regs->irqstatus_raw));
 			ret += mem_read(OMAP4430_SR_MPU_IRQSTATUS,
-				&(sr_regs->irqstatus));
+					&(sr_regs->irqstatus));
 			ret += mem_read(OMAP4430_SR_MPU_IRQENABLE_SET,
-				&(sr_regs->irqenable_set));
+					&(sr_regs->irqenable_set));
 			ret += mem_read(OMAP4430_SR_MPU_SENERROR,
-				&(sr_regs->senerror));
+					&(sr_regs->senerror));
 			ret += mem_read(OMAP4430_SR_MPU_ERRCONFIG,
-				&(sr_regs->errconfig));
+					&(sr_regs->errconfig));
 		}
 		break;
 
@@ -379,67 +369,66 @@ int sr44xx_registers_get(omap4_sr_module_id sr_id, sr_registers *sr_regs)
 		} else {
 			sr_regs->accessible = 1;
 			ret = mem_read(OMAP4430_SR_IVA_SRCONFIG,
-				&(sr_regs->srconfig));
+				       &(sr_regs->srconfig));
 			ret += mem_read(OMAP4430_SR_IVA_SRSTATUS,
-				&(sr_regs->srstatus));
+					&(sr_regs->srstatus));
 			ret += mem_read(OMAP4430_SR_IVA_SENVAL,
-				&(sr_regs->senval));
+					&(sr_regs->senval));
 			ret += mem_read(OMAP4430_SR_IVA_SENMIN,
-				&(sr_regs->senmin));
+					&(sr_regs->senmin));
 			ret += mem_read(OMAP4430_SR_IVA_SENMAX,
-				&(sr_regs->senmax));
+					&(sr_regs->senmax));
 			ret += mem_read(OMAP4430_SR_IVA_SENAVG,
-				&(sr_regs->senavg));
+					&(sr_regs->senavg));
 			ret += mem_read(OMAP4430_SR_IVA_AVGWEIGHT,
-				&(sr_regs->avgweight));
+					&(sr_regs->avgweight));
 			ret += mem_read(OMAP4430_SR_IVA_NVALUERECIPROCAL,
-				&(sr_regs->nvaluereciprocal));
+					&(sr_regs->nvaluereciprocal));
 			ret += mem_read(OMAP4430_SR_IVA_IRQSTATUS_RAW,
-				&(sr_regs->irqstatus_raw));
+					&(sr_regs->irqstatus_raw));
 			ret += mem_read(OMAP4430_SR_IVA_IRQSTATUS,
-				&(sr_regs->irqstatus));
+					&(sr_regs->irqstatus));
 			ret += mem_read(OMAP4430_SR_IVA_IRQENABLE_SET,
-				&(sr_regs->irqenable_set));
+					&(sr_regs->irqenable_set));
 			ret += mem_read(OMAP4430_SR_IVA_SENERROR,
-				&(sr_regs->senerror));
+					&(sr_regs->senerror));
 			ret += mem_read(OMAP4430_SR_IVA_ERRCONFIG,
-				&(sr_regs->errconfig));
+					&(sr_regs->errconfig));
 		}
 		break;
 
 	case OMAP4_SR_CORE:
-		if (mod44xx_is_accessible(
-			OMAP4_SMARTREFLEX_CORE) != 1) {
+		if (mod44xx_is_accessible(OMAP4_SMARTREFLEX_CORE) != 1) {
 			sr_regs->accessible = 0;
 			ret = 0;
 		} else {
 			sr_regs->accessible = 1;
 			ret = mem_read(OMAP4430_SR_CORE_SRCONFIG,
-				&(sr_regs->srconfig));
+				       &(sr_regs->srconfig));
 			ret += mem_read(OMAP4430_SR_CORE_SRSTATUS,
-				&(sr_regs->srstatus));
+					&(sr_regs->srstatus));
 			ret += mem_read(OMAP4430_SR_CORE_SENVAL,
-				&(sr_regs->senval));
+					&(sr_regs->senval));
 			ret += mem_read(OMAP4430_SR_CORE_SENMIN,
-				&(sr_regs->senmin));
+					&(sr_regs->senmin));
 			ret += mem_read(OMAP4430_SR_CORE_SENMAX,
-				&(sr_regs->senmax));
+					&(sr_regs->senmax));
 			ret += mem_read(OMAP4430_SR_CORE_SENAVG,
-				&(sr_regs->senavg));
+					&(sr_regs->senavg));
 			ret += mem_read(OMAP4430_SR_CORE_AVGWEIGHT,
-				&(sr_regs->avgweight));
+					&(sr_regs->avgweight));
 			ret += mem_read(OMAP4430_SR_CORE_NVALUERECIPROCAL,
-				&(sr_regs->nvaluereciprocal));
+					&(sr_regs->nvaluereciprocal));
 			ret += mem_read(OMAP4430_SR_CORE_IRQSTATUS_RAW,
-				&(sr_regs->irqstatus_raw));
+					&(sr_regs->irqstatus_raw));
 			ret += mem_read(OMAP4430_SR_CORE_IRQSTATUS,
-				&(sr_regs->irqstatus));
+					&(sr_regs->irqstatus));
 			ret += mem_read(OMAP4430_SR_CORE_IRQENABLE_SET,
-				&(sr_regs->irqenable_set));
+					&(sr_regs->irqenable_set));
 			ret += mem_read(OMAP4430_SR_CORE_SENERROR,
-				&(sr_regs->senerror));
+					&(sr_regs->senerror));
 			ret += mem_read(OMAP4430_SR_CORE_ERRCONFIG,
-				&(sr_regs->errconfig));
+					&(sr_regs->errconfig));
 		}
 		break;
 
@@ -450,7 +439,6 @@ int sr44xx_registers_get(omap4_sr_module_id sr_id, sr_registers *sr_regs)
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_vp_voltage_get
@@ -504,17 +492,16 @@ int sr44xx_vp_voltage_get(omap4_sr_module_id sr_id, double *volt)
 	/* Retrieve register content and extract voltage */
 	if (mem_read(vp_voltage_addr, &vp_voltage) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
-	ret = vp_last_voltage_get(vp_voltage, (unsigned short) vdd_id,
-		&vsel, &uv);
+	ret = vp_last_voltage_get(vp_voltage, (unsigned short)vdd_id,
+				  &vsel, &uv);
 	if (ret != 0)
 		return ret;
 
-	*volt = (double) uv / 1000000.0;
+	*volt = (double)uv / 1000000.0;
 	dprintf("%s(): VP voltage is %lf\n", __func__, *volt);
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_vc_config
@@ -543,9 +530,9 @@ int sr44xx_vc_config(void)
 		return ret;
 
 	return sri2c_config_show(stdout,
-		vc_regs.prm_vc_cfg_i2c_mode, vc_regs.prm_vc_cfg_i2c_clk);
+				 vc_regs.prm_vc_cfg_i2c_mode,
+				 vc_regs.prm_vc_cfg_i2c_clk);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_module_config
@@ -578,15 +565,13 @@ int sr44xx_module_config(void)
 		return ret;
 
 	if ((sr_regs[0].accessible == 0) &&
-		(sr_regs[1].accessible == 0) &&
-		(sr_regs[2].accessible == 0)) {
+	    (sr_regs[1].accessible == 0) && (sr_regs[2].accessible == 0)) {
 		printf("All Smart-Reflex Modules disabled.\n");
 		return 0;
 	}
 
 	return sr_config_show(stdout, sr_regs);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_status_show
@@ -597,7 +582,7 @@ int sr44xx_module_config(void)
  * @param[in]		stream: output file (NULL: no output (silent))
  * @DESCRIPTION		analyze OMAP4 SR convergence status
  *------------------------------------------------------------------------ */
-int sr44xx_status_show(FILE *stream)
+int sr44xx_status_show(FILE * stream)
 {
 	sr_status_registers sr_status_regs[3];
 	int ret;
@@ -611,13 +596,13 @@ int sr44xx_status_show(FILE *stream)
 	} else {
 		sr_status_regs[0].enabled = 1;
 		ret = mem_read(OMAP4430_SR_MPU_SRCONFIG,
-			&(sr_status_regs[0].srconfig));
+			       &(sr_status_regs[0].srconfig));
 		ret += mem_read(OMAP4430_SR_MPU_SENERROR,
-			&(sr_status_regs[0].senerror));
+				&(sr_status_regs[0].senerror));
 		ret += mem_read(OMAP4430_SR_MPU_ERRCONFIG,
-			&(sr_status_regs[0].errconfig));
+				&(sr_status_regs[0].errconfig));
 		ret += mem_read(OMAP4430_PRM_VP_MPU_CONFIG,
-			&(sr_status_regs[0].vp_config));
+				&(sr_status_regs[0].vp_config));
 	}
 
 	/* Read SR_IVA registers (if accessible) */
@@ -627,13 +612,13 @@ int sr44xx_status_show(FILE *stream)
 	} else {
 		sr_status_regs[1].enabled = 1;
 		ret = mem_read(OMAP4430_SR_IVA_SRCONFIG,
-			&(sr_status_regs[1].srconfig));
+			       &(sr_status_regs[1].srconfig));
 		ret += mem_read(OMAP4430_SR_IVA_SENERROR,
-			&(sr_status_regs[1].senerror));
+				&(sr_status_regs[1].senerror));
 		ret += mem_read(OMAP4430_SR_IVA_ERRCONFIG,
-			&(sr_status_regs[1].errconfig));
+				&(sr_status_regs[1].errconfig));
 		ret += mem_read(OMAP4430_PRM_VP_IVA_CONFIG,
-			&(sr_status_regs[1].vp_config));
+				&(sr_status_regs[1].vp_config));
 	}
 
 	/* Read SR_CORE registers (if accessible) */
@@ -643,28 +628,27 @@ int sr44xx_status_show(FILE *stream)
 	} else {
 		sr_status_regs[2].enabled = 1;
 		ret = mem_read(OMAP4430_SR_CORE_SRCONFIG,
-			&(sr_status_regs[2].srconfig));
+			       &(sr_status_regs[2].srconfig));
 		ret += mem_read(OMAP4430_SR_CORE_SENERROR,
-			&(sr_status_regs[2].senerror));
+				&(sr_status_regs[2].senerror));
 		ret += mem_read(OMAP4430_SR_CORE_ERRCONFIG,
-			&(sr_status_regs[2].errconfig));
+				&(sr_status_regs[2].errconfig));
 		ret += mem_read(OMAP4430_PRM_VP_CORE_CONFIG,
-			&(sr_status_regs[2].vp_config));
+				&(sr_status_regs[2].vp_config));
 	}
 
 	if (ret != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 
 	if ((sr_status_regs[0].enabled == 0) &&
-		(sr_status_regs[1].enabled == 0) &&
-		(sr_status_regs[2].enabled == 0)) {
+	    (sr_status_regs[1].enabled == 0) &&
+	    (sr_status_regs[2].enabled == 0)) {
 		printf("All Smart-Reflex Modules disabled.\n\n");
 		return 0;
 	}
 
 	return sr_convergence_status_show(stream, sr_status_regs);
 }
-
 
 /* #define OMAP4CONF_SR_VOLTAGE_SET_DEBUG */
 #ifndef SR44XX_DEBUG
@@ -703,13 +687,14 @@ int sr44xx_voltage_set(unsigned int vdd_id, unsigned long uv)
 	static const char filename[OMAP4_SR_ID_MAX][72] = {
 		"/sys/kernel/debug/pm_debug/smartreflex/sr_mpu/autocomp",
 		"/sys/kernel/debug/pm_debug/smartreflex/sr_iva/autocomp",
-		"/sys/kernel/debug/pm_debug/smartreflex/sr_core/autocomp"};
+		"/sys/kernel/debug/pm_debug/smartreflex/sr_core/autocomp"
+	};
 
 	if (!cpu_is_omap44xx())
 		return OMAPCONF_ERR_CPU;
 	if ((uv < OMAP4_VOLTAGE_MIN) || (uv > OMAP4_VOLTAGE_MAX)) {
 		fprintf(stderr, "Error: voltage out of range! (%1.3lfV)\n",
-			(double) ((double) uv / 1000000.0));
+			(double)((double)uv / 1000000.0));
 		return OMAPCONF_ERR_ARG;
 	}
 	if (cpu_is_omap4470()) {
@@ -719,25 +704,25 @@ int sr44xx_voltage_set(unsigned int vdd_id, unsigned long uv)
 			VR_slave_address = PMIC_SLAVE_ADDR;
 			volt_reg_addr = VOLT_REG_MPU_ADDR;
 			prm_vc_val_cmd_vdd_addr =
-				OMAP4430_PRM_VC_VAL_CMD_VDD_MPU_L;
+			    OMAP4430_PRM_VC_VAL_CMD_VDD_MPU_L;
 			break;
 		case OMAP4_VDD_IVA:
 			sr_id = OMAP4_SR_IVA;
 			VR_slave_address = PMIC_SLAVE_ADDR;
 			volt_reg_addr = OMAP4470_VOLT_REG_IVA_ADDR;
 			prm_vc_val_cmd_vdd_addr =
-				OMAP4430_PRM_VC_VAL_CMD_VDD_IVA_L;
+			    OMAP4430_PRM_VC_VAL_CMD_VDD_IVA_L;
 			break;
 		case OMAP4_VDD_CORE:
 			sr_id = OMAP4_SR_CORE;
 			VR_slave_address = PMIC_SLAVE_ADDR;
 			volt_reg_addr = OMAP4470_VOLT_REG_CORE_ADDR;
 			prm_vc_val_cmd_vdd_addr =
-				OMAP4430_PRM_VC_VAL_CMD_VDD_CORE_L;
+			    OMAP4430_PRM_VC_VAL_CMD_VDD_CORE_L;
 			break;
 		default:
 			fprintf(stderr, "Error: invalid voltage domain ID! "
-					"(%d)\n", vdd_id);
+				"(%d)\n", vdd_id);
 			return OMAPCONF_ERR_ARG;
 		}
 	} else if (cpu_is_omap4460()) {
@@ -747,53 +732,53 @@ int sr44xx_voltage_set(unsigned int vdd_id, unsigned long uv)
 			VR_slave_address = TPS62361_SLAVE_ADDR;
 			volt_reg_addr = TPS62361_VOLT_REG_ADDR;
 			prm_vc_val_cmd_vdd_addr =
-				OMAP4430_PRM_VC_VAL_CMD_VDD_MPU_L;
+			    OMAP4430_PRM_VC_VAL_CMD_VDD_MPU_L;
 			break;
 		case OMAP4_VDD_IVA:
 			sr_id = OMAP4_SR_IVA;
 			VR_slave_address = PMIC_SLAVE_ADDR;
 			volt_reg_addr = VOLT_REG_IVA_ADDR;
 			prm_vc_val_cmd_vdd_addr =
-				OMAP4430_PRM_VC_VAL_CMD_VDD_IVA_L;
+			    OMAP4430_PRM_VC_VAL_CMD_VDD_IVA_L;
 			break;
 		case OMAP4_VDD_CORE:
 			sr_id = OMAP4_SR_CORE;
 			VR_slave_address = PMIC_SLAVE_ADDR;
 			volt_reg_addr = OMAP4460_VOLT_REG_CORE_ADDR;
 			prm_vc_val_cmd_vdd_addr =
-				OMAP4430_PRM_VC_VAL_CMD_VDD_CORE_L;
+			    OMAP4430_PRM_VC_VAL_CMD_VDD_CORE_L;
 			break;
 		default:
 			fprintf(stderr, "Error: invalid voltage domain ID! "
-					"(%d)\n", vdd_id);
+				"(%d)\n", vdd_id);
 			return OMAPCONF_ERR_ARG;
 		}
-	} else { /* 4430 */
+	} else {		/* 4430 */
 		switch (vdd_id) {
 		case OMAP4_VDD_MPU:
 			sr_id = OMAP4_SR_MPU;
 			VR_slave_address = PMIC_SLAVE_ADDR;
 			volt_reg_addr = VOLT_REG_MPU_ADDR;
 			prm_vc_val_cmd_vdd_addr =
-				OMAP4430_PRM_VC_VAL_CMD_VDD_CORE_L;
+			    OMAP4430_PRM_VC_VAL_CMD_VDD_CORE_L;
 			break;
 		case OMAP4_VDD_IVA:
 			sr_id = OMAP4_SR_IVA;
 			VR_slave_address = PMIC_SLAVE_ADDR;
 			volt_reg_addr = VOLT_REG_IVA_ADDR;
 			prm_vc_val_cmd_vdd_addr =
-				OMAP4430_PRM_VC_VAL_CMD_VDD_CORE_L;
+			    OMAP4430_PRM_VC_VAL_CMD_VDD_CORE_L;
 			break;
 		case OMAP4_VDD_CORE:
 			sr_id = OMAP4_SR_CORE;
 			VR_slave_address = PMIC_SLAVE_ADDR;
 			volt_reg_addr = VOLT_REG_CORE_ADDR;
 			prm_vc_val_cmd_vdd_addr =
-				OMAP4430_PRM_VC_VAL_CMD_VDD_CORE_L;
+			    OMAP4430_PRM_VC_VAL_CMD_VDD_CORE_L;
 			break;
 		default:
 			fprintf(stderr, "Error: invalid voltage domain ID! "
-					"(%d)\n", vdd_id);
+				"(%d)\n", vdd_id);
 			return OMAPCONF_ERR_ARG;
 		}
 	}
@@ -805,7 +790,7 @@ int sr44xx_voltage_set(unsigned int vdd_id, unsigned long uv)
 	/* Smartreflex must not be running, disable it */
 	if (sr44xx_is_enabled(sr_id)) {
 		printf("Warning: %s smartreflex is enabled. Disabling it.\n",
-			voltdm44xx_get_name(vdd_id, voltdm_name));
+		       voltdm44xx_get_name(vdd_id, voltdm_name));
 		fp = fopen(filename[sr_id], "w");
 		if (fp == NULL) {
 			fprintf(stderr,
@@ -828,12 +813,12 @@ int sr44xx_voltage_set(unsigned int vdd_id, unsigned long uv)
 	dprintf("%s(): domain=%s, target voltage=%lfV, "
 		"target vsel=0x%02X\n", __func__,
 		voltdm44xx_get_name(vdd_id, voltdm_name),
-		(double) ((double) uv / 1000000.0), vsel);
+		(double)((double)uv / 1000000.0), vsel);
 
 	/* Use VC BYPASS method to change voltage */
 	vc_bypass_value = (vsel << VC_BYPASS_DATA_SHIFT) |
-			(volt_reg_addr << VC_BYPASS_REG_ADDR_SHIFT) |
-			(VR_slave_address << VC_BYPASS_SLAVE_ADDR_SHIFT);
+	    (volt_reg_addr << VC_BYPASS_REG_ADDR_SHIFT) |
+	    (VR_slave_address << VC_BYPASS_SLAVE_ADDR_SHIFT);
 	dprintf("vc_bypass_value = 0x%08X\n", vc_bypass_value);
 
 	ret = mem_write(OMAP4430_PRM_VC_VAL_BYPASS, vc_bypass_value);
@@ -867,7 +852,7 @@ int sr44xx_voltage_set(unsigned int vdd_id, unsigned long uv)
 
 	dprintf("%s supply voltage set to %lfV.\n",
 		voltdm44xx_get_name(vdd_id, voltdm_name),
-		(double) ((double) uv / 1000000.0));
+		(double)((double)uv / 1000000.0));
 
 	/*
 	 * Update VC ONVALUE voltage, so that new voltage does not get lost
@@ -895,13 +880,13 @@ int sr44xx_voltage_set(unsigned int vdd_id, unsigned long uv)
 
 	return 0;
 }
+
 #ifndef SR44XX_DEBUG
 #ifdef OMAP4CONF_SR_VOLTAGE_SET_DEBUG
 #undef dprintf
 #define dprintf(format, ...)
 #endif
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_config_show
@@ -915,7 +900,7 @@ int sr44xx_voltage_set(unsigned int vdd_id, unsigned long uv)
  * @DESCRIPTION		Print SR configuration
  *			(incl. SR modules (MPU, IVA, CORE), VP, VC).
  *------------------------------------------------------------------------ */
-int sr44xx_config_show(FILE *stream)
+int sr44xx_config_show(FILE * stream)
 {
 	int ret;
 
@@ -926,7 +911,6 @@ int sr44xx_config_show(FILE *stream)
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_audit
@@ -942,8 +926,8 @@ int sr44xx_config_show(FILE *stream)
  * @DESCRIPTION		audit SR settings, by comparing current settings with
  *			predefined "golden" settings.
  *------------------------------------------------------------------------ */
-int sr44xx_audit(FILE *stream, omap4_sr_module_id sr_id,
-	unsigned int *err_nbr, unsigned int *wng_nbr)
+int sr44xx_audit(FILE * stream, omap4_sr_module_id sr_id,
+		 unsigned int *err_nbr, unsigned int *wng_nbr)
 {
 	sr_registers sr_regs;
 	const sr_audit_settings *sr_golden_settings;
@@ -964,8 +948,7 @@ int sr44xx_audit(FILE *stream, omap4_sr_module_id sr_id,
 		if ((sr_id != OMAP4_SR_ID_MAX) && (sr_id != id))
 			continue;
 
-		dprintf("\n%s(): Auditing %s\n", __func__,
-			sr44xx_name_get(id));
+		dprintf("\n%s(): Auditing %s\n", __func__, sr44xx_name_get(id));
 		err_cnt = 0;
 		wng_cnt = 0;
 		/* Get SR module registers content */
@@ -1031,7 +1014,8 @@ int sr44xx_audit(FILE *stream, omap4_sr_module_id sr_id,
 
 		/* Audit settings */
 		ret = sr_config_audit(stream, sr44xx_name_get(id), opp_name,
-			&sr_regs, sr_golden_settings, &err_cnt, &wng_cnt);
+				      &sr_regs, sr_golden_settings, &err_cnt,
+				      &wng_cnt);
 		(*err_nbr) += err_cnt;
 		(*wng_nbr) += wng_cnt;
 		if (ret != 0)
@@ -1053,7 +1037,6 @@ int sr44xx_audit(FILE *stream, omap4_sr_module_id sr_id,
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_regtable_init

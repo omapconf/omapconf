@@ -41,14 +41,12 @@
  *
  */
 
-
 #include <tps659038.h>
 #include <lib.h>
 #include <i2c-tools.h>
 #include <mem.h>
 #include <cpuinfo.h>
 #include <prm_dra7xx.h>
-
 
 /* #define TPS659038_DEBUG */
 #ifdef TPS659038_DEBUG
@@ -58,7 +56,6 @@
 #define dprintf(format, ...)
 #endif
 
-
 typedef struct {
 	int ctrl;
 	int tstep;
@@ -66,97 +63,111 @@ typedef struct {
 	int voltage;
 } tps659038_smps_registers;
 
-
 static const tps659038_smps_registers tps659038_smps12 = {
 	.ctrl = 0x20,
 	.tstep = -1,
 	.force = 0x22,
-	.voltage = 0x23};
+	.voltage = 0x23
+};
 
 static const tps659038_smps_registers tps659038_smps3 = {
 	.ctrl = 0x24,
 	.tstep = -1,
 	.force = -1,
-	.voltage = 0x27};
+	.voltage = 0x27
+};
 
 static const tps659038_smps_registers tps659038_smps45 = {
 	.ctrl = 0x28,
 	.tstep = -1,
 	.force = 0x2A,
-	.voltage = 0x2B};
+	.voltage = 0x2B
+};
 
 static const tps659038_smps_registers tps659038_smps6 = {
 	.ctrl = 0x2C,
 	.tstep = -1,
 	.force = 0x2E,
-	.voltage = 0x2F};
+	.voltage = 0x2F
+};
 
 static const tps659038_smps_registers tps659038_smps7 = {
 	.ctrl = 0x30,
 	.tstep = -1,
 	.force = -1,
-	.voltage = 0x33};
+	.voltage = 0x33
+};
 
 static const tps659038_smps_registers tps659038_smps8 = {
 	.ctrl = 0x34,
 	.tstep = -1,
 	.force = 0x36,
-	.voltage = 0x37};
-
+	.voltage = 0x37
+};
 
 static const tps659038_smps_registers tps659038_smps9 = {
 	.ctrl = 0x38,
 	.tstep = -1,
 	.force = -1,
-	.voltage = 0x3B};
-
+	.voltage = 0x3B
+};
 
 /* TPS65917 data */
 static const tps659038_smps_registers tps65917_smps1 = {
 	.ctrl = 0x20,
 	.tstep = -1,
 	.force = 0x22,
-	.voltage = 0x23};
+	.voltage = 0x23
+};
 
 static const tps659038_smps_registers tps65917_smps2 = {
 	.ctrl = 0x24,
 	.tstep = -1,
 	.force = 0x26,
-	.voltage = 0x27};
+	.voltage = 0x27
+};
 
 static const tps659038_smps_registers tps65917_smps3 = {
 	.ctrl = 0x2C,
 	.tstep = -1,
 	.force = 0x2E,
-	.voltage = 0x2F};
+	.voltage = 0x2F
+};
 
 static const tps659038_smps_registers tps65917_smps4 = {
 	.ctrl = 0x30,
 	.tstep = -1,
 	.force = -1,
-	.voltage = 0x33};
+	.voltage = 0x33
+};
 
 static const tps659038_smps_registers tps65917_smps5 = {
 	.ctrl = 0x38,
 	.tstep = -1,
 	.force = -1,
-	.voltage = 0x3B};
+	.voltage = 0x3B
+};
 
-static const tps659038_smps_registers *tps659038_smps_vdd_dra7xx_mpu = &tps659038_smps12;
-static const tps659038_smps_registers *tps659038_smps_vdd_dra7xx_iva = &tps659038_smps8;
-static const tps659038_smps_registers *tps659038_smps_vdd_dra7xx_core = &tps659038_smps7;
-static const tps659038_smps_registers *tps659038_smps_vdd_dra7xx_gpu = &tps659038_smps6;
-static const tps659038_smps_registers *tps659038_smps_vdd_dra7xx_dspeve = &tps659038_smps45;
+static const tps659038_smps_registers *tps659038_smps_vdd_dra7xx_mpu =
+    &tps659038_smps12;
+static const tps659038_smps_registers *tps659038_smps_vdd_dra7xx_iva =
+    &tps659038_smps8;
+static const tps659038_smps_registers *tps659038_smps_vdd_dra7xx_core =
+    &tps659038_smps7;
+static const tps659038_smps_registers *tps659038_smps_vdd_dra7xx_gpu =
+    &tps659038_smps6;
+static const tps659038_smps_registers *tps659038_smps_vdd_dra7xx_dspeve =
+    &tps659038_smps45;
 
 static const tps659038_smps_registers **tps659038_smps_vdd_dra7xx[5] = {
-	(const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_mpu,
-	(const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_iva,
-	(const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_core,
-	(const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_gpu,
-	(const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_dspeve};
+	(const tps659038_smps_registers **)&tps659038_smps_vdd_dra7xx_mpu,
+	(const tps659038_smps_registers **)&tps659038_smps_vdd_dra7xx_iva,
+	(const tps659038_smps_registers **)&tps659038_smps_vdd_dra7xx_core,
+	(const tps659038_smps_registers **)&tps659038_smps_vdd_dra7xx_gpu,
+	(const tps659038_smps_registers **)&tps659038_smps_vdd_dra7xx_dspeve
+};
 
 static float chip_revision = -1.0;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_is_present
@@ -188,7 +199,7 @@ unsigned short int tps659038_is_present(void)
 		if (ret != 0)
 			return 0;
 
-        /* it is a TPS65917 PMIC. fixup structure pointers */
+		/* it is a TPS65917 PMIC. fixup structure pointers */
 		if (id_lsb == 0x17 && id_msb == 0x09) {
 			present = 1;
 			tps659038_smps_vdd_dra7xx_iva = &tps65917_smps4;
@@ -196,26 +207,32 @@ unsigned short int tps659038_is_present(void)
 			tps659038_smps_vdd_dra7xx_dspeve = &tps659038_smps12;
 
 			tps659038_smps_vdd_dra7xx[0] = NULL;
-			tps659038_smps_vdd_dra7xx[1] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_iva;
-			tps659038_smps_vdd_dra7xx[2] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_core;
+			tps659038_smps_vdd_dra7xx[1] =
+			    (const tps659038_smps_registers **)
+			    &tps659038_smps_vdd_dra7xx_iva;
+			tps659038_smps_vdd_dra7xx[2] =
+			    (const tps659038_smps_registers **)
+			    &tps659038_smps_vdd_dra7xx_core;
 			tps659038_smps_vdd_dra7xx[3] = NULL;
-			tps659038_smps_vdd_dra7xx[4] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_dspeve;
+			tps659038_smps_vdd_dra7xx[4] =
+			    (const tps659038_smps_registers **)
+			    &tps659038_smps_vdd_dra7xx_dspeve;
 		}
 		break;
 	case DRA_75X:
 	case DRA_72X:
 		ret = i2cget(TPS659038_I2C_BUS, TPS659038_ID1_ADDR,
-			TPS659038_PRODUCT_ID_LSB, &id_lsb);
+			     TPS659038_PRODUCT_ID_LSB, &id_lsb);
 		if (ret != 0)
 			return 0;
 
 		ret = i2cget(TPS659038_I2C_BUS, TPS659038_ID1_ADDR,
-			TPS659038_PRODUCT_ID_MSB, &id_msb);
+			     TPS659038_PRODUCT_ID_MSB, &id_msb);
 		if (ret != 0)
 			return 0;
 
 		if ((id_lsb == 0x35 && id_msb == 0xc0) ||
-			   (id_lsb == 0x39 && id_msb == 0x90))
+		    (id_lsb == 0x39 && id_msb == 0x90))
 			present = 1;
 		/* it is a TPS 65917 PMIC. fixup structure pointers */
 		else if (id_lsb == 0x17 && id_msb == 0x09) {
@@ -226,12 +243,21 @@ unsigned short int tps659038_is_present(void)
 			tps659038_smps_vdd_dra7xx_gpu = &tps65917_smps3;
 			tps659038_smps_vdd_dra7xx_dspeve = &tps65917_smps3;
 
-
-			tps659038_smps_vdd_dra7xx[0] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_mpu;
-			tps659038_smps_vdd_dra7xx[1] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_iva;
-			tps659038_smps_vdd_dra7xx[2] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_core;
-			tps659038_smps_vdd_dra7xx[3] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_gpu;
-			tps659038_smps_vdd_dra7xx[4] = (const tps659038_smps_registers **) &tps659038_smps_vdd_dra7xx_dspeve;
+			tps659038_smps_vdd_dra7xx[0] =
+			    (const tps659038_smps_registers **)
+			    &tps659038_smps_vdd_dra7xx_mpu;
+			tps659038_smps_vdd_dra7xx[1] =
+			    (const tps659038_smps_registers **)
+			    &tps659038_smps_vdd_dra7xx_iva;
+			tps659038_smps_vdd_dra7xx[2] =
+			    (const tps659038_smps_registers **)
+			    &tps659038_smps_vdd_dra7xx_core;
+			tps659038_smps_vdd_dra7xx[3] =
+			    (const tps659038_smps_registers **)
+			    &tps659038_smps_vdd_dra7xx_gpu;
+			tps659038_smps_vdd_dra7xx[4] =
+			    (const tps659038_smps_registers **)
+			    &tps659038_smps_vdd_dra7xx_dspeve;
 
 		}
 		break;
@@ -263,7 +289,7 @@ double tps659038_chip_revision_get(void)
 	if (ret != 0) {
 		fprintf(stderr, "%s(): could not read register! (%d)\n",
 			__func__, ret);
-		chip_revision = (float) OMAPCONF_ERR_NOT_AVAILABLE;
+		chip_revision = (float)OMAPCONF_ERR_NOT_AVAILABLE;
 		goto tps659038_chip_revision_get_end;
 	}
 	dprintf("%s(): rev=%u\n", __func__, rev);
@@ -281,15 +307,13 @@ double tps659038_chip_revision_get(void)
 		chip_revision = 2.2;
 		break;
 	default:
-		chip_revision = (float) OMAPCONF_ERR_UNEXPECTED;
+		chip_revision = (float)OMAPCONF_ERR_UNEXPECTED;
 	}
 
 tps659038_chip_revision_get_end:
-	dprintf("%s(): chip_revision = %f\n", __func__,
-		chip_revision);
+	dprintf("%s(): chip_revision = %f\n", __func__, chip_revision);
 	return chip_revision;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_eprom_revision_get
@@ -304,9 +328,8 @@ double tps659038_eprom_revision_get(void)
 	 * TBD: could not find the infomation tell where to find the register
 	 * which indicates this eprom revision number
 	 */
-	return (double) OMAPCONF_ERR_NOT_AVAILABLE;
+	return (double)OMAPCONF_ERR_NOT_AVAILABLE;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_vsel_get
@@ -347,7 +370,7 @@ int tps659038_vsel_get(unsigned int smps_id)
 		return OMAPCONF_ERR_INTERNAL;
 	}
 	ret = i2cget(TPS659038_I2C_BUS, TPS659038_ID0_ADDR,
-		smps_regs->ctrl, &val);
+		     smps_regs->ctrl, &val);
 	if (ret != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	dprintf("%s(): SMPSxx_CTRL=0x%02X\n", __func__, val);
@@ -373,7 +396,7 @@ int tps659038_vsel_get(unsigned int smps_id)
 		vsel_addr = smps_regs->voltage;
 	} else {
 		ret = i2cget(TPS659038_I2C_BUS, TPS659038_ID0_ADDR,
-			smps_regs->force, &val);
+			     smps_regs->force, &val);
 		if (ret != 0)
 			return OMAPCONF_ERR_REG_ACCESS;
 		dprintf("%s(): SMPSxx_FORCE=0x%02X\n", __func__, val);
@@ -389,13 +412,13 @@ int tps659038_vsel_get(unsigned int smps_id)
 	}
 
 	/* Retrieve VSEL (7-bit LSB) from relevant register */
-	if (vsel_addr == (unsigned int) smps_regs->voltage) {
+	if (vsel_addr == (unsigned int)smps_regs->voltage) {
 		if (smps_regs->voltage == -1) {
 			dprintf("%s(): SMPSxx_VOLTAGE addr=-1!!!\n", __func__);
 			return OMAPCONF_ERR_INTERNAL;
 		}
 		ret = i2cget(TPS659038_I2C_BUS, TPS659038_ID0_ADDR,
-			smps_regs->voltage, &val);
+			     smps_regs->voltage, &val);
 		if (ret != 0)
 			return OMAPCONF_ERR_REG_ACCESS;
 		dprintf("%s(): SMPSxx_VOLTAGE=0x%02X\n", __func__, val);
@@ -405,13 +428,13 @@ int tps659038_vsel_get(unsigned int smps_id)
 		__func__, val, vsel);
 
 	/* Retrieve VSEL range from SMPSxx_VOLTAGE register (bit 7) */
-	if (vsel_addr != (unsigned int) smps_regs->voltage) {
+	if (vsel_addr != (unsigned int)smps_regs->voltage) {
 		if (smps_regs->voltage == -1) {
 			dprintf("%s(): SMPSxx_VOLTAGE addr=-1!!!\n", __func__);
 			return OMAPCONF_ERR_INTERNAL;
 		}
 		ret = i2cget(TPS659038_I2C_BUS, TPS659038_ID0_ADDR,
-			smps_regs->voltage, &val);
+			     smps_regs->voltage, &val);
 		if (ret != 0)
 			return OMAPCONF_ERR_REG_ACCESS;
 	}
@@ -424,7 +447,6 @@ int tps659038_vsel_get(unsigned int smps_id)
 	dprintf("%s(): vsel=0x%02X\n", __func__, vsel);
 	return vsel;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_vsel_to_uv
@@ -452,18 +474,15 @@ unsigned long tps659038_vsel_to_uv(unsigned char vsel)
 	} else if (vsel >= 0x79) {
 		uv = 1650000;
 	} else {
-		uv = TPS659038_VOLT_MIN_UV +
-			(TPS659038_VSTEP_UV * (vsel - 6));
+		uv = TPS659038_VOLT_MIN_UV + (TPS659038_VSTEP_UV * (vsel - 6));
 	}
 
 	/* Apply range multiplier */
 	uv = uv << range;
 
-	dprintf("%s(%d (0x%02X))=%lduV\n", __func__,
-		vsel, vsel, uv);
+	dprintf("%s(%d (0x%02X))=%lduV\n", __func__, vsel, vsel, uv);
 	return uv;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_smps_offset_get
@@ -473,11 +492,10 @@ unsigned long tps659038_vsel_to_uv(unsigned char vsel)
  *------------------------------------------------------------------------ */
 long tps659038_smps_offset_get(void)
 {
-	dprintf("%s(): offset=%lduV\n", __func__, (long) TPS659038_VOLT_MIN_UV);
+	dprintf("%s(): offset=%lduV\n", __func__, (long)TPS659038_VOLT_MIN_UV);
 
-	return (long) TPS659038_VOLT_MIN_UV;
+	return (long)TPS659038_VOLT_MIN_UV;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_smps_step_get
@@ -487,11 +505,10 @@ long tps659038_smps_offset_get(void)
  *------------------------------------------------------------------------ */
 long tps659038_smps_step_get(void)
 {
-	dprintf("%s(): step=%lduV\n", __func__, (long) TPS659038_VSTEP_UV);
+	dprintf("%s(): step=%lduV\n", __func__, (long)TPS659038_VSTEP_UV);
 
-	return (long) TPS659038_VSTEP_UV;
+	return (long)TPS659038_VSTEP_UV;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_vsel_len_get
@@ -503,7 +520,6 @@ int tps659038_vsel_len_get(void)
 {
 	return TPS659038_VSEL_LEN;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_uv_to_vsel
@@ -519,11 +535,10 @@ unsigned char tps659038_uv_to_vsel(unsigned long uv)
 	unsigned char vsel;
 
 	vsel = (unsigned char)
-		((uv - TPS659038_VOLT_MIN_UV) / TPS659038_VSTEP_UV + 6);
+	    ((uv - TPS659038_VOLT_MIN_UV) / TPS659038_VSTEP_UV + 6);
 	dprintf("%s(%lduV)=0x%02X\n", __func__, uv, vsel);
 	return vsel;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_uvoltage_set
@@ -566,7 +581,7 @@ int tps659038_uvoltage_set(unsigned int vdd_id, unsigned long uv)
 		return OMAPCONF_ERR_INTERNAL;
 	}
 	ret = i2cget(TPS659038_I2C_BUS, TPS659038_ID0_ADDR,
-		smps_regs->ctrl, &val);
+		     smps_regs->ctrl, &val);
 	if (ret != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	dprintf("%s(): SMPSxx_CTRL=0x%02X\n", __func__, val);
@@ -582,7 +597,7 @@ int tps659038_uvoltage_set(unsigned int vdd_id, unsigned long uv)
 		/* Clear ROOF_FLOOR_EN bit (6) */
 		val = val & 0xBF;
 		ret = i2cset(TPS659038_I2C_BUS, TPS659038_ID0_ADDR,
-			smps_regs->ctrl, (unsigned int) val);
+			     smps_regs->ctrl, (unsigned int)val);
 		if (ret != 0)
 			return OMAPCONF_ERR_REG_ACCESS;
 		dprintf("%s(): SMPS voltage now controlled by "
@@ -598,7 +613,7 @@ int tps659038_uvoltage_set(unsigned int vdd_id, unsigned long uv)
 
 	/* Write VSEL to SMPSxx_VOLTAGE */
 	ret = i2cset(TPS659038_I2C_BUS, TPS659038_ID0_ADDR,
-			smps_regs->voltage, (unsigned int) vsel);
+		     smps_regs->voltage, (unsigned int)vsel);
 	if (ret != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 
@@ -613,7 +628,7 @@ int tps659038_uvoltage_set(unsigned int vdd_id, unsigned long uv)
 		/* Clear bit 7 (CMD) */
 		val = vsel & 0x7F;
 		ret = i2cset(TPS659038_I2C_BUS, TPS659038_ID0_ADDR,
-			smps_regs->force, (unsigned int) val);
+			     smps_regs->force, (unsigned int)val);
 	} else {
 		dprintf("%s(): SMPSxx_FORCE does not exist.\n", __func__);
 		ret = 0;

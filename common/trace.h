@@ -42,17 +42,14 @@
  *
  */
 
-
 #ifndef __TRACE_H__
 #define __TRACE_H__
 
-
-#define TRACE_PERF_DEFAULT_CAPTURE_TIME		10 /* second */
-#define TRACE_PERF_DEFAULT_DELAY_TIME		0 /* second */
-#define TRACE_PERF_DEFAULT_SAMPLING_RATE	((double) 0.1) /* second */
-#define TRACE_PERF_MIN_SAMPLING_RATE		((double) 0.1) /* second */
+#define TRACE_PERF_DEFAULT_CAPTURE_TIME		10	/* second */
+#define TRACE_PERF_DEFAULT_DELAY_TIME		0	/* second */
+#define TRACE_PERF_DEFAULT_SAMPLING_RATE	((double) 0.1)	/* second */
+#define TRACE_PERF_MIN_SAMPLING_RATE		((double) 0.1)	/* second */
 static const char trace_perf_default_cfgfile[32] = "./trace_perf_config.dat";
-
 
 typedef enum {
 	/* Generic */
@@ -78,11 +75,9 @@ typedef enum {
 	NUM_ITEMS
 } traceables;
 
-
 int trace_perf_setup(const char *filename);
 int trace_perf_capture(const char *cfgfile, const char *prefix,
-	double sampling_rate, unsigned int capture_time,
-	unsigned int delay_time);
-
+		       double sampling_rate, unsigned int capture_time,
+		       unsigned int delay_time);
 
 #endif

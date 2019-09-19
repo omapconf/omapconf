@@ -42,9 +42,7 @@
  *
  */
 
-
 #include <dpll44xx-data.h>
-
 
 const dpll44xx_audit_settings dpll4470_MPU_golden_settings_38_4MHz_dpll_casc = {
 	.status = DPLL_STATUS_BYPASSED,
@@ -64,8 +62,8 @@ const dpll44xx_audit_settings dpll4470_MPU_golden_settings_38_4MHz_dpll_casc = {
 	.X2_M3_rate = -1,
 	.hsdiv_present = {-1, -1, -1, -1},
 	.hsdiv = {-1, -1, -1, -1},
-	.hsdiv_rate = {-1, -1, -1, -1} };
-
+	.hsdiv_rate = {-1, -1, -1, -1}
+};
 
 const dpll44xx_audit_settings dpll4470_MPU_golden_settings_38_4MHz_opp50 = {
 	.status = DPLL_STATUS_LOCKED,
@@ -85,7 +83,8 @@ const dpll44xx_audit_settings dpll4470_MPU_golden_settings_38_4MHz_opp50 = {
 	.X2_M3_rate = -1,
 	.hsdiv_present = {-1, -1, -1, -1},
 	.hsdiv = {-1, -1, -1, -1},
-	.hsdiv_rate = {-1, -1, -1, -1} };
+	.hsdiv_rate = {-1, -1, -1, -1}
+};
 
 const dpll44xx_audit_settings dpll4470_MPU_golden_settings_38_4MHz_opp100 = {
 	.status = DPLL_STATUS_LOCKED,
@@ -105,7 +104,8 @@ const dpll44xx_audit_settings dpll4470_MPU_golden_settings_38_4MHz_opp100 = {
 	.X2_M3_rate = -1,
 	.hsdiv_present = {-1, -1, -1, -1},
 	.hsdiv = {-1, -1, -1, -1},
-	.hsdiv_rate = {-1, -1, -1, -1} };
+	.hsdiv_rate = {-1, -1, -1, -1}
+};
 
 const dpll44xx_audit_settings dpll4470_MPU_golden_settings_38_4MHz_opp_turbo = {
 	.status = DPLL_STATUS_LOCKED,
@@ -125,7 +125,8 @@ const dpll44xx_audit_settings dpll4470_MPU_golden_settings_38_4MHz_opp_turbo = {
 	.X2_M3_rate = 1100.8,
 	.hsdiv_present = {-1, -1, -1, -1},
 	.hsdiv = {-1, -1, -1, -1},
-	.hsdiv_rate = {-1, -1, -1, -1} };
+	.hsdiv_rate = {-1, -1, -1, -1}
+};
 
 const dpll44xx_audit_settings dpll4470_MPU_golden_settings_38_4MHz_opp_nitro = {
 	.status = DPLL_STATUS_LOCKED,
@@ -145,7 +146,8 @@ const dpll44xx_audit_settings dpll4470_MPU_golden_settings_38_4MHz_opp_nitro = {
 	.X2_M3_rate = 1297.9,
 	.hsdiv_present = {-1, -1, -1, -1},
 	.hsdiv = {-1, -1, -1, -1},
-	.hsdiv_rate = {-1, -1, -1, -1} };
+	.hsdiv_rate = {-1, -1, -1, -1}
+};
 
 const dpll44xx_audit_settings dpll4470_MPU_golden_settings_38_4MHz_opp_nitrosb = {
 	.status = DPLL_STATUS_LOCKED,
@@ -165,17 +167,18 @@ const dpll44xx_audit_settings dpll4470_MPU_golden_settings_38_4MHz_opp_nitrosb =
 	.X2_M3_rate = 1497.6,
 	.hsdiv_present = {-1, -1, -1, -1},
 	.hsdiv = {-1, -1, -1, -1},
-	.hsdiv_rate = {-1, -1, -1, -1} };
+	.hsdiv_rate = {-1, -1, -1, -1}
+};
 
 const dpll44xx_audit_settings
-	*dpll4470_MPU_golden_settings_38_4MHz[OPP44XX_ID_MAX] = {
+    * dpll4470_MPU_golden_settings_38_4MHz[OPP44XX_ID_MAX] = {
 	&dpll4470_MPU_golden_settings_38_4MHz_dpll_casc,
 	&dpll4470_MPU_golden_settings_38_4MHz_opp50,
 	&dpll4470_MPU_golden_settings_38_4MHz_opp100,
 	&dpll4470_MPU_golden_settings_38_4MHz_opp_turbo,
 	&dpll4470_MPU_golden_settings_38_4MHz_opp_nitro,
-	&dpll4470_MPU_golden_settings_38_4MHz_opp_nitrosb};
-
+	&dpll4470_MPU_golden_settings_38_4MHz_opp_nitrosb
+};
 
 const dpll44xx_audit_settings dpll4470_IVA_golden_settings_38_4MHz_dpll_casc = {
 	.status = DPLL_STATUS_BYPASSED,
@@ -195,8 +198,8 @@ const dpll44xx_audit_settings dpll4470_IVA_golden_settings_38_4MHz_dpll_casc = {
 	.X2_M3_rate = -1,
 	.hsdiv_present = {1, 1, -1, -1},
 	.hsdiv = {-1, -1, -1, -1},
-	.hsdiv_rate = {98.304, 98.304, -1, -1} };
-
+	.hsdiv_rate = {98.304, 98.304, -1, -1}
+};
 
 const dpll44xx_audit_settings dpll4470_IVA_golden_settings_38_4MHz_opp50 = {
 	.status = DPLL_STATUS_LOCKED,
@@ -216,7 +219,8 @@ const dpll44xx_audit_settings dpll4470_IVA_golden_settings_38_4MHz_opp50 = {
 	.X2_M3_rate = -1,
 	.hsdiv_present = {1, 1, -1, -1},
 	.hsdiv = {8, 14, -1, -1},
-	.hsdiv_rate = {232.8, 133, -1, -1} };
+	.hsdiv_rate = {232.8, 133, -1, -1}
+};
 
 const dpll44xx_audit_settings dpll4470_IVA_golden_settings_38_4MHz_opp100 = {
 	.status = DPLL_STATUS_LOCKED,
@@ -236,7 +240,8 @@ const dpll44xx_audit_settings dpll4470_IVA_golden_settings_38_4MHz_opp100 = {
 	.X2_M3_rate = -1,
 	.hsdiv_present = {1, 1, -1, -1},
 	.hsdiv = {4, 7, -1, -1},
-	.hsdiv_rate = {465.6, 266.1, -1, -1} };
+	.hsdiv_rate = {465.6, 266.1, -1, -1}
+};
 
 const dpll44xx_audit_settings dpll4470_IVA_golden_settings_38_4MHz_opp_turbo = {
 	.status = DPLL_STATUS_LOCKED,
@@ -256,7 +261,8 @@ const dpll44xx_audit_settings dpll4470_IVA_golden_settings_38_4MHz_opp_turbo = {
 	.X2_M3_rate = -1,
 	.hsdiv_present = {1, 1, -1, -1},
 	.hsdiv = {2, 3, -1, -1},
-	.hsdiv_rate = {496, 330.7, -1, -1} };
+	.hsdiv_rate = {496, 330.7, -1, -1}
+};
 
 const dpll44xx_audit_settings dpll4470_IVA_golden_settings_38_4MHz_opp_nitro = {
 	.status = DPLL_STATUS_LOCKED,
@@ -276,7 +282,8 @@ const dpll44xx_audit_settings dpll4470_IVA_golden_settings_38_4MHz_opp_nitro = {
 	.X2_M3_rate = -1,
 	.hsdiv_present = {1, 1, -1, -1},
 	.hsdiv = {2, 2, -1, -1},
-	.hsdiv_rate = {430.1, 430.1, -1, -1} };
+	.hsdiv_rate = {430.1, 430.1, -1, -1}
+};
 
 const dpll44xx_audit_settings dpll4470_IVA_golden_settings_38_4MHz_opp_nitrosb = {
 	.status = DPLL_STATUS_LOCKED,
@@ -296,17 +303,18 @@ const dpll44xx_audit_settings dpll4470_IVA_golden_settings_38_4MHz_opp_nitrosb =
 	.X2_M3_rate = -1,
 	.hsdiv_present = {1, 1, -1, -1},
 	.hsdiv = {2, 2, -1, -1},
-	.hsdiv_rate = {499.2, 499.2, -1, -1} };
+	.hsdiv_rate = {499.2, 499.2, -1, -1}
+};
 
 const dpll44xx_audit_settings
-	*dpll4470_IVA_golden_settings_38_4MHz[OPP44XX_ID_MAX] = {
+    * dpll4470_IVA_golden_settings_38_4MHz[OPP44XX_ID_MAX] = {
 	&dpll4470_IVA_golden_settings_38_4MHz_dpll_casc,
 	&dpll4470_IVA_golden_settings_38_4MHz_opp50,
 	&dpll4470_IVA_golden_settings_38_4MHz_opp100,
 	&dpll4470_IVA_golden_settings_38_4MHz_opp_turbo,
 	&dpll4470_IVA_golden_settings_38_4MHz_opp_nitro,
-	&dpll4470_IVA_golden_settings_38_4MHz_opp_nitrosb};
-
+	&dpll4470_IVA_golden_settings_38_4MHz_opp_nitrosb
+};
 
 const dpll44xx_audit_settings dpll4470_CORE_golden_settings_38_4MHz_dpll_casc = {
 	.status = DPLL_STATUS_BYPASSED,
@@ -326,8 +334,8 @@ const dpll44xx_audit_settings dpll4470_CORE_golden_settings_38_4MHz_dpll_casc = 
 	.X2_M3_rate = 24.576,
 	.hsdiv_present = {1, 1, 1, 1},
 	.hsdiv = {-1, -1, -1, -1},
-	.hsdiv_rate = {196.608, 196.608, 196.608, 196.608} };
-
+	.hsdiv_rate = {196.608, 196.608, 196.608, 196.608}
+};
 
 const dpll44xx_audit_settings dpll4470_CORE_golden_settings_38_4MHz_opp50_low = {
 	.status = DPLL_STATUS_LOCKED,
@@ -347,7 +355,8 @@ const dpll44xx_audit_settings dpll4470_CORE_golden_settings_38_4MHz_opp50_low = 
 	.X2_M3_rate = 200,
 	.hsdiv_present = {1, 1, 1, 1},
 	.hsdiv = {8, 8, 8, 9},
-	.hsdiv_rate = {200, 200, 200, 177.8} };
+	.hsdiv_rate = {200, 200, 200, 177.8}
+};
 
 const dpll44xx_audit_settings dpll4470_CORE_golden_settings_38_4MHz_opp50_high = {
 	.status = DPLL_STATUS_LOCKED,
@@ -367,7 +376,8 @@ const dpll44xx_audit_settings dpll4470_CORE_golden_settings_38_4MHz_opp50_high =
 	.X2_M3_rate = 206.9,
 	.hsdiv_present = {1, 1, 1, 1},
 	.hsdiv = {8, 8, 9, 10},
-	.hsdiv_rate = {232.8, 232.8, 206.9, 186.2} };
+	.hsdiv_rate = {232.8, 232.8, 206.9, 186.2}
+};
 
 const dpll44xx_audit_settings dpll4470_CORE_golden_settings_38_4MHz_opp100_low = {
 	.status = DPLL_STATUS_LOCKED,
@@ -387,7 +397,8 @@ const dpll44xx_audit_settings dpll4470_CORE_golden_settings_38_4MHz_opp100_low =
 	.X2_M3_rate = 320,
 	.hsdiv_present = {1, 1, 1, 1},
 	.hsdiv = {8, 4, 6, 6},
-	.hsdiv_rate = {200, 400, 266.7, 266.7} };
+	.hsdiv_rate = {200, 400, 266.7, 266.7}
+};
 
 const dpll44xx_audit_settings dpll4470_CORE_golden_settings_38_4MHz_opp119_low = {
 	.status = DPLL_STATUS_LOCKED,
@@ -407,9 +418,11 @@ const dpll44xx_audit_settings dpll4470_CORE_golden_settings_38_4MHz_opp119_low =
 	.X2_M3_rate = 320,
 	.hsdiv_present = {1, 1, 1, 1},
 	.hsdiv = {8, 4, 6, 5},
-	.hsdiv_rate = {200, 400, 266.7, 320} };
+	.hsdiv_rate = {200, 400, 266.7, 320}
+};
 
-const dpll44xx_audit_settings dpll4470_CORE_golden_settings_38_4MHz_opp119_high = {
+const dpll44xx_audit_settings dpll4470_CORE_golden_settings_38_4MHz_opp119_high
+    = {
 	.status = DPLL_STATUS_LOCKED,
 	.mode = DPLL_LOCK,
 	.autoidle_mode = DPLL_AUTO_LOW_POWER_STOP,
@@ -427,17 +440,18 @@ const dpll44xx_audit_settings dpll4470_CORE_golden_settings_38_4MHz_opp119_high 
 	.X2_M3_rate = 310.4,
 	.hsdiv_present = {1, 1, 1, 1},
 	.hsdiv = {8, 4, 6, 5},
-	.hsdiv_rate = {232.8, 465.6, 310.4, 372.5} };
+	.hsdiv_rate = {232.8, 465.6, 310.4, 372.5}
+};
 
 const dpll44xx_audit_settings
-	*dpll4470_CORE_golden_settings_38_4MHz[OPP44XX_ID_MAX] = {
+    * dpll4470_CORE_golden_settings_38_4MHz[OPP44XX_ID_MAX] = {
 	&dpll4470_CORE_golden_settings_38_4MHz_dpll_casc,
 	&dpll4470_CORE_golden_settings_38_4MHz_opp50_low,
 	&dpll4470_CORE_golden_settings_38_4MHz_opp50_high,
 	&dpll4470_CORE_golden_settings_38_4MHz_opp100_low,
 	&dpll4470_CORE_golden_settings_38_4MHz_opp119_low,
-	&dpll4470_CORE_golden_settings_38_4MHz_opp119_high};
-
+	&dpll4470_CORE_golden_settings_38_4MHz_opp119_high
+};
 
 const dpll44xx_audit_settings dpll4470_PER_golden_settings_38_4MHz_dpll_casc = {
 	.status = DPLL_STATUS_BYPASSED,
@@ -454,11 +468,11 @@ const dpll44xx_audit_settings dpll4470_PER_golden_settings_38_4MHz_dpll_casc = {
 	.M2_clkout_rate = 98.304,
 	.X2_M2_clkdcoldo_rate = 98.304,
 	.M3 = 8,
-	.X2_M3_rate = 0, /* 24.576MHz but output is gated */
+	.X2_M3_rate = 0,	/* 24.576MHz but output is gated */
 	.hsdiv_present = {1, 1, 1, 1},
 	.hsdiv = {-1, -1, -1, -1},
-	.hsdiv_rate = {98.304, 98.304, 98.304, 98.304} };
-
+	.hsdiv_rate = {98.304, 98.304, 98.304, 98.304}
+};
 
 const dpll44xx_audit_settings dpll4470_PER_golden_settings_38_4MHz_opp50_low = {
 	.status = DPLL_STATUS_LOCKED,
@@ -478,7 +492,8 @@ const dpll44xx_audit_settings dpll4470_PER_golden_settings_38_4MHz_opp50_low = {
 	.X2_M3_rate = 192,
 	.hsdiv_present = {1, 1, 1, 1},
 	.hsdiv = {12, 9, 8, 8},
-	.hsdiv_rate = {128, 170.7, 192, 192} };
+	.hsdiv_rate = {128, 170.7, 192, 192}
+};
 
 const dpll44xx_audit_settings dpll4470_PER_golden_settings_38_4MHz_opp50_high = {
 	.status = DPLL_STATUS_LOCKED,
@@ -498,7 +513,8 @@ const dpll44xx_audit_settings dpll4470_PER_golden_settings_38_4MHz_opp50_high = 
 	.X2_M3_rate = 192,
 	.hsdiv_present = {1, 1, 1, 1},
 	.hsdiv = {12, 9, 8, 8},
-	.hsdiv_rate = {128, 170.7, 192, 192} };
+	.hsdiv_rate = {128, 170.7, 192, 192}
+};
 
 const dpll44xx_audit_settings dpll4470_PER_golden_settings_38_4MHz_opp100_low = {
 	.status = DPLL_STATUS_LOCKED,
@@ -518,7 +534,8 @@ const dpll44xx_audit_settings dpll4470_PER_golden_settings_38_4MHz_opp100_low = 
 	.X2_M3_rate = 256,
 	.hsdiv_present = {1, 1, 1, 1},
 	.hsdiv = {12, 9, 5, 5},
-	.hsdiv_rate = {128, 170.7, 307.2, 307.2} };
+	.hsdiv_rate = {128, 170.7, 307.2, 307.2}
+};
 
 const dpll44xx_audit_settings dpll4470_PER_golden_settings_38_4MHz_opp119_low = {
 	.status = DPLL_STATUS_LOCKED,
@@ -538,7 +555,8 @@ const dpll44xx_audit_settings dpll4470_PER_golden_settings_38_4MHz_opp119_low = 
 	.X2_M3_rate = 256,
 	.hsdiv_present = {1, 1, 1, 1},
 	.hsdiv = {12, 9, 4, 4},
-	.hsdiv_rate = {128, 170.7, 384, 384} };
+	.hsdiv_rate = {128, 170.7, 384, 384}
+};
 
 const dpll44xx_audit_settings dpll4470_PER_golden_settings_38_4MHz_opp119_high = {
 	.status = DPLL_STATUS_LOCKED,
@@ -558,17 +576,18 @@ const dpll44xx_audit_settings dpll4470_PER_golden_settings_38_4MHz_opp119_high =
 	.X2_M3_rate = 256,
 	.hsdiv_present = {1, 1, 1, 1},
 	.hsdiv = {12, 9, 4, 4},
-	.hsdiv_rate = {128, 170.7, 384, 384} };
+	.hsdiv_rate = {128, 170.7, 384, 384}
+};
 
 const dpll44xx_audit_settings
-	*dpll4470_PER_golden_settings_38_4MHz[OPP44XX_ID_MAX] = {
+    * dpll4470_PER_golden_settings_38_4MHz[OPP44XX_ID_MAX] = {
 	&dpll4470_PER_golden_settings_38_4MHz_dpll_casc,
 	&dpll4470_PER_golden_settings_38_4MHz_opp50_low,
 	&dpll4470_PER_golden_settings_38_4MHz_opp50_high,
 	&dpll4470_PER_golden_settings_38_4MHz_opp100_low,
 	&dpll4470_PER_golden_settings_38_4MHz_opp119_low,
-	&dpll4470_PER_golden_settings_38_4MHz_opp119_high};
-
+	&dpll4470_PER_golden_settings_38_4MHz_opp119_high
+};
 
 const dpll44xx_audit_settings dpll4470_ABE_golden_settings_38_4MHz_dpll_casc = {
 	.status = DPLL_STATUS_LOCKED,
@@ -588,7 +607,8 @@ const dpll44xx_audit_settings dpll4470_ABE_golden_settings_38_4MHz_dpll_casc = {
 	.X2_M3_rate = 196.608,
 	.hsdiv_present = {-1, -1, -1, -1},
 	.hsdiv = {-1, -1, -1, -1},
-	.hsdiv_rate = {-1, -1, -1, -1} };
+	.hsdiv_rate = {-1, -1, -1, -1}
+};
 
 const dpll44xx_audit_settings dpll4470_ABE_golden_settings_38_4MHz_all_opp = {
 	.status = DPLL_STATUS_LOCKED,
@@ -608,17 +628,18 @@ const dpll44xx_audit_settings dpll4470_ABE_golden_settings_38_4MHz_all_opp = {
 	.X2_M3_rate = 196.608,
 	.hsdiv_present = {-1, -1, -1, -1},
 	.hsdiv = {-1, -1, -1, -1},
-	.hsdiv_rate = {-1, -1, -1, -1} };
+	.hsdiv_rate = {-1, -1, -1, -1}
+};
 
 const dpll44xx_audit_settings
-	*dpll4470_ABE_golden_settings_38_4MHz[OPP44XX_ID_MAX] = {
+    * dpll4470_ABE_golden_settings_38_4MHz[OPP44XX_ID_MAX] = {
 	&dpll4470_ABE_golden_settings_38_4MHz_dpll_casc,
 	&dpll4470_ABE_golden_settings_38_4MHz_all_opp,
 	&dpll4470_ABE_golden_settings_38_4MHz_all_opp,
 	&dpll4470_ABE_golden_settings_38_4MHz_all_opp,
 	&dpll4470_ABE_golden_settings_38_4MHz_all_opp,
-	&dpll4470_ABE_golden_settings_38_4MHz_all_opp};
-
+	&dpll4470_ABE_golden_settings_38_4MHz_all_opp
+};
 
 const dpll44xx_audit_settings dpll4470_USB_golden_settings_38_4MHz_dpll_casc = {
 	.status = DPLL_STATUS_STOPPED,
@@ -638,7 +659,8 @@ const dpll44xx_audit_settings dpll4470_USB_golden_settings_38_4MHz_dpll_casc = {
 	.X2_M3_rate = -1,
 	.hsdiv_present = {-1, -1, -1, -1},
 	.hsdiv = {-1, -1, -1, -1},
-	.hsdiv_rate = {-1, -1, -1, -1} };
+	.hsdiv_rate = {-1, -1, -1, -1}
+};
 
 const dpll44xx_audit_settings dpll4470_USB_golden_settings_38_4MHz_all_opp = {
 	.status = DPLL_STATUS_LOCKED,
@@ -658,24 +680,28 @@ const dpll44xx_audit_settings dpll4470_USB_golden_settings_38_4MHz_all_opp = {
 	.X2_M3_rate = -1,
 	.hsdiv_present = {-1, -1, -1, -1},
 	.hsdiv = {-1, -1, -1, -1},
-	.hsdiv_rate = {-1, -1, -1, -1} };
+	.hsdiv_rate = {-1, -1, -1, -1}
+};
 
 const dpll44xx_audit_settings
-	*dpll4470_USB_golden_settings_38_4MHz[OPP44XX_ID_MAX] = {
+    * dpll4470_USB_golden_settings_38_4MHz[OPP44XX_ID_MAX] = {
 	&dpll4470_USB_golden_settings_38_4MHz_dpll_casc,
 	&dpll4470_USB_golden_settings_38_4MHz_all_opp,
 	&dpll4470_USB_golden_settings_38_4MHz_all_opp,
 	&dpll4470_USB_golden_settings_38_4MHz_all_opp,
 	&dpll4470_USB_golden_settings_38_4MHz_all_opp,
-	&dpll4470_USB_golden_settings_38_4MHz_all_opp};
+	&dpll4470_USB_golden_settings_38_4MHz_all_opp
+};
 
-
-const dpll44xx_audit_settings **dpll4470_golden_settings_38_4MHz[DPLL44XX_ID_MAX] = {
-	(const dpll44xx_audit_settings **) &dpll4470_MPU_golden_settings_38_4MHz,
-	(const dpll44xx_audit_settings **) &dpll4470_IVA_golden_settings_38_4MHz,
-	(const dpll44xx_audit_settings **) &dpll4470_CORE_golden_settings_38_4MHz,
-	(const dpll44xx_audit_settings **) &dpll4470_PER_golden_settings_38_4MHz,
-	(const dpll44xx_audit_settings **) &dpll4470_ABE_golden_settings_38_4MHz,
-	(const dpll44xx_audit_settings **) &dpll4470_USB_golden_settings_38_4MHz,
-	(const dpll44xx_audit_settings **) NULL,
-	(const dpll44xx_audit_settings **) NULL};
+const dpll44xx_audit_settings
+    **dpll4470_golden_settings_38_4MHz[DPLL44XX_ID_MAX] = {
+	(const dpll44xx_audit_settings **)&dpll4470_MPU_golden_settings_38_4MHz,
+	(const dpll44xx_audit_settings **)&dpll4470_IVA_golden_settings_38_4MHz,
+	(const dpll44xx_audit_settings **)
+	    &dpll4470_CORE_golden_settings_38_4MHz,
+	(const dpll44xx_audit_settings **)&dpll4470_PER_golden_settings_38_4MHz,
+	(const dpll44xx_audit_settings **)&dpll4470_ABE_golden_settings_38_4MHz,
+	(const dpll44xx_audit_settings **)&dpll4470_USB_golden_settings_38_4MHz,
+	(const dpll44xx_audit_settings **)NULL,
+	(const dpll44xx_audit_settings **)NULL
+};

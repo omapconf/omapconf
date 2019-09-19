@@ -1368,7 +1368,7 @@ reg *am437x_emif4d_mod[AM437X_EMIF4D_MOD_REGCOUNT + 1] = {
 };
 
 reg **emif_am437x_mods[EMIF_AM437X_MODS_COUNT] = {
-	(reg **) &am437x_emif4d_mod
+	(reg **) & am437x_emif4d_mod
 };
 
 const char *emif_am437x_mods_name[EMIF_AM437X_MODS_COUNT] = {

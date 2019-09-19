@@ -41,15 +41,11 @@
  *
  */
 
-
 #ifndef __HELP54XX_H__
 #define __HELP54XX_H__
 
-
 #include <help.h>
 
-
 void help54xx(help_category cat, char *context);
-
 
 #endif

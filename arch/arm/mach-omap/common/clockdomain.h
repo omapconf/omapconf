@@ -41,19 +41,15 @@
  *
  */
 
-
 #ifndef __CLOCKDOMAIN_H__
 #define __CLOCKDOMAIN_H__
-
 
 #include <reg.h>
 #include <genlist.h>
 #include <clkdm.h>
 #include <stdio.h>
 
-
 #define CLKDM_MAX_NAME_LENGTH		16
-
 
 #define CLKDM_EMU			((const char *) "EMU")
 #define CLKDM_WKUP			((const char *) "L4WKUP")
@@ -101,17 +97,15 @@
 #define CLKDM_NONE			((const char *) "NONE")
 #define CLKDM_UNKNOWN			((const char *) "UNKNOWN")
 
-
 typedef struct {
 	const char *name;
 	int id;
 	const char *powerdm;
 	const char *voltdm;
 	reg *clkstctrl;
-	unsigned int clkstctrl_bit; /* AM335X only */
+	unsigned int clkstctrl_bit;	/* AM335X only */
 	int properties;
 } clockdm_info;
-
 
 void clockdm_init(void);
 void clockdm_deinit(void);
@@ -128,7 +122,6 @@ unsigned int clockdm_bit_get(const char *clockdm);
 clkdm_status clockdm_status_get(const char *clockdm);
 clkdm_ctrl_mode clockdm_ctrl_mode_get(const char *clockdm);
 
-int clockdm_config_show(FILE *stream, const char *clockdm);
-
+int clockdm_config_show(FILE * stream, const char *clockdm);
 
 #endif

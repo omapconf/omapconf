@@ -42,13 +42,10 @@
  *
  */
 
-
 #ifndef __TWL6040_H__
 #define __TWL6040_H__
 
-
 #include <stdio.h>
-
 
 #define TWL6040_I2C_BUS			0
 #define TWL6040_I2C_ADDR		0x4B
@@ -95,14 +92,12 @@
 
 #define TWL6040_REG_NUM			(TWL6040_REG_STATUS + 1)
 
-
 float twl6040_chip_revision_get(void);
 int twl6040_dumpregs(void);
-int twl6040_config(FILE *stream);
-int twl6040_gains(FILE *stream);
+int twl6040_config(FILE * stream);
+int twl6040_gains(FILE * stream);
 int twl6040_readreg(const char *reg_addr);
 int twl6040_writereg(const char *reg_addr, const char *reg_val);
 int twl6040_main(int argc, char *argv[]);
-
 
 #endif

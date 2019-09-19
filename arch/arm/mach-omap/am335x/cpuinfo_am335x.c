@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <cpuinfo_am335x.h>
 #include <cpuinfo.h>
 #include <cpufreq.h>
@@ -49,7 +48,6 @@
 #include <mem.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 
 /* #define CPUID_AM335X_DEBUG */
 #ifdef CPUID_AM335X_DEBUG
@@ -64,7 +62,6 @@
 #define OPP_120_720MHZ_BIT				(0x1 << 7)
 #define OPP_TURBO_800MHZ_BIT				(0x1 << 8)
 #define OPP_NITRO_1GHZ_BIT				(0x1 << 9)
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_am335x_silicon_max_speed_get
@@ -101,10 +98,12 @@ unsigned int cpu_am335x_silicon_max_speed_get(void)
 			max_speed = 720;
 		else if (efuse_sma & OPP_100_600MHZ_BIT)
 			max_speed = 600;
-		else if (efuse_sma & OPP_50_300MHZ_BIT || efuse_sma & OPP_100_300MHZ_BIT)
+		else if (efuse_sma & OPP_50_300MHZ_BIT
+			 || efuse_sma & OPP_100_300MHZ_BIT)
 			max_speed = 300;
 		else {
-			fprintf(stderr, "%s(): unknown efuse value!\n", __func__);
+			fprintf(stderr, "%s(): unknown efuse value!\n",
+				__func__);
 			max_speed = 0;
 		}
 	} else {
@@ -118,14 +117,13 @@ unsigned int cpu_am335x_silicon_max_speed_get(void)
 		} else {
 			fprintf(stderr, "%s(): unable to determine max "
 				"freq!\n", __func__);
-			max_speed = 275; /* Lowest supported cpu speed */
+			max_speed = 275;	/* Lowest supported cpu speed */
 		}
 	}
 
 	dprintf("%s(): max speed = %dMHz\n", __func__, max_speed);
 	return max_speed;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_am335x_cores_count_get

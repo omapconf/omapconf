@@ -41,14 +41,13 @@
  *
  */
 
-
 #ifndef __LIB_AM335X_H__
 #define __LIB_AM335X_H__
 
 #include <reg.h>
 #include <stdio.h>
 
-int reg_am335x_addr_find(char *name, unsigned int* addr);
-int am335x_name2addr(char *name, unsigned int* addr, reg ****mods);
+int reg_am335x_addr_find(char *name, unsigned int *addr);
+int am335x_name2addr(char *name, unsigned int *addr, reg **** mods);
 
 #endif

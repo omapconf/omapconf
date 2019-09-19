@@ -29,7 +29,6 @@
 #ifndef _UTIL_H
 #define _UTIL_H
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		user_ack
  * @BRIEF		Return 1 if we should continue, 0 if we should abort
@@ -38,6 +37,5 @@
  * @DESCRIPTION		Return 1 if we should continue, 0 if we should abort
  *------------------------------------------------------------------------ */
 extern int user_ack(int def);
-
 
 #endif

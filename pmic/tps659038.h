@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __TPS659038_H__
 #define __TPS659038_H__
-
 
 #define TPS659038_VSEL_LEN	7
 
@@ -60,7 +58,6 @@
 #define TPS659038_VSTEP_UV	10000
 #define TPS659038_PFM_FLAG	0x80
 
-
 unsigned short int tps659038_is_present(void);
 double tps659038_chip_revision_get(void);
 double tps659038_eprom_revision_get(void);
@@ -72,6 +69,5 @@ int tps659038_vsel_get(unsigned int smps_id);
 unsigned char tps659038_uv_to_vsel(unsigned long uv);
 unsigned long tps659038_vsel_to_uv(unsigned char vsel);
 int tps659038_uvoltage_set(unsigned int vdd_id, unsigned long uv);
-
 
 #endif

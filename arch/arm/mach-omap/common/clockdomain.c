@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <clockdomain.h>
 #include <clkdm44xx.h>
 #include <clkdm54xx.h>
@@ -52,7 +51,6 @@
 #include <string.h>
 #include <cpuinfo.h>
 
-
 /* #define CLOCKDM_DEBUG */
 #ifdef CLOCKDM_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -60,9 +58,7 @@
 #define dprintf(format, ...)
 #endif
 
-
-static int _clockdm_info_get(const char *clockdm, clockdm_info *data);
-
+static int _clockdm_info_get(const char *clockdm, clockdm_info * data);
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_init
@@ -71,11 +67,11 @@ static int _clockdm_info_get(const char *clockdm, clockdm_info *data);
  *------------------------------------------------------------------------ */
 void clockdm_init(void)
 {
-	#ifdef CLOCKDM_DEBUG
+#ifdef CLOCKDM_DEBUG
 	int i, count;
 	const genlist *clkdm_list;
 	clockdm_info clkdm;
-	#endif
+#endif
 
 	if (cpu_is_omap44xx()) {
 		clkdm44xx_init();
@@ -91,15 +87,16 @@ void clockdm_init(void)
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
 	}
 
-	#ifdef CLOCKDM_DEBUG
+#ifdef CLOCKDM_DEBUG
 	clkdm_list = clockdm_list_get();
 	count = genlist_getcount((genlist *) clkdm_list);
 	printf("Clock Domain List:\n");
 	for (i = 0; i < count; i++) {
-		genlist_get((genlist *) clkdm_list, i, (clockdm_info *) &clkdm);
+		genlist_get((genlist *) clkdm_list, i,
+			    (clockdm_info *) & clkdm);
 		printf(" %s:\n", clkdm.name);
 		printf("  ID:%d (%s)\n", clkdm.id,
-			clkdm54xx_name_get(clkdm.id));
+		       clkdm54xx_name_get(clkdm.id));
 		printf("  PwrDM: %s\n", clkdm.powerdm);
 		printf("  VoltDM: %s\n", clkdm.voltdm);
 		printf("  CLKSTCTRL REG: %s\n", (clkdm.clkstctrl)->name);
@@ -107,9 +104,8 @@ void clockdm_init(void)
 		printf("\n\n");
 	}
 	printf("Clock Domain count: %d\n\n", count);
-	#endif
+#endif
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_deinit
@@ -134,7 +130,6 @@ void clockdm_deinit(void)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_list_get
  * @BRIEF		return the list of clock domains
@@ -156,7 +151,6 @@ const genlist *clockdm_list_get(void)
 		return NULL;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_count_get
@@ -181,7 +175,6 @@ int clockdm_count_get(void)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		_clockdm_info_get
  * @BRIEF		return the saved informations of a given clock domain.
@@ -191,7 +184,7 @@ int clockdm_count_get(void)
  * @param[in,out]	data:clock domain details
  * @DESCRIPTION		return the saved informations of a given clock domain.
  *------------------------------------------------------------------------ */
-static int _clockdm_info_get(const char *clockdm, clockdm_info *data)
+static int _clockdm_info_get(const char *clockdm, clockdm_info * data)
 {
 	const genlist *clkdm_list;
 	int i, count;
@@ -202,7 +195,7 @@ static int _clockdm_info_get(const char *clockdm, clockdm_info *data)
 	clkdm_list = clockdm_list_get();
 	count = genlist_getcount((genlist *) clkdm_list);
 	for (i = 0; i < count; i++) {
-		genlist_get((genlist *) clkdm_list, i, (void *) data);
+		genlist_get((genlist *) clkdm_list, i, (void *)data);
 		if (strcmp(data->name, clockdm) == 0) {
 			dprintf("%s(%s): found.\n", __func__, clockdm);
 			return 0;
@@ -212,7 +205,6 @@ static int _clockdm_info_get(const char *clockdm, clockdm_info *data)
 	dprintf("%s(%s): not found!\n", __func__, clockdm);
 	return -1;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_id_get
@@ -236,7 +228,6 @@ int clockdm_id_get(const char *clockdm)
 	dprintf("%s(%s) = %d\n", __func__, clockdm, id);
 	return id;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_powerdm_get
@@ -264,7 +255,6 @@ const char *clockdm_powerdm_get(const char *clockdm)
 	return data.powerdm;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_voltdm_get
  * @BRIEF		return the voltage domain name a clock domain is part of
@@ -290,7 +280,6 @@ const char *clockdm_voltdm_get(const char *clockdm)
 	dprintf("%s(%s) = %s\n", __func__, clockdm, data.voltdm);
 	return data.voltdm;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_clkstctrl_get
@@ -324,7 +313,6 @@ reg *clockdm_clkstctrl_get(const char *clockdm)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_bit_get
  * @BRIEF		return the CLKSTCTRL domain bit of a given clock domain
@@ -357,7 +345,6 @@ unsigned int clockdm_bit_get(const char *clockdm)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_status_get
  * @BRIEF		return the status of a given clock domain
@@ -379,7 +366,7 @@ clkdm_status clockdm_status_get(const char *clockdm)
 		clkstctrl = reg_read(clkstctrl_reg);
 		if (cpu_is_am335x())
 			st = clkdm_am335x_status_get(clkstctrl,
-				clockdm_bit_get(clockdm));
+						     clockdm_bit_get(clockdm));
 		else
 			st = clkdm_status_get(clkstctrl);
 		dprintf("%s(%s): CM_CLKSTCTRL=%s status=%s\n", __func__,
@@ -391,7 +378,6 @@ clkdm_status clockdm_status_get(const char *clockdm)
 		return CLKDM_STATUS_MAX;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_ctrl_mode_get
@@ -423,7 +409,6 @@ clkdm_ctrl_mode clockdm_ctrl_mode_get(const char *clockdm)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_config_show
  * @BRIEF		display clock domain configuration
@@ -435,7 +420,7 @@ clkdm_ctrl_mode clockdm_ctrl_mode_get(const char *clockdm)
  * @param[in]		clockdm: clock domain name
  * @DESCRIPTION		display clock domain configuration
  *------------------------------------------------------------------------ */
-int clockdm_config_show(FILE *stream, const char *clockdm)
+int clockdm_config_show(FILE * stream, const char *clockdm)
 {
 	clockdm_info data;
 	unsigned int cm_clkstctrl;
@@ -453,7 +438,7 @@ int clockdm_config_show(FILE *stream, const char *clockdm)
 	}
 
 	/* Read CLKSTCTRL register if not NULL */
-	if (data.clkstctrl == NULL) /* Nothing to show */
+	if (data.clkstctrl == NULL)	/* Nothing to show */
 		return 0;
 	cm_clkstctrl = reg_read(data.clkstctrl);
 
@@ -471,7 +456,7 @@ int clockdm_config_show(FILE *stream, const char *clockdm)
 	if (cpu_is_omap44xx()) {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
-		ret = OMAPCONF_ERR_CPU; /* FIXME */
+		ret = OMAPCONF_ERR_CPU;	/* FIXME */
 	} else if (cpu_is_omap54xx()) {
 		ret = clkdm54xx_config_show(stream, data);
 	} else {

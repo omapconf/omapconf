@@ -40,7 +40,6 @@
  *
  */
 
-
 #include <cpuinfo_am437x.h>
 #include <cpuinfo.h>
 #include <cpufreq.h>
@@ -48,7 +47,6 @@
 #include <mem.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 
 #ifdef CPUID_AM437X_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -104,13 +102,12 @@ unsigned int cpu_am437x_silicon_max_speed_get(void)
 		max_speed = 300;
 	else {
 		fprintf(stderr, "%s(): unknown efuse value!\n", __func__);
-		max_speed = 300; /* Lowest supported cpu speed */
+		max_speed = 300;	/* Lowest supported cpu speed */
 	}
 
 	dprintf("%s(): max speed = %dMHz\n", __func__, max_speed);
 	return max_speed;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu_am437x_cores_count_get

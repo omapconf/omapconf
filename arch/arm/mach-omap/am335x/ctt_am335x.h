@@ -42,14 +42,11 @@
  *
  */
 
-
 #ifndef __CTT_AM335X_H__
 #define __CTT_AM335X_H__
-
 
 int ctt_am335x_dump(void);
 int ctt_am335x_rd1_export(char *file);
 int ctt_am335x_main(int argc, char *argv[]);
-
 
 #endif

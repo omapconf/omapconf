@@ -41,12 +41,10 @@
  *
  */
 
-
 #include <reg.h>
 #include <lib.h>
 #include <mem.h>
 #include <string.h>
-
 
 /* #define REG_DEBUG */
 #ifdef REG_DEBUG
@@ -54,7 +52,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		reg_init
@@ -67,10 +64,9 @@
  * @param[in]		data: data field value
  * @DESCRIPTION		initialize reg structure.
  *------------------------------------------------------------------------ */
-int reg_init(reg *r,
-	char name[OMAPCONF_REG_NAME_MAX_LENGTH],
-	unsigned int addr,
-	unsigned int data)
+int reg_init(reg * r,
+	     char name[OMAPCONF_REG_NAME_MAX_LENGTH],
+	     unsigned int addr, unsigned int data)
 {
 	CHECK_NULL_ARG(r, OMAPCONF_ERR_ARG);
 	CHECK_NULL_ARG(name, OMAPCONF_ERR_ARG);
@@ -83,7 +79,6 @@ int reg_init(reg *r,
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		reg_xml_import
  * @BRIEF		import reg details from XML entry
@@ -95,7 +90,7 @@ int reg_init(reg *r,
  *				as generated with reg_xml_export()
  * @DESCRIPTION		import reg details from XML entry
  *------------------------------------------------------------------------ */
-int reg_xml_import(reg *r, char *xml_entry)
+int reg_xml_import(reg * r, char *xml_entry)
 {
 	char name[OMAPCONF_REG_NAME_MAX_LENGTH];
 	unsigned int addr;
@@ -108,8 +103,8 @@ int reg_xml_import(reg *r, char *xml_entry)
 
 	dprintf("%s(): xml_entry=%s\n", __func__, xml_entry);
 
-	token = strtok(xml_entry, "= "); /* == "<register" */
-	token = strtok(NULL, "= "); /* == "id" */
+	token = strtok(xml_entry, "= ");	/* == "<register" */
+	token = strtok(NULL, "= ");	/* == "id" */
 	if (strcmp(token, "id") != 0) {
 		dprintf("%s(): could not get id token\n", __func__);
 		return OMAPCONF_ERR_UNEXPECTED;
@@ -117,7 +112,7 @@ int reg_xml_import(reg *r, char *xml_entry)
 	token = strtok(NULL, "= ");
 
 	/* Retrieve register name */
-	token = strtok(NULL, "= "); /* == "name" */
+	token = strtok(NULL, "= ");	/* == "name" */
 	if (strcmp(token, "name") != 0) {
 		dprintf("%s(): could not get name token\n", __func__);
 		return OMAPCONF_ERR_UNEXPECTED;
@@ -130,7 +125,7 @@ int reg_xml_import(reg *r, char *xml_entry)
 	strncpy(name, token, OMAPCONF_REG_NAME_MAX_LENGTH);
 
 	/* Retrieve register address */
-	token = strtok(NULL, "= "); /* == "addr" */
+	token = strtok(NULL, "= ");	/* == "addr" */
 	if (strcmp(token, "addr") != 0) {
 		dprintf("%s(): could not get addr token\n", __func__);
 		return OMAPCONF_ERR_UNEXPECTED;
@@ -147,7 +142,7 @@ int reg_xml_import(reg *r, char *xml_entry)
 	}
 
 	/* Retrieve register data */
-	token = strtok(NULL, "= "); /* == "data" */
+	token = strtok(NULL, "= ");	/* == "data" */
 	if (strcmp(token, "data") != 0) {
 		dprintf("%s(): could not get data token\n", __func__);
 		return OMAPCONF_ERR_UNEXPECTED;
@@ -171,7 +166,6 @@ int reg_xml_import(reg *r, char *xml_entry)
 	return ret;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		reg_xml_export
  * @BRIEF		export reg details to XML entry
@@ -190,7 +184,6 @@ int reg_xml_export(reg r, char *xml_entry)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		reg_read
  * @BRIEF		return register content
@@ -201,7 +194,7 @@ int reg_xml_export(reg r, char *xml_entry)
  *			from a true register access if there is no pre-loaded
  *			value.
  *------------------------------------------------------------------------ */
-unsigned int reg_read(reg *r)
+unsigned int reg_read(reg * r)
 {
 	unsigned int val;
 	int ret;
@@ -220,7 +213,6 @@ unsigned int reg_read(reg *r)
 	return val;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		reg_write
  * @BRIEF		update register content of, either:
@@ -236,7 +228,7 @@ unsigned int reg_read(reg *r)
  *				the real register if there is no pre-loaded
  *				value.
  *------------------------------------------------------------------------ */
-int reg_write(reg *r, unsigned int val)
+int reg_write(reg * r, unsigned int val)
 {
 	int ret;
 
@@ -257,7 +249,6 @@ int reg_write(reg *r, unsigned int val)
 	return val;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		reg_name_get
  * @BRIEF		return register name
@@ -265,13 +256,12 @@ int reg_write(reg *r, unsigned int val)
  * @param[in]		r: a reg struct pointer
  * @DESCRIPTION		return register name
  *------------------------------------------------------------------------ */
-char *reg_name_get(reg *r)
+char *reg_name_get(reg * r)
 {
 	CHECK_NULL_ARG(r, NULL);
 
 	return r->name;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		reg_addr_get
@@ -280,7 +270,7 @@ char *reg_name_get(reg *r)
  * @param[in]		r: a reg struct pointer
  * @DESCRIPTION		return register physical address
  *------------------------------------------------------------------------ */
-unsigned int reg_addr_get(reg *r)
+unsigned int reg_addr_get(reg * r)
 {
 	CHECK_NULL_ARG(r, 0);
 

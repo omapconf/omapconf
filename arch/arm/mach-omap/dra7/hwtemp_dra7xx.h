@@ -41,13 +41,10 @@
  *
  */
 
-
 #ifndef __HWTEMP_DRA7XX_H__
 #define __HWTEMP_DRA7XX_H__
 
-
 #include <stdio.h>
-
 
 typedef enum {
 	HWTEMP_DRA7XX_MPU,
@@ -58,8 +55,6 @@ typedef enum {
 	HWTEMP_DRA7XX_ID_MAX
 } hwtemp_dra7xx_sensor_id;
 
-
 int hwtemp_dra7xx_get(hwtemp_dra7xx_sensor_id id);
-
 
 #endif

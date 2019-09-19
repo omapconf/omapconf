@@ -41,20 +41,17 @@
  *
  */
 
-
 #include <linux_mem.h>
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
 
-
 #define MEM_SIZE (1024 * 1024)
 #define MEM_MASK (MEM_SIZE - 1)
 #define MEM_SIZE_4K (4 * 1024)
 #define MEM_MASK_4K (MEM_SIZE_4K - 1)
 #define MEMORY "/dev/mem"
-
 
 /* #define LMEM_READ_DEBUG */
 /* #define LMEM_WRITE_DEBUG */
@@ -65,11 +62,9 @@
 #define dprintf(format, ...)
 #endif
 
-
 static void *mem_map_base = NULL;
 static void *mem_offset = NULL;
 static int mem_fd;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		lmem_map
@@ -86,8 +81,8 @@ static int mem_fd;
 int lmem_map(unsigned int addr)
 {
 	if ((mem_offset != NULL) &&
-		(addr >= (unsigned int) mem_offset) &&
-		(addr < (unsigned int) mem_offset + MEM_SIZE)) {
+	    (addr >= (unsigned int)mem_offset) &&
+	    (addr < (unsigned int)mem_offset + MEM_SIZE)) {
 		/* In same memory chunk already mapped, no need to remap it */
 		dprintf("%s(0x%08X): in same mem map\n", __func__, addr);
 		return 0;
@@ -97,7 +92,7 @@ int lmem_map(unsigned int addr)
 	lmem_unmap();
 
 	/* Open device */
-	mem_fd = open(MEMORY, O_RDWR|O_SYNC);
+	mem_fd = open(MEMORY, O_RDWR | O_SYNC);
 	if (mem_fd < 0) {
 		fprintf(stderr, "%s(): could not open \"%s\"!\n",
 			__func__, MEMORY);
@@ -105,11 +100,11 @@ int lmem_map(unsigned int addr)
 	}
 
 	/* Map memory */
-	mem_offset =  (void *) (addr & ~MEM_MASK);
+	mem_offset = (void *)(addr & ~MEM_MASK);
 	mem_map_base = mmap(0, MEM_SIZE,
-		PROT_READ|PROT_WRITE, MAP_SHARED,
-		mem_fd, (off_t) mem_offset);
-	if (mem_map_base == (void *) -1) {
+			    PROT_READ | PROT_WRITE, MAP_SHARED,
+			    mem_fd, (off_t) mem_offset);
+	if (mem_map_base == (void *)-1) {
 		fprintf(stderr, "%s(): could not map memory!\n", __func__);
 		close(mem_fd);
 		mem_offset = NULL;
@@ -117,11 +112,10 @@ int lmem_map(unsigned int addr)
 		return -5;
 	}
 	dprintf("%s(0x%08X): new mem chuck 0x%08X mapped\n",
-		__func__, addr, (unsigned int) mem_offset);
+		__func__, addr, (unsigned int)mem_offset);
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		lmem_unmap
@@ -142,12 +136,11 @@ void lmem_unmap(void)
 		close(mem_fd);
 
 		dprintf("%s(): mem chunk 0x%08X unmapped\n",
-			__func__, (unsigned int) mem_offset);
+			__func__, (unsigned int)mem_offset);
 		mem_offset = NULL;
 		mem_map_base = NULL;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		lmem_map_address
@@ -165,7 +158,7 @@ void *lmem_map_address(unsigned int addr)
 	void *mem_map_base_address = NULL;
 
 	/* Open device */
-	mem_fd_address = open(MEMORY, O_RDWR|O_SYNC);
+	mem_fd_address = open(MEMORY, O_RDWR | O_SYNC);
 	if (mem_fd_address < 0) {
 		fprintf(stderr, "%s(): could not open \"%s\"!\n", __func__,
 			MEMORY);
@@ -173,22 +166,22 @@ void *lmem_map_address(unsigned int addr)
 	}
 
 	/* Map memory */
-	mem_map_base_address = mmap(0, MEM_SIZE_4K, PROT_READ|PROT_WRITE,
-		MAP_SHARED, mem_fd_address, (off_t) (addr & ~MEM_MASK_4K));
+	mem_map_base_address = mmap(0, MEM_SIZE_4K, PROT_READ | PROT_WRITE,
+				    MAP_SHARED, mem_fd_address,
+				    (off_t) (addr & ~MEM_MASK_4K));
 
 	close(mem_fd_address);
 
-	if (mem_map_base_address == (void *) -1) {
+	if (mem_map_base_address == (void *)-1) {
 		fprintf(stderr, "%s(): could not map memory!\n", __func__);
 		return NULL;
 	}
 	dprintf("%s(0x%08X): 0x%08X mapped\n", __func__, addr,
 		(unsigned int)(addr & ~MEM_MASK_4K));
 
-	return (void *) ((unsigned int) mem_map_base_address +
-		(addr & MEM_MASK_4K));
+	return (void *)((unsigned int)mem_map_base_address +
+			(addr & MEM_MASK_4K));
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		lmem_unmap_address
@@ -203,7 +196,7 @@ void lmem_unmap_address(void *vaddr)
 	int mem_fd_address;
 
 	/* Open device */
-	mem_fd_address = open(MEMORY, O_RDWR|O_SYNC);
+	mem_fd_address = open(MEMORY, O_RDWR | O_SYNC);
 	if (mem_fd_address < 0) {
 		fprintf(stderr, "%s(): could not open \"%s\"!\n", __func__,
 			MEMORY);
@@ -222,7 +215,6 @@ void lmem_unmap_address(void *vaddr)
 	dprintf("%s(): mem chunk 0x%08X unmapped\n", __func__, vaddr);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_phys2virt
  * @BRIEF		convert memory physical address to virtual address.
@@ -233,13 +225,11 @@ void lmem_unmap_address(void *vaddr)
 void *lmem_phys2virt(void *addr)
 {
 	dprintf("%s(0x%08X)=0x%08X\n", __func__,
-		(unsigned int) addr,
-		(unsigned int) mem_map_base +
-		((unsigned int) addr & MEM_MASK));
-	return (void *) ((unsigned int) mem_map_base +
-		((unsigned int) addr & MEM_MASK));
+		(unsigned int)addr,
+		(unsigned int)mem_map_base + ((unsigned int)addr & MEM_MASK));
+	return (void *)((unsigned int)mem_map_base +
+			((unsigned int)addr & MEM_MASK));
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		lmem_read
@@ -257,7 +247,7 @@ int lmem_read(unsigned int addr, unsigned int *val)
 	int ret;
 	void *vaddr;
 
-	if ((void *) val == NULL) {
+	if ((void *)val == NULL) {
 		fprintf(stderr, "%s(): val == NULL!!!\n", __func__);
 		return -1;
 	}
@@ -269,10 +259,9 @@ int lmem_read(unsigned int addr, unsigned int *val)
 			__func__);
 		return -1;
 	}
-
-	#ifdef LMEM_READ_DEBUG
+#ifdef LMEM_READ_DEBUG
 	printf("%s(): addr=0x%08X\n", __func__, addr);
-	#endif
+#endif
 
 	/* map memory */
 	ret = lmem_map(addr);
@@ -280,18 +269,17 @@ int lmem_read(unsigned int addr, unsigned int *val)
 		return ret;
 
 	/* translate address */
-	vaddr = lmem_phys2virt((void *) addr);
+	vaddr = lmem_phys2virt((void *)addr);
 
 	/* Read memory */
-	*val = *((unsigned int *) vaddr);
+	*val = *((unsigned int *)vaddr);
 
-	#ifdef LMEM_READ_DEBUG
+#ifdef LMEM_READ_DEBUG
 	printf("%s(): *val=0x%08X\n", __func__, *val);
-	#endif
+#endif
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		lmem_write
@@ -313,10 +301,9 @@ int lmem_write(unsigned int addr, unsigned int val)
 			__func__);
 		return -1;
 	}
-
-	#ifdef LMEM_WRITE_DEBUG
+#ifdef LMEM_WRITE_DEBUG
 	printf("%s(): addr=0x%08X\n", __func__, addr);
-	#endif
+#endif
 
 	/* map memory */
 	ret = lmem_map(addr);
@@ -324,19 +311,19 @@ int lmem_write(unsigned int addr, unsigned int val)
 		return ret;
 
 	/* translate address */
-	vaddr = lmem_phys2virt((void *) addr);
+	vaddr = lmem_phys2virt((void *)addr);
 
 	/* Write memory */
-	#ifdef LMEM_WRITE_DEBUG
+#ifdef LMEM_WRITE_DEBUG
 	printf("%s(): Physical address to be written: 0x%08X\n",
-		__func__, addr);
+	       __func__, addr);
 	printf("%s(): Virtual address to be written: 0x%08X\n",
-		__func__, (unsigned int) vaddr);
+	       __func__, (unsigned int)vaddr);
 	printf("%s(): Value to be written: 0x%08X\n",
-		__func__, (unsigned int) val);
-	#else
-	*((unsigned int *) vaddr) = val;
-	#endif
+	       __func__, (unsigned int)val);
+#else
+	*((unsigned int *)vaddr) = val;
+#endif
 
 	return 0;
 }

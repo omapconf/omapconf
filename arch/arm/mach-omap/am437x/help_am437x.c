@@ -41,11 +41,9 @@
  *
  */
 
-
 #include <cpuinfo.h>
 #include <help_am437x.h>
 #include <stdio.h>
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		help_am437x
@@ -67,8 +65,8 @@ void help_am437x(help_category cat, char *context)
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_EXPORT)) {
-	        printf("\n\tomapconf export ctt [<filename>]\n");
-	        printf("\t    Export PRCM registers in .rd1 format for Clock "
+		printf("\n\tomapconf export ctt [<filename>]\n");
+		printf("\t    Export PRCM registers in .rd1 format for Clock "
 		       "Tree Tool (CTT, <http://omappedia.org/wiki/CTT>), to "
 		       "<filename> or stdout if omitted.\n");
 	}
@@ -78,11 +76,12 @@ void help_am437x(help_category cat, char *context)
 		printf("\t    Dump EMIF4D registers to stdout\n");
 	}
 
-	if((cat == HELP_ALL) || (cat == HELP_PRCM)) {
+	if ((cat == HELP_ALL) || (cat == HELP_PRCM)) {
 		printf("\n\tomapconf dump prcm [<pwrdm>]\n");
 		printf("\t    Dump PRCM Registers related to <pwrdm> power "
-			"domain ('all' assumed if omitted).\n");
-		printf("\t    Support <pwrdm>: all, cefuse, device, gfx, mpu, per, "
-			"rtc, wkup, irq, dpll\n");
+		       "domain ('all' assumed if omitted).\n");
+		printf
+		    ("\t    Support <pwrdm>: all, cefuse, device, gfx, mpu, per, "
+		     "rtc, wkup, irq, dpll\n");
 	}
 }

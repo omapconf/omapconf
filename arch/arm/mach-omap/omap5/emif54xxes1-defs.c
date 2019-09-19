@@ -41,280 +41,323 @@
  *
  */
 
-
 #include <emif54xxes1-defs.h>
 #include <stdio.h>
-
 
 reg omap5430es1_emif1_emif_revision = {
 	"EMIF_REVISION",
 	OMAP5430ES1_EMIF1_EMIF_REVISION,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_status = {
 	"EMIF_STATUS",
 	OMAP5430ES1_EMIF1_EMIF_STATUS,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_sdram_config = {
 	"EMIF_SDRAM_CONFIG",
 	OMAP5430ES1_EMIF1_EMIF_SDRAM_CONFIG,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_sdram_config_2 = {
 	"EMIF_SDRAM_CONFIG_2",
 	OMAP5430ES1_EMIF1_EMIF_SDRAM_CONFIG_2,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_sdram_refresh_control = {
 	"EMIF_SDRAM_REFRESH_CONTROL",
 	OMAP5430ES1_EMIF1_EMIF_SDRAM_REFRESH_CONTROL,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_sdram_refresh_control_shadow = {
 	"EMIF_SDRAM_REFRESH_CONTROL_SHADOW",
 	OMAP5430ES1_EMIF1_EMIF_SDRAM_REFRESH_CONTROL_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_sdram_timing_1 = {
 	"EMIF_SDRAM_TIMING_1",
 	OMAP5430ES1_EMIF1_EMIF_SDRAM_TIMING_1,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_sdram_timing_1_shadow = {
 	"EMIF_SDRAM_TIMING_1_SHADOW",
 	OMAP5430ES1_EMIF1_EMIF_SDRAM_TIMING_1_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_sdram_timing_2 = {
 	"EMIF_SDRAM_TIMING_2",
 	OMAP5430ES1_EMIF1_EMIF_SDRAM_TIMING_2,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_sdram_timing_2_shadow = {
 	"EMIF_SDRAM_TIMING_2_SHADOW",
 	OMAP5430ES1_EMIF1_EMIF_SDRAM_TIMING_2_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_sdram_timing_3 = {
 	"EMIF_SDRAM_TIMING_3",
 	OMAP5430ES1_EMIF1_EMIF_SDRAM_TIMING_3,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_sdram_timing_3_shadow = {
 	"EMIF_SDRAM_TIMING_3_SHADOW",
 	OMAP5430ES1_EMIF1_EMIF_SDRAM_TIMING_3_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_lpddr2_nvm_timing = {
 	"EMIF_LPDDR2_NVM_TIMING",
 	OMAP5430ES1_EMIF1_EMIF_LPDDR2_NVM_TIMING,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_lpddr2_nvm_timing_shadow = {
 	"EMIF_LPDDR2_NVM_TIMING_SHADOW",
 	OMAP5430ES1_EMIF1_EMIF_LPDDR2_NVM_TIMING_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_power_management_control = {
 	"EMIF_POWER_MANAGEMENT_CONTROL",
 	OMAP5430ES1_EMIF1_EMIF_POWER_MANAGEMENT_CONTROL,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_power_management_control_shadow = {
 	"EMIF_POWER_MANAGEMENT_CONTROL_SHADOW",
 	OMAP5430ES1_EMIF1_EMIF_POWER_MANAGEMENT_CONTROL_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_lpddr2_mode_data = {
 	"EMIF_LPDDR2_MODE_DATA",
 	OMAP5430ES1_EMIF1_EMIF_LPDDR2_MODE_DATA,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_lpddr2_mode_reg_config = {
 	"EMIF_LPDDR2_MODE_REG_CONFIG",
 	OMAP5430ES1_EMIF1_EMIF_LPDDR2_MODE_REG_CONFIG,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_ocp_config = {
 	"EMIF_OCP_CONFIG",
 	OMAP5430ES1_EMIF1_EMIF_OCP_CONFIG,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_ocp_config_value_1 = {
 	"EMIF_OCP_CONFIG_VALUE_1",
 	OMAP5430ES1_EMIF1_EMIF_OCP_CONFIG_VALUE_1,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_ocp_config_value_2 = {
 	"EMIF_OCP_CONFIG_VALUE_2",
 	OMAP5430ES1_EMIF1_EMIF_OCP_CONFIG_VALUE_2,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_performance_counter_1 = {
 	"EMIF_PERFORMANCE_COUNTER_1",
 	OMAP5430ES1_EMIF1_EMIF_PERFORMANCE_COUNTER_1,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_performance_counter_2 = {
 	"EMIF_PERFORMANCE_COUNTER_2",
 	OMAP5430ES1_EMIF1_EMIF_PERFORMANCE_COUNTER_2,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_performance_counter_config = {
 	"EMIF_PERFORMANCE_COUNTER_CONFIG",
 	OMAP5430ES1_EMIF1_EMIF_PERFORMANCE_COUNTER_CONFIG,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_performance_counter_master_region_select = {
 	"EMIF_PERFORMANCE_COUNTER_MASTER_REGION_SELECT",
 	OMAP5430ES1_EMIF1_EMIF_PERFORMANCE_COUNTER_MASTER_REGION_SELECT,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_performance_counter_time = {
 	"EMIF_PERFORMANCE_COUNTER_TIME",
 	OMAP5430ES1_EMIF1_EMIF_PERFORMANCE_COUNTER_TIME,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_dll_calib_ctrl = {
 	"EMIF_DLL_CALIB_CTRL",
 	OMAP5430ES1_EMIF1_EMIF_DLL_CALIB_CTRL,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_dll_calib_ctrl_shadow = {
 	"EMIF_DLL_CALIB_CTRL_SHADOW",
 	OMAP5430ES1_EMIF1_EMIF_DLL_CALIB_CTRL_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_system_ocp_interrupt_raw_status = {
 	"EMIF_SYSTEM_OCP_INTERRUPT_RAW_STATUS",
 	OMAP5430ES1_EMIF1_EMIF_SYSTEM_OCP_INTERRUPT_RAW_STATUS,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_low_latency_ocp_interrupt_raw_status = {
 	"EMIF_LOW_LATENCY_OCP_INTERRUPT_RAW_STATUS",
 	OMAP5430ES1_EMIF1_EMIF_LOW_LATENCY_OCP_INTERRUPT_RAW_STATUS,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_system_ocp_interrupt_status = {
 	"EMIF_SYSTEM_OCP_INTERRUPT_STATUS",
 	OMAP5430ES1_EMIF1_EMIF_SYSTEM_OCP_INTERRUPT_STATUS,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_low_latency_ocp_interrupt_status = {
 	"EMIF_LOW_LATENCY_OCP_INTERRUPT_STATUS",
 	OMAP5430ES1_EMIF1_EMIF_LOW_LATENCY_OCP_INTERRUPT_STATUS,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_system_ocp_interrupt_enable_set = {
 	"EMIF_SYSTEM_OCP_INTERRUPT_ENABLE_SET",
 	OMAP5430ES1_EMIF1_EMIF_SYSTEM_OCP_INTERRUPT_ENABLE_SET,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_low_latency_ocp_interrupt_enable_set = {
 	"EMIF_LOW_LATENCY_OCP_INTERRUPT_ENABLE_SET",
 	OMAP5430ES1_EMIF1_EMIF_LOW_LATENCY_OCP_INTERRUPT_ENABLE_SET,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_system_ocp_interrupt_enable_clear = {
 	"EMIF_SYSTEM_OCP_INTERRUPT_ENABLE_CLEAR",
 	OMAP5430ES1_EMIF1_EMIF_SYSTEM_OCP_INTERRUPT_ENABLE_CLEAR,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_low_latency_ocp_interrupt_enable_clear = {
 	"EMIF_LOW_LATENCY_OCP_INTERRUPT_ENABLE_CLEAR",
 	OMAP5430ES1_EMIF1_EMIF_LOW_LATENCY_OCP_INTERRUPT_ENABLE_CLEAR,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_sdram_output_impedance_calibration_config = {
 	"EMIF_SDRAM_OUTPUT_IMPEDANCE_CALIBRATION_CONFIG",
 	OMAP5430ES1_EMIF1_EMIF_SDRAM_OUTPUT_IMPEDANCE_CALIBRATION_CONFIG,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_temperature_alert_config = {
 	"EMIF_TEMPERATURE_ALERT_CONFIG",
 	OMAP5430ES1_EMIF1_EMIF_TEMPERATURE_ALERT_CONFIG,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_ocp_error_log = {
 	"EMIF_OCP_ERROR_LOG",
 	OMAP5430ES1_EMIF1_EMIF_OCP_ERROR_LOG,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_read_write_leveling_ramp_window = {
 	"EMIF_READ_WRITE_LEVELING_RAMP_WINDOW",
 	OMAP5430ES1_EMIF1_EMIF_READ_WRITE_LEVELING_RAMP_WINDOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_read_write_leveling_ramp_control = {
 	"EMIF_READ_WRITE_LEVELING_RAMP_CONTROL",
 	OMAP5430ES1_EMIF1_EMIF_READ_WRITE_LEVELING_RAMP_CONTROL,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_read_write_leveling_control = {
 	"EMIF_READ_WRITE_LEVELING_CONTROL",
 	OMAP5430ES1_EMIF1_EMIF_READ_WRITE_LEVELING_CONTROL,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_ddr_phy_control_1 = {
 	"EMIF_DDR_PHY_CONTROL_1",
 	OMAP5430ES1_EMIF1_EMIF_DDR_PHY_CONTROL_1,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_ddr_phy_control_1_shadow = {
 	"EMIF_DDR_PHY_CONTROL_1_SHADOW",
 	OMAP5430ES1_EMIF1_EMIF_DDR_PHY_CONTROL_1_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif1_emif_ddr_phy_control_2 = {
 	"EMIF_DDR_PHY_CONTROL_2",
 	OMAP5430ES1_EMIF1_EMIF_DDR_PHY_CONTROL_2,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg *omap5430es1_emif1_mod[OMAP5430ES1_EMIF1_MOD_REGCOUNT + 1] = {
 	&omap5430es1_emif1_emif_revision,
@@ -362,277 +405,323 @@ reg *omap5430es1_emif1_mod[OMAP5430ES1_EMIF1_MOD_REGCOUNT + 1] = {
 	&omap5430es1_emif1_emif_ddr_phy_control_1,
 	&omap5430es1_emif1_emif_ddr_phy_control_1_shadow,
 	&omap5430es1_emif1_emif_ddr_phy_control_2,
-	NULL};
+	NULL
+};
 
 reg omap5430es1_emif2_emif_revision = {
 	"EMIF_REVISION",
 	OMAP5430ES1_EMIF2_EMIF_REVISION,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_status = {
 	"EMIF_STATUS",
 	OMAP5430ES1_EMIF2_EMIF_STATUS,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_sdram_config = {
 	"EMIF_SDRAM_CONFIG",
 	OMAP5430ES1_EMIF2_EMIF_SDRAM_CONFIG,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_sdram_config_2 = {
 	"EMIF_SDRAM_CONFIG_2",
 	OMAP5430ES1_EMIF2_EMIF_SDRAM_CONFIG_2,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_sdram_refresh_control = {
 	"EMIF_SDRAM_REFRESH_CONTROL",
 	OMAP5430ES1_EMIF2_EMIF_SDRAM_REFRESH_CONTROL,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_sdram_refresh_control_shadow = {
 	"EMIF_SDRAM_REFRESH_CONTROL_SHADOW",
 	OMAP5430ES1_EMIF2_EMIF_SDRAM_REFRESH_CONTROL_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_sdram_timing_1 = {
 	"EMIF_SDRAM_TIMING_1",
 	OMAP5430ES1_EMIF2_EMIF_SDRAM_TIMING_1,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_sdram_timing_1_shadow = {
 	"EMIF_SDRAM_TIMING_1_SHADOW",
 	OMAP5430ES1_EMIF2_EMIF_SDRAM_TIMING_1_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_sdram_timing_2 = {
 	"EMIF_SDRAM_TIMING_2",
 	OMAP5430ES1_EMIF2_EMIF_SDRAM_TIMING_2,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_sdram_timing_2_shadow = {
 	"EMIF_SDRAM_TIMING_2_SHADOW",
 	OMAP5430ES1_EMIF2_EMIF_SDRAM_TIMING_2_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_sdram_timing_3 = {
 	"EMIF_SDRAM_TIMING_3",
 	OMAP5430ES1_EMIF2_EMIF_SDRAM_TIMING_3,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_sdram_timing_3_shadow = {
 	"EMIF_SDRAM_TIMING_3_SHADOW",
 	OMAP5430ES1_EMIF2_EMIF_SDRAM_TIMING_3_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_lpddr2_nvm_timing = {
 	"EMIF_LPDDR2_NVM_TIMING",
 	OMAP5430ES1_EMIF2_EMIF_LPDDR2_NVM_TIMING,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_lpddr2_nvm_timing_shadow = {
 	"EMIF_LPDDR2_NVM_TIMING_SHADOW",
 	OMAP5430ES1_EMIF2_EMIF_LPDDR2_NVM_TIMING_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_power_management_control = {
 	"EMIF_POWER_MANAGEMENT_CONTROL",
 	OMAP5430ES1_EMIF2_EMIF_POWER_MANAGEMENT_CONTROL,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_power_management_control_shadow = {
 	"EMIF_POWER_MANAGEMENT_CONTROL_SHADOW",
 	OMAP5430ES1_EMIF2_EMIF_POWER_MANAGEMENT_CONTROL_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_lpddr2_mode_data = {
 	"EMIF_LPDDR2_MODE_DATA",
 	OMAP5430ES1_EMIF2_EMIF_LPDDR2_MODE_DATA,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_lpddr2_mode_reg_config = {
 	"EMIF_LPDDR2_MODE_REG_CONFIG",
 	OMAP5430ES1_EMIF2_EMIF_LPDDR2_MODE_REG_CONFIG,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_ocp_config = {
 	"EMIF_OCP_CONFIG",
 	OMAP5430ES1_EMIF2_EMIF_OCP_CONFIG,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_ocp_config_value_1 = {
 	"EMIF_OCP_CONFIG_VALUE_1",
 	OMAP5430ES1_EMIF2_EMIF_OCP_CONFIG_VALUE_1,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_ocp_config_value_2 = {
 	"EMIF_OCP_CONFIG_VALUE_2",
 	OMAP5430ES1_EMIF2_EMIF_OCP_CONFIG_VALUE_2,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_performance_counter_1 = {
 	"EMIF_PERFORMANCE_COUNTER_1",
 	OMAP5430ES1_EMIF2_EMIF_PERFORMANCE_COUNTER_1,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_performance_counter_2 = {
 	"EMIF_PERFORMANCE_COUNTER_2",
 	OMAP5430ES1_EMIF2_EMIF_PERFORMANCE_COUNTER_2,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_performance_counter_config = {
 	"EMIF_PERFORMANCE_COUNTER_CONFIG",
 	OMAP5430ES1_EMIF2_EMIF_PERFORMANCE_COUNTER_CONFIG,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_performance_counter_master_region_select = {
 	"EMIF_PERFORMANCE_COUNTER_MASTER_REGION_SELECT",
 	OMAP5430ES1_EMIF2_EMIF_PERFORMANCE_COUNTER_MASTER_REGION_SELECT,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_performance_counter_time = {
 	"EMIF_PERFORMANCE_COUNTER_TIME",
 	OMAP5430ES1_EMIF2_EMIF_PERFORMANCE_COUNTER_TIME,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_dll_calib_ctrl = {
 	"EMIF_DLL_CALIB_CTRL",
 	OMAP5430ES1_EMIF2_EMIF_DLL_CALIB_CTRL,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_dll_calib_ctrl_shadow = {
 	"EMIF_DLL_CALIB_CTRL_SHADOW",
 	OMAP5430ES1_EMIF2_EMIF_DLL_CALIB_CTRL_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_system_ocp_interrupt_raw_status = {
 	"EMIF_SYSTEM_OCP_INTERRUPT_RAW_STATUS",
 	OMAP5430ES1_EMIF2_EMIF_SYSTEM_OCP_INTERRUPT_RAW_STATUS,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_low_latency_ocp_interrupt_raw_status = {
 	"EMIF_LOW_LATENCY_OCP_INTERRUPT_RAW_STATUS",
 	OMAP5430ES1_EMIF2_EMIF_LOW_LATENCY_OCP_INTERRUPT_RAW_STATUS,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_system_ocp_interrupt_status = {
 	"EMIF_SYSTEM_OCP_INTERRUPT_STATUS",
 	OMAP5430ES1_EMIF2_EMIF_SYSTEM_OCP_INTERRUPT_STATUS,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_low_latency_ocp_interrupt_status = {
 	"EMIF_LOW_LATENCY_OCP_INTERRUPT_STATUS",
 	OMAP5430ES1_EMIF2_EMIF_LOW_LATENCY_OCP_INTERRUPT_STATUS,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_system_ocp_interrupt_enable_set = {
 	"EMIF_SYSTEM_OCP_INTERRUPT_ENABLE_SET",
 	OMAP5430ES1_EMIF2_EMIF_SYSTEM_OCP_INTERRUPT_ENABLE_SET,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_low_latency_ocp_interrupt_enable_set = {
 	"EMIF_LOW_LATENCY_OCP_INTERRUPT_ENABLE_SET",
 	OMAP5430ES1_EMIF2_EMIF_LOW_LATENCY_OCP_INTERRUPT_ENABLE_SET,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_system_ocp_interrupt_enable_clear = {
 	"EMIF_SYSTEM_OCP_INTERRUPT_ENABLE_CLEAR",
 	OMAP5430ES1_EMIF2_EMIF_SYSTEM_OCP_INTERRUPT_ENABLE_CLEAR,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_low_latency_ocp_interrupt_enable_clear = {
 	"EMIF_LOW_LATENCY_OCP_INTERRUPT_ENABLE_CLEAR",
 	OMAP5430ES1_EMIF2_EMIF_LOW_LATENCY_OCP_INTERRUPT_ENABLE_CLEAR,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_sdram_output_impedance_calibration_config = {
 	"EMIF_SDRAM_OUTPUT_IMPEDANCE_CALIBRATION_CONFIG",
 	OMAP5430ES1_EMIF2_EMIF_SDRAM_OUTPUT_IMPEDANCE_CALIBRATION_CONFIG,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_temperature_alert_config = {
 	"EMIF_TEMPERATURE_ALERT_CONFIG",
 	OMAP5430ES1_EMIF2_EMIF_TEMPERATURE_ALERT_CONFIG,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_ocp_error_log = {
 	"EMIF_OCP_ERROR_LOG",
 	OMAP5430ES1_EMIF2_EMIF_OCP_ERROR_LOG,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_read_write_leveling_ramp_window = {
 	"EMIF_READ_WRITE_LEVELING_RAMP_WINDOW",
 	OMAP5430ES1_EMIF2_EMIF_READ_WRITE_LEVELING_RAMP_WINDOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_read_write_leveling_ramp_control = {
 	"EMIF_READ_WRITE_LEVELING_RAMP_CONTROL",
 	OMAP5430ES1_EMIF2_EMIF_READ_WRITE_LEVELING_RAMP_CONTROL,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_read_write_leveling_control = {
 	"EMIF_READ_WRITE_LEVELING_CONTROL",
 	OMAP5430ES1_EMIF2_EMIF_READ_WRITE_LEVELING_CONTROL,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_ddr_phy_control_1 = {
 	"EMIF_DDR_PHY_CONTROL_1",
 	OMAP5430ES1_EMIF2_EMIF_DDR_PHY_CONTROL_1,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_ddr_phy_control_1_shadow = {
 	"EMIF_DDR_PHY_CONTROL_1_SHADOW",
 	OMAP5430ES1_EMIF2_EMIF_DDR_PHY_CONTROL_1_SHADOW,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg omap5430es1_emif2_emif_ddr_phy_control_2 = {
 	"EMIF_DDR_PHY_CONTROL_2",
 	OMAP5430ES1_EMIF2_EMIF_DDR_PHY_CONTROL_2,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg *omap5430es1_emif2_mod[OMAP5430ES1_EMIF2_MOD_REGCOUNT + 1] = {
 	&omap5430es1_emif2_emif_revision,
@@ -680,9 +769,10 @@ reg *omap5430es1_emif2_mod[OMAP5430ES1_EMIF2_MOD_REGCOUNT + 1] = {
 	&omap5430es1_emif2_emif_ddr_phy_control_1,
 	&omap5430es1_emif2_emif_ddr_phy_control_1_shadow,
 	&omap5430es1_emif2_emif_ddr_phy_control_2,
-	NULL};
-
+	NULL
+};
 
 reg **emif54xxes1_mods[EMIF54XXES1_MODS_COUNT] = {
-	(reg **) &omap5430es1_emif1_mod,
-	(reg **) &omap5430es1_emif2_mod};
+	(reg **) & omap5430es1_emif1_mod,
+	(reg **) & omap5430es1_emif2_mod
+};

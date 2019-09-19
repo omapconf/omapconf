@@ -41,13 +41,10 @@
  *
  */
 
-
 #ifndef __SCI_SWCAPTURE_DRA7XX_H__
 #define __SCI_SWCAPTURE_DRA7XX_H__
 
-
 int statcoll_main_dra(int argc, char **argv);
 void sci_killhandler_dra(void);
-
 
 #endif

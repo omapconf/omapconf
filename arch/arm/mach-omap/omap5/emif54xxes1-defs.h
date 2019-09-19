@@ -41,13 +41,10 @@
  *
  */
 
-
 #ifndef __EMIF54XXES1_DEFS_H__
 #define __EMIF54XXES1_DEFS_H__
 
-
 #include <reg.h>
-
 
 #define OMAP5430ES1_EMIF1_EMIF_REVISION					0x4c000000
 extern reg omap5430es1_emif1_emif_revision;
@@ -235,9 +232,7 @@ extern reg omap5430es1_emif2_emif_ddr_phy_control_2;
 #define OMAP5430ES1_EMIF2_MOD_REGCOUNT					45
 extern reg *omap5430es1_emif2_mod[OMAP5430ES1_EMIF2_MOD_REGCOUNT + 1];
 
-
 #define EMIF54XXES1_MODS_COUNT		2
 extern reg **emif54xxes1_mods[EMIF54XXES1_MODS_COUNT];
-
 
 #endif

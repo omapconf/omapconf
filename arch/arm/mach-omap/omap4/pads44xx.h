@@ -41,10 +41,9 @@
  *
  */
 
-
 #ifndef __PADS44XX_H__
 #define __PADS44XX_H__
 
-int pads44xx_audit(FILE *stream);
+int pads44xx_audit(FILE * stream);
 
 #endif

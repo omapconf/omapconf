@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __MAIN_AM437X_H__
 #define __MAIN_AM437X_H__
 

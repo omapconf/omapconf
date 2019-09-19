@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __PMIC_H__
 #define __PMIC_H__
 
-
 #define PMIC_NAME_MAX_LENGTH		12
 #define PMIC_SMPS_MAX_NUMBER		5
-
 
 typedef enum {
 	PMIC_TWL6030,
@@ -66,7 +63,6 @@ typedef enum {
 	PMIC_ID_MAX
 } pmic_id;
 
-
 typedef enum {
 	PMIC_SMPS_MPU,
 	PMIC_SMPS_MM,
@@ -76,12 +72,11 @@ typedef enum {
 	PMIC_SMPS_ID_MAX
 } pmic_smps_id;
 
-
 void pmic_smps_init(pmic_smps_id id, unsigned short is_twl6030,
-		unsigned short is_twl6032, unsigned short is_twl6034,
-		unsigned short is_twl6035, unsigned short tps62361_present,
-		unsigned short lp87565, unsigned short tps659038_present,
-		unsigned short tps65217x_present);
+		    unsigned short is_twl6032, unsigned short is_twl6034,
+		    unsigned short is_twl6035, unsigned short tps62361_present,
+		    unsigned short lp87565, unsigned short tps659038_present,
+		    unsigned short tps65217x_present);
 int pmic_detect(void);
 
 pmic_id pmic_chip_get(pmic_smps_id smps_id);
@@ -112,6 +107,5 @@ long smps_voltage_round(pmic_smps_id smps_id, long uvolt);
 int smps_vsel_get(pmic_smps_id smps_id);
 double smps_voltage_get(pmic_smps_id smps_id);
 int smps_voltage_set(pmic_smps_id smps_id, unsigned long uvolt);
-
 
 #endif

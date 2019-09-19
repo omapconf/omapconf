@@ -41,14 +41,12 @@
  *
  */
 
-
 #ifndef __TIMERSTATS_H__
 #define __TIMERSTATS_H__
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <genlist.h>
-
 
 #define TIMER_ERR_ARG		-1	/* incorrect argument(s) */
 #define TIMER_ERR_UNEXPECTED	-7	/* something unexpected occurred */
@@ -67,8 +65,8 @@ int timerstats_enabled(void);
 int timerstats_stop(void);
 int timerstats_start(void);
 int timerstats_save(char *filename);
-int timerstats_list_get(FILE *fp, genlist *list);
-int timerstats_list_sort(genlist *list);
-int timerstats_get_summary(FILE *fp, char *summary);
+int timerstats_list_get(FILE * fp, genlist * list);
+int timerstats_list_sort(genlist * list);
+int timerstats_get_summary(FILE * fp, char *summary);
 
 #endif /* __TIMERSTATS_H__ */

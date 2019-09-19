@@ -41,20 +41,17 @@
  *
  */
 
-
 #include <autoadjust_table.h>
 #include <cpuinfo.h>
 #include <emif_am335x.h>
 #include <lib.h>
 #include <module.h>
 
-
 #ifdef EMIF_AM335X_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		emif_am335x_mod_name_get
@@ -67,14 +64,14 @@
 const char *emif_am335x_mod_name_get(emif_am335x_mod_id id)
 {
 	if (id >= EMIF_AM335X_MODS_COUNT) {
-		fprintf(stderr, "%s(): id (%u) >= EMIF_AM335X_MODS_COUNT (%u)!\n",
+		fprintf(stderr,
+			"%s(): id (%u) >= EMIF_AM335X_MODS_COUNT (%u)!\n",
 			__func__, id, EMIF_AM335X_MODS_COUNT);
 		return NULL;
 	}
 
 	return emif_am335x_mods_name[id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		emif_am335x_dump
@@ -88,7 +85,7 @@ const char *emif_am335x_mod_name_get(emif_am335x_mod_id id)
  * @DESCRIPTION		dump selected registers and pretty-print it in selected
  *			output stream
  *------------------------------------------------------------------------ */
-int emif_am335x_dump(FILE *stream, emif_am335x_mod_id id)
+int emif_am335x_dump(FILE * stream, emif_am335x_mod_id id)
 {
 	unsigned int i, mid;
 	unsigned int val;
@@ -104,7 +101,8 @@ int emif_am335x_dump(FILE *stream, emif_am335x_mod_id id)
 	CHECK_NULL_ARG(stream, OMAPCONF_ERR_ARG);
 
 	if (id > EMIF_AM335X_MODS_COUNT) {
-		fprintf(stderr, "%s(): id (%u) > EMIF_AM335X_MODS_COUNT!!! (%u)\n",
+		fprintf(stderr,
+			"%s(): id (%u) > EMIF_AM335X_MODS_COUNT!!! (%u)\n",
 			__func__, id, EMIF_AM335X_MODS_COUNT);
 		return OMAPCONF_ERR_ARG;
 	}
@@ -114,7 +112,7 @@ int emif_am335x_dump(FILE *stream, emif_am335x_mod_id id)
 
 	if (id != EMIF_AM335X_MODS_COUNT)
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s Reg. Name",
-			emif_am335x_mod_name_get(id));
+			 emif_am335x_mod_name_get(id));
 	else
 		strncpy(table[row][0], "EMIF Reg. Name", TABLE_MAX_ELT_LEN);
 
@@ -139,7 +137,7 @@ int emif_am335x_dump(FILE *stream, emif_am335x_mod_id id)
 				autoadjust_table_strncpy(table, row, 0, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X",
-					r->addr);
+					 r->addr);
 				autoadjust_table_strncpy(table, row, 1, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X", val);

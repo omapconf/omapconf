@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __CPUID_DRA7XX_H__
 #define __CPUID_DRA7XX_H__
 

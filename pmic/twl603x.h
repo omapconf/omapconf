@@ -41,23 +41,18 @@
  *
  */
 
-
 #ifndef __TWL603X_H__
 #define __TWL603X_H__
 
-
 #include <voltdm44xx.h>
 #include <twl603x_lib.h>
-
 
 #define TWL6030_I2C_BUS			0
 #define TWL6030_I2C_ID1			0x48
 #define TWL6030_I2C_ID2			0x49
 #define TWL6030_I2C_ID3			0x4A
 
-
 #define TWL603x_NAME_MAX_LEN		8
-
 
 typedef enum {
 	TWL6030,
@@ -66,7 +61,6 @@ typedef enum {
 	TWL6035,
 	TWL603X_TYPE_MAX
 } twl603x_type;
-
 
 twl603x_type twl603x_type_get(void);
 unsigned short twl603x_is_twl6030(void);
@@ -91,10 +85,7 @@ unsigned long twl603x_uvoltage_get(unsigned int vdd_id);
 double twl603x_voltage_get(unsigned int vdd_id);
 int twl603x_uvoltage_set(unsigned int vdd_id, unsigned long uv);
 
-
-
 /* DEPRECATED, DO NOT USE ANYMORE */
 int twl603x_main(int argc, char *argv[]);
-
 
 #endif

@@ -41,15 +41,11 @@
  *
  */
 
-
 #ifndef __HELP_AM335X_H__
 #define __HELP_AM335X_H__
 
-
 #include <help.h>
 
-
 void help_am335x(help_category cat, char *context);
-
 
 #endif

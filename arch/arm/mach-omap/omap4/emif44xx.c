@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <lib44xx.h>
 #include <help.h>
 #include <lib.h>
@@ -64,10 +63,10 @@ reg_table emif2_reg_table[EMIF_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
 
 static const unsigned int
-	emifs_perf_cnts[EMIF44XX_MAX][EMIF44XX_PERF_CNT_MAX] = {
-		{OMAP44XX_EMIF1_PERF_CNT_1, OMAP44XX_EMIF1_PERF_CNT_2},
-		{OMAP44XX_EMIF2_PERF_CNT_1, OMAP44XX_EMIF2_PERF_CNT_2} };
-
+ emifs_perf_cnts[EMIF44XX_MAX][EMIF44XX_PERF_CNT_MAX] = {
+	{OMAP44XX_EMIF1_PERF_CNT_1, OMAP44XX_EMIF1_PERF_CNT_2},
+	{OMAP44XX_EMIF2_PERF_CNT_1, OMAP44XX_EMIF2_PERF_CNT_2}
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_init_regtable
@@ -301,7 +300,6 @@ int emif44xx_init_regtable(void)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
@@ -328,7 +326,6 @@ int emif44xx_name2addr(char *name, unsigned int *addr)
 		return name2addr(name, addr, emif2_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_perf_cnt_configure
  * @BRIEF		configure emif performance counter
@@ -343,8 +340,9 @@ int emif44xx_name2addr(char *name, unsigned int *addr)
  * @DESCRIPTION		configure emif performance counter
  *------------------------------------------------------------------------ */
 int emif44xx_perf_cnt_configure(emif44xx_ids emif_id,
-	emif44xx_perf_cnt_ids cnt_id, emif44xx_perf_cnt_filter_ids filter,
-	int conn_id, emif44xx_memaddrspace addr_sel)
+				emif44xx_perf_cnt_ids cnt_id,
+				emif44xx_perf_cnt_filter_ids filter,
+				int conn_id, emif44xx_memaddrspace addr_sel)
 {
 	unsigned int addr, data, shift;
 	unsigned int enable_conn_id_filtering, enable_addr_filtering;
@@ -364,7 +362,7 @@ int emif44xx_perf_cnt_configure(emif44xx_ids emif_id,
 			break;
 		default:
 			fprintf(stderr, "%s(): bad CNT instance! (%u)!\n",
-			__func__, cnt_id);
+				__func__, cnt_id);
 			return OMAPCONF_ERR_ARG;
 		}
 		break;
@@ -379,7 +377,7 @@ int emif44xx_perf_cnt_configure(emif44xx_ids emif_id,
 			break;
 		default:
 			fprintf(stderr, "%s(): bad CNT instance! (%u)!\n",
-			__func__, cnt_id);
+				__func__, cnt_id);
 			return OMAPCONF_ERR_ARG;
 		}
 		break;
@@ -416,8 +414,8 @@ int emif44xx_perf_cnt_configure(emif44xx_ids emif_id,
 	dprintf("  Addr Filtering? = 0x%x, 0x%X\n",
 		enable_addr_filtering, unsigned_addr_id);
 
-	enable_conn_id_filtering = (enable_conn_id_filtering  << 15) << shift;
-	enable_addr_filtering = (enable_addr_filtering  << 14) << shift;
+	enable_conn_id_filtering = (enable_conn_id_filtering << 15) << shift;
+	enable_addr_filtering = (enable_addr_filtering << 14) << shift;
 	filter = filter << shift;
 	dprintf("  filter = 0x%08X\n", filter);
 	dprintf("  EMIF_PERF_CNT_CFG = 0x%08X\n", data);
@@ -450,7 +448,7 @@ int emif44xx_perf_cnt_configure(emif44xx_ids emif_id,
 	dprintf("  EMIF_PERF_CNT_SEL = 0x%08X\n", data);
 	data = data & ~(0xFFFF << shift);
 	dprintf("  EMIF_PERF_CNT_SEL cleared = 0x%08X\n", data);
-	data = data | filter ;
+	data = data | filter;
 	dprintf(" EMIF_PERF_CNT_SEL | filter = 0x%08X\n", data);
 	ret = mem_write(addr, data);
 	if (ret != 0) {
@@ -459,10 +457,8 @@ int emif44xx_perf_cnt_configure(emif44xx_ids emif_id,
 		return OMAPCONF_ERR_REG_ACCESS;
 	}
 
-
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_perf_cnt_get_time
@@ -503,7 +499,6 @@ unsigned int emif44xx_perf_cnt_get_time(emif44xx_ids emif_id)
 	return time;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_perf_cnt_get_count
  * @BRIEF		retrieve performance counter value as configured (filtered)
@@ -514,12 +509,12 @@ unsigned int emif44xx_perf_cnt_get_time(emif44xx_ids emif_id)
  * @DESCRIPTION		retrieve performance counter value as configured (filtered)
  *------------------------------------------------------------------------ */
 unsigned int emif44xx_perf_cnt_get_count(emif44xx_ids emif_id,
-	emif44xx_perf_cnt_ids cnt_id)
+					 emif44xx_perf_cnt_ids cnt_id)
 {
 	int ret;
 	unsigned int count;
 
-	#ifdef EMIF44XX_DEBUG
+#ifdef EMIF44XX_DEBUG
 	if ((emif_id >= EMIF44XX_MAX) || (cnt_id >= EMIF44XX_PERF_CNT_MAX)) {
 		fprintf(stderr, "%s(): (emif_id (%u) >= EMIF44XX_MAX (%u)) || "
 			"(cnt_id (%u) >= EMIF44XX_PERF_CNT_MAX (%u))\n",
@@ -527,7 +522,7 @@ unsigned int emif44xx_perf_cnt_get_count(emif44xx_ids emif_id,
 			cnt_id, EMIF44XX_PERF_CNT_MAX);
 		return 0;
 	}
-	#endif
+#endif
 
 	ret = mem_read(emifs_perf_cnts[emif_id][cnt_id], &count);
 	if (ret != 0) {
@@ -539,7 +534,6 @@ unsigned int emif44xx_perf_cnt_get_count(emif44xx_ids emif_id,
 	dprintf("%s(%u, %u) = %u\n", __func__, emif_id, cnt_id, count);
 	return count;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_cs_count_get
@@ -556,7 +550,7 @@ unsigned char emif44xx_cs_count_get(void)
 
 	/* Read EMIF SDRAM CONFIG register */
 	if ((mem_read(OMAP44XX_EMIF1_SDRAM_CONFIG, &emif1_config) != 0) ||
-		(mem_read(OMAP44XX_EMIF2_SDRAM_CONFIG, &emif2_config) != 0)) {
+	    (mem_read(OMAP44XX_EMIF2_SDRAM_CONFIG, &emif2_config) != 0)) {
 		fprintf(stderr, "%s(): could not read EMIF[0-1]_SDRAM_CONFIG!",
 			__func__);
 		return 1;
@@ -573,7 +567,6 @@ unsigned char emif44xx_cs_count_get(void)
 	else
 		return 1;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_dump
@@ -596,7 +589,6 @@ int emif44xx_dump(void)
 	ret |= dumpregs(emif2_reg_table);
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_main

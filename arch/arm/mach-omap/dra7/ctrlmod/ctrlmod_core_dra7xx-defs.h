@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __CTRLMOD_CORE_DRA7XX_DEFS_H__
 #define __CTRLMOD_CORE_DRA7XX_DEFS_H__
 
-
 #include <reg.h>
 #include <stdio.h>
-
 
 #define DRA7XX_CTRL_CORE_DTEMP_MPU_0				0x4a0023c0
 extern reg dra7xx_ctrl_core_dtemp_mpu_0;
@@ -105,8 +102,8 @@ extern reg dra7xx_ctrl_core_dtemp_dspeve_3;
 #define DRA7XX_CTRL_CORE_DTEMP_DSPEVE_4				0x4a0025ac
 extern reg dra7xx_ctrl_core_dtemp_dspeve_4;
 
-
 #define DRA7XX_CTRL_MODULE_CORE_MOD_REGCOUNT			25
-extern reg *dra7xx_ctrl_module_core_mod[DRA7XX_CTRL_MODULE_CORE_MOD_REGCOUNT + 1];
+extern reg *dra7xx_ctrl_module_core_mod[DRA7XX_CTRL_MODULE_CORE_MOD_REGCOUNT +
+					1];
 
 #endif

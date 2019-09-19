@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <module.h>
 #include <lib.h>
 #include <string.h>
@@ -55,14 +54,12 @@
 #include <cpufreq.h>
 #include <autoadjust_table.h>
 
-
 /* #define MODULE_DEBUG */
 #ifdef MODULE_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_init
@@ -71,12 +68,12 @@
  *------------------------------------------------------------------------ */
 void module_init(void)
 {
-	#ifdef MODULE_DEBUG
+#ifdef MODULE_DEBUG
 	int i, j, count, count_opp;
 	const genlist *mod_list;
 	mod_info mod;
 	mod_opp opp;
-	#endif
+#endif
 
 	if (cpu_is_omap44xx()) {
 		mod44xx_init();
@@ -91,12 +88,12 @@ void module_init(void)
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
 	}
 
-	#ifdef MODULE_DEBUG
+#ifdef MODULE_DEBUG
 	mod_list = module_list_get();
 	count = genlist_getcount((genlist *) mod_list);
 	printf("Module List:\n");
 	for (i = 0; i < count; i++) {
-		genlist_get((genlist *) mod_list, i, (mod_info *) &mod);
+		genlist_get((genlist *) mod_list, i, (mod_info *) & mod);
 		printf(" %s:\n", mod.name);
 		printf("  ID:%d\n", mod.id);
 		printf("  ClkDM: %s\n", mod.clkdm);
@@ -108,18 +105,16 @@ void module_init(void)
 		printf("  CONTEXT REG: %s\n", (mod.context)->name);
 		printf("  Properties: %d\n", mod.properties);
 		printf("  OPP List: ");
-		count_opp = genlist_getcount((genlist *) &(mod.mod_opp_list));
+		count_opp = genlist_getcount((genlist *) & (mod.mod_opp_list));
 		for (j = 0; j < count_opp; j++) {
-			genlist_get(&(mod.mod_opp_list), j,
-				(mod_opp *) &opp);
+			genlist_get(&(mod.mod_opp_list), j, (mod_opp *) & opp);
 			printf("(%s, %dKHz) ", opp.name, opp.rate);
 		}
 		printf("\n\n");
 	}
 	printf("Module count: %d\n\n", count);
-	#endif
+#endif
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_deinit
@@ -142,7 +137,6 @@ void module_deinit(void)
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_list_get
@@ -167,7 +161,6 @@ const genlist *module_list_get(void)
 		return NULL;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_count_get
@@ -194,7 +187,6 @@ int module_count_get(void)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		_module_info_get
  * @BRIEF		return the saved informations of a given module.
@@ -204,7 +196,7 @@ int module_count_get(void)
  * @param[in,out]	data: module details
  * @DESCRIPTION		return the saved informations of a given module.
  *------------------------------------------------------------------------ */
-static int _module_info_get(const char *mod, mod_info *data)
+static int _module_info_get(const char *mod, mod_info * data)
 {
 	const genlist *mod_list;
 	int i, count;
@@ -215,7 +207,7 @@ static int _module_info_get(const char *mod, mod_info *data)
 	mod_list = module_list_get();
 	count = genlist_getcount((genlist *) mod_list);
 	for (i = 0; i < count; i++) {
-		genlist_get((genlist *) mod_list, i, (void *) data);
+		genlist_get((genlist *) mod_list, i, (void *)data);
 		if (strcmp(data->name, mod) == 0) {
 			dprintf("%s(%s): found.\n", __func__, mod);
 			return 0;
@@ -225,7 +217,6 @@ static int _module_info_get(const char *mod, mod_info *data)
 	dprintf("%s(%s): not found!\n", __func__, mod);
 	return -1;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		_module_properties_get
@@ -249,7 +240,7 @@ static int _module_properties_get(const char *mod, unsigned int *properties)
 	mod_list = module_list_get();
 	count = genlist_getcount((genlist *) mod_list);
 	for (i = 0; i < count; i++) {
-		genlist_get((genlist *) mod_list, i, (void *) &data);
+		genlist_get((genlist *) mod_list, i, (void *)&data);
 		if (strcmp(data.name, mod) == 0) {
 			*properties = data.properties;
 			dprintf("%s(%s): properties found (%u).\n",
@@ -262,7 +253,6 @@ static int _module_properties_get(const char *mod, unsigned int *properties)
 	dprintf("%s(%s): not found!\n", __func__, mod);
 	return OMAPCONF_ERR_NOT_AVAILABLE;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_has_sysconfig_register
@@ -298,7 +288,6 @@ unsigned int module_has_sysconfig_register(const char *mod)
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_has_autoidle_bit
@@ -336,7 +325,6 @@ unsigned int module_has_autoidle_bit(const char *mod)
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_has_idle_mode
@@ -378,7 +366,6 @@ unsigned int module_has_idle_mode(const char *mod)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_has_idle_status
  * @BRIEF		return 1 if module has idle mode in sysconfig register.
@@ -412,7 +399,6 @@ unsigned int module_has_idle_status(const char *mod)
 		return 1;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_has_smart_idle_wakeup_mode
@@ -449,7 +435,6 @@ unsigned int module_has_smart_idle_wakeup_mode(const char *mod)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_has_enawakeup_bit
  * @BRIEF		return 1 if module has ENAWAKEUP bit in sysconfig
@@ -483,7 +468,6 @@ unsigned int module_has_enawakeup_bit(const char *mod)
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_has_standby_mode
@@ -521,7 +505,6 @@ unsigned int module_has_standby_mode(const char *mod)
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_has_standby_status
@@ -561,7 +544,6 @@ unsigned int module_has_standby_status(const char *mod)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_has_smart_standby_wakeup_mode
  * @BRIEF		return 1 if module implements "smart-standby wakeup"
@@ -594,13 +576,11 @@ unsigned int module_has_smart_standby_wakeup_mode(const char *mod)
 			__func__, mod);
 		return 1;
 	} else {
-		dprintf(
-			"%s(%s): does NOT have smart-standby wakeup mode\n",
+		dprintf("%s(%s): does NOT have smart-standby wakeup mode\n",
 			__func__, mod);
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_has_clock_activity_mode
@@ -631,8 +611,7 @@ unsigned int module_has_clock_activity_mode(const char *mod)
 	}
 
 	if ((properties & MOD_HAS_CLOCK_ACTIVITY_MODE) != 0) {
-		dprintf("%s(%s): HAS clock activity mode\n", __func__,
-			mod);
+		dprintf("%s(%s): HAS clock activity mode\n", __func__, mod);
 		return 1;
 	} else {
 		dprintf("%s(%s): does NOT have clock activity mode\n",
@@ -640,7 +619,6 @@ unsigned int module_has_clock_activity_mode(const char *mod)
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_id_get
@@ -664,7 +642,6 @@ int module_id_get(const char *mod)
 	dprintf("%s(%s) = %d\n", __func__, mod, id);
 	return id;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_is_accessible
@@ -699,7 +676,6 @@ unsigned short int module_is_accessible(const char *mod)
 	dprintf("%s(%s) = %d\n", __func__, mod, mod_is_accessible(cm_clkctrl));
 	return mod_is_accessible(cm_clkctrl);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_mode_get
@@ -743,7 +719,6 @@ mod_module_mode module_mode_get(const char *mod)
 	return mmode;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_autoidle_mode_get
  * @BRIEF		retrieve module autoidle mode
@@ -781,7 +756,6 @@ mod_autoidle_mode module_autoidle_mode_get(const char *mod)
 
 	return mode;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_idle_mode_get
@@ -821,7 +795,6 @@ mod_idle_mode module_idle_mode_get(const char *mod)
 	return mode;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_idle_status_get
  * @BRIEF		retrieve module's idle status from CM_xxx_xxx_CLKCTRL
@@ -856,7 +829,6 @@ mod_idle_status module_idle_status_get(const char *mod)
 
 	return mstatus;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_standby_mode_get
@@ -896,7 +868,6 @@ mod_standby_mode module_standby_mode_get(const char *mod)
 	return mode;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_standby_status_get
  * @BRIEF		retrieve module standby status from CM_xxx_xxx_CLKCTRL
@@ -931,7 +902,6 @@ mod_standby_status module_standby_status_get(const char *mod)
 
 	return mstatus;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_context_is_lost
@@ -972,7 +942,6 @@ int module_context_is_lost(const char *mod)
 	return lost;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_clock_activity_mode_get
  * @BRIEF		retrieve omap module's clock activity mode
@@ -1007,12 +976,10 @@ mod_clock_activity_mode module_clock_activity_mode_get(const char *mod)
 		dprintf("%s(%s)=%u (%s)\n", __func__, mod, mode,
 			mod_clock_activity_mode_name_get(mode));
 
-
 	}
 
 	return mode;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_por_clk_rate_get
@@ -1044,10 +1011,9 @@ int module_por_clk_rate_get(const char *mod, const char *opp)
 		goto module_por_clk_rate_get_end;
 	}
 
-	opp_count = genlist_getcount((genlist *) &(data.mod_opp_list));
+	opp_count = genlist_getcount((genlist *) & (data.mod_opp_list));
 	for (i = 0; i < opp_count; i++) {
-		genlist_get(&(data.mod_opp_list), i,
-			(mod_opp *) &data_opp);
+		genlist_get(&(data.mod_opp_list), i, (mod_opp *) & data_opp);
 		if (strcmp(data_opp.name, opp) != 0)
 			continue;
 
@@ -1060,9 +1026,6 @@ int module_por_clk_rate_get(const char *mod, const char *opp)
 		__func__, opp);
 	rate_khz = OMAPCONF_ERR_NOT_AVAILABLE;
 
-
-
-
 #if 0
 	opp_id = opp_s2id(opp);
 	if (opp_id < 0) {
@@ -1074,23 +1037,24 @@ int module_por_clk_rate_get(const char *mod, const char *opp)
 
 	if (cpu_is_omap44xx()) {
 		ret = mod44xx_get_por_clk_speed((mod44xx_id) mod_id,
-			(unsigned short) opp_id, &rate_mhz);
+						(unsigned short)opp_id,
+						&rate_mhz);
 		if (ret < 0) {
-			dprintf(
-				"%s(%s): could not retrieve module POR rate! (%d)\n",
-				__func__, mod, ret);
+			dprintf
+			    ("%s(%s): could not retrieve module POR rate! (%d)\n",
+			     __func__, mod, ret);
 			rate_khz = ret;
 		} else {
 			rate_khz = mhz2khz(rate_mhz);
 		}
 	} else if (cpu_is_omap54xx()) {
-		rate_mhz = mod54xx_por_clk_rate_get(
-			(mod54xx_id) mod_id, (opp54xx_id) opp_id);
+		rate_mhz = mod54xx_por_clk_rate_get((mod54xx_id) mod_id,
+						    (opp54xx_id) opp_id);
 		if (rate_mhz < 0) {
-			rate_khz = (int) rate_mhz;
-			dprintf(
-				"%s(%s): could not retrieve module POR rate! (%d)\n",
-				__func__, mod, rate_khz);
+			rate_khz = (int)rate_mhz;
+			dprintf
+			    ("%s(%s): could not retrieve module POR rate! (%d)\n",
+			     __func__, mod, rate_khz);
 		} else {
 			rate_khz = mhz2khz(rate_mhz);
 		}
@@ -1101,12 +1065,10 @@ int module_por_clk_rate_get(const char *mod, const char *opp)
 	}
 #endif
 
-
 module_por_clk_rate_get_end:
 	dprintf("%s(%s) = %d KHz\n", __func__, mod, rate_khz);
 	return rate_khz;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_clk_get
@@ -1140,7 +1102,6 @@ int module_clk_get(const char *mod)
 	dprintf("%s(%s) clock ID is: %d\n", __func__, mod, clk_id);
 	return clk_id;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_clk_rate_get
@@ -1184,10 +1145,10 @@ int module_clk_rate_get(const char *mod, unsigned short ignore)
 			goto module_clk_rate_get_end;
 		}
 		if (rate_mhz < 0.0) {
-			rate_khz = (int) rate_mhz;
-			dprintf(
-				"%s(%s): could not retrieve module rate! (%d)\n",
-				__func__, mod, rate_khz);
+			rate_khz = (int)rate_mhz;
+			dprintf
+			    ("%s(%s): could not retrieve module rate! (%d)\n",
+			     __func__, mod, rate_khz);
 		} else {
 			rate_khz = mhz2khz(rate_mhz);
 		}
@@ -1197,7 +1158,6 @@ module_clk_rate_get_end:
 	dprintf("%s(%s)=%d KHz\n", __func__, mod, rate_khz);
 	return rate_khz;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_status_show
@@ -1209,7 +1169,7 @@ module_clk_rate_get_end:
  * @param[in,out]	stream: output file stream (!= NULL)
  * @DESCRIPTION		show OMAP5 power status
  *------------------------------------------------------------------------ */
-int module_status_show(FILE *stream)
+int module_status_show(FILE * stream)
 {
 	int voltdm_count;
 	const genlist *voltdm_list;
@@ -1308,7 +1268,6 @@ int module_status_show(FILE *stream)
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
-
 	/* For each voltage domain, retrieve the current OPP */
 	fprintf(stream,
 		"|---------------------------------------------------------------------------------------------------------------------------------------------------------------|\n");
@@ -1322,7 +1281,7 @@ int module_status_show(FILE *stream)
 		"| Name              | OPP       | Name       | Curr.  | Target | Name       | Status   | Name                  | Rate (MHz) | Idle                 | Standby    |\n");
 	/* For each domain, retrieve the clock & power domain status */
 	for (v = 0; v < voltdm_count; v++) {
-		genlist_get((genlist *) voltdm_list, v, (void *) &voltdm);
+		genlist_get((genlist *) voltdm_list, v, (void *)&voltdm);
 
 		opp = opp_get(voltdm.name, 1);
 
@@ -1333,9 +1292,10 @@ int module_status_show(FILE *stream)
 		if (opp != NULL)
 			strncpy(s_current_opp, opp, OPP_MAX_NAME_LENGTH);
 		else
-			strncpy(s_current_opp, "NOT FOUND", OPP_MAX_NAME_LENGTH);
+			strncpy(s_current_opp, "NOT FOUND",
+				OPP_MAX_NAME_LENGTH);
 
-		volt = (double) voltdm_voltage_get(voltdm.name) / 1000000.0;
+		volt = (double)voltdm_voltage_get(voltdm.name) / 1000000.0;
 		if (volt > 0)
 			sprintf(s_voltdm_name, "%s (%.3lfV)",
 				voltdm.name, volt);
@@ -1343,8 +1303,8 @@ int module_status_show(FILE *stream)
 			strcpy(s_voltdm_name, voltdm.name);
 
 		for (p = 0, first_pwrdm = 1; p < powerdm_count; p++) {
-			genlist_get(
-				(genlist *) powerdm_list, p, (void *) &pwrdm);
+			genlist_get((genlist *) powerdm_list, p,
+				    (void *)&pwrdm);
 
 			if (strcmp(pwrdm.voltdm, voltdm.name) != 0)
 				continue;
@@ -1360,24 +1320,24 @@ int module_status_show(FILE *stream)
 
 			*s_pwst = '\0';
 			pwst = powerdm_state_get(pwrdm.name,
-				PWRDM_STATE_CURRENT);
+						 PWRDM_STATE_CURRENT);
 			pwrdm_state2string(s_pwst, pwst);
 
 			*s_pwtgst = '\0';
 			pwtgst = powerdm_state_get(pwrdm.name,
-				PWRDM_STATE_TARGET);
+						   PWRDM_STATE_TARGET);
 			pwrdm_state2string(s_pwtgst, pwtgst);
 			strncpy(s_pwrdm_name, pwrdm.name,
 				PWRDM_MAX_NAME_LENGTH);
 
 			for (c = 0, first_clkdm = 1; c < clockdm_count; c++) {
 				genlist_get((genlist *) clockdm_list, c,
-					(void *) &clkdm);
+					    (void *)&clkdm);
 
 				if (strcmp(clkdm.powerdm, pwrdm.name) != 0)
 					continue;
 				if ((strcmp(clkdm.name, CLKDM_L4_SEC) == 0) &&
-					cpu_is_gp_device())
+				    cpu_is_gp_device())
 					continue;
 				if (strcmp(clkdm.name, CLKDM_NONE) == 0)
 					continue;
@@ -1390,7 +1350,7 @@ int module_status_show(FILE *stream)
 				clkst = clockdm_status_get(clkdm.name);
 				if (clkst != CLKDM_STATUS_MAX)
 					strcpy(s_clkst,
-						clkdm_status_name_get(clkst));
+					       clkdm_status_name_get(clkst));
 
 				strncpy(s_clkdm_name, clkdm.name,
 					CLKDM_MAX_NAME_LENGTH);
@@ -1398,7 +1358,7 @@ int module_status_show(FILE *stream)
 				/* For each module, retrieve status */
 				for (m = 0, first_mod = 1; m < mod_count; m++) {
 					genlist_get((genlist *) mod_list, m,
-						(void *) &mod);
+						    (void *)&mod);
 
 					if (strcmp(mod.clkdm, clkdm.name) != 0)
 						continue;
@@ -1406,23 +1366,33 @@ int module_status_show(FILE *stream)
 					*s_idlest = '\0';
 					*s_stbyst = '\0';
 
-					idlest = module_idle_status_get(
-						mod.name);
+					idlest =
+					    module_idle_status_get(mod.name);
 					if (idlest != MOD_IDLE_STATUS_MAX)
-						strcpy(s_idlest, mod_idle_status_name_get(idlest));
+						strcpy(s_idlest,
+						       mod_idle_status_name_get
+						       (idlest));
 
 					if (idlest < MOD_DISABLED) {
-						stbyst = module_standby_status_get(mod.name);
-						if (stbyst != MOD_STANDBY_STATUS_MAX)
-							strcpy(s_stbyst, mod_standby_status_name_get(stbyst));
+						stbyst =
+						    module_standby_status_get
+						    (mod.name);
+						if (stbyst !=
+						    MOD_STANDBY_STATUS_MAX)
+							strcpy(s_stbyst,
+							       mod_standby_status_name_get
+							       (stbyst));
 					}
-					clk_rate = (double) module_clk_rate_get(
-						mod.name, 0) / 1000.0;
+					clk_rate =
+					    (double)module_clk_rate_get(mod.
+									name,
+									0) /
+					    1000.0;
 					if (clk_rate < 0.0)
 						strcpy(s_clk_rate, "Error");
 					else
 						snprintf(s_clk_rate, 12,
-							"%.3lf", clk_rate);
+							 "%.3lf", clk_rate);
 					if ((first_mod) && (!first_clkdm))
 						fprintf(stream,
 							"| %-17s | %-9s | %-10s | %-6s | %-6s |------------------------------------------------------------------------------------------------|\n",
@@ -1437,9 +1407,7 @@ int module_status_show(FILE *stream)
 						s_clkdm_name,
 						s_clkst,
 						mod.name,
-						s_clk_rate,
-						s_idlest,
-						s_stbyst);
+						s_clk_rate, s_idlest, s_stbyst);
 					if (first_mod) {
 						*s_clkdm_name = '\0';
 						*s_pwrdm_name = '\0';
@@ -1463,7 +1431,6 @@ int module_status_show(FILE *stream)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_clk_rate_audit
  * @BRIEF		Modules functional clock rate audit.
@@ -1477,8 +1444,8 @@ int module_status_show(FILE *stream)
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		Modules functional clock rate audit.
  *------------------------------------------------------------------------ */
-int module_clk_rate_audit(FILE *stream,
-	unsigned int *err_nbr, unsigned int *wng_nbr)
+int module_clk_rate_audit(FILE * stream,
+			  unsigned int *err_nbr, unsigned int *wng_nbr)
 {
 	const char *opp;
 	int mod_count, m;
@@ -1540,8 +1507,7 @@ int module_clk_rate_audit(FILE *stream,
 	fprintf(stream,
 		"|----------------------------------------------------------------------------------------------------------|\n");
 	fprintf(stream, "| %-21s | %-24s | %-9s | %-27s | %-11s |\n",
-		"  CLOCK SPEED AUDIT", "", "", "     Clock Rate (MHz)",
-		"");
+		"  CLOCK SPEED AUDIT", "", "", "     Clock Rate (MHz)", "");
 	fprintf(stream,
 		"| %-21s | %-24s | %-9s | %-12s | %-12s | %-11s |\n",
 		"Module", "Source Clock", "OPP", "Current", "Expected",
@@ -1551,32 +1517,31 @@ int module_clk_rate_audit(FILE *stream,
 
 module_clk_rate_audit_loop:
 	for (m = 0; m < mod_count; m++) {
-		genlist_get((genlist *) mod_list, m,
-			(void *) &mod);
+		genlist_get((genlist *) mod_list, m, (void *)&mod);
 		dprintf("\n\n%s():Auditing module %s\n", __func__, mod.name);
 
 		/* Filter based on module name */
 		if (cpu_is_gp_device()) {
 			if ((strcmp(mod.name, MOD_TIMER12) == 0) ||
-				(strcmp(mod.name, MOD_WD_TIMER1) == 0) ||
-				(strcmp(mod.name, MOD_DMA_CRYPTO) == 0) ||
-				(strcmp(mod.name, MOD_AES1) == 0) ||
-				(strcmp(mod.name, MOD_AES2) == 0) ||
-				(strcmp(mod.name, MOD_SHA2MD5) == 0) ||
-				(strcmp(mod.name, MOD_RNG) == 0) ||
-				(strcmp(mod.name, MOD_DES3DES) == 0) ||
-				(strcmp(mod.name, MOD_PKA) == 0)) {
+			    (strcmp(mod.name, MOD_WD_TIMER1) == 0) ||
+			    (strcmp(mod.name, MOD_DMA_CRYPTO) == 0) ||
+			    (strcmp(mod.name, MOD_AES1) == 0) ||
+			    (strcmp(mod.name, MOD_AES2) == 0) ||
+			    (strcmp(mod.name, MOD_SHA2MD5) == 0) ||
+			    (strcmp(mod.name, MOD_RNG) == 0) ||
+			    (strcmp(mod.name, MOD_DES3DES) == 0) ||
+			    (strcmp(mod.name, MOD_PKA) == 0)) {
 				dprintf("\tGP device, skip it.\n");
 				continue;
 			}
 		}
 
 		/* init variables */
-		status = (char *) fixme;
+		status = (char *)fixme;
 		speed_curr = -1.0;
 		snprintf(s_speed_curr, 16, "%s", "NOT FOUND");
 		snprintf(src_clk_name, CLK54XX_MAX_NAME_LENGTH, "%s",
-			"NOT FOUND");
+			 "NOT FOUND");
 		strcpy(opp_name, "NOT FOUND");
 		speed_por = -2.0;
 		snprintf(s_speed_por, 16, "%s", "NOT FOUND");
@@ -1584,19 +1549,17 @@ module_clk_rate_audit_loop:
 		/* Get module's functional source clock */
 		if (mod.clk < 0) {
 			dprintf("%s(): src_clk not found!\n", __func__);
-			status = (char *) warning4;
+			status = (char *)warning4;
 			(*wng_nbr)++;
 			goto module_clk_rate_audit_opp_fill;
 		}
-		snprintf(src_clk_name, CLK54XX_MAX_NAME_LENGTH, "%s",
-			clk54xx_name_get(mod.clk)); /* FIXME */
+		snprintf(src_clk_name, CLK54XX_MAX_NAME_LENGTH, "%s", clk54xx_name_get(mod.clk));	/* FIXME */
 
-		/* Get module's functional clock rate*/
-		speed_curr =
-			(double) module_clk_rate_get(mod.name, 1) / 1000.0;
+		/* Get module's functional clock rate */
+		speed_curr = (double)module_clk_rate_get(mod.name, 1) / 1000.0;
 		if (speed_curr < 0.0) {
 			dprintf("%s(): speed not found!\n", __func__);
-			status = (char *) warning5;
+			status = (char *)warning5;
 			(*wng_nbr)++;
 			goto module_clk_rate_audit_opp_fill;
 		}
@@ -1607,7 +1570,7 @@ module_clk_rate_audit_loop:
 		opp = opp_get(mod.voltdm, 1);
 		if (opp == NULL) {
 			dprintf("%s(): opp not found!\n", __func__);
-			status = (char *) fail3;
+			status = (char *)fail3;
 			(*err_nbr)++;
 			goto module_clk_rate_audit_opp_fill;
 		}
@@ -1619,37 +1582,37 @@ module_clk_rate_audit_loop:
 		 */
 
 		if ((strcmp(mod.name, MOD_TIMER2) == 0) ||
-			(strcmp(mod.name, MOD_TIMER3) == 0) ||
-			(strcmp(mod.name, MOD_TIMER4) == 0) ||
-			(strcmp(mod.name, MOD_TIMER5) == 0) ||
-			(strcmp(mod.name, MOD_TIMER6) == 0) ||
-			(strcmp(mod.name, MOD_TIMER7) == 0) ||
-			(strcmp(mod.name, MOD_TIMER8) == 0) ||
-			(strcmp(mod.name, MOD_TIMER9) == 0) ||
-			(strcmp(mod.name, MOD_TIMER10) == 0) ||
-			(strcmp(mod.name, MOD_TIMER11) == 0) ||
-			(strcmp(mod.name, MOD_MCASP) == 0) ||
-			(strcmp(mod.name, MOD_MCBSP1) == 0) ||
-			(strcmp(mod.name, MOD_MCBSP2) == 0) ||
-			(strcmp(mod.name, MOD_MCBSP3) == 0) ||
-			(strcmp(mod.name, MOD_SLIMBUS1) == 0) ||
-			(strcmp(mod.name, MOD_SLIMBUS2) == 0)) {
+		    (strcmp(mod.name, MOD_TIMER3) == 0) ||
+		    (strcmp(mod.name, MOD_TIMER4) == 0) ||
+		    (strcmp(mod.name, MOD_TIMER5) == 0) ||
+		    (strcmp(mod.name, MOD_TIMER6) == 0) ||
+		    (strcmp(mod.name, MOD_TIMER7) == 0) ||
+		    (strcmp(mod.name, MOD_TIMER8) == 0) ||
+		    (strcmp(mod.name, MOD_TIMER9) == 0) ||
+		    (strcmp(mod.name, MOD_TIMER10) == 0) ||
+		    (strcmp(mod.name, MOD_TIMER11) == 0) ||
+		    (strcmp(mod.name, MOD_MCASP) == 0) ||
+		    (strcmp(mod.name, MOD_MCBSP1) == 0) ||
+		    (strcmp(mod.name, MOD_MCBSP2) == 0) ||
+		    (strcmp(mod.name, MOD_MCBSP3) == 0) ||
+		    (strcmp(mod.name, MOD_SLIMBUS1) == 0) ||
+		    (strcmp(mod.name, MOD_SLIMBUS2) == 0)) {
 			/*
 			 * These modules are out of interest or
 			 * there is no mandatory clock speed
 			 */
 			snprintf(s_speed_por, 16, "%s", "Undefined");
-			status = (char *) ignore8;
+			status = (char *)ignore8;
 			goto module_clk_rate_audit_opp_fill;
 		}
 
 		mmode = module_mode_get(mod.name);
-		speed_por = (double) module_por_clk_rate_get(
-			mod.name, opp) / 1000.0;
+		speed_por =
+		    (double)module_por_clk_rate_get(mod.name, opp) / 1000.0;
 		if (speed_por < 0.0) {
 			dprintf("\tWarning: %s POR speed not yet defined!\n",
 				mod.name);
-			status = (char *) warning6;
+			status = (char *)warning6;
 			(*wng_nbr)++;
 			goto module_clk_rate_audit_opp_fill;
 		}
@@ -1658,18 +1621,18 @@ module_clk_rate_audit_loop:
 
 		/* Keep only 1 decimal for comparison */
 		if (speed_curr > 1.0)
-			speed_curr = (double) ((int)
-				(speed_curr * 10.0)) / 10.0;
+			speed_curr = (double)((int)
+					      (speed_curr * 10.0)) / 10.0;
 		dprintf("%s(): rounded current speed=%lfMHz\n",
 			__func__, speed_curr);
 		if (speed_por > 1.0)
-			speed_por = (double) ((int)
-				(speed_por * 10.0)) / 10.0;
+			speed_por = (double)((int)
+					     (speed_por * 10.0)) / 10.0;
 		dprintf("%s(): rounded POR     speed=%lfMHz\n",
 			__func__, speed_por);
 
 		if (speed_curr == speed_por) {
-			status = (char *) pass1;
+			status = (char *)pass1;
 			dprintf("%s(): pass!\n", __func__);
 		} else if (mmode == MOD_DISABLED_MODE) {
 			/*
@@ -1677,23 +1640,20 @@ module_clk_rate_audit_loop:
 			 * module is disabled (not configured).
 			 * Does not impact power.
 			 */
-			dprintf("%s(): disabled module.\n",
-				__func__);
-			status = (char *) warning7;
+			dprintf("%s(): disabled module.\n", __func__);
+			status = (char *)warning7;
 			(*wng_nbr)++;
 		} else if (speed_curr == 0.0) {
-			dprintf("%s(): speed_curr == 0.0.\n",
-				__func__);
-			status = (char *) warning7;
+			dprintf("%s(): speed_curr == 0.0.\n", __func__);
+			status = (char *)warning7;
 			(*wng_nbr)++;
 		} else if (speed_curr < speed_por) {
-			dprintf("%s(): curr < por.\n",
-				__func__);
-			status = (char *) warning9;
+			dprintf("%s(): curr < por.\n", __func__);
+			status = (char *)warning9;
 			(*wng_nbr)++;
 		} else {
 			dprintf("%s(): FAILED!\n", __func__);
-			status = (char *) fail2;
+			status = (char *)fail2;
 			(*err_nbr)++;
 		}
 
@@ -1713,14 +1673,12 @@ module_clk_rate_audit_opp_fill:
 	fprintf(stream,
 		"|----------------------------------------------------------------------------------------------------------|\n\n");
 
-	fprintf(stream,
-		"Notes:\n");
+	fprintf(stream, "Notes:\n");
 	fprintf(stream,
 		"  (1)  Current module rate IS the expected (PoR) one.\n");
 	fprintf(stream,
 		"  (2)  Current module rate is NOT the expected (PoR) one.\n");
-	fprintf(stream,
-		"  (3)  Current OPP could not be detected.\n");
+	fprintf(stream, "  (3)  Current OPP could not be detected.\n");
 	fprintf(stream,
 		"  (4)  Current module source clock could not be retrieved.\n");
 	fprintf(stream,
@@ -1750,7 +1708,6 @@ module_clk_rate_audit_end:
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_sysconfig_audit
  * @BRIEF		Modules SYSCONFIG registers audit.
@@ -1763,8 +1720,8 @@ module_clk_rate_audit_end:
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		Modules SYSCONFIG registers audit.
  *------------------------------------------------------------------------ */
-int module_sysconfig_audit(FILE *stream, unsigned int *err_nbr,
-	unsigned int *wng_nbr)
+int module_sysconfig_audit(FILE * stream, unsigned int *err_nbr,
+			   unsigned int *wng_nbr)
 {
 	int mod_count, m;
 	const genlist *mod_list;
@@ -1817,11 +1774,10 @@ int module_sysconfig_audit(FILE *stream, unsigned int *err_nbr,
 	row++;
 
 	for (m = 0; m < mod_count; m++) {
-		genlist_get((genlist *) mod_list, m,
-			(void *) &mod);
+		genlist_get((genlist *) mod_list, m, (void *)&mod);
 		dprintf("\n%s(): Module name = %s\n", __func__, mod.name);
 
-		autoadjust_table_strncpy(table, row, 0, (char *) mod.name);
+		autoadjust_table_strncpy(table, row, 0, (char *)mod.name);
 		if (mod.sysconfig == NULL) {
 			dprintf("\t%s(): no sysconfig\n", __func__);
 			continue;
@@ -1829,14 +1785,10 @@ int module_sysconfig_audit(FILE *stream, unsigned int *err_nbr,
 
 		if (!module_is_accessible(mod.name)) {
 			dprintf("\t%s(): module is not accessible\n", __func__);
-			autoadjust_table_strncpy(table, row, 1,
-				(char *) ignore);
-			autoadjust_table_strncpy(table, row, 2,
-				(char *) ignore);
-			autoadjust_table_strncpy(table, row, 3,
-				(char *) ignore);
-			autoadjust_table_strncpy(table, row, 4,
-				(char *) ignore);
+			autoadjust_table_strncpy(table, row, 1, (char *)ignore);
+			autoadjust_table_strncpy(table, row, 2, (char *)ignore);
+			autoadjust_table_strncpy(table, row, 3, (char *)ignore);
+			autoadjust_table_strncpy(table, row, 4, (char *)ignore);
 			row++;
 			continue;
 		}
@@ -1851,11 +1803,11 @@ int module_sysconfig_audit(FILE *stream, unsigned int *err_nbr,
 		dprintf("\t%s(): autoidle=%u (%s)\n", __func__, autoidle_mode,
 			mod_autoidle_mode_name_get(autoidle_mode));
 		if (autoidle_mode == MOD_AUTOGATING) {
-			autoadjust_table_strncpy(table, row, 1, (char *) pass);
+			autoadjust_table_strncpy(table, row, 1, (char *)pass);
 		} else {
 			snprintf(element, TABLE_MAX_ELT_LEN, "%s (%s)",
-				fail, mod_autoidle_mode_name_get(
-					autoidle_mode));
+				 fail,
+				 mod_autoidle_mode_name_get(autoidle_mode));
 			autoadjust_table_strncpy(table, row, 1, element);
 			(*err_nbr)++;
 		}
@@ -1872,47 +1824,47 @@ module_sysconfig_audit_idle_mode:
 			mod_idle_mode_name_get(idle_mode));
 		switch (idle_mode) {
 		case MOD_SMART_IDLE_WAKEUP:
-			autoadjust_table_strncpy(table, row, 2, (char *) pass);
+			autoadjust_table_strncpy(table, row, 2, (char *)pass);
 			break;
 		case MOD_SMART_IDLE:
 			if (!module_has_smart_idle_wakeup_mode(mod.name)) {
 				autoadjust_table_strncpy(table, row, 2,
-					(char *) pass);
+							 (char *)pass);
 			} else {
 				snprintf(element, TABLE_MAX_ELT_LEN,
-					"%s (%s) (3)", fail,
-					mod_idle_mode_name_get(idle_mode));
+					 "%s (%s) (3)", fail,
+					 mod_idle_mode_name_get(idle_mode));
 				autoadjust_table_strncpy(table, row, 2,
-					element);
+							 element);
 				(*err_nbr)++;
 			}
 			break;
 		case MOD_FORCE_IDLE:
 			snprintf(element, TABLE_MAX_ELT_LEN, "%s (%s)",
-				warning, mod_idle_mode_name_get(idle_mode));
-			autoadjust_table_strncpy(table, row, 2,	element);
+				 warning, mod_idle_mode_name_get(idle_mode));
+			autoadjust_table_strncpy(table, row, 2, element);
 			(*wng_nbr)++;
 			break;
 		default:
 			if ((strcmp(mod.name, MOD_UART1) == 0) ||
-				(strcmp(mod.name, MOD_UART2) == 0) ||
-				(strcmp(mod.name, MOD_UART3) == 0) ||
-				(strcmp(mod.name, MOD_UART4) == 0) ||
-				(strcmp(mod.name, MOD_UART5) == 0) ||
-				(strcmp(mod.name, MOD_UART6) == 0)) {
+			    (strcmp(mod.name, MOD_UART2) == 0) ||
+			    (strcmp(mod.name, MOD_UART3) == 0) ||
+			    (strcmp(mod.name, MOD_UART4) == 0) ||
+			    (strcmp(mod.name, MOD_UART5) == 0) ||
+			    (strcmp(mod.name, MOD_UART6) == 0)) {
 				/*
 				 * UART IP idle management is buggy
 				 * (cf errata). When active,
 				 * must be used in no-idle mode.
 				 */
 				autoadjust_table_strncpy(table, row, 2,
-					(char *) pass);
+							 (char *)pass);
 			} else {
 				snprintf(element, TABLE_MAX_ELT_LEN,
-					"%s (%s)", fail, mod_idle_mode_name_get(
-						idle_mode));
+					 "%s (%s)", fail,
+					 mod_idle_mode_name_get(idle_mode));
 				autoadjust_table_strncpy(table, row, 2,
-					element);
+							 element);
 				(*err_nbr)++;
 			}
 		}
@@ -1929,32 +1881,32 @@ module_sysconfig_audit_standby_mode:
 			standby_mode, mod_standby_mode_name_get(standby_mode));
 		switch (standby_mode) {
 		case MOD_STANDBY_MODE_RESERVED:
-			autoadjust_table_strncpy(table, row, 3, (char *) pass);
+			autoadjust_table_strncpy(table, row, 3, (char *)pass);
 			break;
 		case MOD_SMART_STANDBY:
 			if (!module_has_smart_standby_wakeup_mode(mod.name)) {
 				autoadjust_table_strncpy(table, row, 2,
-					(char *) pass);
+							 (char *)pass);
 			} else {
 				snprintf(element, TABLE_MAX_ELT_LEN,
-					"%s (%s) (4)", fail,
-					mod_standby_mode_name_get(idle_mode));
+					 "%s (%s) (4)", fail,
+					 mod_standby_mode_name_get(idle_mode));
 				autoadjust_table_strncpy(table, row, 2,
-					element);
+							 element);
 				(*err_nbr)++;
 			}
 			break;
 		case MOD_FORCE_STANDBY:
 			snprintf(element, TABLE_MAX_ELT_LEN, "%s (%s)",
-				warning, mod_standby_mode_name_get(
-					standby_mode));
+				 warning,
+				 mod_standby_mode_name_get(standby_mode));
 			autoadjust_table_strncpy(table, row, 3, element);
 			(*wng_nbr)++;
 			break;
 		default:
 			snprintf(element, TABLE_MAX_ELT_LEN, "%s (%s)",
-				fail, mod_standby_mode_name_get(standby_mode));
-			autoadjust_table_strncpy(table, row, 3,	element);
+				 fail, mod_standby_mode_name_get(standby_mode));
+			autoadjust_table_strncpy(table, row, 3, element);
 			(*err_nbr)++;
 		}
 
@@ -1962,9 +1914,9 @@ module_sysconfig_audit_clock_activity_mode:
 		/* Audit module's CLOCK ACTIVITY mode */
 		clock_activity_mode = module_clock_activity_mode_get(mod.name);
 		if (clock_activity_mode == MOD_CLOCK_ACTIVITY_MODE_MAX) {
-			dprintf(
-				"\t%s(): module does not have clock activity mode\n",
-				__func__);
+			dprintf
+			    ("\t%s(): module does not have clock activity mode\n",
+			     __func__);
 			goto module_sysconfig_audit_next_row;
 		}
 		dprintf("\t%s(): clock activity mode=%u (%s)\n",
@@ -1976,7 +1928,7 @@ module_sysconfig_audit_clock_activity_mode:
 			 * Functional clock can be switched-off.
 			 * L4 clock can be switched-off.
 			 */
-			autoadjust_table_strncpy(table, row, 4,	(char *) pass);
+			autoadjust_table_strncpy(table, row, 4, (char *)pass);
 			break;
 		case MOD_FCLK_AUTO_ICLK_ON:
 			/*
@@ -1990,9 +1942,10 @@ module_sysconfig_audit_clock_activity_mode:
 			 * L4 clock can be switched-off.
 			 */
 			snprintf(element, TABLE_MAX_ELT_LEN, "%s (%s)",
-				warning, mod_clock_activity_mode_name_get(
-					clock_activity_mode));
-			autoadjust_table_strncpy(table, row, 4,	element);
+				 warning,
+				 mod_clock_activity_mode_name_get
+				 (clock_activity_mode));
+			autoadjust_table_strncpy(table, row, 4, element);
 			(*wng_nbr)++;
 			break;
 		case MOD_FCLK_ON_ICLK_ON:
@@ -2003,9 +1956,10 @@ module_sysconfig_audit_clock_activity_mode:
 			 */
 		default:
 			snprintf(element, TABLE_MAX_ELT_LEN, "%s (%s)",
-				fail, mod_clock_activity_mode_name_get(
-					clock_activity_mode));
-			autoadjust_table_strncpy(table, row, 4,	element);
+				 fail,
+				 mod_clock_activity_mode_name_get
+				 (clock_activity_mode));
+			autoadjust_table_strncpy(table, row, 4, element);
 			(*err_nbr)++;
 		}
 module_sysconfig_audit_next_row:
@@ -2014,18 +1968,15 @@ module_sysconfig_audit_next_row:
 
 	if (stream != NULL) {
 		autoadjust_table_fprint(stream, table, row, 5);
-		fprintf(stream,
-			"NB:\n");
+		fprintf(stream, "NB:\n");
 		fprintf(stream,
 			"  (1) - Show 'Ignored' when module is disabled (registers not accessible).\n");
 		fprintf(stream,
 			"  (2) - Show empty cell(s) when module does not feature this mode.\n");
-		fprintf(stream,
-			"  - AUTOIDLE MODE:\n");
+		fprintf(stream, "  - AUTOIDLE MODE:\n");
 		fprintf(stream,
 			"    - Report Pass if enabled, FAIL otherwise.\n");
-		fprintf(stream,
-			"  - IDLE MODE:\n");
+		fprintf(stream, "  - IDLE MODE:\n");
 		fprintf(stream,
 			"    - Report Pass if set to \"Smart-Idle\" or \"Smart-Idle Wakeup\" (when available).\n");
 		fprintf(stream,
@@ -2034,8 +1985,7 @@ module_sysconfig_audit_next_row:
 			"    - Report Warning (with setting) in case of \"Force-Idle\" mode.\n");
 		fprintf(stream,
 			"    - Report FAIL (with incorrect setting) otherwise.\n");
-		fprintf(stream,
-			"  - STANDBY MODE:\n");
+		fprintf(stream, "  - STANDBY MODE:\n");
 		fprintf(stream,
 			"    - Report Pass if set to \"Smart-Standby\" or \"Smart-Standby Wakeup\" (when available).\n");
 		fprintf(stream,
@@ -2044,8 +1994,7 @@ module_sysconfig_audit_next_row:
 			"    - Report Warning (with setting) in case of \"Force-Standby\" mode.\n");
 		fprintf(stream,
 			"    - Report FAIL (with incorrect setting) otherwise.\n");
-		fprintf(stream,
-			"  - CLOCKACTIVITY MODE:\n");
+		fprintf(stream, "  - CLOCKACTIVITY MODE:\n");
 		fprintf(stream,
 			"    - Report Pass if both I-CLK and F-CLK are set to AUTO mode.\n");
 		fprintf(stream,
@@ -2068,7 +2017,6 @@ module_sysconfig_audit_end:
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		module_config_show
  * @BRIEF		analyze module power configuration
@@ -2079,7 +2027,7 @@ module_sysconfig_audit_end:
  * @param[in]		mod: module name
  * @DESCRIPTION		analyze module power configuration
  *------------------------------------------------------------------------ */
-int module_config_show(FILE *stream, const char *mod)
+int module_config_show(FILE * stream, const char *mod)
 {
 	int ret;
 	mod_info data;
@@ -2113,18 +2061,15 @@ int module_config_show(FILE *stream, const char *mod)
 		"|------------------------------------------------------------------------|\n");
 	strcpy(s, data.name);
 	strcat(s, " Module Configuration");
-	fprintf(stream,
-		"| %-70s |\n", s);
+	fprintf(stream, "| %-70s |\n", s);
 	fprintf(stream,
 		"|----------------------------------|-------------------------------------|\n");
 
 	/* F-Clock Source & Rate */
 	if (data.clk >= 0) {
-		fprintf(stream,
-			"| %-32s | %-35s |\n", "Source Clock",
-			clk54xx_name_get(data.clk)); /* FIXME */
+		fprintf(stream, "| %-32s | %-35s |\n", "Source Clock", clk54xx_name_get(data.clk));	/* FIXME */
 
-		rate = (double) module_clk_rate_get(data.name, 1) / 1000.0;
+		rate = (double)module_clk_rate_get(data.name, 1) / 1000.0;
 		if (rate < 0.0)
 			strcpy(s, "Unknown");
 		else
@@ -2163,13 +2108,14 @@ int module_config_show(FILE *stream, const char *mod)
 	if (cpu_is_omap44xx()) {
 		rm_context = reg_read(data.context);
 		ret = mod44xx_config_show(stream, data.name,
-			reg_addr_get(data.clkctrl), cm_clkctrl,
-			reg_addr_get(data.context), rm_context);
+					  reg_addr_get(data.clkctrl),
+					  cm_clkctrl,
+					  reg_addr_get(data.context),
+					  rm_context);
 	} else if (cpu_is_omap54xx()) {
 		ret = mod54xx_config_show(stream, data.id, cm_clkctrl);
 	} else {
-		dprintf("omapconf: %s(): cpu not yet supported.\n",
-			__func__);
+		dprintf("omapconf: %s(): cpu not yet supported.\n", __func__);
 		fprintf(stream, "| %-32s | %-35s |\n",
 			"Func. / Opt. Clocks", "UNKNOWN ARCH.");
 	}
@@ -2183,7 +2129,6 @@ int module_config_show(FILE *stream, const char *mod)
 		fprintf(stream, "| %-32s | %-35s |\n", "Context", "Retained");
 	else
 		fprintf(stream, "| %-32s | %-35s |\n", "Context", "Lost");
-
 
 	fprintf(stream,
 		"|------------------------------------------------------------------------|\n\n");

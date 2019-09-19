@@ -40,7 +40,6 @@
  *
  */
 
-
 #ifndef __CPUID_AM437X_H__
 #define __CPUID_AM437X_H__
 #define DEV_ATTRIBUTE_REG	0x44E10610

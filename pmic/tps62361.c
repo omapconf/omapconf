@@ -42,13 +42,11 @@
  *
  */
 
-
 #include <tps62361.h>
 #include <lib.h>
 #include <mem.h>
 #include <cpuinfo.h>
 #include <prm44xx.h>
-
 
 /* #define TPS62361_DEBUG */
 #ifdef TPS62361_DEBUG
@@ -58,12 +56,9 @@
 #define dprintf(format, ...)
 #endif
 
-
 #define TPS62361_VDCDC1_MIN	500000
 #define TPS62361_VDCDC1_STEP	10000
 #define TPS62361_PFM_FLAG	0x80
-
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_is_present
@@ -110,7 +105,6 @@ unsigned short int tps62361_is_present(void)
 	return present;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_chip_revision_get
  * @BRIEF		return TPS62361 chip revision
@@ -121,9 +115,8 @@ unsigned short int tps62361_is_present(void)
 double tps62361_chip_revision_get(void)
 {
 	/* SR-I2C link is write-only, cannot read-back any chip register ... */
-	return (double) OMAPCONF_ERR_NOT_AVAILABLE;
+	return (double)OMAPCONF_ERR_NOT_AVAILABLE;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_eprom_revision_get
@@ -135,9 +128,8 @@ double tps62361_chip_revision_get(void)
 double tps62361_eprom_revision_get(void)
 {
 	/* SR-I2C link is write-only, cannot read-back any chip register ... */
-	return (double) OMAPCONF_ERR_NOT_AVAILABLE;
+	return (double)OMAPCONF_ERR_NOT_AVAILABLE;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_smps_offset_get
@@ -147,11 +139,10 @@ double tps62361_eprom_revision_get(void)
  *------------------------------------------------------------------------ */
 long tps62361_smps_offset_get(void)
 {
-	dprintf("%s(): offset=%lduV\n", __func__, (long) TPS62361_VDCDC1_MIN);
+	dprintf("%s(): offset=%lduV\n", __func__, (long)TPS62361_VDCDC1_MIN);
 
-	return (long) TPS62361_VDCDC1_MIN;
+	return (long)TPS62361_VDCDC1_MIN;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_smps_step_get
@@ -161,11 +152,10 @@ long tps62361_smps_offset_get(void)
  *------------------------------------------------------------------------ */
 long tps62361_smps_step_get(void)
 {
-	dprintf("%s(): step=%lduV\n", __func__, (long) TPS62361_VDCDC1_STEP);
+	dprintf("%s(): step=%lduV\n", __func__, (long)TPS62361_VDCDC1_STEP);
 
-	return (long) TPS62361_VDCDC1_STEP;
+	return (long)TPS62361_VDCDC1_STEP;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_vsel_len_get
@@ -177,7 +167,6 @@ int tps62361_vsel_len_get(void)
 {
 	return 8;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_vsel_to_uv
@@ -198,7 +187,6 @@ unsigned long tps62361_vsel_to_uv(unsigned char vsel)
 	return uv;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_uv_to_vsel
  * @BRIEF		for a given rail, convert voltage in microvolts into
@@ -213,7 +201,7 @@ unsigned char tps62361_uv_to_vsel(unsigned long uv)
 	unsigned char vsel;
 
 	vsel = (unsigned char)
-		DIV_ROUND_UP(uv - TPS62361_VDCDC1_MIN, TPS62361_VDCDC1_STEP);
+	    DIV_ROUND_UP(uv - TPS62361_VDCDC1_MIN, TPS62361_VDCDC1_STEP);
 	dprintf("%s(%lduV)=0x%02X\n", __func__, uv, vsel);
 	return vsel;
 }

@@ -41,17 +41,13 @@
  *
  */
 
-
 #ifndef __EMIF_AM335X_H__
 #define __EMIF_AM335X_H__
-
 
 #include <emif_am335x-defs.h>
 #include <stdio.h>
 
-
 const char *emif_am335x_mod_name_get(emif_am335x_mod_id id);
-int emif_am335x_dump(FILE *stream, emif_am335x_mod_id id);
-
+int emif_am335x_dump(FILE * stream, emif_am335x_mod_id id);
 
 #endif

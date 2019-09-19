@@ -41,15 +41,11 @@
  *
  */
 
-
 #ifndef __HELP_DRA7XX_H__
 #define __HELP_DRA7XX_H__
 
-
 #include <help.h>
 
-
 void help_dra7xx(help_category cat, char *context);
-
 
 #endif

@@ -41,23 +41,17 @@
  *
  */
 
-
 #ifndef __CSTATE_H__
 #define __CSTATE_H__
 
-
 #include <stdint.h>
-
 
 #define MAX_CSTATE 9
 
-
 unsigned int cstate_get_number(void);
-
 
 uint64_t cstate_get_usage(unsigned int n);
 uint64_t cstate_get_time(unsigned int n);
 char *cstate_get_name(unsigned int n, char name[3]);
-
 
 #endif

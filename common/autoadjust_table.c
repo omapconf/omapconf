@@ -42,12 +42,10 @@
  *
  */
 
-
 #include <autoadjust_table.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 
 /* #define AUTOADJUST_TABLE_DEBUG */
 #ifdef AUTOADJUST_TABLE_DEBUG
@@ -55,7 +53,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		autoadjust_table_generic_fprint
@@ -106,9 +103,11 @@
  *	| elements[row-1][0] | elements[row-1][1] | elements[row-1][col-1] |
  *	|------------------------------------------------------------------|
  *------------------------------------------------------------------------ */
-int autoadjust_table_generic_fprint(FILE *stream,
-	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
-	unsigned int row_nbr, unsigned int col_nbr, unsigned int flags)
+int autoadjust_table_generic_fprint(FILE * stream,
+				    char
+				    table[TABLE_MAX_ROW][TABLE_MAX_COL]
+				    [TABLE_MAX_ELT_LEN], unsigned int row_nbr,
+				    unsigned int col_nbr, unsigned int flags)
 {
 	unsigned int total_dash_nbr = 0;
 	unsigned int total_width = 0;
@@ -119,7 +118,7 @@ int autoadjust_table_generic_fprint(FILE *stream,
 	unsigned int tmp;
 	unsigned int max_elt_size[TABLE_MAX_COL];
 	unsigned int strln;
-	int has_title = !!(flags & TABLE_HAS_TITLE);
+	int has_title = ! !(flags & TABLE_HAS_TITLE);
 
 	if (stream == NULL) {
 		printf("autoadjust_table_fprint() error: stream == NULL!\n");
@@ -131,27 +130,26 @@ int autoadjust_table_generic_fprint(FILE *stream,
 	}
 	if (row_nbr > TABLE_MAX_ROW) {
 		printf("autoadjust_table_fprint() error: row_nbr (%d) > "
-			"TABLE_MAX_ROW (%d)!\n", row_nbr, TABLE_MAX_ROW);
+		       "TABLE_MAX_ROW (%d)!\n", row_nbr, TABLE_MAX_ROW);
 		return -1;
 	}
 	if (col_nbr > TABLE_MAX_COL) {
 		printf("autoadjust_table_fprint() error: col_nbr (%d) > "
-			"TABLE_MAX_COL (%d)!\n", col_nbr, TABLE_MAX_COL);
+		       "TABLE_MAX_COL (%d)!\n", col_nbr, TABLE_MAX_COL);
 		return -1;
 	}
 
 	if (has_title)
 		title = table[0][0];
 
-	#ifdef AUTOADJUST_TABLE_DEBUG
+#ifdef AUTOADJUST_TABLE_DEBUG
 	dprintf("row_nbr = %d, col_nbr = %d\n", row_nbr, col_nbr);
 	for (row = 0; row < row_nbr; row++) {
 		for (col = 0; col < col_nbr; col++)
 			dprintf("element[%d][%d] = %s\n",
 				row, col, table[row][col]);
 	}
-	#endif
-
+#endif
 
 	/* compute width of each column of the table */
 	for (col = 0; col < col_nbr; col++)
@@ -167,9 +165,9 @@ int autoadjust_table_generic_fprint(FILE *stream,
 			strln = strlen(table[row][col]);
 			if (strln > TABLE_MAX_ELT_LEN) {
 				printf("%s(): WARNING: \"%s\" size (%u) > "
-					"TABLE_MAX_ELT_LEN (%u)!\n",
-					__func__, table[row][col],
-					strln, TABLE_MAX_ELT_LEN);
+				       "TABLE_MAX_ELT_LEN (%u)!\n",
+				       __func__, table[row][col],
+				       strln, TABLE_MAX_ELT_LEN);
 				strln = TABLE_MAX_ELT_LEN;
 			}
 
@@ -194,7 +192,7 @@ int autoadjust_table_generic_fprint(FILE *stream,
 		unsigned int avail;
 
 		strln = strlen(title);
-		avail = total_width - 4; /* exclude left and right borders */
+		avail = total_width - 4;	/* exclude left and right borders */
 		dprintf("title_width=%d\n", strln);
 
 		if (avail < strln) {
@@ -215,7 +213,7 @@ int autoadjust_table_generic_fprint(FILE *stream,
 	}
 
 	dprintf("total_width = %d\n", total_width);
-	line  = malloc(sizeof(char) * (total_width + 1));
+	line = malloc(sizeof(char) * (total_width + 1));
 	if (line == NULL) {
 		printf("autoadjust_table_fprint(): line malloc error!\n");
 		return -2;
@@ -267,7 +265,7 @@ int autoadjust_table_generic_fprint(FILE *stream,
 			strncat(line, table[row][col], TABLE_MAX_ELT_LEN);
 			if (strlen(table[row][col]) != TABLE_MAX_ELT_LEN) {
 				for (tmp = strlen(table[row][col]);
-					tmp < max_elt_size[col]; tmp++)
+				     tmp < max_elt_size[col]; tmp++)
 					strcat(line, " ");
 			}
 			strcat(line, " |");
@@ -310,14 +308,15 @@ int autoadjust_table_generic_fprint(FILE *stream,
  *	| elements[row-1][0] | elements[row-1][1] | elements[row-1][col-1] |
  *	|------------------------------------------------------------------|
  *------------------------------------------------------------------------ */
-int autoadjust_table_fprint(FILE *stream,
-	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
-	unsigned int row_nbr, unsigned int col_nbr)
+int autoadjust_table_fprint(FILE * stream,
+			    char
+			    table[TABLE_MAX_ROW][TABLE_MAX_COL]
+			    [TABLE_MAX_ELT_LEN], unsigned int row_nbr,
+			    unsigned int col_nbr)
 {
 	return autoadjust_table_generic_fprint(stream, table, row_nbr, col_nbr,
 					       TABLE_HAS_SUBTITLE);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		autoadjust_table_print
@@ -342,13 +341,13 @@ int autoadjust_table_fprint(FILE *stream,
  *	| elements[row-1][0] | elements[row-1][1] | elements[row-1][col-1] |
  *	|------------------------------------------------------------------|
  *------------------------------------------------------------------------ */
-int autoadjust_table_print(
-	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
-	unsigned int row_nbr, unsigned int col_nbr)
+int autoadjust_table_print(char
+			   table[TABLE_MAX_ROW][TABLE_MAX_COL]
+			   [TABLE_MAX_ELT_LEN], unsigned int row_nbr,
+			   unsigned int col_nbr)
 {
 	return autoadjust_table_fprint(stdout, table, row_nbr, col_nbr);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		autoadjust_table_strncpy
@@ -364,9 +363,10 @@ int autoadjust_table_print(
  * @param[in]		s: string to copy
  * @DESCRIPTION		copy string into table element, making sure it can fit.
  *------------------------------------------------------------------------ */
-int autoadjust_table_strncpy(
-	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
-	unsigned int row, unsigned int col, char s[TABLE_MAX_ELT_LEN])
+int autoadjust_table_strncpy(char
+			     table[TABLE_MAX_ROW][TABLE_MAX_COL]
+			     [TABLE_MAX_ELT_LEN], unsigned int row,
+			     unsigned int col, char s[TABLE_MAX_ELT_LEN])
 {
 	if (table == NULL) {
 		fprintf(stderr, "%s(): table == NULL!!!\n", __func__);
@@ -398,7 +398,6 @@ int autoadjust_table_strncpy(
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		autoadjust_table_init
  * @BRIEF		fill table with empty strings
@@ -408,8 +407,9 @@ int autoadjust_table_strncpy(
  * @DESCRIPTION		fill table with empty strings, so that user does not
  *			need to fill empty cell(s).
  *------------------------------------------------------------------------ */
-int autoadjust_table_init(
-	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN])
+int autoadjust_table_init(char
+			  table[TABLE_MAX_ROW][TABLE_MAX_COL]
+			  [TABLE_MAX_ELT_LEN])
 {
 	unsigned int col, row;
 

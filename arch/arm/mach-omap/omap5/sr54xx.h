@@ -41,27 +41,24 @@
  *
  */
 
-
 #ifndef __SR54XX_H__
 #define __SR54XX_H__
-
 
 #include <sr54xx-defs.h>
 #include <stdio.h>
 #include <voltdm54xx.h>
-
 
 int sr54xx_main(int argc, char *argv[]);
 
 const char *sr54xx_mod_name_get(sr54xx_mod_id id);
 sr54xx_mod_id sr54xx_vddid2srid(voltdm54xx_id vdd_id);
 
-int sr54xx_dump(FILE *stream, sr54xx_mod_id id);
-int sr54xx_export(FILE *fp, sr54xx_mod_id id);
-int sr54xx_import(FILE *fp, sr54xx_mod_id id);
-int sr54xx_config_show(FILE *stream);
-int sr54xx_module_config_show(FILE *stream);
-int sr54xx_convergence_status_show(FILE *stream);
+int sr54xx_dump(FILE * stream, sr54xx_mod_id id);
+int sr54xx_export(FILE * fp, sr54xx_mod_id id);
+int sr54xx_import(FILE * fp, sr54xx_mod_id id);
+int sr54xx_config_show(FILE * stream);
+int sr54xx_module_config_show(FILE * stream);
+int sr54xx_convergence_status_show(FILE * stream);
 
 unsigned int sr54xx_is_accessible(sr54xx_mod_id id);
 unsigned int sr54xx_is_enabled(sr54xx_mod_id id);
@@ -69,6 +66,5 @@ double sr54xx_last_vp_voltage_get(sr54xx_mod_id id);
 
 int sr54xx_avs_enable(sr54xx_mod_id id, unsigned short enable);
 unsigned short sr54xx_avs_is_enabled(sr54xx_mod_id id);
-
 
 #endif

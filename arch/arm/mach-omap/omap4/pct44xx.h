@@ -43,7 +43,6 @@
  *
  */
 
-
 #ifndef __PCT44XX_H__
 #define __PCT44XX_H__
 
@@ -52,6 +51,5 @@ int pct44xx_rd1_export(char *filename);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int pct44xx_main(int argc, char *argv[]);
-
 
 #endif

@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <audit.h>
 #include <lib.h>
 #include <autoadjust_table.h>
@@ -56,10 +55,8 @@
 #include <voltdm54xx.h>
 #include <emif44xx.h>
 
-
 #define AUDIT_PERF_DEFAULT_DURATION	10
 #define AUDIT_PERF_DEFAULT_DELAY	10
-
 
 /* #define AUDIT_DEBUG */
 #ifdef AUDIT_DEBUG
@@ -67,7 +64,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		audit_performances
@@ -83,7 +79,7 @@
  * @DESCRIPTION		audit performance (CPU Load, C-States, OPP,
  *			memory bandwidth, timers, interrrupts, ...).
  *------------------------------------------------------------------------ */
-int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
+int audit_performances(FILE * stream, unsigned int duration, unsigned int delay)
 {
 	int ret = 0;
 	unsigned short skip_proc_stats_audit = 0;
@@ -99,8 +95,7 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 	unsigned short emif = 0;
 	unsigned int emif_busy_cycles[2] = { 0 };
 	unsigned int emif_cycles[2] = { 0 };
-	unsigned int emif_delta_cycles = 0,
-		emif_delta_busy_cycles = 0;
+	unsigned int emif_delta_cycles = 0, emif_delta_busy_cycles = 0;
 	double emif_load = 0;
 	uint64_t *time_in_opp_t0 = NULL;
 	uint64_t *time_in_opp_t1 = NULL;
@@ -115,7 +110,8 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 	FILE *fp = NULL;
 	char perf_summary_file[64];
 	FILE *fp_irq_1 = NULL, *fp_irq_2 = NULL, *fp_timerstats = NULL;
-	unsigned int irq_total_count = 0, occurred_irq_count = 0, timer_count = 0;
+	unsigned int irq_total_count = 0, occurred_irq_count = 0, timer_count =
+	    0;
 	genlist occurred_irq_list, timerstats_list;
 	irq_info irq_inf = { 0 };
 	timerstat_info timer_inf = { 0 };
@@ -128,7 +124,6 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 	char *workdir = NULL;
 	unsigned short skip_cpufreq_audit = 0;
 	unsigned int opp_cnt = 0;
-
 
 	if (duration == 0) {
 		fprintf(stream, "Duration should be at least 1 second ...\n\n");
@@ -190,11 +185,11 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 		sum_cnt = malloc(cpu_cores_cnt * sizeof(unsigned int));
 		load = malloc(cpu_cores_cnt * sizeof(double));
 		if ((cpu_online == NULL) || (idle_t0 == NULL) ||
-			(iowait_t0 == NULL) || (sum_t0 == NULL) ||
-			(idle_t1 == NULL) || (iowait_t1 == NULL) ||
-			(sum_t1 == NULL) || (iowait_cnt == NULL) ||
-			(iowait_cnt == NULL) || (sum_cnt == NULL) ||
-			(load == NULL)) {
+		    (iowait_t0 == NULL) || (sum_t0 == NULL) ||
+		    (idle_t1 == NULL) || (iowait_t1 == NULL) ||
+		    (sum_t1 == NULL) || (iowait_cnt == NULL) ||
+		    (iowait_cnt == NULL) || (sum_cnt == NULL) ||
+		    (load == NULL)) {
 			fprintf(stderr, "%s(): could not allocate buffers for "
 				"CPU stats!\n", __func__);
 			skip_proc_stats_audit = 1;
@@ -213,7 +208,7 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 		time_in_opp_t1 = malloc(opp_cnt * sizeof(uint64_t));
 		time_in_opp_cnt = malloc(opp_cnt * sizeof(uint64_t));
 		if ((time_in_opp_t0 == NULL) || (time_in_opp_t1 == NULL) ||
-			(time_in_opp_cnt == NULL)) {
+		    (time_in_opp_cnt == NULL)) {
 			fprintf(stderr, "%s(): could not allocate buffers for "
 				"CPUFREQ stats!\n", __func__);
 			skip_cpufreq_audit = 1;
@@ -225,13 +220,15 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 	/* Configure EMIF counters to count data bus busy cycles (OMAP4) */
 	if (cpu_is_omap44xx()) {
 		ret = emif44xx_perf_cnt_configure(EMIF44XX_0,
-			EMIF44XX_PERF_CNT_1,
-			EMIF44XX_PERF_CNT_FILTER_DATA_TRANSFER_CYCLES,
-			-1, EMIF44XX_MEMADDRSPACE_DISABLED);
-		ret |= emif44xx_perf_cnt_configure(EMIF44XX_1,
-			EMIF44XX_PERF_CNT_1,
-			EMIF44XX_PERF_CNT_FILTER_DATA_TRANSFER_CYCLES,
-			-1, EMIF44XX_MEMADDRSPACE_DISABLED);
+						  EMIF44XX_PERF_CNT_1,
+						  EMIF44XX_PERF_CNT_FILTER_DATA_TRANSFER_CYCLES,
+						  -1,
+						  EMIF44XX_MEMADDRSPACE_DISABLED);
+		ret |=
+		    emif44xx_perf_cnt_configure(EMIF44XX_1, EMIF44XX_PERF_CNT_1,
+						EMIF44XX_PERF_CNT_FILTER_DATA_TRANSFER_CYCLES,
+						-1,
+						EMIF44XX_MEMADDRSPACE_DISABLED);
 		if (ret != 0) {
 			strncpy(timerstats_summary,
 				"Unexpected error occurred while configuring "
@@ -270,8 +267,8 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 	} else {
 		if (stream != NULL)
 			fprintf(stream,
-			"Sampling various Key Performance Indicators "
-			"over %u second(s) ...\n\n", duration);
+				"Sampling various Key Performance Indicators "
+				"over %u second(s) ...\n\n", duration);
 	}
 
 	/* Save current C-State usage & time counters */
@@ -296,7 +293,8 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 	if (skip_proc_stats_audit == 0) {
 		for (i = 0; i < cpu_cores_cnt; i++) {
 			ret = cpu_proc_stats_get(i,
-				&idle_t0[i], &iowait_t0[i], &sum_t0[i]);
+						 &idle_t0[i], &iowait_t0[i],
+						 &sum_t0[i]);
 			if (ret != 0) {
 				cpu_online[i] = 0;
 				dprintf("%s(): CPU%u offline\n", __func__, i);
@@ -311,8 +309,7 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 	if (cpu_is_omap44xx()) {
 		emif_busy_cycles[0] = 0;
 		for (emif = 0; emif < EMIF44XX_MAX; emif++) {
-			emif_busy_cycles[0] += emif44xx_perf_cnt_get_count(
-				(emif44xx_ids) emif, EMIF44XX_PERF_CNT_1);
+			emif_busy_cycles[0] += emif44xx_perf_cnt_get_count((emif44xx_ids) emif, EMIF44XX_PERF_CNT_1);
 		}
 		emif_cycles[0] = emif44xx_perf_cnt_get_time(EMIF44XX_0);
 	}
@@ -337,8 +334,7 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 	if (cpu_is_omap44xx()) {
 		emif_busy_cycles[1] = 0;
 		for (emif = 0; emif < EMIF44XX_MAX; emif++) {
-			emif_busy_cycles[1] += emif44xx_perf_cnt_get_count(
-				(emif44xx_ids) emif, EMIF44XX_PERF_CNT_1);
+			emif_busy_cycles[1] += emif44xx_perf_cnt_get_count((emif44xx_ids) emif, EMIF44XX_PERF_CNT_1);
 		}
 		emif_cycles[1] = emif44xx_perf_cnt_get_time(EMIF44XX_0);
 	}
@@ -358,11 +354,12 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 	if (skip_timerstats_audit == 0)
 		timerstats_save(timerstats_file);
 
-	/* Get new cpu usage stats*/
+	/* Get new cpu usage stats */
 	if (skip_proc_stats_audit == 0) {
 		for (i = 0; i < cpu_cores_cnt; i++) {
 			ret = cpu_proc_stats_get(i,
-				&idle_t1[i], &iowait_t1[i], &sum_t1[i]);
+						 &idle_t1[i], &iowait_t1[i],
+						 &sum_t1[i]);
 			if (ret != 0) {
 				cpu_online[i] = 0;
 				dprintf("%s(): CPU%u offline\n", __func__, i);
@@ -401,15 +398,15 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 
 	/* Process data */
 	if (cpu_is_omap44xx()) {
-		emif_delta_busy_cycles = count32_delta(
-			emif_busy_cycles[0], emif_busy_cycles[1]);
-		emif_delta_cycles = 2 * count32_delta(
-			emif_cycles[0], emif_cycles[1]);
+		emif_delta_busy_cycles =
+		    count32_delta(emif_busy_cycles[0], emif_busy_cycles[1]);
+		emif_delta_cycles =
+		    2 * count32_delta(emif_cycles[0], emif_cycles[1]);
 		dprintf("%s(): EMIF delta_busy_cycles=%u, delta_cycles=%u\n",
 			__func__, emif_delta_busy_cycles, emif_delta_cycles);
-		emif_load = 100.0 * (
-			(double) emif_delta_busy_cycles /
-				emif_delta_cycles);
+		emif_load =
+		    100.0 * ((double)emif_delta_busy_cycles /
+			     emif_delta_cycles);
 		dprintf("%s(): EMIF load = %lf%%\n", __func__, emif_load);
 	}
 
@@ -419,29 +416,30 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 		dprintf("  total transitions = %llu\n", total_trans_cnt);
 		for (i = 0; i < opp_cnt; i++) {
 			time_in_opp_cnt[i] =
-				count64_delta(time_in_opp_t0[i],
-					time_in_opp_t1[i]);
-			#ifdef AUDIT_DEBUG
+			    count64_delta(time_in_opp_t0[i], time_in_opp_t1[i]);
+#ifdef AUDIT_DEBUG
 			/* FIXME: retrieve cpufreq sampling rate (variable) */
 			if (cpu_is_omap44xx())
 				printf("  time in OPP %s = %llums\n",
-					opp44xx_name_get(i + 1, OMAP4_VDD_MPU),
-					time_in_opp_cnt[i] * 10);
+				       opp44xx_name_get(i + 1, OMAP4_VDD_MPU),
+				       time_in_opp_cnt[i] * 10);
 			else
 				printf("  time in OPP %s = %llums\n",
-					opp54xx_name_get(i + 1),
-					time_in_opp_cnt[i] * 10);
-			#endif
+				       opp54xx_name_get(i + 1),
+				       time_in_opp_cnt[i] * 10);
+#endif
 		}
 	}
 
 	if (skip_cstate_audit == 0) {
 		for (i = 0; i < cstates_nbr; i++) {
-			cstates_usage[i][2] = count64_delta(
-				cstates_usage[i][0], cstates_usage[i][1]);
+			cstates_usage[i][2] =
+			    count64_delta(cstates_usage[i][0],
+					  cstates_usage[i][1]);
 
-			cstates_time[i][2] = count64_delta(
-				cstates_time[i][0], cstates_time[i][1]);
+			cstates_time[i][2] =
+			    count64_delta(cstates_time[i][0],
+					  cstates_time[i][1]);
 		}
 	}
 
@@ -485,33 +483,34 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 		msec = (active_c0_time % 1000000) / 1000;
 		usec = active_c0_time % 1000;
 		snprintf(table[row][3], TABLE_MAX_ELT_LEN,
-			"%llus %llums %lluus", sec, msec, usec);
-		pct = ((double) active_c0_time / (double)
-					(duration * 1000000)) * 100.0;
+			 "%llus %llums %lluus", sec, msec, usec);
+		pct = ((double)active_c0_time / (double)
+		       (duration * 1000000)) * 100.0;
 		snprintf(table[row][4], TABLE_MAX_ELT_LEN, "%3.1f%%", pct);
 		row++;
 
 		for (i = 0; i < cstates_nbr; i++) {
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s",
-				cstate_get_name(i, name));
+				 cstate_get_name(i, name));
 			if (cstates_usage[i][2] != 0) {
 				dprintf("%s(): C%u entered\n", __func__, i + 1);
 				strncpy(table[row][1], "Yes",
 					TABLE_MAX_ELT_LEN);
 
 				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-					"%llu", cstates_usage[i][2]);
+					 "%llu", cstates_usage[i][2]);
 
 				sec = cstates_time[i][2] / 1000000;
 				msec = (cstates_time[i][2] % 1000000) / 1000;
 				usec = cstates_time[i][2] % 1000;
 				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
-					"%llus %llums %lluus", sec, msec, usec);
+					 "%llus %llums %lluus", sec, msec,
+					 usec);
 
-				pct = ((double) cstates_time[i][2] / (double)
-					(duration * 1000000)) * 100.0;
+				pct = ((double)cstates_time[i][2] / (double)
+				       (duration * 1000000)) * 100.0;
 				snprintf(table[row][4], TABLE_MAX_ELT_LEN,
-					"%3.1f%%", pct);
+					 "%3.1f%%", pct);
 			} else {
 				dprintf("%s(): C%u not entered\n",
 					__func__, i + 1);
@@ -556,14 +555,15 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 		for (i = 0; i < opp_cnt; i++) {
 			if (cpu_is_omap44xx())
 				snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s",
-					opp44xx_name_get(i + 1, OMAP4_VDD_MPU));
+					 opp44xx_name_get(i + 1,
+							  OMAP4_VDD_MPU));
 			else
 				snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s",
-					opp54xx_name_get(i + 1));
+					 opp54xx_name_get(i + 1));
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-				"%llus%llums",
-				time_in_opp_cnt[i] / 100,
-				(time_in_opp_cnt[i] % 100) * 10);
+				 "%llus%llums",
+				 time_in_opp_cnt[i] / 100,
+				 (time_in_opp_cnt[i] % 100) * 10);
 			row++;
 		}
 
@@ -615,23 +615,22 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN, "CPU%u", i);
 			if ((i >= 1) && (cpu_online[i] == 0)) {
 				snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-					"Offline");
+					 "Offline");
 				row++;
 				continue;
 			}
 
-			idle_cnt[i] =
-				count32_delta(idle_t0[i], idle_t1[i]);
+			idle_cnt[i] = count32_delta(idle_t0[i], idle_t1[i]);
 			iowait_cnt[i] =
-				count32_delta(iowait_t0[i], iowait_t1[i]);
-			sum_cnt[i] =
-				count32_delta(sum_t0[i], sum_t1[i]);
+			    count32_delta(iowait_t0[i], iowait_t1[i]);
+			sum_cnt[i] = count32_delta(sum_t0[i], sum_t1[i]);
 			dprintf("%s(): idle_cnt[%u] = %u, iowait_cnt[%u] = %u, "
 				"sum_cnt[%u] = %u\n", __func__, i, idle_cnt[i],
 				i, iowait_cnt[i], i, sum_cnt[i]);
 			if (sum_cnt[i] != 0) {
 				load[i] = cpu_load_get(idle_cnt[i],
-					iowait_cnt[i], sum_cnt[i]);
+						       iowait_cnt[i],
+						       sum_cnt[i]);
 				cpu_online_cores_cnt++;
 			} else {
 				/*
@@ -644,9 +643,9 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 			}
 			load_total += load[i];
 			dprintf("%s(): CPU%u load=%.2lf%%\n",
-					__func__, i, load[i]);
+				__func__, i, load[i]);
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.2lf%%",
-				load[i]);
+				 load[i]);
 			row++;
 		}
 		dprintf("%s(): cpu_online_cores_cnt=%u\n",
@@ -654,7 +653,7 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 		load_total = load_total / cpu_online_cores_cnt;
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "Total");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.2lf%%",
-			load_total);
+			 load_total);
 		row++;
 
 		strncpy(timerstats_summary, "(*) CANNOT be converted to Mhz. "
@@ -679,7 +678,7 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 		strncpy(table[row][0], "Total EMIF Data Bus Load",
 			TABLE_MAX_ELT_LEN);
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.2lf%%",
-				(double) emif_load);
+			 (double)emif_load);
 		row++;
 		strncpy(timerstats_summary, "(*) CANNOT be converted to memory "
 			"bandwidth (MB/s).\n    DDR data busy cycles may be "
@@ -695,7 +694,6 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 			fputs(timerstats_summary, fp);
 		}
 	}
-
 
 	/* Show interrupts stats */
 	if (skip_irq_audit == 1) {
@@ -727,29 +725,29 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 		row++;
 
 		irq_total_count = irq_total_count_get(fp_irq_2)
-			- irq_total_count_get(fp_irq_1);
+		    - irq_total_count_get(fp_irq_1);
 		dprintf("%s(): irq_total_count=%d\n", __func__,
 			irq_total_count);
 		occurred_irq_count = irq_occurred_list_get(fp_irq_1, fp_irq_2,
-			&occurred_irq_list);
+							   &occurred_irq_list);
 		dprintf("%s(): # of irq lines that occurred = %d\n", __func__,
 			occurred_irq_count);
 		irq_occurred_list_sort(&occurred_irq_list);
 		for (i = 0; i < occurred_irq_count; i++) {
 			genlist_get(&occurred_irq_list, i, &irq_inf);
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%d",
-				irq_inf.nbr);
+				 irq_inf.nbr);
 			strncpy(table[row][1], irq_inf.dev_name,
 				TABLE_MAX_ELT_LEN);
-			pct = (double) irq_inf.count / (double) irq_total_count;
+			pct = (double)irq_inf.count / (double)irq_total_count;
 			pct *= 100.0;
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u",
-				irq_inf.count);
+				 irq_inf.count);
 			snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.1lf%%",
-				pct);
-			pct = (double) irq_inf.count / (double) duration;
+				 pct);
+			pct = (double)irq_inf.count / (double)duration;
 			snprintf(table[row][4], TABLE_MAX_ELT_LEN, "%.1lf/sec",
-				pct);
+				 pct);
 			row++;
 		}
 
@@ -802,7 +800,7 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 		row++;
 
 		timer_count = timerstats_list_get(fp_timerstats,
-			&timerstats_list);
+						  &timerstats_list);
 		dprintf("%s(): # of timers that occurred = %d\n", __func__,
 			timer_count);
 		timerstats_list_sort(&timerstats_list);
@@ -810,11 +808,11 @@ int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 		for (i = 0; i < timer_count; i++) {
 			genlist_get(&timerstats_list, i, &timer_inf);
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%d",
-				timer_inf.count);
+				 timer_inf.count);
 			strncpy(table[row][1], timer_inf.deferrable,
 				TABLE_MAX_ELT_LEN);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%d",
-				timer_inf.pid);
+				 timer_inf.pid);
 			strncpy(table[row][3], timer_inf.name,
 				TABLE_MAX_ELT_LEN);
 			strncpy(table[row][4], timer_inf.init_fxn,
@@ -881,7 +879,6 @@ audit_performances_exit:
 	return ret;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		audit_performances_main
  * @BRIEF		analyze command-line arguments & call performance audit
@@ -907,7 +904,8 @@ int audit_performances_main(int argc, char *argv[])
 
 	if (argc == 0) {
 		ret = audit_performances(stdout,
-			AUDIT_PERF_DEFAULT_DURATION, AUDIT_PERF_DEFAULT_DELAY);
+					 AUDIT_PERF_DEFAULT_DURATION,
+					 AUDIT_PERF_DEFAULT_DELAY);
 	} else if (argc == 1) {
 		ret = sscanf(argv[0], "%d", &duration);
 		if (ret != 1) {
@@ -915,7 +913,8 @@ int audit_performances_main(int argc, char *argv[])
 			ret = 0;
 		}
 		ret = audit_performances(stdout,
-			(unsigned int) duration, AUDIT_PERF_DEFAULT_DELAY);
+					 (unsigned int)duration,
+					 AUDIT_PERF_DEFAULT_DELAY);
 	} else if ((argc == 2) && (strcmp(argv[0], "-d") == 0)) {
 		ret = sscanf(argv[1], "%d", &delay);
 		if (ret != 1) {
@@ -923,7 +922,8 @@ int audit_performances_main(int argc, char *argv[])
 			ret = 0;
 		}
 		ret = audit_performances(stdout,
-			AUDIT_PERF_DEFAULT_DURATION, (unsigned int) delay);
+					 AUDIT_PERF_DEFAULT_DURATION,
+					 (unsigned int)delay);
 	} else if ((argc == 3) && (strcmp(argv[1], "-d") == 0)) {
 		ret = sscanf(argv[0], "%d", &duration);
 		if (ret != 1) {
@@ -936,7 +936,8 @@ int audit_performances_main(int argc, char *argv[])
 			ret = 0;
 		}
 		ret = audit_performances(stdout,
-			(unsigned int) duration, (unsigned int) delay);
+					 (unsigned int)duration,
+					 (unsigned int)delay);
 	} else {
 		help(HELP_AUDIT);
 		ret = 0;

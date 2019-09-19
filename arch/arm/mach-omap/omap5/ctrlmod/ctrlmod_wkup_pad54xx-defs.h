@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __CTRLMOD_WKUP_PAD54XX_DEFS_H__
 #define __CTRLMOD_WKUP_PAD54XX_DEFS_H__
 
@@ -131,7 +130,8 @@ extern reg omap5430_control_efuse_12;
 #define OMAP5430_CONTROL_EFUSE_13					0x4ae0cdf8
 extern reg omap5430_control_efuse_13;
 #define OMAP5430_CTRL_MODULE_WKUP_PAD_MOD_REGCOUNT			41
-extern reg *omap5430_ctrl_module_wkup_pad_mod[OMAP5430_CTRL_MODULE_WKUP_PAD_MOD_REGCOUNT + 1];
-
+extern reg
+    *omap5430_ctrl_module_wkup_pad_mod
+    [OMAP5430_CTRL_MODULE_WKUP_PAD_MOD_REGCOUNT + 1];
 
 #endif

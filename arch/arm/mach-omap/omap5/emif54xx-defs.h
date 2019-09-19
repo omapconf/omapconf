@@ -41,15 +41,12 @@
  *
  */
 
-
 #ifndef __EMIF54XX_DEFS_H__
 #define __EMIF54XX_DEFS_H__
-
 
 #include <emif54xxes1-defs.h>
 #include <reg.h>
 #include <stdio.h>
-
 
 #define OMAP5430_EMIF1_EMIF_REVISION					0x4c000000
 extern reg omap5430_emif1_emif_revision;
@@ -437,15 +434,12 @@ extern reg omap5430_emif2_emif_ext_phy_control_24_shadow;
 #define OMAP5430_EMIF2_MOD_REGCOUNT					95
 extern reg *omap5430_emif2_mod[OMAP5430_EMIF2_MOD_REGCOUNT + 1];
 
-
 typedef enum {
 	EMIF54XX_EMIF1,
 	EMIF54XX_EMIF2,
 	EMIF54XX_MODS_COUNT = 2
 } emif54xx_mod_id;
 
-
 extern reg **emif54xx_mods[EMIF54XX_MODS_COUNT];
-
 
 #endif

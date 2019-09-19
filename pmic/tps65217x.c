@@ -42,14 +42,12 @@
  *
  */
 
-
 #include <cpuinfo.h>
 #include <i2c-tools.h>
 #include <lib.h>
 #include <mem.h>
 #include <prm_am335x.h>
 #include <tps65217x.h>
-
 
 #ifdef TPS65217X_DEBUG
 #include <stdio.h>
@@ -58,33 +56,35 @@
 #define dprintf(format, ...)
 #endif
 
-
 typedef struct {
 	int ctrl;
 	int tstep;
 	int voltage;
 } tps65217x_smps_registers;
 
-
 static const tps65217x_smps_registers tps65217x_smps2 = {
 	.ctrl = 0x16,
 	.tstep = -1,
-	.voltage = 0x0F};
+	.voltage = 0x0F
+};
 
 static const tps65217x_smps_registers tps65217x_smps3 = {
 	.ctrl = 0x16,
 	.tstep = -1,
-	.voltage = 0x10};
+	.voltage = 0x10
+};
 
-
-static const tps65217x_smps_registers *tps65217x_smps_vdd_am335x_mpu = &tps65217x_smps2;
-static const tps65217x_smps_registers *tps65217x_smps_vdd_am335x_core = &tps65217x_smps3;
+static const tps65217x_smps_registers *tps65217x_smps_vdd_am335x_mpu =
+    &tps65217x_smps2;
+static const tps65217x_smps_registers *tps65217x_smps_vdd_am335x_core =
+    &tps65217x_smps3;
 
 static const tps65217x_smps_registers **tps65217x_smps_vdd_am335x[5] = {
-	(const tps65217x_smps_registers **) &tps65217x_smps_vdd_am335x_mpu,
+	(const tps65217x_smps_registers **)&tps65217x_smps_vdd_am335x_mpu,
 	NULL,
-	(const tps65217x_smps_registers **) &tps65217x_smps_vdd_am335x_core,
-	NULL, NULL };
+	(const tps65217x_smps_registers **)&tps65217x_smps_vdd_am335x_core,
+	NULL, NULL
+};
 
 static float chip_revision = -1.0;
 static int chip_type = 0;
@@ -113,13 +113,13 @@ unsigned short int tps65217x_is_present(void)
 	case AM_3359:
 		/* Check to see if address is readable */
 		ret = i2cget(TPS65217X_I2C_BUS, TPS65217X_ID0_ADDR,
-			0x00, &id_lsb);
+			     0x00, &id_lsb);
 		if (ret != 0)
 			return 0;
 
 		/* Check to see if chip and revision is valid */
 		present = ((tps65217x_chip_get() >= 6) ||
-			tps65217x_chip_revision_get() > 0) ? 1 : 0;
+			   tps65217x_chip_revision_get() > 0) ? 1 : 0;
 		break;
 
 	default:
@@ -129,7 +129,6 @@ unsigned short int tps65217x_is_present(void)
 	dprintf("%s(): present=%u\n", __func__, present);
 	return present;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_chip_get
@@ -154,16 +153,16 @@ int tps65217x_chip_get(void)
 	dprintf("%s(): rev=%02x\n", __func__, rev);
 	switch (rev & 0xF0) {
 	case 0x60:
-		pmic_chip = 9; /* TPS65217D */
+		pmic_chip = 9;	/* TPS65217D */
 		break;
 	case 0x70:
-		pmic_chip = 6; /* TPS65217A */
+		pmic_chip = 6;	/* TPS65217A */
 		break;
 	case 0xE0:
-		pmic_chip = 8; /* TPS65217C */
+		pmic_chip = 8;	/* TPS65217C */
 		break;
 	case 0xF0:
-		pmic_chip = 7; /* TPS65217B */
+		pmic_chip = 7;	/* TPS65217B */
 		break;
 	default:
 		pmic_chip = OMAPCONF_ERR_UNEXPECTED;
@@ -174,7 +173,6 @@ tps65217x_chip_get_end:
 	chip_type = pmic_chip;
 	return pmic_chip;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_chip_revision_get
@@ -195,7 +193,7 @@ double tps65217x_chip_revision_get(void)
 	if (ret != 0) {
 		fprintf(stderr, "%s(): could not read register! (%d)\n",
 			__func__, ret);
-		chip_revision = (float) OMAPCONF_ERR_NOT_AVAILABLE;
+		chip_revision = (float)OMAPCONF_ERR_NOT_AVAILABLE;
 		goto tps65217x_chip_revision_get_end;
 	}
 	dprintf("%s(): rev=%02X\n", __func__, rev);
@@ -210,15 +208,13 @@ double tps65217x_chip_revision_get(void)
 		chip_revision = 1.2;
 		break;
 	default:
-		chip_revision = (float) OMAPCONF_ERR_UNEXPECTED;
+		chip_revision = (float)OMAPCONF_ERR_UNEXPECTED;
 	}
 
 tps65217x_chip_revision_get_end:
-	dprintf("%s(): chip_revision = %f\n", __func__,
-		chip_revision);
+	dprintf("%s(): chip_revision = %f\n", __func__, chip_revision);
 	return chip_revision;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_eprom_revision_get
@@ -233,9 +229,8 @@ double tps65217x_eprom_revision_get(void)
 	 * TBD: could not find the infomation tell where to find the register
 	 * which indicates this eprom revision number
 	 */
-	return (double) OMAPCONF_ERR_NOT_AVAILABLE;
+	return (double)OMAPCONF_ERR_NOT_AVAILABLE;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_vsel_get
@@ -276,7 +271,7 @@ int tps65217x_vsel_get(unsigned int smps_id)
 		return OMAPCONF_ERR_INTERNAL;
 	}
 	ret = i2cget(TPS65217X_I2C_BUS, TPS65217X_ID0_ADDR,
-		smps_regs->ctrl, &val);
+		     smps_regs->ctrl, &val);
 	if (ret != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	/* MPU and CORE share same enable register */
@@ -313,7 +308,7 @@ int tps65217x_vsel_get(unsigned int smps_id)
 
 	/* Check SMPS voltage controlled by registers, not resource pins */
 	ret = i2cget(TPS65217X_I2C_BUS, TPS65217X_ID0_ADDR,
-		smps_regs->voltage, &val);
+		     smps_regs->voltage, &val);
 	if (ret != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (extract_bit(val, 7) == 1) {
@@ -325,7 +320,7 @@ int tps65217x_vsel_get(unsigned int smps_id)
 	/* Retrieve VSEL (6-bits) from relevant register */
 	if (smps_regs->voltage != -1) {
 		ret = i2cget(TPS65217X_I2C_BUS, TPS65217X_ID0_ADDR,
-			smps_regs->voltage, &val);
+			     smps_regs->voltage, &val);
 		if (ret != 0)
 			return OMAPCONF_ERR_REG_ACCESS;
 		dprintf("%s(): SMPSxx_VOLTAGE=0x%02X\n", __func__, val);
@@ -339,7 +334,6 @@ int tps65217x_vsel_get(unsigned int smps_id)
 
 	return vsel;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_vsel_to_uv
@@ -363,10 +357,9 @@ unsigned long tps65217x_vsel_to_uv(unsigned char vsel)
 		uv = 3300000;
 	} else if (vsel >= 0x18) {
 		uv = TPS65217X_VOLT_MIN_UV + 600000 +
-			(TPS65217X_VSTEP_UV * 2 * (vsel - 12));
+		    (TPS65217X_VSTEP_UV * 2 * (vsel - 12));
 	} else {
-		uv = TPS65217X_VOLT_MIN_UV +
-			(TPS65217X_VSTEP_UV * vsel);
+		uv = TPS65217X_VOLT_MIN_UV + (TPS65217X_VSTEP_UV * vsel);
 	}
 
 	dprintf("%s(%d (0x%02X))=%lduV\n", __func__, vsel, vsel, uv);
@@ -381,11 +374,10 @@ unsigned long tps65217x_vsel_to_uv(unsigned char vsel)
  *------------------------------------------------------------------------ */
 long tps65217x_smps_offset_get(void)
 {
-	dprintf("%s(): offset=%lduV\n", __func__, (long) TPS65217X_VOLT_MIN_UV);
+	dprintf("%s(): offset=%lduV\n", __func__, (long)TPS65217X_VOLT_MIN_UV);
 
-	return (long) TPS65217X_VOLT_MIN_UV;
+	return (long)TPS65217X_VOLT_MIN_UV;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_smps_step_get
@@ -395,11 +387,10 @@ long tps65217x_smps_offset_get(void)
  *------------------------------------------------------------------------ */
 long tps65217x_smps_step_get(void)
 {
-	dprintf("%s(): step=%lduV\n", __func__, (long) TPS65217X_VSTEP_UV);
+	dprintf("%s(): step=%lduV\n", __func__, (long)TPS65217X_VSTEP_UV);
 
-	return (long) TPS65217X_VSTEP_UV;
+	return (long)TPS65217X_VSTEP_UV;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_vsel_len_get
@@ -411,7 +402,6 @@ int tps65217x_vsel_len_get(void)
 {
 	return TPS65217X_VSEL_LEN;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_uv_to_vsel
@@ -427,7 +417,7 @@ unsigned char tps65217x_uv_to_vsel(unsigned long uv)
 	unsigned char vsel;
 
 	vsel = (unsigned char)
-		((uv - TPS65217X_VOLT_MIN_UV) / TPS65217X_VSTEP_UV + 6);
+	    ((uv - TPS65217X_VOLT_MIN_UV) / TPS65217X_VSTEP_UV + 6);
 	dprintf("%s(%lduV)=0x%02X\n", __func__, uv, vsel);
 	return vsel;
 }

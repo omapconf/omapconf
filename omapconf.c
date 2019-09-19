@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <ctype.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -71,7 +70,6 @@
 #include <powerdomain.h>
 #include <clockdomain.h>
 
-
 /* #define DEBUG */
 #ifdef DEBUG
 /* #define OMAPCONF_READREG_DEBUG */
@@ -85,9 +83,7 @@
 #define dprintf(format, ...)
 #endif
 
-
 static unsigned short cpu_found;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_readreg
@@ -105,35 +101,35 @@ static int main_readreg(const char *reg_addr, const char *val_format)
 {
 	int ret = 0;
 	unsigned int value, addr;
-	char value_bin[33] = ""; /*  32 digits + '\0' */
+	char value_bin[33] = "";	/*  32 digits + '\0' */
 	char name[OMAPCONF_REG_NAME_MAX_LENGTH + 1] = "";
 	unsigned char by_name = 0;
 
-	#ifdef OMAPCONF_READREG_DEBUG
+#ifdef OMAPCONF_READREG_DEBUG
 	printf("%s(): reg_addr=%s\n", __func__, reg_addr);
-	#endif
+#endif
 
 	/* Retrieve and check register address */
 	if ((reg_addr[0] == '0') && (reg_addr[1] == 'X')) {
 		/* As an integer, must start with "0x" */
 		ret = sscanf(reg_addr, "0X%x", &addr);
 		if (ret != 1) {
-			#ifdef OMAPCONF_READREG_DEBUG
+#ifdef OMAPCONF_READREG_DEBUG
 			printf("%s(): could not retrieve integer value\n",
-				__func__);
-			#endif
-			fprintf(stderr,	"register address not recognized!\n");
+			       __func__);
+#endif
+			fprintf(stderr, "register address not recognized!\n");
 			return -1;
 		}
 	} else {
 		/* As a string, must start with alpha character */
 		if (isalpha(reg_addr[0])) {
-			ret = sscanf(reg_addr, "%50s", (char *) name);
+			ret = sscanf(reg_addr, "%50s", (char *)name);
 			if (ret != 1) {
-				#ifdef OMAPCONF_READREG_DEBUG
+#ifdef OMAPCONF_READREG_DEBUG
 				printf("%s(): could not retrieve name\n",
-					__func__);
-				#endif
+				       __func__);
+#endif
 				fprintf(stderr,
 					"register name not recognized!\n");
 				return -1;
@@ -141,49 +137,49 @@ static int main_readreg(const char *reg_addr, const char *val_format)
 				by_name = 1;
 		} else {
 			fprintf(stderr,
-			"register name/address not recognized!\n");
+				"register name/address not recognized!\n");
 			return -1;
 		}
 	}
 
-	#ifdef OMAPCONF_READREG_DEBUG
+#ifdef OMAPCONF_READREG_DEBUG
 	if (by_name)
 		printf("%s(): found reg_addr = %s\n", __func__, name);
 	else
 		printf("%s(): found reg_addr = 0x%08X\n", __func__, addr);
-	#endif
+#endif
 
 	/*
 	 * If reg. name was entered, check name is valid and retrieve reg. addr.
 	 */
 	if (by_name == 1) {
-		ret = find_reg_addr((char *) name, &addr);
+		ret = find_reg_addr((char *)name, &addr);
 		if (ret != 0) {
-			fprintf(stderr,	"not a valid register name!\n");
+			fprintf(stderr, "not a valid register name!\n");
 			return -1;
 		}
-		#ifdef OMAPCONF_READREG_DEBUG
+#ifdef OMAPCONF_READREG_DEBUG
 		else
 			printf("%s(): reg. addr. found. (0x%08X)\n",
-				__func__, addr);
-		#endif
+			       __func__, addr);
+#endif
 	}
 
 	/* Check data format is valid */
 	if ((strcmp(val_format, "hex") != 0) &&
-			(strcmp(val_format, "bin") != 0) &&
-			(strcmp(val_format, "dec") != 0)) {
+	    (strcmp(val_format, "bin") != 0) &&
+	    (strcmp(val_format, "dec") != 0)) {
 		fprintf(stderr, "not a valid format! (%s)\n", val_format);
 		return -2;
 	}
 
 	/* Reaching this point means arguments OK */
-	#ifdef OMAPCONF_READREG_DEBUG
+#ifdef OMAPCONF_READREG_DEBUG
 	printf("%s(): addr=%x\n", __func__, addr);
 	printf("%s(): name=%s\n", __func__, name);
 	printf("%s(): format=%s\n", __func__, val_format);
 	printf("%s(): ret=%d\n", __func__, ret);
-	#endif
+#endif
 
 	/* Read OMAP register */
 	ret = mem_read(addr, &value);
@@ -225,33 +221,32 @@ static int main_writereg(const char *reg_addr, const char *reg_val)
 	char name[OMAPCONF_REG_NAME_MAX_LENGTH + 1] = "";
 	unsigned char by_name = 0;
 
-	#ifdef OMAPCONF_WRITEREG_DEBUG
+#ifdef OMAPCONF_WRITEREG_DEBUG
 	printf("%s(): reg_addr=%s\n", __func__, reg_addr);
 	printf("%s(): reg_val=%s\n", __func__, reg_val);
-	#endif
+#endif
 
 	/* Retrieve and check register address */
 	if ((reg_addr[0] == '0') && (reg_addr[1] == 'X')) {
 		/* As an integer, must start with "0x" */
 		ret = sscanf(reg_addr, "0X%x", &addr);
 		if (ret != 1) {
-			#ifdef OMAPCONF_WRITEREG_DEBUG
+#ifdef OMAPCONF_WRITEREG_DEBUG
 			printf("%s(): could not retrieve integer value\n",
-				__func__);
-			#endif
-			fprintf(stderr,
-				"register address not recognized!\n");
+			       __func__);
+#endif
+			fprintf(stderr, "register address not recognized!\n");
 			return -1;
 		}
 	} else {
 		/* As a string, must start with alpha character */
 		if (isalpha(reg_addr[0])) {
-			ret = sscanf(reg_addr, "%50s", (char *) name);
+			ret = sscanf(reg_addr, "%50s", (char *)name);
 			if (ret != 1) {
-				#ifdef OMAPCONF_WRITEREG_DEBUG
+#ifdef OMAPCONF_WRITEREG_DEBUG
 				printf("(): could not retrieve name\n",
-					__func__);
-				#endif
+				       __func__);
+#endif
 				fprintf(stderr,
 					"register name not recognized!\n");
 				return -1;
@@ -259,32 +254,32 @@ static int main_writereg(const char *reg_addr, const char *reg_val)
 				by_name = 1;
 		} else {
 			fprintf(stderr,
-			"register name/address not recognized!\n");
+				"register name/address not recognized!\n");
 			return -1;
 		}
 	}
 
-	#ifdef OMAPCONF_WRITEREG_DEBUG
+#ifdef OMAPCONF_WRITEREG_DEBUG
 	if (by_name)
 		printf("%s(): found reg_addr = %s\n", __func__, name);
 	else
 		printf("%s(): found reg_addr = 0x%08X\n", __func__, addr);
-	#endif
+#endif
 
 	/*
 	 * If reg. name was entered, check name is valid and retrieve reg. addr.
 	 */
 	if (by_name == 1) {
-		ret = find_reg_addr((char *) name, &addr);
+		ret = find_reg_addr((char *)name, &addr);
 		if (ret != 0) {
 			fprintf(stderr, "not a valid register name!\n");
 			return -1;
 		}
-		#ifdef OMAPCONF_WRITEREG_DEBUG
+#ifdef OMAPCONF_WRITEREG_DEBUG
 		else
 			printf("%s(): reg. addr. found. (0x%08X)\n",
-				__func__, addr);
-		#endif
+			       __func__, addr);
+#endif
 	}
 
 	/* Retrieve and check value to be written into register */
@@ -292,31 +287,29 @@ static int main_writereg(const char *reg_addr, const char *reg_val)
 		/* As an integer, must start with "0x" */
 		ret = sscanf(reg_val, "0X%x", &value);
 		if (ret != 1) {
-			#ifdef OMAPCONF_WRITEREG_DEBUG
+#ifdef OMAPCONF_WRITEREG_DEBUG
 			printf("%s(): could not retrieve integer value\n",
-				__func__);
-			#endif
-			fprintf(stderr,
-				"register address not recognized!\n");
+			       __func__);
+#endif
+			fprintf(stderr, "register address not recognized!\n");
 			return -2;
 		}
 	} else {
-		fprintf(stderr,
-			"value to be written not recognized!\n");
+		fprintf(stderr, "value to be written not recognized!\n");
 		return -2;
 	}
 
-	#ifdef OMAPCONF_WRITEREG_DEBUG
+#ifdef OMAPCONF_WRITEREG_DEBUG
 	printf("%s(): found value = 0x%08X\n", __func__, value);
-	#endif
+#endif
 
 	/* Reaching this point means arguments OK */
-	#ifdef OMAPCONF_WRITEREG_DEBUG
+#ifdef OMAPCONF_WRITEREG_DEBUG
 	printf("%s(): addr=0x%x\n", __func__, addr);
 	printf("%s(): name=%s\n", __func__, name);
 	printf("%s(): value=0x%x\n", __func__, value);
 	printf("%s(): ret=%d\n", __func__, ret);
-	#endif
+#endif
 
 	/* Write OMAP register */
 	ret = mem_write(addr, value);
@@ -327,7 +320,6 @@ static int main_writereg(const char *reg_addr, const char *reg_val)
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_clearbit
@@ -355,33 +347,33 @@ static int main_clearbit(int argc, char *argv[])
 
 	argv[2] = uppercase(argv[2]);
 
-	#ifdef OMAPCONF_CLEARBIT_DEBUG
+#ifdef OMAPCONF_CLEARBIT_DEBUG
 	printf("%s(): argv[0]=%s\n", __func__, argv[0]);
 	printf("%s(): argv[1]=%s\n", __func__, argv[1]);
 	printf("%s(): argv[2]=%s\n", __func__, argv[2]);
 	printf("%s(): argv[3]=%s\n", __func__, argv[3]);
-	#endif
+#endif
 
 	/* Retrieve and check register address */
 	if ((argv[2][0] == '0') && (argv[2][1] == 'X')) {
 		/* As an integer, must start with "0x" */
 		ret = sscanf(argv[2], "0X%x", &addr);
 		if (ret != 1) {
-			#ifdef OMAPCONF_CLEARBIT_DEBUG
+#ifdef OMAPCONF_CLEARBIT_DEBUG
 			printf("%s(): could not retrieve integer value\n",
-				__func__);
-			#endif
+			       __func__);
+#endif
 			goto main_clearbit_arg_err;
 		}
 	} else {
 		/* As a string, must start with alpha character */
 		if (isalpha(argv[2][0])) {
-			ret = sscanf(argv[2], "%72s", (char *) name);
+			ret = sscanf(argv[2], "%72s", (char *)name);
 			if (ret != 1) {
-				#ifdef OMAPCONF_CLEARBIT_DEBUG
+#ifdef OMAPCONF_CLEARBIT_DEBUG
 				printf("%s(): could not retrieve name\n",
-					__func__);
-				#endif
+				       __func__);
+#endif
 				goto main_clearbit_arg_err;
 			} else
 				by_name = 1;
@@ -390,54 +382,52 @@ static int main_clearbit(int argc, char *argv[])
 		}
 	}
 
-	#ifdef OMAPCONF_CLEARBIT_DEBUG
+#ifdef OMAPCONF_CLEARBIT_DEBUG
 	if (by_name)
 		printf("%s(): found reg_addr = %s\n", __func__, name);
 	else
 		printf("%s(): found reg_addr = 0x%08X\n", __func__, addr);
-	#endif
+#endif
 
 	/*
 	 * If reg. name was entered, check name is valid and retrieve reg. addr.
 	 */
 	if (by_name == 1) {
-		ret = find_reg_addr((char *) name, &addr);
+		ret = find_reg_addr((char *)name, &addr);
 		if (ret != 0) {
 			printf("Not a valid register name! (%s)\n", name);
 			return OMAPCONF_ERR_ARG;
 		}
-		#ifdef OMAPCONF_CLEARBIT_DEBUG
+#ifdef OMAPCONF_CLEARBIT_DEBUG
 		else
 			printf("%s(): reg. addr. found. (0x%08X)\n",
-				__func__, addr);
-		#endif
+			       __func__, addr);
+#endif
 	}
 
 	/* Retrieve and check bit position */
 	ret = sscanf(argv[3], "%u", &pos);
 	if (ret != 1) {
-			#ifdef OMAPCONF_CLEARBIT_DEBUG
-			printf("%s(): could not retrieve bit position\n",
-				__func__);
-			#endif
-			goto main_clearbit_arg_err;
+#ifdef OMAPCONF_CLEARBIT_DEBUG
+		printf("%s(): could not retrieve bit position\n", __func__);
+#endif
+		goto main_clearbit_arg_err;
 	}
 	if (pos >= 32) {
 		printf("Incorrect bit position! (%s)\n", argv[3]);
 		return OMAPCONF_ERR_ARG;
 	}
-
-	#ifdef OMAPCONF_CLEARBIT_DEBUG
+#ifdef OMAPCONF_CLEARBIT_DEBUG
 	printf("%s(): found position = %u\n", __func__, pos);
-	#endif
+#endif
 
 	/* Reaching this point means arguments OK */
-	#ifdef OMAPCONF_CLEARBIT_DEBUG
+#ifdef OMAPCONF_CLEARBIT_DEBUG
 	printf("%s(): addr=0x%x\n", __func__, addr);
 	printf("%s(): name=%s\n", __func__, name);
 	printf("%s(): pos=%d\n", __func__, pos);
 	printf("%s(): ret=%d\n", __func__, ret);
-	#endif
+#endif
 
 	/* Clear bit in OMAP register */
 	ret = mem_read(addr, &value);
@@ -445,13 +435,12 @@ static int main_clearbit(int argc, char *argv[])
 		fprintf(stderr, "internal error (failed to write)!\n");
 		return OMAPCONF_ERR_REG_ACCESS;
 	}
-
-	#ifdef OMAPCONF_CLEARBIT_DEBUG
+#ifdef OMAPCONF_CLEARBIT_DEBUG
 	printf("%s(): value=0x%x\n", __func__, value);
 	printf("%s(): 1<<pos=0x%x\n", __func__, 1 << pos);
 	printf("%s(): ~(1<<pos)=0x%x\n", __func__, ~(1 << pos));
 	printf("%s(): value & ~(1<<pos)=0x%x\n", __func__, value & ~(1 << pos));
-	#endif
+#endif
 	ret = mem_write(addr, value & ~(1 << pos));
 	if (ret != 0) {
 		fprintf(stderr, "internal error (failed to write)!\n");
@@ -470,7 +459,6 @@ main_clearbit_arg_err:
 	help(HELP_RW);
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_setbit
@@ -498,33 +486,33 @@ static int main_setbit(int argc, char *argv[])
 
 	argv[2] = uppercase(argv[2]);
 
-	#ifdef OMAPCONF_SETBIT_DEBUG
+#ifdef OMAPCONF_SETBIT_DEBUG
 	printf("%s(): argv[0]=%s\n", __func__, argv[0]);
 	printf("%s(): argv[1]=%s\n", __func__, argv[1]);
 	printf("%s(): argv[2]=%s\n", __func__, argv[2]);
 	printf("%s(): argv[3]=%s\n", __func__, argv[3]);
-	#endif
+#endif
 
 	/* Retrieve and check register address */
 	if ((argv[2][0] == '0') && (argv[2][1] == 'X')) {
 		/* As an integer, must start with "0x" */
 		ret = sscanf(argv[2], "0X%x", &addr);
 		if (ret != 1) {
-			#ifdef OMAPCONF_SETBIT_DEBUG
+#ifdef OMAPCONF_SETBIT_DEBUG
 			printf("%s(): could not retrieve integer value\n",
-				__func__);
-			#endif
+			       __func__);
+#endif
 			goto main_setbit_arg_err;
 		}
 	} else {
 		/* As a string, must start with alpha character */
 		if (isalpha(argv[2][0])) {
-			ret = sscanf(argv[2], "%72s", (char *) name);
+			ret = sscanf(argv[2], "%72s", (char *)name);
 			if (ret != 1) {
-				#ifdef OMAPCONF_SETBIT_DEBUG
+#ifdef OMAPCONF_SETBIT_DEBUG
 				printf("%s(): could not retrieve name\n",
-					__func__);
-				#endif
+				       __func__);
+#endif
 				goto main_setbit_arg_err;
 			} else
 				by_name = 1;
@@ -532,54 +520,52 @@ static int main_setbit(int argc, char *argv[])
 			goto main_setbit_arg_err;
 	}
 
-	#ifdef OMAPCONF_SETBIT_DEBUG
+#ifdef OMAPCONF_SETBIT_DEBUG
 	if (by_name)
 		printf("%s(): found reg_addr = %s\n", __func__, name);
 	else
 		printf("%s(): found reg_addr = 0x%08X\n", __func__, addr);
-	#endif
+#endif
 
 	/*
 	 * If reg. name was entered, check name is valid and retrieve reg. addr.
 	 */
 	if (by_name == 1) {
-		ret = find_reg_addr((char *) name, &addr);
+		ret = find_reg_addr((char *)name, &addr);
 		if (ret != 0) {
 			printf("Not a valid register name! (%s)\n", name);
 			return OMAPCONF_ERR_ARG;
 		}
-		#ifdef OMAPCONF_SETBIT_DEBUG
+#ifdef OMAPCONF_SETBIT_DEBUG
 		else
 			printf("%s(): reg. addr. found. (0x%08X)\n",
-				__func__, addr);
-		#endif
+			       __func__, addr);
+#endif
 	}
 
 	/* Retrieve and check bit position */
 	ret = sscanf(argv[3], "%u", &pos);
 	if (ret != 1) {
-			#ifdef OMAPCONF_SETBIT_DEBUG
-			printf("%s(): could not retrieve bit position\n",
-				__func__);
-			#endif
-			goto main_setbit_arg_err;
+#ifdef OMAPCONF_SETBIT_DEBUG
+		printf("%s(): could not retrieve bit position\n", __func__);
+#endif
+		goto main_setbit_arg_err;
 	}
 	if (pos > 31) {
 		printf("Incorrect bit position! (%s)\n", argv[3]);
 		return OMAPCONF_ERR_ARG;
 	}
-
-	#ifdef OMAPCONF_SETBIT_DEBUG
+#ifdef OMAPCONF_SETBIT_DEBUG
 	printf("%s(): found position = %u\n", __func__, pos);
-	#endif
+#endif
 
 	/* Reaching this point means arguments OK */
-	#ifdef OMAPCONF_SETBIT_DEBUG
+#ifdef OMAPCONF_SETBIT_DEBUG
 	printf("%s(): addr=0x%x\n", __func__, addr);
 	printf("%s(): name=%s\n", __func__, name);
 	printf("%s(): pos=%d\n", __func__, pos);
 	printf("%s(): ret=%d\n", __func__, ret);
-	#endif
+#endif
 
 	/* Set bit in OMAP register */
 	ret = mem_read(addr, &value);
@@ -587,13 +573,12 @@ static int main_setbit(int argc, char *argv[])
 		fprintf(stderr, "internal error (failed to read)!\n");
 		return OMAPCONF_ERR_REG_ACCESS;
 	}
-
-	#ifdef OMAPCONF_SETBIT_DEBUG
+#ifdef OMAPCONF_SETBIT_DEBUG
 	printf("%s(): value = 0x%x\n", __func__, value);
 	printf("%s(): 1 << pos = 0x%x\n", __func__, 1 << pos);
 	printf("%s(): value | (1 << pos) = 0x%x\n",
-		__func__, value | (1 << pos));
-	#endif
+	       __func__, value | (1 << pos));
+#endif
 	ret = mem_write(addr, value | (1 << pos));
 	if (ret != 0) {
 		fprintf(stderr, "internal error (failed to write)!\n");
@@ -612,7 +597,6 @@ main_setbit_arg_err:
 	help(HELP_RW);
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_i2c_read
@@ -658,14 +642,13 @@ static int main_i2c_read(int argc, char *argv[])
 	return ret;
 
 main_i2c_read_err:
-	printf(
-		"Usage: omapconf i2c read 'i2cbus' 0x'chip-address' 0x'data-address'\n");
+	printf
+	    ("Usage: omapconf i2c read 'i2cbus' 0x'chip-address' 0x'data-address'\n");
 	printf("  'i2cbus' is decimal value.\n");
 	printf("  'chip-address' & 'data-address' are hexadecimal values.\n");
 	printf("  Warning: prefix '0x' is mandatory.\n");
 	return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_i2c_write
@@ -715,15 +698,14 @@ static int main_i2c_write(int argc, char *argv[])
 	return ret;
 
 main_i2c_write_err:
-	printf(
-		"Usage: omapconf i2c write 'i2cbus' 0x'chip-address' 0x'data-address' 0x'data'\n");
+	printf
+	    ("Usage: omapconf i2c write 'i2cbus' 0x'chip-address' 0x'data-address' 0x'data'\n");
 	printf("  'i2cbus' is decimal value.\n");
-	printf(
-		"  'chip-address', 'data-address' & 'data' are hexadecimal values.\n");
+	printf
+	    ("  'chip-address', 'data-address' & 'data' are hexadecimal values.\n");
 	printf("  Warning: prefix '0x' is mandatory.\n");
 	return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_sigbus_handler
@@ -732,7 +714,7 @@ main_i2c_write_err:
  * @DESCRIPTION		catch bus error and print failing memory physical
  *			address
  *------------------------------------------------------------------------ */
-static void main_sigbus_handler(int sig, siginfo_t *siginfo, void *context)
+static void main_sigbus_handler(int sig, siginfo_t * siginfo, void *context)
 {
 	/* just to remove "unused parameter" warnings ... */
 	sig = sig;
@@ -740,7 +722,7 @@ static void main_sigbus_handler(int sig, siginfo_t *siginfo, void *context)
 	context = context;
 
 	dprintf("%s(): sig=%d siginfo=0x%08X, context=0x%08X\n", __func__, sig,
-		(unsigned int) siginfo, (unsigned int) context);
+		(unsigned int)siginfo, (unsigned int)context);
 	fprintf(stderr, "\n\n!!! OUPS... MEMORY ERROR @ 0x%08X !!!\n",
 		mem_last_addr_get());
 	fprintf(stderr, "Are you sure that:\n");
@@ -749,7 +731,6 @@ static void main_sigbus_handler(int sig, siginfo_t *siginfo, void *context)
 
 	exit(-1);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_arguments_lowercase
@@ -772,7 +753,6 @@ static void main_arguments_lowercase(int argc, char *argv[])
 			__func__, argc, argv[i]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main_options_scan
@@ -812,22 +792,22 @@ static int main_options_scan(int *argc, char **argv[])
 				goto main_options_scan_err;
 			}
 			if (!cpu_is_omap54xx()) {
-				printf(
-					"Sorry, only available for OMAP5...\n\n");
+				printf
+				    ("Sorry, only available for OMAP5...\n\n");
 				goto main_options_scan_err;
 			}
 			/* Import register content from file */
 			ret = lib54xx_import((*argv)[i + 1]);
 			if (ret != 0) {
 				omapconf_revision_show(stdout);
-				printf(
-					"Oups, error during import from \"%s\" :-(\n\n",
-					(*argv)[i + 1]);
+				printf
+				    ("Oups, error during import from \"%s\" :-(\n\n",
+				     (*argv)[i + 1]);
 				goto main_options_scan_err;
 			} else {
-				printf(
-					"### Registers successfully imported from \"%s\" file. ###\n\n",
-					(*argv)[i + 1]);
+				printf
+				    ("### Registers successfully imported from \"%s\" file. ###\n\n",
+				     (*argv)[i + 1]);
 			}
 			cpt += 2;
 			ret++;
@@ -845,9 +825,9 @@ static int main_options_scan(int *argc, char **argv[])
 			ret = cpu_force((*argv)[i + 1]);
 			if (ret != 0) {
 				omapconf_revision_show(stdout);
-				printf(
-					"\"%s\" CPU is not supported, see list of supported CPU below.\n\n",
-					(*argv)[i + 1]);
+				printf
+				    ("\"%s\" CPU is not supported, see list of supported CPU below.\n\n",
+				     (*argv)[i + 1]);
 				help(HELP_FORCEDETECT);
 				goto main_options_scan_err;
 			}
@@ -859,8 +839,8 @@ static int main_options_scan(int *argc, char **argv[])
 				__func__, i);
 			/* Enable fake memory access debug mode */
 			mem_fake_access_set(1);
-			printf(
-				"\n### FAKE MEMORY ACCESS DEBUG MODE ENABLED ###\n\n");
+			printf
+			    ("\n### FAKE MEMORY ACCESS DEBUG MODE ENABLED ###\n\n");
 			cpt++;
 			ret++;
 		} else if (strcmp((*argv)[i], "--trace_read") == 0) {
@@ -886,7 +866,6 @@ main_options_scan_end:
 	dprintf("%s(): ret=%d\n", __func__, ret);
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main
@@ -944,14 +923,14 @@ int main(int argc, char *argv[])
 		case OMAPCONF_ERR_REG_ACCESS:
 			omapconf_revision_show(stdout);
 			printf("'/dev/mem' could not be opened.\n");
-			printf(
-				"Privileged access required to run omapconf.\n\n");
+			printf
+			    ("Privileged access required to run omapconf.\n\n");
 			ret = OMAPCONF_ERR_REG_ACCESS;
 			goto main_exit;
 
 		case OMAPCONF_ERR_CPU:
-			printf(
-				"Warning: chip not recognized, running in safe mode (only platform-generic functions allowed).\n\n");
+			printf
+			    ("Warning: chip not recognized, running in safe mode (only platform-generic functions allowed).\n\n");
 			break;
 
 		case OMAPCONF_ERR_UNEXPECTED:
@@ -991,11 +970,9 @@ int main(int argc, char *argv[])
 		ret = 0;
 		goto main_exit;
 	} else if (strcmp(argv[0], "read") == 0) {
-		if ((argc >= 2) &&
-			(strcmp(argv[1], "audioic") == 0)) {
+		if ((argc >= 2) && (strcmp(argv[1], "audioic") == 0)) {
 			goto main_platform_specific;
-		} else if ((argc >= 2) &&
-			(strcmp(argv[1], "i2c") == 0)) {
+		} else if ((argc >= 2) && (strcmp(argv[1], "i2c") == 0)) {
 			if (argc < 5) {
 				ret = err_arg_missing_msg_show(HELP_I2C_RW);
 				goto main_exit;
@@ -1013,18 +990,16 @@ int main(int argc, char *argv[])
 			goto main_exit;
 		} else if (argc == 3) {
 			ret = main_readreg(uppercase(argv[1]),
-				lowercase(argv[2]));
+					   lowercase(argv[2]));
 			goto main_exit;
 		} else {
 			ret = err_arg_too_many_msg_show(HELP_RW);
 			goto main_exit;
 		}
 	} else if (strcmp(argv[0], "write") == 0) {
-		if ((argc >= 2) &&
-			(strcmp(argv[1], "audioic") == 0)) {
+		if ((argc >= 2) && (strcmp(argv[1], "audioic") == 0)) {
 			goto main_platform_specific;
-		} else if ((argc >= 2) &&
-			(strcmp(argv[1], "i2c") == 0)) {
+		} else if ((argc >= 2) && (strcmp(argv[1], "i2c") == 0)) {
 			if (argc < 6) {
 				ret = err_arg_missing_msg_show(HELP_I2C_RW);
 				goto main_exit;
@@ -1042,7 +1017,7 @@ int main(int argc, char *argv[])
 			goto main_exit;
 		} else if (argc == 3) {
 			ret = main_writereg(uppercase(argv[1]),
-				uppercase(argv[2]));
+					    uppercase(argv[2]));
 			goto main_exit;
 		} else {
 			ret = err_arg_too_many_msg_show(HELP_RW);
@@ -1075,29 +1050,29 @@ int main(int argc, char *argv[])
 			goto main_exit;
 		}
 	} else if ((strcmp(argv[0], "dump") == 0)
-		&& (argc == 3)
-		&& (sscanf(argv[1], "0x%08x", &start) == 1)
-		&& (sscanf(argv[2], "0x%08x", &end) == 1)) {
+		   && (argc == 3)
+		   && (sscanf(argv[1], "0x%08x", &start) == 1)
+		   && (sscanf(argv[2], "0x%08x", &end) == 1)) {
 		ret = mem_address_range_dump(start, end);
 		goto main_exit;
 	} else if ((argc >= 3) &&
-		(strcmp(argv[0], "trace") == 0) &&
-		(strcmp(argv[1], "perf") == 0) &&
-		(strcmp(argv[2], "setup") == 0)) {
+		   (strcmp(argv[0], "trace") == 0) &&
+		   (strcmp(argv[1], "perf") == 0) &&
+		   (strcmp(argv[2], "setup") == 0)) {
 		if (argc == 3)
-			ret = trace_perf_setup(
-				(char *) trace_perf_default_cfgfile);
+			ret = trace_perf_setup((char *)
+					       trace_perf_default_cfgfile);
 		else
 			ret = trace_perf_setup(argv[3]);
 		goto main_exit;
 	} else if ((argc >= 2) &&
-		(strcmp(argv[0], "trace") == 0) &&
-		(strcmp(argv[1], "perf") == 0)) {
+		   (strcmp(argv[0], "trace") == 0) &&
+		   (strcmp(argv[1], "perf") == 0)) {
 		time = TRACE_PERF_DEFAULT_CAPTURE_TIME;
 		delay = TRACE_PERF_DEFAULT_DELAY_TIME;
 		sampling_rate = TRACE_PERF_DEFAULT_SAMPLING_RATE;
 		prefix = NULL;
-		cfgfile = (char *) trace_perf_default_cfgfile;
+		cfgfile = (char *)trace_perf_default_cfgfile;
 
 		omapconf_revision_show(stdout);
 		chips_info_show(stdout, 0);
@@ -1108,7 +1083,7 @@ int main(int argc, char *argv[])
 			delay = TRACE_PERF_DEFAULT_DELAY_TIME;
 			sampling_rate = TRACE_PERF_DEFAULT_SAMPLING_RATE;
 			prefix = NULL;
-			cfgfile = (char *) trace_perf_default_cfgfile;
+			cfgfile = (char *)trace_perf_default_cfgfile;
 		} else if (argc == 3) {
 			ret = sscanf(argv[2], "%u", &time);
 			if (ret != 1) {
@@ -1119,35 +1094,38 @@ int main(int argc, char *argv[])
 		} else {
 			while ((c = getopt(argc, argv, "d:t:s:p:c:")) != -1) {
 				switch (c) {
-				case 'd': /* delay time */
+				case 'd':	/* delay time */
 					ret = sscanf(optarg, "%u", &delay);
 					if (ret != 1) {
-						ret = err_arg_msg_show(
-							HELP_TRACE);
+						ret =
+						    err_arg_msg_show
+						    (HELP_TRACE);
 						goto main_exit;
 					}
 					break;
-				case 't': /* capture time */
+				case 't':	/* capture time */
 					ret = sscanf(optarg, "%u", &time);
 					if (ret != 1) {
-						ret = err_arg_msg_show(
-							HELP_TRACE);
+						ret =
+						    err_arg_msg_show
+						    (HELP_TRACE);
 						goto main_exit;
 					}
 					break;
-				case 's': /* sampling rate */
+				case 's':	/* sampling rate */
 					ret = sscanf(optarg, "%lf",
-						&sampling_rate);
+						     &sampling_rate);
 					if (ret != 1) {
-						ret = err_arg_msg_show(
-							HELP_TRACE);
+						ret =
+						    err_arg_msg_show
+						    (HELP_TRACE);
 						goto main_exit;
 					}
 					break;
-				case 'p': /* file prefix */
+				case 'p':	/* file prefix */
 					prefix = optarg;
 					break;
-				case 'c': /* configuration file */
+				case 'c':	/* configuration file */
 					cfgfile = optarg;
 					break;
 				default:
@@ -1161,10 +1139,9 @@ int main(int argc, char *argv[])
 		else if (cpu_is_omap54xx())
 			dpll54xx_init();
 		ret = trace_perf_capture(cfgfile, prefix,
-				sampling_rate, time, delay);
+					 sampling_rate, time, delay);
 		goto main_exit;
 	}
-
 
 	/* Platform-specific functions */
 main_platform_specific:

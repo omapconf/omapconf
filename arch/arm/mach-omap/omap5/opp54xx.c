@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <string.h>
 #include <opp.h>
 #include <lib.h>
@@ -53,7 +52,6 @@
 #include <clock54xx.h>
 #include <module54xx.h>
 
-
 /* #define OPP54XX_DEBUG */
 #ifdef OPP54XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -61,20 +59,19 @@
 #define dprintf(format, ...)
 #endif
 
-
 genlist vdd54xx_wkup_opp_list;
 genlist vdd54xx_mpu_opp_list;
 genlist vdd54xx_mm_opp_list;
 genlist vdd54xx_core_opp_list;
 
 genlist *opp54xx_list_table_es1[VDD54XX_ID_MAX] = {
-		&vdd54xx_wkup_opp_list, /* VDD_WKUP */
-		&vdd54xx_mpu_opp_list, /* VDD_MPU */
-		&vdd54xx_mm_opp_list, /* VDD_MM */
-		&vdd54xx_core_opp_list}; /* VDD_CORE */
+	&vdd54xx_wkup_opp_list,	/* VDD_WKUP */
+	&vdd54xx_mpu_opp_list,	/* VDD_MPU */
+	&vdd54xx_mm_opp_list,	/* VDD_MM */
+	&vdd54xx_core_opp_list
+};				/* VDD_CORE */
 
 static unsigned short opp54xx_init_done = 0;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_init
@@ -86,34 +83,34 @@ void opp54xx_init(void)
 	opp_t opp;
 
 	/* ES1.0 */
-	static const opp_t mpu_opp_low_es1  = {OPP_LOW,	 950000,  400000};
-	static const opp_t mpu_opp_nom_es1  = {OPP_NOM,	 1040000, 800000};
-	static const opp_t mpu_opp_high_es1 = {OPP_HIGH, 1220000, 1100000};
+	static const opp_t mpu_opp_low_es1 = { OPP_LOW, 950000, 400000 };
+	static const opp_t mpu_opp_nom_es1 = { OPP_NOM, 1040000, 800000 };
+	static const opp_t mpu_opp_high_es1 = { OPP_HIGH, 1220000, 1100000 };
 
-	static const opp_t mm_opp_low_es1 =  {OPP_LOW,	950000,  177333};
-	static const opp_t mm_opp_nom_es1 =  {OPP_NOM,	1040000, 354667};
-	static const opp_t mm_opp_high_es1 = {OPP_HIGH,	1220000, 532000};
+	static const opp_t mm_opp_low_es1 = { OPP_LOW, 950000, 177333 };
+	static const opp_t mm_opp_nom_es1 = { OPP_NOM, 1040000, 354667 };
+	static const opp_t mm_opp_high_es1 = { OPP_HIGH, 1220000, 532000 };
 
-	static const opp_t core_opp_low_es1 = {OPP_LOW,	950000,  133000};
-	static const opp_t core_opp_nom_es1 = {OPP_NOM,	1040000, 2660000};
+	static const opp_t core_opp_low_es1 = { OPP_LOW, 950000, 133000 };
+	static const opp_t core_opp_nom_es1 = { OPP_NOM, 1040000, 2660000 };
 
 	/* ES2.0 */
-	static const opp_t mpu_opp_low  = {OPP_LOW,	880000,  500000};
-	static const opp_t mpu_opp_nom  = {OPP_NOM,	1060000, 1100000};
-	static const opp_t mpu_opp_high = {OPP_HIGH,	1250000, 1500000};
-	static const opp_t mpu_opp_sb =   {OPP_SB,	1290000, 1700000};
+	static const opp_t mpu_opp_low = { OPP_LOW, 880000, 500000 };
+	static const opp_t mpu_opp_nom = { OPP_NOM, 1060000, 1100000 };
+	static const opp_t mpu_opp_high = { OPP_HIGH, 1250000, 1500000 };
+	static const opp_t mpu_opp_sb = { OPP_SB, 1290000, 1700000 };
 
-	static const opp_t mm_opp_low =  {OPP_LOW,	880000,  195000};
-	static const opp_t mm_opp_nom =  {OPP_NOM,	1030000, 389000};
-	static const opp_t mm_opp_high = {OPP_HIGH,	1120000, 532000};
+	static const opp_t mm_opp_low = { OPP_LOW, 880000, 195000 };
+	static const opp_t mm_opp_nom = { OPP_NOM, 1030000, 389000 };
+	static const opp_t mm_opp_high = { OPP_HIGH, 1120000, 532000 };
 
-	static const opp_t core_opp_low = {OPP_LOW,	880000,  133000};
-	static const opp_t core_opp_nom = {OPP_NOM,	1040000, 2660000};
+	static const opp_t core_opp_low = { OPP_LOW, 880000, 133000 };
+	static const opp_t core_opp_nom = { OPP_NOM, 1040000, 2660000 };
 
-	#ifdef OPP54XX_DEBUG
+#ifdef OPP54XX_DEBUG
 	int i, count;
 	voltdm54xx_id vdd;
-	#endif
+#endif
 
 	if (!opp54xx_init_done) {
 		genlist_init(&vdd54xx_wkup_opp_list);
@@ -121,79 +118,83 @@ void opp54xx_init(void)
 		opp.voltage = 1.0;
 		opp.rate = clk54xx_sysclk_rate_get();
 		genlist_addtail(&vdd54xx_wkup_opp_list,
-			(void *) &opp, sizeof(opp_t));
+				(void *)&opp, sizeof(opp_t));
 
 		genlist_init(&vdd54xx_mpu_opp_list);
 		if (cpu_revision_get() == REV_ES1_0) {
 			genlist_addtail(&vdd54xx_mpu_opp_list,
-				(void *) &mpu_opp_low_es1, sizeof(opp_t));
+					(void *)&mpu_opp_low_es1,
+					sizeof(opp_t));
 			genlist_addtail(&vdd54xx_mpu_opp_list,
-				(void *) &mpu_opp_nom_es1, sizeof(opp_t));
+					(void *)&mpu_opp_nom_es1,
+					sizeof(opp_t));
 			genlist_addtail(&vdd54xx_mpu_opp_list,
-				(void *) &mpu_opp_high_es1, sizeof(opp_t));
+					(void *)&mpu_opp_high_es1,
+					sizeof(opp_t));
 
 			genlist_init(&vdd54xx_mm_opp_list);
 			genlist_addtail(&vdd54xx_mm_opp_list,
-				(void *) &mm_opp_low_es1, sizeof(opp_t));
+					(void *)&mm_opp_low_es1, sizeof(opp_t));
 			genlist_addtail(&vdd54xx_mm_opp_list,
-				(void *) &mm_opp_nom_es1, sizeof(opp_t));
+					(void *)&mm_opp_nom_es1, sizeof(opp_t));
 			genlist_addtail(&vdd54xx_mm_opp_list,
-				(void *) &mm_opp_high_es1, sizeof(opp_t));
+					(void *)&mm_opp_high_es1,
+					sizeof(opp_t));
 
 			genlist_init(&vdd54xx_core_opp_list);
 			genlist_addtail(&vdd54xx_core_opp_list,
-				(void *) &core_opp_low_es1, sizeof(opp_t));
+					(void *)&core_opp_low_es1,
+					sizeof(opp_t));
 			genlist_addtail(&vdd54xx_core_opp_list,
-				(void *) &core_opp_nom_es1, sizeof(opp_t));
+					(void *)&core_opp_nom_es1,
+					sizeof(opp_t));
 		} else {
 			genlist_addtail(&vdd54xx_mpu_opp_list,
-				(void *) &mpu_opp_low, sizeof(opp_t));
+					(void *)&mpu_opp_low, sizeof(opp_t));
 			genlist_addtail(&vdd54xx_mpu_opp_list,
-				(void *) &mpu_opp_nom, sizeof(opp_t));
+					(void *)&mpu_opp_nom, sizeof(opp_t));
 			genlist_addtail(&vdd54xx_mpu_opp_list,
-				(void *) &mpu_opp_high, sizeof(opp_t));
+					(void *)&mpu_opp_high, sizeof(opp_t));
 			genlist_addtail(&vdd54xx_mpu_opp_list,
-				(void *) &mpu_opp_sb, sizeof(opp_t));
+					(void *)&mpu_opp_sb, sizeof(opp_t));
 
 			genlist_init(&vdd54xx_mm_opp_list);
 			genlist_addtail(&vdd54xx_mm_opp_list,
-				(void *) &mm_opp_low, sizeof(opp_t));
+					(void *)&mm_opp_low, sizeof(opp_t));
 			genlist_addtail(&vdd54xx_mm_opp_list,
-				(void *) &mm_opp_nom, sizeof(opp_t));
+					(void *)&mm_opp_nom, sizeof(opp_t));
 			genlist_addtail(&vdd54xx_mm_opp_list,
-				(void *) &mm_opp_high, sizeof(opp_t));
+					(void *)&mm_opp_high, sizeof(opp_t));
 
 			genlist_init(&vdd54xx_core_opp_list);
 			genlist_addtail(&vdd54xx_core_opp_list,
-				(void *) &core_opp_low, sizeof(opp_t));
+					(void *)&core_opp_low, sizeof(opp_t));
 			genlist_addtail(&vdd54xx_core_opp_list,
-				(void *) &core_opp_nom, sizeof(opp_t));
+					(void *)&core_opp_nom, sizeof(opp_t));
 		}
 
 		opp54xx_init_done = 1;
-		#ifdef OPP54XX_DEBUG
+#ifdef OPP54XX_DEBUG
 		printf("%s(): init done.\n", __func__);
 		printf("OPP List:\n");
 		for (vdd = VDD54XX_WKUP; vdd <= VDD54XX_CORE; vdd++) {
-			count = genlist_getcount(
-				(genlist *) opp54xx_list_table_es1[vdd]);
+			count = genlist_getcount((genlist *)
+						 opp54xx_list_table_es1[vdd]);
 			printf("  %s (%d): ", voltdm54xx_name_get(vdd), count);
 			for (i = 0; i < count; i++) {
-				genlist_get(
-					(genlist *) opp54xx_list_table_es1[vdd],
-					i, (void *) &opp);
-				printf("%s (%.1lfMHz, %.3lfV)",
-					opp.name, khz2mhz(opp.rate),
-					uv2v(opp.voltage));
+				genlist_get((genlist *)
+					    opp54xx_list_table_es1[vdd], i,
+					    (void *)&opp);
+				printf("%s (%.1lfMHz, %.3lfV)", opp.name,
+				       khz2mhz(opp.rate), uv2v(opp.voltage));
 				if (i != count - 1)
 					printf(", ");
 			}
 			printf(".\n");
 		}
-		#endif
+#endif
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_deinit
@@ -214,7 +215,6 @@ void opp54xx_deinit(void)
 	dprintf("%s(): deinit done.\n", __func__);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_id_get
  * @BRIEF		convert OPP provided as a string (as defined in opp.h)
@@ -230,19 +230,18 @@ int opp54xx_id_get(const char *opp)
 	CHECK_NULL_ARG(opp, OMAPCONF_ERR_ARG);
 
 	if (strcasecmp(opp, OPP_DPLL_CASC) == 0)
-		return (int) OPP54XX_DPLL_CASC;
+		return (int)OPP54XX_DPLL_CASC;
 	else if (strcasecmp(opp, OPP_LOW) == 0)
-		return (int) OPP54XX_LOW;
+		return (int)OPP54XX_LOW;
 	else if (strcasecmp(opp, OPP_NOM) == 0)
-		return (int) OPP54XX_NOM;
+		return (int)OPP54XX_NOM;
 	else if (strcasecmp(opp, OPP_HIGH) == 0)
-		return (int) OPP54XX_HIGH;
+		return (int)OPP54XX_HIGH;
 	else if (strcasecmp(opp, OPP_SB) == 0)
-		return (int) OPP54XX_SB;
+		return (int)OPP54XX_SB;
 	else
 		return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_count_get
@@ -268,7 +267,6 @@ int opp54xx_count_get(voltdm54xx_id vdd_id)
 	return count;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_list_get
  * @BRIEF		return the list of OPP of a given voltage domain
@@ -286,7 +284,6 @@ const genlist *opp54xx_list_get(voltdm54xx_id vdd_id)
 
 	return opp54xx_list_table_es1[vdd_id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_by_voltage_get
@@ -309,7 +306,6 @@ const char *opp54xx_by_voltage_get(voltdm54xx_id vdd_id)
 	return opp_by_voltage_get(voltdm54xx_id2s(vdd_id), 1);
 }
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_by_rate_get
@@ -366,7 +362,7 @@ const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 	 * reported speed will be 0 and OPP cannot be detected.
 	 * Hence, ignore DPLL status.
 	 */
-	rate = (double) module_clk_rate_get(module_name, 1) / 1000.0;
+	rate = (double)module_clk_rate_get(module_name, 1) / 1000.0;
 	if (rate < 0.0) {
 		dprintf("%s(): could not retrieve clock speed!\n", __func__);
 		goto opp54xx_by_rate_get_end;
@@ -375,7 +371,7 @@ const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 		voltdm54xx_name_get(vdd_id),
 		clk54xx_name_get(module_clk_get(module_name)), rate);
 	if (vdd_id == VDD54XX_MM) {
-		rate_dsp = (double) module_clk_rate_get(MOD_DSP, 1) / 1000.0;
+		rate_dsp = (double)module_clk_rate_get(MOD_DSP, 1) / 1000.0;
 		if (rate_dsp < 0.0) {
 			dprintf("%s(): could not retrieve clock speed!\n",
 				__func__);
@@ -383,7 +379,7 @@ const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 		}
 		dprintf("%s(%s): DSP rate is %lfMHz\n", __func__,
 			voltdm54xx_name_get(vdd_id), rate_dsp);
-		rate_gpu = (double) module_clk_rate_get(MOD_GPU, 1) / 1000.0;
+		rate_gpu = (double)module_clk_rate_get(MOD_GPU, 1) / 1000.0;
 		if (rate_gpu < 0.0) {
 			dprintf("%s(): could not retrieve clock speed!\n",
 				__func__);
@@ -405,9 +401,8 @@ const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 		goto opp54xx_by_rate_get_end;
 	}
 
-
 	for (i = 0; i < opp_count; i++) {
-		ret = genlist_get((genlist *) opp_list, i, (opp_t *) &opp);
+		ret = genlist_get((genlist *) opp_list, i, (opp_t *) & opp);
 		if (ret != 0) {
 			dprintf("%s(): could not retrieve OPP from list!\n",
 				__func__);
@@ -416,18 +411,18 @@ const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 
 		opp_id = opp54xx_id_get(opp.name);
 		if (opp_id < 0) {
-			dprintf(
-				"%s(): could not retrieve OPP ID from OPP name!\n",
-				__func__);
+			dprintf
+			    ("%s(): could not retrieve OPP ID from OPP name!\n",
+			     __func__);
 			goto opp54xx_by_rate_get_end;
 		}
 
-		rate_por = (double) module_por_clk_rate_get(module_name, opp.name) / 1000.0;
+		rate_por =
+		    (double)module_por_clk_rate_get(module_name,
+						    opp.name) / 1000.0;
 		if (rate_por < 0) {
-			dprintf(
-				"%s(): could not get %s %s POR speed! (%d)\n",
-				__func__, module_name,
-				opp.name, ret);
+			dprintf("%s(): could not get %s %s POR speed! (%d)\n",
+				__func__, module_name, opp.name, ret);
 			goto opp54xx_by_rate_get_end;
 		}
 		dprintf("%s(%s): %s POR rate for %s is %lf\n",
@@ -435,36 +430,38 @@ const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 			module_name, opp.name, rate_por);
 		if (vdd_id == VDD54XX_MM) {
 			rate_dsp_por =
-				(double) module_por_clk_rate_get(MOD_DSP, opp.name) / 1000.0;
+			    (double)module_por_clk_rate_get(MOD_DSP,
+							    opp.name) / 1000.0;
 			if (rate_dsp_por < 0) {
-				dprintf(
-					"%s(): could not get DSP %s POR speed! (%d)\n",
-					__func__, opp.name, ret);
+				dprintf
+				    ("%s(): could not get DSP %s POR speed! (%d)\n",
+				     __func__, opp.name, ret);
 				goto opp54xx_by_rate_get_end;
 			}
 			dprintf("%s(%s): DSP POR rate for %s is %lf\n",
 				__func__, voltdm54xx_name_get(vdd_id),
 				opp.name, rate_dsp_por);
 			rate_gpu_por =
-				(double) module_por_clk_rate_get(MOD_GPU, opp.name) / 1000.0;
+			    (double)module_por_clk_rate_get(MOD_GPU,
+							    opp.name) / 1000.0;
 			if (rate_gpu_por < 0) {
-				dprintf(
-					"%s(): could not get GPU %s POR speed! (%d)\n",
-					__func__, opp.name, ret);
+				dprintf
+				    ("%s(): could not get GPU %s POR speed! (%d)\n",
+				     __func__, opp.name, ret);
 				goto opp54xx_by_rate_get_end;
 			}
 			dprintf("%s(%s): GPU POR rate for %s is %lf\n",
 				__func__, voltdm54xx_name_get(vdd_id),
 				opp.name, rate_gpu_por);
 
-			if (((int) rate == (int) rate_por) &&
-				 ((int) rate_dsp == (int) rate_dsp_por) &&
-				 ((int) rate_gpu == (int) rate_gpu_por)) {
+			if (((int)rate == (int)rate_por) &&
+			    ((int)rate_dsp == (int)rate_dsp_por) &&
+			    ((int)rate_gpu == (int)rate_gpu_por)) {
 				opp_name = opp.name;
 				goto opp54xx_by_rate_get_end;
 			}
 		} else {
-			if ((int) rate == (int) rate_por) {
+			if ((int)rate == (int)rate_por) {
 				opp_name = opp.name;
 				goto opp54xx_by_rate_get_end;
 			}
@@ -475,17 +472,16 @@ const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 		__func__, voltdm54xx_name_get(vdd_id));
 
 opp54xx_by_rate_get_end:
-	#ifdef OPP54XX_DEBUG
+#ifdef OPP54XX_DEBUG
 	if (opp_name == NULL)
 		printf("%s(%s): OPP not found!\n", __func__,
-			voltdm54xx_name_get(vdd_id));
+		       voltdm54xx_name_get(vdd_id));
 	else
 		printf("%s(%s): OPP found: %s\n", __func__,
-			voltdm54xx_name_get(vdd_id), opp_name);
-	#endif
+		       voltdm54xx_name_get(vdd_id), opp_name);
+#endif
 	return opp_name;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_get
@@ -505,7 +501,6 @@ const char *opp54xx_get(voltdm54xx_id vdd_id)
 
 	return opp_get(voltdm54xx_id2s(vdd_id), 1);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_set

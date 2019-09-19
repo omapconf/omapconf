@@ -41,16 +41,13 @@
  *
  */
 
-
 #ifndef __MODULE_H__
 #define __MODULE_H__
-
 
 #include <genlist.h>
 #include <reg.h>
 #include <prcm-module.h>
 #include <stdio.h>
-
 
 #define MOD_UNKNOWN			((const char *) "UNKNOWN")
 #define MOD_DSP				((const char *) "DSP")
@@ -213,8 +210,6 @@
 #define MOD_SLIMBUS1			((const char *) "SLIMBUS1")
 #define MOD_SLIMBUS2			((const char *) "SLIMBUS2")
 
-
-
 #define MOD_CONTROL_GEN_WKUP		((const char *) "CONTROL_GEN_WKUP")
 #define MOD_CONTROL_PADCONF_WKUP	((const char *) "CONTROL_PADCONF_WKUP")
 #define MOD_CONTROL_GEN_CORE		((const char *) "CONTROL_GEN_CORE")
@@ -239,7 +234,6 @@
 #define MOD_USBTLL			((const char *) "USBTLL")
 #define MOD_P1500			((const char *) "P1500")
 #define MOD_MCBSP4			((const char *) "MCBSP4")
-
 
 /* Additional Modules for DRA7 */
 #define MOD_APLL_PCIE			((const char *) "APLL_PCIE")
@@ -347,34 +341,30 @@
 #define MOD_WUGEN_IPU			((const char *) "WUGEN_IPU")
 #define MOD_WUGEN_SYSTEM		((const char *) "WUGEN_SYSTEM")
 
-
 typedef struct {
-	const char *name; /* Module Name */
-	int id;	/* Module ID (invalid if < 0) */
-	const char *clkdm; /* Name of Clock Domain module is part of */
-	const char *pwrdm; /* Name of Power Domain module is part of */
-	const char *voltdm; /* Name of Voltage Domain module is part of */
-	int clk; /* Functional Clock of the module (invalid if < 0) */
-	reg *sysconfig; /* SYSCONFIG register of the module */
-	reg *clkctrl; /* CLKCTRL register of the module */
-	reg *context; /* CONTEXT register of the module */
-	genlist mod_opp_list; /* List of OPP (as defined in opp.h) supported by the module */
-	unsigned int properties; /* Module properties flags */
+	const char *name;	/* Module Name */
+	int id;			/* Module ID (invalid if < 0) */
+	const char *clkdm;	/* Name of Clock Domain module is part of */
+	const char *pwrdm;	/* Name of Power Domain module is part of */
+	const char *voltdm;	/* Name of Voltage Domain module is part of */
+	int clk;		/* Functional Clock of the module (invalid if < 0) */
+	reg *sysconfig;		/* SYSCONFIG register of the module */
+	reg *clkctrl;		/* CLKCTRL register of the module */
+	reg *context;		/* CONTEXT register of the module */
+	genlist mod_opp_list;	/* List of OPP (as defined in opp.h) supported by the module */
+	unsigned int properties;	/* Module properties flags */
 } mod_info;
 
-
 typedef struct {
-	const char *name; /* OPP Name */
-	int rate; /* in KHz */
+	const char *name;	/* OPP Name */
+	int rate;		/* in KHz */
 } mod_opp;
-
 
 void module_init(void);
 void module_deinit(void);
 
 int module_count_get(void);
 const genlist *module_list_get(void);
-
 
 unsigned int module_has_sysconfig_register(const char *mod);
 unsigned int module_has_autoidle_bit(const char *mod);
@@ -386,7 +376,6 @@ unsigned int module_has_standby_mode(const char *mod);
 unsigned int module_has_standby_status(const char *mod);
 unsigned int module_has_smart_standby_wakeup_mode(const char *mod);
 unsigned int module_has_clock_activity_mode(const char *mod);
-
 
 int module_id_get(const char *mod);
 unsigned short int module_is_accessible(const char *mod);
@@ -402,12 +391,11 @@ int module_clk_get(const char *mod);
 int module_clk_rate_get(const char *mod, unsigned short ignore);
 int module_por_clk_rate_get(const char *mod, const char *opp);
 
-int module_status_show(FILE *stream);
-int module_clk_rate_audit(FILE *stream,
-	unsigned int *err_nbr, unsigned int *wng_nbr);
-int module_sysconfig_audit(FILE *stream, unsigned int *err_nbr,
-	unsigned int *wng_nbr);
-int module_config_show(FILE *stream, const char *mod);
-
+int module_status_show(FILE * stream);
+int module_clk_rate_audit(FILE * stream,
+			  unsigned int *err_nbr, unsigned int *wng_nbr);
+int module_sysconfig_audit(FILE * stream, unsigned int *err_nbr,
+			   unsigned int *wng_nbr);
+int module_config_show(FILE * stream, const char *mod);
 
 #endif

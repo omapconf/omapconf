@@ -41,14 +41,12 @@
  *
  */
 
-
 #include <dpll.h>
 #include <dpll44xx.h>
 #include <cm44xx.h>
 #include <lib.h>
 #include <cpuinfo.h>
 #include <string.h>
-
 
 /* #define DPLL_DEBUG */
 #ifdef DPLL_DEBUG
@@ -57,9 +55,8 @@
 #define dprintf(format, ...)
 #endif
 
-
 static const char
-	dpll_mode_names[DPLL_MODE_MAX][DPLL_MODE_MAX_NAME_LENGTH] = {
+ dpll_mode_names[DPLL_MODE_MAX][DPLL_MODE_MAX_NAME_LENGTH] = {
 	"RESERVED",
 	"LPST",
 	"FRST",
@@ -67,19 +64,20 @@ static const char
 	"MNBP",
 	"LPBP",
 	"FRBP",
-	"Lock"};
-
+	"Lock"
+};
 
 static const char
-	dpll_ramp_level_names[DPLL_RAMP_LEVEL_MAX][DPLL_RAMP_LEVEL_MAX_NAME_LENGTH] = {
+ dpll_ramp_level_names[DPLL_RAMP_LEVEL_MAX][DPLL_RAMP_LEVEL_MAX_NAME_LENGTH] = {
 	"No Ramp",
 	"8,4,2",
 	"4,2,1.5",
-	"RESERVED"};
-
+	"RESERVED"
+};
 
 static const char
-	dpll_autoidle_mode_names[DPLL_AUTOIDLE_MODE_MAX][DPLL_AUTOIDLE_MODE_MAX_NAME_LENGTH] = {
+ dpll_autoidle_mode_names[DPLL_AUTOIDLE_MODE_MAX]
+    [DPLL_AUTOIDLE_MODE_MAX_NAME_LENGTH] = {
 	"Disabled",
 	"Auto LPST",
 	"Auto FRST",
@@ -87,28 +85,30 @@ static const char
 	"RESERVED",
 	"Auto LPBP",
 	"Auto FRBP",
-	"RESERVED"};
-
+	"RESERVED"
+};
 
 static const char
-	dpll_status_names[DPLL_STATUS_MAX][DPLL_STATUS_MAX_NAME_LENGTH] = {
+ dpll_status_names[DPLL_STATUS_MAX][DPLL_STATUS_MAX_NAME_LENGTH] = {
 	"Bypassed",
 	"Locked",
 	"Stopped",
-	"Reserved"};
-
+	"Reserved"
+};
 
 static const char
-	dpll_bp_clk_src_names[DPLL_BP_CLK_SRC_ID_MAX][DPLL_BP_CLK_SRC_MAX_NAME_LENGTH] = {
+ dpll_bp_clk_src_names[DPLL_BP_CLK_SRC_ID_MAX][DPLL_BP_CLK_SRC_MAX_NAME_LENGTH]
+    = {
 	"CLKINP",
-	"CLKINPULOW"};
-
+	"CLKINPULOW"
+};
 
 static const char
-	dpll_clkouthif_src_names[DPLL_CLKOUTHIF_SRC_ID_MAX][DPLL_CLKOUTHIF_SRC_MAX_NAME_LENGTH] = {
+ dpll_clkouthif_src_names[DPLL_CLKOUTHIF_SRC_ID_MAX]
+    [DPLL_CLKOUTHIF_SRC_MAX_NAME_LENGTH] = {
 	"DCO",
-	"CLKINPHIF"};
-
+	"CLKINPHIF"
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_mode_name_get
@@ -122,12 +122,11 @@ const char *dpll_mode_name_get(dpll_mode mode)
 {
 	if (mode >= DPLL_MODE_MAX) {
 		fprintf(stderr, "%s(): bad mode! (%u)\n", __func__, mode);
-		return (char *) dpll_mode_names[DPLL_RESERVED_0];
+		return (char *)dpll_mode_names[DPLL_RESERVED_0];
 	}
 
-	return (char *) dpll_mode_names[mode];
+	return (char *)dpll_mode_names[mode];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_ramp_level_name_get
@@ -142,12 +141,11 @@ const char *dpll_ramp_level_name_get(dpll_ramp_level level)
 {
 	if (level >= DPLL_RAMP_LEVEL_MAX) {
 		fprintf(stderr, "%s(): bad level! (%u)\n", __func__, level);
-		return (char *) dpll_ramp_level_names[DPLL_RAMP_RESERVED];
+		return (char *)dpll_ramp_level_names[DPLL_RAMP_RESERVED];
 	}
 
-	return (char *) dpll_ramp_level_names[level];
+	return (char *)dpll_ramp_level_names[level];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_autoidle_mode_name_get
@@ -162,12 +160,11 @@ const char *dpll_autoidle_mode_name_get(dpll_autoidle_mode mode)
 {
 	if (mode >= DPLL_AUTOIDLE_MODE_MAX) {
 		fprintf(stderr, "%s(): bad mode! (%u)\n", __func__, mode);
-		return (char *) dpll_autoidle_mode_names[DPLL_AUTO_RESERVED_7];
+		return (char *)dpll_autoidle_mode_names[DPLL_AUTO_RESERVED_7];
 	}
 
-	return (char *) dpll_autoidle_mode_names[mode];
+	return (char *)dpll_autoidle_mode_names[mode];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_status_name_get
@@ -181,12 +178,11 @@ const char *dpll_status_name_get(dpll_status status)
 {
 	if (status >= DPLL_STATUS_MAX) {
 		fprintf(stderr, "%s(): bad status! (%u)\n", __func__, status);
-		return (char *) dpll_status_names[DPLL_STATUS_RESERVED];
+		return (char *)dpll_status_names[DPLL_STATUS_RESERVED];
 	}
 
-	return (char *) dpll_status_names[status];
+	return (char *)dpll_status_names[status];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_bp_clk_src_name_get
@@ -200,9 +196,8 @@ const char *dpll_bp_clk_src_name_get(dpll_bp_clk_src id)
 {
 	CHECK_ARG_LESS_THAN(id, DPLL_BP_CLK_SRC_ID_MAX, NULL);
 
-	return (char *) dpll_bp_clk_src_names[id];
+	return (char *)dpll_bp_clk_src_names[id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_clkouthif_src_name_get
@@ -216,9 +211,8 @@ const char *dpll_clkouthif_src_name_get(dpll_clkouthif_src id)
 {
 	CHECK_ARG_LESS_THAN(id, DPLL_CLKOUTHIF_SRC_ID_MAX, NULL);
 
-	return (char *) dpll_clkouthif_src_names[id];
+	return (char *)dpll_clkouthif_src_names[id];
 }
-
 
 #ifndef DPLL_DEBUG
 /* #define DPLL_SETTINGS_EXTRACT_DEBUG */
@@ -242,7 +236,8 @@ const char *dpll_clkouthif_src_name_get(dpll_clkouthif_src id)
  * @DESCRIPTION		extract DPLL settings from registers
  *------------------------------------------------------------------------ */
 int dpll_settings_extract(unsigned int id, dpll_type type,
-	dpll_settings_regs *dpll_regs, dpll_settings *settings)
+			  dpll_settings_regs * dpll_regs,
+			  dpll_settings * settings)
 {
 	unsigned int val;
 	CHECK_NULL_ARG(dpll_regs, OMAPCONF_ERR_ARG);
@@ -258,8 +253,7 @@ int dpll_settings_extract(unsigned int id, dpll_type type,
 
 	settings->mode = extract_bitfield(val, 0, 3);
 	(settings->ramp).ramp_level = extract_bitfield(val, 3, 2);
-	(settings->ramp).ramp_rate = 1 << (extract_bitfield(val,
-		5, 3) + 1);
+	(settings->ramp).ramp_rate = 1 << (extract_bitfield(val, 5, 3) + 1);
 	settings->driftguard_en = extract_bit(val, 8);
 	(settings->ramp).relock_ramp_en = extract_bit(val, 9);
 	settings->lpmode_en = extract_bit(val, 10);
@@ -334,7 +328,7 @@ int dpll_settings_extract(unsigned int id, dpll_type type,
 		(settings->DCC).en, (settings->DCC).count);
 
 	/* Extract data from CM_BYPCLK_DPLL_XYZ */
-	if ((void *) dpll_regs->cm_bypclk_dpll != NULL) {
+	if ((void *)dpll_regs->cm_bypclk_dpll != NULL) {
 		val = reg_read(dpll_regs->cm_bypclk_dpll);
 		dprintf("%s(): DPLL reg: %s = 0x%08X\n", __func__,
 			(dpll_regs->cm_bypclk_dpll)->name, val);
@@ -351,7 +345,7 @@ int dpll_settings_extract(unsigned int id, dpll_type type,
 	}
 
 	/* Extract data from CM_DIV_M2_DPLL_XYZ */
-	if ((void *) dpll_regs->cm_div_m2_dpll != NULL) {
+	if ((void *)dpll_regs->cm_div_m2_dpll != NULL) {
 		val = reg_read(dpll_regs->cm_div_m2_dpll);
 		dprintf("%s(): DPLL reg: %s = 0x%08X\n", __func__,
 			(dpll_regs->cm_div_m2_dpll)->name, val);
@@ -359,8 +353,7 @@ int dpll_settings_extract(unsigned int id, dpll_type type,
 		(settings->MN).M2_present = 1;
 		if (settings->type == DPLL_TYPE_A) {
 			(settings->MN).M2 = extract_bitfield(val, 0, 5);
-			(settings->MN).X2_M2_autogating =
-				!extract_bit(val, 10);
+			(settings->MN).X2_M2_autogating = !extract_bit(val, 10);
 			(settings->MN).X2_M2_clkout_st = extract_bit(val, 11);
 		} else {
 			(settings->MN).M2 = extract_bitfield(val, 0, 7);
@@ -384,7 +377,7 @@ int dpll_settings_extract(unsigned int id, dpll_type type,
 	}
 
 	/* Extract data from CM_DIV_M3_DPLL_XYZ */
-	if ((void *) dpll_regs->cm_div_m3_dpll != NULL) {
+	if ((void *)dpll_regs->cm_div_m3_dpll != NULL) {
 		val = reg_read(dpll_regs->cm_div_m3_dpll);
 		dprintf("%s(): DPLL reg: %s = 0x%08X\n", __func__,
 			(dpll_regs->cm_div_m3_dpll)->name, val);
@@ -426,7 +419,7 @@ int dpll_settings_extract(unsigned int id, dpll_type type,
 		(settings->SSC).mantissa, (settings->SSC).exponent);
 
 	/* Extract data from CM_CLKDCOLDO_DPLL_xyz */
-	if ((void *) dpll_regs->cm_clkdcoldo_dpll != NULL) {
+	if ((void *)dpll_regs->cm_clkdcoldo_dpll != NULL) {
 		val = reg_read(dpll_regs->cm_clkdcoldo_dpll);
 		dprintf("%s(): DPLL reg: %s = 0x%08X\n", __func__,
 			(dpll_regs->cm_clkdcoldo_dpll)->name, val);
@@ -441,11 +434,11 @@ int dpll_settings_extract(unsigned int id, dpll_type type,
 	}
 	return 0;
 }
+
 #ifdef DPLL_SETTINGS_EXTRACT_DEBUG
 #undef dprintf
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_lock_freq_calc
@@ -456,32 +449,32 @@ int dpll_settings_extract(unsigned int id, dpll_type type,
  *			regm4xen, fref, MN.M, MN.N INITIALIZED
  * @DESCRIPTION		compute DPLL lock frequency (in MHz)
  *------------------------------------------------------------------------ */
-double dpll_lock_freq_calc(dpll_settings *settings)
+double dpll_lock_freq_calc(dpll_settings * settings)
 {
 	CHECK_NULL_ARG(settings, 0.0);
 
 	if (settings->type == DPLL_TYPE_A) {
 		if (settings->regm4xen == 1)
 			settings->fdpll =
-				(settings->fref * 8.0 * (double) (settings->MN).M) /
-				((double) (settings->MN).N + 1.0);
+			    (settings->fref * 8.0 * (double)(settings->MN).M) /
+			    ((double)(settings->MN).N + 1.0);
 		else if ((settings->DCC).en == 1)
 			settings->fdpll =
-				(settings->fref * 1.0 * (double) (settings->MN).M) /
-				((double) (settings->MN).N + 1.0);
+			    (settings->fref * 1.0 * (double)(settings->MN).M) /
+			    ((double)(settings->MN).N + 1.0);
 		else
 			settings->fdpll =
-				(settings->fref * 2.0 * (double) (settings->MN).M) /
-				((double) (settings->MN).N + 1.0);
-		dprintf(
-			"%s(%u): type=A regm4xen=%u DCC_EN=%u fref=%lfMHz M=%u N=%u => fdpll=%lfMHz\n",
-			__func__, settings->id, settings->regm4xen,
-			(settings->DCC).en, settings->fref, (settings->MN).M,
-			(settings->MN).N, settings->fdpll);
+			    (settings->fref * 2.0 * (double)(settings->MN).M) /
+			    ((double)(settings->MN).N + 1.0);
+		dprintf
+		    ("%s(%u): type=A regm4xen=%u DCC_EN=%u fref=%lfMHz M=%u N=%u => fdpll=%lfMHz\n",
+		     __func__, settings->id, settings->regm4xen,
+		     (settings->DCC).en, settings->fref, (settings->MN).M,
+		     (settings->MN).N, settings->fdpll);
 	} else {
 		settings->fdpll =
-			(settings->fref * (double) (settings->MN).M) /
-			((double) (settings->MN).N + 1.0);
+		    (settings->fref * (double)(settings->MN).M) /
+		    ((double)(settings->MN).N + 1.0);
 		dprintf("%s(%u): type=B fref=%lfMHz M=%u N=%u => "
 			"fdpll=%lfMHz\n", __func__, settings->id,
 			settings->fref, (settings->MN).M,

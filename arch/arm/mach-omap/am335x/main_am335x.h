@@ -41,12 +41,9 @@
  *
  */
 
-
 #ifndef __MAIN_AM335X_H__
 #define __MAIN_AM335X_H__
 
-
 int main_am335x(int argc, char *argv[]);
-
 
 #endif

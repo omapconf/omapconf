@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __L2CC44XX_H__
 #define __L2CC44XX_H__
 
@@ -60,7 +59,7 @@ int l2cc44xx_event2desc(char *event, char *desc);
 int l2cc44xx_main(int argc, char *argv[]);
 
 int l2cc44xx_perf_cnt_configure(unsigned int counter_inst,
-	unsigned int filter, unsigned int reset);
+				unsigned int filter, unsigned int reset);
 unsigned int l2cc44xx_perf_cnt_get_count(unsigned int counter_inst);
 
 #endif

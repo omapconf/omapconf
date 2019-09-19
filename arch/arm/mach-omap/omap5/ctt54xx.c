@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <ctt54xx.h>
 #include <lib.h>
 #include <help.h>
@@ -79,19 +78,19 @@ int ctt54xx_dump(void)
 	int err = 0;
 
 	printf("The Clock Tree Tool can import register settings from a *.rd1 "
-		"file.\n");
+	       "file.\n");
 	printf("The format of the *.rd1 file is:\n\n");
 	printf("DeviceName OMAPxxxx_ESx.x\n");
 	printf("<register address> <register value>\n");
 	printf("<register address> <register value>\n");
 	printf("...\n\n");
 	printf("Copy the below output between the begin and end separators "
-		"into a\n");
+	       "into a\n");
 	printf("file with the extension *.rd1 and this file can be read by the"
-		"\n");
+	       "\n");
 	printf("Clock Tree Tool\n\n");
 	printf("|--------------------------- ctt dump begin ------------------"
-		"----|\n");
+	       "----|\n");
 
 	if (cpu_is_omap54xx())
 		printf("DeviceName OMAP543x_ES1.0\n");
@@ -105,7 +104,7 @@ int ctt54xx_dump(void)
 		ret = mem_read(prcm_ctt_reg_table[i].addr, &val);
 		if (ret == 0)
 			printf("0x%08X 0x%08X\n", prcm_ctt_reg_table[i].addr,
-				val);
+			       val);
 		else {
 			fprintf(stderr,
 				"omapconf: read error! (addr=0x%08X, err=%d)\n",
@@ -116,11 +115,10 @@ int ctt54xx_dump(void)
 	}
 
 	printf("|---------------------------- ctt dump end --------------------"
-		"---|\n\n");
+	       "---|\n\n");
 
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctt54xx_rd1_export
@@ -178,7 +176,6 @@ int ctt54xx_rd1_export(char *file)
 	return err;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctt54xx_main
  * @BRIEF		CTT main menu
@@ -202,8 +199,8 @@ int ctt54xx_main(int argc, char *argv[])
 		if (strcmp(argv[0], "dump") == 0)
 			ret = ctt54xx_dump();
 		else if (strcmp(argv[0], "rd1") == 0)
-			ret = ctt54xx_rd1_export(
-				"CTT-OMAP543xES1-REG_DUMP.rd1");
+			ret =
+			    ctt54xx_rd1_export("CTT-OMAP543xES1-REG_DUMP.rd1");
 		else {
 			help(HELP_EXPORT);
 			ret = OMAPCONF_ERR_ARG;
@@ -215,8 +212,6 @@ int ctt54xx_main(int argc, char *argv[])
 
 	return ret;
 }
-
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctt54xx_regtable_init

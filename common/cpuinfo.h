@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __CPUID_H__
 #define __CPUID_H__
-
 
 #define CPU_NAME_MAX_LENGTH			9
 #define CPU_FULL_NAME_MAX_LENGTH		30
@@ -54,7 +52,6 @@
 #define CPU_PKG_TYPE_MAX_NAME_LENGTH		8
 #define CPU_FAB_CODE_MAX_NAME_LENGTH		8
 #define CPU_DIE_ID_LENGTH			36
-
 
 typedef enum {
 	OMAP_4430,
@@ -76,7 +73,6 @@ typedef enum {
 	OMAP_MAX
 } omap_chip;
 
-
 typedef enum {
 	REV_ES1_0,
 	REV_ES1_1,
@@ -93,7 +89,6 @@ typedef enum {
 	REV_ES_MAX
 } omap_chip_revision;
 
-
 typedef enum {
 	DEV_GP,
 	DEV_EMU,
@@ -102,7 +97,6 @@ typedef enum {
 	DEV_TYPE_MAX
 } omap_device_type;
 
-
 typedef enum {
 	LOW_PERF_SI = 0,
 	STANDARD_PERF_SI = 1,
@@ -110,7 +104,6 @@ typedef enum {
 	SPEEDBIN_SI = 3,
 	SILICON_TYPE_MAX = 4
 } silicon_type;
-
 
 typedef enum {
 	ZCZ,
@@ -139,10 +132,9 @@ unsigned int cpu_silicon_max_speed_get(void);
 package_type cpu_package_type_get(void);
 char *cpu_package_type_gets(char type[CPU_PKG_TYPE_MAX_NAME_LENGTH]);
 
-
 char *cpu_die_id_get(unsigned int *die_id_3, unsigned int *die_id_2,
-	unsigned int *die_id_1, unsigned int *die_id_0,
-	char die_id[CPU_DIE_ID_LENGTH]);
+		     unsigned int *die_id_1, unsigned int *die_id_0,
+		     char die_id[CPU_DIE_ID_LENGTH]);
 
 omap_chip cpu_get(void);
 unsigned int cpu_is_am335x(void);
@@ -167,9 +159,9 @@ unsigned int cpu_online_cores_count_get(void);
 
 unsigned int cpu_is_online(unsigned short cpu);
 int cpu_proc_stats_get(unsigned int cpu,
-	unsigned int *idle, unsigned int *iowait, unsigned int *sum);
-double cpu_load_get(unsigned int delta_idle,
-	unsigned int delta_iowait, unsigned int delta_sum);
-
+		       unsigned int *idle, unsigned int *iowait,
+		       unsigned int *sum);
+double cpu_load_get(unsigned int delta_idle, unsigned int delta_iowait,
+		    unsigned int delta_sum);
 
 #endif

@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <stdlib.h>
 #include <opp.h>
 #include <lib.h>
@@ -60,20 +59,19 @@
 #define dprintf(format, ...)
 #endif
 
-
 genlist vdd44xx_wkup_opp_list;
 genlist vdd44xx_mpu_opp_list;
 genlist vdd44xx_iva_opp_list;
 genlist vdd44xx_core_opp_list;
 
 genlist *opp44xx_list_table[OMAP4_VD_ID_MAX] = {
-		&vdd44xx_wkup_opp_list, /* LDO_WKUP */
-		&vdd44xx_mpu_opp_list, /* VDD_MPU */
-		&vdd44xx_iva_opp_list, /* VDD_IVA */
-		&vdd44xx_core_opp_list}; /* VDD_CORE */
+	&vdd44xx_wkup_opp_list,	/* LDO_WKUP */
+	&vdd44xx_mpu_opp_list,	/* VDD_MPU */
+	&vdd44xx_iva_opp_list,	/* VDD_IVA */
+	&vdd44xx_core_opp_list
+};				/* VDD_CORE */
 
 static unsigned short opp44xx_init_done = 0;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp4430_init
@@ -95,89 +93,88 @@ void opp4430_init(void)
 	 * OPP search by voltage will fail, but OPP search by rate should
 	 * succeed.
 	 */
-	static opp_t opp_wkup_dpll_casc = {	OPP_DPLL_CASC,	1060000, 49152};
-	static opp_t opp_wkup_opp50 = {		OPP_50,		1060000, 500000};
-	static opp_t opp_wkup_opp100 = {	OPP_100,	1060000, 100000};
+	static opp_t opp_wkup_dpll_casc = { OPP_DPLL_CASC, 1060000, 49152 };
+	static opp_t opp_wkup_opp50 = { OPP_50, 1060000, 500000 };
+	static opp_t opp_wkup_opp100 = { OPP_100, 1060000, 100000 };
 
-	static opp_t opp_mpu_dpll_casc = {	OPP_DPLL_CASC,	1025000, 196608};
-	static opp_t opp_mpu_opp50 = {		OPP_50,		1025000, 300000};
-	static opp_t opp_mpu_opp100 = {		OPP_100,	1200000, 600000};
-	static opp_t opp_mpu_turbo = {		OPP_TURBO,	1325000, 800000};
-	static opp_t opp_mpu_nitro = {		OPP_NITRO,	1388000, 100800};
-	static opp_t opp_mpu_nitrosb = {	OPP_NITROSB,	1388000, 120000};
+	static opp_t opp_mpu_dpll_casc = { OPP_DPLL_CASC, 1025000, 196608 };
+	static opp_t opp_mpu_opp50 = { OPP_50, 1025000, 300000 };
+	static opp_t opp_mpu_opp100 = { OPP_100, 1200000, 600000 };
+	static opp_t opp_mpu_turbo = { OPP_TURBO, 1325000, 800000 };
+	static opp_t opp_mpu_nitro = { OPP_NITRO, 1388000, 100800 };
+	static opp_t opp_mpu_nitrosb = { OPP_NITROSB, 1388000, 120000 };
 
-	static opp_t opp_iva_dpll_casc = {	OPP_DPLL_CASC,	950000,  98304};
-	static opp_t opp_iva_opp50 = {		OPP_50,		950000,  133028};
-	static opp_t opp_iva_opp100 = {		OPP_100,	1114000, 266057};
-	static opp_t opp_iva_turbo = {		OPP_TURBO,	1291000, 330700};
+	static opp_t opp_iva_dpll_casc = { OPP_DPLL_CASC, 950000, 98304 };
+	static opp_t opp_iva_opp50 = { OPP_50, 950000, 133028 };
+	static opp_t opp_iva_opp100 = { OPP_100, 1114000, 266057 };
+	static opp_t opp_iva_turbo = { OPP_TURBO, 1291000, 330700 };
 
-	static opp_t opp_core_dpll_casc = {	OPP_DPLL_CASC,	962000,	 98304};
-	static opp_t opp_core_opp50 = {		OPP_50,		962000,  100000};
-	static opp_t opp_core_opp100 = {	OPP_100,	1127000, 200000};
+	static opp_t opp_core_dpll_casc = { OPP_DPLL_CASC, 962000, 98304 };
+	static opp_t opp_core_opp50 = { OPP_50, 962000, 100000 };
+	static opp_t opp_core_opp100 = { OPP_100, 1127000, 200000 };
 
 	genlist_addtail(&vdd44xx_wkup_opp_list,
-			(void *) &opp_wkup_dpll_casc, sizeof(opp_t));
+			(void *)&opp_wkup_dpll_casc, sizeof(opp_t));
 	genlist_addtail(&vdd44xx_wkup_opp_list,
-			(void *) &opp_wkup_opp50, sizeof(opp_t));
+			(void *)&opp_wkup_opp50, sizeof(opp_t));
 	genlist_addtail(&vdd44xx_wkup_opp_list,
-			(void *) &opp_wkup_opp100, sizeof(opp_t));
+			(void *)&opp_wkup_opp100, sizeof(opp_t));
 
-	opp_mpu_dpll_casc.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_dpll_casc.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_dpll_casc, sizeof(opp_t));
-	opp_mpu_opp50.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_opp50.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_opp50, sizeof(opp_t));
-	opp_mpu_opp100.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_opp100.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_opp100, sizeof(opp_t));
-	opp_mpu_turbo.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_turbo.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_turbo, sizeof(opp_t));
-	opp_mpu_nitro.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_nitro.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_nitro, sizeof(opp_t));
-	opp_mpu_nitrosb.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_nitrosb.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_nitrosb, sizeof(opp_t));
+	opp_mpu_dpll_casc.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_dpll_casc.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_dpll_casc,
+			sizeof(opp_t));
+	opp_mpu_opp50.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_opp50.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_opp50,
+			sizeof(opp_t));
+	opp_mpu_opp100.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_opp100.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_opp100,
+			sizeof(opp_t));
+	opp_mpu_turbo.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_turbo.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_turbo,
+			sizeof(opp_t));
+	opp_mpu_nitro.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_nitro.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_nitro,
+			sizeof(opp_t));
+	opp_mpu_nitrosb.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_nitrosb.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_nitrosb,
+			sizeof(opp_t));
 
-	opp_iva_dpll_casc.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_dpll_casc.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_dpll_casc, sizeof(opp_t));
-	opp_iva_opp50.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_opp50.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_opp50, sizeof(opp_t));
-	opp_iva_opp100.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_opp100.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_opp100, sizeof(opp_t));
-	opp_iva_turbo.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_turbo.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_turbo, sizeof(opp_t));
+	opp_iva_dpll_casc.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_dpll_casc.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_dpll_casc,
+			sizeof(opp_t));
+	opp_iva_opp50.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_opp50.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_opp50,
+			sizeof(opp_t));
+	opp_iva_opp100.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_opp100.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_opp100,
+			sizeof(opp_t));
+	opp_iva_turbo.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_turbo.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_turbo,
+			sizeof(opp_t));
 
-	opp_core_dpll_casc.voltage = smps_voltage_round(
-		PMIC_SMPS_CORE, opp_core_dpll_casc.voltage);
-	genlist_addtail(&vdd44xx_core_opp_list,
-			(void *) &opp_core_dpll_casc, sizeof(opp_t));
-	opp_core_opp50.voltage = smps_voltage_round(
-		PMIC_SMPS_CORE, opp_core_opp50.voltage);
-	genlist_addtail(&vdd44xx_core_opp_list,
-			(void *) &opp_core_opp50, sizeof(opp_t));
-	opp_core_opp100.voltage = smps_voltage_round(
-		PMIC_SMPS_CORE, opp_core_opp100.voltage);
-	genlist_addtail(&vdd44xx_core_opp_list,
-			(void *) &opp_core_opp100, sizeof(opp_t));
+	opp_core_dpll_casc.voltage =
+	    smps_voltage_round(PMIC_SMPS_CORE, opp_core_dpll_casc.voltage);
+	genlist_addtail(&vdd44xx_core_opp_list, (void *)&opp_core_dpll_casc,
+			sizeof(opp_t));
+	opp_core_opp50.voltage =
+	    smps_voltage_round(PMIC_SMPS_CORE, opp_core_opp50.voltage);
+	genlist_addtail(&vdd44xx_core_opp_list, (void *)&opp_core_opp50,
+			sizeof(opp_t));
+	opp_core_opp100.voltage =
+	    smps_voltage_round(PMIC_SMPS_CORE, opp_core_opp100.voltage);
+	genlist_addtail(&vdd44xx_core_opp_list, (void *)&opp_core_opp100,
+			sizeof(opp_t));
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp4460_init
@@ -186,104 +183,103 @@ void opp4430_init(void)
  *------------------------------------------------------------------------ */
 void opp4460_init(void)
 {
-	static opp_t opp_wkup_dpll_casc = {	OPP_DPLL_CASC,	1060000, 49152};
-	static opp_t opp_wkup_opp50 = {		OPP_50,		1060000, 50000};
-	static opp_t opp_wkup_opp100 = {	OPP_100,	1060000, 100000};
+	static opp_t opp_wkup_dpll_casc = { OPP_DPLL_CASC, 1060000, 49152 };
+	static opp_t opp_wkup_opp50 = { OPP_50, 1060000, 50000 };
+	static opp_t opp_wkup_opp100 = { OPP_100, 1060000, 100000 };
 
-	static opp_t opp_mpu_dpll_casc = {	OPP_DPLL_CASC,	1025000, 196608};
-	static opp_t opp_mpu_opp50 = {		OPP_50,		1025000, 350000};
-	static opp_t opp_mpu_opp100 = {		OPP_100,	1203000, 700000};
-	static opp_t opp_mpu_turbo = {		OPP_TURBO,	1317000, 920000};
-	static opp_t opp_mpu_nitro = {		OPP_NITRO,	1380000, 1200000};
-	static opp_t opp_mpu_nitrosb = {	OPP_NITROSB,	1380000, 1500000};
+	static opp_t opp_mpu_dpll_casc = { OPP_DPLL_CASC, 1025000, 196608 };
+	static opp_t opp_mpu_opp50 = { OPP_50, 1025000, 350000 };
+	static opp_t opp_mpu_opp100 = { OPP_100, 1203000, 700000 };
+	static opp_t opp_mpu_turbo = { OPP_TURBO, 1317000, 920000 };
+	static opp_t opp_mpu_nitro = { OPP_NITRO, 1380000, 1200000 };
+	static opp_t opp_mpu_nitrosb = { OPP_NITROSB, 1380000, 1500000 };
 
-	static opp_t opp_iva_dpll_casc = {	OPP_DPLL_CASC,	950000,  98304};
-	static opp_t opp_iva_opp50 = {		OPP_50,		950000,  133028};
-	static opp_t opp_iva_opp100 = {		OPP_100,	1114000, 266057};
-	static opp_t opp_iva_turbo = {		OPP_TURBO,	1291000, 330700};
-	static opp_t opp_iva_nitro = {		OPP_NITRO,	1375000, 430400};
-	static opp_t opp_iva_nitrosb = {	OPP_NITROSB,	1375000, 500000};
+	static opp_t opp_iva_dpll_casc = { OPP_DPLL_CASC, 950000, 98304 };
+	static opp_t opp_iva_opp50 = { OPP_50, 950000, 133028 };
+	static opp_t opp_iva_opp100 = { OPP_100, 1114000, 266057 };
+	static opp_t opp_iva_turbo = { OPP_TURBO, 1291000, 330700 };
+	static opp_t opp_iva_nitro = { OPP_NITRO, 1375000, 430400 };
+	static opp_t opp_iva_nitrosb = { OPP_NITROSB, 1375000, 500000 };
 
-	static opp_t opp_core_dpll_casc = {	OPP_DPLL_CASC,	962000,  98304};
-	static opp_t opp_core_opp50 = {		OPP_50,		962000,  100000};
-	static opp_t opp_core_opp100 = {	OPP_100,	1127000, 200000};
-	static opp_t opp_core_opp119 = {	OPP_119,	1250000, 200000};
+	static opp_t opp_core_dpll_casc = { OPP_DPLL_CASC, 962000, 98304 };
+	static opp_t opp_core_opp50 = { OPP_50, 962000, 100000 };
+	static opp_t opp_core_opp100 = { OPP_100, 1127000, 200000 };
+	static opp_t opp_core_opp119 = { OPP_119, 1250000, 200000 };
 
 	genlist_addtail(&vdd44xx_wkup_opp_list,
-			(void *) &opp_wkup_dpll_casc, sizeof(opp_t));
+			(void *)&opp_wkup_dpll_casc, sizeof(opp_t));
 	genlist_addtail(&vdd44xx_wkup_opp_list,
-			(void *) &opp_wkup_opp50, sizeof(opp_t));
+			(void *)&opp_wkup_opp50, sizeof(opp_t));
 	genlist_addtail(&vdd44xx_wkup_opp_list,
-			(void *) &opp_wkup_opp100, sizeof(opp_t));
+			(void *)&opp_wkup_opp100, sizeof(opp_t));
 
-	opp_mpu_dpll_casc.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_dpll_casc.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_dpll_casc, sizeof(opp_t));
-	opp_mpu_opp50.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_opp50.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_opp50, sizeof(opp_t));
-	opp_mpu_opp100.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_opp100.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_opp100, sizeof(opp_t));
-	opp_mpu_turbo.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_turbo.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_turbo, sizeof(opp_t));
-	opp_mpu_nitro.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_nitro.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_nitro, sizeof(opp_t));
-	opp_mpu_nitrosb.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_nitrosb.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_nitrosb, sizeof(opp_t));
+	opp_mpu_dpll_casc.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_dpll_casc.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_dpll_casc,
+			sizeof(opp_t));
+	opp_mpu_opp50.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_opp50.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_opp50,
+			sizeof(opp_t));
+	opp_mpu_opp100.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_opp100.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_opp100,
+			sizeof(opp_t));
+	opp_mpu_turbo.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_turbo.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_turbo,
+			sizeof(opp_t));
+	opp_mpu_nitro.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_nitro.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_nitro,
+			sizeof(opp_t));
+	opp_mpu_nitrosb.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_nitrosb.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_nitrosb,
+			sizeof(opp_t));
 
-	opp_iva_dpll_casc.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_dpll_casc.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_dpll_casc, sizeof(opp_t));
-	opp_iva_opp50.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_opp50.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_opp50, sizeof(opp_t));
-	opp_iva_opp100.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_opp100.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_opp100, sizeof(opp_t));
-	opp_iva_turbo.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_turbo.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_turbo, sizeof(opp_t));
-	opp_iva_nitro.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_nitro.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_nitro, sizeof(opp_t));
-	opp_iva_nitrosb.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_nitrosb.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_nitrosb, sizeof(opp_t));
+	opp_iva_dpll_casc.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_dpll_casc.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_dpll_casc,
+			sizeof(opp_t));
+	opp_iva_opp50.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_opp50.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_opp50,
+			sizeof(opp_t));
+	opp_iva_opp100.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_opp100.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_opp100,
+			sizeof(opp_t));
+	opp_iva_turbo.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_turbo.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_turbo,
+			sizeof(opp_t));
+	opp_iva_nitro.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_nitro.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_nitro,
+			sizeof(opp_t));
+	opp_iva_nitrosb.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_nitrosb.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_nitrosb,
+			sizeof(opp_t));
 
-	opp_core_dpll_casc.voltage = smps_voltage_round(
-		PMIC_SMPS_CORE, opp_core_dpll_casc.voltage);
-	genlist_addtail(&vdd44xx_core_opp_list,
-			(void *) &opp_core_dpll_casc, sizeof(opp_t));
-	opp_core_opp50.voltage = smps_voltage_round(
-		PMIC_SMPS_CORE, opp_core_opp50.voltage);
-	genlist_addtail(&vdd44xx_core_opp_list,
-			(void *) &opp_core_opp50, sizeof(opp_t));
-	opp_core_opp100.voltage = smps_voltage_round(
-		PMIC_SMPS_CORE, opp_core_opp100.voltage);
-	genlist_addtail(&vdd44xx_core_opp_list,
-			(void *) &opp_core_opp100, sizeof(opp_t));
-	opp_core_opp119.voltage = smps_voltage_round(
-		PMIC_SMPS_CORE, opp_core_opp119.voltage);
-	genlist_addtail(&vdd44xx_core_opp_list,
-			(void *) &opp_core_opp119, sizeof(opp_t));
+	opp_core_dpll_casc.voltage =
+	    smps_voltage_round(PMIC_SMPS_CORE, opp_core_dpll_casc.voltage);
+	genlist_addtail(&vdd44xx_core_opp_list, (void *)&opp_core_dpll_casc,
+			sizeof(opp_t));
+	opp_core_opp50.voltage =
+	    smps_voltage_round(PMIC_SMPS_CORE, opp_core_opp50.voltage);
+	genlist_addtail(&vdd44xx_core_opp_list, (void *)&opp_core_opp50,
+			sizeof(opp_t));
+	opp_core_opp100.voltage =
+	    smps_voltage_round(PMIC_SMPS_CORE, opp_core_opp100.voltage);
+	genlist_addtail(&vdd44xx_core_opp_list, (void *)&opp_core_opp100,
+			sizeof(opp_t));
+	opp_core_opp119.voltage =
+	    smps_voltage_round(PMIC_SMPS_CORE, opp_core_opp119.voltage);
+	genlist_addtail(&vdd44xx_core_opp_list, (void *)&opp_core_opp119,
+			sizeof(opp_t));
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp4470_init
@@ -292,128 +288,127 @@ void opp4460_init(void)
  *------------------------------------------------------------------------ */
 void opp4470_init(void)
 {
-	static opp_t opp_wkup_dpll_casc = {	OPP_DPLL_CASC,	1060000, 49152};
-	static opp_t opp_wkup_opp50_low = {	OPP_50_LOW,	1060000, 50000};
-	static opp_t opp_wkup_opp50_high = {	OPP_50_HIGH,	1060000, 58333};
-	static opp_t opp_wkup_opp100_low = {	OPP_100_LOW,	1060000, 100000};
-	static opp_t opp_wkup_opp119_low = {	OPP_119_LOW,	1060000, 100000};
-	static opp_t opp_wkup_opp119_high = {	OPP_119_HIGH,	1060000, 116666};
+	static opp_t opp_wkup_dpll_casc = { OPP_DPLL_CASC, 1060000, 49152 };
+	static opp_t opp_wkup_opp50_low = { OPP_50_LOW, 1060000, 50000 };
+	static opp_t opp_wkup_opp50_high = { OPP_50_HIGH, 1060000, 58333 };
+	static opp_t opp_wkup_opp100_low = { OPP_100_LOW, 1060000, 100000 };
+	static opp_t opp_wkup_opp119_low = { OPP_119_LOW, 1060000, 100000 };
+	static opp_t opp_wkup_opp119_high = { OPP_119_HIGH, 1060000, 116666 };
 
-	static opp_t opp_mpu_dpll_casc = {	OPP_DPLL_CASC,	1037000, 196608};
-	static opp_t opp_mpu_opp50 = {		OPP_50,		1037000, 396800};
-	static opp_t opp_mpu_opp100 = {		OPP_100,	1200000, 800000};
-	static opp_t opp_mpu_turbo = {		OPP_TURBO,	1312000, 1100000};
-	static opp_t opp_mpu_nitro = {		OPP_NITRO,	1375000, 1300000};
-	static opp_t opp_mpu_nitrosb = {	OPP_NITROSB,	1387000, 1500000};
+	static opp_t opp_mpu_dpll_casc = { OPP_DPLL_CASC, 1037000, 196608 };
+	static opp_t opp_mpu_opp50 = { OPP_50, 1037000, 396800 };
+	static opp_t opp_mpu_opp100 = { OPP_100, 1200000, 800000 };
+	static opp_t opp_mpu_turbo = { OPP_TURBO, 1312000, 1100000 };
+	static opp_t opp_mpu_nitro = { OPP_NITRO, 1375000, 1300000 };
+	static opp_t opp_mpu_nitrosb = { OPP_NITROSB, 1387000, 1500000 };
 
-	static opp_t opp_iva_dpll_casc = {	OPP_DPLL_CASC,	962000,  98304};
-	static opp_t opp_iva_opp50 = {		OPP_50,		962000,  133028};
-	static opp_t opp_iva_opp100 = {		OPP_100,	1137000, 266057};
-	static opp_t opp_iva_turbo = {		OPP_TURBO,	1287000, 330700};
-	static opp_t opp_iva_nitro = {		OPP_NITRO,	1375000, 430100};
-	static opp_t opp_iva_nitrosb = {	OPP_NITROSB,	1380000, 500000};
+	static opp_t opp_iva_dpll_casc = { OPP_DPLL_CASC, 962000, 98304 };
+	static opp_t opp_iva_opp50 = { OPP_50, 962000, 133028 };
+	static opp_t opp_iva_opp100 = { OPP_100, 1137000, 266057 };
+	static opp_t opp_iva_turbo = { OPP_TURBO, 1287000, 330700 };
+	static opp_t opp_iva_nitro = { OPP_NITRO, 1375000, 430100 };
+	static opp_t opp_iva_nitrosb = { OPP_NITROSB, 1380000, 500000 };
 
-	static opp_t opp_core_dpll_casc = {	OPP_DPLL_CASC,	980000,  98304};
-	static opp_t opp_core_opp50_low = {	OPP_50_LOW,	980000,  100000};
-	static opp_t opp_core_opp50_high = {	OPP_50_HIGH,	980000,  116666};
-	static opp_t opp_core_opp100_low = {	OPP_100_LOW,	1126000, 200000};
-	static opp_t opp_core_opp100_high = {	OPP_100_HIGH,	1126000, 116666};
-	static opp_t opp_core_opp119_low = {	OPP_119_LOW,	1190000, 200000};
-	static opp_t opp_core_opp119_high = {	OPP_119_HIGH,	1190000, 233333};
+	static opp_t opp_core_dpll_casc = { OPP_DPLL_CASC, 980000, 98304 };
+	static opp_t opp_core_opp50_low = { OPP_50_LOW, 980000, 100000 };
+	static opp_t opp_core_opp50_high = { OPP_50_HIGH, 980000, 116666 };
+	static opp_t opp_core_opp100_low = { OPP_100_LOW, 1126000, 200000 };
+	static opp_t opp_core_opp100_high = { OPP_100_HIGH, 1126000, 116666 };
+	static opp_t opp_core_opp119_low = { OPP_119_LOW, 1190000, 200000 };
+	static opp_t opp_core_opp119_high = { OPP_119_HIGH, 1190000, 233333 };
 
 	genlist_addtail(&vdd44xx_wkup_opp_list,
-			(void *) &opp_wkup_dpll_casc, sizeof(opp_t));
+			(void *)&opp_wkup_dpll_casc, sizeof(opp_t));
 	genlist_addtail(&vdd44xx_wkup_opp_list,
-			(void *) &opp_wkup_opp50_low, sizeof(opp_t));
+			(void *)&opp_wkup_opp50_low, sizeof(opp_t));
 	genlist_addtail(&vdd44xx_wkup_opp_list,
-			(void *) &opp_wkup_opp50_high, sizeof(opp_t));
+			(void *)&opp_wkup_opp50_high, sizeof(opp_t));
 	genlist_addtail(&vdd44xx_wkup_opp_list,
-			(void *) &opp_wkup_opp100_low, sizeof(opp_t));
+			(void *)&opp_wkup_opp100_low, sizeof(opp_t));
 	genlist_addtail(&vdd44xx_wkup_opp_list,
-			(void *) &opp_wkup_opp119_low, sizeof(opp_t));
+			(void *)&opp_wkup_opp119_low, sizeof(opp_t));
 	genlist_addtail(&vdd44xx_wkup_opp_list,
-			(void *) &opp_wkup_opp119_high, sizeof(opp_t));
+			(void *)&opp_wkup_opp119_high, sizeof(opp_t));
 
-	opp_mpu_dpll_casc.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_dpll_casc.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_dpll_casc, sizeof(opp_t));
-	opp_mpu_opp50.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_opp50.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_opp50, sizeof(opp_t));
-	opp_mpu_opp100.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_opp100.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_opp100, sizeof(opp_t));
-	opp_mpu_turbo.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_turbo.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_turbo, sizeof(opp_t));
-	opp_mpu_nitro.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_nitro.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_nitro, sizeof(opp_t));
-	opp_mpu_nitrosb.voltage = smps_voltage_round(
-		PMIC_SMPS_MPU, opp_mpu_nitrosb.voltage);
-	genlist_addtail(&vdd44xx_mpu_opp_list,
-			(void *) &opp_mpu_nitrosb, sizeof(opp_t));
+	opp_mpu_dpll_casc.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_dpll_casc.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_dpll_casc,
+			sizeof(opp_t));
+	opp_mpu_opp50.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_opp50.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_opp50,
+			sizeof(opp_t));
+	opp_mpu_opp100.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_opp100.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_opp100,
+			sizeof(opp_t));
+	opp_mpu_turbo.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_turbo.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_turbo,
+			sizeof(opp_t));
+	opp_mpu_nitro.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_nitro.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_nitro,
+			sizeof(opp_t));
+	opp_mpu_nitrosb.voltage =
+	    smps_voltage_round(PMIC_SMPS_MPU, opp_mpu_nitrosb.voltage);
+	genlist_addtail(&vdd44xx_mpu_opp_list, (void *)&opp_mpu_nitrosb,
+			sizeof(opp_t));
 
-	opp_iva_dpll_casc.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_dpll_casc.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_dpll_casc, sizeof(opp_t));
-	opp_iva_opp50.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_opp50.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_opp50, sizeof(opp_t));
-	opp_iva_opp100.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_opp100.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_opp100, sizeof(opp_t));
-	opp_iva_turbo.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_turbo.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_turbo, sizeof(opp_t));
-	opp_iva_nitro.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_nitro.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_nitro, sizeof(opp_t));
-	opp_iva_nitrosb.voltage = smps_voltage_round(
-		PMIC_SMPS_MM, opp_iva_nitrosb.voltage);
-	genlist_addtail(&vdd44xx_iva_opp_list,
-			(void *) &opp_iva_nitrosb, sizeof(opp_t));
+	opp_iva_dpll_casc.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_dpll_casc.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_dpll_casc,
+			sizeof(opp_t));
+	opp_iva_opp50.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_opp50.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_opp50,
+			sizeof(opp_t));
+	opp_iva_opp100.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_opp100.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_opp100,
+			sizeof(opp_t));
+	opp_iva_turbo.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_turbo.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_turbo,
+			sizeof(opp_t));
+	opp_iva_nitro.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_nitro.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_nitro,
+			sizeof(opp_t));
+	opp_iva_nitrosb.voltage =
+	    smps_voltage_round(PMIC_SMPS_MM, opp_iva_nitrosb.voltage);
+	genlist_addtail(&vdd44xx_iva_opp_list, (void *)&opp_iva_nitrosb,
+			sizeof(opp_t));
 
-	opp_core_dpll_casc.voltage = smps_voltage_round(
-		PMIC_SMPS_CORE, opp_core_dpll_casc.voltage);
-	genlist_addtail(&vdd44xx_core_opp_list,
-			(void *) &opp_core_dpll_casc, sizeof(opp_t));
-	opp_core_opp50_low.voltage = smps_voltage_round(
-		PMIC_SMPS_CORE, opp_core_opp50_low.voltage);
-	genlist_addtail(&vdd44xx_core_opp_list,
-			(void *) &opp_core_opp50_low, sizeof(opp_t));
-	opp_core_opp50_high.voltage = smps_voltage_round(
-		PMIC_SMPS_CORE, opp_core_opp50_high.voltage);
-	genlist_addtail(&vdd44xx_core_opp_list,
-			(void *) &opp_core_opp50_high, sizeof(opp_t));
-	opp_core_opp100_low.voltage = smps_voltage_round(
-		PMIC_SMPS_CORE, opp_core_opp100_low.voltage);
-	genlist_addtail(&vdd44xx_core_opp_list,
-			(void *) &opp_core_opp100_low, sizeof(opp_t));
-	opp_core_opp100_high.voltage = smps_voltage_round(
-		PMIC_SMPS_CORE, opp_core_opp100_high.voltage);
-	genlist_addtail(&vdd44xx_core_opp_list,
-			(void *) &opp_core_opp100_high, sizeof(opp_t));
-	opp_core_opp119_low.voltage = smps_voltage_round(
-		PMIC_SMPS_CORE, opp_core_opp119_low.voltage);
-	genlist_addtail(&vdd44xx_core_opp_list,
-			(void *) &opp_core_opp119_low, sizeof(opp_t));
-	opp_core_opp119_high.voltage = smps_voltage_round(
-		PMIC_SMPS_CORE, opp_core_opp119_high.voltage);
-	genlist_addtail(&vdd44xx_core_opp_list,
-			(void *) &opp_core_opp119_high, sizeof(opp_t));
+	opp_core_dpll_casc.voltage =
+	    smps_voltage_round(PMIC_SMPS_CORE, opp_core_dpll_casc.voltage);
+	genlist_addtail(&vdd44xx_core_opp_list, (void *)&opp_core_dpll_casc,
+			sizeof(opp_t));
+	opp_core_opp50_low.voltage =
+	    smps_voltage_round(PMIC_SMPS_CORE, opp_core_opp50_low.voltage);
+	genlist_addtail(&vdd44xx_core_opp_list, (void *)&opp_core_opp50_low,
+			sizeof(opp_t));
+	opp_core_opp50_high.voltage =
+	    smps_voltage_round(PMIC_SMPS_CORE, opp_core_opp50_high.voltage);
+	genlist_addtail(&vdd44xx_core_opp_list, (void *)&opp_core_opp50_high,
+			sizeof(opp_t));
+	opp_core_opp100_low.voltage =
+	    smps_voltage_round(PMIC_SMPS_CORE, opp_core_opp100_low.voltage);
+	genlist_addtail(&vdd44xx_core_opp_list, (void *)&opp_core_opp100_low,
+			sizeof(opp_t));
+	opp_core_opp100_high.voltage =
+	    smps_voltage_round(PMIC_SMPS_CORE, opp_core_opp100_high.voltage);
+	genlist_addtail(&vdd44xx_core_opp_list, (void *)&opp_core_opp100_high,
+			sizeof(opp_t));
+	opp_core_opp119_low.voltage =
+	    smps_voltage_round(PMIC_SMPS_CORE, opp_core_opp119_low.voltage);
+	genlist_addtail(&vdd44xx_core_opp_list, (void *)&opp_core_opp119_low,
+			sizeof(opp_t));
+	opp_core_opp119_high.voltage =
+	    smps_voltage_round(PMIC_SMPS_CORE, opp_core_opp119_high.voltage);
+	genlist_addtail(&vdd44xx_core_opp_list, (void *)&opp_core_opp119_high,
+			sizeof(opp_t));
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp44xx_init
@@ -422,12 +417,12 @@ void opp4470_init(void)
  *------------------------------------------------------------------------ */
 void opp44xx_init(void)
 {
-	#ifdef OPP44XX_DEBUG
+#ifdef OPP44XX_DEBUG
 	opp_t opp;
 	int i, count;
 	voltdm44xx_id vdd;
 	char name[VOLTDM44XX_MAX_NAME_LENGTH];
-	#endif
+#endif
 
 	if (!opp44xx_init_done) {
 		genlist_init(&vdd44xx_wkup_opp_list);
@@ -448,29 +443,28 @@ void opp44xx_init(void)
 		}
 		opp44xx_init_done = 1;
 
-		#ifdef OPP44XX_DEBUG
+#ifdef OPP44XX_DEBUG
 		printf("%s(): init done.\n", __func__);
 		printf("OPP List:\n");
 		for (vdd = OMAP4_LDO_WKUP; vdd <= OMAP4_VDD_CORE; vdd++) {
-			count = genlist_getcount(
-				(genlist *) opp44xx_list_table[vdd]);
+			count = genlist_getcount((genlist *)
+						 opp44xx_list_table[vdd]);
 			voltdm44xx_get_name(vdd, name);
 			printf("  %s (%d): ", name, count);
 			for (i = 0; i < count; i++) {
 				genlist_get((genlist *) opp44xx_list_table[vdd],
-					i, (void *) &opp);
+					    i, (void *)&opp);
 				printf("%s (%.1lfMHz, %.3lfV)",
-					opp.name, khz2mhz(opp.rate),
-					uv2v(opp.voltage));
+				       opp.name, khz2mhz(opp.rate),
+				       uv2v(opp.voltage));
 				if (i != count - 1)
 					printf(", ");
 			}
 			printf(".\n");
 		}
-		#endif
+#endif
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp44xx_deinit
@@ -490,7 +484,6 @@ void opp44xx_deinit(void)
 	dprintf("%s(): deinit done.\n", __func__);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp44xx_id_get
  * @BRIEF		convert OPP provided as a string (as defined in opp.h)
@@ -506,33 +499,32 @@ int opp44xx_id_get(const char *opp)
 	CHECK_NULL_ARG(opp, OMAPCONF_ERR_ARG);
 
 	if (strcasecmp(opp, OPP_DPLL_CASC) == 0)
-		return (int) OMAP4_OPPDPLL_CASC;
+		return (int)OMAP4_OPPDPLL_CASC;
 	else if (strcasecmp(opp, OPP_50) == 0)
-		return (int) OMAP4_OPP50;
+		return (int)OMAP4_OPP50;
 	else if (strcasecmp(opp, OPP_100) == 0)
-		return (int) OMAP4_OPP100;
+		return (int)OMAP4_OPP100;
 	else if (strcasecmp(opp, OPP_TURBO) == 0)
-		return (int) OMAP4_OPP_TURBO;
+		return (int)OMAP4_OPP_TURBO;
 	else if (strcasecmp(opp, OPP_NITRO) == 0)
-		return (int) OMAP4_OPP_NITRO;
+		return (int)OMAP4_OPP_NITRO;
 	else if (strcasecmp(opp, OPP_NITROSB) == 0)
-		return (int) OMAP4_OPP_NITRO_SB;
+		return (int)OMAP4_OPP_NITRO_SB;
 	else if (strcasecmp(opp, OPP_50_LOW) == 0)
-		return (int) OMAP447X_OPP50_LOW;
+		return (int)OMAP447X_OPP50_LOW;
 	else if (strcasecmp(opp, OPP_50_HIGH) == 0)
-		return (int) OMAP447X_OPP50_HIGH;
+		return (int)OMAP447X_OPP50_HIGH;
 	else if (strcasecmp(opp, OPP_100_LOW) == 0)
-		return (int) OMAP447X_OPP100_LOW;
+		return (int)OMAP447X_OPP100_LOW;
 	else if (strcasecmp(opp, OPP_100_HIGH) == 0)
-		return (int) OMAP447X_OPP100_HIGH;
+		return (int)OMAP447X_OPP100_HIGH;
 	else if (strcasecmp(opp, OPP_119_LOW) == 0)
-		return (int) OMAP447X_OPP119_LOW;
+		return (int)OMAP447X_OPP119_LOW;
 	else if (strcasecmp(opp, OPP_119_HIGH) == 0)
-		return (int) OMAP447X_OPP119_HIGH;
+		return (int)OMAP447X_OPP119_HIGH;
 	else
 		return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp44xx_count_get
@@ -558,7 +550,6 @@ int opp44xx_count_get(voltdm44xx_id vdd_id)
 	return count;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp44xx_list_get
  * @BRIEF		return the list of OPP of a given voltage domain
@@ -576,7 +567,6 @@ const genlist *opp44xx_list_get(voltdm44xx_id vdd_id)
 
 	return opp44xx_list_table[vdd_id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp44xx_by_voltage_get
@@ -599,7 +589,6 @@ const char *opp44xx_by_voltage_get(voltdm44xx_id vdd_id)
 	return opp_by_voltage_get(voltdm44xx_id2s(vdd_id), 1);
 }
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp44xx_by_rate_get
@@ -625,11 +614,11 @@ const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id)
 	const genlist *opp_list;
 	int i, opp_count;
 
-	#ifdef OPP44XX_DEBUG
+#ifdef OPP44XX_DEBUG
 	char mname[MOD44XX_MAX_NAME_LENGTH];
 	char cname[CLOCK44XX_MAX_NAME_LENGTH];
 	char vname[VOLTDM44XX_MAX_NAME_LENGTH];
-	#endif
+#endif
 
 	CHECK_CPU(44xx, NULL);
 	CHECK_ARG_LESS_THAN(vdd_id, OMAP4_VD_ID_MAX, NULL);
@@ -665,10 +654,10 @@ const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id)
 		goto opp44xx_by_rate_get_end;
 	}
 
-	#ifdef OPP44XX_DEBUG
+#ifdef OPP44XX_DEBUG
 	voltdm44xx_get_name(vdd_id, vname);
 	printf("%s(): Looking for %s OPP ...\n", __func__, vname);
-	#endif
+#endif
 
 	rate = clk44xx_get_clock_speed(clk_id, 1);
 	if (rate < 0.0) {
@@ -680,8 +669,7 @@ const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id)
 	if (!cpu_is_omap4430() && (vdd_id == OMAP4_VDD_CORE)) {
 		gpu_rate = clk44xx_get_clock_speed(OMAP4_GFX_FCLK, 1);
 		if (gpu_rate < 0.0) {
-			dprintf(
-				"%s(): could not retrieve GPU clock rate!\n",
+			dprintf("%s(): could not retrieve GPU clock rate!\n",
 				__func__);
 			goto opp44xx_by_rate_get_end;
 		}
@@ -701,7 +689,7 @@ const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id)
 	}
 
 	for (i = 0; i < opp_count; i++) {
-		ret = genlist_get((genlist *) opp_list, i, (opp_t *) &opp);
+		ret = genlist_get((genlist *) opp_list, i, (opp_t *) & opp);
 		if (ret != 0) {
 			dprintf("%s(): could not retrieve OPP from list!\n",
 				__func__);
@@ -710,32 +698,28 @@ const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id)
 
 		opp_id = opp44xx_id_get(opp.name);
 		if (opp_id < 0) {
-			dprintf(
-				"%s(): could not retrieve OPP ID from OPP name!\n",
-				__func__);
+			dprintf
+			    ("%s(): could not retrieve OPP ID from OPP name!\n",
+			     __func__);
 			goto opp44xx_by_rate_get_end;
 		}
 
 		/*
 		 * Retrieve module expected speed for this OPP
 		 */
-		ret = mod44xx_get_por_clk_speed(
-			module_id, opp_id, &rate_por);
+		ret = mod44xx_get_por_clk_speed(module_id, opp_id, &rate_por);
 		if (ret != 0) {
-			dprintf(
-				"%s(): could not get %s %s POR speed! (%d)\n",
-				__func__, mod44xx_get_name(
-					module_id, mname),
+			dprintf("%s(): could not get %s %s POR speed! (%d)\n",
+				__func__, mod44xx_get_name(module_id, mname),
 				opp.name, ret);
 			goto opp44xx_by_rate_get_end;
 		}
 		dprintf("%s(): %s POR Speed for %s is %lf\n",
 			__func__,
-			mod44xx_get_name(module_id, mname),
-			opp.name, rate_por);
+			mod44xx_get_name(module_id, mname), opp.name, rate_por);
 
 		if (cpu_is_omap4460() && (vdd_id == OMAP4_VDD_IVA) &&
-			((int) rate == 124)) {
+		    ((int)rate == 124)) {
 			/*
 			 * Hack for Galaxy Nexus, observed with pastry
 			 * Jelly Bean 4.2.1 (may/may not apply to other pastry)
@@ -743,38 +727,39 @@ const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id)
 			opp_name = OPP_50;
 			goto opp44xx_by_rate_get_end;
 		}
-		if ((int) rate_por != (int) rate)
+		if ((int)rate_por != (int)rate)
 			continue;
 
 		if (cpu_is_omap4470() && (vdd_id == OMAP4_VDD_CORE) &&
-			(opp_id == OMAP447X_OPP100_LOW)) {
+		    (opp_id == OMAP447X_OPP100_LOW)) {
 			/* for opp_id == OMAP447X_OPP100_LOW
 			 * and opp_id == OMAP447X_OPP119_LOW
 			 * L3 clock frequency is identical.
 			 * Use GFX clock frequency to distinguish.
 			 */
 			ret = mod44xx_get_por_clk_speed(OMAP4_GFX,
-					OMAP447X_OPP119_LOW, &gpu_rate_por);
+							OMAP447X_OPP119_LOW,
+							&gpu_rate_por);
 			if (ret != 0) {
-				dprintf(
-					"%s(): could not get GPU OPP119_LOW POR speed! (%d)\n",
-					__func__, ret);
+				dprintf
+				    ("%s(): could not get GPU OPP119_LOW POR speed! (%d)\n",
+				     __func__, ret);
 				goto opp44xx_by_rate_get_end;
 			}
-			dprintf(
-				"%s(): GPU POR Speed for OPP119_LOW is %lfMHz\n",
-				__func__, gpu_rate_por);
+			dprintf
+			    ("%s(): GPU POR Speed for OPP119_LOW is %lfMHz\n",
+			     __func__, gpu_rate_por);
 
 			gpu_rate = clk44xx_get_clock_speed(OMAP4_GFX_FCLK, 1);
 			if (gpu_rate < 0.0) {
-				dprintf(
-					"%s(): could not retrieve GPU clock rate!\n",
-					__func__);
-					goto opp44xx_by_rate_get_end;
+				dprintf
+				    ("%s(): could not retrieve GPU clock rate!\n",
+				     __func__);
+				goto opp44xx_by_rate_get_end;
 			}
 			dprintf("%s(): GPU speed is %lfMHz\n",
 				__func__, gpu_rate);
-			if ((int) gpu_rate == (int) gpu_rate_por) {
+			if ((int)gpu_rate == (int)gpu_rate_por) {
 				opp_name = OPP_119_LOW;
 				goto opp44xx_by_rate_get_end;
 			} else {
@@ -782,34 +767,35 @@ const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id)
 				goto opp44xx_by_rate_get_end;
 			}
 		} else if (cpu_is_omap4470() && (vdd_id == OMAP4_VDD_CORE) &&
-			(opp_id == OMAP447X_OPP50_HIGH)) {
+			   (opp_id == OMAP447X_OPP50_HIGH)) {
 			/* for opp_id == OMAP447X_OPP50_HIGH
 			 * and opp_id == OMAP447X_OPP100_HIGH
 			 * L3 clock frequency is identical.
 			 * Use DSS clock frequency to distinguish.
 			 */
 			ret = mod44xx_get_por_clk_speed(OMAP4_DISPC,
-					OMAP447X_OPP50_HIGH, &dss_rate_por);
+							OMAP447X_OPP50_HIGH,
+							&dss_rate_por);
 			if (ret != 0) {
-				dprintf(
-					"%s(): could not get DSS OMAP447X_OPP50_HIGH POR speed! (%d)\n",
-					__func__, ret);
+				dprintf
+				    ("%s(): could not get DSS OMAP447X_OPP50_HIGH POR speed! (%d)\n",
+				     __func__, ret);
 				goto opp44xx_by_rate_get_end;
 			}
-			dprintf(
-				"%s(): DSS POR Speed for OMAP447X_OPP50_HIGH is %lfMHz\n",
-				__func__, dss_rate_por);
+			dprintf
+			    ("%s(): DSS POR Speed for OMAP447X_OPP50_HIGH is %lfMHz\n",
+			     __func__, dss_rate_por);
 
 			dss_rate = clk44xx_get_clock_speed(OMAP4_DSS_FCLK, 1);
 			if (dss_rate < 0.0) {
-				dprintf(
-					"%s(): could not retrieve DSS clock rate!\n",
-					__func__);
-					goto opp44xx_by_rate_get_end;
+				dprintf
+				    ("%s(): could not retrieve DSS clock rate!\n",
+				     __func__);
+				goto opp44xx_by_rate_get_end;
 			}
 			dprintf("%s(): DSS speed is %lfMHz\n",
 				__func__, dss_rate);
-			if ((int) dss_rate == (int) dss_rate_por) {
+			if ((int)dss_rate == (int)dss_rate_por) {
 				opp_name = OPP_50_HIGH;
 				goto opp44xx_by_rate_get_end;
 			} else {
@@ -817,34 +803,35 @@ const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id)
 				goto opp44xx_by_rate_get_end;
 			}
 		} else if (cpu_is_omap4460() && (vdd_id == OMAP4_VDD_CORE) &&
-			(opp_id == OMAP4_OPP100)) {
+			   (opp_id == OMAP4_OPP100)) {
 			/* for opp_id == OMAP4_OPP_100
 			 * and opp_id == OMAP4_OPP_119
 			 * L3 clock frequencies are equal.
 			 * Use GPU clock frequency to distinguish.
 			 */
 			ret = mod44xx_get_por_clk_speed(OMAP4_GFX,
-					OMAP4_OPP_119, &gpu_rate_por);
+							OMAP4_OPP_119,
+							&gpu_rate_por);
 			if (ret != 0) {
-				dprintf(
-					"%s(): could not get GPU OMAP4_OPP_119 POR speed! (%d)\n",
-					__func__, ret);
+				dprintf
+				    ("%s(): could not get GPU OMAP4_OPP_119 POR speed! (%d)\n",
+				     __func__, ret);
 				goto opp44xx_by_rate_get_end;
 			}
-			dprintf(
-				"%s(): GPU POR Speed for OMAP4_OPP_119 is %lfMHz\n",
-				__func__, gpu_rate_por);
+			dprintf
+			    ("%s(): GPU POR Speed for OMAP4_OPP_119 is %lfMHz\n",
+			     __func__, gpu_rate_por);
 
 			gpu_rate = clk44xx_get_clock_speed(OMAP4_GFX_FCLK, 1);
 			if (gpu_rate < 0.0) {
-				dprintf(
-					"%s(): could not retrieve GPU clock rate!\n",
-					__func__);
-					goto opp44xx_by_rate_get_end;
+				dprintf
+				    ("%s(): could not retrieve GPU clock rate!\n",
+				     __func__);
+				goto opp44xx_by_rate_get_end;
 			}
 			dprintf("%s(): GPU speed is %lfMHz\n",
 				__func__, gpu_rate);
-			if ((int) gpu_rate == (int) gpu_rate_por) {
+			if ((int)gpu_rate == (int)gpu_rate_por) {
 				opp_name = OPP_119;
 				goto opp44xx_by_rate_get_end;
 			} else {
@@ -858,16 +845,15 @@ const char *opp44xx_by_rate_get(voltdm44xx_id vdd_id)
 	}
 
 opp44xx_by_rate_get_end:
-	#ifdef OPP44XX_DEBUG
+#ifdef OPP44XX_DEBUG
 	if (opp_name == NULL)
 		printf("%s(): OPP not found!\n", __func__);
 	else
 		printf("%s(): OPP found: %s\n", __func__, opp_name);
-	#endif
+#endif
 
 	return opp_name;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp44xx_get
@@ -887,7 +873,6 @@ const char *opp44xx_get(voltdm44xx_id vdd_id)
 
 	return opp_get(voltdm44xx_id2s(vdd_id), 1);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp44xx_set

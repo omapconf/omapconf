@@ -92,14 +92,16 @@ static const lp87565_smps_registers lp87565_pq2_smps1234 = {
 	.voltage = 0x4
 };
 
-static const lp87565_smps_registers *lp87565_smps_vdd_dra7xx_mpu = &lp87565_smps12;
-static const lp87565_smps_registers *lp87565_smps_vdd_dra7xx_gpu = &lp87565_smps34;
+static const lp87565_smps_registers *lp87565_smps_vdd_dra7xx_mpu =
+    &lp87565_smps12;
+static const lp87565_smps_registers *lp87565_smps_vdd_dra7xx_gpu =
+    &lp87565_smps34;
 
 static const lp87565_smps_registers **lp87565_smps_vdd_dra7xx[5] = {
-	(const lp87565_smps_registers **) &lp87565_smps_vdd_dra7xx_mpu,
+	(const lp87565_smps_registers **)&lp87565_smps_vdd_dra7xx_mpu,
 	NULL,
 	NULL,
-	(const lp87565_smps_registers **) &lp87565_smps_vdd_dra7xx_gpu,
+	(const lp87565_smps_registers **)&lp87565_smps_vdd_dra7xx_gpu,
 	NULL
 };
 
@@ -124,10 +126,12 @@ unsigned short int lp87565_is_present(void)
 
 	switch (cpu_get()) {
 	case DRA_76X:
-		ret = i2cget(LP87565_I2C_BUS, LP87565_ID0_ADDR, LP87565_PRODUCT_ID_LSB, &id_lsb);
+		ret =
+		    i2cget(LP87565_I2C_BUS, LP87565_ID0_ADDR,
+			   LP87565_PRODUCT_ID_LSB, &id_lsb);
 		if (ret != 0)
 			return 0;
-		if (id_lsb == 0x12){
+		if (id_lsb == 0x12) {
 			present = 1;
 			p_step = LP87565_VDCDC1_STEP;
 			p_voff = LP87565_VDCDC1_MIN;
@@ -139,8 +143,12 @@ unsigned short int lp87565_is_present(void)
 			p_eoff = PQ2_VDCDC1_ENC_OFF;
 			lp87565_smps_vdd_dra7xx_mpu = &lp87565_pq1_smps1234;
 			lp87565_smps_vdd_dra7xx_gpu = &lp87565_pq2_smps1234;
-			lp87565_smps_vdd_dra7xx[0] = (const lp87565_smps_registers **) &lp87565_smps_vdd_dra7xx_mpu;
-			lp87565_smps_vdd_dra7xx[3] = (const lp87565_smps_registers **) &lp87565_smps_vdd_dra7xx_gpu;
+			lp87565_smps_vdd_dra7xx[0] =
+			    (const lp87565_smps_registers **)
+			    &lp87565_smps_vdd_dra7xx_mpu;
+			lp87565_smps_vdd_dra7xx[3] =
+			    (const lp87565_smps_registers **)
+			    &lp87565_smps_vdd_dra7xx_gpu;
 		}
 		break;
 	default:
@@ -161,7 +169,7 @@ unsigned short int lp87565_is_present(void)
 double lp87565_chip_revision_get(void)
 {
 	/* SR-I2C link is write-only, cannot read-back any chip register ... */
-	return (double) OMAPCONF_ERR_NOT_AVAILABLE;
+	return (double)OMAPCONF_ERR_NOT_AVAILABLE;
 }
 
 /* ------------------------------------------------------------------------
@@ -174,7 +182,7 @@ double lp87565_chip_revision_get(void)
 double lp87565_eprom_revision_get(void)
 {
 	/* SR-I2C link is write-only, cannot read-back any chip register ... */
-	return (double) OMAPCONF_ERR_NOT_AVAILABLE;
+	return (double)OMAPCONF_ERR_NOT_AVAILABLE;
 }
 
 /* ------------------------------------------------------------------------
@@ -185,9 +193,9 @@ double lp87565_eprom_revision_get(void)
  *------------------------------------------------------------------------ */
 long lp87565_smps_offset_get(void)
 {
-	dprintf("%s(): offset=%lduV\n", __func__, (long) p_voff);
+	dprintf("%s(): offset=%lduV\n", __func__, (long)p_voff);
 
-	return (long) p_voff;
+	return (long)p_voff;
 }
 
 /* ------------------------------------------------------------------------
@@ -198,9 +206,9 @@ long lp87565_smps_offset_get(void)
  *------------------------------------------------------------------------ */
 long lp87565_smps_step_get(void)
 {
-	dprintf("%s(): step=%lduV\n", __func__, (long) p_step);
+	dprintf("%s(): step=%lduV\n", __func__, (long)p_step);
 
-	return (long) p_step;
+	return (long)p_step;
 }
 
 /* ------------------------------------------------------------------------
@@ -235,7 +243,7 @@ unsigned char lp87565_uv_to_vsel(unsigned long uv)
 	unsigned char vsel;
 
 	vsel = (unsigned char)
-		DIV_ROUND_UP(uv - p_voff, p_step) + p_eoff;
+	    DIV_ROUND_UP(uv - p_voff, p_step) + p_eoff;
 	dprintf("%s(%lduV)=0x%02X\n", __func__, uv, vsel);
 	return vsel;
 }
@@ -278,7 +286,7 @@ int lp87565_vsel_get(unsigned int smps_id)
 		return OMAPCONF_ERR_INTERNAL;
 	}
 	ret = i2cget(LP87565_I2C_BUS, smps_regs->addr,
-		smps_regs->voltage, &vsel);
+		     smps_regs->voltage, &vsel);
 	if (ret != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 
@@ -322,7 +330,7 @@ int lp87565_uvoltage_set(unsigned int vdd_id, unsigned long uv)
 
 	/* Write VSEL to SMPSxx_VOLTAGE */
 	ret = i2cset(LP87565_I2C_BUS, smps_regs->addr,
-			smps_regs->voltage, (unsigned int) vsel);
+		     smps_regs->voltage, (unsigned int)vsel);
 	if (ret != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 

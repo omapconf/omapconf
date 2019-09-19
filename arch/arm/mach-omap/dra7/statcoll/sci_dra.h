@@ -49,7 +49,7 @@
 #define SCI_DRA_H
 
 #include <stdlib.h>
-#include <stdint.h>              // The library uses C99 exact-width integer types
+#include <stdint.h>		// The library uses C99 exact-width integer types
 #include <stdbool.h>
 
 #ifdef _STM_Logging
@@ -64,47 +64,46 @@ extern "C" {
 
 #define LAT_SC_HAS_SLAVE_PROBES
 
-
 /* Note - the version definitions must have the end of line immediately
  * after the value (packaging script requirement)
  */
 #define SCILIB_MAJOR_VERSION_DRA (0x1)
 
-                                    /*!< Major version number
-                                       - Incremented for API changes*/
+	/*!< Major version number
+	   - Incremented for API changes */
 
 #define SCILIB_MINOR_VERSION_DRA (0x3)
 
-                                     /*!< Minor version number
-                                       - Incremented for bug fixes  */
+	/*!< Minor version number
+	   - Incremented for bug fixes  */
 
 /*! \par sci_handle
    sci handle object. This is an incomplete structure, thus making the actual
    implementation private to the library.
 */
-typedef struct sci_handle_t sci_handle;
+	typedef struct sci_handle_t sci_handle;
 
 /*! \par psci_handle
     Pointer to a sci handle object
 */
-typedef sci_handle * psci_handle;
+	typedef sci_handle *psci_handle;
 
 /*! \par sci_err_dra
     SCILib error codes
 */
-enum sci_err_dra {
-   SCI_SUCCESS,                     /*!< Function completed with no errors */
-   SCI_ERR_INVALID_HANDLE = -1,     /*!< Invalid sci handle */
-   SCI_ERR_INVALID_PARM = -2,       /*!< Invalid function parameter */
-   SCI_ERR_MAPPING = -3,            /*!< Memory mapping error */
-   SCI_ERR_SC_NOT_AVAILABLE = -4,   /*!< SC module not avaiable */
-   SCI_ERR_MEM_ALLOC = -5,          /*!< Memory allocation error */
-   SCI_ERR_ACCESS = -6,             /*!< SC module access error */
-   SCI_ERR_REVISION = -7,           /*!< SC module unexpected revision */
-   SCI_ERR_MODULE_ENABLED = -8,     /*!< Module must be disabled for operation */
-   SCI_ERR_FILTER_NOT_ALLOWED = -9, /*!< Use case does not allow filters */
-   SCI_ERR_STM = -10                /*!< STM error */
-};
+	enum sci_err_dra {
+		SCI_SUCCESS,	/*!< Function completed with no errors */
+		SCI_ERR_INVALID_HANDLE = -1,	/*!< Invalid sci handle */
+		SCI_ERR_INVALID_PARM = -2,	/*!< Invalid function parameter */
+		SCI_ERR_MAPPING = -3,	/*!< Memory mapping error */
+		SCI_ERR_SC_NOT_AVAILABLE = -4,	/*!< SC module not avaiable */
+		SCI_ERR_MEM_ALLOC = -5,	/*!< Memory allocation error */
+		SCI_ERR_ACCESS = -6,	/*!< SC module access error */
+		SCI_ERR_REVISION = -7,	/*!< SC module unexpected revision */
+		SCI_ERR_MODULE_ENABLED = -8,	/*!< Module must be disabled for operation */
+		SCI_ERR_FILTER_NOT_ALLOWED = -9,	/*!< Use case does not allow filters */
+		SCI_ERR_STM = -10	/*!< STM error */
+	};
 
 /*! \par sci_callback
      \param[in] phandle SCILib handle.
@@ -115,87 +114,88 @@ enum sci_err_dra {
      Definition of the user implmented callback funtion. See ::sci_config.
 
 */
-typedef void(*sci_callback)(psci_handle phandle, const char * func, enum sci_err_dra);
+	typedef void (*sci_callback) (psci_handle phandle, const char *func,
+				      enum sci_err_dra);
 
 /*! \par sci_mode
     SCI Library operating mode. Allows user to select SC Module
     counter export mode.
  */
-enum sci_mode {
-    SCI_MODE_STM,                   /*!< Export SC Module counters periodically
-                                         via STM (normal operating mode). */
-    SCI_MODE_DUMP,                  /*!< Export SC Module counters on demand
-                                         via STM (see ::sci_dump()). */
-    SCI_MODE_STM_COND,              /*!< Export SC Module counters conditionally
-                                         via STM */
-    SCI_MODE_DUMP_COND              /*!< Export SC Module counters conditionally
-                                         on demand (see ::sci_dump()).
-                                    */
-};
+	enum sci_mode {
+		SCI_MODE_STM,	/*!< Export SC Module counters periodically
+				   via STM (normal operating mode). */
+		SCI_MODE_DUMP,	/*!< Export SC Module counters on demand
+				   via STM (see ::sci_dump()). */
+		SCI_MODE_STM_COND,	/*!< Export SC Module counters conditionally
+					   via STM */
+		SCI_MODE_DUMP_COND	/*!< Export SC Module counters conditionally
+					   on demand (see ::sci_dump()).
+					 */
+	};
 
 /*! \par sci_config
     SCI Library configuration structure. If sci_open()is called
     with a NULL sci_config pointer then the default value for
     each parameter is utilized.
  */
-struct sci_config {
-    sci_callback errhandler;        /*!< Called by any SCI Library function
-                                    prior to returning an error. May be set to
-                                    NULL to disable this feature. Default is NULL.
-                                    */
-    uint32_t sdram_msg_rate;        /*!< 32-bit non-zero value used to set the
-                                    rate at which messages are generated (based
-                                    on SC Module clock rate).
-                                    Setting to 0 is not legal and will result
-                                    in sci_open() returning ::SCI_ERR_INVALID_PARM.
-                                    Default is the maximum value the module
-                                    supports. A value that is too large may cause
-                                    counter saturation. Reducing this value may
-                                    reduce or eliminate saturation errors, and
-                                    will increase the data resolution.
-                                    */
-    uint32_t mstr_msg_rate;        /*!< 32-bit non-zero value used to set the
-                                    rate at which messages are generated (based
-                                    on SC Module clock rate).
-                                    Setting to 0 is not legal and will result
-                                    in sci_open() returning ::SCI_ERR_INVALID_PARM.
-                                    Default is the maximum value the module
-                                    supports. A value that is too large may cause
-                                    counter saturation. Reducing this value may
-                                    reduce or eliminate saturation errors, and
-                                    will increase the data resolution.
-                                   */
-    bool trigger_enable;           /*!< Cross triggers enable/disable. Default
-                                   is disable. If Enabled EMU0 trigger enables,
-                                   EMU1 trigger disables the SC module.
-                                   */
-    uint32_t data_options;         /*!< This is a bit field that enables sw
-                                   filtering of certain data characteristics.
-                                   Bit 0 - If 1 suppress zero data, if 0 don't
-                                   suppress zero data. If a SC Module is
-                                   enabled during cycles where no accesses
-                                   are performed this option allows the zero
-                                   data provided in these cases to be suppressed
-                                   from the data provided on the host.
-                                   This option will have no effect on the actual
-                                   STM bandwidth (in other words all data is
-                                   transmitted), but it may reduce host file
-                                   sizes significantly and in some cases decrease
-                                   data processing times.
-                                   */
-    enum sci_mode mode;            /*!< See ::sci_mode */
+	struct sci_config {
+		sci_callback errhandler;	/*!< Called by any SCI Library function
+						   prior to returning an error. May be set to
+						   NULL to disable this feature. Default is NULL.
+						 */
+		uint32_t sdram_msg_rate;	/*!< 32-bit non-zero value used to set the
+						   rate at which messages are generated (based
+						   on SC Module clock rate).
+						   Setting to 0 is not legal and will result
+						   in sci_open() returning ::SCI_ERR_INVALID_PARM.
+						   Default is the maximum value the module
+						   supports. A value that is too large may cause
+						   counter saturation. Reducing this value may
+						   reduce or eliminate saturation errors, and
+						   will increase the data resolution.
+						 */
+		uint32_t mstr_msg_rate;	/*!< 32-bit non-zero value used to set the
+					   rate at which messages are generated (based
+					   on SC Module clock rate).
+					   Setting to 0 is not legal and will result
+					   in sci_open() returning ::SCI_ERR_INVALID_PARM.
+					   Default is the maximum value the module
+					   supports. A value that is too large may cause
+					   counter saturation. Reducing this value may
+					   reduce or eliminate saturation errors, and
+					   will increase the data resolution.
+					 */
+		bool trigger_enable;	/*!< Cross triggers enable/disable. Default
+					   is disable. If Enabled EMU0 trigger enables,
+					   EMU1 trigger disables the SC module.
+					 */
+		uint32_t data_options;	/*!< This is a bit field that enables sw
+					   filtering of certain data characteristics.
+					   Bit 0 - If 1 suppress zero data, if 0 don't
+					   suppress zero data. If a SC Module is
+					   enabled during cycles where no accesses
+					   are performed this option allows the zero
+					   data provided in these cases to be suppressed
+					   from the data provided on the host.
+					   This option will have no effect on the actual
+					   STM bandwidth (in other words all data is
+					   transmitted), but it may reduce host file
+					   sizes significantly and in some cases decrease
+					   data processing times.
+					 */
+		enum sci_mode mode;	/*!< See ::sci_mode */
 
 #ifdef _STM_Logging
-    bool stm_log_enable;           /*!< Enable/disable library generated STM
-                                   logging messages. The default is disabled */
-    STMHandle * pstm_handle;       /*!< A pointer to a STM Handle for logging
-                                   and providing meta data (required by host
-                                   tools). The default is NULL.*/
-    int stm_ch;                    /*!< A STM channel to use for SCI Library
-                                   logging messages.
-                                   */
+		bool stm_log_enable;	/*!< Enable/disable library generated STM
+					   logging messages. The default is disabled */
+		STMHandle *pstm_handle;	/*!< A pointer to a STM Handle for logging
+					   and providing meta data (required by host
+					   tools). The default is NULL. */
+		int stm_ch;	/*!< A STM channel to use for SCI Library
+				   logging messages.
+				 */
 #endif
-};
+	};
 /*! \par sci_open
 
     Open an instance of the SCI Library.
@@ -251,8 +251,8 @@ struct sci_config {
         \li SC STM message rate is set to the max value.
 
 */
-enum sci_err_dra sci_open_dra (psci_handle * const pphandle,
-                       struct sci_config * const pconfig);
+	enum sci_err_dra sci_open_dra(psci_handle * const pphandle,
+				      struct sci_config *const pconfig);
 /*! \par sci_close
 
     Close the SCI Library API.
@@ -274,7 +274,7 @@ enum sci_err_dra sci_open_dra (psci_handle * const pphandle,
     will exit and return ::SCI_ERR_INVALID_HANDLE.
 
 */
-enum sci_err_dra sci_close_dra (psci_handle * const pphandle);
+	enum sci_err_dra sci_close_dra(psci_handle * const pphandle);
 
 /*! \par sci_get_version
 
@@ -307,12 +307,11 @@ enum sci_err_dra sci_close_dra (psci_handle * const pphandle);
     this function exits with ::SCI_ERR_ACCESS.
 
 */
-enum sci_err_dra sci_get_version_dra (psci_handle const phandle,
-                              uint32_t * const plib_major_ver,
-                              uint32_t * const plib_minor_ver,
-                              uint32_t * const plib_func_id,
-                              uint32_t * const pmod_func_id );
-
+	enum sci_err_dra sci_get_version_dra(psci_handle const phandle,
+					     uint32_t * const plib_major_ver,
+					     uint32_t * const plib_minor_ver,
+					     uint32_t * const plib_func_id,
+					     uint32_t * const pmod_func_id);
 
 /*! \par sci_sdram_usecase
     Selects for sdram usecases.
@@ -326,149 +325,148 @@ enum sci_err_dra sci_get_version_dra (psci_handle const phandle,
  * 0x01 is the LAT module
  */
 
-enum sci_sdram_usecase {
-    SCI_SDRAM_THROUGHPUT = 0x00010000,          /*!< Throughput in bytes per
-                                                sample window usecase select */
-    SCI_SDRAM_LINKOCCUPY_REQUEST = 0x00000001,  /*!< Request Port Link occupancy
-                                                percentage usecase select */
-    SCI_SDRAM_LINKOCCUPY_RESPONSE = 0x00000002, /*!< Response Port Link occupancy
-                                                percentage usecase select */
-    SCI_SDRAM_AVGBURST_LENGTH = 0x00010003,      /*!< Average burst length in
-                                                bytes usecase select */
+	enum sci_sdram_usecase {
+		SCI_SDRAM_THROUGHPUT = 0x00010000,	/*!< Throughput in bytes per
+							   sample window usecase select */
+		SCI_SDRAM_LINKOCCUPY_REQUEST = 0x00000001,	/*!< Request Port Link occupancy
+								   percentage usecase select */
+		SCI_SDRAM_LINKOCCUPY_RESPONSE = 0x00000002,	/*!< Response Port Link occupancy
+								   percentage usecase select */
+		SCI_SDRAM_AVGBURST_LENGTH = 0x00010003,	/*!< Average burst length in
+							   bytes usecase select */
 /* Since SDRAM does not support latency usecase must skip enum 0x00000004 */
-    SCI_SDRAM_THROUGHPUT_MINALARM = 0x00000005, /*!< Throughput minimum alarm
-                                                usecase */
-    SCI_SDRAM_THROUGHPUT_MAXALARM = 0x00000006  /*!< Throughput maximum alarm
-                                                usecase */
+		SCI_SDRAM_THROUGHPUT_MINALARM = 0x00000005,	/*!< Throughput minimum alarm
+								   usecase */
+		SCI_SDRAM_THROUGHPUT_MAXALARM = 0x00000006	/*!< Throughput maximum alarm
+								   usecase */
 /* Since SDRAM does not support latency usecase must skip enum 0x00000007 */
- };
+	};
 
 /*! \par sci_mstr_usecase
     Selects for master usecases.
 */
 
-enum sci_mstr_usecase {
-    SCI_MSTR_THROUGHPUT = 0x00010100,           /*!< Throughput in bytes per
-                                                sample window usecase select */
-    SCI_MSTR_LINKOCCUPY_REQUEST = 0x00000101,   /*!< Request Port Link occupancy
-                                                percentage usecase select */
-    SCI_MSTR_LINKOCCUPY_RESPONSE = 0x00000102,  /*!< Response Port Link occupancy
-                                                percentage usecase select */
-    SCI_MSTR_AVGBURST_LENGTH = 0x000010103,      /*!< Average burst length in
-                                                bytes usecase select */
-    SCI_MSTR_AVGLATENCY = 0x00000104,            /*!< Average latency in
-                                                cycles usecase select */
-    SCI_MSTR_THROUGHPUT_MINALARM = 0x00000105,  /*!< Throughput minimum alarm
-                                                usecase select*/
-    SCI_MSTR_THROUGHPUT_MAXALARM = 0x00000106,  /*!< Throughput maximum alarm
-                                                usecase select*/
-    SCI_MSTR_LATENCY_MAXALARM  = 0x00000107,     /*< Average latency maximum
-                                                alarm usecase select */
-    SCI_MSTR_ARBITRATION_CONFLICT = 0x00000108, /* Arbitration conflict - Request link busy */
-    SCI_MSTR_INITIATOR_BUSY =  0x0000109,       /* Initiator busy - Response link busy */
-    SCI_MSTR_TRANSACTION_UNDERFLOW = 0x000010A  /* Transaction Underflow - Request link wait */
+	enum sci_mstr_usecase {
+		SCI_MSTR_THROUGHPUT = 0x00010100,	/*!< Throughput in bytes per
+							   sample window usecase select */
+		SCI_MSTR_LINKOCCUPY_REQUEST = 0x00000101,	/*!< Request Port Link occupancy
+								   percentage usecase select */
+		SCI_MSTR_LINKOCCUPY_RESPONSE = 0x00000102,	/*!< Response Port Link occupancy
+								   percentage usecase select */
+		SCI_MSTR_AVGBURST_LENGTH = 0x000010103,	/*!< Average burst length in
+							   bytes usecase select */
+		SCI_MSTR_AVGLATENCY = 0x00000104,	/*!< Average latency in
+							   cycles usecase select */
+		SCI_MSTR_THROUGHPUT_MINALARM = 0x00000105,	/*!< Throughput minimum alarm
+								   usecase select */
+		SCI_MSTR_THROUGHPUT_MAXALARM = 0x00000106,	/*!< Throughput maximum alarm
+								   usecase select */
+		SCI_MSTR_LATENCY_MAXALARM = 0x00000107,	/*< Average latency maximum
+							   alarm usecase select */
+		SCI_MSTR_ARBITRATION_CONFLICT = 0x00000108,	/* Arbitration conflict - Request link busy */
+		SCI_MSTR_INITIATOR_BUSY = 0x0000109,	/* Initiator busy - Response link busy */
+		SCI_MSTR_TRANSACTION_UNDERFLOW = 0x000010A	/* Transaction Underflow - Request link wait */
 #ifdef _TEST
-    ,SCI_MSTR_TRANSFER_CYCLES = 0x000010B,       /* Transfer cycles on request link */
-    SCI_MSTR_TOTAL_CLOCKS = 0x0000010C          /* Total clock cycles */
+		    , SCI_MSTR_TRANSFER_CYCLES = 0x000010B,	/* Transfer cycles on request link */
+		SCI_MSTR_TOTAL_CLOCKS = 0x0000010C	/* Total clock cycles */
 #endif
-};
+	};
 
 /*! \par sci_trans_qual
     Transaction qualification selects for both sdram and
     master usecases.
 */
-enum sci_trans_qual {
-    SCI_RD_ONLY,            /*!< Read transactions only */
-    SCI_WR_ONLY,            /*!< Write transactions only */
-    SCI_RD_OR_WR_NONE,      /*!< No read or write transactions - only errors*/
-    SCI_RD_OR_WR_DONTCARE   /*!< Either read or write transactions*/
-};
+	enum sci_trans_qual {
+		SCI_RD_ONLY,	/*!< Read transactions only */
+		SCI_WR_ONLY,	/*!< Write transactions only */
+		SCI_RD_OR_WR_NONE,	/*!< No read or write transactions - only errors */
+		SCI_RD_OR_WR_DONTCARE	/*!< Either read or write transactions */
+	};
 
 /*! \par sci_err_or_qual
     Error qualification selects for sdram and master
     usecases.
 */
-enum sci_err_or_qual {
-    SCI_ERR_ONLY,           /*!< Error transactions only */
-    SCI_ERR_NONE,           /*!< No error transactions */
-    SCI_ERR_DONTCARE};      /*!< Error transactions don't care */
+	enum sci_err_or_qual {
+		SCI_ERR_ONLY,	/*!< Error transactions only */
+		SCI_ERR_NONE,	/*!< No error transactions */
+		SCI_ERR_DONTCARE
+	};			/*!< Error transactions don't care */
 
 /*! \par sci_filter_sdram
     Filter configuration structure for sdram usecases.
 */
-struct sci_filter_sdram_dra
-{
-    enum sci_master_addr_dra mstr_addr_match;  /*!< Master address match */
-    uint32_t  mstr_addr_mask;               /*!< Master address mask */
-    enum sci_trans_qual trans_qual;         /*!< Transaction qualifier */
-    enum sci_err_or_qual error_qual;         /*!< Error qualifier */
-};
+	struct sci_filter_sdram_dra {
+		enum sci_master_addr_dra mstr_addr_match;	/*!< Master address match */
+		uint32_t mstr_addr_mask;	/*!< Master address mask */
+		enum sci_trans_qual trans_qual;	/*!< Transaction qualifier */
+		enum sci_err_or_qual error_qual;	/*!< Error qualifier */
+	};
 
 /*! \par sci_filter_mstr
     Filter configuration structure for master usecases.
 */
-struct sci_filter_mstr_dra {
+	struct sci_filter_mstr_dra {
 #ifdef LAT_SC_HAS_SLAVE_PROBES
-    enum sci_master_addr_dra  mstr_addr_match;  /*!< Master address match */
-    uint32_t  mstr_addr_mask;               /*!< Master address mask */
+		enum sci_master_addr_dra mstr_addr_match;	/*!< Master address match */
+		uint32_t mstr_addr_mask;	/*!< Master address mask */
 #endif
-    enum sci_slave_addr_dra  slave_addr_match;  /*!< Slave address match */
-    uint32_t  slave_addr_mask;              /*!< Slave address mask */
-    enum sci_trans_qual trans_qual;         /*!< Transaction qualifier */
-    enum sci_err_or_qual error_qual;         /*!< Error qualifier */
-};
-
+		enum sci_slave_addr_dra slave_addr_match;	/*!< Slave address match */
+		uint32_t slave_addr_mask;	/*!< Slave address mask */
+		enum sci_trans_qual trans_qual;	/*!< Transaction qualifier */
+		enum sci_err_or_qual error_qual;	/*!< Error qualifier */
+	};
 
 /*! \par sci_alarm
     Alarm configuration structure.
 */
-struct sci_alarm {
-    uint32_t alarm_min;                     /*!< Minimum alarm threshold */
-    uint32_t alarm_max;                     /*!< Maximum alarm threshold */
-    bool alarm_msg_enable;                  /*!< Enable STM messages on alarm */
- };
+	struct sci_alarm {
+		uint32_t alarm_min;	/*!< Minimum alarm threshold */
+		uint32_t alarm_max;	/*!< Maximum alarm threshold */
+		bool alarm_msg_enable;	/*!< Enable STM messages on alarm */
+	};
 
 /*! \par sci_config_sdram
     Configuration structure for sdram usecases.
 */
-struct sci_config_sdram {
-    enum sci_sdram_usecase usecase;         /*!< sdram usecase selection */
-    enum sci_probeid_sdram_dra probe_id;        /*!< sdram probe selection */
-    int num_filters;                        /*!< Number of filters required
-                                            for the usecase (0,1 or 2). */
-    struct sci_filter_sdram_dra filter[2];      /*!< sdram filters configuration*/
-    bool addr_filter_enable;                /*!< Probe address filter enable */
-    uint32_t addr_filter_min;               /*!< Probe System address minimum
-                                                (note: SCILib only supports conversion of system address
-                                                to physical address required by the SC modules. Virtual
-                                                and TILER address conversion is not supported. */
-    uint32_t addr_filter_max;               /*!< Probe System address maximum
-                                                (note: SCILib only supports conversion of system address
-                                                to physical address required by the SC modules. Virtual
-                                                and TILER address conversion is not supported.*/
-    struct sci_alarm alarm;                 /*!< Alarm configuration */
-};
+	struct sci_config_sdram {
+		enum sci_sdram_usecase usecase;	/*!< sdram usecase selection */
+		enum sci_probeid_sdram_dra probe_id;	/*!< sdram probe selection */
+		int num_filters;	/*!< Number of filters required
+					   for the usecase (0,1 or 2). */
+		struct sci_filter_sdram_dra filter[2];	/*!< sdram filters configuration */
+		bool addr_filter_enable;	/*!< Probe address filter enable */
+		uint32_t addr_filter_min;	/*!< Probe System address minimum
+						   (note: SCILib only supports conversion of system address
+						   to physical address required by the SC modules. Virtual
+						   and TILER address conversion is not supported. */
+		uint32_t addr_filter_max;	/*!< Probe System address maximum
+						   (note: SCILib only supports conversion of system address
+						   to physical address required by the SC modules. Virtual
+						   and TILER address conversion is not supported. */
+		struct sci_alarm alarm;	/*!< Alarm configuration */
+	};
 
 /*! \par sci_config_mstr
     Configuration structure for master usecases.
 */
-struct sci_config_mstr {
-    enum sci_mstr_usecase usecase;          /*!< Master usecase selection */
-    enum sci_probeid_mstr_dra probe_id;         /*!< Master probe selection */
-    int num_filters;                        /*!< Number of filters required
-                                            for the usecase (0 or 1). */
-    struct sci_filter_mstr_dra filter;          /*!< Master filter configuration */
-    struct sci_alarm alarm;                 /*!< Alarm configuration */
-};
+	struct sci_config_mstr {
+		enum sci_mstr_usecase usecase;	/*!< Master usecase selection */
+		enum sci_probeid_mstr_dra probe_id;	/*!< Master probe selection */
+		int num_filters;	/*!< Number of filters required
+					   for the usecase (0 or 1). */
+		struct sci_filter_mstr_dra filter;	/*!< Master filter configuration */
+		struct sci_alarm alarm;	/*!< Alarm configuration */
+	};
 
 /*! \par sci_usecase_key
     Usecase key opaque structure.
 */
-typedef struct sci_usecase_key_t sci_usecase_key;
+	typedef struct sci_usecase_key_t sci_usecase_key;
 /*! \par sci_usecase_key
     Usecase key structure pointer.
 */
-typedef sci_usecase_key * psci_usecase_key;
+	typedef sci_usecase_key *psci_usecase_key;
 
 /*! \par sci_reg_usecase_sdram_dra
 
@@ -515,9 +513,11 @@ typedef sci_usecase_key * psci_usecase_key;
     ::SCI_ERR_MEM_ALLOC.
 
 */
-enum sci_err_dra sci_reg_usecase_sdram_dra(psci_handle const phandle,
-                        struct sci_config_sdram *  const pcfg,
-                        psci_usecase_key * usecase_key );
+	enum sci_err_dra sci_reg_usecase_sdram_dra(psci_handle const phandle,
+						   struct sci_config_sdram
+						   *const pcfg,
+						   psci_usecase_key *
+						   usecase_key);
 
 /*! \par sci_reg_usecase_mstr_dra
 
@@ -564,9 +564,11 @@ enum sci_err_dra sci_reg_usecase_sdram_dra(psci_handle const phandle,
     ::SCI_ERR_MEM_ALLOC.
 
 */
-enum sci_err_dra sci_reg_usecase_mstr_dra(psci_handle const phandle,
-                        struct sci_config_mstr * const pcfg,
-                        psci_usecase_key * usecase_key );
+	enum sci_err_dra sci_reg_usecase_mstr_dra(psci_handle const phandle,
+						  struct sci_config_mstr *const
+						  pcfg,
+						  psci_usecase_key *
+						  usecase_key);
 
 /*! \par sci_remove_usecase_dra
 
@@ -599,8 +601,8 @@ enum sci_err_dra sci_reg_usecase_mstr_dra(psci_handle const phandle,
     ::SCI_ERR_INVALID_PARM.
 */
 
-enum sci_err_dra sci_remove_usecase_dra (psci_handle const phandle,
-                                 psci_usecase_key * usecase_key);
+	enum sci_err_dra sci_remove_usecase_dra(psci_handle const phandle,
+						psci_usecase_key * usecase_key);
 
 /*! \par sci_global_enable_dra
 
@@ -622,7 +624,7 @@ enum sci_err_dra sci_remove_usecase_dra (psci_handle const phandle,
 
 */
 
-enum sci_err_dra sci_global_enable_dra(psci_handle const phandle);
+	enum sci_err_dra sci_global_enable_dra(psci_handle const phandle);
 
 /*! \par sci_global_disable_dra
 
@@ -648,7 +650,7 @@ enum sci_err_dra sci_global_enable_dra(psci_handle const phandle);
     If phandle is NULL the function exits with ::SCI_ERR_INVALID_HANDLE.
 
 */
-enum sci_err_dra sci_global_disable_dra(psci_handle const phandle);
+	enum sci_err_dra sci_global_disable_dra(psci_handle const phandle);
 
 /*! \par sci_dump
 
@@ -673,7 +675,7 @@ enum sci_err_dra sci_global_disable_dra(psci_handle const phandle);
 
 */
 
-enum sci_err_dra sci_dump_dra(psci_handle const phandle );
+	enum sci_err_dra sci_dump_dra(psci_handle const phandle);
 
 /*! \par sci_dump_info
 
@@ -705,13 +707,13 @@ enum sci_err_dra sci_dump_dra(psci_handle const phandle );
     If usecase_key is NULL this function exits with ::SCI_ERR_INVALID_PARM.
 
 */
-enum sci_err_dra sci_dump_info_dra(psci_handle const phandle,
-                              psci_usecase_key * usecase_key, int usecase_key_num,
-                              int * pnum_sci_cntrs);
+	enum sci_err_dra sci_dump_info_dra(psci_handle const phandle,
+					   psci_usecase_key * usecase_key,
+					   int usecase_key_num,
+					   int *pnum_sci_cntrs);
 
-
-enum sci_err_dra sci_dump_sdram_cntrs_dra(int num_sci_cntrs, uint32_t * pbuf);
-
+	enum sci_err_dra sci_dump_sdram_cntrs_dra(int num_sci_cntrs,
+						  uint32_t * pbuf);
 
 /*! \par sci_dump_cntrs
 
@@ -745,9 +747,10 @@ enum sci_err_dra sci_dump_sdram_cntrs_dra(int num_sci_cntrs, uint32_t * pbuf);
 
 */
 
-enum sci_err_dra sci_dump_cntrs_dra(psci_handle const phandle,
-                      psci_usecase_key * usecase_key, int usecase_key_num,
-                      uint32_t * pbuf);
+	enum sci_err_dra sci_dump_cntrs_dra(psci_handle const phandle,
+					    psci_usecase_key * usecase_key,
+					    int usecase_key_num,
+					    uint32_t * pbuf);
 
 /*! \par sci_dump_disabled
 
@@ -768,7 +771,7 @@ enum sci_err_dra sci_dump_cntrs_dra(psci_handle const phandle,
     If phandle is NULL the function exits with ::SCI_ERR_INVALID_HANDLE.
 
 */
-enum sci_err_dra sci_dump_disable_dra(psci_handle const phandle);
+	enum sci_err_dra sci_dump_disable_dra(psci_handle const phandle);
 
 /*! \par sci_dump_enabled
 
@@ -789,7 +792,7 @@ enum sci_err_dra sci_dump_disable_dra(psci_handle const phandle);
     If phandle is NULL the function exits with ::SCI_ERR_INVALID_HANDLE.
 
 */
-enum sci_err_dra sci_dump_enable_dra(psci_handle const phandle);
+	enum sci_err_dra sci_dump_enable_dra(psci_handle const phandle);
 
 /*! \mainpage
 
@@ -872,7 +875,6 @@ enum sci_err_dra sci_dump_enable_dra(psci_handle const phandle);
            |--DRA7xx
            |--AM437x
 
-
     @endcode
 
     \par Helper Functions
@@ -937,5 +939,4 @@ enum sci_err_dra sci_dump_enable_dra(psci_handle const phandle);
 #ifdef __cplusplus
 }
 #endif
-
-#endif /*SCI_H*/
+#endif				/*SCI_H */

@@ -41,10 +41,8 @@
  *
  */
 
-
 #include <temperature.h>
 #include <hwtemp.h>
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hwtemp_get
@@ -59,7 +57,7 @@
  * @DESCRIPTION		return temperature measured by selected sensor
  *			(in degrees celcius)
  *------------------------------------------------------------------------ */
-int hwtemp_get(reg *temp_register, unsigned int mask, unsigned int shift,
+int hwtemp_get(reg * temp_register, unsigned int mask, unsigned int shift,
 	       unsigned int start_val, const short int *conv_table,
 	       unsigned int sizeof_conv_table)
 {
@@ -82,7 +80,8 @@ int hwtemp_get(reg *temp_register, unsigned int mask, unsigned int shift,
 
 	if (val >= sizeof_conv_table) {
 		fprintf(stderr, "%s: read value=%d > max_value = %d\n",
-			__func__, val + start_val, sizeof_conv_table + start_val - 1);
+			__func__, val + start_val,
+			sizeof_conv_table + start_val - 1);
 		return TEMP_ABSOLUTE_ZERO;
 	}
 

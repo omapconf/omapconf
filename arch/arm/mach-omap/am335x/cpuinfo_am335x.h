@@ -41,13 +41,11 @@
  *
  */
 
-
 #ifndef __CPUID_AM335X_H__
 #define __CPUID_AM335X_H__
 #define EFUSE_SMA_REG		0x44E107FC
 
 unsigned int cpu_am335x_silicon_max_speed_get(void);
 unsigned int cpu_am335x_cores_count_get(void);
-
 
 #endif

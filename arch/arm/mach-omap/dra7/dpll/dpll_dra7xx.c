@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <cm_dra7xx-defs.h>
 #include <dpll_dra7xx.h>
 #include <dpll_dra7xx-data.h>
@@ -55,14 +54,12 @@
 #include <string.h>
 #include <opp.h>
 
-
 /* #define DPLL_DRA7XX_DEBUG */
 #ifdef DPLL_DRA7XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 #define DPLL_DRA7XX_AUDIT_SHOW_STATUS(curr, golden) \
 		if (curr == golden) { \
@@ -71,7 +68,6 @@
 			snprintf(table[row++][3], TABLE_MAX_ELT_LEN, "FAIL"); \
 			(*err_nbr)++; \
 		}
-
 
 #define DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(setting, defval, gotolabel) \
 		if (setting == defval) {\
@@ -83,7 +79,6 @@
 			row++;\
 			goto gotolabel;\
 		}
-
 
 dpll_dra7xx_settings *dpll_dra7xx_settings_table[DPLL_DRA7XX_ID_MAX] = {
 	NULL,
@@ -97,8 +92,8 @@ dpll_dra7xx_settings *dpll_dra7xx_settings_table[DPLL_DRA7XX_ID_MAX] = {
 	NULL,
 	NULL,
 	NULL,
-	NULL};
-
+	NULL
+};
 
 dpll_dra7xx_settings *dpll_dra7xx_locked_settings_table[DPLL_DRA7XX_ID_MAX] = {
 	NULL,
@@ -112,8 +107,8 @@ dpll_dra7xx_settings *dpll_dra7xx_locked_settings_table[DPLL_DRA7XX_ID_MAX] = {
 	NULL,
 	NULL,
 	NULL,
-	NULL};
-
+	NULL
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		print_reg
@@ -123,7 +118,7 @@ dpll_dra7xx_settings *dpll_dra7xx_locked_settings_table[DPLL_DRA7XX_ID_MAX] = {
  * @DESCRIPTION		Show register name, addr & content
  *------------------------------------------------------------------------ */
 void print_reg(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
-		reg *r, unsigned int *row)
+	       reg * r, unsigned int *row)
 {
 	unsigned int val;
 	if (r == NULL)
@@ -166,7 +161,6 @@ dpll_dra7xx_id dpll_dra7xx_s2id(char *s)
 	return DPLL_DRA7XX_ID_MAX;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_name_get
  * @BRIEF		return DPLL name
@@ -181,7 +175,6 @@ const char *dpll_dra7xx_name_get(dpll_dra7xx_id id)
 
 	return dpll_dra7xx_names[id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_output_name_get
@@ -198,7 +191,6 @@ const char *dpll_dra7xx_output_name_get(dpll_dra7xx_output_id id)
 	return dpll_dra7xx_output_names[id];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		hsdiv_dra7xx_name_get
  * @BRIEF		return HS divider name
@@ -214,7 +206,6 @@ const char *hsdiv_dra7xx_name_get(hsdiv_dra7xx_id id)
 	return hsdiv_dra7xx_names[id];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_dump
  * @BRIEF		dump selected DPLL registers
@@ -228,7 +219,7 @@ const char *hsdiv_dra7xx_name_get(hsdiv_dra7xx_id id)
  * @DESCRIPTION		dump selected DPLL registers and pretty-print it to
  *			output stream.
  *------------------------------------------------------------------------ */
-int dpll_dra7xx_dump(FILE *stream, dpll_dra7xx_id id)
+int dpll_dra7xx_dump(FILE * stream, dpll_dra7xx_id id)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row, i;
@@ -247,7 +238,7 @@ int dpll_dra7xx_dump(FILE *stream, dpll_dra7xx_id id)
 			autoadjust_table_init(table);
 			row = 0;
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-				"%s Reg. Name",	dpll_dra7xx_name_get(dpll_id));
+				 "%s Reg. Name", dpll_dra7xx_name_get(dpll_id));
 			strncpy(table[row][1], "Reg. Address",
 				TABLE_MAX_ELT_LEN);
 			strncpy(table[row][2], "Reg. Value", TABLE_MAX_ELT_LEN);
@@ -305,7 +296,6 @@ int dpll_dra7xx_dump(FILE *stream, dpll_dra7xx_id id)
 	return err;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_show
  * @BRIEF		analyze PLLs configuration
@@ -317,7 +307,7 @@ int dpll_dra7xx_dump(FILE *stream, dpll_dra7xx_id id)
  * @param[in]		stream: output stream
  * @DESCRIPTION		analyze PLLs configuration
  *------------------------------------------------------------------------ */
-int dpll_dra7xx_show(FILE *stream)
+int dpll_dra7xx_show(FILE * stream)
 {
 	int ret;
 
@@ -330,7 +320,6 @@ int dpll_dra7xx_show(FILE *stream)
 	return dpll_type_a_show(DPLL_DRA7XX_EVE, DPLL_DRA7XX_USB, stream);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_type_b_show
  * @BRIEF		show tpye B dpll module configuration
@@ -342,7 +331,8 @@ int dpll_dra7xx_show(FILE *stream)
  * @param[in]		stream: output stream
  * @DESCRIPTION		show tpye B dpll module configuration
  *------------------------------------------------------------------------ */
-int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *stream)
+int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id,
+		     FILE * stream)
 {
 	int ret = 0;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -358,8 +348,7 @@ int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 	for (id = start_id; id < end_id; id++) {
 		row = 0;
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN, "%s",
-			dpll_dra7xx_name_get(id));
+			 TABLE_MAX_ELT_LEN, "%s", dpll_dra7xx_name_get(id));
 		settings = dpll_dra7xx_settings_get(id, 0);
 		if (settings == NULL) {
 			fprintf(stderr, "%s(): error while getting %s "
@@ -393,8 +382,8 @@ int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 
 		strncpy(table[row][0], "Automatic Control", TABLE_MAX_ELT_LEN);
 		strncpy(table[row++][id - start_id + 1],
-			dpll_autoidle_mode_name_get(
-				settings->dpll.autoidle_mode),
+			dpll_autoidle_mode_name_get(settings->dpll.
+						    autoidle_mode),
 			TABLE_MAX_ELT_LEN);
 
 		strncpy(table[row++][0], " LPST = Low-Power STop",
@@ -412,41 +401,37 @@ int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 		strncpy(table[row][0], "Sigma-Delta Divider",
 			TABLE_MAX_ELT_LEN);
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN, "%u",
-			settings->dpll.sd_div);
-		strncpy(table[row][0], "SELFREQDCO",
-			TABLE_MAX_ELT_LEN);
+			 TABLE_MAX_ELT_LEN, "%u", settings->dpll.sd_div);
+		strncpy(table[row][0], "SELFREQDCO", TABLE_MAX_ELT_LEN);
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN, "%u", settings->dpll.selfreqdco);
+			 TABLE_MAX_ELT_LEN, "%u", settings->dpll.selfreqdco);
 		row++;
 
 		strncpy(table[row][0], "Ref. Frequency (MHz)",
 			TABLE_MAX_ELT_LEN);
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN, "%.3lf", settings->dpll.fref);
+			 TABLE_MAX_ELT_LEN, "%.3lf", settings->dpll.fref);
 		strncpy(table[row][0], "M Multiplier Factor",
 			TABLE_MAX_ELT_LEN);
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN, "%u",
-			settings->dpll.MN.M);
+			 TABLE_MAX_ELT_LEN, "%u", settings->dpll.MN.M);
 
 		strncpy(table[row][0], "N Divider Factor", TABLE_MAX_ELT_LEN);
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN, "%u",
-			settings->dpll.MN.N);
+			 TABLE_MAX_ELT_LEN, "%u", settings->dpll.MN.N);
 
 		strncpy(table[row][0], "Lock Frequency (MHz)",
 			TABLE_MAX_ELT_LEN);
 		if (settings->status == DPLL_STATUS_LOCKED)
 			snprintf(table[row][id - start_id + 1],
-			TABLE_MAX_ELT_LEN,
-			"%u", (unsigned int) settings->dpll.fdpll);
+				 TABLE_MAX_ELT_LEN,
+				 "%u", (unsigned int)settings->dpll.fdpll);
 		else
 			snprintf(table[row][id - start_id + 1],
-			TABLE_MAX_ELT_LEN,
-				"%u (%u)",
-				(unsigned int) settings->dpll.fdpll,
-				(unsigned int) settings_locked->dpll.fdpll);
+				 TABLE_MAX_ELT_LEN,
+				 "%u (%u)",
+				 (unsigned int)settings->dpll.fdpll,
+				 (unsigned int)settings_locked->dpll.fdpll);
 		row += 2;
 
 		strncpy(table[row][0], "CLKOUT Output", TABLE_MAX_ELT_LEN);
@@ -454,49 +439,50 @@ int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 		strncpy(table[row][0], "  Status", TABLE_MAX_ELT_LEN);
 		strncpy(table[row++][id - start_id + 1],
 			(settings->dpll.MN.M2_clkout_st == 1) ?
-				"Enabled" : "Gated",
-				TABLE_MAX_ELT_LEN);
-		strncpy(table[row][0], "  Clock Divider",
-			TABLE_MAX_ELT_LEN);
+			"Enabled" : "Gated", TABLE_MAX_ELT_LEN);
+		strncpy(table[row][0], "  Clock Divider", TABLE_MAX_ELT_LEN);
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN,
-			"%-5u (x2)", settings->dpll.MN.M2);
+			 TABLE_MAX_ELT_LEN, "%-5u (x2)", settings->dpll.MN.M2);
 		strncpy(table[row][0], "  Clock Speed (MHz)",
 			TABLE_MAX_ELT_LEN);
 		if (settings->status == DPLL_STATUS_LOCKED)
 			snprintf(table[row++][id - start_id + 1],
-				TABLE_MAX_ELT_LEN, "%u",
-				(unsigned int) settings->dpll.MN.M2_rate);
+				 TABLE_MAX_ELT_LEN, "%u",
+				 (unsigned int)settings->dpll.MN.M2_rate);
 		else
 			snprintf(table[row++][id - start_id + 1],
-				TABLE_MAX_ELT_LEN, "%u (%u)",
-				(unsigned int) settings->dpll.MN.M2_rate,
-				(unsigned int) settings_locked->dpll.MN.M2_rate);
+				 TABLE_MAX_ELT_LEN, "%u (%u)",
+				 (unsigned int)settings->dpll.MN.M2_rate,
+				 (unsigned int)settings_locked->dpll.MN.
+				 M2_rate);
 		row++;
 
 		strncpy(table[row++][0],
 			"CLK_DCO_LDO Output", TABLE_MAX_ELT_LEN);
-		strncpy(table[row][0], "  Status",
-			TABLE_MAX_ELT_LEN);
+		strncpy(table[row][0], "  Status", TABLE_MAX_ELT_LEN);
 		if (id == DPLL_DRA7XX_USB) {
 			strncpy(table[row++][id - start_id + 1],
 				(settings->dpll.MN.clkdcoldo_clkout_st == 1)
-					? "Enabled" : "Gated",
-					TABLE_MAX_ELT_LEN);
+				? "Enabled" : "Gated", TABLE_MAX_ELT_LEN);
 		} else {
-			strncpy(table[row++][id - start_id + 1], "N/A", TABLE_MAX_ELT_LEN);
+			strncpy(table[row++][id - start_id + 1], "N/A",
+				TABLE_MAX_ELT_LEN);
 		}
-			strncpy(table[row][0], "  Clock Speed (MHz)", TABLE_MAX_ELT_LEN);
+		strncpy(table[row][0], "  Clock Speed (MHz)",
+			TABLE_MAX_ELT_LEN);
 		if (id == DPLL_DRA7XX_USB) {
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id - start_id + 1],
-					TABLE_MAX_ELT_LEN, "%u",
-					(unsigned int) settings->dpll.MN.clkdcoldo_rate);
+					 TABLE_MAX_ELT_LEN, "%u",
+					 (unsigned int)settings->dpll.MN.
+					 clkdcoldo_rate);
 			else
 				snprintf(table[row++][id - start_id + 1],
-					TABLE_MAX_ELT_LEN, "%u (%u)",
-					(unsigned int) settings->dpll.MN.clkdcoldo_rate,
-					(unsigned int) settings_locked->dpll.MN.clkdcoldo_rate);
+					 TABLE_MAX_ELT_LEN, "%u (%u)",
+					 (unsigned int)settings->dpll.MN.
+					 clkdcoldo_rate,
+					 (unsigned int)settings_locked->dpll.MN.
+					 clkdcoldo_rate);
 		} else {
 			row++;
 		}
@@ -504,27 +490,30 @@ int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 
 		strncpy(table[row++][0],
 			"CLKOUTX2_M2_LDO Output", TABLE_MAX_ELT_LEN);
-		strncpy(table[row][0], "  Status",
-			TABLE_MAX_ELT_LEN);
+		strncpy(table[row][0], "  Status", TABLE_MAX_ELT_LEN);
 		if (id == DPLL_DRA7XX_PCIE_REF) {
 			strncpy(table[row++][id - start_id + 1],
 				(settings->dpll.MN.clkoutldo_st == 1)
-					? "Enabled" : "Gated",
-					TABLE_MAX_ELT_LEN);
+				? "Enabled" : "Gated", TABLE_MAX_ELT_LEN);
 		} else {
-			strncpy(table[row++][id - start_id + 1], "N/A", TABLE_MAX_ELT_LEN);
+			strncpy(table[row++][id - start_id + 1], "N/A",
+				TABLE_MAX_ELT_LEN);
 		}
-			strncpy(table[row][0], "  Clock Speed (MHz)", TABLE_MAX_ELT_LEN);
+		strncpy(table[row][0], "  Clock Speed (MHz)",
+			TABLE_MAX_ELT_LEN);
 		if (id == DPLL_DRA7XX_PCIE_REF) {
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id - start_id + 1],
-					TABLE_MAX_ELT_LEN, "%u",
-					(unsigned int) settings->dpll.MN.clkoutldo_rate);
+					 TABLE_MAX_ELT_LEN, "%u",
+					 (unsigned int)settings->dpll.MN.
+					 clkoutldo_rate);
 			else
 				snprintf(table[row++][id - start_id + 1],
-					TABLE_MAX_ELT_LEN, "%u (%u)",
-					(unsigned int) settings->dpll.MN.clkoutldo_rate,
-					(unsigned int) settings_locked->dpll.MN.clkoutldo_rate);
+					 TABLE_MAX_ELT_LEN, "%u (%u)",
+					 (unsigned int)settings->dpll.MN.
+					 clkoutldo_rate,
+					 (unsigned int)settings_locked->dpll.MN.
+					 clkoutldo_rate);
 		} else {
 			row++;
 		}
@@ -536,10 +525,9 @@ int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 
 	if (stream != NULL)
 		autoadjust_table_fprint(stream,
-			table, row_max, end_id - start_id + 1);
+					table, row_max, end_id - start_id + 1);
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_type_a_show
@@ -552,7 +540,8 @@ int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
  * @param[in]		stream: output stream
  * @DESCRIPTION		show tpye A dpll module configuration
  *------------------------------------------------------------------------ */
-int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *stream)
+int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id,
+		     FILE * stream)
 {
 	int ret = 0;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -568,8 +557,8 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 
 	for (id = start_id; id < end_id; id++) {
 		row = 0;
-		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN, "%s",
-			dpll_dra7xx_name_get(id));
+		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN,
+			 "%s", dpll_dra7xx_name_get(id));
 		settings = dpll_dra7xx_settings_get(id, 0);
 		if (settings == NULL) {
 			fprintf(stderr, "%s(): error while getting %s "
@@ -603,8 +592,8 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 
 		strncpy(table[row][0], "Automatic Control", TABLE_MAX_ELT_LEN);
 		strncpy(table[row++][id - start_id + 1],
-			dpll_autoidle_mode_name_get(
-				settings->dpll.autoidle_mode),
+			dpll_autoidle_mode_name_get(settings->dpll.
+						    autoidle_mode),
 			TABLE_MAX_ELT_LEN);
 
 		strncpy(table[row++][0], " LPST = Low-Power STop",
@@ -621,55 +610,55 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 		strncpy(table[row][0], "Low-Power Mode", TABLE_MAX_ELT_LEN);
 		strncpy(table[row][id - start_id + 1],
 			(settings->dpll.lpmode_en == 1) ?
-				"Enabled" : "Disabled",
-			TABLE_MAX_ELT_LEN);
+			"Enabled" : "Disabled", TABLE_MAX_ELT_LEN);
 		row += 2;
 
 		strncpy(table[row][0], "Automatic Recalibration",
 			TABLE_MAX_ELT_LEN);
 		strncpy(table[row++][id - start_id + 1],
 			(settings->dpll.driftguard_en == 1) ?
-			"Enabled" : "Disabled",	TABLE_MAX_ELT_LEN);
+			"Enabled" : "Disabled", TABLE_MAX_ELT_LEN);
 
 		strncpy(table[row][0], "Clock Ramping during Relock",
-				TABLE_MAX_ELT_LEN);
+			TABLE_MAX_ELT_LEN);
 		strncpy(table[row++][id - start_id + 1],
 			(settings->dpll.ramp.relock_ramp_en == 1) ?
 			"Enabled" : "Disabled", TABLE_MAX_ELT_LEN);
 
 		strncpy(table[row][0], "Ramping Rate (x REFCLK(s))",
 			TABLE_MAX_ELT_LEN);
-		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN, "%u",
-			settings->dpll.ramp.ramp_rate);
+		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN,
+			 "%u", settings->dpll.ramp.ramp_rate);
 
 		strncpy(table[row][0], "Ramping Levels", TABLE_MAX_ELT_LEN);
 		strncpy(table[row][id - start_id + 1],
 			dpll_ramp_level_name_get((dpll_ramp_level)
-				settings->dpll.ramp.ramp_level),
+						 settings->dpll.ramp.
+						 ramp_level),
 			TABLE_MAX_ELT_LEN);
 		row += 2;
 
 		strncpy(table[row][0], "Bypass Clock", TABLE_MAX_ELT_LEN);
 		strncpy(table[row++][id - start_id + 1],
 			dpll_bp_clk_src_name_get((dpll_bp_clk_src)
-				settings->dpll.bypass_clk),
+						 settings->dpll.bypass_clk),
 			TABLE_MAX_ELT_LEN);
 
 		strncpy(table[row][0], "Bypass Clock Divider",
 			TABLE_MAX_ELT_LEN);
 		if (dpll_dra7xx_regs[id].cm_bypclk_dpll != NULL)
-			snprintf(table[row][id - start_id + 1], TABLE_MAX_ELT_LEN,
-			"%u", settings->dpll.bypass_clk_div);
+			snprintf(table[row][id - start_id + 1],
+				 TABLE_MAX_ELT_LEN, "%u",
+				 settings->dpll.bypass_clk_div);
 		row++;
 
-		strncpy(table[row][0], "REGM4XEN Mode",
-			TABLE_MAX_ELT_LEN);
+		strncpy(table[row][0], "REGM4XEN Mode", TABLE_MAX_ELT_LEN);
 		if (settings->dpll.regm4xen == 0)
-			snprintf(table[row][id - start_id + 1], TABLE_MAX_ELT_LEN,
-				"Disabled");
+			snprintf(table[row][id - start_id + 1],
+				 TABLE_MAX_ELT_LEN, "Disabled");
 		else
-			snprintf(table[row][id - start_id + 1], TABLE_MAX_ELT_LEN,
-				"Enabled");
+			snprintf(table[row][id - start_id + 1],
+				 TABLE_MAX_ELT_LEN, "Enabled");
 		row++;
 
 		strncpy(table[row][0], "Duty Cycle Correction (DCC)",
@@ -677,38 +666,37 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 
 		if ((id == DPLL_DRA7XX_MPU) && (settings->dpll.DCC.en == 1)) {
 			snprintf(table[row][id - start_id + 1],
-				TABLE_MAX_ELT_LEN,
-				"Enabled");
+				 TABLE_MAX_ELT_LEN, "Enabled");
 		} else {
 			snprintf(table[row][id - start_id + 1],
-				TABLE_MAX_ELT_LEN,
-				"Disabled");
+				 TABLE_MAX_ELT_LEN, "Disabled");
 		}
 		row += 2;
 
 		strncpy(table[row][0], "Ref. Frequency (MHz)",
 			TABLE_MAX_ELT_LEN);
 		snprintf(table[row++][id - start_id + 1],
-			TABLE_MAX_ELT_LEN, "%.3lf", settings->dpll.fref);
+			 TABLE_MAX_ELT_LEN, "%.3lf", settings->dpll.fref);
 		strncpy(table[row][0], "M Multiplier Factor",
 			TABLE_MAX_ELT_LEN);
-		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN, "%u",
-			settings->dpll.MN.M);
+		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN,
+			 "%u", settings->dpll.MN.M);
 
 		strncpy(table[row][0], "N Divider Factor", TABLE_MAX_ELT_LEN);
-		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN, "%u",
-			settings->dpll.MN.N);
+		snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN,
+			 "%u", settings->dpll.MN.N);
 
 		strncpy(table[row][0], "Lock Frequency (MHz)",
 			TABLE_MAX_ELT_LEN);
 		if (settings->status == DPLL_STATUS_LOCKED)
-			snprintf(table[row][id - start_id + 1], TABLE_MAX_ELT_LEN,
-			"%u", (unsigned int) settings->dpll.fdpll);
+			snprintf(table[row][id - start_id + 1],
+				 TABLE_MAX_ELT_LEN, "%u",
+				 (unsigned int)settings->dpll.fdpll);
 		else
-			snprintf(table[row][id - start_id + 1], TABLE_MAX_ELT_LEN,
-				"%u (%u)",
-				(unsigned int) settings->dpll.fdpll,
-				(unsigned int) settings_locked->dpll.fdpll);
+			snprintf(table[row][id - start_id + 1],
+				 TABLE_MAX_ELT_LEN, "%u (%u)",
+				 (unsigned int)settings->dpll.fdpll,
+				 (unsigned int)settings_locked->dpll.fdpll);
 		row += 2;
 		strncpy(table[row][0], "M2 Output", TABLE_MAX_ELT_LEN);
 		row++;
@@ -717,24 +705,27 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 			strncpy(table[row][0], "  Status", TABLE_MAX_ELT_LEN);
 			strncpy(table[row++][id - start_id + 1],
 				(settings->dpll.MN.M2_clkout_st == 1) ?
-					"Enabled" : "Gated",
-					TABLE_MAX_ELT_LEN);
+				"Enabled" : "Gated", TABLE_MAX_ELT_LEN);
 			strncpy(table[row][0], "  Clock Divider",
 				TABLE_MAX_ELT_LEN);
-			snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN,
-				"%-5u (x%d)", settings->dpll.MN.M2,
-				(settings->dpll.DCC.en == 1)? 1:2);
+			snprintf(table[row++][id - start_id + 1],
+				 TABLE_MAX_ELT_LEN, "%-5u (x%d)",
+				 settings->dpll.MN.M2,
+				 (settings->dpll.DCC.en == 1) ? 1 : 2);
 			strncpy(table[row][0], "  Clock Speed (MHz)",
 				TABLE_MAX_ELT_LEN);
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id - start_id + 1],
-					TABLE_MAX_ELT_LEN, "%u",
-					(unsigned int) settings->dpll.MN.M2_rate);
+					 TABLE_MAX_ELT_LEN, "%u",
+					 (unsigned int)settings->dpll.MN.
+					 M2_rate);
 			else
 				snprintf(table[row++][id - start_id + 1],
-				TABLE_MAX_ELT_LEN, "%u (%u)",
-				(unsigned int) settings->dpll.MN.M2_rate,
-				(unsigned int) settings_locked->dpll.MN.M2_rate);
+					 TABLE_MAX_ELT_LEN, "%u (%u)",
+					 (unsigned int)settings->dpll.MN.
+					 M2_rate,
+					 (unsigned int)settings_locked->dpll.MN.
+					 M2_rate);
 		} else {
 			row += 3;
 		}
@@ -745,24 +736,25 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 			strncpy(table[row][0], "  Status", TABLE_MAX_ELT_LEN);
 			strncpy(table[row++][id - start_id + 1],
 				(settings->dpll.MN.X2_M2_clkout_st == 1) ?
-					"Enabled" : "Gated",
-					TABLE_MAX_ELT_LEN);
+				"Enabled" : "Gated", TABLE_MAX_ELT_LEN);
 			strncpy(table[row][0], "  Clock Divider",
 				TABLE_MAX_ELT_LEN);
-			snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN,
-				"%-5u", settings->dpll.MN.M2);
+			snprintf(table[row++][id - start_id + 1],
+				 TABLE_MAX_ELT_LEN, "%-5u",
+				 settings->dpll.MN.M2);
 			strncpy(table[row][0], "  Clock Speed (MHz)",
 				TABLE_MAX_ELT_LEN);
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id - start_id + 1],
-					TABLE_MAX_ELT_LEN, "%u",
-					(unsigned int) settings->dpll.MN.X2_M2_rate);
+					 TABLE_MAX_ELT_LEN, "%u",
+					 (unsigned int)settings->dpll.MN.
+					 X2_M2_rate);
 			else
 				snprintf(table[row++][id - start_id + 1],
-					TABLE_MAX_ELT_LEN, "%u (%u)",
-					(unsigned int) settings->dpll.MN.X2_M2_rate,
-					(unsigned int)
-						settings_locked->dpll.MN.X2_M2_rate);
+					 TABLE_MAX_ELT_LEN, "%u (%u)",
+					 (unsigned int)settings->dpll.MN.
+					 X2_M2_rate, (unsigned int)
+					 settings_locked->dpll.MN.X2_M2_rate);
 		} else {
 			row += 3;
 		}
@@ -775,58 +767,71 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 					TABLE_MAX_ELT_LEN);
 				strncpy(table[row++][id - start_id + 1],
 					(settings->dpll.MN.X2_M3_clkout_st == 1)
-						? "Enabled" : "Gated",
-						TABLE_MAX_ELT_LEN);
+					? "Enabled" : "Gated",
+					TABLE_MAX_ELT_LEN);
 			}
 			strncpy(table[row][0], "  Clock Divider",
 				TABLE_MAX_ELT_LEN);
-			snprintf(table[row++][id - start_id + 1], TABLE_MAX_ELT_LEN,
-				"%-5u", settings->dpll.MN.M3);
+			snprintf(table[row++][id - start_id + 1],
+				 TABLE_MAX_ELT_LEN, "%-5u",
+				 settings->dpll.MN.M3);
 			strncpy(table[row][0], "  Clock Speed (MHz)",
 				TABLE_MAX_ELT_LEN);
 			if (settings->status == DPLL_STATUS_LOCKED)
 				snprintf(table[row++][id - start_id + 1],
-					TABLE_MAX_ELT_LEN, "%u",
-					(unsigned int) settings->dpll.MN.X2_M3_rate);
+					 TABLE_MAX_ELT_LEN, "%u",
+					 (unsigned int)settings->dpll.MN.
+					 X2_M3_rate);
 			else
 				snprintf(table[row++][id - start_id + 1],
-				TABLE_MAX_ELT_LEN, "%u (%u)",
-				(unsigned int) settings->dpll.MN.X2_M3_rate,
-				(unsigned int) settings_locked->dpll.MN.X2_M3_rate);
+					 TABLE_MAX_ELT_LEN, "%u (%u)",
+					 (unsigned int)settings->dpll.MN.
+					 X2_M3_rate,
+					 (unsigned int)settings_locked->dpll.MN.
+					 X2_M3_rate);
 		} else {
 			row += 3;
 		}
 
-		for (hsdiv_id = HSDIV_DRA7XX_H11; hsdiv_id < HSDIV_DRA7XX_ID_MAX; hsdiv_id++) {
+		for (hsdiv_id = HSDIV_DRA7XX_H11;
+		     hsdiv_id < HSDIV_DRA7XX_ID_MAX; hsdiv_id++) {
 			row++;
 			if ((settings->hsdiv)[hsdiv_id].present == 0) {
 				row += 4;
 			} else {
 				snprintf(table[row++][0], TABLE_MAX_ELT_LEN,
-					"%s Output",
-					hsdiv_dra7xx_name_get(hsdiv_id));
+					 "%s Output",
+					 hsdiv_dra7xx_name_get(hsdiv_id));
 				strncpy(table[row][0], "  Status",
 					TABLE_MAX_ELT_LEN);
 				strncpy(table[row++][id - start_id + 1],
-				((settings->hsdiv)[hsdiv_id].status == 1) ?
-					"Enabled" : "Gated", TABLE_MAX_ELT_LEN);
+					((settings->hsdiv)[hsdiv_id].status ==
+					 1) ? "Enabled" : "Gated",
+					TABLE_MAX_ELT_LEN);
 				strncpy(table[row][0], "  Clock Divider",
 					TABLE_MAX_ELT_LEN);
 				snprintf(table[row++][id - start_id + 1],
-					TABLE_MAX_ELT_LEN,
-					"%u",
-					(settings->hsdiv)[hsdiv_id].div);
+					 TABLE_MAX_ELT_LEN, "%u",
+					 (settings->hsdiv)[hsdiv_id].div);
 				strncpy(table[row][0], "  Clock Speed (MHz)",
 					TABLE_MAX_ELT_LEN);
 				if (settings->status == DPLL_STATUS_LOCKED)
-					snprintf(table[row++][id - start_id + 1],
-						TABLE_MAX_ELT_LEN, "%u",
-						(unsigned int) (settings->hsdiv)[hsdiv_id].rate);
+					snprintf(table[row++]
+						 [id - start_id + 1],
+						 TABLE_MAX_ELT_LEN, "%u",
+						 (unsigned int)(settings->
+								hsdiv)
+						 [hsdiv_id].rate);
 				else
-					snprintf(table[row++][id - start_id + 1],
-					TABLE_MAX_ELT_LEN, "%u (%u)",
-					(unsigned int) (settings->hsdiv)[hsdiv_id].rate,
-					(unsigned int) (settings_locked->hsdiv)[hsdiv_id].rate);
+					snprintf(table[row++]
+						 [id - start_id + 1],
+						 TABLE_MAX_ELT_LEN, "%u (%u)",
+						 (unsigned int)(settings->
+								hsdiv)
+						 [hsdiv_id].rate,
+						 (unsigned
+						  int)(settings_locked->
+						       hsdiv)[hsdiv_id].rate);
 			}
 		}
 
@@ -837,10 +842,10 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 
 	if (stream != NULL)
 		autoadjust_table_fprint(stream,
-			table, row_max, (end_id - start_id + 1));
+					table, row_max,
+					(end_id - start_id + 1));
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_clk_sources_get
@@ -855,32 +860,40 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		retrieve DPLL input clock rates
  *------------------------------------------------------------------------ */
-int dpll_dra7xx_clk_sources_get(dpll_settings *settings, unsigned short ignore)
+int dpll_dra7xx_clk_sources_get(dpll_settings * settings, unsigned short ignore)
 {
 	CHECK_NULL_ARG(settings, OMAPCONF_ERR_ARG);
 
 	if (dpll_dra7xx_sources[settings->id].ref_clk != CLK_DRA7XX_ID_MAX)
-		settings->fref = clk_dra7xx_rate_get(
-			(clk_dra7xx_id) dpll_dra7xx_sources[settings->id].ref_clk,
-			ignore);
+		settings->fref = clk_dra7xx_rate_get((clk_dra7xx_id)
+						     dpll_dra7xx_sources
+						     [settings->id].ref_clk,
+						     ignore);
 	else
 		settings->fref = 0.0;
 
 	if (dpll_dra7xx_sources[settings->id].byp_clk_m2 != CLK_DRA7XX_ID_MAX)
-		settings->fbyp_clk_m2 = clk_dra7xx_rate_get(
-			(clk_dra7xx_id) dpll_dra7xx_sources[settings->id].byp_clk_m2, ignore);
+		settings->fbyp_clk_m2 = clk_dra7xx_rate_get((clk_dra7xx_id)
+							    dpll_dra7xx_sources
+							    [settings->id].
+							    byp_clk_m2, ignore);
 	else
 		settings->fbyp_clk_m2 = 0.0;
 
 	if (dpll_dra7xx_sources[settings->id].byp_clk_m3 != CLK_DRA7XX_ID_MAX)
-		settings->fbyp_clk_m3 = clk_dra7xx_rate_get(
-			(clk_dra7xx_id) dpll_dra7xx_sources[settings->id].byp_clk_m3, ignore);
+		settings->fbyp_clk_m3 = clk_dra7xx_rate_get((clk_dra7xx_id)
+							    dpll_dra7xx_sources
+							    [settings->id].
+							    byp_clk_m3, ignore);
 	else
 		settings->fbyp_clk_m3 = 0.0;
 
-	if (dpll_dra7xx_sources[settings->id].byp_clk_hsdiv != CLK_DRA7XX_ID_MAX)
-		settings->fbyp_clk_hsdiv = clk_dra7xx_rate_get(
-			(clk_dra7xx_id) dpll_dra7xx_sources[settings->id].byp_clk_hsdiv, ignore);
+	if (dpll_dra7xx_sources[settings->id].byp_clk_hsdiv !=
+	    CLK_DRA7XX_ID_MAX)
+		settings->fbyp_clk_hsdiv =
+		    clk_dra7xx_rate_get((clk_dra7xx_id)
+					dpll_dra7xx_sources[settings->id].
+					byp_clk_hsdiv, ignore);
 	else
 		settings->fbyp_clk_hsdiv = 0.0;
 
@@ -896,7 +909,6 @@ int dpll_dra7xx_clk_sources_get(dpll_settings *settings, unsigned short ignore)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		hsdiv_dra7xx_settings_extract
  * @BRIEF		extract DRA7 HSDIV settings from registers
@@ -910,7 +922,8 @@ int dpll_dra7xx_clk_sources_get(dpll_settings *settings, unsigned short ignore)
  * @DESCRIPTION		extract DRA7 HSDIV settings from registers
  *------------------------------------------------------------------------ */
 int hsdiv_dra7xx_settings_extract(unsigned int id,
-	 reg *hsdiv_reg, hsdiv_dra7xx_settings *settings)
+				  reg * hsdiv_reg,
+				  hsdiv_dra7xx_settings * settings)
 {
 	unsigned int val, div_off, status_off;
 
@@ -940,13 +953,12 @@ int hsdiv_dra7xx_settings_extract(unsigned int id,
 		settings->div = extract_bitfield(val, div_off, 6);
 		settings->status = extract_bit(val, status_off);
 		dprintf("%s(): %s reg: %s = 0x%08X, DIV=%u, CLKST=%u\n",
-			__func__, hsdiv_dra7xx_name_get(id), hsdiv_reg->name, val,
-			settings->div, settings->status);
+			__func__, hsdiv_dra7xx_name_get(id), hsdiv_reg->name,
+			val, settings->div, settings->status);
 	}
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		hsdiv_dra7xx_rates_calc
@@ -961,8 +973,8 @@ int hsdiv_dra7xx_settings_extract(unsigned int id,
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		calculate DPLL HSDIV output rates
  *------------------------------------------------------------------------ */
-int hsdiv_dra7xx_rates_calc(dpll_dra7xx_settings *settings,
-	unsigned short ignore)
+int hsdiv_dra7xx_rates_calc(dpll_dra7xx_settings * settings,
+			    unsigned short ignore)
 {
 	unsigned short i;
 	dpll_status st;
@@ -972,7 +984,6 @@ int hsdiv_dra7xx_rates_calc(dpll_dra7xx_settings *settings,
 	/* Initialize all rates */
 	for (i = 0; i < HSDIV_DRA7XX_ID_MAX; i++)
 		(settings->hsdiv)[i].rate = 0.0;
-
 
 	/* Determine DPLL outputs rate */
 	if ((settings->status == DPLL_STATUS_STOPPED) && ignore) {
@@ -989,7 +1000,7 @@ int hsdiv_dra7xx_rates_calc(dpll_dra7xx_settings *settings,
 			if ((settings->hsdiv)[i].present == 0)
 				continue;
 			(settings->hsdiv)[i].rate =
-				(settings->dpll).fbyp_clk_hsdiv;
+			    (settings->dpll).fbyp_clk_hsdiv;
 			dprintf("%s(): %s bypassed, %s=%lfMHz\n", __func__,
 				dpll_dra7xx_name_get((settings->dpll).id),
 				hsdiv_dra7xx_name_get(i),
@@ -1007,20 +1018,24 @@ int hsdiv_dra7xx_rates_calc(dpll_dra7xx_settings *settings,
 			 * and special value '63' is actually a divider by 2.5.
 			 */
 			if ((cpu_revision_get() != REV_ES1_0) &&
-					((settings->dpll).id == DPLL_DRA7XX_CORE) &&
-					(i == HSDIV_DRA7XX_H14)) {
+			    ((settings->dpll).id == DPLL_DRA7XX_CORE) &&
+			    (i == HSDIV_DRA7XX_H14)) {
 				if ((settings->hsdiv)[i].div != 63)
-					(settings->hsdiv)[i].rate = (settings->dpll).fdpll /
-						(double) (settings->hsdiv)[i].div / 2.0;
+					(settings->hsdiv)[i].rate =
+					    (settings->dpll).fdpll /
+					    (double)(settings->hsdiv)[i].div /
+					    2.0;
 				else
-					(settings->hsdiv)[i].rate = (settings->dpll).fdpll /
-						2.5 / 2.0;
+					(settings->hsdiv)[i].rate =
+					    (settings->dpll).fdpll / 2.5 / 2.0;
 			} else {
 				if (!(settings->hsdiv)[i].status)
-					(settings->hsdiv)[i].rate = (settings->dpll).fdpll;
+					(settings->hsdiv)[i].rate =
+					    (settings->dpll).fdpll;
 				else
-					(settings->hsdiv)[i].rate = (settings->dpll).fdpll /
-						(double) (settings->hsdiv)[i].div;
+					(settings->hsdiv)[i].rate =
+					    (settings->dpll).fdpll /
+					    (double)(settings->hsdiv)[i].div;
 			}
 
 			dprintf("%s(): %s locked, %s=%lfMHz\n", __func__,
@@ -1045,7 +1060,6 @@ int hsdiv_dra7xx_rates_calc(dpll_dra7xx_settings *settings,
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_rates_calc
  * @BRIEF		calculate DPLL output rates
@@ -1059,8 +1073,8 @@ int hsdiv_dra7xx_rates_calc(dpll_dra7xx_settings *settings,
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		calculate DPLL output rates
  *------------------------------------------------------------------------ */
-int dpll_dra7xx_rates_calc(dpll_dra7xx_settings *settings,
-	unsigned short ignore)
+int dpll_dra7xx_rates_calc(dpll_dra7xx_settings * settings,
+			   unsigned short ignore)
 {
 	dpll_status st;
 
@@ -1077,7 +1091,8 @@ int dpll_dra7xx_rates_calc(dpll_dra7xx_settings *settings,
 	/* Compute DPLL lock frequency */
 	dpll_lock_freq_calc(&(settings->dpll));
 	dprintf("%s(): %s lock freq=%lfMHz\n", __func__,
-		dpll_dra7xx_name_get((settings->dpll).id), (settings->dpll).fdpll);
+		dpll_dra7xx_name_get((settings->dpll).id),
+		(settings->dpll).fdpll);
 
 	/* Determine DPLL outputs rate */
 	if ((settings->status == DPLL_STATUS_STOPPED) && ignore) {
@@ -1093,7 +1108,8 @@ int dpll_dra7xx_rates_calc(dpll_dra7xx_settings *settings,
 		(settings->dpll).fdpll = 0.0;
 		if ((settings->dpll).MN.M2_present == 0)
 			goto m3_rate_bp_calc;
-		(settings->dpll).MN.X2_M2_rate = (settings->dpll).fbyp_clk_hsdiv;
+		(settings->dpll).MN.X2_M2_rate =
+		    (settings->dpll).fbyp_clk_hsdiv;
 		dprintf("%s(): %s bypassed, X2_M2=%lfMHz\n", __func__,
 			dpll_dra7xx_name_get((settings->dpll).id),
 			(settings->dpll).MN.X2_M2_rate);
@@ -1109,7 +1125,7 @@ m3_rate_bp_calc:
 		if ((settings->dpll).MN.M3_present == 0)
 			break;
 		(settings->dpll).MN.X2_M3_rate = (settings->dpll).fbyp_clk_m3 /
-			(settings->dpll).MN.M3;
+		    (settings->dpll).MN.M3;
 		dprintf("%s(): %s bypassed, X2_M3=%lfMHz\n", __func__,
 			dpll_dra7xx_name_get((settings->dpll).id),
 			(settings->dpll).MN.X2_M3_rate);
@@ -1120,24 +1136,24 @@ m3_rate_bp_calc:
 			goto m3_rate_locked_calc;
 		if ((settings->dpll).type == DPLL_TYPE_A) {
 			(settings->dpll).MN.X2_M2_rate = (settings->dpll).fdpll
-				/ (double) (settings->dpll).MN.M2;
+			    / (double)(settings->dpll).MN.M2;
 			dprintf("%s(): %s locked, X2_M2=%lfMHz\n", __func__,
 				dpll_dra7xx_name_get((settings->dpll).id),
 				(settings->dpll).MN.X2_M2_rate);
 			if ((settings->dpll).DCC.en == 0)
 				(settings->dpll).MN.M2_rate =
-					(settings->dpll).MN.X2_M2_rate / 2.0;
+				    (settings->dpll).MN.X2_M2_rate / 2.0;
 			else
 				(settings->dpll).MN.M2_rate =
-					(settings->dpll).MN.X2_M2_rate;
+				    (settings->dpll).MN.X2_M2_rate;
 			dprintf("%s(): %s locked, M2=%lfMHz\n", __func__,
 				dpll_dra7xx_name_get((settings->dpll).id),
 				(settings->dpll).MN.M2_rate);
 		} else {
 			(settings->dpll).MN.M2_rate = (settings->dpll).fdpll /
-				(double) (settings->dpll).MN.M2;
+			    (double)(settings->dpll).MN.M2;
 			(settings->dpll).MN.clkdcoldo_rate =
-				(settings->dpll).fdpll;
+			    (settings->dpll).fdpll;
 			dprintf("%s(): %s locked, CLKOUT=%lfMHz "
 				"CLKDCOLDO=%lfMHz\n", __func__,
 				dpll_dra7xx_name_get((settings->dpll).id),
@@ -1149,7 +1165,7 @@ m3_rate_locked_calc:
 		if ((settings->dpll).MN.M3_present == 0)
 			break;
 		(settings->dpll).MN.X2_M3_rate = (settings->dpll).fdpll /
-			(double) (settings->dpll).MN.M3;
+		    (double)(settings->dpll).MN.M3;
 		dprintf("%s(): %s locked, X2_M3=%lfMHz\n", __func__,
 			dpll_dra7xx_name_get((settings->dpll).id),
 			(settings->dpll).MN.X2_M3_rate);
@@ -1167,13 +1183,13 @@ m3_rate_locked_calc:
 		return OMAPCONF_ERR_INTERNAL;
 	}
 
-	if (((settings->dpll).id == DPLL_DRA7XX_PCIE_REF) && ((settings->dpll).MN.clkoutldo_st == 1))
-		(settings->dpll).MN.clkoutldo_rate = (settings->dpll).fdpll /
-			(double) (settings->dpll).MN.M2;
+	if (((settings->dpll).id == DPLL_DRA7XX_PCIE_REF)
+	    && ((settings->dpll).MN.clkoutldo_st == 1))
+		(settings->dpll).MN.clkoutldo_rate =
+		    (settings->dpll).fdpll / (double)(settings->dpll).MN.M2;
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_settings_extract
@@ -1190,8 +1206,8 @@ m3_rate_locked_calc:
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		extract DPLL settings from registers
  *------------------------------------------------------------------------ */
-int dpll_dra7xx_settings_extract(dpll_dra7xx_settings *settings,
-	unsigned int id, unsigned short ignore)
+int dpll_dra7xx_settings_extract(dpll_dra7xx_settings * settings,
+				 unsigned int id, unsigned short ignore)
 {
 	int ret;
 	unsigned short i;
@@ -1226,7 +1242,7 @@ int dpll_dra7xx_settings_extract(dpll_dra7xx_settings *settings,
 	dprintf("\n\n### %s() EXTRACTING %s SETTINGS (IGNORE=%u) ###\n",
 		__func__, dpll_dra7xx_name_get(id), ignore);
 
-	dpll_regs = (dpll_settings_regs *) &(dpll_dra7xx_regs[id]);
+	dpll_regs = (dpll_settings_regs *) & (dpll_dra7xx_regs[id]);
 	hsdiv_regs = (reg **) dpll_dra7xx_hsdiv_regs[id];
 
 	ret = dpll_settings_extract(id, type, dpll_regs, &(settings->dpll));
@@ -1294,7 +1310,8 @@ int dpll_dra7xx_settings_extract(dpll_dra7xx_settings *settings,
 
 	for (i = HSDIV_DRA7XX_H11; i < HSDIV_DRA7XX_ID_MAX; i++) {
 		ret = hsdiv_dra7xx_settings_extract(i,
-			hsdiv_regs[i], &((settings->hsdiv)[i]));
+						    hsdiv_regs[i],
+						    &((settings->hsdiv)[i]));
 		if (ret != 0)
 			return ret;
 	}
@@ -1316,7 +1333,6 @@ int dpll_dra7xx_settings_extract(dpll_dra7xx_settings *settings,
 	return ret;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_settings_get
  * @BRIEF		return DPLL settings struct pointer
@@ -1330,8 +1346,8 @@ int dpll_dra7xx_settings_extract(dpll_dra7xx_settings *settings,
  * @DESCRIPTION		return DPLL settings struct pointer
  *			If DPLL settings not yet extracted, do it.
  *------------------------------------------------------------------------ */
-dpll_dra7xx_settings *dpll_dra7xx_settings_get(
-	unsigned int id, unsigned short ignore)
+dpll_dra7xx_settings *dpll_dra7xx_settings_get(unsigned int id,
+					       unsigned short ignore)
 {
 	int ret;
 	dpll_dra7xx_settings *settings;
@@ -1357,7 +1373,6 @@ dpll_dra7xx_settings *dpll_dra7xx_settings_get(
 
 	return settings;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_status_get
@@ -1392,7 +1407,6 @@ dpll_status dpll_dra7xx_status_get(dpll_dra7xx_id id)
 	return settings->status;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_output_rate_get
  * @BRIEF		return DPLL output clock rate (in MHz).
@@ -1407,8 +1421,9 @@ dpll_status dpll_dra7xx_status_get(dpll_dra7xx_id id)
  * @DESCRIPTION		return DPLL output clock rate (in MHz).
  *			If DPLL settings not yet extracted, do it.
  *------------------------------------------------------------------------ */
-double dpll_dra7xx_output_rate_get(
-	dpll_dra7xx_id id, dpll_dra7xx_output_id out_id, unsigned short ignore)
+double dpll_dra7xx_output_rate_get(dpll_dra7xx_id id,
+				   dpll_dra7xx_output_id out_id,
+				   unsigned short ignore)
 {
 	int ret;
 	dpll_dra7xx_settings *settings;
@@ -1484,11 +1499,9 @@ double dpll_dra7xx_output_rate_get(
 dpll_dra7xx_output_rate_get_end:
 	dprintf("%s(%s, %s, %u)=%lfMHz\n", __func__,
 		dpll_dra7xx_name_get(id),
-		dpll_dra7xx_output_name_get(out_id),
-		ignore, rate);
+		dpll_dra7xx_output_name_get(out_id), ignore, rate);
 	return rate;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_audit
@@ -1506,7 +1519,8 @@ dpll_dra7xx_output_rate_get_end:
  * @DESCRIPTION		DRA7 DPLLS settings audit.
  *------------------------------------------------------------------------ */
 int dpll_dra7xx_audit(dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id,
-	FILE *stream, unsigned int *err_nbr, unsigned int *wng_nbr)
+		      FILE * stream, unsigned int *err_nbr,
+		      unsigned int *wng_nbr)
 {
 	int ret = 0;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -1545,17 +1559,19 @@ int dpll_dra7xx_audit(dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id,
 		opp_s = opp_get(VDD_IVA, 1);
 		opp_iva = (opp_s == NULL) ? OPP_DRA7XX_ID_MAX : opp_s2id(opp_s);
 		opp_s = opp_get(VDD_CORE, 1);
-		opp_core = (opp_s == NULL) ? OPP_DRA7XX_ID_MAX : opp_s2id(opp_s);
+		opp_core =
+		    (opp_s == NULL) ? OPP_DRA7XX_ID_MAX : opp_s2id(opp_s);
 		opp_s = opp_get(VDD_DSPEVE, 1);
-		opp_dspeve = (opp_s == NULL) ? OPP_DRA7XX_ID_MAX : opp_s2id(opp_s);
+		opp_dspeve =
+		    (opp_s == NULL) ? OPP_DRA7XX_ID_MAX : opp_s2id(opp_s);
 		opp_s = opp_get(VDD_GPU, 1);
 		opp_gpu = (opp_s == NULL) ? OPP_DRA7XX_ID_MAX : opp_s2id(opp_s);
 
 		if ((opp_mpu == OPP_DRA7XX_ID_MAX) ||
-			(opp_iva == OPP_DRA7XX_ID_MAX) ||
-			(opp_core == OPP_DRA7XX_ID_MAX) ||
-			(opp_dspeve == OPP_DRA7XX_ID_MAX) ||
-			(opp_gpu == OPP_DRA7XX_ID_MAX)) {
+		    (opp_iva == OPP_DRA7XX_ID_MAX) ||
+		    (opp_core == OPP_DRA7XX_ID_MAX) ||
+		    (opp_dspeve == OPP_DRA7XX_ID_MAX) ||
+		    (opp_gpu == OPP_DRA7XX_ID_MAX)) {
 			if (stream != NULL) {
 				fprintf(stream,
 					"Sorry, OPP could not be detected, audit cannot be completed.\n");
@@ -1593,9 +1609,9 @@ int dpll_dra7xx_audit(dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id,
 		autoadjust_table_init(table);
 		row = 0;
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"%s AUDIT (@OPP %s, sysclk=%.1lfMHz)",
-			dpll_dra7xx_name_get(id), opp_dra7xx_name_get(opp),
-			(id == DPLL_DRA7XX_ABE) ? abeclk : sysclk);
+			 "%s AUDIT (@OPP %s, sysclk=%.1lfMHz)",
+			 dpll_dra7xx_name_get(id), opp_dra7xx_name_get(opp),
+			 (id == DPLL_DRA7XX_ABE) ? abeclk : sysclk);
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "Current Setting");
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "Expected");
 		snprintf(table[row++][3], TABLE_MAX_ELT_LEN, "STATUS");
@@ -1611,7 +1627,7 @@ int dpll_dra7xx_audit(dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id,
 		}
 
 		if ((dpll_dra7xx_audited_settings **)
-			dpll_dra7xx_golden_settings_20MHz_table[id] == NULL) {
+		    dpll_dra7xx_golden_settings_20MHz_table[id] == NULL) {
 			if (stream != NULL)
 				fprintf(stream,
 					"WARNING: golden settings not "
@@ -1622,7 +1638,7 @@ int dpll_dra7xx_audit(dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id,
 			goto dpll_dra7xx_audit_end;
 		}
 		golden_settings =
-			dpll_dra7xx_golden_settings_20MHz_table[id][opp];
+		    dpll_dra7xx_golden_settings_20MHz_table[id][opp];
 
 		if (golden_settings == NULL) {
 			if (stream != NULL)
@@ -1636,13 +1652,14 @@ int dpll_dra7xx_audit(dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id,
 
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "Status");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%s",
-			dpll_status_name_get(settings->status));
+			 dpll_status_name_get(settings->status));
 		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->status,
-			DPLL_STATUS_MAX, dpll_dra7xx_audit_mode);
+						       DPLL_STATUS_MAX,
+						       dpll_dra7xx_audit_mode);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%s",
-			dpll_status_name_get(golden_settings->status));
+			 dpll_status_name_get(golden_settings->status));
 		DPLL_DRA7XX_AUDIT_SHOW_STATUS(settings->status,
-				golden_settings->status);
+					      golden_settings->status);
 
 		if (golden_settings->status == DPLL_STATUS_STOPPED)
 			/* All other DPLL settings are not relevant */
@@ -1664,177 +1681,184 @@ int dpll_dra7xx_audit(dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id,
 dpll_dra7xx_audit_mode:
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "Mode");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%s",
-			dpll_mode_name_get((settings->dpll).mode));
+			 dpll_mode_name_get((settings->dpll).mode));
 		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->mode,
-			DPLL_MODE_MAX, dpll_dra7xx_audit_autoidle_mode);
+						       DPLL_MODE_MAX,
+						       dpll_dra7xx_audit_autoidle_mode);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%s",
-			dpll_mode_name_get(golden_settings->mode));
+			 dpll_mode_name_get(golden_settings->mode));
 		DPLL_DRA7XX_AUDIT_SHOW_STATUS((settings->dpll).mode,
-			golden_settings->mode);
+					      golden_settings->mode);
 
 dpll_dra7xx_audit_autoidle_mode:
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "Autoidle Mode");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%s",
-			dpll_autoidle_mode_name_get(
-				(settings->dpll).autoidle_mode));
-		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(
-				golden_settings->autoidle_mode,
-			DPLL_AUTOIDLE_MODE_MAX, dpll_dra7xx_audit_dcc_en);
+			 dpll_autoidle_mode_name_get((settings->dpll).
+						     autoidle_mode));
+		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->
+						       autoidle_mode,
+						       DPLL_AUTOIDLE_MODE_MAX,
+						       dpll_dra7xx_audit_dcc_en);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%s",
-			dpll_autoidle_mode_name_get(
-				golden_settings->autoidle_mode));
+			 dpll_autoidle_mode_name_get(golden_settings->
+						     autoidle_mode));
 		DPLL_DRA7XX_AUDIT_SHOW_STATUS((settings->dpll).autoidle_mode,
-			golden_settings->autoidle_mode);
+					      golden_settings->autoidle_mode);
 
 dpll_dra7xx_audit_dcc_en:
 		if ((settings->dpll).type == DPLL_TYPE_B)
 			goto dpll_dra7xx_audit_selfreqdco;
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "DCC");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u",
-			(settings->dpll).DCC.en);
+			 (settings->dpll).DCC.en);
 		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->dcc_en,
-			-1, dpll_dra7xx_audit_selfreqdco);
+						       -1,
+						       dpll_dra7xx_audit_selfreqdco);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u",
-			golden_settings->dcc_en);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS((int) (settings->dpll).DCC.en,
-			golden_settings->dcc_en);
+			 golden_settings->dcc_en);
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((int)(settings->dpll).DCC.en,
+					      golden_settings->dcc_en);
 
 dpll_dra7xx_audit_selfreqdco:
 		if ((settings->dpll).type == DPLL_TYPE_A)
 			goto dpll_dra7xx_audit_fref;
-		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"SELFREQDCO");
+		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "SELFREQDCO");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u (%s)",
-			(settings->dpll).selfreqdco,
-			((settings->dpll).selfreqdco) ? "100" : "010");
-		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->selfreqdco,
-			-1, dpll_dra7xx_audit_sd_div);
+			 (settings->dpll).selfreqdco,
+			 ((settings->dpll).selfreqdco) ? "100" : "010");
+		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->
+						       selfreqdco, -1,
+						       dpll_dra7xx_audit_sd_div);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u (%s)",
-			golden_settings->selfreqdco,
-			(golden_settings->selfreqdco) ? "100" : "010");
+			 golden_settings->selfreqdco,
+			 (golden_settings->selfreqdco) ? "100" : "010");
 		DPLL_DRA7XX_AUDIT_SHOW_STATUS((settings->dpll).selfreqdco,
-			golden_settings->selfreqdco);
+					      golden_settings->selfreqdco);
 
 dpll_dra7xx_audit_sd_div:
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"Sigma-Delta Divider");
+			 "Sigma-Delta Divider");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u",
-			(settings->dpll).sd_div);
+			 (settings->dpll).sd_div);
 		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->sd_div,
-			-1, dpll_dra7xx_audit_fref);
+						       -1,
+						       dpll_dra7xx_audit_fref);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u",
-			golden_settings->sd_div);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS((int) (settings->dpll).sd_div,
-			golden_settings->sd_div);
+			 golden_settings->sd_div);
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((int)(settings->dpll).sd_div,
+					      golden_settings->sd_div);
 
 dpll_dra7xx_audit_fref:
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"Ref. Frequency (MHz)");
+			 "Ref. Frequency (MHz)");
 		if ((settings->dpll).fref < 1.0) {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%lf",
-				(settings->dpll).fref);
+				 (settings->dpll).fref);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%lf",
-				golden_settings->fref);
+				 golden_settings->fref);
 		} else {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.3lf",
-				(settings->dpll).fref);
+				 (settings->dpll).fref);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
-				golden_settings->fref);
+				 golden_settings->fref);
 		}
 		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->fref,
-			-1, dpll_dra7xx_audit_regm4xen);
+						       -1,
+						       dpll_dra7xx_audit_regm4xen);
 		DPLL_DRA7XX_AUDIT_SHOW_STATUS((settings->dpll).fref,
-			golden_settings->fref);
+					      golden_settings->fref);
 
 dpll_dra7xx_audit_regm4xen:
 		if ((settings->dpll).type == DPLL_TYPE_B)
 			goto dpll_dra7xx_audit_M;
-		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"REGM4XEN");
+		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "REGM4XEN");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u",
-			(settings->dpll).regm4xen);
-		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->regm4xen,
-			-1, dpll_dra7xx_audit_M);
+			 (settings->dpll).regm4xen);
+		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->
+						       regm4xen, -1,
+						       dpll_dra7xx_audit_M);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u",
-			golden_settings->regm4xen);
+			 golden_settings->regm4xen);
 		DPLL_DRA7XX_AUDIT_SHOW_STATUS((settings->dpll).regm4xen,
-			golden_settings->regm4xen);
+					      golden_settings->regm4xen);
 
 dpll_dra7xx_audit_M:
-		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"M Divider");
+		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "M Divider");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u",
-			(settings->dpll).MN.M);
+			 (settings->dpll).MN.M);
 		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->M,
-			-1, dpll_dra7xx_audit_N);
+						       -1, dpll_dra7xx_audit_N);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u",
-			golden_settings->M);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS((int) (settings->dpll).MN.M,
-			golden_settings->M);
-
+			 golden_settings->M);
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((int)(settings->dpll).MN.M,
+					      golden_settings->M);
 
 dpll_dra7xx_audit_N:
-		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"N Divider");
+		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "N Divider");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u",
-			(settings->dpll).MN.N);
+			 (settings->dpll).MN.N);
 		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->N,
-			-1, dpll_dra7xx_audit_fdpll);
+						       -1,
+						       dpll_dra7xx_audit_fdpll);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u",
-			golden_settings->N);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS((int) (settings->dpll).MN.N,
-			golden_settings->N);
+			 golden_settings->N);
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((int)(settings->dpll).MN.N,
+					      golden_settings->N);
 
 dpll_dra7xx_audit_fdpll:
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"Lock Frequency (MHz)");
+			 "Lock Frequency (MHz)");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.3lf",
-			(settings->dpll).fdpll);
+			 (settings->dpll).fdpll);
 		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->fdpll,
-			-1, dpll_dra7xx_audit_M2);
+						       -1,
+						       dpll_dra7xx_audit_M2);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
-			golden_settings->fdpll);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS(
-			(unsigned int) (settings->dpll).fdpll,
-			(unsigned int) golden_settings->fdpll);
+			 golden_settings->fdpll);
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).
+					      fdpll,
+					      (unsigned int)golden_settings->
+					      fdpll);
 
 dpll_dra7xx_audit_M2:
 		if (settings->dpll.MN.M2_present == 0)
 			goto dpll_dra7xx_audit_M3;
 		snprintf(table[row++][0], TABLE_MAX_ELT_LEN, "%s Output",
-			dpll_dra7xx_output_name_get(DPLL_DRA7XX_CLKOUT_M2));
-		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"  Clock Divider");
+			 dpll_dra7xx_output_name_get(DPLL_DRA7XX_CLKOUT_M2));
+		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "  Clock Divider");
 		if ((settings->dpll).type == DPLL_TYPE_A) {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u (x%d)",
-				(settings->dpll).MN.M2,
-				((settings->dpll).DCC.en == 0) ? 2 : 1);
+				 (settings->dpll).MN.M2,
+				 ((settings->dpll).DCC.en == 0) ? 2 : 1);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u (x%d)",
-				golden_settings->M2,
-				(golden_settings->dcc_en == 0) ? 2 : 1);
+				 golden_settings->M2,
+				 (golden_settings->dcc_en == 0) ? 2 : 1);
 		} else {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u",
-				(settings->dpll).MN.M2);
+				 (settings->dpll).MN.M2);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u",
-				golden_settings->M2);
+				 golden_settings->M2);
 		}
 		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->M2,
-			-1, dpll_dra7xx_audit_M2_rate);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS((int) (settings->dpll).MN.M2,
-			golden_settings->M2);
+						       -1,
+						       dpll_dra7xx_audit_M2_rate);
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((int)(settings->dpll).MN.M2,
+					      golden_settings->M2);
 
 dpll_dra7xx_audit_M2_rate:
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"  Clock Speed (MHz)");
+			 "  Clock Speed (MHz)");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.3lf",
-			(settings->dpll).MN.M2_rate);
+			 (settings->dpll).MN.M2_rate);
 		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->M2_rate,
-			-1, dpll_dra7xx_audit_X2_M2);
+						       -1,
+						       dpll_dra7xx_audit_X2_M2);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
-			golden_settings->M2_rate);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS(
-			(unsigned int) (settings->dpll).MN.M2_rate,
-			(unsigned int) golden_settings->M2_rate);
+			 golden_settings->M2_rate);
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).MN.
+					      M2_rate,
+					      (unsigned int)golden_settings->
+					      M2_rate);
 
 dpll_dra7xx_audit_X2_M2:
 		if ((settings->dpll).type == DPLL_TYPE_B)
@@ -1842,30 +1866,32 @@ dpll_dra7xx_audit_X2_M2:
 		if (settings->dpll.MN.X2_M2_present == 0)
 			goto dpll_dra7xx_audit_M3;
 		snprintf(table[row++][0], TABLE_MAX_ELT_LEN, "%s Output",
-			dpll_dra7xx_output_name_get(DPLL_DRA7XX_CLKOUTX2_M2));
-		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"  Clock Divider");
+			 dpll_dra7xx_output_name_get(DPLL_DRA7XX_CLKOUTX2_M2));
+		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "  Clock Divider");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u",
-			(settings->dpll).MN.M2);
+			 (settings->dpll).MN.M2);
 		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->M2,
-			-1, dpll_dra7xx_audit_X2_M2_rate);
+						       -1,
+						       dpll_dra7xx_audit_X2_M2_rate);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u",
-			golden_settings->M2);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS((int) (settings->dpll).MN.M2,
-			golden_settings->M2);
+			 golden_settings->M2);
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((int)(settings->dpll).MN.M2,
+					      golden_settings->M2);
 
 dpll_dra7xx_audit_X2_M2_rate:
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"  Clock Speed (MHz)");
+			 "  Clock Speed (MHz)");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.3lf",
-			(settings->dpll).MN.X2_M2_rate);
-		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->X2_M2_rate,
-			-1, dpll_dra7xx_audit_M3);
+			 (settings->dpll).MN.X2_M2_rate);
+		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->
+						       X2_M2_rate, -1,
+						       dpll_dra7xx_audit_M3);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
-			golden_settings->X2_M2_rate);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS(
-			(unsigned int) (settings->dpll).MN.X2_M2_rate,
-			(unsigned int) golden_settings->X2_M2_rate);
+			 golden_settings->X2_M2_rate);
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).MN.
+					      X2_M2_rate,
+					      (unsigned int)golden_settings->
+					      X2_M2_rate);
 
 dpll_dra7xx_audit_M3:
 		/*
@@ -1873,76 +1899,79 @@ dpll_dra7xx_audit_M3:
 		 * but not all of them are used at this moment. Hence ignore
 		 * them when we do audit dpll.
 		 */
-		if (dpll_dra7xx_ignore_m3[id] || (settings->dpll.MN.M3_present == 0))
+		if (dpll_dra7xx_ignore_m3[id]
+		    || (settings->dpll.MN.M3_present == 0))
 			goto dpll_dra7xx_audit_hsdiv;
 		snprintf(table[row++][0], TABLE_MAX_ELT_LEN, "%s Output",
-			dpll_dra7xx_output_name_get(DPLL_DRA7XX_CLKOUTX2_M3));
-		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"  Clock Divider");
+			 dpll_dra7xx_output_name_get(DPLL_DRA7XX_CLKOUTX2_M3));
+		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "  Clock Divider");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u",
-			(settings->dpll).MN.M3);
+			 (settings->dpll).MN.M3);
 		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->M3,
-			-1, dpll_dra7xx_audit_X2_M3_rate);
+						       -1,
+						       dpll_dra7xx_audit_X2_M3_rate);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u",
-			golden_settings->M3);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS((int) (settings->dpll).MN.M3,
-			golden_settings->M3);
+			 golden_settings->M3);
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((int)(settings->dpll).MN.M3,
+					      golden_settings->M3);
 
 dpll_dra7xx_audit_X2_M3_rate:
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"  Clock Speed (MHz)");
+			 "  Clock Speed (MHz)");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.3lf",
-			(settings->dpll).MN.X2_M3_rate);
-		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->X2_M3_rate,
-			-1, dpll_dra7xx_audit_hsdiv);
+			 (settings->dpll).MN.X2_M3_rate);
+		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->
+						       X2_M3_rate, -1,
+						       dpll_dra7xx_audit_hsdiv);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
-			golden_settings->X2_M3_rate);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS(
-			(unsigned int) (settings->dpll).MN.X2_M3_rate,
-			(unsigned int) golden_settings->X2_M3_rate);
+			 golden_settings->X2_M3_rate);
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).MN.
+					      X2_M3_rate,
+					      (unsigned int)golden_settings->
+					      X2_M3_rate);
 
 dpll_dra7xx_audit_hsdiv:
-		for (hsdiv_id = HSDIV_DRA7XX_H11; hsdiv_id < HSDIV_DRA7XX_ID_MAX;
-			hsdiv_id++) {
+		for (hsdiv_id = HSDIV_DRA7XX_H11;
+		     hsdiv_id < HSDIV_DRA7XX_ID_MAX; hsdiv_id++) {
 			if ((settings->hsdiv)[hsdiv_id].present != 1)
 				continue;
 			snprintf(table[row++][0], TABLE_MAX_ELT_LEN,
-				"%s Output",
-				hsdiv_dra7xx_name_get(hsdiv_id));
+				 "%s Output", hsdiv_dra7xx_name_get(hsdiv_id));
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-				"  Clock Divider");
+				 "  Clock Divider");
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%u",
-				(settings->hsdiv)[hsdiv_id].div);
-			DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(
-				(golden_settings->hsdiv_div)[hsdiv_id],
-				-1, dpll_dra7xx_audit_hsdiv_rate);
+				 (settings->hsdiv)[hsdiv_id].div);
+			DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING((golden_settings->hsdiv_div)[hsdiv_id], -1, dpll_dra7xx_audit_hsdiv_rate);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%u",
-				(golden_settings->hsdiv_div)[hsdiv_id]);
-			DPLL_DRA7XX_AUDIT_SHOW_STATUS(
-				(int) (settings->hsdiv)[hsdiv_id].div,
-				(golden_settings->hsdiv_div)[hsdiv_id]);
+				 (golden_settings->hsdiv_div)[hsdiv_id]);
+			DPLL_DRA7XX_AUDIT_SHOW_STATUS((int)(settings->hsdiv)
+						      [hsdiv_id].div,
+						      (golden_settings->
+						       hsdiv_div)[hsdiv_id]);
 
 dpll_dra7xx_audit_hsdiv_rate:
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-				"  Clock Speed (MHz)");
+				 "  Clock Speed (MHz)");
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.3lf",
-				(settings->hsdiv)[hsdiv_id].rate);
+				 (settings->hsdiv)[hsdiv_id].rate);
 			if ((golden_settings->hsdiv_rate)[hsdiv_id] == -1) {
 				/* Golden setting not available */
 				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-					"Not available");
+					 "Not available");
 				snprintf(table[row][3], TABLE_MAX_ELT_LEN,
-					"WARN.");
+					 "WARN.");
 				(*wng_nbr)++;
 				row++;
 				continue;
 			}
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
-				(golden_settings->hsdiv_rate)[hsdiv_id]);
-			DPLL_DRA7XX_AUDIT_SHOW_STATUS(
-				(unsigned int) (settings->hsdiv)[hsdiv_id].rate,
-				(unsigned int)
-				(golden_settings->hsdiv_rate)[hsdiv_id]);
+				 (golden_settings->hsdiv_rate)[hsdiv_id]);
+			DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->
+								     hsdiv)
+						      [hsdiv_id].rate,
+						      (unsigned int)
+						      (golden_settings->
+						       hsdiv_rate)[hsdiv_id]);
 		}
 		goto dpll_dra7xx_audit_table_show;
 
@@ -1950,35 +1979,37 @@ dpll_dra7xx_audit_clkdcoldo_rate:
 		if (id == DPLL_DRA7XX_PCIE_REF)
 			goto dpll_dra7xx_audit_clkoutldo_rate;
 		snprintf(table[row++][0], TABLE_MAX_ELT_LEN,
-			"CLKDCOLDO Output");
+			 "CLKDCOLDO Output");
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"  Clock Speed (MHz)");
+			 "  Clock Speed (MHz)");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.3lf",
-			(settings->dpll).MN.clkdcoldo_rate);
-		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(
-			golden_settings->clkdcoldo_rate,
-			-1, dpll_dra7xx_audit_table_show);
+			 (settings->dpll).MN.clkdcoldo_rate);
+		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->
+						       clkdcoldo_rate, -1,
+						       dpll_dra7xx_audit_table_show);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
-			golden_settings->clkdcoldo_rate);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS(
-			(unsigned int) (settings->dpll).MN.clkdcoldo_rate,
-			(unsigned int) golden_settings->clkdcoldo_rate);
+			 golden_settings->clkdcoldo_rate);
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).MN.
+					      clkdcoldo_rate,
+					      (unsigned int)golden_settings->
+					      clkdcoldo_rate);
 
 dpll_dra7xx_audit_clkoutldo_rate:
 		snprintf(table[row++][0], TABLE_MAX_ELT_LEN,
-			"CLKOUTLDO Output");
+			 "CLKOUTLDO Output");
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-			"  Clock Speed (MHz)");
+			 "  Clock Speed (MHz)");
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.3lf",
-			(settings->dpll).MN.clkoutldo_rate);
-		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(
-			golden_settings->clkoutldo_rate,
-			-1, dpll_dra7xx_audit_table_show);
+			 (settings->dpll).MN.clkoutldo_rate);
+		DPLL_DRA7XX_AUDIT_CHECK_GOLDEN_SETTING(golden_settings->
+						       clkoutldo_rate, -1,
+						       dpll_dra7xx_audit_table_show);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf",
-			golden_settings->clkoutldo_rate);
-		DPLL_DRA7XX_AUDIT_SHOW_STATUS(
-			(unsigned int) (settings->dpll).MN.clkoutldo_rate,
-			(unsigned int) golden_settings->clkoutldo_rate);
+			 golden_settings->clkoutldo_rate);
+		DPLL_DRA7XX_AUDIT_SHOW_STATUS((unsigned int)(settings->dpll).MN.
+					      clkoutldo_rate,
+					      (unsigned int)golden_settings->
+					      clkoutldo_rate);
 
 dpll_dra7xx_audit_table_show:
 		if (stream != NULL)
@@ -1989,7 +2020,6 @@ dpll_dra7xx_audit_table_show:
 dpll_dra7xx_audit_end:
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_init
@@ -2019,8 +2049,8 @@ int dpll_dra7xx_init(void)
 		DPLL_DRA7XX_GPU,
 		DPLL_DRA7XX_DDR,
 		DPLL_DRA7XX_USB,
-		DPLL_DRA7XX_PCIE_REF};
-
+		DPLL_DRA7XX_PCIE_REF
+	};
 
 	dprintf("\n%s(): retrieving all DPLL settings\n", __func__);
 	/*
@@ -2029,12 +2059,12 @@ int dpll_dra7xx_init(void)
 	 */
 	for (id = DPLL_DRA7XX_MPU; id < DPLL_DRA7XX_ID_MAX; id++) {
 		dpll_dra7xx_settings_table[id] =
-			malloc(sizeof(dpll_dra7xx_settings));
+		    malloc(sizeof(dpll_dra7xx_settings));
 		if (dpll_dra7xx_settings_table[id] == NULL)
 			return OMAPCONF_ERR_UNEXPECTED;
 		(dpll_dra7xx_settings_table[id]->dpll).initialized = 0;
 		dpll_dra7xx_locked_settings_table[id] =
-			malloc(sizeof(dpll_dra7xx_settings));
+		    malloc(sizeof(dpll_dra7xx_settings));
 		if (dpll_dra7xx_locked_settings_table[id] == NULL)
 			return OMAPCONF_ERR_UNEXPECTED;
 		(dpll_dra7xx_locked_settings_table[id]->dpll).initialized = 0;
@@ -2042,8 +2072,9 @@ int dpll_dra7xx_init(void)
 
 	for (i = 0; i < DPLL_DRA7XX_ID_MAX; i++) {
 		id = ordered_ids[i];
-		ret = dpll_dra7xx_settings_extract(
-			dpll_dra7xx_settings_table[id], id, 0);
+		ret =
+		    dpll_dra7xx_settings_extract(dpll_dra7xx_settings_table[id],
+						 id, 0);
 		if (ret < 0) {
 			fprintf(stderr, "%s(): error while extracting %s "
 				"parameters! (%d)", __func__,
@@ -2055,8 +2086,8 @@ int dpll_dra7xx_init(void)
 		 * Also get DPLL params ignoring DPLL STOPPED status to also
 		 * show all output speeds when DPLL is locked.
 		 */
-		dpll_dra7xx_settings_extract(
-			dpll_dra7xx_locked_settings_table[id], id, 1);
+		dpll_dra7xx_settings_extract(dpll_dra7xx_locked_settings_table
+					     [id], id, 1);
 		if (ret < 0) {
 			fprintf(stderr, "%s(): error while extracting %s "
 				"parameters! (%d)", __func__,
@@ -2064,13 +2095,11 @@ int dpll_dra7xx_init(void)
 			return ret;
 		}
 
-
 	}
 
 	dprintf("%s(): all DPLL settings retrieved\n\n", __func__);
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_free
@@ -2094,7 +2123,6 @@ int dpll_dra7xx_free(void)
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_main

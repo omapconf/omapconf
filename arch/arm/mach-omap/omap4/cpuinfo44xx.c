@@ -41,13 +41,11 @@
  *
  */
 
-
 #include <cpuinfo44xx.h>
 #include <cpuinfo.h>
 #include <lib.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 
 /* #define CPUID44XX_DEBUG */
 #ifdef CPUID44XX_DEBUG
@@ -55,7 +53,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu44xx_silicon_max_speed_get
@@ -124,7 +121,6 @@ unsigned int cpu44xx_silicon_max_speed_get(void)
 	dprintf("%s(): max speed = %dMHz\n", __func__, max_speed);
 	return max_speed;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu44xx_cores_count_get

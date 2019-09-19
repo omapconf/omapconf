@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <string.h>
 #include <opp_dra7xx.h>
 #include <opp.h>
@@ -54,14 +53,12 @@
 #include <module_dra7xx.h>
 #include <voltdm_dra7xx.h>
 
-
 /* #define OPP_DRA7XX_DEBUG */
 #ifdef OPP_DRA7XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 genlist vdd_dra7xx_core_opp_list;
 genlist vdd_dra7xx_mpu_opp_list;
@@ -71,15 +68,15 @@ genlist vdd_dra7xx_gpu_opp_list;
 genlist vdd_dra7xx_rtc_opp_list;
 
 genlist *opp_dra7xx_list_table[VDD_DRA7XX_ID_MAX] = {
-		[VDD_DRA7XX_CORE] = &vdd_dra7xx_core_opp_list,
-		[VDD_DRA7XX_MPU] = &vdd_dra7xx_mpu_opp_list,
-		[VDD_DRA7XX_IVA] = &vdd_dra7xx_iva_opp_list,
-		[VDD_DRA7XX_DSPEVE] = &vdd_dra7xx_dspeve_opp_list,
-		[VDD_DRA7XX_GPU] = &vdd_dra7xx_gpu_opp_list,
-		[VDD_DRA7XX_RTC] = &vdd_dra7xx_rtc_opp_list};
+	[VDD_DRA7XX_CORE] = &vdd_dra7xx_core_opp_list,
+	[VDD_DRA7XX_MPU] = &vdd_dra7xx_mpu_opp_list,
+	[VDD_DRA7XX_IVA] = &vdd_dra7xx_iva_opp_list,
+	[VDD_DRA7XX_DSPEVE] = &vdd_dra7xx_dspeve_opp_list,
+	[VDD_DRA7XX_GPU] = &vdd_dra7xx_gpu_opp_list,
+	[VDD_DRA7XX_RTC] = &vdd_dra7xx_rtc_opp_list
+};
 
 static unsigned short opp_dra7xx_init_done;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_init
@@ -88,113 +85,112 @@ static unsigned short opp_dra7xx_init_done;
  *------------------------------------------------------------------------ */
 void opp_dra7xx_init(void)
 {
-	static const opp_t core_opp_nom = {OPP_NOM,	1030000, 266000};
+	static const opp_t core_opp_nom = { OPP_NOM, 1030000, 266000 };
 
-	static const opp_t mpu_opp_nom  = {OPP_NOM,	1060000, 1000000};
-	static const opp_t mpu_opp_od =   {OPP_OD,	1160000, 1176000};
-	static const opp_t mpu_opp_high = {OPP_HIGH,	1250000, 1500000};
-	static const opp_t mpu_opp_plus = {OPP_PLUS,	1250000, 1800000};
+	static const opp_t mpu_opp_nom = { OPP_NOM, 1060000, 1000000 };
+	static const opp_t mpu_opp_od = { OPP_OD, 1160000, 1176000 };
+	static const opp_t mpu_opp_high = { OPP_HIGH, 1250000, 1500000 };
+	static const opp_t mpu_opp_plus = { OPP_PLUS, 1250000, 1800000 };
 
 	/*
 	 * opp_dra7xx_list is just a reference of how many opp that a
 	 * voltage manager has, so only need to add either dsp or eve.
 	 */
-	static const opp_t dsp_opp_nom =  {OPP_NOM,	1060000, 600000};
-	static const opp_t dsp_opp_od =   {OPP_OD,	1150000, 700000};
-	static const opp_t dsp_opp_high = {OPP_HIGH,	1250000, 750000};
-	static const opp_t dsp_opp_plus = {OPP_PLUS,	1250000, 1000000};
+	static const opp_t dsp_opp_nom = { OPP_NOM, 1060000, 600000 };
+	static const opp_t dsp_opp_od = { OPP_OD, 1150000, 700000 };
+	static const opp_t dsp_opp_high = { OPP_HIGH, 1250000, 750000 };
+	static const opp_t dsp_opp_plus = { OPP_PLUS, 1250000, 1000000 };
 
-	static const opp_t iva_opp_nom  = {OPP_NOM,	1060000, 388300};
-	static const opp_t iva_opp_od =   {OPP_OD,	1160000, 430000};
-	static const opp_t iva_opp_high = {OPP_HIGH,	1250000, 532000};
-	static const opp_t iva_opp_plus = {OPP_PLUS,	1250000, 617000};
+	static const opp_t iva_opp_nom = { OPP_NOM, 1060000, 388300 };
+	static const opp_t iva_opp_od = { OPP_OD, 1160000, 430000 };
+	static const opp_t iva_opp_high = { OPP_HIGH, 1250000, 532000 };
+	static const opp_t iva_opp_plus = { OPP_PLUS, 1250000, 617000 };
 
-	static const opp_t gpu_opp_nom  = {OPP_NOM,	1060000, 425600};
-	static const opp_t gpu_opp_od =   {OPP_OD,	1160000, 500000};
-	static const opp_t gpu_opp_high = {OPP_HIGH,	1250000, 532000};
-	static const opp_t gpu_opp_plus = {OPP_PLUS,	1250000, 665000};
+	static const opp_t gpu_opp_nom = { OPP_NOM, 1060000, 425600 };
+	static const opp_t gpu_opp_od = { OPP_OD, 1160000, 500000 };
+	static const opp_t gpu_opp_high = { OPP_HIGH, 1250000, 532000 };
+	static const opp_t gpu_opp_plus = { OPP_PLUS, 1250000, 665000 };
 
-	static const opp_t rtc_opp_nom = {OPP_NOM,	1030000, 34000};
+	static const opp_t rtc_opp_nom = { OPP_NOM, 1030000, 34000 };
 
-	#ifdef OPP_DRA7XX_DEBUG
+#ifdef OPP_DRA7XX_DEBUG
 	int i, count;
 	voltdm_dra7xx_id vdd;
 	opp_t opp;
-	#endif
+#endif
 
 	if (!opp_dra7xx_init_done) {
 		genlist_init(&vdd_dra7xx_core_opp_list);
 		genlist_addtail(&vdd_dra7xx_core_opp_list,
-			(void *) &core_opp_nom, sizeof(opp_t));
+				(void *)&core_opp_nom, sizeof(opp_t));
 
 		genlist_init(&vdd_dra7xx_mpu_opp_list);
 		genlist_addtail(&vdd_dra7xx_mpu_opp_list,
-			(void *) &mpu_opp_nom, sizeof(opp_t));
+				(void *)&mpu_opp_nom, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_mpu_opp_list,
-			(void *) &mpu_opp_od, sizeof(opp_t));
+				(void *)&mpu_opp_od, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_mpu_opp_list,
-			(void *) &mpu_opp_high, sizeof(opp_t));
+				(void *)&mpu_opp_high, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_mpu_opp_list,
-			(void *) &mpu_opp_plus, sizeof(opp_t));
+				(void *)&mpu_opp_plus, sizeof(opp_t));
 
 		genlist_init(&vdd_dra7xx_dspeve_opp_list);
 		genlist_addtail(&vdd_dra7xx_dspeve_opp_list,
-			(void *) &dsp_opp_nom, sizeof(opp_t));
+				(void *)&dsp_opp_nom, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_dspeve_opp_list,
-			(void *) &dsp_opp_od, sizeof(opp_t));
+				(void *)&dsp_opp_od, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_dspeve_opp_list,
-			(void *) &dsp_opp_high, sizeof(opp_t));
+				(void *)&dsp_opp_high, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_dspeve_opp_list,
-			(void *) &dsp_opp_plus, sizeof(opp_t));
+				(void *)&dsp_opp_plus, sizeof(opp_t));
 
 		genlist_init(&vdd_dra7xx_iva_opp_list);
 		genlist_addtail(&vdd_dra7xx_iva_opp_list,
-			(void *) &iva_opp_nom, sizeof(opp_t));
+				(void *)&iva_opp_nom, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_iva_opp_list,
-			(void *) &iva_opp_od, sizeof(opp_t));
+				(void *)&iva_opp_od, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_iva_opp_list,
-			(void *) &iva_opp_high, sizeof(opp_t));
+				(void *)&iva_opp_high, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_iva_opp_list,
-			(void *) &iva_opp_plus, sizeof(opp_t));
+				(void *)&iva_opp_plus, sizeof(opp_t));
 
 		genlist_init(&vdd_dra7xx_gpu_opp_list);
 		genlist_addtail(&vdd_dra7xx_gpu_opp_list,
-			(void *) &gpu_opp_nom, sizeof(opp_t));
+				(void *)&gpu_opp_nom, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_gpu_opp_list,
-			(void *) &gpu_opp_od, sizeof(opp_t));
+				(void *)&gpu_opp_od, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_gpu_opp_list,
-			(void *) &gpu_opp_high, sizeof(opp_t));
+				(void *)&gpu_opp_high, sizeof(opp_t));
 		genlist_addtail(&vdd_dra7xx_gpu_opp_list,
-			(void *) &gpu_opp_plus, sizeof(opp_t));
+				(void *)&gpu_opp_plus, sizeof(opp_t));
 
 		genlist_init(&vdd_dra7xx_rtc_opp_list);
 		genlist_addtail(&vdd_dra7xx_rtc_opp_list,
-			(void *) &rtc_opp_nom, sizeof(opp_t));
+				(void *)&rtc_opp_nom, sizeof(opp_t));
 
 		opp_dra7xx_init_done = 1;
-		#ifdef OPP_DRA7XX_DEBUG
+#ifdef OPP_DRA7XX_DEBUG
 		printf("%s(): init done.\n", __func__);
 		printf("OPP List:\n");
 		for (vdd = 0; vdd < VDD_DRA7XX_ID_MAX; vdd++) {
-			count = genlist_getcount(
-				(genlist *) opp_dra7xx_list_table[vdd]);
-			printf("  %s (%d): ", voltdm_dra7xx_name_get(vdd), count);
+			count = genlist_getcount((genlist *)
+						 opp_dra7xx_list_table[vdd]);
+			printf("  %s (%d): ", voltdm_dra7xx_name_get(vdd),
+			       count);
 			for (i = 0; i < count; i++) {
-				genlist_get(
-					(genlist *) opp_dra7xx_list_table[vdd],
-					i, (void *) &opp);
-				printf("%s (%.1lfMHz, %.3lfV)",
-					opp.name, khz2mhz(opp.rate),
-					uv2v(opp.voltage));
+				genlist_get((genlist *)
+					    opp_dra7xx_list_table[vdd], i,
+					    (void *)&opp);
+				printf("%s (%.1lfMHz, %.3lfV)", opp.name,
+				       khz2mhz(opp.rate), uv2v(opp.voltage));
 				if (i != count - 1)
 					printf(", ");
 			}
 			printf(".\n");
 		}
-		#endif
+#endif
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_deinit
@@ -217,7 +213,6 @@ void opp_dra7xx_deinit(void)
 	dprintf("%s(): deinit done.\n", __func__);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_id_get
  * @BRIEF		convert OPP provided as a string (as defined in opp.h)
@@ -233,17 +228,16 @@ int opp_dra7xx_id_get(const char *opp)
 	CHECK_NULL_ARG(opp, OMAPCONF_ERR_ARG);
 
 	if (strcasecmp(opp, OPP_NOM) == 0)
-		return (int) OPP_DRA7XX_NOM;
+		return (int)OPP_DRA7XX_NOM;
 	else if (strcasecmp(opp, OPP_OD) == 0)
-		return (int) OPP_DRA7XX_OD;
+		return (int)OPP_DRA7XX_OD;
 	else if (strcasecmp(opp, OPP_HIGH) == 0)
-		return (int) OPP_DRA7XX_HIGH;
+		return (int)OPP_DRA7XX_HIGH;
 	else if (strcasecmp(opp, OPP_PLUS) == 0)
-		return (int) OPP_DRA7XX_PLUS;
+		return (int)OPP_DRA7XX_PLUS;
 	else
 		return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_count_get
@@ -268,7 +262,6 @@ int opp_dra7xx_count_get(voltdm_dra7xx_id vdd_id)
 	return count;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_list_get
  * @BRIEF		return the list of OPP of a given voltage domain
@@ -285,7 +278,6 @@ const genlist *opp_dra7xx_list_get(voltdm_dra7xx_id vdd_id)
 
 	return opp_dra7xx_list_table[vdd_id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_by_rate_get
@@ -350,7 +342,7 @@ const char *opp_dra7xx_by_rate_get(voltdm_dra7xx_id vdd_id)
 	 * reported speed will be 0 and OPP cannot be detected.
 	 * Hence, ignore DPLL status.
 	 */
-	rate = (double) module_clk_rate_get(module_name, 1) / 1000.0;
+	rate = (double)module_clk_rate_get(module_name, 1) / 1000.0;
 	if (rate < 0.0) {
 		dprintf("%s(): could not retrieve clock speed!\n", __func__);
 		goto opp_dra7xx_by_rate_get_end;
@@ -359,7 +351,7 @@ const char *opp_dra7xx_by_rate_get(voltdm_dra7xx_id vdd_id)
 		voltdm_dra7xx_name_get(vdd_id),
 		clk_dra7xx_name_get(module_clk_get(module_name)), rate);
 	if (vdd_id == VDD_DRA7XX_DSPEVE) {
-		rate_eve = (double) module_clk_rate_get(MOD_EVE1, 1) / 1000.0;
+		rate_eve = (double)module_clk_rate_get(MOD_EVE1, 1) / 1000.0;
 		if (rate_eve < 0.0) {
 			dprintf("%s(): could not retrieve clock speed!\n",
 				__func__);
@@ -381,9 +373,8 @@ const char *opp_dra7xx_by_rate_get(voltdm_dra7xx_id vdd_id)
 		goto opp_dra7xx_by_rate_get_end;
 	}
 
-
 	for (i = 0; i < opp_count; i++) {
-		ret = genlist_get((genlist *) opp_list, i, (opp_t *) &opp);
+		ret = genlist_get((genlist *) opp_list, i, (opp_t *) & opp);
 		if (ret != 0) {
 			dprintf("%s(): could not retrieve OPP from list!\n",
 				__func__);
@@ -392,18 +383,18 @@ const char *opp_dra7xx_by_rate_get(voltdm_dra7xx_id vdd_id)
 
 		opp_id = opp_dra7xx_id_get(opp.name);
 		if (opp_id < 0) {
-			dprintf(
-				"%s(): could not retrieve OPP ID from OPP name!\n",
-				__func__);
+			dprintf
+			    ("%s(): could not retrieve OPP ID from OPP name!\n",
+			     __func__);
 			goto opp_dra7xx_by_rate_get_end;
 		}
 
-		rate_por = (double) module_por_clk_rate_get(module_name, opp.name) / 1000.0;
+		rate_por =
+		    (double)module_por_clk_rate_get(module_name,
+						    opp.name) / 1000.0;
 		if (rate_por < 0) {
-			dprintf(
-				"%s(): could not get %s %s POR speed! (%d)\n",
-				__func__, module_name,
-				opp.name, ret);
+			dprintf("%s(): could not get %s %s POR speed! (%d)\n",
+				__func__, module_name, opp.name, ret);
 			goto opp_dra7xx_by_rate_get_end;
 		}
 		dprintf("%s(%s): %s POR rate for %s is %lf\n",
@@ -411,24 +402,25 @@ const char *opp_dra7xx_by_rate_get(voltdm_dra7xx_id vdd_id)
 			module_name, opp.name, rate_por);
 		if (vdd_id == VDD_DRA7XX_DSPEVE) {
 			rate_eve_por =
-				(double) module_por_clk_rate_get(MOD_EVE1, opp.name) / 1000.0;
+			    (double)module_por_clk_rate_get(MOD_EVE1,
+							    opp.name) / 1000.0;
 			if (rate_eve_por < 0) {
-				dprintf(
-					"%s(): could not get GPU %s POR speed! (%d)\n",
-					__func__, opp.name, ret);
+				dprintf
+				    ("%s(): could not get GPU %s POR speed! (%d)\n",
+				     __func__, opp.name, ret);
 				goto opp_dra7xx_by_rate_get_end;
 			}
 			dprintf("%s(%s): EVE POR rate for %s is %lf\n",
 				__func__, voltdm_dra7xx_name_get(vdd_id),
 				opp.name, rate_eve_por);
 
-			if (((int) rate == (int) rate_por) ||
-				 ((int) rate_eve == (int) rate_eve_por)) {
+			if (((int)rate == (int)rate_por) ||
+			    ((int)rate_eve == (int)rate_eve_por)) {
 				opp_name = opp.name;
 				goto opp_dra7xx_by_rate_get_end;
 			}
 		} else {
-			if ((int) rate == (int) rate_por) {
+			if ((int)rate == (int)rate_por) {
 				opp_name = opp.name;
 				goto opp_dra7xx_by_rate_get_end;
 			}
@@ -439,17 +431,16 @@ const char *opp_dra7xx_by_rate_get(voltdm_dra7xx_id vdd_id)
 		__func__, voltdm_dra7xx_name_get(vdd_id));
 
 opp_dra7xx_by_rate_get_end:
-	#ifdef OPP_DRA7XX_DEBUG
+#ifdef OPP_DRA7XX_DEBUG
 	if (opp_name == NULL)
 		printf("%s(%s): OPP not found!\n", __func__,
-			voltdm_dra7xx_name_get(vdd_id));
+		       voltdm_dra7xx_name_get(vdd_id));
 	else
 		printf("%s(%s): OPP found: %s\n", __func__,
-			voltdm_dra7xx_name_get(vdd_id), opp_name);
-	#endif
+		       voltdm_dra7xx_name_get(vdd_id), opp_name);
+#endif
 	return opp_name;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_get
@@ -468,7 +459,6 @@ const char *opp_dra7xx_get(voltdm_dra7xx_id vdd_id)
 
 	return opp_get(voltdm_dra7xx_id2s(vdd_id), 1);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_set

@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <twl603x_lib.h>
 #include <lib.h>
 #include <unistd.h>
@@ -52,14 +51,12 @@
 #include <i2c-tools.h>
 #include <autoadjust_table.h>
 
-
 /* #define TWL603X_LIB_DEBUG */
 #ifdef TWL603X_LIB_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /**
  * struct supply_reg_offs - register offsets
@@ -122,48 +119,47 @@ static struct supply_reg_offs default_vcore_reg_off = {
 };
 
 static struct supply_reg_vals default_supply_grp_val[] = {
-	{.name = "APP", .mask = 0x01, .val = 0x01},
-	{.name = "CON", .mask = 0x02, .val = 0x02},
-	{.name = "MOD", .mask = 0x04, .val = 0x04},
+	{.name = "APP",.mask = 0x01,.val = 0x01},
+	{.name = "CON",.mask = 0x02,.val = 0x02},
+	{.name = "MOD",.mask = 0x04,.val = 0x04},
 	{0},
 };
 
 static struct supply_reg_vals default_supply_state_val[] = {
-	{.name = "CURR:OFF", .mask = 0x03 << 0, .val = 0x00 << 0},
-	{.name = "CURR:ON", .mask = 0x03 << 0, .val = 0x01 << 0},
-	{.name = "CURR:OFF", .mask = 0x03 << 0, .val = 0x02 << 0},
-	{.name = "CURR:SLP", .mask = 0x03 << 0, .val = 0x03 << 0},
-	{.name = "APP:OFF", .mask = 0x03 << 2, .val = 0x00 << 2},
-	{.name = "APP:ON", .mask = 0x03 << 2, .val = 0x01 << 2},
-	{.name = "APP:OFF", .mask = 0x03 << 2, .val = 0x02 << 2},
-	{.name = "APP:SLP", .mask = 0x03 << 2, .val = 0x03 << 2},
-	{.name = "CON:OFF", .mask = 0x03 << 4, .val = 0x00 << 4},
-	{.name = "CON:ON", .mask = 0x03 << 4, .val = 0x01 << 4},
-	{.name = "CON:OFF", .mask = 0x03 << 4, .val = 0x02 << 4},
-	{.name = "CON:SLP", .mask = 0x03 << 4, .val = 0x03 << 4},
-	{.name = "MOD:OFF", .mask = 0x03 << 6, .val = 0x00 << 6},
-	{.name = "MOD:ON", .mask = 0x03 << 6, .val = 0x01 << 6},
-	{.name = "MOD:OFF", .mask = 0x03 << 6, .val = 0x02 << 6},
-	{.name = "MOD:SLP", .mask = 0x03 << 6, .val = 0x03 << 6},
+	{.name = "CURR:OFF",.mask = 0x03 << 0,.val = 0x00 << 0},
+	{.name = "CURR:ON",.mask = 0x03 << 0,.val = 0x01 << 0},
+	{.name = "CURR:OFF",.mask = 0x03 << 0,.val = 0x02 << 0},
+	{.name = "CURR:SLP",.mask = 0x03 << 0,.val = 0x03 << 0},
+	{.name = "APP:OFF",.mask = 0x03 << 2,.val = 0x00 << 2},
+	{.name = "APP:ON",.mask = 0x03 << 2,.val = 0x01 << 2},
+	{.name = "APP:OFF",.mask = 0x03 << 2,.val = 0x02 << 2},
+	{.name = "APP:SLP",.mask = 0x03 << 2,.val = 0x03 << 2},
+	{.name = "CON:OFF",.mask = 0x03 << 4,.val = 0x00 << 4},
+	{.name = "CON:ON",.mask = 0x03 << 4,.val = 0x01 << 4},
+	{.name = "CON:OFF",.mask = 0x03 << 4,.val = 0x02 << 4},
+	{.name = "CON:SLP",.mask = 0x03 << 4,.val = 0x03 << 4},
+	{.name = "MOD:OFF",.mask = 0x03 << 6,.val = 0x00 << 6},
+	{.name = "MOD:ON",.mask = 0x03 << 6,.val = 0x01 << 6},
+	{.name = "MOD:OFF",.mask = 0x03 << 6,.val = 0x02 << 6},
+	{.name = "MOD:SLP",.mask = 0x03 << 6,.val = 0x03 << 6},
 	{0},
 };
 
 static struct supply_reg_vals default_smps_trans_val[] = {
-	{.name = "ACT:OFF", .mask = 0x03 << 0, .val = 0x00 << 0},
-	{.name = "ACT:AUTO(PWM/PFM)", .mask = 0x03 << 0, .val = 0x01 << 0},
-	{.name = "ACT:RES", .mask = 0x03 << 0, .val = 0x02 << 0},
-	{.name = "ACT:PWM", .mask = 0x03 << 0, .val = 0x03 << 0},
-	{.name = "SLP:OFF", .mask = 0x03 << 2, .val = 0x00 << 2},
-	{.name = "SLP:AUTO(PWM/PFM)", .mask = 0x03 << 2, .val = 0x01 << 2},
-	{.name = "SLP:RES", .mask = 0x03 << 2, .val = 0x02 << 2},
-	{.name = "SLP:PWM", .mask = 0x03 << 2, .val = 0x03 << 2},
-	{.name = "OFF:OFF", .mask = 0x03 << 4, .val = 0x00 << 4},
-	{.name = "OFF:AUTO(PWM/PFM)", .mask = 0x03 << 4, .val = 0x01 << 4},
-	{.name = "OFF:RES", .mask = 0x03 << 4, .val = 0x02 << 4},
-	{.name = "OFF:PWM", .mask = 0x03 << 4, .val = 0x03 << 4},
+	{.name = "ACT:OFF",.mask = 0x03 << 0,.val = 0x00 << 0},
+	{.name = "ACT:AUTO(PWM/PFM)",.mask = 0x03 << 0,.val = 0x01 << 0},
+	{.name = "ACT:RES",.mask = 0x03 << 0,.val = 0x02 << 0},
+	{.name = "ACT:PWM",.mask = 0x03 << 0,.val = 0x03 << 0},
+	{.name = "SLP:OFF",.mask = 0x03 << 2,.val = 0x00 << 2},
+	{.name = "SLP:AUTO(PWM/PFM)",.mask = 0x03 << 2,.val = 0x01 << 2},
+	{.name = "SLP:RES",.mask = 0x03 << 2,.val = 0x02 << 2},
+	{.name = "SLP:PWM",.mask = 0x03 << 2,.val = 0x03 << 2},
+	{.name = "OFF:OFF",.mask = 0x03 << 4,.val = 0x00 << 4},
+	{.name = "OFF:AUTO(PWM/PFM)",.mask = 0x03 << 4,.val = 0x01 << 4},
+	{.name = "OFF:RES",.mask = 0x03 << 4,.val = 0x02 << 4},
+	{.name = "OFF:PWM",.mask = 0x03 << 4,.val = 0x03 << 4},
 	{0},
 };
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		smps_read_voltage
@@ -178,7 +174,6 @@ static void smps_read_voltage(unsigned char volt_reg_val,
 {
 	*voltage = volt_reg_val & 0x1f;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		vcore_read_step
@@ -288,18 +283,18 @@ static struct supply_reg_offs default_ldo_reg_off = {
 };
 
 static struct supply_reg_vals default_ldo_trans_val[] = {
-	{.name = "ACT:OFF", .mask = 0x03 << 0, .val = 0x00 << 0},
-	{.name = "ACT:AMS(SLP/ACT)", .mask = 0x03 << 0, .val = 0x01 << 0},
-	{.name = "ACT:RES", .mask = 0x03 << 0, .val = 0x02 << 0},
-	{.name = "ACT:ACT", .mask = 0x03 << 0, .val = 0x03 << 0},
-	{.name = "SLP:OFF", .mask = 0x03 << 2, .val = 0x00 << 2},
-	{.name = "SLP:AMS(SLP/ACT)", .mask = 0x03 << 2, .val = 0x01 << 2},
-	{.name = "SLP:RES", .mask = 0x03 << 2, .val = 0x02 << 2},
-	{.name = "SLP:ACT", .mask = 0x03 << 2, .val = 0x03 << 2},
-	{.name = "OFF:OFF", .mask = 0x03 << 4, .val = 0x00 << 4},
-	{.name = "OFF:AMS(SLP/ACT)", .mask = 0x03 << 4, .val = 0x01 << 4},
-	{.name = "OFF:RES", .mask = 0x03 << 4, .val = 0x02 << 4},
-	{.name = "OFF:ACT", .mask = 0x03 << 4, .val = 0x03 << 4},
+	{.name = "ACT:OFF",.mask = 0x03 << 0,.val = 0x00 << 0},
+	{.name = "ACT:AMS(SLP/ACT)",.mask = 0x03 << 0,.val = 0x01 << 0},
+	{.name = "ACT:RES",.mask = 0x03 << 0,.val = 0x02 << 0},
+	{.name = "ACT:ACT",.mask = 0x03 << 0,.val = 0x03 << 0},
+	{.name = "SLP:OFF",.mask = 0x03 << 2,.val = 0x00 << 2},
+	{.name = "SLP:AMS(SLP/ACT)",.mask = 0x03 << 2,.val = 0x01 << 2},
+	{.name = "SLP:RES",.mask = 0x03 << 2,.val = 0x02 << 2},
+	{.name = "SLP:ACT",.mask = 0x03 << 2,.val = 0x03 << 2},
+	{.name = "OFF:OFF",.mask = 0x03 << 4,.val = 0x00 << 4},
+	{.name = "OFF:AMS(SLP/ACT)",.mask = 0x03 << 4,.val = 0x01 << 4},
+	{.name = "OFF:RES",.mask = 0x03 << 4,.val = 0x02 << 4},
+	{.name = "OFF:ACT",.mask = 0x03 << 4,.val = 0x03 << 4},
 	{0},
 };
 
@@ -312,21 +307,20 @@ static struct supply_reg_offs default_vrtc_reg_off = {
 };
 
 static struct supply_reg_vals default_vrtc_trans_val[] = {
-	{.name = "ACT:OFF", .mask = 0x03 << 0, .val = 0x00 << 0},
-	{.name = "ACT:AMS(SLP/ACT)", .mask = 0x03 << 0, .val = 0x01 << 0},
-	{.name = "ACT:RES", .mask = 0x03 << 0, .val = 0x02 << 0},
-	{.name = "ACT:VBRTC ACT/VRTC OFF", .mask = 0x03 << 0, .val = 0x03 << 0},
-	{.name = "SLP:OFF", .mask = 0x03 << 2, .val = 0x00 << 2},
-	{.name = "SLP:AMS(SLP/ACT)", .mask = 0x03 << 2, .val = 0x01 << 2},
-	{.name = "SLP:RES", .mask = 0x03 << 2, .val = 0x02 << 2},
-	{.name = "SLP:VBRTC ACT/VRTC OFF", .mask = 0x03 << 2, .val = 0x03 << 2},
-	{.name = "OFF:OFF", .mask = 0x03 << 4, .val = 0x00 << 4},
-	{.name = "OFF:AMS(SLP/ACT)", .mask = 0x03 << 4, .val = 0x01 << 4},
-	{.name = "OFF:RES", .mask = 0x03 << 4, .val = 0x02 << 4},
-	{.name = "OFF:VBRTC ACT/VRTC OFF", .mask = 0x03 << 4, .val = 0x03 << 4},
+	{.name = "ACT:OFF",.mask = 0x03 << 0,.val = 0x00 << 0},
+	{.name = "ACT:AMS(SLP/ACT)",.mask = 0x03 << 0,.val = 0x01 << 0},
+	{.name = "ACT:RES",.mask = 0x03 << 0,.val = 0x02 << 0},
+	{.name = "ACT:VBRTC ACT/VRTC OFF",.mask = 0x03 << 0,.val = 0x03 << 0},
+	{.name = "SLP:OFF",.mask = 0x03 << 2,.val = 0x00 << 2},
+	{.name = "SLP:AMS(SLP/ACT)",.mask = 0x03 << 2,.val = 0x01 << 2},
+	{.name = "SLP:RES",.mask = 0x03 << 2,.val = 0x02 << 2},
+	{.name = "SLP:VBRTC ACT/VRTC OFF",.mask = 0x03 << 2,.val = 0x03 << 2},
+	{.name = "OFF:OFF",.mask = 0x03 << 4,.val = 0x00 << 4},
+	{.name = "OFF:AMS(SLP/ACT)",.mask = 0x03 << 4,.val = 0x01 << 4},
+	{.name = "OFF:RES",.mask = 0x03 << 4,.val = 0x02 << 4},
+	{.name = "OFF:VBRTC ACT/VRTC OFF",.mask = 0x03 << 4,.val = 0x03 << 4},
 	{0},
 };
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ldo_read_voltage
@@ -475,18 +469,18 @@ static struct supply_reg_offs default_res_reg_off = {
 };
 
 static struct supply_reg_vals default_res_trans_val[] = {
-	{.name = "ACT:OFF", .mask = 0x03 << 0, .val = 0x00 << 0},
-	{.name = "ACT:ON", .mask = 0x03 << 0, .val = 0x01 << 0},
-	{.name = "ACT:RES", .mask = 0x03 << 0, .val = 0x02 << 0},
-	{.name = "ACT:RES", .mask = 0x03 << 0, .val = 0x03 << 0},
-	{.name = "SLP:OFF", .mask = 0x03 << 2, .val = 0x00 << 2},
-	{.name = "SLP:ON", .mask = 0x03 << 2, .val = 0x01 << 2},
-	{.name = "SLP:RES", .mask = 0x03 << 2, .val = 0x02 << 2},
-	{.name = "SLP:RES", .mask = 0x03 << 2, .val = 0x03 << 2},
-	{.name = "OFF:OFF", .mask = 0x03 << 4, .val = 0x00 << 4},
-	{.name = "OFF:ON", .mask = 0x03 << 4, .val = 0x01 << 4},
-	{.name = "OFF:RES", .mask = 0x03 << 4, .val = 0x02 << 4},
-	{.name = "OFF:RES", .mask = 0x03 << 4, .val = 0x03 << 4},
+	{.name = "ACT:OFF",.mask = 0x03 << 0,.val = 0x00 << 0},
+	{.name = "ACT:ON",.mask = 0x03 << 0,.val = 0x01 << 0},
+	{.name = "ACT:RES",.mask = 0x03 << 0,.val = 0x02 << 0},
+	{.name = "ACT:RES",.mask = 0x03 << 0,.val = 0x03 << 0},
+	{.name = "SLP:OFF",.mask = 0x03 << 2,.val = 0x00 << 2},
+	{.name = "SLP:ON",.mask = 0x03 << 2,.val = 0x01 << 2},
+	{.name = "SLP:RES",.mask = 0x03 << 2,.val = 0x02 << 2},
+	{.name = "SLP:RES",.mask = 0x03 << 2,.val = 0x03 << 2},
+	{.name = "OFF:OFF",.mask = 0x03 << 4,.val = 0x00 << 4},
+	{.name = "OFF:ON",.mask = 0x03 << 4,.val = 0x01 << 4},
+	{.name = "OFF:RES",.mask = 0x03 << 4,.val = 0x02 << 4},
+	{.name = "OFF:RES",.mask = 0x03 << 4,.val = 0x03 << 4},
 	{0},
 };
 
@@ -583,18 +577,18 @@ static struct twl6030_supply resource_dep[] = {
 };
 
 static struct supply_reg_vals device_state_val[] = {
-	{.name = "APP:OFF", .mask = 0x03 << 0, .val = 0x00 << 0},
-	{.name = "APP:COMP", .mask = 0x03 << 0, .val = 0x01 << 0},
-	{.name = "APP:ACTIVE", .mask = 0x03 << 0, .val = 0x02 << 0},
-	{.name = "APP:SLEEP", .mask = 0x03 << 0, .val = 0x03 << 0},
-	{.name = "CON:OFF", .mask = 0x03 << 2, .val = 0x00 << 2},
-	{.name = "CON:COMP", .mask = 0x03 << 2, .val = 0x01 << 2},
-	{.name = "CON:ACTIVE", .mask = 0x03 << 2, .val = 0x02 << 2},
-	{.name = "CON:SLEEP", .mask = 0x03 << 2, .val = 0x03 << 2},
-	{.name = "MOD:OFF", .mask = 0x03 << 4, .val = 0x00 << 4},
-	{.name = "MOD:COMP", .mask = 0x03 << 4, .val = 0x01 << 4},
-	{.name = "MOD:ACTIVE", .mask = 0x03 << 4, .val = 0x02 << 4},
-	{.name = "MOD:SLEEP", .mask = 0x03 << 4, .val = 0x03 << 4},
+	{.name = "APP:OFF",.mask = 0x03 << 0,.val = 0x00 << 0},
+	{.name = "APP:COMP",.mask = 0x03 << 0,.val = 0x01 << 0},
+	{.name = "APP:ACTIVE",.mask = 0x03 << 0,.val = 0x02 << 0},
+	{.name = "APP:SLEEP",.mask = 0x03 << 0,.val = 0x03 << 0},
+	{.name = "CON:OFF",.mask = 0x03 << 2,.val = 0x00 << 2},
+	{.name = "CON:COMP",.mask = 0x03 << 2,.val = 0x01 << 2},
+	{.name = "CON:ACTIVE",.mask = 0x03 << 2,.val = 0x02 << 2},
+	{.name = "CON:SLEEP",.mask = 0x03 << 2,.val = 0x03 << 2},
+	{.name = "MOD:OFF",.mask = 0x03 << 4,.val = 0x00 << 4},
+	{.name = "MOD:COMP",.mask = 0x03 << 4,.val = 0x01 << 4},
+	{.name = "MOD:ACTIVE",.mask = 0x03 << 4,.val = 0x02 << 4},
+	{.name = "MOD:SLEEP",.mask = 0x03 << 4,.val = 0x03 << 4},
 	{0},
 };
 
@@ -627,7 +621,6 @@ enum print_table {
 	PRINT_MAX
 };
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		dump_reg
  * @BRIEF
@@ -648,7 +641,6 @@ void dump_reg(char *pstring, struct supply_reg_vals *reg, unsigned char reg_val)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_dump_supplies
  * @BRIEF
@@ -656,13 +648,12 @@ void dump_reg(char *pstring, struct supply_reg_vals *reg, unsigned char reg_val)
  * @param[in]
  * @DESCRIPTION
  *------------------------------------------------------------------------ */
-static int twl603x_dump_supplies(FILE *stream, char *name,
-					  struct twl6030_supply *supply,
-					  unsigned char *reg_dump,
-					  unsigned char grp,
-					  unsigned char trans,
-					  unsigned char voltage,
-					  unsigned char step)
+static int twl603x_dump_supplies(FILE * stream, char *name,
+				 struct twl6030_supply *supply,
+				 unsigned char *reg_dump,
+				 unsigned char grp,
+				 unsigned char trans,
+				 unsigned char voltage, unsigned char step)
 {
 	unsigned int ret = 0;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -767,12 +758,10 @@ static int twl603x_dump_supplies(FILE *stream, char *name,
 	return ret;
 }
 
-
 #define MAX_I2C_REGS 256
 static unsigned char twl6030_reg_base_id1[MAX_I2C_REGS];
 static unsigned char twl6030_reg_base_id2[MAX_I2C_REGS];
 static unsigned char twl6030_reg_base_id3[MAX_I2C_REGS];
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl6030_load_regs
@@ -801,7 +790,6 @@ static int twl6030_load_regs(unsigned char bus_id,
 	return ret;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_init_regtable
  * @BRIEF
@@ -814,7 +802,6 @@ void twl603x_init_regtable(void)
 	/* Do nothing for now! */
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl6030_print_regs_base_addr
  * @BRIEF
@@ -822,7 +809,7 @@ void twl603x_init_regtable(void)
  * @param[in]
  * @DESCRIPTION
  *------------------------------------------------------------------------ */
-static void twl6030_print_regs_base_addr(FILE *stream,
+static void twl6030_print_regs_base_addr(FILE * stream,
 					 unsigned char bus_id,
 					 unsigned char slave_addr, unsigned char
 					 *reg_dump)
@@ -850,7 +837,6 @@ static void twl6030_print_regs_base_addr(FILE *stream,
 		"====\n\n");
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_dumpregs
  * @BRIEF
@@ -858,7 +844,7 @@ static void twl6030_print_regs_base_addr(FILE *stream,
  * @param[in]
  * @DESCRIPTION
  *------------------------------------------------------------------------ */
-int twl603x_dumpregs(FILE *stream)
+int twl603x_dumpregs(FILE * stream)
 {
 	int r;
 	r = twl6030_load_regs(TWL6030_I2C_BUS, TWL6030_I2C_ID1,
@@ -890,7 +876,6 @@ int twl603x_dumpregs(FILE *stream)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_config_ldo
  * @BRIEF
@@ -898,7 +883,7 @@ int twl603x_dumpregs(FILE *stream)
  * @param[in]
  * @DESCRIPTION
  *------------------------------------------------------------------------ */
-int twl603x_config_ldo(FILE *stream)
+int twl603x_config_ldo(FILE * stream)
 {
 	int r;
 	r = twl6030_load_regs(TWL6030_I2C_BUS, TWL6030_I2C_ID1,
@@ -906,14 +891,14 @@ int twl603x_config_ldo(FILE *stream)
 	if (r)
 		return r;
 	r = twl603x_dump_supplies(stream, "Device Level status",
-		device_status, twl6030_reg_base_id1, 0, 0, 0, 0);
+				  device_status, twl6030_reg_base_id1, 0, 0, 0,
+				  0);
 	if (r)
 		return r;
 	r = twl603x_dump_supplies(stream, "LDO Supplies", ldo_supplies,
-		twl6030_reg_base_id1, 1, 1, 1, 0);
+				  twl6030_reg_base_id1, 1, 1, 1, 0);
 	return r;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_config_smps
@@ -922,7 +907,7 @@ int twl603x_config_ldo(FILE *stream)
  * @param[in]
  * @DESCRIPTION
  *------------------------------------------------------------------------ */
-int twl603x_config_smps(FILE *stream)
+int twl603x_config_smps(FILE * stream)
 {
 	int r;
 	r = twl6030_load_regs(TWL6030_I2C_BUS, TWL6030_I2C_ID1,
@@ -930,14 +915,15 @@ int twl603x_config_smps(FILE *stream)
 	if (r)
 		return r;
 	r = twl603x_dump_supplies(stream, "Device Level status",
-		device_status, twl6030_reg_base_id1, 0, 0, 0, 0);
+				  device_status, twl6030_reg_base_id1, 0, 0, 0,
+				  0);
 	if (r)
 		return r;
 	r = twl603x_dump_supplies(stream, "SMPS Supplies",
-		smps_supplies, twl6030_reg_base_id1, 1, 1, 1, 1);
+				  smps_supplies, twl6030_reg_base_id1, 1, 1, 1,
+				  1);
 	return r;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_config_resources
@@ -946,7 +932,7 @@ int twl603x_config_smps(FILE *stream)
  * @param[in]
  * @DESCRIPTION
  *------------------------------------------------------------------------ */
-int twl603x_config_resources(FILE *stream)
+int twl603x_config_resources(FILE * stream)
 {
 	int r;
 	r = twl6030_load_regs(TWL6030_I2C_BUS, TWL6030_I2C_ID1,
@@ -954,14 +940,14 @@ int twl603x_config_resources(FILE *stream)
 	if (r)
 		return r;
 	r = twl603x_dump_supplies(stream, "Device Level status",
-		device_status, twl6030_reg_base_id1, 0, 0, 0, 0);
+				  device_status, twl6030_reg_base_id1, 0, 0, 0,
+				  0);
 	if (r)
 		return r;
 	r = twl603x_dump_supplies(stream, "Resources", resource_dep,
-		twl6030_reg_base_id1, 1, 1, 0, 0);
+				  twl6030_reg_base_id1, 1, 1, 0, 0);
 	return r;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_config_devpwrgrp_status
@@ -970,7 +956,7 @@ int twl603x_config_resources(FILE *stream)
  * @param[in]
  * @DESCRIPTION
  *------------------------------------------------------------------------ */
-int twl603x_config_devpwrgrp_status(FILE *stream)
+int twl603x_config_devpwrgrp_status(FILE * stream)
 {
 	int r;
 	r = twl6030_load_regs(TWL6030_I2C_BUS, TWL6030_I2C_ID1,
@@ -978,10 +964,10 @@ int twl603x_config_devpwrgrp_status(FILE *stream)
 	if (r)
 		return r;
 	r = twl603x_dump_supplies(stream, "Device Level status",
-		device_status, twl6030_reg_base_id1, 0, 0, 0, 0);
+				  device_status, twl6030_reg_base_id1, 0, 0, 0,
+				  0);
 	return r;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_config
@@ -990,7 +976,7 @@ int twl603x_config_devpwrgrp_status(FILE *stream)
  * @param[in]
  * @DESCRIPTION
  *------------------------------------------------------------------------ */
-int twl603x_config(FILE *stream)
+int twl603x_config(FILE * stream)
 {
 	int r;
 	r = twl6030_load_regs(TWL6030_I2C_BUS, TWL6030_I2C_ID1,
@@ -998,24 +984,25 @@ int twl603x_config(FILE *stream)
 	if (r)
 		return r;
 	r = twl603x_dump_supplies(stream, "SMPS supplies",
-		smps_supplies, twl6030_reg_base_id1, 1, 1, 1, 1);
+				  smps_supplies, twl6030_reg_base_id1, 1, 1, 1,
+				  1);
 	if (r)
 		return r;
 	r = twl603x_dump_supplies(stream, "LDO Supplies", ldo_supplies,
-		twl6030_reg_base_id1, 1, 1, 1, 0);
+				  twl6030_reg_base_id1, 1, 1, 1, 0);
 	if (r)
 		return r;
 	r = twl603x_dump_supplies(stream, "Resources", resource_dep,
-		twl6030_reg_base_id1, 1, 1, 0, 0);
+				  twl6030_reg_base_id1, 1, 1, 0, 0);
 	if (r)
 		return r;
 	r = twl603x_dump_supplies(stream, "Device Level status",
-		device_status, twl6030_reg_base_id1, 0, 0, 0, 0);
+				  device_status, twl6030_reg_base_id1, 0, 0, 0,
+				  0);
 	return r;
 }
 
 #define TWL6030_RESET_TIMEOUT	5
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_reset
@@ -1024,7 +1011,7 @@ int twl603x_config(FILE *stream)
  * @param[in]
  * @DESCRIPTION
  *------------------------------------------------------------------------ */
-int twl603x_reset(FILE *stream)
+int twl603x_reset(FILE * stream)
 {
 	int i = 0;
 
@@ -1042,7 +1029,6 @@ int twl603x_reset(FILE *stream)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_pwrgrp_set
  * @BRIEF
@@ -1050,7 +1036,7 @@ int twl603x_reset(FILE *stream)
  * @param[in]
  * @DESCRIPTION
  *------------------------------------------------------------------------ */
-int twl603x_pwrgrp_set(FILE *stream, char *grp, char *state)
+int twl603x_pwrgrp_set(FILE * stream, char *grp, char *state)
 {
 	unsigned char val = 0;
 	if (strcmp(grp, "app") == 0) {

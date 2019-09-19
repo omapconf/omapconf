@@ -41,13 +41,11 @@
  *
  */
 
-
 #ifndef __SYSCONFIG54XX_H__
 #define __SYSCONFIG54XX_H__
 
 #include <reg.h>
 #include <stdio.h>
-
 
 /* Voltage dom.: WKUP, Power dom.: EMU, Clock dom. = EMU */
 /* OMAP5_DEBUGSS */

@@ -41,18 +41,15 @@
  *
  */
 
-
 #ifndef __CPUFREQ_H__
 #define __CPUFREQ_H__
 
-
 #include <stdint.h>
 
-
-#define CPUFREQ_ERR_ARG			-1 /* incorrect argument(s) */
-#define CPUFREQ_ERR_INTERNAL		-3 /* internal error */
-#define CPUFREQ_ERR_UNEXPECTED		-7 /* something unexpected occurred */
-#define CPUFREQ_ERR_NOT_AVAILABLE	-8 /* does not exist / not available */
+#define CPUFREQ_ERR_ARG			-1	/* incorrect argument(s) */
+#define CPUFREQ_ERR_INTERNAL		-3	/* internal error */
+#define CPUFREQ_ERR_UNEXPECTED		-7	/* something unexpected occurred */
+#define CPUFREQ_ERR_NOT_AVAILABLE	-8	/* does not exist / not available */
 
 #define CPUFREQ_GOV_MAX_NAME_LENGTH	24
 
@@ -60,10 +57,9 @@ uint64_t cpufreq_time_in_state_get(unsigned int opp);
 uint64_t cpufreq_total_transitions_get(void);
 char *cpufreq_scaling_governor_get(char name[CPUFREQ_GOV_MAX_NAME_LENGTH]);
 int cpufreq_scaling_governor_set(char new_gov[CPUFREQ_GOV_MAX_NAME_LENGTH],
-	char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH]);
+				 char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH]);
 unsigned int cpufreq_cur_freq_get(void);
 unsigned int cpufreq_opp_nbr_get(void);
 int cpufreq_set(unsigned int freq_mpu);
-
 
 #endif

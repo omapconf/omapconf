@@ -41,14 +41,12 @@
  *
  */
 
-
 #include <temperature.h>
 #include <temperature44xx.h>
 #include <lib.h>
 #include <emif.h>
 #include <cpuinfo.h>
 #include <string.h>
-
 
 const char *temp44xx_sensor_names[TEMP44XX_ID_MAX + 1] = {
 	"BANDGAP",
@@ -58,8 +56,8 @@ const char *temp44xx_sensor_names[TEMP44XX_ID_MAX + 1] = {
 	"DDR2_CS1",
 	"DDR2_CS2",
 	"PCB",
-	"FIXME"};
-
+	"FIXME"
+};
 
 /* #define TEMP44XX_DEBUG */
 #ifdef TEMP44XX_DEBUG
@@ -67,7 +65,6 @@ const char *temp44xx_sensor_names[TEMP44XX_ID_MAX + 1] = {
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		temp44xx_name_get
@@ -85,7 +82,6 @@ const char *temp44xx_name_get(temp44xx_sensor_id id)
 	return temp44xx_sensor_names[id];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		temp44xx_voltdm2sensor_id
  * @BRIEF		convert voltage domain ID to sensor domain ID
@@ -97,17 +93,17 @@ const char *temp44xx_name_get(temp44xx_sensor_id id)
 temp44xx_sensor_id temp44xx_voltdm2sensor_id(voltdm44xx_id vdd_id)
 {
 	static const temp44xx_sensor_id voltdm2sensor_map[OMAP4_VD_ID_MAX] = {
-		TEMP44XX_ID_MAX, /* OMAP4_LDO_WKUP */
-		TEMP44XX_HOTSPOT, /* OMAP4_VDD_MPU */
-		TEMP44XX_ID_MAX, /* OMAP4_VDD_IVA */
-		TEMP44XX_BANDGAP}; /* OMAP4_VDD_CORE */
+		TEMP44XX_ID_MAX,	/* OMAP4_LDO_WKUP */
+		TEMP44XX_HOTSPOT,	/* OMAP4_VDD_MPU */
+		TEMP44XX_ID_MAX,	/* OMAP4_VDD_IVA */
+		TEMP44XX_BANDGAP
+	};			/* OMAP4_VDD_CORE */
 
 	CHECK_ARG_LESS_THAN(vdd_id, OMAP4_VD_ID_MAX, TEMP44XX_ID_MAX);
 
 	dprintf("%s(%d) = %d\n", __func__, vdd_id, voltdm2sensor_map[vdd_id]);
 	return voltdm2sensor_map[vdd_id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		temp44xx_get
@@ -126,22 +122,24 @@ int temp44xx_get(temp44xx_sensor_id id)
 	unsigned int i;
 	FILE *fp = NULL;
 	static const char *sensor_filenames1[TEMP44XX_ID_MAX] = {
-		"/sys/devices/platform/omap4plus_scm.0/temp_sensor_hwmon.0/temp1_input", /* GLP */
+		"/sys/devices/platform/omap4plus_scm.0/temp_sensor_hwmon.0/temp1_input",	/* GLP */
 		"/sys/devices/platform/omap/omap_temp_sensor.0/hotspot_temp",
-		"/sys/kernel/debug/emif.1/mr4", /* GLP */
-		"/sys/kernel/debug/emif.1/mr4", /* GLP */
-		"/sys/kernel/debug/emif.2/mr4", /* GLP */
-		"/sys/kernel/debug/emif.2/mr4", /* GLP */
-		"/sys/devices/platform/i2c_omap.1/i2c-1/1-0049/twl6030_gpadc/in4_input"}; /* 4460 */
+		"/sys/kernel/debug/emif.1/mr4",	/* GLP */
+		"/sys/kernel/debug/emif.1/mr4",	/* GLP */
+		"/sys/kernel/debug/emif.2/mr4",	/* GLP */
+		"/sys/kernel/debug/emif.2/mr4",	/* GLP */
+		"/sys/devices/platform/i2c_omap.1/i2c-1/1-0049/twl6030_gpadc/in4_input"
+	};			/* 4460 */
 
 	static const char *sensor_filenames2[TEMP44XX_ID_MAX] = {
-		"/sys/devices/platform/omap/omap_temp_sensor.0/temp1_input", /* Android */
+		"/sys/devices/platform/omap/omap_temp_sensor.0/temp1_input",	/* Android */
 		"/sys/devices/platform/omap/omap_temp_sensor.0/hotspot_temp",
-		"/sys/devices/platform/omap/omap_emif.0/temperature", /* Android */
-		"/sys/devices/platform/omap/omap_emif.0/temperature", /* Android */
-		"/sys/devices/platform/omap/omap_emif.1/temperature", /* Android */
-		"/sys/devices/platform/omap/omap_emif.1/temperature", /* Android */
-		"/sys/devices/platform/omap/pcb_temp_sensor.0/temp1_input"}; /* 4460 */
+		"/sys/devices/platform/omap/omap_emif.0/temperature",	/* Android */
+		"/sys/devices/platform/omap/omap_emif.0/temperature",	/* Android */
+		"/sys/devices/platform/omap/omap_emif.1/temperature",	/* Android */
+		"/sys/devices/platform/omap/omap_emif.1/temperature",	/* Android */
+		"/sys/devices/platform/omap/pcb_temp_sensor.0/temp1_input"
+	};			/* 4460 */
 
 	static const char *sensor_filenames3[TEMP44XX_ID_MAX] = {
 		"/sys/devices/platform/omap4plus_scm.0/temp_sensor_hwmon.0/temp1_input",
@@ -150,7 +148,8 @@ int temp44xx_get(temp44xx_sensor_id id)
 		"/sys/kernel/debug/emif.1/mr4",
 		"/sys/kernel/debug/emif.2/mr4",
 		"/sys/kernel/debug/emif.2/mr4",
-		"/sys/devices/platform/i2c_omap.4/i2c-4/4-0048/temp1_input"}; /* 4470 */
+		"/sys/devices/platform/i2c_omap.4/i2c-4/4-0048/temp1_input"
+	};			/* 4470 */
 
 	static const char *sensor_filenames4[TEMP44XX_ID_MAX] = {
 		"/sys/devices/platform/omap4plus_scm.0/temp_sensor_hwmon.0/temp1_input",
@@ -159,23 +158,26 @@ int temp44xx_get(temp44xx_sensor_id id)
 		"/sys/kernel/debug/emif.1/mr4",
 		"/sys/kernel/debug/emif.2/mr4",
 		"/sys/kernel/debug/emif.2/mr4",
-		"/sys/devices/platform/omap/omap_i2c.4/i2c-4/4-0048/temp1_input"}; /* 4470 */
+		"/sys/devices/platform/omap/omap_i2c.4/i2c-4/4-0048/temp1_input"
+	};			/* 4470 */
 
 	static const char *sensor_filenames5[TEMP44XX_ID_MAX] = {
-		"/sys/devices/platform/omap/omap_temp_sensor.0/temperature", /* Android Galaxy Nexus JOP40D */
+		"/sys/devices/platform/omap/omap_temp_sensor.0/temperature",	/* Android Galaxy Nexus JOP40D */
 		"/sys/devices/platform/omap/omap_temp_sensor.0/hotspot_temp",
-		"/sys/devices/platform/omap/omap_emif.0/temperature", /* Android */
-		"/sys/devices/platform/omap/omap_emif.0/temperature", /* Android */
-		"/sys/devices/platform/omap/omap_emif.1/temperature", /* Android */
-		"/sys/devices/platform/omap/omap_emif.1/temperature", /* Android */
-		"/sys/devices/platform/omap/pcb_temp_sensor.0/temp1_input"}; /* 4460 */
+		"/sys/devices/platform/omap/omap_emif.0/temperature",	/* Android */
+		"/sys/devices/platform/omap/omap_emif.0/temperature",	/* Android */
+		"/sys/devices/platform/omap/omap_emif.1/temperature",	/* Android */
+		"/sys/devices/platform/omap/omap_emif.1/temperature",	/* Android */
+		"/sys/devices/platform/omap/pcb_temp_sensor.0/temp1_input"
+	};			/* 4460 */
 
 	static const char **sensor_filenames_list[5] = {
 		sensor_filenames1,
 		sensor_filenames2,
 		sensor_filenames3,
 		sensor_filenames4,
-		sensor_filenames5};
+		sensor_filenames5
+	};
 
 	CHECK_CPU(44xx, TEMP_ABSOLUTE_ZERO);
 	CHECK_ARG_LESS_THAN(id, TEMP44XX_ID_MAX, TEMP_ABSOLUTE_ZERO);
@@ -183,8 +185,8 @@ int temp44xx_get(temp44xx_sensor_id id)
 	/* Open file exported by temp. sensor driver (if loaded) */
 	for (i = 0; i < 5; i++) {
 		dprintf("%s(): i=%u id=%u filename=%s\n", __func__, i, id,
-			(char *) sensor_filenames_list[i][id]);
-		fp = fopen((char *) sensor_filenames_list[i][id], "r");
+			(char *)sensor_filenames_list[i][id]);
+		fp = fopen((char *)sensor_filenames_list[i][id], "r");
 		if (fp != NULL)
 			break;
 	}
@@ -208,7 +210,7 @@ int temp44xx_get(temp44xx_sensor_id id)
 	line[strlen(line) - 1] = '\0';
 	dprintf("%s(): line=%s len=%u\n", __func__, line, strlen(line));
 	if ((id != TEMP44XX_DDR1_CS1) && (id != TEMP44XX_DDR1_CS2) &&
-		(id != TEMP44XX_DDR2_CS1) && (id != TEMP44XX_DDR2_CS1)) {
+	    (id != TEMP44XX_DDR2_CS1) && (id != TEMP44XX_DDR2_CS1)) {
 		/* Retrieve temperature, in millidegrees celcius */
 		ret = sscanf(line, "%d", &temp);
 		if (ret != 1) {
@@ -217,7 +219,7 @@ int temp44xx_get(temp44xx_sensor_id id)
 			goto temp44xx_get_end;
 		}
 
-		temp = temp / 1000; /* convert to degrees */
+		temp = temp / 1000;	/* convert to degrees */
 	} else {
 		/* Retrieve temperature as MR4 code */
 		ret = sscanf(line, "MR4=%d", &temp);
@@ -236,7 +238,7 @@ int temp44xx_get(temp44xx_sensor_id id)
 
 temp44xx_get_end:
 	if ((id != TEMP44XX_DDR1_CS1) && (id != TEMP44XX_DDR1_CS2) &&
-		(id != TEMP44XX_DDR2_CS1) && (id != TEMP44XX_DDR2_CS1)) {
+	    (id != TEMP44XX_DDR2_CS1) && (id != TEMP44XX_DDR2_CS1)) {
 		dprintf("%s(%s): temp is %d C\n", __func__,
 			temp44xx_name_get(id), temp);
 	} else {

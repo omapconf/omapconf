@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <cpuinfo54xx.h>
 #include <cpuinfo.h>
 #include <lib.h>
@@ -49,14 +48,12 @@
 #include <stdlib.h>
 #include <cpufreq.h>
 
-
 /* #define CPUID54XX_DEBUG */
 #ifdef CPUID54XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu54xx_silicon_max_speed_get
@@ -115,7 +112,6 @@ unsigned int cpu54xx_silicon_max_speed_get(void)
 	dprintf("%s(): max speed = %dMHz\n", __func__, max_speed);
 	return max_speed;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu54xx_cores_count_get

@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <mpuss44xx.h>
 #include <lib44xx.h>
 #include <help.h>
@@ -61,7 +60,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /**
  * Function: l2cc44xx_init_regtable
@@ -84,7 +82,6 @@ int l2cc44xx_init_regtable(void)
 
 */
 
-
 /**
  * Function: l2cc44xx_name2addr
  * Role: retrieve physical address of a register, given its name.
@@ -105,7 +102,6 @@ int l2cc44xx_name2addr(char *name, unsigned int *addr)
 }
 */
 
-
 /**
  * Function: l2cc44xx_perf_cnt_configure
  * Role: Resets and configures the PL310 event counters but does not enable.
@@ -119,44 +115,46 @@ int l2cc44xx_name2addr(char *name, unsigned int *addr)
  *	0 in case of success
  *
  */
-int	  l2cc44xx_perf_cnt_configure(unsigned int counter_inst, unsigned int filter, unsigned int reset)
+int l2cc44xx_perf_cnt_configure(unsigned int counter_inst, unsigned int filter,
+				unsigned int reset)
 {
 	unsigned int filter_addr = 0;
 	unsigned int addr = 0;
 	unsigned int data = 0;
 	int ret = 0;
 
-
 	/* early on check that our counter_inst is valid, and if so extract the filter_addr. */
 	switch (counter_inst) {
 	case 0:
 		ret = name2addr("EVENT_COUNTER0_CONFIGURATION", &filter_addr,
-			(reg_table *) omap4_mpuss_pl310_reg_table);
+				(reg_table *) omap4_mpuss_pl310_reg_table);
 		break;
 	case 1:
 		ret = name2addr("EVENT_COUNTER1_CONFIGURATION", &filter_addr,
-			(reg_table *) omap4_mpuss_pl310_reg_table);
+				(reg_table *) omap4_mpuss_pl310_reg_table);
 		break;
 	default:
-		fprintf(stderr, "%s(): bad L2CC(PL310) event counter instance! (%u)!\n",
+		fprintf(stderr,
+			"%s(): bad L2CC(PL310) event counter instance! (%u)!\n",
 			__func__, counter_inst);
 		return OMAPCONF_ERR_ARG;
 	}
 
 	/* setup the address for the configuration register, and data for reset if selected */
 	ret = name2addr("EVENT_COUNTER_CONTROL", &addr,
-		(reg_table *) omap4_mpuss_pl310_reg_table);
+			(reg_table *) omap4_mpuss_pl310_reg_table);
 	if (ret != 0) {
 		dprintf("PL310 Incorrect Config Addr!\n");
-		}
+	}
 
-	data = reset << (counter_inst+1); /* Counter 0 reset is bit 1, counter 1 is bit 2... */
+	data = reset << (counter_inst + 1);	/* Counter 0 reset is bit 1, counter 1 is bit 2... */
 
 	dprintf("PL310 config Addr: %x, Data: 0x%x\n", addr, data);
 
 	ret = mem_write(addr, data);
 	if (ret != 0) {
-		fprintf(stderr, "%s(): error writing L2CC (PL310) EVENT_COUNTER_CONTROL reg!\n",
+		fprintf(stderr,
+			"%s(): error writing L2CC (PL310) EVENT_COUNTER_CONTROL reg!\n",
 			__func__);
 		return OMAPCONF_ERR_REG_ACCESS;
 	}
@@ -167,7 +165,8 @@ int	  l2cc44xx_perf_cnt_configure(unsigned int counter_inst, unsigned int filter
 	data = filter << 2;
 	ret = mem_write(filter_addr, data);
 	if (ret != 0) {
-		fprintf(stderr, "%s(): error writing L2CC (PL310) EVENT_COUNTER_CONTROL reg!\n",
+		fprintf(stderr,
+			"%s(): error writing L2CC (PL310) EVENT_COUNTER_CONTROL reg!\n",
 			__func__);
 		return OMAPCONF_ERR_REG_ACCESS;
 	}
@@ -175,7 +174,6 @@ int	  l2cc44xx_perf_cnt_configure(unsigned int counter_inst, unsigned int filter
 
 	return 0;
 }
-
 
 /**
  * Function: l2cc44xx_perf_cnt_enable
@@ -192,26 +190,27 @@ int l2cc44xx_perf_cnt_enable()
 	unsigned int data = 0;
 	int ret = 0;
 
-	printf("\n### WARNING ###: L2$ counters will be lost (reset) accross MPU domain power transitions.\n\n");
+	printf
+	    ("\n### WARNING ###: L2$ counters will be lost (reset) accross MPU domain power transitions.\n\n");
 
 	/*
 	 * Setup the address for the configuration register,
 	 * and data for reset if selected
 	 */
 	ret = name2addr("EVENT_COUNTER_CONTROL", &addr,
-		(reg_table *) omap4_mpuss_pl310_reg_table);
+			(reg_table *) omap4_mpuss_pl310_reg_table);
 
-	data = 0x1; /* Enable is bit 0 */
+	data = 0x1;		/* Enable is bit 0 */
 	ret = mem_write(addr, data);
 	if (ret != 0) {
-		fprintf(stderr, "%s(): error writing L2CC (PL310) EVENT_COUNTER_CONTROL reg!\n",
+		fprintf(stderr,
+			"%s(): error writing L2CC (PL310) EVENT_COUNTER_CONTROL reg!\n",
 			__func__);
 		return OMAPCONF_ERR_REG_ACCESS;
 	}
 
 	return 0;
 }
-
 
 /**
  * Function: l2cc44xx_perf_cnt_disable
@@ -222,26 +221,26 @@ int l2cc44xx_perf_cnt_enable()
  *	0 in case of success
  *
  */
-int	  l2cc44xx_perf_cnt_disable()
+int l2cc44xx_perf_cnt_disable()
 {
 	unsigned int addr = 0;
 	unsigned int data = 0;
 	int ret = 0;
 	/* setup the address for the configuration register, and data for reset if selected */
 	ret = name2addr("EVENT_COUNTER_CONTROL", &addr,
-		(reg_table *) omap4_mpuss_pl310_reg_table);
+			(reg_table *) omap4_mpuss_pl310_reg_table);
 
-	data = 0x0; /* Enable is bit 0. // Other bits are OK to write 0.s (i.e. no read/mod/write) */
+	data = 0x0;		/* Enable is bit 0. // Other bits are OK to write 0.s (i.e. no read/mod/write) */
 	ret = mem_write(addr, data);
 	if (ret != 0) {
-		fprintf(stderr, "%s(): error writing L2CC (PL310) EVENT_COUNTER_CONTROL reg!\n",
+		fprintf(stderr,
+			"%s(): error writing L2CC (PL310) EVENT_COUNTER_CONTROL reg!\n",
 			__func__);
 		return OMAPCONF_ERR_REG_ACCESS;
 	}
 
 	return 0;
 }
-
 
 /**
  * Function: l2cc44xx_get_perf_cnt
@@ -253,25 +252,25 @@ int	  l2cc44xx_perf_cnt_disable()
  *	performance counter value as configured
  *	0 in case of error
  */
-unsigned int l2cc44xx_get_perf_cnt (unsigned int counter_inst)
+unsigned int l2cc44xx_get_perf_cnt(unsigned int counter_inst)
 {
 	unsigned int addr = 0;
 	unsigned int data = 0xDEADBEEF;
 	int ret = 0;
 
-
 	/* early on check that our counter_inst is valid, and if so extract the filter_addr. */
 	switch (counter_inst) {
 	case 0:
 		ret = name2addr("EVENT_COUNTER0_VALUE", &addr,
-			(reg_table *) omap4_mpuss_pl310_reg_table);
+				(reg_table *) omap4_mpuss_pl310_reg_table);
 		break;
 	case 1:
 		ret = name2addr("EVENT_COUNTER1_VALUE", &addr,
-			(reg_table *) omap4_mpuss_pl310_reg_table);
+				(reg_table *) omap4_mpuss_pl310_reg_table);
 		break;
 	default:
-		fprintf(stderr, "%s(): bad L2CC(PL310) event counter instance! (%u)!\n",
+		fprintf(stderr,
+			"%s(): bad L2CC(PL310) event counter instance! (%u)!\n",
 			__func__, counter_inst);
 		return OMAPCONF_ERR_ARG;
 	}
@@ -279,7 +278,8 @@ unsigned int l2cc44xx_get_perf_cnt (unsigned int counter_inst)
 	/* setup the address for the configuration register, and data for reset if selected */
 	ret = mem_read(addr, &data);
 	if (ret != 0) {
-		fprintf(stderr, "%s(): error reading L2CC(PL310) EVENT COUNT %2x VALUE reg!\n",
+		fprintf(stderr,
+			"%s(): error reading L2CC(PL310) EVENT COUNT %2x VALUE reg!\n",
 			__func__, counter_inst);
 		return OMAPCONF_ERR_REG_ACCESS;
 	}
@@ -287,7 +287,6 @@ unsigned int l2cc44xx_get_perf_cnt (unsigned int counter_inst)
 	return data;
 
 }
-
 
 /**
  * Function: l2cc44xx_main
@@ -305,7 +304,6 @@ unsigned int l2cc44xx_get_perf_cnt (unsigned int counter_inst)
  * skorson
  * Perhaps later move the dump regs for l2cc from mpuss44xx.c to here?
  */
-
 
 /*
 // int l2cc44xx_main(int argc, char *argv[])

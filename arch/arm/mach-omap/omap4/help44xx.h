@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __OMAP4CONF_HELP_H__
 #define __OMAP4CONF_HELP_H__
 
 #include <help.h>
 
-
 void help44xx(help_category cat, char *context);
-
 
 #endif

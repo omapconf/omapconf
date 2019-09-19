@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <opp.h>
 #include <cpuinfo.h>
 #include <lib.h>
@@ -62,14 +61,15 @@
 #include <opp_dra7xx.h>
 #include <opp_am335x.h>
 
-
 static void get_rate_and_por(const char *mod_name, const char *opp_s,
 			     int *rate, int *rate_por);
-static void check_mmode_and_print(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
-		unsigned int *row, const char *mod_name, int rate);
-static void print_rate(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
+static void check_mmode_and_print(char
+				  table[TABLE_MAX_ROW][TABLE_MAX_COL]
+				  [TABLE_MAX_ELT_LEN], unsigned int *row,
+				  const char *mod_name, int rate);
+static void print_rate(char
+		       table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
 		       unsigned int *row, int rate);
-
 
 /* #define OPP_DEBUG */
 #ifdef OPP_DEBUG
@@ -78,9 +78,7 @@ static void print_rate(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LE
 #define dprintf(format, ...)
 #endif
 
-
 #define OPP_MAX_RETRY		10
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_init
@@ -103,7 +101,6 @@ void opp_init(void)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_deinit
  * @BRIEF		free dynamically allocated internal data.
@@ -125,7 +122,6 @@ void opp_deinit(void)
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_s2id
@@ -153,7 +149,6 @@ int opp_s2id(const char *opp)
 		return OMAPCONF_ERR_CPU;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_list_get
@@ -189,7 +184,6 @@ const genlist *opp_list_get(const char *voltdm)
 		return NULL;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_count_get
@@ -227,7 +221,6 @@ int opp_count_get(const char *voltdm)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_set
  * @BRIEF		change OPP of a given voltage domain.
@@ -261,14 +254,14 @@ int opp_set(const char *voltdm, const char *opp)
 	} else if (cpu_is_omap54xx()) {
 		return opp54xx_set((voltdm54xx_id) vdd_id, (opp54xx_id) opp_id);
 	} else if (cpu_is_dra7xx()) {
-		return opp_dra7xx_set((voltdm_dra7xx_id) vdd_id, (opp_dra7xx_id) opp_id);
+		return opp_dra7xx_set((voltdm_dra7xx_id) vdd_id,
+				      (opp_dra7xx_id) opp_id);
 	} else {
 		fprintf(stderr,
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
 		return OMAPCONF_ERR_CPU;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_by_rate_get
@@ -315,15 +308,14 @@ const char *opp_by_rate_get(const char *voltdm, unsigned short quiet)
 			"Please check rates against Data Manual recommendations.\n",
 			voltdm);
 
-	#ifdef OPP_DEBUG
+#ifdef OPP_DEBUG
 	if (opp != NULL)
 		printf("%s(%s): found %s OPP\n", __func__, voltdm, opp);
 	else
 		printf("%s(%s): OPP not found!\n", __func__, voltdm);
-	#endif
+#endif
 	return opp;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_by_voltage_get
@@ -372,7 +364,7 @@ const char *opp_by_voltage_get(const char *voltdm, unsigned short quiet)
 	dprintf("%s(%s): found %d possible OPP\n", __func__, voltdm, opp_count);
 
 	for (i = 0; i < opp_count; i++) {
-		genlist_get((genlist *) opp_list, i, (opp_t *) &opp);
+		genlist_get((genlist *) opp_list, i, (opp_t *) & opp);
 		dprintf("%s(%s): POR nominal voltage for %s is %duV\n",
 			__func__, voltdm, opp.name, opp.voltage);
 		if (volt == opp.voltage) {
@@ -383,25 +375,25 @@ const char *opp_by_voltage_get(const char *voltdm, unsigned short quiet)
 			 * Must double-check with frequencies.
 			 */
 			if ((strcmp(opp.name, OPP_DPLL_CASC) != 0) &&
-				(strcmp(opp.name, OPP_NITRO) != 0)) {
+			    (strcmp(opp.name, OPP_NITRO) != 0)) {
 				opp_name = opp.name;
 				dprintf("%s(%s): OPP found: %s\n", __func__,
-				voltdm, opp_name);
+					voltdm, opp_name);
 				break;
 			}
-			dprintf(
-				"%s(%s): %s found, double-checking using rates (same voltage apply to more than 1 OPP.\n",
-				__func__, voltdm, opp.name);
+			dprintf
+			    ("%s(%s): %s found, double-checking using rates (same voltage apply to more than 1 OPP.\n",
+			     __func__, voltdm, opp.name);
 			opp_name2 = opp_by_rate_get(voltdm, 1);
 			if (strcmp(opp_name2, opp.name) == 0) {
 				opp_name = opp.name;
 				dprintf("%s(%s): OPP found: %s\n", __func__,
-				voltdm, opp_name);
+					voltdm, opp_name);
 				break;
 			}
-			dprintf(
-				"%s(%s): this was not %s, but probably the next one.\n",
-				__func__, voltdm, opp.name);
+			dprintf
+			    ("%s(%s): this was not %s, but probably the next one.\n",
+			     __func__, voltdm, opp.name);
 		}
 	}
 
@@ -413,7 +405,6 @@ const char *opp_by_voltage_get(const char *voltdm, unsigned short quiet)
 	return opp_name;
 }
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_get
@@ -471,23 +462,22 @@ const char *opp_get(const char *voltdm, unsigned int quiet)
 #if 0
 opp_get_end:
 #endif
-	#ifdef OPP_DEBUG
+#ifdef OPP_DEBUG
 	if (opp != NULL)
 		printf("%s(%s): found %s OPP\n", __func__, voltdm, opp);
 	else
 		printf("%s(%s): OPP not found!\n", __func__, voltdm);
-	#endif
+#endif
 
 	return opp;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		get_rate_and_por
  * @BRIEF		get the rate and por_rate for a specific module.
  *------------------------------------------------------------------------ */
 static void get_rate_and_por(const char *mod_name, const char *opp_s,
-		int *rate, int *rate_por)
+			     int *rate, int *rate_por)
 {
 	*rate = module_clk_rate_get(mod_name, 1);
 	if (strcmp(opp_s, OPP_UNKNOWN) != 0)
@@ -497,43 +487,42 @@ static void get_rate_and_por(const char *mod_name, const char *opp_s,
 	return;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		check_mmode_and_print
  * @BRIEF		check module mode and print the rate with indicating 1
  *			at behind if it is in disabled mode, or print regularly.
  *			And then increment the row number by 1.
  *------------------------------------------------------------------------ */
-static void check_mmode_and_print(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
-		unsigned int *row, const char *mod_name, int rate)
+static void check_mmode_and_print(char
+				  table[TABLE_MAX_ROW][TABLE_MAX_COL]
+				  [TABLE_MAX_ELT_LEN], unsigned int *row,
+				  const char *mod_name, int rate)
 {
 	mod_module_mode mmode;
 
 	mmode = module_mode_get(mod_name);
 	if (mmode == MOD_DISABLED_MODE)
 		snprintf(table[*row][3], TABLE_MAX_ELT_LEN,
-			"(%-4d MHz) (1)", rate / 1000);
+			 "(%-4d MHz) (1)", rate / 1000);
 	else
 		snprintf(table[*row][3], TABLE_MAX_ELT_LEN,
-			" %-4d MHz", rate / 1000);
+			 " %-4d MHz", rate / 1000);
 	(*row)++;
 	return;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		print_rate
  * @BRIEF		print the frequency and increment the row by 1.
  *------------------------------------------------------------------------ */
-static void print_rate(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
-		unsigned int *row, int rate)
+static void print_rate(char
+		       table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
+		       unsigned int *row, int rate)
 {
-	snprintf(table[*row][3], TABLE_MAX_ELT_LEN, " %-4d MHz",
-		rate / 1000);
+	snprintf(table[*row][3], TABLE_MAX_ELT_LEN, " %-4d MHz", rate / 1000);
 	(*row)++;
 	return;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_show
@@ -545,7 +534,7 @@ static void print_rate(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LE
  * @param[in,out]	stream: output file stream (opened, != NULL)
  * @DESCRIPTION		show current operating voltages and key clock rates.
  *------------------------------------------------------------------------ */
-int opp_show(FILE *stream)
+int opp_show(FILE * stream)
 {
 	int start = 0, end = 0;
 	int volt = 0, volt2 = 0;
@@ -554,12 +543,15 @@ int opp_show(FILE *stream)
 	int temp = 0;
 	int rate_mpu = 0, rate_mpu_por = 0;
 	int rate_dsp = 0, rate_eve = 0, rate_iva = 0, rate_gpu = 0;
-	int rate_dsp_por = 0, rate_eve_por = 0, rate_iva_por = 0, rate_gpu_por = 0;
+	int rate_dsp_por = 0, rate_eve_por = 0, rate_iva_por = 0, rate_gpu_por =
+	    0;
 	int rate_l3 = 0, rate_l3_por = 0;
-	int rate_l4 = 0, rate_emif = 0, rate_lpddr2 = 0, rate_aess = 0, rate_aess_por = 0, rate_iss = 0,
-		rate_fdif = 0, rate_dss = 0, rate_bb2d = 0, rate_hsi = 0;
+	int rate_l4 = 0, rate_emif = 0, rate_lpddr2 = 0, rate_aess =
+	    0, rate_aess_por = 0, rate_iss = 0, rate_fdif = 0, rate_dss =
+	    0, rate_bb2d = 0, rate_hsi = 0;
 	/* modules only for dra7 */
-	int rate_dsp2 = 0, rate_eve2 = 0, rate_dmm = 0, rate_emif2 = 0, rate_ipu2 = 0;
+	int rate_dsp2 = 0, rate_eve2 = 0, rate_dmm = 0, rate_emif2 =
+	    0, rate_ipu2 = 0;
 	/* modules for am335x */
 	int rate_l3f = 0, rate_l3f_por = 0, rate_l4_fast = 0;
 
@@ -569,10 +561,11 @@ int opp_show(FILE *stream)
 	unsigned int retry_cnt = 0;
 	unsigned int found = 0;
 	const genlist *voltdm_list = NULL;
-	voltdm_info voltdm = {0};
+	voltdm_info voltdm = { 0 };
 	int i = 0, vdd_count = 0;
-	char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH] = {0},
-		prev_gov2[CPUFREQ_GOV_MAX_NAME_LENGTH] = {0};
+	char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH] = { 0 },
+	    prev_gov2[CPUFREQ_GOV_MAX_NAME_LENGTH] = {
+	0};
 	const char *temp_sensor = NULL;
 
 	/* Switch to userspace governor temporarily,
@@ -618,9 +611,9 @@ int opp_show(FILE *stream)
 
 	for (i = start; i < end; i++) {
 		genlist_get((genlist *) voltdm_list, i,
-			(voltdm_info *) &voltdm);
+			    (voltdm_info *) & voltdm);
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s / VDD_CORE%u",
-				voltdm.name, i);
+			 voltdm.name, i);
 		dprintf("  %s:\n", voltdm.name);
 
 		/* Retrieve OPP and clock rates */
@@ -645,161 +638,182 @@ int opp_show(FILE *stream)
 
 			if (strcmp(voltdm.name, VDD_MPU) == 0) {
 				get_rate_and_por(MOD_MPU, opp_s, &rate_mpu,
-						&rate_mpu_por);
-				dprintf("      MPU Rate: %dKHz, POR Rate: %dKHz\n",
-					rate_mpu, rate_mpu_por);
-			} else if (cpu_is_dra7xx() &&
-					(strcmp(voltdm.name, VDD_IVA) == 0)) {
+						 &rate_mpu_por);
+				dprintf
+				    ("      MPU Rate: %dKHz, POR Rate: %dKHz\n",
+				     rate_mpu, rate_mpu_por);
+			} else if (cpu_is_dra7xx()
+				   && (strcmp(voltdm.name, VDD_IVA) == 0)) {
 				get_rate_and_por(MOD_IVAHD, opp_s, &rate_iva,
-						&rate_iva_por);
-				dprintf("      IVA Rate: %dKHz, POR Rate: %dKHz\n",
-					rate_iva, rate_iva_por);
-			} else if ((strcmp(voltdm.name, VDD_IVA) == 0) ||
-				(strcmp(voltdm.name, VDD_MM) == 0)) {
+						 &rate_iva_por);
+				dprintf
+				    ("      IVA Rate: %dKHz, POR Rate: %dKHz\n",
+				     rate_iva, rate_iva_por);
+			} else if ((strcmp(voltdm.name, VDD_IVA) == 0)
+				   || (strcmp(voltdm.name, VDD_MM) == 0)) {
 				rate_dsp_por = -1;
 				rate_iva_por = -1;
 				rate_aess_por = -1;
 				rate_gpu_por = -1;
 				get_rate_and_por(MOD_DSP, opp_s, &rate_dsp,
-						&rate_dsp_por);
+						 &rate_dsp_por);
 				if (cpu_is_omap44xx()) {
 					get_rate_and_por(MOD_IVAHD, opp_s,
-						&rate_iva, &rate_iva_por);
+							 &rate_iva,
+							 &rate_iva_por);
 					get_rate_and_por(MOD_AESS, opp_s,
-						&rate_aess, &rate_aess_por);
+							 &rate_aess,
+							 &rate_aess_por);
 				} else if (cpu_is_omap54xx()) {
 					get_rate_and_por(MOD_IVA, opp_s,
-						&rate_iva, &rate_iva_por);
+							 &rate_iva,
+							 &rate_iva_por);
 					get_rate_and_por(MOD_GPU, opp_s,
-						&rate_gpu, &rate_gpu_por);
+							 &rate_gpu,
+							 &rate_gpu_por);
 				}
 
-				dprintf("      DSP Rate: %dMHz, POR Rate: %dMHz\n",
-					rate_dsp, rate_dsp_por);
-				dprintf("      IVA Rate: %dMHz, POR Rate: %dMHz\n",
-					rate_iva, rate_iva_por);
+				dprintf
+				    ("      DSP Rate: %dMHz, POR Rate: %dMHz\n",
+				     rate_dsp, rate_dsp_por);
+				dprintf
+				    ("      IVA Rate: %dMHz, POR Rate: %dMHz\n",
+				     rate_iva, rate_iva_por);
 				if (cpu_is_omap44xx()) {
-					dprintf("      AESS Rate: %dMHz, POR Rate: %dMHz\n",
-						rate_aess, rate_aess_por);
+					dprintf
+					    ("      AESS Rate: %dMHz, POR Rate: %dMHz\n",
+					     rate_aess, rate_aess_por);
 				} else if (cpu_is_omap54xx()) {
-					dprintf("      GPU Rate: %dMHz, POR Rate: %dMHz\n",
-						rate_gpu, rate_gpu_por);
+					dprintf
+					    ("      GPU Rate: %dMHz, POR Rate: %dMHz\n",
+					     rate_gpu, rate_gpu_por);
 				}
 			} else if (strcmp(voltdm.name, VDD_GPU) == 0) {
 				get_rate_and_por(MOD_GPU, opp_s, &rate_gpu,
-						&rate_gpu_por);
-				dprintf("      GPU Rate: %dKHz, POR Rate: %dKHz\n",
-					rate_gpu, rate_gpu_por);
+						 &rate_gpu_por);
+				dprintf
+				    ("      GPU Rate: %dKHz, POR Rate: %dKHz\n",
+				     rate_gpu, rate_gpu_por);
 			} else if (strcmp(voltdm.name, VDD_CORE) == 0) {
 				/* Common modules for OMAP devices */
 				get_rate_and_por(MOD_L3_MAIN1_INTERCONNECT,
-						opp_s, &rate_l3, &rate_l3_por);
-				dprintf("      L3_1 Rate: %dMHz, POR Rate: %dMHz\n",
-					rate_l3, rate_l3_por);
+						 opp_s, &rate_l3, &rate_l3_por);
+				dprintf
+				    ("      L3_1 Rate: %dMHz, POR Rate: %dMHz\n",
+				     rate_l3, rate_l3_por);
 				if (!cpu_is_am335x()) {
-					rate_l4 = module_clk_rate_get(
-						MOD_L4_CFG_INTERCONNECT, 1);
+					rate_l4 =
+					    module_clk_rate_get
+					    (MOD_L4_CFG_INTERCONNECT, 1);
 				} else {
-					rate_l4 = module_clk_rate_get(
-						MOD_L4_PER_INTERCONNECT, 1);
+					rate_l4 =
+					    module_clk_rate_get
+					    (MOD_L4_PER_INTERCONNECT, 1);
 				}
 				/* End of common modules */
 
 				if (cpu_is_omap44xx()) {
-					rate_emif = module_clk_rate_get(
-							MOD_EMIF1, 1);
-					rate_lpddr2 = module_clk_rate_get(
-							MOD_DDRPHY, 1) / 2;
-					rate_gpu = module_clk_rate_get(
-							MOD_SGX, 1);
-					rate_iss = module_clk_rate_get(
-							MOD_ISS, 1);
-					rate_fdif = module_clk_rate_get(
-							MOD_FDIF, 1);
+					rate_emif =
+					    module_clk_rate_get(MOD_EMIF1, 1);
+					rate_lpddr2 =
+					    module_clk_rate_get(MOD_DDRPHY,
+								1) / 2;
+					rate_gpu =
+					    module_clk_rate_get(MOD_SGX, 1);
+					rate_iss =
+					    module_clk_rate_get(MOD_ISS, 1);
+					rate_fdif =
+					    module_clk_rate_get(MOD_FDIF, 1);
 					rate_cal = -1;
-					rate_ipu = module_clk_rate_get(
-							MOD_MPU_M3, 1);
-					rate_dss = module_clk_rate_get(
-							MOD_DISPC, 1);
-					rate_hsi = module_clk_rate_get(
-							MOD_HSI, 1);
-					rate_c2c = module_clk_rate_get(
-							MOD_C2C, 1);
+					rate_ipu =
+					    module_clk_rate_get(MOD_MPU_M3, 1);
+					rate_dss =
+					    module_clk_rate_get(MOD_DISPC, 1);
+					rate_hsi =
+					    module_clk_rate_get(MOD_HSI, 1);
+					rate_c2c =
+					    module_clk_rate_get(MOD_C2C, 1);
 				} else if (cpu_is_omap54xx()) {
-					rate_emif = module_clk_rate_get(
-							MOD_EMIF1, 1);
-					rate_lpddr2 = module_clk_rate_get(
-							MOD_PHY_EMIF, 1);
-					rate_aess = module_clk_rate_get(
-							MOD_AESS, 1);
-					rate_iss = module_clk_rate_get(
-							MOD_ISS, 1);
-					rate_fdif = module_clk_rate_get(
-							MOD_FDIF, 1);
-					rate_cal = module_clk_rate_get(
-							MOD_CAL, 1);
-					rate_ipu = module_clk_rate_get(
-							MOD_IPU, 1);
-					rate_dss = module_clk_rate_get(
-							MOD_DSS, 1);
-					rate_hsi = module_clk_rate_get(
-							MOD_HSI, 1);
-					rate_c2c = module_clk_rate_get(
-							MOD_C2C, 1);
+					rate_emif =
+					    module_clk_rate_get(MOD_EMIF1, 1);
+					rate_lpddr2 =
+					    module_clk_rate_get(MOD_PHY_EMIF,
+								1);
+					rate_aess =
+					    module_clk_rate_get(MOD_AESS, 1);
+					rate_iss =
+					    module_clk_rate_get(MOD_ISS, 1);
+					rate_fdif =
+					    module_clk_rate_get(MOD_FDIF, 1);
+					rate_cal =
+					    module_clk_rate_get(MOD_CAL, 1);
+					rate_ipu =
+					    module_clk_rate_get(MOD_IPU, 1);
+					rate_dss =
+					    module_clk_rate_get(MOD_DSS, 1);
+					rate_hsi =
+					    module_clk_rate_get(MOD_HSI, 1);
+					rate_c2c =
+					    module_clk_rate_get(MOD_C2C, 1);
 				} else if (cpu_is_dra7xx()) {
-					rate_dmm = module_clk_rate_get(
-							MOD_DMM, 1);
-					rate_emif = module_clk_rate_get(
-							MOD_EMIF1, 1);
-					rate_emif2 = module_clk_rate_get(
-							MOD_EMIF2, 1);
-					rate_lpddr2 = 1000 * clk_dra7xx_rate_get(
-							CLK_DRA7XX_EMIF_PHY_GCLK, 1);
-					rate_ipu = module_clk_rate_get(
-							MOD_IPU1, 1);
-					rate_ipu2 = module_clk_rate_get(
-							MOD_IPU2, 1);
-					rate_dss = module_clk_rate_get(
-							MOD_DSS, 1);
+					rate_dmm =
+					    module_clk_rate_get(MOD_DMM, 1);
+					rate_emif =
+					    module_clk_rate_get(MOD_EMIF1, 1);
+					rate_emif2 =
+					    module_clk_rate_get(MOD_EMIF2, 1);
+					rate_lpddr2 =
+					    1000 *
+					    clk_dra7xx_rate_get
+					    (CLK_DRA7XX_EMIF_PHY_GCLK, 1);
+					rate_ipu =
+					    module_clk_rate_get(MOD_IPU1, 1);
+					rate_ipu2 =
+					    module_clk_rate_get(MOD_IPU2, 1);
+					rate_dss =
+					    module_clk_rate_get(MOD_DSS, 1);
 
 				} else if (cpu_is_am335x()) {
-					get_rate_and_por(MOD_L3_MAIN2_INTERCONNECT,
-							opp_s, &rate_l3f,
-							&rate_l3f_por);
+					get_rate_and_por
+					    (MOD_L3_MAIN2_INTERCONNECT, opp_s,
+					     &rate_l3f, &rate_l3f_por);
 					dprintf("      L3_2 Rate: %dMHz, POR"
-						" Rate: %dMHz\n",
-						rate_l3f, rate_l3f_por);
-					rate_emif = module_clk_rate_get(
-							MOD_EMIF4, 1);
-					rate_lpddr2 = module_clk_rate_get(
-							MOD_PHY_EMIF, 1);
-					rate_l4_fast = module_clk_rate_get(
-							MOD_L4_FAST_INTERCONNECT,
-							1);
+						" Rate: %dMHz\n", rate_l3f,
+						rate_l3f_por);
+					rate_emif =
+					    module_clk_rate_get(MOD_EMIF4, 1);
+					rate_lpddr2 =
+					    module_clk_rate_get(MOD_PHY_EMIF,
+								1);
+					rate_l4_fast =
+					    module_clk_rate_get
+					    (MOD_L4_FAST_INTERCONNECT, 1);
 				}
 
 				if (cpu_is_omap4470() || cpu_is_omap54xx() ||
-						cpu_is_dra7xx())
-					rate_bb2d = module_clk_rate_get(
-							MOD_BB2D, 1);
+				    cpu_is_dra7xx())
+					rate_bb2d =
+					    module_clk_rate_get(MOD_BB2D, 1);
 				else
 					rate_bb2d = -1;
 			} else if (strcmp(voltdm.name, VDD_DSPEVE) == 0) {
 				get_rate_and_por(MOD_DSP1, opp_s, &rate_dsp,
-						&rate_dsp_por);
-				dprintf("      DSP Rate: %dKHz, POR Rate: %dKHz\n",
-					rate_dsp, rate_dsp_por);
+						 &rate_dsp_por);
+				dprintf
+				    ("      DSP Rate: %dKHz, POR Rate: %dKHz\n",
+				     rate_dsp, rate_dsp_por);
 				get_rate_and_por(MOD_EVE1, opp_s, &rate_eve,
-						&rate_eve_por);
-				dprintf("      EVE Rate: %dKHz, POR Rate: %dKHz\n",
-					rate_eve, rate_eve_por);
+						 &rate_eve_por);
+				dprintf
+				    ("      EVE Rate: %dKHz, POR Rate: %dKHz\n",
+				     rate_eve, rate_eve_por);
 				rate_dsp2 = module_clk_rate_get(MOD_DSP2, 1);
 				rate_eve2 = module_clk_rate_get(MOD_EVE2, 1);
 			}
 
-
 			if (strcmp(opp_s, OPP_UNKNOWN) == 0) {
-				dprintf("      Could not detect OPP, aborting for this domain.\n");
+				dprintf
+				    ("      Could not detect OPP, aborting for this domain.\n");
 				break;
 			}
 
@@ -815,38 +829,52 @@ int opp_show(FILE *stream)
 			dprintf("      Voltage (2): %dV\n", volt2);
 
 			if (strcmp(voltdm.name, VDD_MPU) == 0) {
-				found = (((rate_mpu / 1000) == (rate_mpu_por / 1000)) &&
-					(strcmp(opp_s, opp_s2) == 0) &&
-					(volt == volt2));
-			} else if (cpu_is_dra7xx() && (strcmp(voltdm.name, VDD_IVA) == 0)) {
-				found = ((strcmp(opp_s, opp_s2) == 0) &&
-					(volt == volt2) &&
-					((rate_iva / 1000) == (rate_iva_por / 1000)));
+				found =
+				    (((rate_mpu / 1000) ==
+				      (rate_mpu_por / 1000))
+				     && (strcmp(opp_s, opp_s2) == 0)
+				     && (volt == volt2));
+			} else if (cpu_is_dra7xx()
+				   && (strcmp(voltdm.name, VDD_IVA) == 0)) {
+				found = ((strcmp(opp_s, opp_s2) == 0)
+					 && (volt == volt2)
+					 && ((rate_iva / 1000) ==
+					     (rate_iva_por / 1000)));
 			} else if (strcmp(voltdm.name, VDD_IVA) == 0) {
 				found = ((strcmp(opp_s, opp_s2) == 0) &&
-					(volt == volt2) &&
-					(((rate_dsp / 1000) == (rate_dsp_por / 1000)) ||
-						((rate_iva / 1000) == (rate_iva_por / 1000)) ||
-						((rate_aess / 1000) == (rate_aess_por / 1000))));
+					 (volt == volt2) &&
+					 (((rate_dsp / 1000) ==
+					   (rate_dsp_por / 1000))
+					  || ((rate_iva / 1000) ==
+					      (rate_iva_por / 1000))
+					  || ((rate_aess / 1000) ==
+					      (rate_aess_por / 1000))));
 			} else if (strcmp(voltdm.name, VDD_MM) == 0) {
 				found = ((strcmp(opp_s, opp_s2) == 0) &&
-					(volt == volt2) &&
-					(((rate_dsp / 1000) == (rate_dsp_por / 1000)) ||
-						((rate_iva / 1000) == (rate_iva_por / 1000)) ||
-						((rate_gpu / 1000) == (rate_gpu_por / 1000))));
+					 (volt == volt2) &&
+					 (((rate_dsp / 1000) ==
+					   (rate_dsp_por / 1000))
+					  || ((rate_iva / 1000) ==
+					      (rate_iva_por / 1000))
+					  || ((rate_gpu / 1000) ==
+					      (rate_gpu_por / 1000))));
 			} else if (strcmp(voltdm.name, VDD_CORE) == 0) {
 				found = ((strcmp(opp_s, opp_s2) == 0) &&
-					(volt == volt2) &&
-					((rate_l3 / 1000) == (rate_l3_por / 1000)));
+					 (volt == volt2) &&
+					 ((rate_l3 / 1000) ==
+					  (rate_l3_por / 1000)));
 			} else if (strcmp(voltdm.name, VDD_GPU) == 0) {
 				found = ((strcmp(opp_s, opp_s2) == 0) &&
-					(volt == volt2) &&
-					((rate_gpu / 1000) == (rate_gpu_por / 1000)));
+					 (volt == volt2) &&
+					 ((rate_gpu / 1000) ==
+					  (rate_gpu_por / 1000)));
 			} else if (strcmp(voltdm.name, VDD_DSPEVE) == 0) {
 				found = ((strcmp(opp_s, opp_s2) == 0) &&
-					(volt == volt2) &&
-					(((rate_dsp / 1000) == (rate_dsp_por / 1000)) ||
-						((rate_eve / 1000) == (rate_eve_por / 1000))));
+					 (volt == volt2) &&
+					 (((rate_dsp / 1000) ==
+					   (rate_dsp_por / 1000))
+					  || ((rate_eve / 1000) ==
+					      (rate_eve_por / 1000))));
 			}
 			dprintf("      found=%u\n", found);
 
@@ -861,11 +889,11 @@ int opp_show(FILE *stream)
 			temp = hwtemp_sensor_get(temp_sensor);
 			if (temp != TEMP_ABSOLUTE_ZERO)
 				snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-					"%dC / %dF", temp,
-					celcius2fahrenheit(temp));
+					 "%dC / %dF", temp,
+					 celcius2fahrenheit(temp));
 			else
 				snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-					"NA");
+					 "NA");
 		}
 
 		/* Print voltage */
@@ -873,15 +901,14 @@ int opp_show(FILE *stream)
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "NA");
 		else if (!cpu_is_omap44xx())
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.3lf V",
-				uv2v(volt));
+				 uv2v(volt));
 		else
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.6lf V",
-				uv2v(volt));
+				 uv2v(volt));
 
 		/* Print OPP */
 		if (retry_cnt < OPP_MAX_RETRY) {
-			strncpy(table[row][4], opp_s,
-				TABLE_MAX_ELT_LEN);
+			strncpy(table[row][4], opp_s, TABLE_MAX_ELT_LEN);
 		} else {
 			fprintf(stderr,
 				"omapconf: too many %s OPP changes, could not retrieve it!!!\n",
@@ -894,203 +921,261 @@ int opp_show(FILE *stream)
 		if (strcmp(voltdm.name, VDD_MPU) == 0) {
 			if (cpu_is_am335x()) {
 				if (cpu_is_online(0) == 1)
-					strncpy(table[row][0], "  MPU (CPU0 ON)",
+					strncpy(table[row][0],
+						"  MPU (CPU0 ON)",
 						TABLE_MAX_ELT_LEN);
 				else
-					strncpy(table[row][0], "  MPU (CPU0 OFF)",
+					strncpy(table[row][0],
+						"  MPU (CPU0 OFF)",
 						TABLE_MAX_ELT_LEN);
 
 			} else {
 				if (cpu_is_online(1) == 1)
-					strncpy(table[row][0], "  MPU (CPU1 ON)",
+					strncpy(table[row][0],
+						"  MPU (CPU1 ON)",
 						TABLE_MAX_ELT_LEN);
 				else
-					strncpy(table[row][0], "  MPU (CPU1 OFF)",
+					strncpy(table[row][0],
+						"  MPU (CPU1 OFF)",
 						TABLE_MAX_ELT_LEN);
 			}
 			print_rate(table, &row, rate_mpu);
 			row++;
 		} else if (strcmp(voltdm.name, VDD_CORE) == 0) {
-			if(cpu_is_am335x())
+			if (cpu_is_am335x())
 				strncpy(table[row][0], "  L3_SLOW",
 					TABLE_MAX_ELT_LEN);
 			else
-				strncpy(table[row][0], "  L3", TABLE_MAX_ELT_LEN);
+				strncpy(table[row][0], "  L3",
+					TABLE_MAX_ELT_LEN);
 			print_rate(table, &row, rate_l3);
 
 			if (cpu_is_omap44xx()) {
 				strncpy(table[row][0], "  DMM/EMIF",
-						TABLE_MAX_ELT_LEN);
+					TABLE_MAX_ELT_LEN);
 				print_rate(table, &row, rate_emif);
 			} else if (cpu_is_omap54xx()) {
 				strncpy(table[row][0], "  DMM/EMIF",
-						TABLE_MAX_ELT_LEN);
+					TABLE_MAX_ELT_LEN);
 				print_rate(table, &row, rate_emif);
 			} else if (cpu_is_am335x()) {
 				strncpy(table[row][0], "  L3_FAST",
-						TABLE_MAX_ELT_LEN);
+					TABLE_MAX_ELT_LEN);
 				print_rate(table, &row, rate_l3f);
 				strncpy(table[row][0], "  EMIF4",
-						TABLE_MAX_ELT_LEN);
+					TABLE_MAX_ELT_LEN);
 				check_mmode_and_print(table, &row,
-						MOD_EMIF4, rate_emif);
+						      MOD_EMIF4, rate_emif);
 			} else {
-				strncpy(table[row][0], "  DMM", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_DMM, rate_dmm);
-				strncpy(table[row][0], "  EMIF1", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_EMIF1, rate_emif);
-				strncpy(table[row][0], "  EMIF2", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_EMIF2, rate_emif2);
+				strncpy(table[row][0], "  DMM",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_DMM,
+						      rate_dmm);
+				strncpy(table[row][0], "  EMIF1",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_EMIF1,
+						      rate_emif);
+				strncpy(table[row][0], "  EMIF2",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_EMIF2,
+						      rate_emif2);
 			}
 
-			if(cpu_is_am335x())
+			if (cpu_is_am335x())
 				strncpy(table[row][0], "    DDR2/DDR3/mDDR",
 					TABLE_MAX_ELT_LEN);
 			else
 				strncpy(table[row][0], "    LP-DDR2",
 					TABLE_MAX_ELT_LEN);
 			print_rate(table, &row, rate_lpddr2);
-			if(cpu_is_am335x())
+			if (cpu_is_am335x())
 				strncpy(table[row][0], "  L4_PER",
 					TABLE_MAX_ELT_LEN);
 			else
-				strncpy(table[row][0], "  L4", TABLE_MAX_ELT_LEN);
+				strncpy(table[row][0], "  L4",
+					TABLE_MAX_ELT_LEN);
 			print_rate(table, &row, rate_l4);
 
 			if (cpu_is_omap44xx()) {
-				strncpy(table[row][0], "  GPU", TABLE_MAX_ELT_LEN);
-				mod_name = mod44xx_get_name(OMAP4_GFX, mod_name);
+				strncpy(table[row][0], "  GPU",
+					TABLE_MAX_ELT_LEN);
+				mod_name =
+				    mod44xx_get_name(OMAP4_GFX, mod_name);
 				check_mmode_and_print(table, &row,
-						(const char*)mod_name, rate_gpu);
-				strncpy(table[row][0], "  FDIF", TABLE_MAX_ELT_LEN);
-				mod_name = mod44xx_get_name(OMAP4_FDIF, mod_name);
+						      (const char *)mod_name,
+						      rate_gpu);
+				strncpy(table[row][0], "  FDIF",
+					TABLE_MAX_ELT_LEN);
+				mod_name =
+				    mod44xx_get_name(OMAP4_FDIF, mod_name);
 				check_mmode_and_print(table, &row,
-						(const char*)mod_name, rate_fdif);
-				strncpy(table[row][0], "  IPU", TABLE_MAX_ELT_LEN);
-				mod_name = mod44xx_get_name(OMAP4_MPU_M3, mod_name);
+						      (const char *)mod_name,
+						      rate_fdif);
+				strncpy(table[row][0], "  IPU",
+					TABLE_MAX_ELT_LEN);
+				mod_name =
+				    mod44xx_get_name(OMAP4_MPU_M3, mod_name);
 				check_mmode_and_print(table, &row,
-						(const char*)mod_name, rate_ipu);
-				strncpy(table[row][0], "    Cortex-M3 Cores", TABLE_MAX_ELT_LEN);
-				mod_name = mod44xx_get_name(OMAP4_MPU_M3, mod_name);
+						      (const char *)mod_name,
+						      rate_ipu);
+				strncpy(table[row][0], "    Cortex-M3 Cores",
+					TABLE_MAX_ELT_LEN);
+				mod_name =
+				    mod44xx_get_name(OMAP4_MPU_M3, mod_name);
 				check_mmode_and_print(table, &row,
-						(const char*)mod_name, rate_ipu/2);
-				strncpy(table[row][0], "  ISS", TABLE_MAX_ELT_LEN);
-				mod_name = mod44xx_get_name(OMAP4_ISS, mod_name);
+						      (const char *)mod_name,
+						      rate_ipu / 2);
+				strncpy(table[row][0], "  ISS",
+					TABLE_MAX_ELT_LEN);
+				mod_name =
+				    mod44xx_get_name(OMAP4_ISS, mod_name);
 				check_mmode_and_print(table, &row,
-						(const char*)mod_name, rate_iss);
-				strncpy(table[row][0], "  DSS", TABLE_MAX_ELT_LEN);
-				mod_name = mod44xx_get_name(OMAP4_DISPC, mod_name);
+						      (const char *)mod_name,
+						      rate_iss);
+				strncpy(table[row][0], "  DSS",
+					TABLE_MAX_ELT_LEN);
+				mod_name =
+				    mod44xx_get_name(OMAP4_DISPC, mod_name);
 				check_mmode_and_print(table, &row,
-						(const char*)mod_name, rate_dss);
-				strncpy(table[row][0], "  HSI", TABLE_MAX_ELT_LEN);
-				mod_name = mod44xx_get_name(OMAP4_HSI, mod_name);
+						      (const char *)mod_name,
+						      rate_dss);
+				strncpy(table[row][0], "  HSI",
+					TABLE_MAX_ELT_LEN);
+				mod_name =
+				    mod44xx_get_name(OMAP4_HSI, mod_name);
 				check_mmode_and_print(table, &row,
-						(const char*)mod_name, rate_hsi);
-				strncpy(table[row][0], "  C2C", TABLE_MAX_ELT_LEN);
-				mod_name = mod44xx_get_name(OMAP4_C2C, mod_name);
+						      (const char *)mod_name,
+						      rate_hsi);
+				strncpy(table[row][0], "  C2C",
+					TABLE_MAX_ELT_LEN);
+				mod_name =
+				    mod44xx_get_name(OMAP4_C2C, mod_name);
 				check_mmode_and_print(table, &row,
-						(const char*)mod_name, rate_c2c);
+						      (const char *)mod_name,
+						      rate_c2c);
 			} else if (cpu_is_omap54xx()) {
-				strncpy(table[row][0], "  AESS", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_AESS, rate_aess);
-				strncpy(table[row][0], "  FDIF", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_FDIF, rate_fdif);
-				strncpy(table[row][0], "  CAL", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_CAL, rate_cal);
-				strncpy(table[row][0], "  IPU", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_IPU, rate_ipu);
+				strncpy(table[row][0], "  AESS",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_AESS,
+						      rate_aess);
+				strncpy(table[row][0], "  FDIF",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_FDIF,
+						      rate_fdif);
+				strncpy(table[row][0], "  CAL",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_CAL,
+						      rate_cal);
+				strncpy(table[row][0], "  IPU",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_IPU,
+						      rate_ipu);
 				strncpy(table[row][0], "    Cortex-M4 Cores",
-						TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_IPU, rate_ipu/2);
-				strncpy(table[row][0], "  ISS", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_ISS, rate_iss);
-				strncpy(table[row][0], "  DSS", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_DSS, rate_dss);
-				strncpy(table[row][0], "  HSI", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_HSI, rate_hsi);
-				strncpy(table[row][0], "  C2C", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_C2C, rate_c2c);
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_IPU,
+						      rate_ipu / 2);
+				strncpy(table[row][0], "  ISS",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_ISS,
+						      rate_iss);
+				strncpy(table[row][0], "  DSS",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_DSS,
+						      rate_dss);
+				strncpy(table[row][0], "  HSI",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_HSI,
+						      rate_hsi);
+				strncpy(table[row][0], "  C2C",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_C2C,
+						      rate_c2c);
 			} else if (cpu_is_am335x()) {
 				strncpy(table[row][0], "  L4_FAST",
 					TABLE_MAX_ELT_LEN);
 				print_rate(table, &row, rate_l4_fast);
 			} else {
-				strncpy(table[row][0], "  IPU1", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_IPU1, rate_ipu);
+				strncpy(table[row][0], "  IPU1",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_IPU1,
+						      rate_ipu);
 				strncpy(table[row][0], "    Cortex-M4 Cores",
-						TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_IPU1, rate_ipu/2);
-				strncpy(table[row][0], "  IPU2", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_IPU2, rate_ipu2);
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_IPU1,
+						      rate_ipu / 2);
+				strncpy(table[row][0], "  IPU2",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_IPU2,
+						      rate_ipu2);
 				strncpy(table[row][0], "    Cortex-M4 Cores",
-						TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_IPU2, rate_ipu2/2);
-				strncpy(table[row][0], "  DSS", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_DSS, rate_dss);
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_IPU2,
+						      rate_ipu2 / 2);
+				strncpy(table[row][0], "  DSS",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_DSS,
+						      rate_dss);
 			}
 
 			if ((cpu_is_omap54xx() &&
-				(cpu_revision_get() != REV_ES1_0)) ||
-				cpu_is_omap4470() || cpu_is_dra7xx()) {
-				strncpy(table[row][0], "  BB2D", TABLE_MAX_ELT_LEN);
+			     (cpu_revision_get() != REV_ES1_0)) ||
+			    cpu_is_omap4470() || cpu_is_dra7xx()) {
+				strncpy(table[row][0], "  BB2D",
+					TABLE_MAX_ELT_LEN);
 				if (cpu_is_omap44xx()) {
-					mod_name = mod44xx_get_name(OMAP4_BB2D, mod_name);
+					mod_name =
+					    mod44xx_get_name(OMAP4_BB2D,
+							     mod_name);
 					check_mmode_and_print(table, &row,
-							(const char*)mod_name, rate_bb2d);
+							      (const char *)
+							      mod_name,
+							      rate_bb2d);
 				} else
 					check_mmode_and_print(table, &row,
-							MOD_BB2D, rate_bb2d);
+							      MOD_BB2D,
+							      rate_bb2d);
 			}
 			row++;
 		} else if ((strcmp(voltdm.name, VDD_IVA) == 0) ||
-			(strcmp(voltdm.name, VDD_MM) == 0)) {
+			   (strcmp(voltdm.name, VDD_MM) == 0)) {
 			strncpy(table[row][0], "  IVA", TABLE_MAX_ELT_LEN);
 			if (cpu_is_omap44xx()) {
-				mod_name = mod44xx_get_name(OMAP4_IVAHD, mod_name);
+				mod_name =
+				    mod44xx_get_name(OMAP4_IVAHD, mod_name);
 				check_mmode_and_print(table, &row,
-						(const char*)mod_name, rate_iva);
+						      (const char *)mod_name,
+						      rate_iva);
 			} else if (cpu_is_omap54xx())
 				check_mmode_and_print(table, &row,
-						MOD_IVA, rate_iva);
+						      MOD_IVA, rate_iva);
 			else
 				check_mmode_and_print(table, &row,
-						MOD_IVAHD, rate_iva);
+						      MOD_IVAHD, rate_iva);
 
 			if (cpu_is_omap44xx()) {
 				strncpy(table[row][0], "  AESS",
-						TABLE_MAX_ELT_LEN);
-				mod_name = mod44xx_get_name(OMAP4_AESS, mod_name);
+					TABLE_MAX_ELT_LEN);
+				mod_name =
+				    mod44xx_get_name(OMAP4_AESS, mod_name);
 				check_mmode_and_print(table, &row,
-						(const char*)mod_name, rate_aess);
+						      (const char *)mod_name,
+						      rate_aess);
 				strncpy(table[row][0], "  DSP",
-						TABLE_MAX_ELT_LEN);
-				mod_name = mod44xx_get_name(OMAP4_DSP, mod_name);
+					TABLE_MAX_ELT_LEN);
+				mod_name =
+				    mod44xx_get_name(OMAP4_DSP, mod_name);
 				check_mmode_and_print(table, &row,
-						(const char*)mod_name, rate_dsp);
+						      (const char *)mod_name,
+						      rate_dsp);
 			} else if (cpu_is_omap54xx()) {
-				strncpy(table[row][0], "  GPU", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_GPU, rate_gpu);
-				strncpy(table[row][0], "  DSP", TABLE_MAX_ELT_LEN);
-				check_mmode_and_print(table, &row,
-						MOD_DSP, rate_dsp);
+				strncpy(table[row][0], "  GPU",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_GPU,
+						      rate_gpu);
+				strncpy(table[row][0], "  DSP",
+					TABLE_MAX_ELT_LEN);
+				check_mmode_and_print(table, &row, MOD_DSP,
+						      rate_dsp);
 			}
 			row++;
 		} else if (strcmp(voltdm.name, VDD_GPU) == 0) {
@@ -1129,7 +1214,6 @@ int opp_show(FILE *stream)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_audit
  * @BRIEF		OPP (Operating Point) audit. Assess for each OPP that
@@ -1145,8 +1229,8 @@ int opp_show(FILE *stream)
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		OPP (Operating Point) audit.
  *------------------------------------------------------------------------ */
-const char *opp_audit(FILE *stream, const char *voltdm,
-	unsigned int *err_nbr, unsigned int *wng_nbr)
+const char *opp_audit(FILE * stream, const char *voltdm,
+		      unsigned int *err_nbr, unsigned int *wng_nbr)
 {
 	/* Check voltage and rates against Data Manual Recommendations */
 

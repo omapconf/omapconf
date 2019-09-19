@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -53,9 +52,7 @@
 #include <timr54xx.h>
 #include <mem.h>
 
-
 static volatile unsigned int *addr_32k = NULL;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_map_32k
@@ -75,7 +72,6 @@ volatile unsigned int *mem_map_32k(void)
 	return mem_map_address(reg_32k);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mem_unmap_32k
  * @BRIEF		unmap given physical address
@@ -84,9 +80,8 @@ volatile unsigned int *mem_map_32k(void)
  *------------------------------------------------------------------------ */
 void mem_unmap_32k(volatile unsigned int *addr)
 {
-	mem_unmap_address((unsigned int *) addr);
+	mem_unmap_address((unsigned int *)addr);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		timestamp_32k_main
@@ -117,12 +112,18 @@ int timestamp_32k_main(int argc, char **argv)
 		clock_gettime(CLOCK_MONOTONIC, &clock_get);
 		gettimeofday(&gtod, NULL);
 		counter_32k = *addr_32k;
-		value_32k = (long long int)((double)counter_32k / 32768 * 1000000);
-		printf("32K to clock_gettime: %lld 32K to gettimeofday: %lld    32K: %u/%lld.%06lld clock_gettime: %u.%06u gtod: %u.%06u\n", \
-			(long long int)(clock_get.tv_sec) * 1000000 + clock_get.tv_nsec / 1000 - value_32k, \
-			(long long int)(gtod.tv_sec) * 1000000 + gtod.tv_usec - value_32k,
-			counter_32k, value_32k / 1000000, (long long int)(value_32k - value_32k / 1000000 * 1000000), \
-			(unsigned int) clock_get.tv_sec, (unsigned int)(clock_get.tv_nsec / 1000), (unsigned int)gtod.tv_sec, (unsigned int)gtod.tv_usec);
+		value_32k =
+		    (long long int)((double)counter_32k / 32768 * 1000000);
+		printf
+		    ("32K to clock_gettime: %lld 32K to gettimeofday: %lld    32K: %u/%lld.%06lld clock_gettime: %u.%06u gtod: %u.%06u\n",
+		     (long long int)(clock_get.tv_sec) * 1000000 +
+		     clock_get.tv_nsec / 1000 - value_32k,
+		     (long long int)(gtod.tv_sec) * 1000000 + gtod.tv_usec -
+		     value_32k, counter_32k, value_32k / 1000000,
+		     (long long int)(value_32k - value_32k / 1000000 * 1000000),
+		     (unsigned int)clock_get.tv_sec,
+		     (unsigned int)(clock_get.tv_nsec / 1000),
+		     (unsigned int)gtod.tv_sec, (unsigned int)gtod.tv_usec);
 	}
 
 	mem_unmap_32k(addr_32k);

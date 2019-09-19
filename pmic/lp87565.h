@@ -41,23 +41,22 @@
  *
  */
 
-
 #ifndef __LP87565_H__
 #define __LP87565_H__
 
 #define LP87565_VSEL_LEN	8
 
 #define LP87565_I2C_BUS	0
-#define LP87565_ID0_ADDR	0x60   /* LP-MPU & GPU */
+#define LP87565_ID0_ADDR	0x60	/* LP-MPU & GPU */
 #define LP87565_PRODUCT_ID_LSB	0
-#define LP87565_VDCDC1_MIN	730000     /* start of 5mV step range is 730mV */
-#define LP87565_VDCDC1_STEP	5000       /* 5mV opeartion range .7 to 1.4v */
-#define LP87565_VDCDC1_ENC_OFF 0x17    /* encode offset to VSEL base */
+#define LP87565_VDCDC1_MIN	730000	/* start of 5mV step range is 730mV */
+#define LP87565_VDCDC1_STEP	5000	/* 5mV opeartion range .7 to 1.4v */
+#define LP87565_VDCDC1_ENC_OFF 0x17	/* encode offset to VSEL base */
 
-#define PQ2_ID1_ADDR    0x61   /* PQ2-MPU */
-#define PQ2_ID0_ADDR    0x62   /* PQ2-GPU */
-#define PQ2_VDCDC1_MIN	530000     /* start at 530mV */
-#define PQ2_VDCDC1_STEP	6250       /* 6.25mV opeartion range .7 to 1.4v */
+#define PQ2_ID1_ADDR    0x61	/* PQ2-MPU */
+#define PQ2_ID0_ADDR    0x62	/* PQ2-GPU */
+#define PQ2_VDCDC1_MIN	530000	/* start at 530mV */
+#define PQ2_VDCDC1_STEP	6250	/* 6.25mV opeartion range .7 to 1.4v */
 #define PQ2_VDCDC1_ENC_OFF 0x0
 
 unsigned short int lp87565_is_present(void);

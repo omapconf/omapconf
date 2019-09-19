@@ -41,16 +41,13 @@
  *
  */
 
-
 #ifndef __GENLIST_H__
 #define __GENLIST_H__
 
-
-#define GENLIST_ERR_ARG			-1 /* incorrect argument(s) */
-#define GENLIST_ERR_MALLOC		-2 /* memory could not be allocated */
-#define GENLIST_ERR_INTERNAL		-3 /* internal error */
-#define GENLIST_ERR_EMPTY		-4 /* list is empty */
-
+#define GENLIST_ERR_ARG			-1	/* incorrect argument(s) */
+#define GENLIST_ERR_MALLOC		-2	/* memory could not be allocated */
+#define GENLIST_ERR_INTERNAL		-3	/* internal error */
+#define GENLIST_ERR_EMPTY		-4	/* list is empty */
 
 typedef struct {
 	void *data;
@@ -58,28 +55,25 @@ typedef struct {
 	void *next;
 } genlist_elt;
 
-
 typedef struct {
 	genlist_elt *head;
 	genlist_elt *tail;
 	unsigned int count;
 } genlist;
 
-
-int genlist_init(genlist *list);
-int genlist_free(genlist *list);
-int genlist_getcount(genlist *list);
-int genlist_isempty(genlist *list);
-int genlist_addhead(genlist *list, void *data, unsigned int data_size);
-int genlist_addtail(genlist *list, void *data, unsigned int data_size);
-int genlist_add(genlist *list,
-	void *data, unsigned int data_size, unsigned int pos);
-int genlist_get(genlist *list, unsigned int pos, void *data);
-int genlist_gethead(genlist *list, void *data);
-int genlist_gettail(genlist *list, void *data);
-int genlist_removehead(genlist *list);
-int genlist_removetail(genlist *list);
-int genlist_remove(genlist *list, unsigned int pos);
-
+int genlist_init(genlist * list);
+int genlist_free(genlist * list);
+int genlist_getcount(genlist * list);
+int genlist_isempty(genlist * list);
+int genlist_addhead(genlist * list, void *data, unsigned int data_size);
+int genlist_addtail(genlist * list, void *data, unsigned int data_size);
+int genlist_add(genlist * list,
+		void *data, unsigned int data_size, unsigned int pos);
+int genlist_get(genlist * list, unsigned int pos, void *data);
+int genlist_gethead(genlist * list, void *data);
+int genlist_gettail(genlist * list, void *data);
+int genlist_removehead(genlist * list);
+int genlist_removetail(genlist * list);
+int genlist_remove(genlist * list, unsigned int pos);
 
 #endif

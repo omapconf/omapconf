@@ -41,19 +41,15 @@
  *
  */
 
-
 #ifndef __LIB54XX_H__
 #define __LIB54XX_H__
 
-
 #include <stdio.h>
 #include <voltdm54xx.h>
-
 
 int lib54xx_export(char *file);
 int lib54xx_import(char *file);
 int lib54xx_voltage_set(voltdm54xx_id vdd_id, double volt);
 int lib54xx_vminsearch(int argc, char *argv[]);
-
 
 #endif

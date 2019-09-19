@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __DPLL_DRA7XX_DATA_H__
 #define __DPLL_DRA7XX_DATA_H__
 
-
 #include <dpll_dra7xx.h>
 #include <voltdm_dra7xx.h>
-
 
 typedef struct {
 	/* Common DPLL type A & B */
@@ -76,15 +73,19 @@ typedef struct {
 	double clkoutldo_rate;
 } dpll_dra7xx_audited_settings;
 
-
 extern const char dpll_dra7xx_names[DPLL_DRA7XX_ID_MAX][DPLL_MAX_NAME_LENGTH];
 extern const char dpll_dra7xx_strings[DPLL_DRA7XX_ID_MAX][DPLL_MAX_NAME_LENGTH];
-extern const char hsdiv_dra7xx_names[HSDIV_DRA7XX_ID_MAX][HSDIV_MAX_NAME_LENGTH];
-const char dpll_dra7xx_output_names[DPLL_DRA7XX_OUTPUT_ID_MAX][DPLL_OUTPUT_MAX_NAME_LENGTH];
+extern const char
+    hsdiv_dra7xx_names[HSDIV_DRA7XX_ID_MAX][HSDIV_MAX_NAME_LENGTH];
+const char
+    dpll_dra7xx_output_names[DPLL_DRA7XX_OUTPUT_ID_MAX]
+    [DPLL_OUTPUT_MAX_NAME_LENGTH];
 const dpll_clk_sources dpll_dra7xx_sources[DPLL_DRA7XX_ID_MAX];
 
 extern short dpll_dra7xx_ignore_m3[DPLL_DRA7XX_ID_MAX];
 extern dpll_dra7xx_audited_settings
-	*dpll_dra7xx_golden_settings_20MHz_table[DPLL_DRA7XX_ID_MAX][OPP_DRA7XX_ID_MAX];
+    *
+    dpll_dra7xx_golden_settings_20MHz_table[DPLL_DRA7XX_ID_MAX]
+    [OPP_DRA7XX_ID_MAX];
 
 #endif

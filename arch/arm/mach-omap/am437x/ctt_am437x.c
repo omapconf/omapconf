@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <cpuinfo.h>
 #include <ctt_am437x.h>
 #include <help.h>
@@ -79,19 +78,19 @@ int ctt_am437x_dump(void)
 	int err = 0;
 
 	printf("The Clock Tree Tool can import register settings from a *.rd1 "
-		"file.\n");
+	       "file.\n");
 	printf("The format of the *.rd1 file is:\n\n");
 	printf("DeviceName %s\n", DEVICE_NAME);
 	printf("<register address> <register value>\n");
 	printf("<register address> <register value>\n");
 	printf("...\n\n");
 	printf("Copy the below output between the begin and end separators "
-		"into a\n");
+	       "into a\n");
 	printf("file with the extension *.rd1 and this file can be read by the"
-		"\n");
+	       "\n");
 	printf("Clock Tree Tool\n\n");
 	printf("|--------------------------- ctt dump begin ------------------"
-		"----|\n");
+	       "----|\n");
 
 	if (!cpu_is_am437x())
 		return OMAPCONF_ERR_CPU;
@@ -104,7 +103,7 @@ int ctt_am437x_dump(void)
 		ret = mem_read(prcm_ctt_reg_table[i].addr, &val);
 		if (ret == 0) {
 			printf("0x%08x 0x%08x\n",
-				prcm_ctt_reg_table[i].addr, val);
+			       prcm_ctt_reg_table[i].addr, val);
 		} else {
 			fprintf(stderr,
 				"omapconf: read error! (addr=0x%08X, err=%d)\n",
@@ -115,11 +114,10 @@ int ctt_am437x_dump(void)
 	}
 
 	printf("|---------------------------- ctt dump end --------------------"
-		"---|\n\n");
+	       "---|\n\n");
 
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctt_am437x_rd1_export
@@ -175,7 +173,6 @@ int ctt_am437x_rd1_export(char *file)
 	return err;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctt_am437x_main
  * @BRIEF		CTT main menu
@@ -209,7 +206,6 @@ int ctt_am437x_main(int argc, char *argv[])
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctt_am437x_regtable_init

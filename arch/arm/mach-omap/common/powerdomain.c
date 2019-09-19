@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <powerdomain.h>
 #include <pwrdm54xx.h>
 #include <pwrdm44xx.h>
@@ -63,9 +62,7 @@
 #define dprintf(format, ...)
 #endif
 
-
-static int _powerdm_info_get(const char *powerdm, powerdm_info *data);
-
+static int _powerdm_info_get(const char *powerdm, powerdm_info * data);
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_init
@@ -74,11 +71,11 @@ static int _powerdm_info_get(const char *powerdm, powerdm_info *data);
  *------------------------------------------------------------------------ */
 void powerdm_init(void)
 {
-	#ifdef PWRDM_DEBUG
+#ifdef PWRDM_DEBUG
 	int i, count;
 	const genlist *pwrdm_list;
 	powerdm_info pwrdm;
-	#endif
+#endif
 
 	if (cpu_is_omap44xx()) {
 		pwrdm44xx_init();
@@ -94,12 +91,13 @@ void powerdm_init(void)
 			"omapconf: %s(): cpu not supported!!!\n", __func__);
 	}
 
-	#ifdef PWRDM_DEBUG
+#ifdef PWRDM_DEBUG
 	pwrdm_list = powerdm_list_get();
 	count = genlist_getcount((genlist *) pwrdm_list);
 	printf("Power Domain List:\n");
 	for (i = 0; i < count; i++) {
-		genlist_get((genlist *) pwrdm_list, i, (powerdm_info *) &pwrdm);
+		genlist_get((genlist *) pwrdm_list, i,
+			    (powerdm_info *) & pwrdm);
 		printf(" %s:\n", pwrdm.name);
 		printf("  ID:%d\n", pwrdm.id);
 		printf("  VoltDM: %s\n", pwrdm.voltdm);
@@ -109,9 +107,8 @@ void powerdm_init(void)
 		printf("\n\n");
 	}
 	printf("Power Domain count: %d\n\n", count);
-	#endif
+#endif
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_deinit
@@ -136,7 +133,6 @@ void powerdm_deinit(void)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_list_get
  * @BRIEF		return the list of power domains
@@ -158,7 +154,6 @@ const genlist *powerdm_list_get(void)
 		return NULL;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_count_get
@@ -183,7 +178,6 @@ int powerdm_count_get(void)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		_powerdm_info_get
  * @BRIEF		return the saved informations of a given power domain.
@@ -193,7 +187,7 @@ int powerdm_count_get(void)
  * @param[in,out]	data: power domain details
  * @DESCRIPTION		return the saved informations of a given power domain.
  *------------------------------------------------------------------------ */
-static int _powerdm_info_get(const char *powerdm, powerdm_info *data)
+static int _powerdm_info_get(const char *powerdm, powerdm_info * data)
 {
 	const genlist *pwrdm_list;
 	int i, count;
@@ -204,7 +198,7 @@ static int _powerdm_info_get(const char *powerdm, powerdm_info *data)
 	pwrdm_list = powerdm_list_get();
 	count = genlist_getcount((genlist *) pwrdm_list);
 	for (i = 0; i < count; i++) {
-		genlist_get((genlist *) pwrdm_list, i, (void *) data);
+		genlist_get((genlist *) pwrdm_list, i, (void *)data);
 		if (strcmp(data->name, powerdm) == 0) {
 			dprintf("%s(%s): found.\n", __func__, powerdm);
 			return 0;
@@ -214,7 +208,6 @@ static int _powerdm_info_get(const char *powerdm, powerdm_info *data)
 	dprintf("%s(%s): not found!\n", __func__, powerdm);
 	return -1;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_has_last_power_state
@@ -247,13 +240,12 @@ unsigned int powerdm_has_last_power_state(const char *powerdm)
 			__func__, powerdm);
 		return 1;
 	} else {
-		dprintf(
-			"%s(%s): does NOT have LASTPOWERSTATEENTERED bitfield\n",
-			__func__, powerdm);
+		dprintf
+		    ("%s(%s): does NOT have LASTPOWERSTATEENTERED bitfield\n",
+		     __func__, powerdm);
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_has_logic_ret_state_ctrl_bit
@@ -315,7 +307,6 @@ int powerdm_id_get(const char *powerdm)
 	return id;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_voltdm_get
  * @BRIEF		return the voltage domain name a power domain is part of
@@ -341,7 +332,6 @@ const char *powerdm_voltdm_get(const char *powerdm)
 	dprintf("%s(%s) = %s\n", __func__, powerdm, data.voltdm);
 	return data.voltdm;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_pwrstctrl_reg_get
@@ -375,7 +365,6 @@ reg *powerdm_pwrstctrl_reg_get(const char *powerdm)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_pwrstst_reg_get
  * @BRIEF		return the PWRSTST register of a given power domain
@@ -407,7 +396,6 @@ reg *powerdm_pwrstst_reg_get(const char *powerdm)
 		return NULL;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_target_logic_ret_state_get
@@ -444,8 +432,6 @@ pwrdm_state powerdm_target_logic_ret_state_get(const char *powerdm)
 	return state;
 }
 
-
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_logic_state_get
  * @BRIEF		return the current logic state of a given power domain
@@ -472,8 +458,6 @@ pwrdm_state powerdm_logic_state_get(const char *powerdm)
 		pwrdm_state_name_get(state));
 	return state;
 }
-
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_state_get
@@ -519,11 +503,9 @@ pwrdm_state powerdm_state_get(const char *powerdm, pwrdm_state_type type)
 	/* Retrieve power domain state */
 	state = pwrdm_state_get(pm_reg, type);
 	dprintf("%s(%s, %s) = %s\n", __func__, powerdm,
-		pwrdm_state_type_name_get(type),
-		pwrdm_state_name_get(state));
+		pwrdm_state_type_name_get(type), pwrdm_state_name_get(state));
 	return state;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_in_transition
@@ -549,18 +531,17 @@ unsigned int powerdm_in_transition(const char *powerdm)
 	}
 
 	in_transition = pwrdm_in_transition(pm_pwrstst);
-	#ifdef PWRDM_DEBUG
+#ifdef PWRDM_DEBUG
 	if (in_transition)
 		printf("%s(%s): power transition ONGOING.\n",
-			__func__, powerdm);
+		       __func__, powerdm);
 	else
 		printf("%s(%s): NO power transition ongoing.\n",
-			__func__, powerdm);
-	#endif
+		       __func__, powerdm);
+#endif
 
 	return in_transition;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_config_show
@@ -573,7 +554,7 @@ unsigned int powerdm_in_transition(const char *powerdm)
  * @param[in]		powerdm: power domain name
  * @DESCRIPTION		decode and display power domain configuration
  *------------------------------------------------------------------------ */
-int powerdm_config_show(FILE *stream, const char *powerdm)
+int powerdm_config_show(FILE * stream, const char *powerdm)
 {
 	int ret;
 	powerdm_info data;
@@ -613,7 +594,7 @@ int powerdm_config_show(FILE *stream, const char *powerdm)
 		pwrdm_state_name_get(st_tgt), pwrdm_state_name_get(st_last));
 
 	if ((!powerdm_has_logic_ret_state_ctrl_bit(powerdm)) &&
-		(data.pwrstst == NULL))
+	    (data.pwrstst == NULL))
 		goto powerdm_config_show_mem;
 
 	st_tgt = powerdm_target_logic_ret_state_get(powerdm);
@@ -633,10 +614,10 @@ powerdm_config_show_mem:
 		pm_pwrstctrl = powerdm_pwrstctrl_reg_get(powerdm);
 		pm_pwrstst = powerdm_pwrstst_reg_get(powerdm);
 		ret = pwrdm44xx_config_show(stream, powerdm,
-			reg_addr_get(pm_pwrstctrl),
-			reg_read(pm_pwrstctrl),
-			reg_addr_get(pm_pwrstst),
-			reg_read(pm_pwrstst));
+					    reg_addr_get(pm_pwrstctrl),
+					    reg_read(pm_pwrstctrl),
+					    reg_addr_get(pm_pwrstst),
+					    reg_read(pm_pwrstst));
 	} else if (cpu_is_omap54xx()) {
 		ret = pwrdm54xx_config_show(stream, data);
 	} else {
@@ -659,7 +640,6 @@ powerdm_config_show_mem:
 	return ret;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_emu_enable
  * @BRIEF		Power ON EMU domain and clocks.
@@ -672,12 +652,13 @@ void powerdm_emu_enable(void)
 	} else if (cpu_is_omap54xx()) {
 		if (cpu_revision_get() == REV_ES1_0)
 			mem_write(OMAP5430ES1_CM_L3INSTR_L3_MAIN_3_CLKCTRL,
-				0x1);
+				  0x1);
 		else
 			mem_write(OMAP5430_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x1);
 	} else if (cpu_is_dra7xx()) {
 		mem_write(DRA7XX_CORE_CM_CORE_CM_L3MAIN1_CLKSTCTRL, 0x1);
-		mem_write(DRA7XX_CORE_CM_CORE_CM_L3INSTR_L3_MAIN_2_CLKCTRL, 0x1);
+		mem_write(DRA7XX_CORE_CM_CORE_CM_L3INSTR_L3_MAIN_2_CLKCTRL,
+			  0x1);
 		mem_write(DRA7XX_CORE_CM_CORE_CM_L3INSTR_L3_INSTR_CLKCTRL, 0x1);
 	} else {
 		fprintf(stderr,
@@ -685,7 +666,6 @@ void powerdm_emu_enable(void)
 			__func__);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		powerdm_emu_disable
@@ -699,12 +679,13 @@ void powerdm_emu_disable(void)
 	} else if (cpu_is_omap54xx()) {
 		if (cpu_revision_get() == REV_ES1_0)
 			mem_write(OMAP5430ES1_CM_L3INSTR_L3_MAIN_3_CLKCTRL,
-				0x0);
+				  0x0);
 		else
 			mem_write(OMAP5430_CM_L3INSTR_L3_MAIN_3_CLKCTRL, 0x0);
 	} else if (cpu_is_dra7xx()) {
 		mem_write(DRA7XX_CORE_CM_CORE_CM_L3MAIN1_CLKSTCTRL, 0x0);
-		mem_write(DRA7XX_CORE_CM_CORE_CM_L3INSTR_L3_MAIN_2_CLKCTRL, 0x0);
+		mem_write(DRA7XX_CORE_CM_CORE_CM_L3INSTR_L3_MAIN_2_CLKCTRL,
+			  0x0);
 		mem_write(DRA7XX_CORE_CM_CORE_CM_L3INSTR_L3_INSTR_CLKCTRL, 0x0);
 	} else {
 		fprintf(stderr,

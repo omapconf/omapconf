@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <ctrlmod54xx.h>
 #include <ctrlmod54xx-data.h>
 #include <ctrlmod_core54xx-defs.h>
@@ -53,7 +52,6 @@
 #include <autoadjust_table.h>
 #include <help.h>
 
-
 /* #define CTRLMOD54XX_DEBUG */
 #ifdef CTRLMOD54XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -61,27 +59,26 @@
 #define dprintf(format, ...)
 #endif
 
-
 reg **ctrlmod54xxes1_mods[CTRLMOD54XX_MODS_COUNT] = {
-	(reg **) &omap5430es1_ctrl_module_core_mod,
-	(reg **) &omap5430es1_ctrl_module_core_pad_mod,
-	(reg **) &omap5430es1_ctrl_module_wkup_mod,
-	(reg **) &omap5430_ctrl_module_wkup_pad_mod};
-
+	(reg **) & omap5430es1_ctrl_module_core_mod,
+	(reg **) & omap5430es1_ctrl_module_core_pad_mod,
+	(reg **) & omap5430es1_ctrl_module_wkup_mod,
+	(reg **) & omap5430_ctrl_module_wkup_pad_mod
+};
 
 reg **ctrlmod54xx_mods[CTRLMOD54XX_MODS_COUNT] = {
-	(reg **) &omap5430_ctrl_module_core_mod,
-	(reg **) &omap5430_ctrl_module_core_pad_mod,
-	(reg **) &omap5430_ctrl_module_wkup_mod,
-	(reg **) &omap5430_ctrl_module_wkup_pad_mod};
-
+	(reg **) & omap5430_ctrl_module_core_mod,
+	(reg **) & omap5430_ctrl_module_core_pad_mod,
+	(reg **) & omap5430_ctrl_module_wkup_mod,
+	(reg **) & omap5430_ctrl_module_wkup_pad_mod
+};
 
 const char *ctrlmod54xx_mods_name[CTRLMOD54XX_MODS_COUNT] = {
 	"CONTROL MODULE CORE",
 	"CONTROL MODULE CORE PAD",
 	"CONTROL MODULE WKUP",
-	"CONTROL MODULE WKUP PAD"};
-
+	"CONTROL MODULE WKUP PAD"
+};
 
 typedef enum {
 	CTRLMOD54XX_IDX_CORE,
@@ -91,7 +88,6 @@ typedef enum {
 	CTRLMOD54XX_IDX_ALL,
 	CTRLMOD54XX_IDX_MAX
 } ctrlmod54xx_index;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctrlmod54xx_mod_name_get
@@ -113,7 +109,6 @@ const char *ctrlmod54xx_mod_name_get(ctrlmod54xx_mod_id id)
 	return ctrlmod54xx_mods_name[id];
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctrlmod54xx_dump
  * @BRIEF		dump selected registers and pretty-print it in selected
@@ -127,7 +122,7 @@ const char *ctrlmod54xx_mod_name_get(ctrlmod54xx_mod_id id)
  * @DESCRIPTION		dump selected registers and pretty-print it in selected
  *			output stream
  *------------------------------------------------------------------------ */
-int ctrlmod54xx_dump(FILE *stream, ctrlmod54xx_mod_id id)
+int ctrlmod54xx_dump(FILE * stream, ctrlmod54xx_mod_id id)
 {
 	unsigned int i = 0, mid;
 	unsigned int val = 0;
@@ -159,16 +154,15 @@ int ctrlmod54xx_dump(FILE *stream, ctrlmod54xx_mod_id id)
 
 	if (id != CTRLMOD54XX_MODS_COUNT)
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s Reg. Name",
-			ctrlmod54xx_mod_name_get(id));
+			 ctrlmod54xx_mod_name_get(id));
 	else
 		strncpy(table[row][0], "CTRLMOD Reg. Name", TABLE_MAX_ELT_LEN);
-	strncpy(table[row][1], "Reg. Address",
-		TABLE_MAX_ELT_LEN);
+	strncpy(table[row][1], "Reg. Address", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][2], "Reg. Value", TABLE_MAX_ELT_LEN);
 	row++;
 
 	for (mid = CTRLMOD54XX_CTRL_MODULE_CORE;
-		mid < CTRLMOD54XX_MODS_COUNT; mid++) {
+	     mid < CTRLMOD54XX_MODS_COUNT; mid++) {
 		if ((id != CTRLMOD54XX_MODS_COUNT) && (mid != id))
 			continue;
 		else {
@@ -185,7 +179,7 @@ int ctrlmod54xx_dump(FILE *stream, ctrlmod54xx_mod_id id)
 				autoadjust_table_strncpy(table, row, 0, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X",
-					r->addr);
+					 r->addr);
 				autoadjust_table_strncpy(table, row, 1, s);
 
 				snprintf(s, TABLE_MAX_ELT_LEN, "0x%08X", val);
@@ -200,7 +194,6 @@ ctrlmod54xx_dump_end:
 	return err;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctrlmod54xx_io_audit
  * @BRIEF		OMAP5 PADCONF/IO audit.
@@ -212,8 +205,8 @@ ctrlmod54xx_dump_end:
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		OMAP5 PADCONF/IO audit.
  *------------------------------------------------------------------------ */
-int ctrlmod54xx_io_audit(FILE *stream, unsigned int *err_nbr,
-	unsigned int *wng_nbr)
+int ctrlmod54xx_io_audit(FILE * stream, unsigned int *err_nbr,
+			 unsigned int *wng_nbr)
 {
 	const char pass[5] = "pass";
 	const char fail[5] = "FAIL";
@@ -235,7 +228,7 @@ int ctrlmod54xx_io_audit(FILE *stream, unsigned int *err_nbr,
 	if (cpu_revision_get() != REV_ES1_0) {
 		fprintf(stream,
 			"No golden settings available for OMAP5430 ES2.x, sorry...\n\n");
-		status = (char *) warning;
+		status = (char *)warning;
 		(*wng_nbr)++;
 		return OMAPCONF_ERR_CPU;
 	}
@@ -246,64 +239,70 @@ int ctrlmod54xx_io_audit(FILE *stream, unsigned int *err_nbr,
 		switch (j) {
 		case 0:
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-				"CONTROL MODULE CORE registers AUDIT");
+				 "CONTROL MODULE CORE registers AUDIT");
 			if (cpu_revision_get() == REV_ES1_0) {
 				golden_values = (ctrlmod54xx_golden_item *)
-					ctrlmod_core54xxes1_golden_values;
+				    ctrlmod_core54xxes1_golden_values;
 				ctrlmod_regs = omap5430es1_ctrl_module_core_mod;
 				max = OMAP5430ES1_CTRL_MODULE_CORE_MOD_REGCOUNT;
-			} else { /* FIXME WHEN ES2.0 targets available */
+			} else {	/* FIXME WHEN ES2.0 targets available */
 				golden_values = (ctrlmod54xx_golden_item *)
-					ctrlmod_core54xxes1_golden_values;
+				    ctrlmod_core54xxes1_golden_values;
 				ctrlmod_regs = omap5430_ctrl_module_core_mod;
 				max = OMAP5430_CTRL_MODULE_CORE_MOD_REGCOUNT;
 			}
 			break;
 		case 1:
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-				"CONTROL MODULE CORE PADCONF Registers AUDIT");
+				 "CONTROL MODULE CORE PADCONF Registers AUDIT");
 			if (cpu_revision_get() == REV_ES1_0) {
 				golden_values = (ctrlmod54xx_golden_item *)
-					ctrlmod_core_pad54xxes1_golden_values;
+				    ctrlmod_core_pad54xxes1_golden_values;
 				ctrlmod_regs =
-					omap5430es1_ctrl_module_core_pad_mod;
-				max = OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT;
+				    omap5430es1_ctrl_module_core_pad_mod;
+				max =
+				    OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT;
 			} else {
 				golden_values = (ctrlmod54xx_golden_item *)
-					ctrlmod_core_pad54xxes1_golden_values;
+				    ctrlmod_core_pad54xxes1_golden_values;
 				ctrlmod_regs =
-					omap5430_ctrl_module_core_pad_mod;
-				max = OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT;
+				    omap5430_ctrl_module_core_pad_mod;
+				max =
+				    OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT;
 			}
 			break;
 		case 2:
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-				"CONTROL MODULE WKUP Registers AUDIT");
+				 "CONTROL MODULE WKUP Registers AUDIT");
 			if (cpu_revision_get() == REV_ES1_0) {
 				golden_values = (ctrlmod54xx_golden_item *)
-					ctrlmod_wkup54xxes1_golden_values;
+				    ctrlmod_wkup54xxes1_golden_values;
 				ctrlmod_regs = omap5430es1_ctrl_module_wkup_mod;
 				max = OMAP5430ES1_CTRL_MODULE_WKUP_MOD_REGCOUNT;
-			} else { /* FIXME WHEN ES2.0 targets available */
+			} else {	/* FIXME WHEN ES2.0 targets available */
 				golden_values = (ctrlmod54xx_golden_item *)
-					ctrlmod_wkup54xxes1_golden_values;
+				    ctrlmod_wkup54xxes1_golden_values;
 				ctrlmod_regs = omap5430_ctrl_module_wkup_mod;
 				max = OMAP5430ES1_CTRL_MODULE_WKUP_MOD_REGCOUNT;
 			}
 			break;
 		case 3:
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-				"CONTROL MODULE WKUP PADCONF Registers AUDIT");
+				 "CONTROL MODULE WKUP PADCONF Registers AUDIT");
 			if (cpu_revision_get() == REV_ES1_0) {
 				golden_values = (ctrlmod54xx_golden_item *)
-					ctrlmod_wkup_pad54xxes1_golden_values;
-				ctrlmod_regs = omap5430_ctrl_module_wkup_pad_mod;
-				max = OMAP5430_CTRL_MODULE_WKUP_PAD_MOD_REGCOUNT;
-			} else { /* FIXME WHEN ES2.0 targets available */
+				    ctrlmod_wkup_pad54xxes1_golden_values;
+				ctrlmod_regs =
+				    omap5430_ctrl_module_wkup_pad_mod;
+				max =
+				    OMAP5430_CTRL_MODULE_WKUP_PAD_MOD_REGCOUNT;
+			} else {	/* FIXME WHEN ES2.0 targets available */
 				golden_values = (ctrlmod54xx_golden_item *)
-					ctrlmod_wkup_pad54xxes1_golden_values;
-				ctrlmod_regs = omap5430_ctrl_module_wkup_pad_mod;
-				max = OMAP5430_CTRL_MODULE_WKUP_PAD_MOD_REGCOUNT;
+				    ctrlmod_wkup_pad54xxes1_golden_values;
+				ctrlmod_regs =
+				    omap5430_ctrl_module_wkup_pad_mod;
+				max =
+				    OMAP5430_CTRL_MODULE_WKUP_PAD_MOD_REGCOUNT;
 			}
 			break;
 
@@ -318,45 +317,45 @@ int ctrlmod54xx_io_audit(FILE *stream, unsigned int *err_nbr,
 
 			/* Store name & register read content in table */
 			snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s",
-				(ctrlmod_regs[i])->name);
+				 (ctrlmod_regs[i])->name);
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "0x%08X",
-				curr);
+				 curr);
 
 			/* Compare to golden value */
 			switch (golden_values[i].valid) {
 			case DATA_INVALID:
 			case DATA_TBD:
-				status = (char *) warning;
+				status = (char *)warning;
 				(*wng_nbr)++;
 				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-					"   TBD");
+					 "   TBD");
 				break;
 
 			case DATA_VALID:
 				expected = golden_values[i].golden_value;
 				snprintf(table[row][2], TABLE_MAX_ELT_LEN,
-					"0x%08X", expected);
+					 "0x%08X", expected);
 				if (curr != expected) {
-					status = (char *) fail;
+					status = (char *)fail;
 					(*err_nbr)++;
 				} else {
-					status = (char *) pass;
+					status = (char *)pass;
 				}
 				break;
 
 			case DATA_IGNORE:
-				status = (char *) ignore;
+				status = (char *)ignore;
 				break;
 
 			default:
 				fprintf(stderr,
 					"%s(): something's wrong here?! (j=%u, "
 					"i=%u, golden_values[i].valid=%u)\n",
-					__func__, j, i,	golden_values[i].valid);
+					__func__, j, i, golden_values[i].valid);
 			}
 			/* Store status in table */
 			snprintf(table[row++][3], TABLE_MAX_ELT_LEN, "%s",
-				status);
+				 status);
 		}
 
 		if (stream != NULL) {
@@ -382,7 +381,6 @@ int ctrlmod54xx_io_audit(FILE *stream, unsigned int *err_nbr,
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctrlmod54xx_export
  * @BRIEF		export CONTROL MODULE registers content to file, in
@@ -396,7 +394,7 @@ int ctrlmod54xx_io_audit(FILE *stream, unsigned int *err_nbr,
  * @DESCRIPTION		export CONTROL MODULE registers content to file, in
  *			XML format.
  *------------------------------------------------------------------------ */
-int ctrlmod54xx_export(FILE *fp, ctrlmod54xx_mod_id id)
+int ctrlmod54xx_export(FILE * fp, ctrlmod54xx_mod_id id)
 {
 	reg **mod;
 	unsigned int i;
@@ -421,7 +419,6 @@ int ctrlmod54xx_export(FILE *fp, ctrlmod54xx_mod_id id)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctrlmod54xx_import
  * @BRIEF		import CONTROL MODULE registers from XML file
@@ -433,7 +430,7 @@ int ctrlmod54xx_export(FILE *fp, ctrlmod54xx_mod_id id)
  * @DESCRIPTION		import CONTROL MODULE registers from XML file,
  *			generated with lib54xx_export().
  *------------------------------------------------------------------------ */
-int ctrlmod54xx_import(FILE *fp, ctrlmod54xx_mod_id id)
+int ctrlmod54xx_import(FILE * fp, ctrlmod54xx_mod_id id)
 {
 	reg **mod;
 	char line[256], sline[256];
@@ -459,15 +456,15 @@ int ctrlmod54xx_import(FILE *fp, ctrlmod54xx_mod_id id)
 		for (i = 0; mod[i] != NULL; i++) {
 			if (fgets(line, sizeof(line), fp) == NULL)
 				return OMAPCONF_ERR_UNEXPECTED;
-			line[strlen(line) - 1] = '\0'; /* remove ending '\n' */
-			xml_entry = strstr(line, "<"); /* remove spaces */
+			line[strlen(line) - 1] = '\0';	/* remove ending '\n' */
+			xml_entry = strstr(line, "<");	/* remove spaces */
 
 			dprintf("%s(%u (%s)): xml_entry=%s\n", __func__, id,
 				ctrlmod54xx_mod_name_get(id), xml_entry);
 
 			/* Check register id is correct */
 			ret = sscanf(xml_entry, "<register id=\"%u\" %s",
-				&n, sline);
+				     &n, sline);
 			if (ret != 2) {
 				dprintf("%s(%u (%s)): could not get id\n",
 					__func__, id,
@@ -493,7 +490,6 @@ int ctrlmod54xx_import(FILE *fp, ctrlmod54xx_mod_id id)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctrlmod54xx_s2idx
  * @BRIEF		convert string to valid CTRLMOD index
@@ -518,7 +514,6 @@ ctrlmod54xx_index ctrlmod54xx_s2idx(char *s)
 	else
 		return CTRLMOD54XX_IDX_MAX;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctrlmod54xx_main

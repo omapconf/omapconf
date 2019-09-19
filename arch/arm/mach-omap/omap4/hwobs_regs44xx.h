@@ -42,7 +42,6 @@
  *
  */
 
-
 #ifndef __HWOBS_OMAP4_REGS_H__
 #define __HWOBS_OMAP4_REGS_H__
 
@@ -168,4 +167,3 @@
 #define OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_31		(unsigned int) 0x4A30C4DC
 
 #endif /* __HWOBS_OMAP4_REGS_H__ */
-

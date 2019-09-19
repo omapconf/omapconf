@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <lib54xx.h>
 #include <lib.h>
 #include <string.h>
@@ -67,14 +66,12 @@
 #include <genlist.h>
 #include <temperature.h>
 
-
 /* #define LIB54XX_DEBUG */
 #ifdef LIB54XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		lib54xx_voltage_set
@@ -105,11 +102,11 @@ int lib54xx_voltage_set(voltdm54xx_id vdd_id, double volt)
 	 * overriden in case of OPP change.
 	 */
 	printf("Warning: switching CPUFreq governor to 'userspace', otherwise "
-		"voltage change will be overriden...\n");
+	       "voltage change will be overriden...\n");
 	ret_cpufreq = cpufreq_scaling_governor_set("userspace", prev_gov);
 	if (ret_cpufreq < 0)
 		printf("Warning: failed to switch governor. Voltage will be "
-			"overriden in case of OPP change.\n");
+		       "overriden in case of OPP change.\n");
 	else
 		printf("CPUFreq governor switched to 'userspace'.\n");
 	/*
@@ -119,38 +116,36 @@ int lib54xx_voltage_set(voltdm54xx_id vdd_id, double volt)
 	sr_id = sr54xx_vddid2srid(vdd_id);
 	if (sr54xx_avs_is_enabled(sr_id)) {
 		printf("Warning: %s Smart-Reflex AVS is enabled. "
-			"Disabling it...\n", voltdm54xx_name_get(vdd_id));
+		       "Disabling it...\n", voltdm54xx_name_get(vdd_id));
 		ret = sr54xx_avs_enable(sr_id, 0);
 		if (ret == 0)
 			printf("Smartreflex disabled.\n\n");
 		else
 			printf("Warning: Could not disable Smart-Reflex AVS. "
-				"Voltage may be overriden.\n\n");
+			       "Voltage may be overriden.\n\n");
 	} else {
 		printf("Smartreflex disabled.\n\n");
 	}
 
-	ret = voltdm54xx_voltage_set(vdd_id,
-		(unsigned long) (volt * 1000000));
+	ret = voltdm54xx_voltage_set(vdd_id, (unsigned long)(volt * 1000000));
 	if (ret != 0) {
 		fprintf(stderr, "Oups, could not change %s voltage to "
 			"%.3lfV ... (%d)\n\n",
 			voltdm54xx_name_get(vdd_id), volt, ret);
 	} else {
 		printf("%s supply voltage set to %1.3lfV (vsel = 0x%02X).\n\n",
-			voltdm54xx_name_get(vdd_id), volt,
-			smps_uvolt2vsel(vdd_id2smps_id(vdd_id),
-				(unsigned long) (volt * 1000000)));
+		       voltdm54xx_name_get(vdd_id), volt,
+		       smps_uvolt2vsel(vdd_id2smps_id(vdd_id),
+				       (unsigned long)(volt * 1000000)));
 		printf("Warning:\n"
-			"  - Do not re-enable %s smartreflex or new voltage "
-			"will be overriden.\n"
-			"  - Do not change OPP (or use CPUFREQ) or new voltage"
-			" will be overriden.\n\n", voltdm54xx_name_get(vdd_id));
+		       "  - Do not re-enable %s smartreflex or new voltage "
+		       "will be overriden.\n"
+		       "  - Do not change OPP (or use CPUFREQ) or new voltage"
+		       " will be overriden.\n\n", voltdm54xx_name_get(vdd_id));
 	}
 
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		lib54xx_vminsearch
@@ -211,11 +206,11 @@ int lib54xx_vminsearch(int argc, char *argv[])
 	 * overriden in case of OPP change.
 	 */
 	printf("Warning: switching CPUFreq governor to 'userspace', otherwise "
-		"voltage change will be overriden...\n");
+	       "voltage change will be overriden...\n");
 	ret = cpufreq_scaling_governor_set("userspace", prev_gov);
 	if (ret < 0)
 		printf("Warning: failed to switch governor. Voltage will be "
-			"overriden in case of OPP change.\n");
+		       "overriden in case of OPP change.\n");
 	else
 		printf("CPUFreq governor switched to 'userspace'.\n");
 
@@ -226,13 +221,13 @@ int lib54xx_vminsearch(int argc, char *argv[])
 	sr_id = sr54xx_vddid2srid(vdd_id);
 	if (sr54xx_avs_is_enabled(sr_id)) {
 		printf("Warning: %s Smart-Reflex AVS is enabled. "
-			"Disabling it...\n", voltdm54xx_name_get(vdd_id));
+		       "Disabling it...\n", voltdm54xx_name_get(vdd_id));
 		ret = sr54xx_avs_enable(sr_id, 0);
 		if (ret == 0)
 			printf("Smartreflex disabled.\n\n");
 		else
 			printf("Warning: Could not disable Smart-Reflex AVS. "
-				"Voltage may be overriden.\n\n");
+			       "Voltage may be overriden.\n\n");
 	} else {
 		printf("Smartreflex disabled.\n\n");
 	}
@@ -246,21 +241,21 @@ int lib54xx_vminsearch(int argc, char *argv[])
 	dprintf("%s(): vstep=%luuV\n", __func__, vstep);
 
 	printf("Vmin SEARCH on %s domain scaling voltage down from %1.3lfV in "
-		"steps of %lumV, waiting %dms between each step.\n",
-		voltdm54xx_name_get(vdd_id), v, vstep / 1000, ms);
+	       "steps of %lumV, waiting %dms between each step.\n",
+	       voltdm54xx_name_get(vdd_id), v, vstep / 1000, ms);
 	printf("LAST voltage displayed with OK status before crash "
-		"will be the Vmin for %s domain.\n\n",
-		voltdm54xx_name_get(vdd_id));
+	       "will be the Vmin for %s domain.\n\n",
+	       voltdm54xx_name_get(vdd_id));
 	printf("NB:\n  - Make sure your load generator application is "
-		"running in background during the whole procedure.\n");
+	       "running in background during the whole procedure.\n");
 	printf("  - PLATFORM MUST BE REBOOTED AFTER USE "
-		"(NO POSSIBLE RECOVERY).\n\n");
+	       "(NO POSSIBLE RECOVERY).\n\n");
 
 	/* Rounding requested initial voltage */
 	vsel = smps_uvolt2vsel(vdd_id2smps_id(vdd_id),
-		(unsigned long) (v * 1000000));
+			       (unsigned long)(v * 1000000));
 	prev_v = v;
-	v = (double) smps_vsel2uvolt(vdd_id2smps_id(vdd_id), vsel);
+	v = (double)smps_vsel2uvolt(vdd_id2smps_id(vdd_id), vsel);
 	v = v / 1000000;
 	if (v != prev_v)
 		printf("Note: rounded up initial voltage to %.3lfV.\n\n", v);
@@ -268,18 +263,20 @@ int lib54xx_vminsearch(int argc, char *argv[])
 	/* Decreasing voltage step by step until it breaks */
 	printf("Starting Vmin SEARCH...\n");
 
-	for (uv = (unsigned long) (v * 1000000); uv >= 0; uv = uv - vstep) {
+	for (uv = (unsigned long)(v * 1000000); uv >= 0; uv = uv - vstep) {
 		/* Get vsel corresponding to target voltage */
 		vsel = smps_uvolt2vsel(vdd_id2smps_id(vdd_id), uv);
 		temp = temp54xx_get(voltdm2sensor_id(vdd_id));
 		if (temp != TEMP_ABSOLUTE_ZERO)
-			printf("Trying %1.3lfV (SMPS code: 0x%02X, temperature: %dC/%dF)...",
-				smps_vsel2volt(vdd_id2smps_id(vdd_id), vsel),
-				vsel, temp, celcius2fahrenheit(temp));
+			printf
+			    ("Trying %1.3lfV (SMPS code: 0x%02X, temperature: %dC/%dF)...",
+			     smps_vsel2volt(vdd_id2smps_id(vdd_id), vsel), vsel,
+			     temp, celcius2fahrenheit(temp));
 		else
-			printf("Trying %1.3lfV (SMPS code: 0x%02X, temperature: N/A)...",
-				smps_vsel2volt(vdd_id2smps_id(vdd_id), vsel),
-				vsel);
+			printf
+			    ("Trying %1.3lfV (SMPS code: 0x%02X, temperature: N/A)...",
+			     smps_vsel2volt(vdd_id2smps_id(vdd_id), vsel),
+			     vsel);
 		fflush(stdout);
 		ret = smps_voltage_set(vdd_id2smps_id(vdd_id), uv);
 		if (ret != 0) {
@@ -298,7 +295,6 @@ lib54xx_vminsearch_arg_err:
 	return err_arg_msg_show(HELP_VOLT);
 	return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		lib54xx_export
@@ -341,11 +337,11 @@ int lib54xx_export(char *file)
 	if (file == NULL) {
 		/* No file name given, generate default one */
 		strcpy(default_file,
-			"omapconf_export_Mon_Jan_01_00_00_00_CET_1970.xml");
+		       "omapconf_export_Mon_Jan_01_00_00_00_CET_1970.xml");
 		if (tmp != NULL)
 			strftime(default_file, 64,
-				"omapconf_export_%a_%b_%d_%H_%M_%S_%Z_%Y.xml",
-				tmp);
+				 "omapconf_export_%a_%b_%d_%H_%M_%S_%Z_%Y.xml",
+				 tmp);
 		fp = fopen(default_file, "w");
 	} else {
 		fp = fopen(file, "w");
@@ -361,7 +357,7 @@ int lib54xx_export(char *file)
 	strcpy(export_date, "Mon Jan 01 00:00:00 CET 1970");
 	if (tmp != NULL)
 		strftime(export_date, sizeof(export_date),
-			"%a %b %d %H:%M:%S %Z %Y", tmp);
+			 "%a %b %d %H:%M:%S %Z %Y", tmp);
 
 	fprintf(fp,
 		"<omapconf_export export_date=\"%s\" omapconf_version=\"%s\" omapconf_builddate=\"%s\">\n",
@@ -393,9 +389,9 @@ int lib54xx_export(char *file)
 	fprintf(fp, "        <module name=\"PRM\">\n");
 	for (i = 0; i < PRM54XX_MODS_COUNT; i++) {
 		if ((cpu_revision_get() != REV_ES1_0) &&
-			(i == PRM54XX_L4PER_PRM))
-				/* L4_PER does not exist on ES2.x */
-				continue;
+		    (i == PRM54XX_L4PER_PRM))
+			/* L4_PER does not exist on ES2.x */
+			continue;
 		prm54xx_export(fp, (prm54xx_mod_id) i);
 	}
 	fprintf(fp, "        </module>\n");
@@ -404,7 +400,7 @@ int lib54xx_export(char *file)
 	fprintf(fp, "        <module name=\"CM\">\n");
 	for (i = 0; i < CM54XX_MODS_COUNT; i++) {
 		if ((cpu_revision_get() != REV_ES1_0) &&
-			(i == CM54XX_L4PER_CM_CORE))
+		    (i == CM54XX_L4PER_CM_CORE))
 			/* Does not exist on ES2.x */
 			continue;
 		cm54xx_export(fp, (cm54xx_mod_id) i);
@@ -443,14 +439,13 @@ int lib54xx_export(char *file)
 
 	if (file == NULL)
 		printf("Registers successfully exported in \"%s\" file.\n\n",
-			default_file);
+		       default_file);
 	else
 		printf("Registers successfully exported in \"%s\" file.\n\n",
-			file);
+		       file);
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		lib54xx_import
@@ -484,20 +479,19 @@ int lib54xx_import(char *file)
 
 	/* Verify it's a XML file */
 	if (fgets(line, sizeof(line), fp) == NULL) {
-		printf("Oups, empty \"%s\" file?! :-(\n\n",
-			file);
+		printf("Oups, empty \"%s\" file?! :-(\n\n", file);
 		ret = OMAPCONF_ERR_UNEXPECTED;
 		goto lib54xx_import_end;
 	}
 	if (strstr(line, "<?xml version=\"1.0\"?>") == NULL) {
 		printf("Oups, XML header not found in \"%s\" file?! :-(\n\n",
-			file);
+		       file);
 		ret = OMAPCONF_ERR_UNEXPECTED;
 		goto lib54xx_import_end;
 	}
 
 	/* Verify it was generated from OMAPCONF */
-	if (fgets(line, sizeof(line), fp)) { /* Jump empty line */
+	if (fgets(line, sizeof(line), fp)) {	/* Jump empty line */
 		dprintf("unexpected read\n");
 	}
 	if (fgets(line, sizeof(line), fp)) {
@@ -505,11 +499,10 @@ int lib54xx_import(char *file)
 	}
 	if (sscanf(line, "<omapconf_export %s>", dummy) != 1) {
 		printf("Oups, OMAPCONF header not found in \"%s\" file?! "
-			":-(\n\n", file);
+		       ":-(\n\n", file);
 		ret = OMAPCONF_ERR_UNEXPECTED;
 		goto lib54xx_import_end;
 	}
-
 
 	/* Import PRM registers */
 	for (i = 0; i < PRM54XX_MODS_COUNT; i++) {
@@ -546,7 +539,6 @@ int lib54xx_import(char *file)
 			goto lib54xx_import_end;
 		}
 	}
-
 
 lib54xx_import_end:
 	/* Close file */

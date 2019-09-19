@@ -41,34 +41,29 @@
  *
  */
 
-
 #ifndef __VOLTDOMAIN_H__
 #define __VOLTDOMAIN_H__
-
 
 #include <genlist.h>
 #include <reg.h>
 
-
 #define VOLTDM_MAX_NAME_LENGTH		16
 
-#define VDD_LDO_WKUP	((const char *) "LDO_WKUP") /* OMAP4 */
-#define VDD_WKUP	((const char *) "VDD_WKUP") /* OMAP4 & OMAP5 */
-#define VDD_MPU		((const char *) "VDD_MPU") /* Common */
-#define VDD_IVA		((const char *) "VDD_IVA") /* OMAP4 & DRA7 */
-#define VDD_MM		((const char *) "VDD_MM") /* OMAP5 */
-#define VDD_CORE	((const char *) "VDD_CORE") /* Common */
-#define VDD_RTC		((const char *) "VDD_RTC") /* DRA7 */
-#define VDD_GPU		((const char *) "VDD_GPU") /* DRA7 */
-#define VDD_DSPEVE	((const char *) "VDD_DSPEVE") /* DRA7 */
-
+#define VDD_LDO_WKUP	((const char *) "LDO_WKUP")	/* OMAP4 */
+#define VDD_WKUP	((const char *) "VDD_WKUP")	/* OMAP4 & OMAP5 */
+#define VDD_MPU		((const char *) "VDD_MPU")	/* Common */
+#define VDD_IVA		((const char *) "VDD_IVA")	/* OMAP4 & DRA7 */
+#define VDD_MM		((const char *) "VDD_MM")	/* OMAP5 */
+#define VDD_CORE	((const char *) "VDD_CORE")	/* Common */
+#define VDD_RTC		((const char *) "VDD_RTC")	/* DRA7 */
+#define VDD_GPU		((const char *) "VDD_GPU")	/* DRA7 */
+#define VDD_DSPEVE	((const char *) "VDD_DSPEVE")	/* DRA7 */
 
 typedef struct {
 	const char *name;
 	int id;
 	reg *voltst;
 } voltdm_info;
-
 
 void voltdm_init(void);
 void voltdm_deinit(void);
@@ -86,6 +81,5 @@ int voltdm_voltage_set(const char *voltdm, int uv);
 
 int voltdm_nominal_voltage_get(const char *voltdm);
 int voltdm_por_nominal_voltage_get(const char *voltdm, const char *opp);
-
 
 #endif

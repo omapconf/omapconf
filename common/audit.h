@@ -41,17 +41,14 @@
  *
  */
 
-
 #ifndef __AUDIT_H__
 #define __AUDIT_H__
 
-
 #include <stdio.h>
 
-
-int audit_performances(FILE *stream, unsigned int duration, unsigned int delay);
+int audit_performances(FILE * stream, unsigned int duration,
+		       unsigned int delay);
 
 int audit_performances_main(int argc, char *argv[]);
-
 
 #endif

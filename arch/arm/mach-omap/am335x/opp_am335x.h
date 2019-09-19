@@ -42,13 +42,10 @@
  *
  */
 
-
 #ifndef __OPP_AM335X_H__
 #define __OPP_AM335X_H__
 
-
 #include <voltdm_am335x.h>
-
 
 typedef enum {
 	OPP_AM335X_050,
@@ -61,7 +58,6 @@ typedef enum {
 	OPP_AM335X_ID_MAX
 } opp_am335x_id;
 
-
 void opp_am335x_init(void);
 void opp_am335x_deinit(void);
 
@@ -73,6 +69,5 @@ int opp_am335x_id_get(const char *opp);
 const char *opp_am335x_name_get(opp_am335x_id id);
 const char *opp_am335x_get(voltdm_am335x_id vdd_id);
 const char *opp_am335x_by_rate_get(voltdm_am335x_id vdd_id);
-
 
 #endif

@@ -41,10 +41,8 @@
  *
  */
 
-
 #ifndef __HELP_AM437X_H__
 #define __HELP_AM437X_H__
-
 
 #include <help.h>
 

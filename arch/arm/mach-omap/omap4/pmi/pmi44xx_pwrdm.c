@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <pmi44xx_pwrdm.h>
 #include <stdio.h>
 #include <autoadjust_table.h>
@@ -55,22 +54,19 @@
 #include <cpuinfo.h>
 #include <string.h>
 
-
 /* #define PMI_PWRDM_OMAP4_DEBUG */
 #ifdef PMI_PWRDM_OMAP4_DEBUG
-	#define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
+#define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
-	#define dprintf(format, ...)
+#define dprintf(format, ...)
 #endif
-
 
 typedef struct {
 	pmi_event_class class;
 	unsigned int pm_states_msb;
 	unsigned int pm_states_lsb;
-	double ts; /* relative, in micro-seconds */
+	double ts;		/* relative, in micro-seconds */
 } pwrdm_event;
-
 
 /* #define PMI_PWRDM_TRANSITIONS_FIND_DEBUG */
 #ifdef PMI_PWRDM_TRANSITIONS_FIND_DEBUG
@@ -88,16 +84,16 @@ typedef struct {
  * @param[in]		transitions: list of power transition(s) for each domain
  * @DESCRIPTION		find power domain transition(s) in list of PMI pm events
  *------------------------------------------------------------------------ */
-int pmi_pwrdm_transitions_find(genlist *pm_events,
-	double duration, pwrdm_transitions transitions)
+int pmi_pwrdm_transitions_find(genlist * pm_events,
+			       double duration, pwrdm_transitions transitions)
 {
 	unsigned int pm_states, shift, pos;
 	pwrdm_state pwrdm_st, curr_pwrdm_st = PWRDM_OFF_STATE;
 	pwrdm_transition tr;
 	char pwrdm_state_s[6] = { 0 };
-	#ifdef PMI_PWRDM_TRANSITIONS_FIND_DEBUG
+#ifdef PMI_PWRDM_TRANSITIONS_FIND_DEBUG
 	char *name;
-	#endif
+#endif
 	int pm_evt_count, evt;
 	unsigned int dom;
 	pwrdm_event event;
@@ -108,17 +104,17 @@ int pmi_pwrdm_transitions_find(genlist *pm_events,
 
 	if (pm_events == NULL) {
 		printf("pmi_pwrdm_transitions_find() error: "
-			"pm_events == NULL!\n");
+		       "pm_events == NULL!\n");
 		return OMAPCONF_ERR_ARG;
 	}
 	if (duration == 0.0) {
 		printf("pmi_pwrdm_transitions_get() error: "
-			"duration == 0.0!\n");
+		       "duration == 0.0!\n");
 		return OMAPCONF_ERR_ARG;
 	}
 	if (transitions == NULL) {
 		printf("pmi_pwrdm_transitions_find() error: "
-			"transitions == NULL!\n");
+		       "transitions == NULL!\n");
 		return OMAPCONF_ERR_ARG;
 	}
 
@@ -148,15 +144,15 @@ int pmi_pwrdm_transitions_find(genlist *pm_events,
 		if (dom < OMAP4_PMI_LOGIC_PWRDM_MAX) {
 			class = PMI_PWRDM_CLASS_LOGIC;
 			pos = dom;
-			#ifdef PMI_PWRDM_TRANSITIONS_FIND_DEBUG
-			name = (char *) omap4_pmi_logic_pwrdm_names_table[pos];
-			#endif
+#ifdef PMI_PWRDM_TRANSITIONS_FIND_DEBUG
+			name = (char *)omap4_pmi_logic_pwrdm_names_table[pos];
+#endif
 		} else {
 			class = PMI_PWRDM_CLASS_MEM;
 			pos = dom - OMAP4_PMI_LOGIC_PWRDM_MAX;
-			#ifdef PMI_PWRDM_TRANSITIONS_FIND_DEBUG
-			name = (char *) omap4_pmi_mem_pwrdm_names_table[pos];
-			#endif
+#ifdef PMI_PWRDM_TRANSITIONS_FIND_DEBUG
+			name = (char *)omap4_pmi_mem_pwrdm_names_table[pos];
+#endif
 		}
 		dprintf("\n------------- %s ------------\n", name);
 
@@ -166,8 +162,7 @@ int pmi_pwrdm_transitions_find(genlist *pm_events,
 		for (evt = 0; evt < pm_evt_count; evt++) {
 			dprintf("PM event #%d\n", evt);
 			/* Get pm event */
-			genlist_get(pm_events,
-				pm_evt_count - 1 - evt, &event);
+			genlist_get(pm_events, pm_evt_count - 1 - evt, &event);
 			dprintf("\tevent.pm_states_lsb =0x%08X\n",
 				event.pm_states_lsb);
 			if (event.class == PMI_PWRDM_CLASS_MEM) {
@@ -176,7 +171,7 @@ int pmi_pwrdm_transitions_find(genlist *pm_events,
 			}
 			dprintf("\tevent.class=%d\n", event.class);
 			dprintf("\tevent.ts=%lfus\n", event.ts);
-			time += (double) event.ts;
+			time += (double)event.ts;
 			dprintf("Time is %lfus\n", time);
 			if (event.class != class) {
 				dprintf("PM Event Class is not the same "
@@ -190,7 +185,7 @@ int pmi_pwrdm_transitions_find(genlist *pm_events,
 				pm_states = event.pm_states_lsb;
 				pos = dom;
 				shift = 2 * (15 - pos);
-			} else { /* class == PMI_PWRDM_CLASS_MEM */
+			} else {	/* class == PMI_PWRDM_CLASS_MEM */
 				pos = dom - OMAP4_PMI_LOGIC_PWRDM_MAX;
 				if ((dom - OMAP4_PMI_LOGIC_PWRDM_MAX) < 16) {
 					pm_states = event.pm_states_msb;
@@ -201,13 +196,13 @@ int pmi_pwrdm_transitions_find(genlist *pm_events,
 				}
 			}
 			pwrdm_st = (pwrdm_state)
-				((pm_states & (3 << shift)) >> shift);
+			    ((pm_states & (3 << shift)) >> shift);
 			dprintf("pos=%d, shift=%d, pm_states=0x%08X, "
 				"pwrdm_st=%d\n",
 				pos, shift, pm_states, pwrdm_st);
 			if (pwrdm_st >= PWRDM_STATE_MAX) {
 				printf("pmi_pwrdm_transitions_find() error: "
-					"incorrect state! (%d)\n", pwrdm_st);
+				       "incorrect state! (%d)\n", pwrdm_st);
 				return OMAPCONF_ERR_UNEXPECTED;
 			}
 			pwrdm_state2string(pwrdm_state_s, pwrdm_st);
@@ -226,8 +221,7 @@ int pmi_pwrdm_transitions_find(genlist *pm_events,
 				tr.id = dom;
 				tr.state = curr_pwrdm_st;
 				tr.ts = time - event.ts - ts_last_change;
-				pwrdm_state2string(pwrdm_state_s,
-					tr.state);
+				pwrdm_state2string(pwrdm_state_s, tr.state);
 				dprintf("Domain stayed %s (%d) during %lfus\n",
 					pwrdm_state_s, tr.state, tr.ts);
 				genlist_addtail(&(transitions[dom]),
@@ -235,7 +229,7 @@ int pmi_pwrdm_transitions_find(genlist *pm_events,
 				curr_pwrdm_st = pwrdm_st;
 				ts_last_change = time - event.ts;
 				pwrdm_state2string(pwrdm_state_s,
-					curr_pwrdm_st);
+						   curr_pwrdm_st);
 				dprintf("Domain new state = %s (%d) at %lfus\n",
 					pwrdm_state_s, curr_pwrdm_st,
 					time - event.ts);
@@ -264,11 +258,11 @@ int pmi_pwrdm_transitions_find(genlist *pm_events,
 
 	return pwr_trans_count;
 }
+
 #ifdef PMI_PWRDM_TRANSITIONS_FIND_DEBUG
 #undef dprintf
 #define dprintf(format, ...)
 #endif
-
 
 /* #define PMI_PWRDM_EVENTS_GET_DEBUG */
 #ifdef PMI_PWRDM_EVENTS_GET_DEBUG
@@ -289,7 +283,7 @@ int pmi_pwrdm_transitions_find(genlist *pm_events,
  *				trace file
  * @DESCRIPTION		retrieve PM event(s) from PMI trace file.
  *------------------------------------------------------------------------ */
-int pmi_pwrdm_events_get(char *filename, genlist *pm_events)
+int pmi_pwrdm_events_get(char *filename, genlist * pm_events)
 {
 	double ts;
 	unsigned int pm_class, pm_state_lsb, pm_state_msb;
@@ -300,28 +294,25 @@ int pmi_pwrdm_events_get(char *filename, genlist *pm_events)
 	unsigned int pm_events_count;
 
 	if (pm_events == NULL) {
-		printf("pmi_pwrdm_events_get() error: "
-			"pm_events == NULL!\n");
+		printf("pmi_pwrdm_events_get() error: " "pm_events == NULL!\n");
 		return OMAPCONF_ERR_ARG;
 	}
 	if (filename == NULL) {
-		printf("pmi_pwrdm_events_get() error: "
-			"filename == NULL!\n");
+		printf("pmi_pwrdm_events_get() error: " "filename == NULL!\n");
 		return OMAPCONF_ERR_ARG;
 	}
 
 	fp = fopen(filename, "r");
 	if (fp == NULL) {
 		printf("pmi_pwrdm_events_get() error: "
-			"could not open %s!\n", filename);
+		       "could not open %s!\n", filename);
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
 	genlist_init(pm_events);
 	pm_events_count = 0;
 
-	dprintf("pmi_pwrdm_events_get(): "
-		"parsing trace file...\n");
+	dprintf("pmi_pwrdm_events_get(): " "parsing trace file...\n");
 	while (fgets(line, sizeof(line), fp) != NULL) {
 		/* Looking for D8 headers */
 		if (strstr(line, "D8 (0x4)") == NULL)
@@ -335,7 +326,7 @@ int pmi_pwrdm_events_get(char *filename, genlist *pm_events)
 			return OMAPCONF_ERR_UNEXPECTED;
 		}
 		if (sscanf(line, "\tEvent Class is %s Power Domain (0x%02X)",
-			dummy, &pm_class) != 2) {
+			   dummy, &pm_class) != 2) {
 			printf("could not get class from %s", line);
 			fclose(fp);
 			return OMAPCONF_ERR_UNEXPECTED;
@@ -358,7 +349,7 @@ int pmi_pwrdm_events_get(char *filename, genlist *pm_events)
 		}
 		if (pm_class == PMI_PWRDM_CLASS_LOGIC) {
 			if (sscanf(line, "\t\tEvent Data = 0x%08X",
-				&pm_state_lsb) != 1) {
+				   &pm_state_lsb) != 1) {
 				printf("could not get state from %s", line);
 				fclose(fp);
 				return OMAPCONF_ERR_UNEXPECTED;
@@ -367,7 +358,7 @@ int pmi_pwrdm_events_get(char *filename, genlist *pm_events)
 			pm_state_msb = 0;
 		} else {
 			if (sscanf(line, "\t\tEvent Data = 0x%08X%08X",
-				&pm_state_msb, &pm_state_lsb) != 2) {
+				   &pm_state_msb, &pm_state_lsb) != 2) {
 				printf("could not get state from %s", line);
 				fclose(fp);
 				return OMAPCONF_ERR_UNEXPECTED;
@@ -400,11 +391,11 @@ int pmi_pwrdm_events_get(char *filename, genlist *pm_events)
 
 	return pm_events_count;
 }
+
 #ifdef PMI_PWRDM_EVENTS_GET_DEBUG
 #undef dprintf
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmi_pwrdm_transitions_save
@@ -420,7 +411,7 @@ int pmi_pwrdm_events_get(char *filename, genlist *pm_events)
  * @DESCRIPTION		save power domain transitions it into file.
  *------------------------------------------------------------------------ */
 int pmi_pwrdm_transitions_save(char *filename,
-	pwrdm_transitions transitions, double duration)
+			       pwrdm_transitions transitions, double duration)
 {
 	unsigned int i, dom;
 	pwrdm_transition tr;
@@ -431,19 +422,18 @@ int pmi_pwrdm_transitions_save(char *filename,
 
 	if (transitions == NULL) {
 		printf("pmi_pwrdm_transitions_save(): "
-			"transitions == NULL!\n");
+		       "transitions == NULL!\n");
 		return OMAPCONF_ERR_ARG;
 	}
 	if (filename == NULL) {
-		printf("pmi_pwrdm_transitions_save(): "
-			"filename == NULL!\n");
+		printf("pmi_pwrdm_transitions_save(): " "filename == NULL!\n");
 		return OMAPCONF_ERR_ARG;
 	}
 
 	fp = fopen(filename, "w");
 	if (fp == NULL) {
 		printf("pmi_pwrdm_transitions_save() error: "
-			"could not create %s!\n", filename);
+		       "could not create %s!\n", filename);
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
@@ -464,26 +454,26 @@ int pmi_pwrdm_transitions_save(char *filename,
 		 * => Skip these domains ...
 		 */
 		if (((sorted_domain_class[i] == PMI_PWRDM_CLASS_LOGIC) &&
-				(dom == OMAP4_PMI_LOGIC_PWRDM_A9_C1)) ||
-			((sorted_domain_class[i] == PMI_PWRDM_CLASS_LOGIC) &&
-				(dom == OMAP4_PMI_LOGIC_PWRDM_A9_C0)) ||
-			((sorted_domain_class[i] == PMI_PWRDM_CLASS_MEM) &&
-				(dom == OMAP4_PMI_MEM_PWRDM_MPU_M1)) ||
-			((sorted_domain_class[i] == PMI_PWRDM_CLASS_MEM) &&
-				(dom == OMAP4_PMI_MEM_PWRDM_MPU_M0)))
+		     (dom == OMAP4_PMI_LOGIC_PWRDM_A9_C1)) ||
+		    ((sorted_domain_class[i] == PMI_PWRDM_CLASS_LOGIC) &&
+		     (dom == OMAP4_PMI_LOGIC_PWRDM_A9_C0)) ||
+		    ((sorted_domain_class[i] == PMI_PWRDM_CLASS_MEM) &&
+		     (dom == OMAP4_PMI_MEM_PWRDM_MPU_M1)) ||
+		    ((sorted_domain_class[i] == PMI_PWRDM_CLASS_MEM) &&
+		     (dom == OMAP4_PMI_MEM_PWRDM_MPU_M0)))
 			continue;
 
 		if (sorted_domain_class[i] == PMI_PWRDM_CLASS_LOGIC) {
-			name = (char *) omap4_pmi_logic_pwrdm_names_table[dom];
+			name = (char *)omap4_pmi_logic_pwrdm_names_table[dom];
 		} else {
-			name = (char *) omap4_pmi_mem_pwrdm_names_table[dom];
+			name = (char *)omap4_pmi_mem_pwrdm_names_table[dom];
 			dom += OMAP4_PMI_LOGIC_PWRDM_MAX;
 		}
 
 		fprintf(fp, "%s\n", name);
 		if (genlist_isempty(&(transitions[dom])) == 1) {
 			printf("List %d (%s) should not be empty!!!\n",
-				dom , name);
+			       dom, name);
 			fclose(fp);
 			return OMAPCONF_ERR_UNEXPECTED;
 		}

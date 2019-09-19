@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <clock_am335x.h>
 #include <cpuinfo.h>
 #include <genlist.h>
@@ -54,26 +53,24 @@
 #include <string.h>
 #include <voltdm_am335x.h>
 
-
 #ifdef OPP_AM335X_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
 
-
 genlist vdd_am335x_core_opp_list;
 genlist vdd_am335x_mpu_opp_list;
 genlist vdd_am335x_rtc_opp_list;
 
 genlist *opp_am335x_list_table[VDD_AM335X_ID_MAX] = {
-		[VDD_AM335X_CORE] = &vdd_am335x_core_opp_list,
-		[VDD_AM335X_MPU] = &vdd_am335x_mpu_opp_list,
-		[VDD_AM335X_RTC] = &vdd_am335x_rtc_opp_list};
-
+	[VDD_AM335X_CORE] = &vdd_am335x_core_opp_list,
+	[VDD_AM335X_MPU] = &vdd_am335x_mpu_opp_list,
+	[VDD_AM335X_RTC] = &vdd_am335x_rtc_opp_list
+};
 
 static const char
-	opp_am335x_names_table[OPP_AM335X_ID_MAX + 1][OPP_MAX_NAME_LENGTH] = {
+ opp_am335x_names_table[OPP_AM335X_ID_MAX + 1][OPP_MAX_NAME_LENGTH] = {
 	[OPP_AM335X_050] = "50",
 	[OPP_AM335X_100] = "100",
 	[OPP_AM335X_100_LOW] = "100_LOW",
@@ -81,11 +78,10 @@ static const char
 	[OPP_AM335X_120] = "120",
 	[OPP_AM335X_TURBO] = "TURBO",
 	[OPP_AM335X_NITRO] = "NITRO",
-	[OPP_AM335X_ID_MAX] = "UNKNOWN"};
-
+	[OPP_AM335X_ID_MAX] = "UNKNOWN"
+};
 
 static unsigned short opp_am335x_init_done;
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_am335x_init
@@ -94,22 +90,23 @@ static unsigned short opp_am335x_init_done;
  *------------------------------------------------------------------------ */
 void opp_am335x_init(void)
 {
-	static const opp_t core_opp_50       = {OPP_50,		950000,  50000};
-	static const opp_t core_opp_100	     = {OPP_100,	1100000, 100000};
+	static const opp_t core_opp_50 = { OPP_50, 950000, 50000 };
+	static const opp_t core_opp_100 = { OPP_100, 1100000, 100000 };
 
 	/* For AM335X REV_ES1_0 */
-	static const opp_t mpu_opp_100_l_es1 = {OPP_100_LOW,	1100000, 275000};
-	static const opp_t mpu_opp_100_h_es1 = {OPP_100_HIGH,	1100000, 500000};
-	static const opp_t mpu_opp_120_es1   = {OPP_120,	1200000, 600000};
-	static const opp_t mpu_opp_turbo_es1 = {OPP_TURBO,	1260000, 720000};
+	static const opp_t mpu_opp_100_l_es1 = { OPP_100_LOW, 1100000, 275000 };
+	static const opp_t mpu_opp_100_h_es1 =
+	    { OPP_100_HIGH, 1100000, 500000 };
+	static const opp_t mpu_opp_120_es1 = { OPP_120, 1200000, 600000 };
+	static const opp_t mpu_opp_turbo_es1 = { OPP_TURBO, 1260000, 720000 };
 
 	/* For AM335X REV_ES2_X */
-	static const opp_t mpu_opp_50	     = {OPP_50,		950000,  300000};
-	static const opp_t mpu_opp_100_l     = {OPP_100_LOW,	1100000, 300000};
-	static const opp_t mpu_opp_100_h     = {OPP_100_HIGH,	1100000, 600000};
-	static const opp_t mpu_opp_120       = {OPP_120,	1200000, 720000};
-	static const opp_t mpu_opp_turbo     = {OPP_TURBO,	1260000, 800000};
-	static const opp_t mpu_opp_nitro     = {OPP_NITRO,	1325000, 1000000};
+	static const opp_t mpu_opp_50 = { OPP_50, 950000, 300000 };
+	static const opp_t mpu_opp_100_l = { OPP_100_LOW, 1100000, 300000 };
+	static const opp_t mpu_opp_100_h = { OPP_100_HIGH, 1100000, 600000 };
+	static const opp_t mpu_opp_120 = { OPP_120, 1200000, 720000 };
+	static const opp_t mpu_opp_turbo = { OPP_TURBO, 1260000, 800000 };
+	static const opp_t mpu_opp_nitro = { OPP_NITRO, 1325000, 1000000 };
 
 #ifdef OPP_AM335X_DEBUG
 	int i, count;
@@ -120,34 +117,37 @@ void opp_am335x_init(void)
 	if (!opp_am335x_init_done) {
 		genlist_init(&vdd_am335x_core_opp_list);
 		genlist_addtail(&vdd_am335x_core_opp_list,
-			(void *) &core_opp_50, sizeof(opp_t));
+				(void *)&core_opp_50, sizeof(opp_t));
 		genlist_addtail(&vdd_am335x_core_opp_list,
-			(void *) &core_opp_100, sizeof(opp_t));
+				(void *)&core_opp_100, sizeof(opp_t));
 
 		genlist_init(&vdd_am335x_mpu_opp_list);
 		if (cpu_revision_get() >= REV_ES2_0) {
 			genlist_addtail(&vdd_am335x_mpu_opp_list,
-				(void *) &mpu_opp_50, sizeof(opp_t));
+					(void *)&mpu_opp_50, sizeof(opp_t));
 			genlist_addtail(&vdd_am335x_mpu_opp_list,
-				(void *) &mpu_opp_100_l, sizeof(opp_t));
+					(void *)&mpu_opp_100_l, sizeof(opp_t));
 			genlist_addtail(&vdd_am335x_mpu_opp_list,
-				(void *) &mpu_opp_100_h, sizeof(opp_t));
+					(void *)&mpu_opp_100_h, sizeof(opp_t));
 			genlist_addtail(&vdd_am335x_mpu_opp_list,
-				(void *) &mpu_opp_120, sizeof(opp_t));
+					(void *)&mpu_opp_120, sizeof(opp_t));
 			genlist_addtail(&vdd_am335x_mpu_opp_list,
-				(void *) &mpu_opp_turbo, sizeof(opp_t));
+					(void *)&mpu_opp_turbo, sizeof(opp_t));
 			genlist_addtail(&vdd_am335x_mpu_opp_list,
-				(void *) &mpu_opp_nitro, sizeof(opp_t));
-		}
-		else {
+					(void *)&mpu_opp_nitro, sizeof(opp_t));
+		} else {
 			genlist_addtail(&vdd_am335x_mpu_opp_list,
-				(void *) &mpu_opp_100_l_es1, sizeof(opp_t));
+					(void *)&mpu_opp_100_l_es1,
+					sizeof(opp_t));
 			genlist_addtail(&vdd_am335x_mpu_opp_list,
-				(void *) &mpu_opp_100_h_es1, sizeof(opp_t));
+					(void *)&mpu_opp_100_h_es1,
+					sizeof(opp_t));
 			genlist_addtail(&vdd_am335x_mpu_opp_list,
-				(void *) &mpu_opp_120_es1, sizeof(opp_t));
+					(void *)&mpu_opp_120_es1,
+					sizeof(opp_t));
 			genlist_addtail(&vdd_am335x_mpu_opp_list,
-				(void *) &mpu_opp_turbo_es1, sizeof(opp_t));
+					(void *)&mpu_opp_turbo_es1,
+					sizeof(opp_t));
 		}
 
 		genlist_init(&vdd_am335x_rtc_opp_list);
@@ -157,16 +157,16 @@ void opp_am335x_init(void)
 		printf("%s(): init done.\n", __func__);
 		printf("OPP List:\n");
 		for (vdd = 0; vdd < VDD_AM335X_ID_MAX; vdd++) {
-			count = genlist_getcount(
-				(genlist *) opp_am335x_list_table[vdd]);
-			printf("  %s (%d): ", voltdm_am335x_name_get(vdd), count);
+			count = genlist_getcount((genlist *)
+						 opp_am335x_list_table[vdd]);
+			printf("  %s (%d): ", voltdm_am335x_name_get(vdd),
+			       count);
 			for (i = 0; i < count; i++) {
-				genlist_get(
-					(genlist *) opp_am335x_list_table[vdd],
-					i, (void *) &opp);
-				printf("%s (%.1lfMHz, %.3lfV)",
-					opp.name, khz2mhz(opp.rate),
-					uv2v(opp.voltage));
+				genlist_get((genlist *)
+					    opp_am335x_list_table[vdd], i,
+					    (void *)&opp);
+				printf("%s (%.1lfMHz, %.3lfV)", opp.name,
+				       khz2mhz(opp.rate), uv2v(opp.voltage));
 				if (i != count - 1)
 					printf(", ");
 			}
@@ -175,7 +175,6 @@ void opp_am335x_init(void)
 #endif
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_am335x_deinit
@@ -195,7 +194,6 @@ void opp_am335x_deinit(void)
 	dprintf("%s(): deinit done.\n", __func__);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_am335x_id_get
  * @BRIEF		convert OPP provided as a string (as defined in opp.h)
@@ -211,23 +209,22 @@ int opp_am335x_id_get(const char *opp)
 	CHECK_NULL_ARG(opp, OMAPCONF_ERR_ARG);
 
 	if (strcasecmp(opp, OPP_50) == 0)
-		return (int) OPP_AM335X_050;
+		return (int)OPP_AM335X_050;
 	else if (strcasecmp(opp, OPP_100) == 0)
-		return (int) OPP_AM335X_100;
+		return (int)OPP_AM335X_100;
 	else if (strcasecmp(opp, OPP_100_LOW) == 0)
-		return (int) OPP_AM335X_100_LOW;
+		return (int)OPP_AM335X_100_LOW;
 	else if (strcasecmp(opp, OPP_100_HIGH) == 0)
-		return (int) OPP_AM335X_100_HIGH;
+		return (int)OPP_AM335X_100_HIGH;
 	else if (strcasecmp(opp, OPP_120) == 0)
-		return (int) OPP_AM335X_120;
+		return (int)OPP_AM335X_120;
 	else if (strcasecmp(opp, OPP_TURBO) == 0)
-		return (int) OPP_AM335X_TURBO;
+		return (int)OPP_AM335X_TURBO;
 	else if (strcasecmp(opp, OPP_NITRO) == 0)
-		return (int) OPP_AM335X_NITRO;
+		return (int)OPP_AM335X_NITRO;
 	else
 		return OMAPCONF_ERR_ARG;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_am335x_count_get
@@ -252,7 +249,6 @@ int opp_am335x_count_get(voltdm_am335x_id vdd_id)
 	return count;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_am335x_list_get
  * @BRIEF		return the list of OPP of a given voltage domain
@@ -269,7 +265,6 @@ const genlist *opp_am335x_list_get(voltdm_am335x_id vdd_id)
 
 	return opp_am335x_list_table[vdd_id];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_am335x_by_rate_get
@@ -318,7 +313,7 @@ const char *opp_am335x_by_rate_get(voltdm_am335x_id vdd_id)
 
 	/* Normalize clock rate to 24MHz standard system clock */
 	sys_clk = clk_am335x_rate_get(CLK_AM335X_SYS_CLK, 1);
-	switch ((int) sys_clk) {
+	switch ((int)sys_clk) {
 	case 19:
 		mult = 1.25;
 		break;
@@ -335,13 +330,12 @@ const char *opp_am335x_by_rate_get(voltdm_am335x_id vdd_id)
 		mult = 0.0;
 	}
 
-
 	/*
 	 * If the DPLL clocking the selected module is stopped,
 	 * reported speed will be 0 and OPP cannot be detected.
 	 * Hence, ignore DPLL status.
 	 */
-	rate = (double) module_clk_rate_get(module_name, 1) / 1000.0 * mult;
+	rate = (double)module_clk_rate_get(module_name, 1) / 1000.0 * mult;
 	if (rate < 0.0) {
 		dprintf("%s(): could not retrieve clock speed!\n", __func__);
 		goto opp_am335x_by_rate_get_end;
@@ -362,9 +356,8 @@ const char *opp_am335x_by_rate_get(voltdm_am335x_id vdd_id)
 		goto opp_am335x_by_rate_get_end;
 	}
 
-
 	for (i = 0; i < opp_count; i++) {
-		ret = genlist_get((genlist *) opp_list, i, (opp_t *) &opp);
+		ret = genlist_get((genlist *) opp_list, i, (opp_t *) & opp);
 		if (ret != 0) {
 			dprintf("%s(): could not retrieve OPP from list!\n",
 				__func__);
@@ -373,32 +366,31 @@ const char *opp_am335x_by_rate_get(voltdm_am335x_id vdd_id)
 
 		opp_id = opp_am335x_id_get(opp.name);
 		if (opp_id < 0) {
-			dprintf(
-				"%s(): could not retrieve OPP ID from OPP name!\n",
-				__func__);
+			dprintf
+			    ("%s(): could not retrieve OPP ID from OPP name!\n",
+			     __func__);
 			goto opp_am335x_by_rate_get_end;
 		}
 
-		rate_por = (double) module_por_clk_rate_get(module_name, opp.name)
-				/ 1000.0;
+		rate_por =
+		    (double)module_por_clk_rate_get(module_name, opp.name)
+		    / 1000.0;
 		if (rate_por < 0) {
-			dprintf(
-				"%s(): could not get %s %s POR speed! (%d)\n",
-				__func__, module_name,
-				opp.name, ret);
+			dprintf("%s(): could not get %s %s POR speed! (%d)\n",
+				__func__, module_name, opp.name, ret);
 			goto opp_am335x_by_rate_get_end;
 		}
 		dprintf("%s(%s): %s POR rate for %s is %lf\n",
 			__func__, voltdm_am335x_name_get(vdd_id),
-		module_name, opp.name, rate_por);
-		if ((int) rate == (int) rate_por) {
+			module_name, opp.name, rate_por);
+		if ((int)rate == (int)rate_por) {
 			/*
 			 * The only way to distinguish between OPP50 and
 			 * OPP100 (300MHz) is to look at the voltage range
 			 * (OPP50 is between .912V and .988V)
 			 */
 			if (opp_am335x_id_get(opp.name) == OPP_AM335X_050)
-				if ((int) voltdm_am335x_voltage_get(vdd_id) == 1)
+				if ((int)voltdm_am335x_voltage_get(vdd_id) == 1)
 					continue;
 			opp_name = opp.name;
 			goto opp_am335x_by_rate_get_end;
@@ -412,14 +404,13 @@ opp_am335x_by_rate_get_end:
 #ifdef OPP_AM335X_DEBUG
 	if (opp_name == NULL)
 		printf("%s(%s): OPP not found!\n", __func__,
-			voltdm_am335x_name_get(vdd_id));
+		       voltdm_am335x_name_get(vdd_id));
 	else
 		printf("%s(%s): OPP found: %s\n", __func__,
-			voltdm_am335x_name_get(vdd_id), opp_name);
+		       voltdm_am335x_name_get(vdd_id), opp_name);
 #endif
 	return opp_name;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		opp_am335x_get

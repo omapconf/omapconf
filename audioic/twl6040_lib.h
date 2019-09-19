@@ -42,29 +42,25 @@
  *
  */
 
-
 #ifndef __TWL6040_LIB_H__
 #define __TWL6040_LIB_H__
-
 
 #include <lib.h>
 #include <stdio.h>
 
-
-int twl6040_display_version_config(FILE *stream, unsigned char *regs);
-int twl6040_display_control_config(FILE *stream, unsigned char *regs);
-int twl6040_display_power_config(FILE *stream, unsigned char *regs);
-int twl6040_display_clocking_config(FILE *stream, unsigned char *regs);
-int twl6040_display_interrupts_config(FILE *stream, unsigned char *regs);
-int twl6040_display_biasing_config(FILE *stream, unsigned char *regs);
-int twl6040_display_uplink_config(FILE *stream, unsigned char *regs);
-int twl6040_display_downlink1_config(FILE *stream, unsigned char *regs);
-int twl6040_display_downlink2_config(FILE *stream, unsigned char *regs);
-int twl6040_display_vibrator_config(FILE *stream, unsigned char *regs);
-int twl6040_display_loopback_config(FILE *stream, unsigned char *regs);
-int twl6040_display_gpo_config(FILE *stream, unsigned char *regs);
-int twl6040_display_misc_config(FILE *stream, unsigned char *regs);
-int twl6040_display_gains(FILE *stream, unsigned char *regs);
-
+int twl6040_display_version_config(FILE * stream, unsigned char *regs);
+int twl6040_display_control_config(FILE * stream, unsigned char *regs);
+int twl6040_display_power_config(FILE * stream, unsigned char *regs);
+int twl6040_display_clocking_config(FILE * stream, unsigned char *regs);
+int twl6040_display_interrupts_config(FILE * stream, unsigned char *regs);
+int twl6040_display_biasing_config(FILE * stream, unsigned char *regs);
+int twl6040_display_uplink_config(FILE * stream, unsigned char *regs);
+int twl6040_display_downlink1_config(FILE * stream, unsigned char *regs);
+int twl6040_display_downlink2_config(FILE * stream, unsigned char *regs);
+int twl6040_display_vibrator_config(FILE * stream, unsigned char *regs);
+int twl6040_display_loopback_config(FILE * stream, unsigned char *regs);
+int twl6040_display_gpo_config(FILE * stream, unsigned char *regs);
+int twl6040_display_misc_config(FILE * stream, unsigned char *regs);
+int twl6040_display_gains(FILE * stream, unsigned char *regs);
 
 #endif

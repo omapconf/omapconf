@@ -16,7 +16,6 @@
     (at your option) any later version.
 */
 
-
 #include <stdio.h>
 #include "util.h"
 
@@ -27,7 +26,7 @@ int user_ack(int def)
 	int ret;
 
 	if (!fgets(s, 2, stdin))
-		return 0; /* Nack by default */
+		return 0;	/* Nack by default */
 
 	switch (s[0]) {
 	case 'y':
@@ -54,4 +53,3 @@ int user_ack(int def)
 
 	return ret;
 }
-

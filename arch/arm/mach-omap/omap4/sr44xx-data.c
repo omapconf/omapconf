@@ -42,16 +42,14 @@
  *
  */
 
-
 #include <sr44xx-data.h>
-
 
 const char sr44xx_mod_names[OMAP4_SR_ID_MAX + 1][12] = {
 	"SR MPU",
 	"SR IVA",
 	"SR CORE",
-	"FIXME"};
-
+	"FIXME"
+};
 
 const sr_audit_settings sr4430_mpu_opp50_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -65,8 +63,8 @@ const sr_audit_settings sr4430_mpu_opp50_golden_settings = {
 	.errminlimit = 0xF5,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4430_mpu_opp100_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -80,8 +78,8 @@ const sr_audit_settings sr4430_mpu_opp100_golden_settings = {
 	.errminlimit = 0xF9,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4430_mpu_oppturbo_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -95,8 +93,8 @@ const sr_audit_settings sr4430_mpu_oppturbo_golden_settings = {
 	.errminlimit = 0xFA,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4430_mpu_oppnitro_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -110,8 +108,8 @@ const sr_audit_settings sr4430_mpu_oppnitro_golden_settings = {
 	.errminlimit = 0xFC,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4430_mpu_oppnitrosb_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -125,8 +123,8 @@ const sr_audit_settings sr4430_mpu_oppnitrosb_golden_settings = {
 	.errminlimit = 0xFD,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings *sr4430_mpu_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4430_mpu_opp50_golden_settings,
@@ -134,8 +132,8 @@ const sr_audit_settings *sr4430_mpu_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4430_mpu_opp100_golden_settings,
 	&sr4430_mpu_oppturbo_golden_settings,
 	&sr4430_mpu_oppnitro_golden_settings,
-	&sr4430_mpu_oppnitrosb_golden_settings};
-
+	&sr4430_mpu_oppnitrosb_golden_settings
+};
 
 const sr_audit_settings sr4430_iva_opp50_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -149,8 +147,8 @@ const sr_audit_settings sr4430_iva_opp50_golden_settings = {
 	.errminlimit = 0xF5,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4430_iva_opp100_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -164,8 +162,8 @@ const sr_audit_settings sr4430_iva_opp100_golden_settings = {
 	.errminlimit = 0xF9,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4430_iva_oppturbo_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -179,8 +177,8 @@ const sr_audit_settings sr4430_iva_oppturbo_golden_settings = {
 	.errminlimit = 0xFA,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings *sr4430_iva_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4430_iva_opp50_golden_settings,
@@ -188,8 +186,8 @@ const sr_audit_settings *sr4430_iva_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4430_iva_opp100_golden_settings,
 	&sr4430_iva_oppturbo_golden_settings,
 	NULL,
-	NULL};
-
+	NULL
+};
 
 const sr_audit_settings sr4430_core_opp50_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -203,8 +201,8 @@ const sr_audit_settings sr4430_core_opp50_golden_settings = {
 	.errminlimit = 0xF5,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4430_core_opp100_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -218,8 +216,8 @@ const sr_audit_settings sr4430_core_opp100_golden_settings = {
 	.errminlimit = 0xF9,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings *sr4430_core_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4430_core_opp50_golden_settings,
@@ -227,14 +225,14 @@ const sr_audit_settings *sr4430_core_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4430_core_opp100_golden_settings,
 	NULL,
 	NULL,
-	NULL};
-
+	NULL
+};
 
 const sr_audit_settings **sr4430_golden_settings[OMAP4_SR_ID_MAX] = {
-	(const sr_audit_settings **) &sr4430_mpu_golden_settings,
-	(const sr_audit_settings **) &sr4430_iva_golden_settings,
-	(const sr_audit_settings **) &sr4430_core_golden_settings};
-
+	(const sr_audit_settings **)&sr4430_mpu_golden_settings,
+	(const sr_audit_settings **)&sr4430_iva_golden_settings,
+	(const sr_audit_settings **)&sr4430_core_golden_settings
+};
 
 const sr_audit_settings sr4460_mpu_opp50_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -248,8 +246,8 @@ const sr_audit_settings sr4460_mpu_opp50_golden_settings = {
 	.errminlimit = 0xF3,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4460_mpu_opp100_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -263,8 +261,8 @@ const sr_audit_settings sr4460_mpu_opp100_golden_settings = {
 	.errminlimit = 0xF8,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4460_mpu_oppturbo_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -278,8 +276,8 @@ const sr_audit_settings sr4460_mpu_oppturbo_golden_settings = {
 	.errminlimit = 0xFA,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4460_mpu_oppnitro_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -293,8 +291,8 @@ const sr_audit_settings sr4460_mpu_oppnitro_golden_settings = {
 	.errminlimit = 0xFB,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4460_mpu_oppnitrosb_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -308,8 +306,8 @@ const sr_audit_settings sr4460_mpu_oppnitrosb_golden_settings = {
 	.errminlimit = 0xFC,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings *sr4460_mpu_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4460_mpu_opp50_golden_settings,
@@ -317,8 +315,8 @@ const sr_audit_settings *sr4460_mpu_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4460_mpu_opp100_golden_settings,
 	&sr4460_mpu_oppturbo_golden_settings,
 	&sr4460_mpu_oppnitro_golden_settings,
-	&sr4460_mpu_oppnitrosb_golden_settings};
-
+	&sr4460_mpu_oppnitrosb_golden_settings
+};
 
 const sr_audit_settings sr4460_iva_opp50_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -332,8 +330,8 @@ const sr_audit_settings sr4460_iva_opp50_golden_settings = {
 	.errminlimit = 0xF3,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4460_iva_opp100_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -347,8 +345,8 @@ const sr_audit_settings sr4460_iva_opp100_golden_settings = {
 	.errminlimit = 0xF8,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4460_iva_oppturbo_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -362,8 +360,8 @@ const sr_audit_settings sr4460_iva_oppturbo_golden_settings = {
 	.errminlimit = 0xFA,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4460_iva_oppnitro_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -377,8 +375,8 @@ const sr_audit_settings sr4460_iva_oppnitro_golden_settings = {
 	.errminlimit = 0xFB,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4460_iva_oppnitrosb_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -392,8 +390,8 @@ const sr_audit_settings sr4460_iva_oppnitrosb_golden_settings = {
 	.errminlimit = 0xFC,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings *sr4460_iva_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4460_iva_opp50_golden_settings,
@@ -401,8 +399,8 @@ const sr_audit_settings *sr4460_iva_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4460_iva_opp100_golden_settings,
 	&sr4460_iva_oppturbo_golden_settings,
 	&sr4460_iva_oppnitro_golden_settings,
-	&sr4460_iva_oppnitrosb_golden_settings};
-
+	&sr4460_iva_oppnitrosb_golden_settings
+};
 
 const sr_audit_settings sr4460_core_opp50_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -416,8 +414,8 @@ const sr_audit_settings sr4460_core_opp50_golden_settings = {
 	.errminlimit = 0xF3,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4460_core_opp100_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -431,8 +429,8 @@ const sr_audit_settings sr4460_core_opp100_golden_settings = {
 	.errminlimit = 0xF8,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4460_core_oppturbo_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -446,8 +444,8 @@ const sr_audit_settings sr4460_core_oppturbo_golden_settings = {
 	.errminlimit = 0xFA,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings *sr4460_core_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4460_core_opp50_golden_settings,
@@ -455,16 +453,16 @@ const sr_audit_settings *sr4460_core_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4460_core_opp100_golden_settings,
 	&sr4460_core_oppturbo_golden_settings,
 	NULL,
-	NULL};
-
+	NULL
+};
 
 const sr_audit_settings **sr4460_golden_settings[OMAP4_SR_ID_MAX] = {
-	(const sr_audit_settings **) &sr4460_mpu_golden_settings,
-	(const sr_audit_settings **) &sr4460_iva_golden_settings,
-	(const sr_audit_settings **) &sr4460_core_golden_settings};
+	(const sr_audit_settings **)&sr4460_mpu_golden_settings,
+	(const sr_audit_settings **)&sr4460_iva_golden_settings,
+	(const sr_audit_settings **)&sr4460_core_golden_settings
+};
 
-
-#if 0 /* FIXME when OMAP4470 golden settings available */
+#if 0				/* FIXME when OMAP4470 golden settings available */
 const sr_audit_settings sr4470_mpu_opp50_golden_settings = {
 	.sr_sysclk = 100.0,
 	.irqmode = {0, 0, 0, 0, 1},
@@ -474,11 +472,11 @@ const sr_audit_settings sr4470_mpu_opp50_golden_settings = {
 	.errgen_mode = 1,
 	.idle_mode = MOD_SMART_IDLE_WAKEUP,
 	.wakeupenable = 1,
-	.errminlimit = ,
+	.errminlimit =,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4470_mpu_opp100_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -489,11 +487,11 @@ const sr_audit_settings sr4470_mpu_opp100_golden_settings = {
 	.errgen_mode = 1,
 	.idle_mode = MOD_SMART_IDLE_WAKEUP,
 	.wakeupenable = 1,
-	.errminlimit = ,
+	.errminlimit =,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4470_mpu_oppturbo_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -504,11 +502,11 @@ const sr_audit_settings sr4470_mpu_oppturbo_golden_settings = {
 	.errgen_mode = 1,
 	.idle_mode = MOD_SMART_IDLE_WAKEUP,
 	.wakeupenable = 1,
-	.errminlimit = ,
+	.errminlimit =,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4470_mpu_oppnitro_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -519,11 +517,11 @@ const sr_audit_settings sr4470_mpu_oppnitro_golden_settings = {
 	.errgen_mode = 1,
 	.idle_mode = MOD_SMART_IDLE_WAKEUP,
 	.wakeupenable = 1,
-	.errminlimit = ,
+	.errminlimit =,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4470_mpu_oppnitrosb_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -534,11 +532,11 @@ const sr_audit_settings sr4470_mpu_oppnitrosb_golden_settings = {
 	.errgen_mode = 1,
 	.idle_mode = MOD_SMART_IDLE_WAKEUP,
 	.wakeupenable = 1,
-	.errminlimit = ,
+	.errminlimit =,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings *sr4470_mpu_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4470_mpu_opp50_golden_settings,
@@ -546,8 +544,8 @@ const sr_audit_settings *sr4470_mpu_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4470_mpu_opp100_golden_settings,
 	&sr4470_mpu_oppturbo_golden_settings,
 	&sr4470_mpu_oppnitro_golden_settings,
-	&sr4470_mpu_oppnitrosb_golden_settings};
-
+	&sr4470_mpu_oppnitrosb_golden_settings
+};
 
 const sr_audit_settings sr4470_iva_opp50_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -558,11 +556,11 @@ const sr_audit_settings sr4470_iva_opp50_golden_settings = {
 	.errgen_mode = 1,
 	.idle_mode = MOD_SMART_IDLE_WAKEUP,
 	.wakeupenable = 1,
-	.errminlimit = ,
+	.errminlimit =,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4470_iva_opp100_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -573,11 +571,11 @@ const sr_audit_settings sr4470_iva_opp100_golden_settings = {
 	.errgen_mode = 1,
 	.idle_mode = MOD_SMART_IDLE_WAKEUP,
 	.wakeupenable = 1,
-	.errminlimit = ,
+	.errminlimit =,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings *sr4470_iva_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4470_iva_opp50_golden_settings,
@@ -585,9 +583,8 @@ const sr_audit_settings *sr4470_iva_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4470_iva_opp100_golden_settings,
 	&sr4470_iva_oppturbo_golden_settings,
 	&sr4470_iva_oppnitro_golden_settings,
-	&sr4470_iva_oppnitrosb_golden_settings};
-
-
+	&sr4470_iva_oppnitrosb_golden_settings
+};
 
 const sr_audit_settings sr4470_core_opp50_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -598,11 +595,11 @@ const sr_audit_settings sr4470_core_opp50_golden_settings = {
 	.errgen_mode = 1,
 	.idle_mode = MOD_SMART_IDLE_WAKEUP,
 	.wakeupenable = 1,
-	.errminlimit = ,
+	.errminlimit =,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings sr4470_core_opp100_golden_settings = {
 	.sr_sysclk = 100.0,
@@ -613,11 +610,11 @@ const sr_audit_settings sr4470_core_opp100_golden_settings = {
 	.errgen_mode = 1,
 	.idle_mode = MOD_SMART_IDLE_WAKEUP,
 	.wakeupenable = 1,
-	.errminlimit = ,
+	.errminlimit =,
 	.errmaxlimit = 0x02,
 	.errweight = 4,
-	.converged = 1};
-
+	.converged = 1
+};
 
 const sr_audit_settings *sr4470_core_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4470_core_opp50_golden_settings,
@@ -625,17 +622,18 @@ const sr_audit_settings *sr4470_core_golden_settings[OPP44XX_ID_MAX] = {
 	&sr4470_core_opp100_golden_settings,
 	&sr4470_core_oppturbo_golden_settings,
 	NULL,
-	NULL};
+	NULL
+};
 #endif
 
-
 const sr_audit_settings ***sr44xx_golden_settings[OMAP_MAX] = {
-	(const sr_audit_settings ***) &sr4430_golden_settings,
-	(const sr_audit_settings ***) &sr4460_golden_settings,
-	#if 1 /* FIXME when OMAP4470 golden settings available */
+	(const sr_audit_settings ***)&sr4430_golden_settings,
+	(const sr_audit_settings ***)&sr4460_golden_settings,
+#if 1				/* FIXME when OMAP4470 golden settings available */
 	NULL,
-	#else
-	(const sr_audit_settings ***) &sr4470_golden_settings,
-	#endif
+#else
+	(const sr_audit_settings ***)&sr4470_golden_settings,
+#endif
 	NULL,
-	NULL};
+	NULL
+};

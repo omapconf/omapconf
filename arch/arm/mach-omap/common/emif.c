@@ -41,10 +41,8 @@
  *
  */
 
-
 #include <emif.h>
 #include <stdio.h>
-
 
 /* #define EMIF_DEBUG */
 #ifdef EMIF_DEBUG
@@ -53,9 +51,8 @@
 #define dprintf(format, ...)
 #endif
 
-
 static const char
-	emif_mr4_code_table_c[EMIF_TEMP_RESERVED + 1][EMIF_TEMP_MAX_NAME_LENGTH] = {
+ emif_mr4_code_table_c[EMIF_TEMP_RESERVED + 1][EMIF_TEMP_MAX_NAME_LENGTH] = {
 	"FIXME",
 	"FIXME",
 	"FIXME",
@@ -64,11 +61,11 @@ static const char
 	">= 85 & <= 105",
 	"FIXME",
 	"> 105",
-	"FIXME"};
-
+	"FIXME"
+};
 
 static const char
-	emif_mr4_code_table_f[EMIF_TEMP_RESERVED + 1][EMIF_TEMP_MAX_NAME_LENGTH] = {
+ emif_mr4_code_table_f[EMIF_TEMP_RESERVED + 1][EMIF_TEMP_MAX_NAME_LENGTH] = {
 	"FIXME",
 	"FIXME",
 	"FIXME",
@@ -77,8 +74,8 @@ static const char
 	">= 185 & <= 221",
 	"FIXME",
 	"> 221",
-	"FIXME"};
-
+	"FIXME"
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		emif_mr4_convert
@@ -106,7 +103,7 @@ const char *emif_mr4_convert(emif_mr4_code mr4, temperature_unit unit)
 		return emif_mr4_code_table_f[mr4];
 	} else {
 		fprintf(stderr,
-			"omapconf: %s() called with incorrect unit ""(%d), "
+			"omapconf: %s() called with incorrect unit " "(%d), "
 			"defaulting to celcius degrees.\n", __func__, unit);
 		dprintf("%s(%d) = %s\n", __func__,
 			mr4, emif_mr4_code_table_c[mr4]);

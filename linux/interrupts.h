@@ -41,15 +41,12 @@
  *
  */
 
-
 #ifndef __INTERRUPTS_H__
 #define __INTERRUPTS_H__
-
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <genlist.h>
-
 
 #define IRQ_ERR_ARG		-1	/* incorrect argument(s) */
 #define IRQ_ERR_CPU		-2	/* CPU architecture not supported */
@@ -58,23 +55,20 @@
 #define IRQ_ERR_NOT_AVAILABLE	-8	/* does not exist or not available */
 #define IRQ_ERR_MALLOC		-13	/* memory allocation failure */
 
-
 typedef struct {
 	unsigned int nbr;
 	unsigned int count;
 	char dev_name[256];
 } irq_info;
 
-
 int irq_snapshot_save(char *file);
 
-int irq_total_count_get(FILE *fp);
-int irq_count_get(unsigned int n, FILE *fp);
-char *irq_dev_name_get(unsigned int n, FILE *fp, char name[256]);
+int irq_total_count_get(FILE * fp);
+int irq_count_get(unsigned int n, FILE * fp);
+char *irq_dev_name_get(unsigned int n, FILE * fp, char name[256]);
 
-int irq_occurred(unsigned int n, FILE *fp1, FILE *fp2);
-int irq_occurred_list_get(FILE *fp1, FILE *fp2, genlist *list);
-int irq_occurred_list_sort(genlist *list);
-
+int irq_occurred(unsigned int n, FILE * fp1, FILE * fp2);
+int irq_occurred_list_get(FILE * fp1, FILE * fp2, genlist * list);
+int irq_occurred_list_sort(genlist * list);
 
 #endif

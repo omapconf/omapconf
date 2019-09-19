@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <audit54xx.h>
 #include <module54xx.h>
 #include <module.h>
@@ -56,7 +55,6 @@
 #include <opp.h>
 #include <voltdomain.h>
 
-
 /* #define AUDIT54XX_DEBUG */
 #ifdef AUDIT54XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -64,12 +62,10 @@
 #define dprintf(format, ...)
 #endif
 
-
 static const char pass[5] = "Pass";
 static const char fail[5] = "FAIL";
 static const char ignore[12] = "Ignored (1)";
 static const char warning[8] = "Warning";
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		audit54xx_dpll
@@ -88,8 +84,9 @@ static const char warning[8] = "Warning";
  * @param[in,out]	wng_nbr: audit warning number
  * @DESCRIPTION		audit DPLL Configuration
  *------------------------------------------------------------------------ */
-int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
-	unsigned short curr_opp, unsigned int *err_nbr, unsigned int *wng_nbr)
+int audit54xx_dpll(FILE * stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
+		   unsigned short curr_opp, unsigned int *err_nbr,
+		   unsigned int *wng_nbr)
 {
 	int ret = 0;
 	char s[256];
@@ -122,8 +119,7 @@ int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
 		return OMAPCONF_ERR_UNEXPECTED;
 	}
 
-	fprintf(fp,
-		"OMAPCONF DPLL Configuration Audit Detailed Log:\n\n");
+	fprintf(fp, "OMAPCONF DPLL Configuration Audit Detailed Log:\n\n");
 	omapconf_revision_show(fp);
 	chips_info_show(fp, 1);
 	release_info_show(fp);
@@ -178,7 +174,7 @@ int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
 	row = 0;
 	autoadjust_table_init(table);
 	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"DPLL Configuration AUDIT Summary");
+		 "DPLL Configuration AUDIT Summary");
 	autoadjust_table_strncpy(table, row, 1, "Audit STATUS");
 	row++;
 
@@ -187,7 +183,7 @@ int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
 		_wng_nbr = 0;
 
 		/* Set MPU OPP */
-		ret = genlist_get((genlist *) opp_list, i, (void *) &opp);
+		ret = genlist_get((genlist *) opp_list, i, (void *)&opp);
 		if (ret != 0) {
 			ret = OMAPCONF_ERR_INTERNAL;
 			goto audit54xx_dpll_end;
@@ -198,7 +194,7 @@ int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
 			err_internal_msg_show();
 			goto audit54xx_dpll_end;
 		}
-		ret = cpufreq_set((unsigned int) freq_mpu);
+		ret = cpufreq_set((unsigned int)freq_mpu);
 		if (ret != 0) {
 			err_internal_msg_show();
 			goto audit54xx_dpll_end;
@@ -207,11 +203,11 @@ int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
 		fprintf(fp, "DPLLs Configuration Audit at MPU %s:\n\n",
 			opp.name);
 		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "At MPU %s",
-			opp.name);
+			 opp.name);
 
 		/* Run audit at this OPP */
-		ret = dpll54xx_audit(dpll_id, (opp54xx_id)i, fp,
-			&_err_nbr, &_wng_nbr);
+		ret = dpll54xx_audit(dpll_id, (opp54xx_id) i, fp,
+				     &_err_nbr, &_wng_nbr);
 		if (ret != 0) {
 			err_internal_msg_show();
 			goto audit54xx_dpll_end;
@@ -219,11 +215,11 @@ int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
 
 		if (_err_nbr == 0)
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-				"PASS (0 error, %u warning(s))", _wng_nbr);
+				 "PASS (0 error, %u warning(s))", _wng_nbr);
 		else
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-				"FAIL (%u error, %u warning(s))",
-				_err_nbr, _wng_nbr);
+				 "FAIL (%u error, %u warning(s))",
+				 _err_nbr, _wng_nbr);
 		(*err_nbr) += _err_nbr;
 		(*wng_nbr) += _wng_nbr;
 		row++;
@@ -255,7 +251,6 @@ int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
 		fputs(s, stream);
 	}
 
-
 audit54xx_dpll_end:
 	/* Restore CPUFreq governor */
 	if (strlen(prev_gov) != 0)
@@ -265,7 +260,6 @@ audit54xx_dpll_end:
 		fclose(fp);
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		audit54xx_full
@@ -282,8 +276,8 @@ audit54xx_dpll_end:
  * @DESCRIPTION		full OMAP5 power configuration audit
  *			(DPLL + SYSCONFIG + CLKSPEED + STATICDEP + IO).
  *------------------------------------------------------------------------ */
-int audit54xx_full(FILE *stream, char *logfile, unsigned int *err_nbr,
-	unsigned int *wng_nbr)
+int audit54xx_full(FILE * stream, char *logfile, unsigned int *err_nbr,
+		   unsigned int *wng_nbr)
 {
 	int ret;
 
@@ -333,97 +327,88 @@ int audit54xx_full(FILE *stream, char *logfile, unsigned int *err_nbr,
 	release_info_show(fp);
 
 	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"Full Power Configuration AUDIT Summary");
-	snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-		"STATUS");
+		 "Full Power Configuration AUDIT Summary");
+	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "STATUS");
 	row++;
 
 	ret = dpll54xx_audit(DPLL54XX_ID_MAX, OPP54XX_ID_MAX, fp,
-		&dplls_err_nbr, &dplls_wng_nbr);
+			     &dplls_err_nbr, &dplls_wng_nbr);
 	if (ret != 0)
 		return ret;
 	fputs("\n\n\n", fp);
-	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"DPLLs Configuration Audit");
+	snprintf(table[row][0], TABLE_MAX_ELT_LEN, "DPLLs Configuration Audit");
 	if (dplls_err_nbr == 0)
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"PASS (0 error, %u warning(s))", dplls_wng_nbr);
+			 "PASS (0 error, %u warning(s))", dplls_wng_nbr);
 	else
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"FAIL (%u error, %u warning(s))",
-			dplls_err_nbr, dplls_wng_nbr);
+			 "FAIL (%u error, %u warning(s))",
+			 dplls_err_nbr, dplls_wng_nbr);
 	row++;
 	(*err_nbr) += dplls_err_nbr;
 	(*wng_nbr) += dplls_wng_nbr;
 
-	ret = module_sysconfig_audit(fp,
-		&syscfg_err_nbr, &syscfg_wng_nbr);
+	ret = module_sysconfig_audit(fp, &syscfg_err_nbr, &syscfg_wng_nbr);
 	if (ret != 0)
 		return ret;
 	fputs("\n\n\n", fp);
 	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"SYSCONFIG IP Registers Audit");
+		 "SYSCONFIG IP Registers Audit");
 	if (syscfg_err_nbr == 0)
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"PASS (0 error, %u warning(s))", syscfg_wng_nbr);
+			 "PASS (0 error, %u warning(s))", syscfg_wng_nbr);
 	else
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"FAIL (%u error, %u warning(s))",
-			syscfg_err_nbr, syscfg_wng_nbr);
+			 "FAIL (%u error, %u warning(s))",
+			 syscfg_err_nbr, syscfg_wng_nbr);
 	row++;
 	(*err_nbr) += syscfg_err_nbr;
 	(*wng_nbr) += syscfg_wng_nbr;
 
-	ret = module_clk_rate_audit(fp,
-		&clkspeed_err_nbr, &clkspeed_wng_nbr);
+	ret = module_clk_rate_audit(fp, &clkspeed_err_nbr, &clkspeed_wng_nbr);
 	if (ret != 0)
 		return ret;
 	fputs("\n\n\n", fp);
-	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"Clocks Speed Audit");
+	snprintf(table[row][0], TABLE_MAX_ELT_LEN, "Clocks Speed Audit");
 	if (clkspeed_err_nbr == 0)
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"PASS (0 error, %u warning(s))", clkspeed_wng_nbr);
+			 "PASS (0 error, %u warning(s))", clkspeed_wng_nbr);
 	else
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"FAIL (%u error, %u warning(s))",
-			clkspeed_err_nbr, clkspeed_wng_nbr);
+			 "FAIL (%u error, %u warning(s))",
+			 clkspeed_err_nbr, clkspeed_wng_nbr);
 	row++;
 	(*err_nbr) += clkspeed_err_nbr;
 	(*wng_nbr) += clkspeed_wng_nbr;
 
-	ret = clkdmdep54xx_audit(fp,
-		&statdep_err_nbr, &statdep_wng_nbr);
+	ret = clkdmdep54xx_audit(fp, &statdep_err_nbr, &statdep_wng_nbr);
 	if (ret != 0)
 		return ret;
 	fputs("\n\n\n", fp);
-	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"Static Dependencies Audit");
+	snprintf(table[row][0], TABLE_MAX_ELT_LEN, "Static Dependencies Audit");
 	if (statdep_err_nbr == 0)
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"PASS (0 error, %u warning(s))", statdep_wng_nbr);
+			 "PASS (0 error, %u warning(s))", statdep_wng_nbr);
 	else
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"FAIL (%u error, %u warning(s))",
-			statdep_err_nbr, statdep_wng_nbr);
+			 "FAIL (%u error, %u warning(s))",
+			 statdep_err_nbr, statdep_wng_nbr);
 	row++;
 	(*err_nbr) += statdep_err_nbr;
 	(*wng_nbr) += statdep_wng_nbr;
 
-	ret = ctrlmod54xx_io_audit(fp,
-		&io_err_nbr, &io_wng_nbr);
+	ret = ctrlmod54xx_io_audit(fp, &io_err_nbr, &io_wng_nbr);
 	if (ret != 0)
 		return ret;
 	fputs("\n\n\n", fp);
-	snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-		"IO PADCONF Audit");
+	snprintf(table[row][0], TABLE_MAX_ELT_LEN, "IO PADCONF Audit");
 	if (io_err_nbr == 0)
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"PASS (0 error, %u warning(s))", io_wng_nbr);
+			 "PASS (0 error, %u warning(s))", io_wng_nbr);
 	else
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-			"FAIL (%u error, %u warning(s))",
-			io_err_nbr, io_wng_nbr);
+			 "FAIL (%u error, %u warning(s))",
+			 io_err_nbr, io_wng_nbr);
 	row++;
 	(*err_nbr) += io_err_nbr;
 	(*wng_nbr) += io_wng_nbr;

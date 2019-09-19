@@ -41,13 +41,10 @@
  *
  */
 
-
 #ifndef __TEMPERATURE44XX_H__
 #define __TEMPERATURE44XX_H__
 
-
 #include <voltdm44xx.h>
-
 
 typedef enum {
 	TEMP44XX_BANDGAP,
@@ -60,7 +57,6 @@ typedef enum {
 	TEMP44XX_ID_MAX
 } temp44xx_sensor_id;
 
-
 typedef enum {
 	OMAP4_EMIF_TEMP_BELOW_85C = 0x3,
 	OMAP4_EMIF_TEMP_ABOVE_85C = 0x5,
@@ -68,10 +64,8 @@ typedef enum {
 	OMAP4_EMIF_TEMP_RESERVED
 } omap4_emif_temperature;
 
-
 temp44xx_sensor_id temp44xx_voltdm2sensor_id(voltdm44xx_id vdd_id);
 const char *temp44xx_name_get(temp44xx_sensor_id id);
 int temp44xx_get(temp44xx_sensor_id id);
-
 
 #endif

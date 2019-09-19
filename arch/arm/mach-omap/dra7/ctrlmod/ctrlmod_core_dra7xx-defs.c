@@ -41,160 +41,182 @@
  *
  */
 
-
 #include <ctrlmod_core_dra7xx-defs.h>
-
 
 reg dra7xx_ctrl_core_dtemp_mpu_0 = {
 	"CTRL_CORE_DTEMP_MPU_0",
 	DRA7XX_CTRL_CORE_DTEMP_MPU_0,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_mpu_1 = {
 	"CTRL_CORE_DTEMP_MPU_1",
 	DRA7XX_CTRL_CORE_DTEMP_MPU_1,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_mpu_2 = {
 	"CTRL_CORE_DTEMP_MPU_2",
 	DRA7XX_CTRL_CORE_DTEMP_MPU_2,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_mpu_3 = {
 	"CTRL_CORE_DTEMP_MPU_3",
 	DRA7XX_CTRL_CORE_DTEMP_MPU_3,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_mpu_4 = {
 	"CTRL_CORE_DTEMP_MPU_4",
 	DRA7XX_CTRL_CORE_DTEMP_MPU_4,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_gpu_0 = {
 	"CTRL_CORE_DTEMP_GPU_0",
 	DRA7XX_CTRL_CORE_DTEMP_GPU_0,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_gpu_1 = {
 	"CTRL_CORE_DTEMP_GPU_1",
 	DRA7XX_CTRL_CORE_DTEMP_GPU_1,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_gpu_2 = {
 	"CTRL_CORE_DTEMP_GPU_2",
 	DRA7XX_CTRL_CORE_DTEMP_GPU_2,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_gpu_3 = {
 	"CTRL_CORE_DTEMP_GPU_3",
 	DRA7XX_CTRL_CORE_DTEMP_GPU_3,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_gpu_4 = {
 	"CTRL_CORE_DTEMP_GPU_4",
 	DRA7XX_CTRL_CORE_DTEMP_GPU_4,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_core_0 = {
 	"CTRL_CORE_DTEMP_CORE_0",
 	DRA7XX_CTRL_CORE_DTEMP_CORE_0,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_core_1 = {
 	"CTRL_CORE_DTEMP_CORE_1",
 	DRA7XX_CTRL_CORE_DTEMP_CORE_1,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_core_2 = {
 	"CTRL_CORE_DTEMP_CORE_2",
 	DRA7XX_CTRL_CORE_DTEMP_CORE_2,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_core_3 = {
 	"CTRL_CORE_DTEMP_CORE_3",
 	DRA7XX_CTRL_CORE_DTEMP_CORE_3,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_core_4 = {
 	"CTRL_CORE_DTEMP_CORE_4",
 	DRA7XX_CTRL_CORE_DTEMP_CORE_4,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_iva_0 = {
 	"CTRL_CORE_DTEMP_IVA_0",
 	DRA7XX_CTRL_CORE_DTEMP_IVA_0,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_iva_1 = {
 	"CTRL_CORE_DTEMP_IVA_1",
 	DRA7XX_CTRL_CORE_DTEMP_IVA_1,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_iva_2 = {
 	"CTRL_CORE_DTEMP_IVA_2",
 	DRA7XX_CTRL_CORE_DTEMP_IVA_2,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_iva_3 = {
 	"CTRL_CORE_DTEMP_IVA_3",
 	DRA7XX_CTRL_CORE_DTEMP_IVA_3,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_iva_4 = {
 	"CTRL_CORE_DTEMP_IVA_4",
 	DRA7XX_CTRL_CORE_DTEMP_IVA_4,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_dspeve_0 = {
 	"CTRL_CORE_DTEMP_DSPEVE_0",
 	DRA7XX_CTRL_CORE_DTEMP_DSPEVE_0,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_dspeve_1 = {
 	"CTRL_CORE_DTEMP_DSPEVE_1",
 	DRA7XX_CTRL_CORE_DTEMP_DSPEVE_1,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_dspeve_2 = {
 	"CTRL_CORE_DTEMP_DSPEVE_2",
 	DRA7XX_CTRL_CORE_DTEMP_DSPEVE_2,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_dspeve_3 = {
 	"CTRL_CORE_DTEMP_DSPEVE_3",
 	DRA7XX_CTRL_CORE_DTEMP_DSPEVE_3,
 	0xDEADBEEF,
-	0};
+	0
+};
 
 reg dra7xx_ctrl_core_dtemp_dspeve_4 = {
 	"CTRL_CORE_DTEMP_DSPEVE_4",
 	DRA7XX_CTRL_CORE_DTEMP_DSPEVE_4,
 	0xDEADBEEF,
-	0};
-
+	0
+};
 
 reg *dra7xx_ctrl_module_core_mod[DRA7XX_CTRL_MODULE_CORE_MOD_REGCOUNT + 1] = {
 	/**
@@ -232,4 +254,5 @@ reg *dra7xx_ctrl_module_core_mod[DRA7XX_CTRL_MODULE_CORE_MOD_REGCOUNT + 1] = {
 	/* END OF CTRL_CORE_DTEMP_wxy_z
 	 * tagged temperature registers i.e. FIFO buffer
 	 */
-	NULL};
+	NULL
+};

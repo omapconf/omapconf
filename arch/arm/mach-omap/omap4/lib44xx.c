@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <lib44xx.h>
 #include <mem.h>
 #include <cm44xx.h>
@@ -75,7 +74,6 @@
 #include <display44xx.h>
 #include <abb44xx.h>
 
-
 /* #define LIB44XX_FIND_REG_ADDR_DEBUG */
 /* #define LIB44XX_DEBUG */
 #ifdef LIB44XX_DEBUG
@@ -83,7 +81,6 @@
 #else
 #define dprintf(format, ...)
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		reg44xx_addr_find
@@ -96,11 +93,11 @@
  * @DESCRIPTION		find reg. addr corresponding to reg. name given as
  *			argument
  *------------------------------------------------------------------------ */
-int reg44xx_addr_find(char *name, unsigned int* addr)
+int reg44xx_addr_find(char *name, unsigned int *addr)
 {
-	#ifdef LIB44XX_FIND_REG_ADDR_DEBUG
+#ifdef LIB44XX_FIND_REG_ADDR_DEBUG
 	printf("%s(): looking for addr of register %s...\n", __func__, name);
-	#endif
+#endif
 
 	if (mpu44xx_name2addr(name, addr) == 0)
 		goto reg_addr_found;
@@ -142,19 +139,18 @@ int reg44xx_addr_find(char *name, unsigned int* addr)
 		goto reg_addr_found;
 	if (display44xx_name2addr(name, addr) == 0)
 		goto reg_addr_found;
-	#ifdef LIB44XX_FIND_REG_ADDR_DEBUG
+#ifdef LIB44XX_FIND_REG_ADDR_DEBUG
 	printf("%s(): register addr not found!\n", __func__);
-	#endif
+#endif
 	return -1;
 
 reg_addr_found:
-	#ifdef LIB44XX_FIND_REG_ADDR_DEBUG
+#ifdef LIB44XX_FIND_REG_ADDR_DEBUG
 	printf("%s(): register addr found: 0x%x\n", __func__, *addr);
-	#endif
+#endif
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		cpu44xx_power_state_get
@@ -165,15 +161,13 @@ reg_addr_found:
  * @param[in, out]	state: current CPU[0-1] power state (returned)
  * @DESCRIPTION		extract current CPU[0-1] power state from register
  *------------------------------------------------------------------------ */
-int cpu44xx_power_state_get(unsigned int cpu,
-	pwrdm_state *state)
+int cpu44xx_power_state_get(unsigned int cpu, pwrdm_state * state)
 {
 	unsigned int pm_pda_cpu_pwrstst_addr, pm_pda_cpu_pwrstst;
 
 	if (state == NULL)
 		return OMAPCONF_ERR_ARG;
 	*state = PWRDM_STATE_MAX;
-
 
 	/* Retrieve registers address */
 	switch (cpu) {
@@ -202,7 +196,6 @@ int cpu44xx_power_state_get(unsigned int cpu,
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		power44xx_status_show
  * @BRIEF		analyze & display OMAP4 power status
@@ -225,7 +218,8 @@ int power44xx_status_show(void)
 		"",
 		"UNKNOWN",
 		"UNKNOWN",
-		"UNKNOWN"};
+		"UNKNOWN"
+	};
 	int ret = 0;
 	unsigned short first_mod, first_clkdm, first_pwrdm;
 	mod44xx_id mod_id;
@@ -247,45 +241,45 @@ int power44xx_status_show(void)
 			__func__);
 	else
 		voltdm44xx_opp2string(s_current_opp[OMAP4_VDD_MPU],
-			current_opp, OMAP4_VDD_MPU);
+				      current_opp, OMAP4_VDD_MPU);
 	ret = voltdm44xx_get_opp(OMAP4_VDD_IVA, &current_opp);
 	if (ret != 0)
 		dprintf("%s(): warning OMAP4_VDD_IVA OPP not detected!!!\n",
 			__func__);
 	else
 		voltdm44xx_opp2string(s_current_opp[OMAP4_VDD_IVA],
-			current_opp, OMAP4_VDD_IVA);
+				      current_opp, OMAP4_VDD_IVA);
 	ret = voltdm44xx_get_opp(OMAP4_VDD_CORE, &current_opp);
 	if (ret != 0)
 		dprintf("%s(): warning OMAP4_VDD_CORE OPP not detected!!!\n",
 			__func__);
 	else
 		voltdm44xx_opp2string(s_current_opp[OMAP4_VDD_CORE],
-			current_opp, OMAP4_VDD_CORE);
+				      current_opp, OMAP4_VDD_CORE);
 
 	printf("|--------------------------------------------------------------"
-		"--------------------------------------------------------------"
-		"----|\n");
+	       "--------------------------------------------------------------"
+	       "----|\n");
 	printf("| OMAP Power Status                                            "
-		"                                                              "
-		"    |\n");
+	       "                                                              "
+	       "    |\n");
 	printf("|--------------------------------------------------------------"
-		"--------------------------------------------------------------"
-		"----|\n");
+	       "--------------------------------------------------------------"
+	       "----|\n");
 	printf("| Voltage Domain          | Power Domain                 | "
-		"Clock Domain          | Module Status                         "
-		"        |\n");
+	       "Clock Domain          | Module Status                         "
+	       "        |\n");
 	printf("| Name     | OPP          | Name       | Curr.  | Target | "
-		"Name       | Status   | Name             | Idle          |"
-		" Standby    |\n");
+	       "Name       | Status   | Name             | Idle          |"
+	       " Standby    |\n");
 	/* For each domain, retrieve the clock & power domain status */
 	for (voltdm_id = 0; voltdm_id < OMAP4_VD_ID_MAX; voltdm_id++) {
 		printf("|------------------------------------------------------"
-			"------------------------------------------------------"
-			"--------------------|\n");
+		       "------------------------------------------------------"
+		       "--------------------|\n");
 		voltdm44xx_get_name(voltdm_id, voltdm_name);
 		for (pwrdm_id = 0, first_pwrdm = 1; pwrdm_id < OMAP4_PD_ID_MAX;
-			pwrdm_id++) {
+		     pwrdm_id++) {
 			if (pwrdm44xx_get_voltdm(pwrdm_id) != voltdm_id)
 				continue;
 
@@ -306,28 +300,28 @@ int power44xx_status_show(void)
 			}
 
 			for (clkdm_id = 0, first_clkdm = 1;
-				clkdm_id < OMAP4_CD_NONE; clkdm_id++) {
+			     clkdm_id < OMAP4_CD_NONE; clkdm_id++) {
 				if ((clkdm_id == OMAP4_CD_L4_SEC) &&
-					cpu_is_gp_device())
+				    cpu_is_gp_device())
 					continue;
 				if (clkdm44xx_get_pwrdm(clkdm_id) != pwrdm_id)
 					continue;
 
 				if ((!first_pwrdm) && (first_clkdm))
 					printf("| %-8s | %-12s |---------------"
-						"------------------------------"
-						"------------------------------"
-						"---------------------------"
-						"|\n", "", "");
+					       "------------------------------"
+					       "------------------------------"
+					       "---------------------------"
+					       "|\n", "", "");
 				clkdm44xx_get_name(clkdm_id, clkdm_name);
 				clkdm44xx_get_status(clkdm_id, &clkst);
 				strcpy(s_clkst, clkdm_status_name_get(clkst));
 
 				/* For each module, retrieve status */
 				for (mod_id = 0, first_mod = 1; mod_id <
-						OMAP4_MODULE_ID_MAX; mod_id++) {
+				     OMAP4_MODULE_ID_MAX; mod_id++) {
 					if (mod44xx_get_clkdm(mod_id) !=
-						clkdm_id)
+					    clkdm_id)
 						continue;
 
 					switch (mod_id) {
@@ -392,13 +386,13 @@ int power44xx_status_show(void)
 					case OMAP4_HDMI:
 					case OMAP4_RFBI:
 						/* no status available */
-						 continue;
+						continue;
 					case OMAP4_P1500:
 					case OMAP4_ELM:
 						/*
 						 * ignored
 						 */
-						 continue;
+						continue;
 					case OMAP4_DLL:
 						/* Internal. No need to show. */
 						continue;
@@ -411,50 +405,49 @@ int power44xx_status_show(void)
 					case OMAP4_BB2D:
 						if (!cpu_is_omap4470())
 							continue;
-						mod44xx_get_name(
-							mod_id, mod_name);
+						mod44xx_get_name(mod_id,
+								 mod_name);
 						mod44xx_get_idle_status(mod_id,
-							s_idlest);
-						mod44xx_get_standby_status(
-							mod_id, s_stbyst);
+									s_idlest);
+						mod44xx_get_standby_status
+						    (mod_id, s_stbyst);
 						break;
 					default:
-						mod44xx_get_name(
-							mod_id, mod_name);
+						mod44xx_get_name(mod_id,
+								 mod_name);
 						mod44xx_get_idle_status(mod_id,
-							s_idlest);
-						mod44xx_get_standby_status(
-							mod_id, s_stbyst);
+									s_idlest);
+						mod44xx_get_standby_status
+						    (mod_id, s_stbyst);
 					}
-					mod44xx_get_name(
-						mod_id, mod_name);
+					mod44xx_get_name(mod_id, mod_name);
 					mod44xx_get_idle_status(mod_id,
-						s_idlest);
-					mod44xx_get_standby_status(
-						mod_id, s_stbyst);
+								s_idlest);
+					mod44xx_get_standby_status(mod_id,
+								   s_stbyst);
 
 					if ((first_mod) && (!first_clkdm))
 						printf("| %-8s | %-12s | %-10s "
-							"| %-6s | %-6s |-------"
-							"----------------------"
-							"----------------------"
-							"--------------------|"
-							"\n",
-							"", "", "", "", "");
+						       "| %-6s | %-6s |-------"
+						       "----------------------"
+						       "----------------------"
+						       "--------------------|"
+						       "\n",
+						       "", "", "", "", "");
 					printf("| %-8s | %-12s | %-10s | %-6s |"
-						" %-6s | %-10s | %-8s | %-16s |"
-						" %-13s | %-10s |\n",
-						voltdm_name,
-						s_current_opp[voltdm_id],
-						pwrdm_name, pwst, pwtgst,
-						clkdm_name, s_clkst, mod_name,
-						s_idlest, s_stbyst);
+					       " %-6s | %-10s | %-8s | %-16s |"
+					       " %-13s | %-10s |\n",
+					       voltdm_name,
+					       s_current_opp[voltdm_id],
+					       pwrdm_name, pwst, pwtgst,
+					       clkdm_name, s_clkst, mod_name,
+					       s_idlest, s_stbyst);
 					if (first_mod) {
 						*clkdm_name = '\0';
 						*pwrdm_name = '\0';
 						*voltdm_name = '\0';
 						*s_current_opp[voltdm_id] =
-							'\0';
+						    '\0';
 						*pwst = '\0';
 						*pwtgst = '\0';
 						*s_clkst = '\0';
@@ -468,8 +461,8 @@ int power44xx_status_show(void)
 
 	}
 	printf("|--------------------------------------------------------------"
-		"--------------------------------------------------------------"
-		"----|\n\n");
+	       "--------------------------------------------------------------"
+	       "----|\n\n");
 
 	return 0;
 }

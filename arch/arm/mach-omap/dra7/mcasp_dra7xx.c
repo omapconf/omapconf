@@ -111,54 +111,54 @@ struct mcasp_regs {
 };
 
 static struct mcasp_regs mcasp_regs = {
-	.pwridlesysconfig = { .offset = PWRIDLESYSCONFIG_OFFSET },
-	.pfunc     = { .offset = MCASP_PFUNC_OFFSET },
-	.pdir      = { .offset = MCASP_PDIR_OFFSET },
-	.pdout     = { .offset = MCASP_PDOUT_OFFSET },
-	.pdin      = { .offset = MCASP_PDIN_OFFSET },
-	.gblctl    = { .offset = MCASP_GBLCTL_OFFSET },
-	.rxmask    = { .offset = MCASP_RXMASK_OFFSET },
-	.rxfmt     = { .offset = MCASP_RXFMT_OFFSET },
-	.rxfmctl   = { .offset = MCASP_RXFMCTL_OFFSET },
-	.aclkrctl  = { .offset = MCASP_ACLKRCTL_OFFSET },
-	.ahclkrctl = { .offset = MCASP_AHCLKRCTL_OFFSET },
-	.rxtdm     = { .offset = MCASP_RXTDM_OFFSET },
-	.evtctlr   = { .offset = MCASP_EVTCTLR_OFFSET },
-	.rxstat    = { .offset = MCASP_RXSTAT_OFFSET },
-	.rxtdmslot = { .offset = MCASP_RXTDMSLOT_OFFSET },
-	.revtctl   = { .offset = MCASP_REVTCTL_OFFSET },
-	.txmask    = { .offset = MCASP_TXMASK_OFFSET },
-	.txfmt     = { .offset = MCASP_TXFMT_OFFSET },
-	.txfmctl   = { .offset = MCASP_TXFMCTL_OFFSET },
-	.aclkxctl  = { .offset = MCASP_ACLKXCTL_OFFSET },
-	.ahclkxctl = { .offset = MCASP_AHCLKXCTL_OFFSET },
-	.txtdm     = { .offset = MCASP_TXTDM_OFFSET },
-	.evtctlx   = { .offset = MCASP_EVTCTLX_OFFSET },
-	.txstat    = { .offset = MCASP_TXSTAT_OFFSET },
-	.txtdmslot = { .offset = MCASP_TXTDMSLOT_OFFSET },
-	.xevtctl   = { .offset = MCASP_XEVTCTL_OFFSET },
-	.xrsrctl   = {
-		{ .offset = MCASP_XRSRCTL_OFFSET(0) },
-		{ .offset = MCASP_XRSRCTL_OFFSET(1) },
-		{ .offset = MCASP_XRSRCTL_OFFSET(2) },
-		{ .offset = MCASP_XRSRCTL_OFFSET(3) },
-		{ .offset = MCASP_XRSRCTL_OFFSET(4) },
-		{ .offset = MCASP_XRSRCTL_OFFSET(5) },
-		{ .offset = MCASP_XRSRCTL_OFFSET(6) },
-		{ .offset = MCASP_XRSRCTL_OFFSET(7) },
-		{ .offset = MCASP_XRSRCTL_OFFSET(8) },
-		{ .offset = MCASP_XRSRCTL_OFFSET(9) },
-		{ .offset = MCASP_XRSRCTL_OFFSET(10) },
-		{ .offset = MCASP_XRSRCTL_OFFSET(11) },
-		{ .offset = MCASP_XRSRCTL_OFFSET(12) },
-		{ .offset = MCASP_XRSRCTL_OFFSET(13) },
-		{ .offset = MCASP_XRSRCTL_OFFSET(14) },
-		{ .offset = MCASP_XRSRCTL_OFFSET(15) },
-	},
-	.wfifoctl   = { .offset = MCASP_WFIFOCTL_OFFSET },
-	.wfifosts   = { .offset = MCASP_WFIFOSTS_OFFSET },
-	.rfifoctl   = { .offset = MCASP_RFIFOCTL_OFFSET },
-	.rfifosts   = { .offset = MCASP_RFIFOSTS_OFFSET },
+	.pwridlesysconfig = {.offset = PWRIDLESYSCONFIG_OFFSET},
+	.pfunc = {.offset = MCASP_PFUNC_OFFSET},
+	.pdir = {.offset = MCASP_PDIR_OFFSET},
+	.pdout = {.offset = MCASP_PDOUT_OFFSET},
+	.pdin = {.offset = MCASP_PDIN_OFFSET},
+	.gblctl = {.offset = MCASP_GBLCTL_OFFSET},
+	.rxmask = {.offset = MCASP_RXMASK_OFFSET},
+	.rxfmt = {.offset = MCASP_RXFMT_OFFSET},
+	.rxfmctl = {.offset = MCASP_RXFMCTL_OFFSET},
+	.aclkrctl = {.offset = MCASP_ACLKRCTL_OFFSET},
+	.ahclkrctl = {.offset = MCASP_AHCLKRCTL_OFFSET},
+	.rxtdm = {.offset = MCASP_RXTDM_OFFSET},
+	.evtctlr = {.offset = MCASP_EVTCTLR_OFFSET},
+	.rxstat = {.offset = MCASP_RXSTAT_OFFSET},
+	.rxtdmslot = {.offset = MCASP_RXTDMSLOT_OFFSET},
+	.revtctl = {.offset = MCASP_REVTCTL_OFFSET},
+	.txmask = {.offset = MCASP_TXMASK_OFFSET},
+	.txfmt = {.offset = MCASP_TXFMT_OFFSET},
+	.txfmctl = {.offset = MCASP_TXFMCTL_OFFSET},
+	.aclkxctl = {.offset = MCASP_ACLKXCTL_OFFSET},
+	.ahclkxctl = {.offset = MCASP_AHCLKXCTL_OFFSET},
+	.txtdm = {.offset = MCASP_TXTDM_OFFSET},
+	.evtctlx = {.offset = MCASP_EVTCTLX_OFFSET},
+	.txstat = {.offset = MCASP_TXSTAT_OFFSET},
+	.txtdmslot = {.offset = MCASP_TXTDMSLOT_OFFSET},
+	.xevtctl = {.offset = MCASP_XEVTCTL_OFFSET},
+	.xrsrctl = {
+		    {.offset = MCASP_XRSRCTL_OFFSET(0)},
+		    {.offset = MCASP_XRSRCTL_OFFSET(1)},
+		    {.offset = MCASP_XRSRCTL_OFFSET(2)},
+		    {.offset = MCASP_XRSRCTL_OFFSET(3)},
+		    {.offset = MCASP_XRSRCTL_OFFSET(4)},
+		    {.offset = MCASP_XRSRCTL_OFFSET(5)},
+		    {.offset = MCASP_XRSRCTL_OFFSET(6)},
+		    {.offset = MCASP_XRSRCTL_OFFSET(7)},
+		    {.offset = MCASP_XRSRCTL_OFFSET(8)},
+		    {.offset = MCASP_XRSRCTL_OFFSET(9)},
+		    {.offset = MCASP_XRSRCTL_OFFSET(10)},
+		    {.offset = MCASP_XRSRCTL_OFFSET(11)},
+		    {.offset = MCASP_XRSRCTL_OFFSET(12)},
+		    {.offset = MCASP_XRSRCTL_OFFSET(13)},
+		    {.offset = MCASP_XRSRCTL_OFFSET(14)},
+		    {.offset = MCASP_XRSRCTL_OFFSET(15)},
+		    },
+	.wfifoctl = {.offset = MCASP_WFIFOCTL_OFFSET},
+	.wfifosts = {.offset = MCASP_WFIFOSTS_OFFSET},
+	.rfifoctl = {.offset = MCASP_RFIFOCTL_OFFSET},
+	.rfifosts = {.offset = MCASP_RFIFOSTS_OFFSET},
 };
 
 /* Common CFG registers for all McASP instances */
@@ -244,15 +244,24 @@ static const reg_table mcasp_afifo_reg_table[] = {
 static unsigned int dra7xx_mcasp_get_baseaddr(unsigned int instance)
 {
 	switch (instance) {
-	case MCASP1: return MCASP1_CFG_BASEADDR;
-	case MCASP2: return MCASP2_CFG_BASEADDR;
-	case MCASP3: return MCASP3_CFG_BASEADDR;
-	case MCASP4: return MCASP4_CFG_BASEADDR;
-	case MCASP5: return MCASP5_CFG_BASEADDR;
-	case MCASP6: return MCASP6_CFG_BASEADDR;
-	case MCASP7: return MCASP7_CFG_BASEADDR;
-	case MCASP8: return MCASP8_CFG_BASEADDR;
-	default: break;
+	case MCASP1:
+		return MCASP1_CFG_BASEADDR;
+	case MCASP2:
+		return MCASP2_CFG_BASEADDR;
+	case MCASP3:
+		return MCASP3_CFG_BASEADDR;
+	case MCASP4:
+		return MCASP4_CFG_BASEADDR;
+	case MCASP5:
+		return MCASP5_CFG_BASEADDR;
+	case MCASP6:
+		return MCASP6_CFG_BASEADDR;
+	case MCASP7:
+		return MCASP7_CFG_BASEADDR;
+	case MCASP8:
+		return MCASP8_CFG_BASEADDR;
+	default:
+		break;
 	}
 
 	return 0;
@@ -261,15 +270,24 @@ static unsigned int dra7xx_mcasp_get_baseaddr(unsigned int instance)
 static int dra7xx_mcasp_get_serializers(unsigned int instance)
 {
 	switch (instance) {
-	case MCASP1: return 16;
-	case MCASP2: return 16;
-	case MCASP3: return 4;
-	case MCASP4: return 4;
-	case MCASP5: return 4;
-	case MCASP6: return 4;
-	case MCASP7: return 4;
-	case MCASP8: return 4;
-	default: break;
+	case MCASP1:
+		return 16;
+	case MCASP2:
+		return 16;
+	case MCASP3:
+		return 4;
+	case MCASP4:
+		return 4;
+	case MCASP5:
+		return 4;
+	case MCASP6:
+		return 4;
+	case MCASP7:
+		return 4;
+	case MCASP8:
+		return 4;
+	default:
+		break;
 	}
 
 	return OMAPCONF_ERR_ARG;
@@ -313,12 +331,12 @@ static int dra7xx_mcasp_is_clocked(unsigned int instance)
 
 	val = (val & BITFIELD(16, 17)) >> 16;
 	switch (val) {
-	case 0: /* fully functional */
-	case 1: /* in-transition */
-	case 2: /* only OCP part */
+	case 0:		/* fully functional */
+	case 1:		/* in-transition */
+	case 2:		/* only OCP part */
 		clocked = 1;
 		break;
-	case 3: /* disabled */
+	case 3:		/* disabled */
 	default:
 		clocked = 0;
 		break;
@@ -335,7 +353,7 @@ static int dra7xx_mcasp_is_clocked(unsigned int instance)
  * @param[in]		none
  * @DESCRIPTION		dump registers from table given as argument
  *------------------------------------------------------------------------ */
-int dra7xx_mcasp_dumpregs(FILE *stream, int argc, char *argv[])
+int dra7xx_mcasp_dumpregs(FILE * stream, int argc, char *argv[])
 {
 	unsigned int i = 0;
 	unsigned int val = 0;
@@ -346,7 +364,7 @@ int dra7xx_mcasp_dumpregs(FILE *stream, int argc, char *argv[])
 	unsigned int baseaddr;
 	unsigned int address;
 	int serializers;
-	const char* inst_arg;
+	const char *inst_arg;
 	const reg_table *reg_table;
 
 	/* argc is 1 when called from 'dump' command, 2 for legacy */
@@ -373,14 +391,16 @@ int dra7xx_mcasp_dumpregs(FILE *stream, int argc, char *argv[])
 		help(HELP_MCASP);
 		return OMAPCONF_ERR_ARG;
 	} else if (ret == 0) {
-		fprintf(stderr, "omapconf: %s is not active, cannot proceed further\n",
+		fprintf(stderr,
+			"omapconf: %s is not active, cannot proceed further\n",
 			inst_arg);
 		return 0;
 	}
 
 	baseaddr = dra7xx_mcasp_get_baseaddr(instance);
 	if (!baseaddr) {
-		fprintf(stderr, "omapconf: %s is not a valid instance\n", inst_arg);
+		fprintf(stderr, "omapconf: %s is not a valid instance\n",
+			inst_arg);
 		dprintf("%s: no base address for %s\n", __func__, inst_arg);
 		help(HELP_MCASP);
 		return OMAPCONF_ERR_NOT_AVAILABLE;
@@ -388,7 +408,8 @@ int dra7xx_mcasp_dumpregs(FILE *stream, int argc, char *argv[])
 
 	serializers = dra7xx_mcasp_get_serializers(instance);
 	if (serializers < 0) {
-		fprintf(stderr, "omapconf: %s is not a valid instance\n", inst_arg);
+		fprintf(stderr, "omapconf: %s is not a valid instance\n",
+			inst_arg);
 		dprintf("%s: no serializers for %s\n", __func__, inst_arg);
 		help(HELP_MCASP);
 		return OMAPCONF_ERR_NOT_AVAILABLE;
@@ -414,7 +435,8 @@ int dra7xx_mcasp_dumpregs(FILE *stream, int argc, char *argv[])
 		OMAP_READREG(address, val);
 
 		/* Show register name, addr & content (hex) */
-		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s", reg_table[i].name);
+		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s",
+			 reg_table[i].name);
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "0x%08X", address);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "0x%08X", val);
 		row++;
@@ -435,7 +457,8 @@ int dra7xx_mcasp_dumpregs(FILE *stream, int argc, char *argv[])
 		OMAP_READREG(address, val);
 
 		/* Show register name, addr & content (hex) */
-		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s", reg_table[i].name);
+		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s",
+			 reg_table[i].name);
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "0x%08X", address);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "0x%08X", val);
 		row++;
@@ -452,7 +475,8 @@ int dra7xx_mcasp_dumpregs(FILE *stream, int argc, char *argv[])
 		OMAP_READREG(address, val);
 
 		/* Show register name, addr & content (hex) */
-		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s", reg_table[i].name);
+		snprintf(table[row][0], TABLE_MAX_ELT_LEN, "%s",
+			 reg_table[i].name);
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "0x%08X", address);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "0x%08X", val);
 		row++;
@@ -464,7 +488,7 @@ int dra7xx_mcasp_dumpregs(FILE *stream, int argc, char *argv[])
 	return err;
 }
 
-static int dra7xx_mcasp_data(struct mcasp_regs *regs, FILE *stream)
+static int dra7xx_mcasp_data(struct mcasp_regs *regs, FILE * stream)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row;
@@ -561,15 +585,16 @@ static int dra7xx_mcasp_data(struct mcasp_regs *regs, FILE *stream)
 			SET_TABLE_VALUE(table, "Enabled");
 		else
 			SET_TABLE_VALUE(table,
-				"Enabled but invalid WNUMDMA (%u), expected %u",
-				val, serializers);
+					"Enabled but invalid WNUMDMA (%u), expected %u",
+					val, serializers);
 	} else {
 		SET_TABLE_VALUE(table, "Disabled");
 	}
 	row++;
 
 	SET_TABLE_PARAM(table, "  Threshold");
-	SET_TABLE_VALUE(table, "%u samples", MCASP_BITFIELD(regs->wfifoctl, 0xFF00));
+	SET_TABLE_VALUE(table, "%u samples",
+			MCASP_BITFIELD(regs->wfifoctl, 0xFF00));
 	row++;
 
 	SET_TABLE_PARAM(table, "  Level");
@@ -598,15 +623,16 @@ static int dra7xx_mcasp_data(struct mcasp_regs *regs, FILE *stream)
 			SET_TABLE_VALUE(table, "Enabled");
 		else
 			SET_TABLE_VALUE(table,
-				"Enabled but invalid RNUMDMA (%u), expected %u",
-				val, serializers);
+					"Enabled but invalid RNUMDMA (%u), expected %u",
+					val, serializers);
 	} else {
 		SET_TABLE_VALUE(table, "Disabled");
 	}
 	row++;
 
 	SET_TABLE_PARAM(table, "  Threshold");
-	SET_TABLE_VALUE(table, "%u samples", MCASP_BITFIELD(regs->rfifoctl, 0xFF00));
+	SET_TABLE_VALUE(table, "%u samples",
+			MCASP_BITFIELD(regs->rfifoctl, 0xFF00));
 	row++;
 
 	SET_TABLE_PARAM(table, "  Level");
@@ -622,7 +648,7 @@ static int dra7xx_mcasp_data(struct mcasp_regs *regs, FILE *stream)
 	return 0;
 }
 
-static int dra7xx_mcasp_control(struct mcasp_regs *regs, FILE *stream)
+static int dra7xx_mcasp_control(struct mcasp_regs *regs, FILE * stream)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row;
@@ -636,7 +662,7 @@ static int dra7xx_mcasp_control(struct mcasp_regs *regs, FILE *stream)
 	row++;
 
 	/* Transmit State-Machine */
-	active = !!MCASP_BITFIELD(regs->gblctl, 0x800);
+	active = ! !MCASP_BITFIELD(regs->gblctl, 0x800);
 
 	SET_TABLE_PARAM(table, "Transmit State-Machine");
 	row++;
@@ -670,14 +696,14 @@ static int dra7xx_mcasp_control(struct mcasp_regs *regs, FILE *stream)
 
 	SET_TABLE_PARAM(table, "  Current Slot");
 	if (active)
-		SET_TABLE_VALUE(table, "%u", MCASP_BITFIELD(regs->txtdmslot, 0x1FF));
+		SET_TABLE_VALUE(table, "%u",
+				MCASP_BITFIELD(regs->txtdmslot, 0x1FF));
 	else
 		SET_TABLE_VALUE(table, "Inactive");
 	row++;
 
-
 	/* Receive State-Machine */
-	active = !!MCASP_BITFIELD(regs->gblctl, 0x08);
+	active = ! !MCASP_BITFIELD(regs->gblctl, 0x08);
 
 	SET_TABLE_PARAM(table, "Receive State-Machine");
 	row++;
@@ -711,7 +737,8 @@ static int dra7xx_mcasp_control(struct mcasp_regs *regs, FILE *stream)
 
 	SET_TABLE_PARAM(table, "  Current Slot");
 	if (active)
-		SET_TABLE_VALUE(table, "%u", MCASP_BITFIELD(regs->rxtdmslot, 0x1FF));
+		SET_TABLE_VALUE(table, "%u",
+				MCASP_BITFIELD(regs->rxtdmslot, 0x1FF));
 	else
 		SET_TABLE_VALUE(table, "Inactive");
 	row++;
@@ -721,7 +748,7 @@ static int dra7xx_mcasp_control(struct mcasp_regs *regs, FILE *stream)
 	return 0;
 }
 
-static int dra7xx_mcasp_clocking(struct mcasp_regs *regs, FILE *stream)
+static int dra7xx_mcasp_clocking(struct mcasp_regs *regs, FILE * stream)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row;
@@ -885,7 +912,7 @@ static int dra7xx_mcasp_clocking(struct mcasp_regs *regs, FILE *stream)
 	return 0;
 }
 
-static int dra7xx_mcasp_frame_sync(struct mcasp_regs *regs, FILE *stream)
+static int dra7xx_mcasp_frame_sync(struct mcasp_regs *regs, FILE * stream)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row;
@@ -1023,7 +1050,6 @@ static int dra7xx_mcasp_frame_sync(struct mcasp_regs *regs, FILE *stream)
 		SET_TABLE_VALUE(table, "No error");
 	row++;
 
-
 	SET_TABLE_PARAM(table, "Sync Mode");
 	if (MCASP_BITFIELD(regs->aclkrctl, 0x40))
 		SET_TABLE_VALUE(table, "Asynchronous");
@@ -1036,7 +1062,7 @@ static int dra7xx_mcasp_frame_sync(struct mcasp_regs *regs, FILE *stream)
 	return 0;
 }
 
-static int dra7xx_mcasp_format_units(struct mcasp_regs *regs, FILE *stream)
+static int dra7xx_mcasp_format_units(struct mcasp_regs *regs, FILE * stream)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row;
@@ -1167,7 +1193,7 @@ static int dra7xx_mcasp_format_units(struct mcasp_regs *regs, FILE *stream)
 	return 0;
 }
 
-static int dra7xx_mcasp_serializers(struct mcasp_regs *regs, FILE *stream)
+static int dra7xx_mcasp_serializers(struct mcasp_regs *regs, FILE * stream)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row;
@@ -1241,9 +1267,10 @@ static int dra7xx_mcasp_serializers(struct mcasp_regs *regs, FILE *stream)
 }
 
 static int dra7xx_mcasp_pin(const char *pin_name, const char *mcasp_name,
-		struct mcasp_regs *regs, unsigned int bit,
-		char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
-		unsigned int row)
+			    struct mcasp_regs *regs, unsigned int bit,
+			    char
+			    table[TABLE_MAX_ROW][TABLE_MAX_COL]
+			    [TABLE_MAX_ELT_LEN], unsigned int row)
 {
 	unsigned int mask = 1 << bit;
 	unsigned int is_gpio;
@@ -1252,11 +1279,11 @@ static int dra7xx_mcasp_pin(const char *pin_name, const char *mcasp_name,
 	SET_TABLE_PARAM(table, "%s", pin_name);
 	row++;
 
-	is_gpio = !!MCASP_BITFIELD(regs->pfunc, mask);
-	is_output = !!MCASP_BITFIELD(regs->pdir, mask);
+	is_gpio = ! !MCASP_BITFIELD(regs->pfunc, mask);
+	is_output = ! !MCASP_BITFIELD(regs->pdir, mask);
 
 	SET_TABLE_PARAM(table, "  Functionality");
-	SET_TABLE_VALUE(table, "%s", is_gpio ?  "GPIO" : mcasp_name);
+	SET_TABLE_VALUE(table, "%s", is_gpio ? "GPIO" : mcasp_name);
 	row++;
 
 	SET_TABLE_PARAM(table, "  Direction");
@@ -1282,7 +1309,7 @@ static int dra7xx_mcasp_pin(const char *pin_name, const char *mcasp_name,
 	return row;
 }
 
-static int dra7xx_mcasp_pinctrl(struct mcasp_regs *regs, FILE *stream)
+static int dra7xx_mcasp_pinctrl(struct mcasp_regs *regs, FILE * stream)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	unsigned int row;
@@ -1336,12 +1363,12 @@ static int dra7xx_mcasp_pinctrl(struct mcasp_regs *regs, FILE *stream)
  * @param[in]		stream: output stream
  * @DESCRIPTION		analyze McASP configuration
  *------------------------------------------------------------------------ */
-int dra7xx_mcasp_show(FILE *stream, int argc, char *argv[])
+int dra7xx_mcasp_show(FILE * stream, int argc, char *argv[])
 {
 	struct mcasp_regs *regs = &mcasp_regs;
 	unsigned int baseaddr = MCASP3_CFG_BASEADDR;
 	unsigned int instance;
-	const char* inst_arg;
+	const char *inst_arg;
 	int serializers;
 	int i;
 	int ret;
@@ -1369,7 +1396,8 @@ int dra7xx_mcasp_show(FILE *stream, int argc, char *argv[])
 		help(HELP_MCASP);
 		return OMAPCONF_ERR_ARG;
 	} else if (ret == 0) {
-		fprintf(stderr, "omapconf: %s is not active, cannot proceed further\n",
+		fprintf(stderr,
+			"omapconf: %s is not active, cannot proceed further\n",
 			inst_arg);
 		return 0;
 	}

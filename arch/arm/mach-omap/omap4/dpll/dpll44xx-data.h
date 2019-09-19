@@ -41,16 +41,13 @@
  *
  */
 
-
 #ifndef __DPLL44XX_DATA_H__
 #define __DPLL44XX_DATA_H__
-
 
 #include <dpll44xx.h>
 #include <clock44xx.h>
 #include <voltdm44xx.h>
 #include <lib.h>
-
 
 typedef struct {
 	/* Common DPLL type A & B */
@@ -60,21 +57,20 @@ typedef struct {
 	int lpmode;
 	short regm4xen;
 	int dcc_en;
-	double dcc_count; /* in us, not relevant if dcc_en != 1 */
+	double dcc_count;	/* in us, not relevant if dcc_en != 1 */
 	int M;
 	int N;
 	double fdpll;
 	int M2;
-	double M2_clkout_rate;		/* in MHz */
+	double M2_clkout_rate;	/* in MHz */
 	double X2_M2_clkdcoldo_rate;	/* in MHz */
 	int M3;
 	double X2_M3_rate;	/* in MHz */
 	/* DPLL type A only: HS Dividers (M4 to M7) */
 	short hsdiv_present[4];
 	int hsdiv[4];
-	double hsdiv_rate[4];		/* in MHz */
+	double hsdiv_rate[4];	/* in MHz */
 } dpll44xx_audit_settings;
-
 
 typedef enum {
 	DPLL44XX_CLKOUT_M2,
@@ -88,19 +84,16 @@ typedef enum {
 	DPLL44XX_OUTPUT_ID_MAX
 } dpll44xx_output_id;
 
-
 typedef struct {
 	unsigned int cm_clksel_dpll;
 	unsigned int cm_div_m2_dpll;
 	unsigned int cm_div_m3_dpll;
 } omap4_dpll_MN_params_regs;
 
-
 typedef struct {
 	unsigned int cm_clkmode_dpll;
 	unsigned int cm_ssc_deltamstep_dpll;
 } omap4_dpll_SSC_params_regs;
-
 
 typedef struct {
 	unsigned int cm_clkmode_dpll;
@@ -112,7 +105,6 @@ typedef struct {
 	unsigned int cm_div_m3_dpll;
 } omap4_dpll_params_regs;
 
-
 typedef struct {
 	clock44xx_id ref_clk;
 	clock44xx_id byp_clk_m2;
@@ -120,18 +112,17 @@ typedef struct {
 	clock44xx_id byp_clk_mx;
 } omap4_dpll_clock_sources;
 
-
 extern const char dpll44xx_names[DPLL44XX_ID_MAX + 1][DPLL_MAX_NAME_LENGTH];
 
 extern const char
-	dpll44xx_output_names[DPLL44XX_OUTPUT_ID_MAX + 1][DPLL_OUTPUT_MAX_NAME_LENGTH];
+ dpll44xx_output_names[DPLL44XX_OUTPUT_ID_MAX + 1][DPLL_OUTPUT_MAX_NAME_LENGTH];
 
 extern const dpll44xx_audit_settings
-	**dpll4470_golden_settings_38_4MHz[DPLL44XX_ID_MAX];
+    ** dpll4470_golden_settings_38_4MHz[DPLL44XX_ID_MAX];
 extern const dpll44xx_audit_settings
-	**dpll4460_golden_settings_38_4MHz[DPLL44XX_ID_MAX];
+    ** dpll4460_golden_settings_38_4MHz[DPLL44XX_ID_MAX];
 extern const dpll44xx_audit_settings
-	**dpll4430_golden_settings_38_4MHz[DPLL44XX_ID_MAX];
+    ** dpll4430_golden_settings_38_4MHz[DPLL44XX_ID_MAX];
 
 extern const omap4_dpll_MN_params_regs omap4_dpll_MN_regs[DPLL44XX_ID_MAX];
 
@@ -143,8 +134,6 @@ extern const omap4_dpll_clock_sources omap4_dpll_sources[DPLL44XX_ID_MAX];
 
 extern reg_table dpll44xx_prcm_reg_table[80];
 
-
 int dpll44xx_init_regtable(void);
-
 
 #endif

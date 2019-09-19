@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <main54xx.h>
 #include <lib54xx.h>
 #include <lib.h>
@@ -75,7 +74,6 @@
 #include <temperature.h>
 #include <opp.h>
 
-
 /* #define MAIN54XX_DEBUG */
 #ifdef MAIN54XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -83,19 +81,17 @@
 #define dprintf(format, ...)
 #endif
 
-
-#define PERF_TRACE54XX_DEFAULT_CAPTURE_TIME	10 /* second */
-#define PERF_TRACE54XX_DEFAULT_DELAY_TIME	0 /* second */
-#define PERF_TRACE54XX_DEFAULT_SAMPLING_RATE	(double) 0.1 /* second */
-#define PERF_TRACE54XX_MIN_SAMPLING_RATE	(double) 0.1 /* second */
-
+#define PERF_TRACE54XX_DEFAULT_CAPTURE_TIME	10	/* second */
+#define PERF_TRACE54XX_DEFAULT_DELAY_TIME	0	/* second */
+#define PERF_TRACE54XX_DEFAULT_SAMPLING_RATE	(double) 0.1	/* second */
+#define PERF_TRACE54XX_MIN_SAMPLING_RATE	(double) 0.1	/* second */
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		sigkill_handler
  * @BRIEF		catch kill signal
  * @DESCRIPTION		catch kill signal
  *------------------------------------------------------------------------ */
-void sigkill_handler(int sigID, siginfo_t *siginfo, void *context)
+void sigkill_handler(int sigID, siginfo_t * siginfo, void *context)
 {
 	/* just to remove "unused parameter" warnings ... */
 	sigID = sigID;
@@ -106,7 +102,6 @@ void sigkill_handler(int sigID, siginfo_t *siginfo, void *context)
 	sci_killhandler();
 	exit(0);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_dpll_audit
@@ -133,15 +128,14 @@ int main54xx_dpll_audit(int argc, char *argv[])
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
 	CHECK_NULL_ARG(argv, OMAPCONF_ERR_ARG);
 
-
 	/* Retrieve user options */
 	dprintf("%s(): argc=%u\n", __func__, argc);
-	#ifdef MAIN54XX_DEBUG
+#ifdef MAIN54XX_DEBUG
 	for (curr_opp = 0; curr_opp < argc; curr_opp++) {
 		dprintf("%s(): argv[%u]=%s\n", __func__,
 			curr_opp, argv[curr_opp]);
 	}
-	#endif
+#endif
 
 	if (argc == 0) {
 		/* Audit all DPLLs at current OPP by default */
@@ -215,11 +209,10 @@ int main54xx_dpll_audit(int argc, char *argv[])
 
 main54xx_dpll_audit_run:
 	dprintf("%s(): dpll_id=%s, opp_id=%s curr_opp=%u\n", __func__,
-		dpll54xx_name_get(dpll_id),
-		opp54xx_name_get(opp_id), curr_opp);
+		dpll54xx_name_get(dpll_id), opp54xx_name_get(opp_id), curr_opp);
 
 	ret = audit54xx_dpll(stdout, dpll_id, opp_id, curr_opp,
-		&err_nbr, &wng_nbr);
+			     &err_nbr, &wng_nbr);
 
 	goto main54xx_dpll_audit_end;
 
@@ -230,7 +223,6 @@ main54xx_dpll_audit_err_arg:
 main54xx_dpll_audit_end:
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_audit
@@ -261,8 +253,7 @@ int main54xx_audit(int argc, char *argv[])
 		ret = main54xx_dpll_audit(argc - 1, argv + 1);
 	} else if (strcmp(argv[0], "clkspeed") == 0) {
 		if (argc == 1)
-			ret = module_clk_rate_audit(
-				stdout, &err_nbr, &wng_nbr);
+			ret = module_clk_rate_audit(stdout, &err_nbr, &wng_nbr);
 		else
 			goto main54xx_audit_err_arg;
 	} else if (strcmp(argv[0], "io") == 0) {
@@ -280,8 +271,9 @@ int main54xx_audit(int argc, char *argv[])
 			ret = err_arg_missing_msg_show(HELP_AUDIT);
 		} else if (argc == 3) {
 			if (strcmp(argv[1], "-f") == 0)
-				ret = audit54xx_full(
-					stdout, argv[2], &err_nbr, &wng_nbr);
+				ret =
+				    audit54xx_full(stdout, argv[2], &err_nbr,
+						   &wng_nbr);
 			else
 				ret = err_arg_msg_show(HELP_AUDIT);
 		} else {
@@ -299,7 +291,6 @@ main54xx_audit_err_arg:
 main54xx_audit_end:
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_dump
@@ -378,19 +369,19 @@ int main54xx_dump(int argc, char *argv[])
 		} else if (argc == 2) {
 			if (strcmp(argv[1], "all") == 0)
 				return ctrlmod54xx_dump(stdout,
-					CTRLMOD54XX_MODS_COUNT);
+							CTRLMOD54XX_MODS_COUNT);
 			else if (strcmp(argv[1], "core") == 0)
 				return ctrlmod54xx_dump(stdout,
-					CTRLMOD54XX_CTRL_MODULE_CORE);
+							CTRLMOD54XX_CTRL_MODULE_CORE);
 			else if (strcmp(argv[1], "core_pad") == 0)
 				return ctrlmod54xx_dump(stdout,
-					CTRLMOD54XX_CTRL_MODULE_CORE_PAD);
+							CTRLMOD54XX_CTRL_MODULE_CORE_PAD);
 			else if (strcmp(argv[1], "wkup") == 0)
 				return ctrlmod54xx_dump(stdout,
-					CTRLMOD54XX_CTRL_MODULE_WKUP);
+							CTRLMOD54XX_CTRL_MODULE_WKUP);
 			else if (strcmp(argv[1], "wkup_pad") == 0)
 				return ctrlmod54xx_dump(stdout,
-					CTRLMOD54XX_CTRL_MODULE_WKUP_PAD);
+							CTRLMOD54XX_CTRL_MODULE_WKUP_PAD);
 			else
 				return err_arg_msg_show(HELP_CTRLMOD);
 		} else {
@@ -407,13 +398,13 @@ int main54xx_dump(int argc, char *argv[])
 				return sr54xx_dump(stdout, SR54XX_MODS_COUNT);
 			else if (strcmp(argv[1], "mpu") == 0)
 				return sr54xx_dump(stdout,
-					SR54XX_SMARTREFLEX_MPU);
+						   SR54XX_SMARTREFLEX_MPU);
 			else if (strcmp(argv[1], "mm") == 0)
 				return sr54xx_dump(stdout,
-					SR54XX_SMARTREFLEX_MM);
+						   SR54XX_SMARTREFLEX_MM);
 			else if (strcmp(argv[1], "core") == 0)
 				return sr54xx_dump(stdout,
-					SR54XX_SMARTREFLEX_CORE);
+						   SR54XX_SMARTREFLEX_CORE);
 			else
 				return err_arg_msg_show(HELP_SR);
 		} else {
@@ -435,7 +426,6 @@ int main54xx_dump(int argc, char *argv[])
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_set
@@ -497,7 +487,6 @@ static int main54xx_set(int argc, char *argv[])
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_clear
  * @BRIEF		clear some OMAP5 item, which category is found in argv
@@ -534,7 +523,6 @@ static int main54xx_clear(int argc, char *argv[])
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_read
  * @BRIEF		read some item, which category is found in argv
@@ -561,7 +549,6 @@ int main54xx_read(int argc, char *argv[])
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_write
  * @BRIEF		udpate some item, which category is found in argv
@@ -587,7 +574,6 @@ int main54xx_write(int argc, char *argv[])
 		return OMAPCONF_ERR_ARG;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_trace
@@ -622,7 +608,6 @@ int main54xx_trace(int argc, char *argv[])
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_show
@@ -711,8 +696,7 @@ int main54xx_show(int argc, char *argv[])
 			return prcm54xx_config_show(stdout, 1, argv);
 		} else if (argc == 2) {
 			if (strcmp(argv[1], "cfg") == 0)
-				return prcm54xx_config_show(
-					stdout, 1, argv);
+				return prcm54xx_config_show(stdout, 1, argv);
 			else if (strcmp(argv[1], "atc") == 0)
 				return abe54xx_atc_status_show(stdout);
 			else
@@ -748,7 +732,7 @@ int main54xx_show(int argc, char *argv[])
 		}
 	} else if (strcmp(argv[0], "timers_32k") == 0) {
 		return timestamp_32k_main(argc, argv);
-	/* Legacy */
+		/* Legacy */
 	} else if (strcmp(argv[0], "abb") == 0) {
 		ret = abb54xx_config_show(stdout);
 		fprintf(stderr,
@@ -778,7 +762,6 @@ int main54xx_show(int argc, char *argv[])
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_enable
  * @BRIEF		enable selected item provided in string argv.
@@ -806,7 +789,6 @@ static int main54xx_enable(int argc, char *argv[])
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_setup
@@ -843,8 +825,8 @@ static int main54xx_setup(int argc, char *argv[])
 			if (argc != 5)
 				return hwobs54xx_prcm_setup(NULL, NULL, NULL);
 			else
-				return hwobs54xx_prcm_setup(
-					argv[2], argv[3], argv[4]);
+				return hwobs54xx_prcm_setup(argv[2], argv[3],
+							    argv[4]);
 		} else {
 			return err_arg_msg_show(HELP_HWOBS);
 		}
@@ -852,7 +834,6 @@ static int main54xx_setup(int argc, char *argv[])
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_test
@@ -881,7 +862,6 @@ static int main54xx_test(int argc, char *argv[])
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_search
@@ -912,7 +892,6 @@ static int main54xx_search(int argc, char *argv[])
 		return err_unknown_argument_msg_show(argv[0]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_export
@@ -948,7 +927,7 @@ static int main54xx_export(int argc, char *argv[])
 			return ctt54xx_rd1_export(argv[1]);
 		else
 			return err_arg_too_many_msg_show(HELP_EXPORT);
-	#if 0 /* FIXME */
+#if 0				/* FIXME */
 	} else if (strcmp(argv[0], "pct") == 0) {
 		if (argc == 1)
 			return pct54xx_dump();
@@ -956,12 +935,11 @@ static int main54xx_export(int argc, char *argv[])
 			return pct54xx_rd1_export(argv[1]);
 		else
 			return err_arg_too_many_msg_show(HELP_EXPORT);
-	#endif
+#endif
 	} else {
 		return err_arg_msg_show(HELP_EXPORT);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_legacy
@@ -980,10 +958,10 @@ int main54xx_legacy(int argc, char *argv[])
 	int ret;
 
 	if ((argc == 2) && (strcmp(argv[0], "prcm") == 0) &&
-		(strcmp(argv[1], "dump") == 0)) {
+	    (strcmp(argv[1], "dump") == 0)) {
 		ret = prcm54xx_dump(NULL);
 	} else if ((argc == 3) && (strcmp(argv[0], "prcm") == 0) &&
-		(strcmp(argv[1], "dump") == 0)) {
+		   (strcmp(argv[1], "dump") == 0)) {
 		ret = prcm54xx_dump(argv[2]);
 	} else if (strcmp(argv[0], "sr") == 0) {
 		ret = sr54xx_main(argc - 1, argv + 1);
@@ -1010,7 +988,6 @@ int main54xx_legacy(int argc, char *argv[])
 main54xx_legacy_end:
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		main54xx

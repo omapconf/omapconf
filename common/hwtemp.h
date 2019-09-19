@@ -41,13 +41,12 @@
  *
  */
 
-
 #ifndef __HWTEMP_H__
 #define __HWTEMP_H__
 
 #include <reg.h>
 
-int hwtemp_get(reg *temp_register, unsigned int mask, unsigned int shift,
+int hwtemp_get(reg * temp_register, unsigned int mask, unsigned int shift,
 	       unsigned int start_val, const short int *conv_table,
 	       unsigned int sizeof_conv_table);
 

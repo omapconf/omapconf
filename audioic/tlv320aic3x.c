@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <tlv320aic3x.h>
 #include <i2c-tools.h>
 #include <stdio.h>
@@ -49,7 +48,6 @@
 #include <autoadjust_table.h>
 #include <help.h>
 #include <cpuinfo.h>
-
 
 /* #define TLV320AIC3X_DEBUG */
 #ifdef TLV320AIC3X_DEBUG
@@ -176,8 +174,8 @@ static const reg_table tlv320aic3x_reg_table[TLV320AIC3X_REG_TABLE_SIZE] = {
 	{"New Programmable ADC Digital Path", 107},
 	{"Passive Analog Signal Bypass Selection", 108},
 	{"DAC Quiescent Current Adjustment", 109},
-	{"END", 0} };
-
+	{"END", 0}
+};
 
 static void tlv320aic3x_dumpregs_usage(void)
 {
@@ -234,8 +232,9 @@ int tlv320aic3x_dumpregs(int argc, char *argv[])
 	case TLV320AIC3X_I2C_VALID_ADDR4:
 		break;
 	default:
-		printf("Invalid chip address, valid addresses are: 0x%02x - 0x%02x\n",
-		       TLV320AIC3X_I2C_VALID_ADDR1, TLV320AIC3X_I2C_VALID_ADDR4);
+		printf
+		    ("Invalid chip address, valid addresses are: 0x%02x - 0x%02x\n",
+		     TLV320AIC3X_I2C_VALID_ADDR1, TLV320AIC3X_I2C_VALID_ADDR4);
 		return OMAPCONF_ERR_NOT_AVAILABLE;
 	}
 
@@ -253,21 +252,22 @@ int tlv320aic3x_dumpregs(int argc, char *argv[])
 	printf("Chip address: 0x%02x\n\n", chip_address);
 
 	strncpy(autoadjust_table[row][0], "Reg. Name", TABLE_MAX_ELT_LEN);
-	strncpy(autoadjust_table[row][1], "Reg. Addr",
-		TABLE_MAX_ELT_LEN);
+	strncpy(autoadjust_table[row][1], "Reg. Addr", TABLE_MAX_ELT_LEN);
 	strncpy(autoadjust_table[row][2], "Reg. Val.", TABLE_MAX_ELT_LEN);
 	row++;
 
 	while (strcmp(tlv320aic3x_reg_table[i].name, "END") != 0) {
-		ret = i2cget(i2cbus, chip_address, tlv320aic3x_reg_table[i].addr, &val);
+		ret =
+		    i2cget(i2cbus, chip_address, tlv320aic3x_reg_table[i].addr,
+			   &val);
 		if (ret == 0) {
 			/* Show register name, addr & content (hex) */
 			snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
-				"%s", tlv320aic3x_reg_table[i].name);
+				 "%s", tlv320aic3x_reg_table[i].name);
 			snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN,
-				"%3u", tlv320aic3x_reg_table[i].addr);
+				 "%3u", tlv320aic3x_reg_table[i].addr);
 			snprintf(autoadjust_table[row][2], TABLE_MAX_ELT_LEN,
-				"0x%02X", val);
+				 "0x%02X", val);
 			row++;
 		} else if (ret == -4) {
 			/*
@@ -275,16 +275,16 @@ int tlv320aic3x_dumpregs(int argc, char *argv[])
 			 * its voltage domain is disabled
 			 */
 			snprintf(autoadjust_table[row][0], TABLE_MAX_ELT_LEN,
-				"%s", tlv320aic3x_reg_table[i].name);
+				 "%s", tlv320aic3x_reg_table[i].name);
 			snprintf(autoadjust_table[row][1], TABLE_MAX_ELT_LEN,
-				"%3u", tlv320aic3x_reg_table[i].addr);
+				 "%3u", tlv320aic3x_reg_table[i].addr);
 			snprintf(autoadjust_table[row][2], TABLE_MAX_ELT_LEN,
-				"INACTIVE");
+				 "INACTIVE");
 			row++;
 		} else {
 			printf("omapconf_tlv320aic3x_dumpregs(): read error! "
-				"(addr=%u, err=%d)\n",
-				tlv320aic3x_reg_table[i].addr, ret);
+			       "(addr=%u, err=%d)\n",
+			       tlv320aic3x_reg_table[i].addr, ret);
 			err = OMAPCONF_ERR_REG_ACCESS;
 			break;
 		}
@@ -295,7 +295,6 @@ int tlv320aic3x_dumpregs(int argc, char *argv[])
 
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		tlv320aic3x_main

@@ -41,18 +41,14 @@
  *
  */
 
-
 #ifndef __POWER_TRACE44XX_H__
 #define __POWER_TRACE44XX_H__
 
-
-#define PERF_TRACE_DEFAULT_SAMPLING_RATE	((double) 0.1) /* second */
-#define PERF_TRACE_MIN_SAMPLING_RATE		((double) 0.1) /* second */
-#define PERF_TRACE_DEFAULT_DURATION		10 /* second */
-
+#define PERF_TRACE_DEFAULT_SAMPLING_RATE	((double) 0.1)	/* second */
+#define PERF_TRACE_MIN_SAMPLING_RATE		((double) 0.1)	/* second */
+#define PERF_TRACE_DEFAULT_DURATION		10	/* second */
 
 int trace44xx_pwrdm(unsigned int duration);
 int trace44xx_opp(unsigned int capture_time);
-
 
 #endif

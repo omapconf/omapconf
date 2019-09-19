@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <trace.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -61,7 +60,6 @@
 #include <mem.h>
 #include <unistd.h>
 
-
 /* #define TRACE_DEBUG */
 #ifdef TRACE_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
@@ -69,17 +67,32 @@
 #define dprintf(format, ...)
 #endif
 
+static struct sci_config_sdram my_config_emif1 =
+    { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,
+{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}} };
+static struct sci_config_sdram my_config_emif2 =
+    { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,
+{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}} };
+static struct sci_config_sdram my_config_emif3 =
+    { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,
+{{SCI_MASTID_ALL, 0xff, SCI_RD_ONLY, SCI_ERR_DONTCARE}} };
+static struct sci_config_sdram my_config_emif4 =
+    { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,
+{{SCI_MASTID_ALL, 0xff, SCI_RD_ONLY, SCI_ERR_DONTCARE}} };
+static struct sci_config_sdram my_config_emif5 =
+    { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,
+{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}} };
+static struct sci_config_sdram my_config_emif6 =
+    { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,
+{{SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE}} };
+static struct sci_config_sdram my_config_emif7 =
+    { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 0,
+{{SCI_MASTID_ALL, 0xff, SCI_RD_OR_WR_DONTCARE, SCI_ERR_DONTCARE}} };
+static struct sci_config_sdram my_config_emif8 =
+    { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 0,
+{{SCI_MASTID_ALL, 0xff, SCI_RD_OR_WR_DONTCARE, SCI_ERR_DONTCARE}} };
 
-static struct sci_config_sdram my_config_emif1 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,	{ { SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE } } };
-static struct sci_config_sdram my_config_emif2 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,	{ { SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE } } };
-static struct sci_config_sdram my_config_emif3 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,	{ { SCI_MASTID_ALL, 0xff, SCI_RD_ONLY, SCI_ERR_DONTCARE } } };
-static struct sci_config_sdram my_config_emif4 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,	{ { SCI_MASTID_ALL, 0xff, SCI_RD_ONLY, SCI_ERR_DONTCARE } } };
-static struct sci_config_sdram my_config_emif5 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 1,	{ { SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE } } };
-static struct sci_config_sdram my_config_emif6 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 1,	{ { SCI_MASTID_ALL, 0xff, SCI_WR_ONLY, SCI_ERR_DONTCARE } } };
-static struct sci_config_sdram my_config_emif7 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF1, 0,	{ { SCI_MASTID_ALL, 0xff, SCI_RD_OR_WR_DONTCARE, SCI_ERR_DONTCARE } } };
-static struct sci_config_sdram my_config_emif8 = { SCI_SDRAM_THROUGHPUT, SCI_EMIF2, 0,	{ { SCI_MASTID_ALL, 0xff, SCI_RD_OR_WR_DONTCARE, SCI_ERR_DONTCARE } } };
-
-static struct sci_config_sdram *pmy_cfg[] =  {
+static struct sci_config_sdram *pmy_cfg[] = {
 	&my_config_emif1,
 	&my_config_emif2,
 	&my_config_emif3,
@@ -87,26 +100,27 @@ static struct sci_config_sdram *pmy_cfg[] =  {
 	&my_config_emif5,
 	&my_config_emif6,
 	&my_config_emif7,
-	&my_config_emif8};
+	&my_config_emif8
+};
 
 static unsigned int num_use_cases = 4;
 static unsigned int valid_usecase_cnt = 0;
 static psci_handle psci_hdl = NULL;
 static psci_usecase_key my_usecase_key[8] = {
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+};
+
 static uint32_t *sci_cntrs_buf[8];
 static double *emif_bw[2];
 static double emif_bw_min[2], emif_bw_max[2], emif_bw_avg[2];
 static void trace_bw_deinit(void);
-
 
 /* Max number of Generic Input Files */
 #define TRACE_MAX_GENINPUTS			32
 #define TRACEABLES_NAME_LENGTH_MAX		24
 #define TRACEABLES_UNIT_LENGTH_MAX		8
 
-static const char
-	traceables_names[NUM_ITEMS + 1][TRACEABLES_NAME_LENGTH_MAX] = {
+static const char traceables_names[NUM_ITEMS + 1][TRACEABLES_NAME_LENGTH_MAX] = {
 	"CPU0 Load",
 	"CPU1 Load",
 	"Total CPU Load",
@@ -123,11 +137,10 @@ static const char
 	"GPU Temperature",
 	"CORE Temperature",
 	"CASE Temperature",
-	"FIXME"};
+	"FIXME"
+};
 
-
-static const char
-	traceables_unit[NUM_ITEMS + 1][TRACEABLES_UNIT_LENGTH_MAX] = {
+static const char traceables_unit[NUM_ITEMS + 1][TRACEABLES_UNIT_LENGTH_MAX] = {
 	"%",
 	"%",
 	"%",
@@ -144,8 +157,8 @@ static const char
 	"C",
 	"C",
 	"C",
-	"FIXME"};
-
+	"FIXME"
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_cfg_line_parse
@@ -180,7 +193,7 @@ char trace_cfg_line_parse(char line[], int buffer_size)
 			return 'x';
 	}
 
-	line[i+1] = '\0';
+	line[i + 1] = '\0';
 	i = pipe_index + 1;
 
 	while (line[i] == ' ') {
@@ -199,7 +212,6 @@ char trace_cfg_line_parse(char line[], int buffer_size)
 		return 'x';
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_default_cfg_create
  * @BRIEF		Create a default config file
@@ -207,7 +219,7 @@ char trace_cfg_line_parse(char line[], int buffer_size)
  * @param[in]		fp: a file pointer opened in "write" mode
  * @DESCRIPTION		Create a default confifg file if none exists
  *------------------------------------------------------------------------ */
-void trace_default_cfg_create(FILE *fp)
+void trace_default_cfg_create(FILE * fp)
 {
 	int i;
 
@@ -231,8 +243,8 @@ void trace_default_cfg_create(FILE *fp)
 
 		case HOTSPOT_MPU_TEMP:
 			if (cpu_is_omap44xx() &&
-				(temp_sensor_get(TEMP_SENSOR_HOTSPOT_MPU) !=
-					TEMP_ABSOLUTE_ZERO))
+			    (temp_sensor_get(TEMP_SENSOR_HOTSPOT_MPU) !=
+			     TEMP_ABSOLUTE_ZERO))
 				fprintf(fp, "%s | y\n\n", traceables_names[i]);
 			else
 				fprintf(fp, "%s | n\n\n", traceables_names[i]);
@@ -273,7 +285,6 @@ void trace_default_cfg_create(FILE *fp)
 	dprintf("%s(): done.\n", __func__);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_yn_swap
  * @BRIEF		Swaps the y/n flag in a line
@@ -304,7 +315,6 @@ void trace_yn_swap(char line[])
 		line[i] = 'x';
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_yn2yesno
  * @BRIEF		Converts a y/n flag to the word "yes" or "no"
@@ -330,7 +340,6 @@ char *trace_yn2yesno(char letter)
 	return word;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_newline_strip
  * @BRIEF		Remove '\n' from the end of a line
@@ -352,7 +361,6 @@ void trace_newline_strip(char line[], int size)
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_index2name
  * @BRIEF		Convert a trace index to a trace item name
@@ -368,7 +376,6 @@ const char *trace_index2name(traceables index)
 
 	return traceables_names[index];
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_name2index
@@ -399,13 +406,11 @@ int trace_name2index(char *name)
 	return -1;
 }
 
-
 /* Compares 2 integers, passed as an argument to qsort */
 int int_cmp(const void *v1, const void *v2)
 {
-	return *(int *) v1 - *(int *) v2;
+	return *(int *)v1 - *(int *)v2;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_geninput_config_read
@@ -426,8 +431,8 @@ int int_cmp(const void *v1, const void *v2)
  *			them into the input buffers
  *------------------------------------------------------------------------ */
 int trace_geninput_config_read(const char *filename,
-	char *names[], char *paths[],
-	char *units[], int accumulating[], int flags[])
+			       char *names[], char *paths[],
+			       char *units[], int accumulating[], int flags[])
 {
 	FILE *fp;
 	int i = 1;
@@ -455,7 +460,7 @@ int trace_geninput_config_read(const char *filename,
 			continue;
 
 		/* Find beginning of name */
-		while (*(buffer+i) == ' ') {
+		while (*(buffer + i) == ' ') {
 			if (i >= BUFFER_SIZE)
 				return -3;
 			i++;
@@ -473,7 +478,7 @@ int trace_geninput_config_read(const char *filename,
 		open_quote_index = i;
 		i--;
 
-		while (*(buffer+i) == ' ') {
+		while (*(buffer + i) == ' ') {
 			if (i <= 0)
 				return -3;
 			i--;
@@ -484,7 +489,7 @@ int trace_geninput_config_read(const char *filename,
 		/* Find beginning of path */
 		i = open_quote_index + 1;
 
-		while (*(buffer+i) == ' ') {
+		while (*(buffer + i) == ' ') {
 			if (i >= BUFFER_SIZE)
 				return -3;
 			i++;
@@ -502,13 +507,13 @@ int trace_geninput_config_read(const char *filename,
 		close_quote_index = i;
 		i--;
 
-		while (*(buffer+i) == ' ') {
+		while (*(buffer + i) == ' ') {
 			if (i <= 0)
 				return -3;
 			i--;
 		}
 
-		*(buffer+i+1) = '\0';
+		*(buffer + i + 1) = '\0';
 
 		/* Find units start */
 		i = close_quote_index + 1;
@@ -596,7 +601,6 @@ int trace_geninput_config_read(const char *filename,
 	return geninput_num;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_config_read
  * @BRIEF		Read the config file and output an array of flags.
@@ -682,9 +686,9 @@ int trace_config_read(const char *filename, int flags[NUM_ITEMS])
 	/* Check flags */
 	for (i = 0; i < NUM_ITEMS; i++) {
 		if (flags[i] == -10) {
-			printf(
-				"omapconf: warning: not all traceable items present in configuration (%d).\n",
-				i);
+			printf
+			    ("omapconf: warning: not all traceable items present in configuration (%d).\n",
+			     i);
 			ret = -3;
 		}
 	}
@@ -696,7 +700,6 @@ read_config_end:
 	dprintf("%s(): ret=%d\n", __func__, ret);
 	return ret;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_geninput_yn_read
@@ -727,7 +730,7 @@ char trace_geninput_yn_read(char line[], int size)
 		i--;
 	}
 
-	line[i+1] = '\0';
+	line[i + 1] = '\0';
 	i += 2;
 
 	while (line[i] != '|') {
@@ -754,7 +757,6 @@ char trace_geninput_yn_read(char line[], int size)
 		return 'x';
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_config_show
  * @BRIEF		Prints a config file to a table
@@ -767,7 +769,7 @@ char trace_geninput_yn_read(char line[], int size)
  *			set if an error is found
  * @DESCRIPTION		Prints the config file pointed to by "fp" to a table
  *------------------------------------------------------------------------ */
-int trace_config_show(char buffer[], int buffer_size, FILE *fp, int *p_error)
+int trace_config_show(char buffer[], int buffer_size, FILE * fp, int *p_error)
 {
 	int row = 0;
 	char number_buffer[20];
@@ -806,7 +808,7 @@ int trace_config_show(char buffer[], int buffer_size, FILE *fp, int *p_error)
 			p_name = buffer;
 		}
 
-		if (YorN == 'x') /* set the error flag */
+		if (YorN == 'x')	/* set the error flag */
 			*p_error = 1;
 
 		autoadjust_table_strncpy(table, row, 0, number_buffer);
@@ -816,7 +818,7 @@ int trace_config_show(char buffer[], int buffer_size, FILE *fp, int *p_error)
 	}
 
 	autoadjust_table_print(table, row, 3);
-	return row-1;
+	return row - 1;
 }
 
 /* ------------------------------------------------------------------------
@@ -846,14 +848,12 @@ int trace_geninput_file_add(const char *filename)
 	if (fgets(input, BUFFER_SIZE, stdin)) {
 		dprintf("unexpected read\n");
 	}
-	if (tolower(input[0]) == 'x' &&
-		(input[1] == '\n' || input[1] == '\0')) {
+	if (tolower(input[0]) == 'x' && (input[1] == '\n' || input[1] == '\0')) {
 		printf("\nNo Generic Input File Added\n\n");
 		return -1;
 	}
 	trace_newline_strip(input, BUFFER_SIZE);
 	strcpy(name, input);
-
 
 	/* Get path */
 	while (1) {
@@ -862,7 +862,7 @@ int trace_geninput_file_add(const char *filename)
 			dprintf("unexpected read\n");
 		}
 		if (tolower(input[0]) == 'x' &&
-			(input[1] == '\n' || input[1] == '\0')) {
+		    (input[1] == '\n' || input[1] == '\0')) {
 			printf("\nNo Generic Input File Added\n\n");
 			return -1;
 		}
@@ -882,8 +882,7 @@ int trace_geninput_file_add(const char *filename)
 	if (fgets(input, BUFFER_SIZE, stdin)) {
 		dprintf("unexpected read\n");
 	}
-	if (tolower(input[0]) == 'x' &&
-		(input[1] == '\n' || input[1] == '\0')) {
+	if (tolower(input[0]) == 'x' && (input[1] == '\n' || input[1] == '\0')) {
 		printf("\nNo Generic Input File Added\n\n");
 		return -1;
 	}
@@ -898,7 +897,7 @@ int trace_geninput_file_add(const char *filename)
 		}
 
 		if (tolower(input[0]) == 'x' &&
-			(input[1] == '\n' || input[1] == '\0')) {
+		    (input[1] == '\n' || input[1] == '\0')) {
 			printf("\nNo Generic Input File Added\n\n");
 			return -1;
 		}
@@ -922,7 +921,7 @@ int trace_geninput_file_add(const char *filename)
 		}
 
 		if (tolower(input[0]) == 'x' &&
-			(input[1] == '\n' || input[1] == '\0')) {
+		    (input[1] == '\n' || input[1] == '\0')) {
 			printf("\nNo Generic Input File Added\n\n");
 			return -1;
 		}
@@ -945,7 +944,6 @@ int trace_geninput_file_add(const char *filename)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_geninput_file_remove
  * @BRIEF		Remove a generic input file from the config
@@ -959,7 +957,7 @@ int trace_geninput_file_add(const char *filename)
  * @DESCRIPTION		Remove a generic input file from the config
  *------------------------------------------------------------------------ */
 int trace_geninput_file_remove(const char *filename,
-	const char *temp_filename, int num_elements)
+			       const char *temp_filename, int num_elements)
 {
 	const int BUFFER_SIZE = 256;
 	char buffer[BUFFER_SIZE];
@@ -986,9 +984,9 @@ int trace_geninput_file_remove(const char *filename,
 		remove_num = atoi(input_buffer);
 
 		if (remove_num <= 0 || remove_num > num_elements) {
-			printf(
-				"Invalid Input: Enter a number in the range 1-%d\n\n",
-				num_elements);
+			printf
+			    ("Invalid Input: Enter a number in the range 1-%d\n\n",
+			     num_elements);
 			continue;
 		}
 
@@ -1022,16 +1020,14 @@ int trace_geninput_file_remove(const char *filename,
 			fputs(buffer, new_file);
 	}
 
-		fclose(new_file);
-		fclose(old_file);
-		remove(filename);
-		rename(temp_filename, filename);
-		printf(
-			"\nGeneric input file successfully removed\nChanges Saved\n\n");
+	fclose(new_file);
+	fclose(old_file);
+	remove(filename);
+	rename(temp_filename, filename);
+	printf("\nGeneric input file successfully removed\nChanges Saved\n\n");
 
-		return 0;
+	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_geninput_file2int
@@ -1077,19 +1073,18 @@ int trace_perf_setup(const char *filename)
 	FILE *fp;
 	FILE *new_file;
 	FILE *old_file;
-	const int BUFFER_SIZE = 256; /* must be able to fit all comments */
-	char line[BUFFER_SIZE]; /* buffer to read lines from file */
+	const int BUFFER_SIZE = 256;	/* must be able to fit all comments */
+	char line[BUFFER_SIZE];	/* buffer to read lines from file */
 	const int INPUT_SIZE = 16;
 	char input_buffer[INPUT_SIZE];
 	int input;
-	int toggle[32]; /* max # of elements that can be toggled at once */
+	int toggle[32];		/* max # of elements that can be toggled at once */
 	int toggle_index = 0;
 	int item_number = 0;
 	int num_toggled = 0;
-	int error = 0; /* flag that is set if error found in file format */
-	int num_elements; /* Number of traceable items */
+	int error = 0;		/* flag that is set if error found in file format */
+	int num_elements;	/* Number of traceable items */
 	int geninput_ret;
-
 
 	/* TEMP_FILENAME cannot be the filename */
 	if (strcmp(filename, TEMP_FILENAME) == 0) {
@@ -1110,7 +1105,7 @@ int trace_perf_setup(const char *filename)
 		}
 		trace_default_cfg_create(fp);
 		fclose(fp);
-		fp = fopen(filename, "r"); /* reopen the new file for reading */
+		fp = fopen(filename, "r");	/* reopen the new file for reading */
 	}
 
 	num_elements = trace_config_show(line, BUFFER_SIZE, fp, &error);
@@ -1118,34 +1113,34 @@ int trace_perf_setup(const char *filename)
 
 	while (1) {
 		printf("Enter item number ([1-%d]) to toggle it.\n",
-			num_elements);
+		       num_elements);
 		printf("Enter Q at any time to save and quit.\n");
 		printf("Enter X at any time to quit without saving.\n");
-		printf(
-			"Enter A at any time to add a generic input file to the config.\n");
-		printf(
-			"Enter R at any time to remove a generic input file from the config.\n\n");
+		printf
+		    ("Enter A at any time to add a generic input file to the config.\n");
+		printf
+		    ("Enter R at any time to remove a generic input file from the config.\n\n");
 		printf("Command or item number: ");
 
 		if (fgets(input_buffer, INPUT_SIZE, stdin)) {
 			dprintf("unexpected read\n");
 		}
 		if (tolower(input_buffer[0]) == 'q' &&
-			(input_buffer[1] == '\0' || input_buffer[1] == ' ' ||
-				input_buffer[1] == '\n')) {
+		    (input_buffer[1] == '\0' || input_buffer[1] == ' ' ||
+		     input_buffer[1] == '\n')) {
 			break;
 		} else if (tolower(input_buffer[0]) == 'x' &&
-			(input_buffer[1] == '\0' || input_buffer[1] == ' ' ||
-				input_buffer[1] == '\n')) {
+			   (input_buffer[1] == '\0' || input_buffer[1] == ' ' ||
+			    input_buffer[1] == '\n')) {
 			printf("\nChanges Not Saved.\n\n");
 			/* If error flag was set, inform the user */
 			if (error)
-				printf(
-					"WARNING: File Format Error!\nDo not use for trace.\n\n");
+				printf
+				    ("WARNING: File Format Error!\nDo not use for trace.\n\n");
 			return 0;
 		} else if (tolower(input_buffer[0]) == 'a' &&
-			(input_buffer[1] == '\0' || input_buffer[1] == ' ' ||
-			input_buffer[1] == '\n')) {
+			   (input_buffer[1] == '\0' || input_buffer[1] == ' ' ||
+			    input_buffer[1] == '\n')) {
 			geninput_ret = trace_geninput_file_add(filename);
 			if (geninput_ret == 0)
 				num_elements++;
@@ -1155,10 +1150,11 @@ int trace_perf_setup(const char *filename)
 			fclose(fp);
 			continue;
 		} else if (tolower(input_buffer[0]) == 'r' &&
-			(input_buffer[1] == '\0' || input_buffer[1] == ' ' ||
-			input_buffer[1] == '\n')) {
-			geninput_ret = trace_geninput_file_remove(
-				filename, TEMP_FILENAME, num_elements);
+			   (input_buffer[1] == '\0' || input_buffer[1] == ' ' ||
+			    input_buffer[1] == '\n')) {
+			geninput_ret =
+			    trace_geninput_file_remove(filename, TEMP_FILENAME,
+						       num_elements);
 			if (geninput_ret == 0)
 				num_elements--;
 			fp = fopen(filename, "r");
@@ -1172,9 +1168,9 @@ int trace_perf_setup(const char *filename)
 		input = atoi(input_buffer);
 		/* if the input was invalid, prompt the user again */
 		if (input <= 0 || input > num_elements) {
-			printf(
-				"Invalid Input: Enter a number in the range [1-%d] or valid command (X, Q, A, R).\n\n",
-				num_elements);
+			printf
+			    ("Invalid Input: Enter a number in the range [1-%d] or valid command (X, Q, A, R).\n\n",
+			     num_elements);
 			continue;
 		}
 
@@ -1216,7 +1212,6 @@ int trace_perf_setup(const char *filename)
 	fclose(new_file);
 	fclose(old_file);
 
-
 	/* delete the old file and rename the temporary one */
 	remove(filename);
 	rename(TEMP_FILENAME, filename);
@@ -1233,7 +1228,6 @@ int trace_perf_setup(const char *filename)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_bw_errhandler
  * @BRIEF		SCI lib error handler
@@ -1243,7 +1237,7 @@ int trace_perf_setup(const char *filename)
  * @DESCRIPTION		SCI lib error handler
  *------------------------------------------------------------------------ */
 static void trace_bw_errhandler(psci_handle phandle,
-	const char *func, enum sci_err err)
+				const char *func, enum sci_err err)
 {
 	printf("SCILib failure %d in function: %s\n", err, func);
 	phandle = phandle;
@@ -1251,7 +1245,6 @@ static void trace_bw_errhandler(psci_handle phandle,
 	trace_bw_deinit();
 	exit(-2);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_bw_init
@@ -1276,17 +1269,17 @@ static int trace_bw_init(unsigned int sample_count)
 	enum sci_err my_sci_err;
 
 	if (cpu_is_omap4430() || cpu_is_omap4460()) {
-		printf(
-			"omapconf: warning: EMIF BW not available on OMAP44[30-60], skipping it.\n");
+		printf
+		    ("omapconf: warning: EMIF BW not available on OMAP44[30-60], skipping it.\n");
 		return OMAPCONF_ERR_CPU;
 	} else if (!cpu_is_omap4470() && !cpu_is_omap54xx()) {
-		printf(
-			"omapconf: warning: CPU not yet supported, skipping it.\n");
+		printf
+		    ("omapconf: warning: CPU not yet supported, skipping it.\n");
 		return OMAPCONF_ERR_CPU;
 	}
 
 	for (i = 0; i < 2; i++) {
-		emif_bw_min[i] = 1000000.0; /* MB/s */
+		emif_bw_min[i] = 1000000.0;	/* MB/s */
 		emif_bw_max[i] = 0.0;
 		emif_bw_avg[i] = 0.0;
 	}
@@ -1327,7 +1320,7 @@ static int trace_bw_init(unsigned int sample_count)
 	/* Enable needed HW (statistical collectors) */
 	powerdm_emu_enable();
 	my_sci_config.errhandler = trace_bw_errhandler;
-	my_sci_config.data_options = 0; /* Disable options */
+	my_sci_config.data_options = 0;	/* Disable options */
 	my_sci_config.trigger_enable = false;
 	my_sci_config.sdram_msg_rate = 1;
 	my_sci_config.mstr_msg_rate = 1;
@@ -1342,13 +1335,11 @@ static int trace_bw_init(unsigned int sample_count)
 	}
 
 	sci_get_version(psci_hdl, &plib_major_ver,
-		&plib_minor_ver, &plib_func_id,
-		&pmod_func_id);
+			&plib_minor_ver, &plib_func_id, &pmod_func_id);
 	if (plib_func_id != pmod_func_id) {
 		fprintf(stderr,
 			"omapconf: Error - func missmatch with device %d %d\n",
-			plib_func_id,
-			pmod_func_id);
+			plib_func_id, pmod_func_id);
 		sci_close(&psci_hdl);
 		powerdm_emu_disable();
 		return OMAPCONF_ERR_INTERNAL;
@@ -1356,9 +1347,8 @@ static int trace_bw_init(unsigned int sample_count)
 
 	/* Program counters to collect EMIF data */
 	for (i = 0; i < num_use_cases; i++) {
-		my_sci_err = sci_reg_usecase_sdram(
-			psci_hdl, pmy_cfg[i],
-			&my_usecase_key[i]);
+		my_sci_err = sci_reg_usecase_sdram(psci_hdl, pmy_cfg[i],
+						   &my_usecase_key[i]);
 		if (my_sci_err != SCI_SUCCESS)
 			break;
 		valid_usecase_cnt++;
@@ -1369,7 +1359,6 @@ static int trace_bw_init(unsigned int sample_count)
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_bw_deinit
@@ -1402,7 +1391,6 @@ static void trace_bw_deinit(void)
 	powerdm_emu_disable();
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_bw_capture
  * @BRIEF		Collect data for EMIF bandwidth monitoring from
@@ -1433,7 +1421,6 @@ static void trace_bw_capture(unsigned int index)
 	sci_global_enable(psci_hdl);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_bw_process
  * @BRIEF		Post-process data collected for
@@ -1452,22 +1439,22 @@ static void trace_bw_process(unsigned int sample_count, double sampling_rate)
 	dprintf("%s():\n", __func__);
 	for (i = 1; i < sample_count; i++) {
 		for (j = 0; j < 2; j++) {
-			emif_bw[j][i] = ((double) sci_cntrs_buf[2 * j][i] +
-				(double) sci_cntrs_buf[(2 * j) + 1][i]) /
-					(1000000.0 * sampling_rate);
+			emif_bw[j][i] = ((double)sci_cntrs_buf[2 * j][i] +
+					 (double)sci_cntrs_buf[(2 * j) +
+							       1][i]) /
+			    (1000000.0 * sampling_rate);
 			if (emif_bw[j][i] < emif_bw_min[j])
 				emif_bw_min[j] = emif_bw[j][i];
 			if (emif_bw[j][i] > emif_bw_max[j])
 				emif_bw_max[j] = emif_bw[j][i];
-			emif_bw_avg[j] = avg_recalc(
-				emif_bw_avg[j], emif_bw[j][i], i - 1);
+			emif_bw_avg[j] =
+			    avg_recalc(emif_bw_avg[j], emif_bw[j][i], i - 1);
 		}
-		dprintf(
-			"emif_bw[0][%d]=%.2lf MB/s (W), emif_bw[0][%d]=%.2lf MB/s (R)\n",
-			i, emif_bw[0][i], i, emif_bw[1][i]);
+		dprintf
+		    ("emif_bw[0][%d]=%.2lf MB/s (W), emif_bw[0][%d]=%.2lf MB/s (R)\n",
+		     i, emif_bw[0][i], i, emif_bw[1][i]);
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		trace_perf_capture
@@ -1491,22 +1478,17 @@ static void trace_bw_process(unsigned int sample_count, double sampling_rate)
  *			Also trace any generic input files included in config.
  *------------------------------------------------------------------------ */
 int trace_perf_capture(const char *cfgfile, const char *prefix,
-	double sampling_rate, unsigned int capture_time,
-	unsigned int delay_time)
+		       double sampling_rate, unsigned int capture_time,
+		       unsigned int delay_time)
 {
-	char trace_perf_file[256] =
-		"perf_trace.dat";
-	char trace_perf_stats_file[256] =
-		"perf_trace_stats.txt";
-	char trace_perf_charts_script_file[256] =
-		"perf_trace_draw_charts.plt";
-	char trace_perf_jpg_script_file[256] =
-		"perf_trace_create_jpg.plt";
-	char trace_perf_jpg_file[256] =
-		"perf_trace.jpg";
-	#ifdef TRACE_DEBUG
+	char trace_perf_file[256] = "perf_trace.dat";
+	char trace_perf_stats_file[256] = "perf_trace_stats.txt";
+	char trace_perf_charts_script_file[256] = "perf_trace_draw_charts.plt";
+	char trace_perf_jpg_script_file[256] = "perf_trace_create_jpg.plt";
+	char trace_perf_jpg_file[256] = "perf_trace.jpg";
+#ifdef TRACE_DEBUG
 	char *cwd;
-	#endif
+#endif
 
 	unsigned int sample_cnt;
 	int ret;
@@ -1527,7 +1509,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 
 	/* Variables for generic traceable items */
 	unsigned int cpu;
-	unsigned int *idle[2] = {NULL, NULL}, *iowait[2], *sum[2];
+	unsigned int *idle[2] = { NULL, NULL }, *iowait[2], *sum[2];
 	double cpu_load[3], cpu_load_min[3], cpu_load_max[3], cpu_load_avg[3];
 	unsigned short *cpu1_online = NULL;
 	unsigned int cpu1_online_cnt;
@@ -1582,40 +1564,39 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			sampling_rate);
 		return OMAPCONF_ERR_ARG;
 	}
-	dprintf(
-		"%s(): cfgfile=%s prefix=%s sampling_rate=%lfs capture_time=%d delay_time=%d\n",
-		__func__, cfgfile, prefix, sampling_rate, capture_time,
-		delay_time);
+	dprintf
+	    ("%s(): cfgfile=%s prefix=%s sampling_rate=%lfs capture_time=%d delay_time=%d\n",
+	     __func__, cfgfile, prefix, sampling_rate, capture_time,
+	     delay_time);
 
 	/* Generate output file names, including user-selected prefix */
 	if (prefix != NULL) {
-		memmove((void *) (trace_perf_file + strlen(prefix)),
-			(void *) trace_perf_file,
-			strlen(trace_perf_file));
-		memcpy((void *) trace_perf_file, prefix, strlen(prefix));
+		memmove((void *)(trace_perf_file + strlen(prefix)),
+			(void *)trace_perf_file, strlen(trace_perf_file));
+		memcpy((void *)trace_perf_file, prefix, strlen(prefix));
 
-		memmove((void *) (trace_perf_stats_file + strlen(prefix)),
-			(void *) trace_perf_stats_file,
+		memmove((void *)(trace_perf_stats_file + strlen(prefix)),
+			(void *)trace_perf_stats_file,
 			strlen(trace_perf_stats_file));
-		memcpy((void *) trace_perf_stats_file, prefix, strlen(prefix));
+		memcpy((void *)trace_perf_stats_file, prefix, strlen(prefix));
 
-		memmove((void *) (trace_perf_charts_script_file +
-				strlen(prefix)),
-			(void *) trace_perf_charts_script_file,
+		memmove((void *)(trace_perf_charts_script_file +
+				 strlen(prefix)),
+			(void *)trace_perf_charts_script_file,
 			strlen(trace_perf_charts_script_file));
-		memcpy((void *) trace_perf_charts_script_file, prefix,
-			strlen(prefix));
+		memcpy((void *)trace_perf_charts_script_file, prefix,
+		       strlen(prefix));
 
-		memmove((void *) (trace_perf_jpg_script_file + strlen(prefix)),
-			(void *) trace_perf_jpg_script_file,
+		memmove((void *)(trace_perf_jpg_script_file + strlen(prefix)),
+			(void *)trace_perf_jpg_script_file,
 			strlen(trace_perf_jpg_script_file));
-		memcpy((void *) trace_perf_jpg_script_file, prefix,
-			strlen(prefix));
+		memcpy((void *)trace_perf_jpg_script_file, prefix,
+		       strlen(prefix));
 
-		memmove((void *) (trace_perf_jpg_file + strlen(prefix)),
-			(void *) trace_perf_jpg_file,
+		memmove((void *)(trace_perf_jpg_file + strlen(prefix)),
+			(void *)trace_perf_jpg_file,
 			strlen(trace_perf_jpg_file));
-		memcpy((void *) trace_perf_jpg_file, prefix, strlen(prefix));
+		memcpy((void *)trace_perf_jpg_file, prefix, strlen(prefix));
 	}
 	dprintf("%s(): output filenames:\n", __func__);
 	dprintf("  trace_perf_file=%s\n", trace_perf_file);
@@ -1635,19 +1616,18 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			__func__);
 		/* ignore and continue in current directory */
 	}
-	#ifdef TRACE_DEBUG
+#ifdef TRACE_DEBUG
 	cwd = getcwd(NULL, 0);
 	printf("%s(): current working directory is %s\n", __func__, cwd);
 	free(cwd);
-	#endif
+#endif
 
 	/* Read the config file into an array of flags */
 	ret = trace_config_read(cfgfile, p_flags);
-	if ((ret == -1) &&
-		(strcmp(cfgfile, trace_perf_default_cfgfile) == 0)) {
-		printf(
-			"\nomapconf: default configuration file ('%s') not found. Creating it.\n",
-			cfgfile);
+	if ((ret == -1) && (strcmp(cfgfile, trace_perf_default_cfgfile) == 0)) {
+		printf
+		    ("\nomapconf: default configuration file ('%s') not found. Creating it.\n",
+		     cfgfile);
 		fp = fopen(cfgfile, "w");
 		if (fp == NULL) {
 			fprintf(stderr,
@@ -1673,8 +1653,10 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 
 	/* Read the config file for generic input files */
 	geninput_num = trace_geninput_config_read(cfgfile, geninput_names,
-		geninput_paths, geninput_units, geninput_accumulating,
-		geninput_flags);
+						  geninput_paths,
+						  geninput_units,
+						  geninput_accumulating,
+						  geninput_flags);
 	if (geninput_num < 0) {
 		fprintf(stderr,
 			"omapconf: error reading config file for generic inputs (%s, %d)\n\n",
@@ -1698,39 +1680,39 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 
 	/* Tracing Total CPU Load requires tracing CPU0/1 Load */
 	if (p_flags[TOTAL_CPU_LOAD] &&
-		!(p_flags[CPU0_LOAD] && p_flags[CPU1_LOAD])) {
-		printf(
-			"Warning: tracing total CPU load requires tracing individual CPU loads. All CPU loads will be traced.\n\n");
+	    !(p_flags[CPU0_LOAD] && p_flags[CPU1_LOAD])) {
+		printf
+		    ("Warning: tracing total CPU load requires tracing individual CPU loads. All CPU loads will be traced.\n\n");
 		p_flags[CPU0_LOAD] = 1;
 		p_flags[CPU1_LOAD] = 1;
 	}
 
 	/* Init statistic variables */
-	cpu1_online_cnt = 0; /* CPU1 Online Time */
+	cpu1_online_cnt = 0;	/* CPU1 Online Time */
 	/* CPU Frequency, L3 Frequency, GPU Frequency Min */
 	cpu_freq_min = l3_freq_min = gpu_freq_min = 100000;
 	/* CPU Frequency, L3 Frequency, GPU Frequency Max */
 	cpu_freq_max = l3_freq_max = gpu_freq_max = 0;
 	for (cpu = 0; cpu <= 2; cpu++) {
-		cpu_load_min[cpu] = (double) 200; /* CPU0/1 Load Min */
-		cpu_load_max[cpu] = 0.0; /* CPU0/1 Load Max */
-		cpu_load_avg[cpu] = 0.0; /* CPU0/1 Load Avg */
+		cpu_load_min[cpu] = (double)200;	/* CPU0/1 Load Min */
+		cpu_load_max[cpu] = 0.0;	/* CPU0/1 Load Max */
+		cpu_load_avg[cpu] = 0.0;	/* CPU0/1 Load Avg */
 	}
-	emif_load_min = (double) 200; /* EMIF Load Min */
-	emif_load_max = 0.0; /* EMIF Load Max */
-	emif_load_avg = 0.0; /* EMIF Load Avg */
-	bandgap_temp_min = 200; /* Bandgap Temp Min */
-	bandgap_temp_max = TEMP_ABSOLUTE_ZERO; /* Bandgap Temp Max */
-	bandgap_temp_avg = 0.0; /* Bandgap Temp Avg */
-	pcb_temp_min = 200; /* PCB Temp Min */
-	pcb_temp_max = TEMP_ABSOLUTE_ZERO; /* PCB Temp Max */
-	pcb_temp_avg = 0.0; /* PCB Temp Avg */
+	emif_load_min = (double)200;	/* EMIF Load Min */
+	emif_load_max = 0.0;	/* EMIF Load Max */
+	emif_load_avg = 0.0;	/* EMIF Load Avg */
+	bandgap_temp_min = 200;	/* Bandgap Temp Min */
+	bandgap_temp_max = TEMP_ABSOLUTE_ZERO;	/* Bandgap Temp Max */
+	bandgap_temp_avg = 0.0;	/* Bandgap Temp Avg */
+	pcb_temp_min = 200;	/* PCB Temp Min */
+	pcb_temp_max = TEMP_ABSOLUTE_ZERO;	/* PCB Temp Max */
+	pcb_temp_avg = 0.0;	/* PCB Temp Avg */
 	hotspot_mpu_temp_min = 200;
 	hotspot_mpu_temp_max = TEMP_ABSOLUTE_ZERO;
 	hotspot_mpu_temp_avg = 0.0;
-	for (i = 0; i < (int) TEMP54XX_ID_MAX; i++) {
+	for (i = 0; i < (int)TEMP54XX_ID_MAX; i++) {
 		temps_min[i] = 200;
-		temps_max[i] = TEMP_ABSOLUTE_ZERO ;
+		temps_max[i] = TEMP_ABSOLUTE_ZERO;
 		temps_avg[i] = 0.0;
 		temps[i] = NULL;
 	}
@@ -1738,9 +1720,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		geninput_data[i] = NULL;
 		geninput_min[i] = UINT64_MAX;
 		geninput_max[i] = 0;
-		geninput_avg[i] = (double) 0;
+		geninput_avg[i] = (double)0;
 	}
-
 
 	/* Allocate buffer to store sampled data */
 	sample_cnt = 1 + ((capture_time * 1000) / (sampling_rate * 1000));
@@ -1795,8 +1776,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				goto trace_perf_capture_err;
 			}
 		} else {
-			printf(
-				"omapconf: warning: CPU Frequency not available (CPU not supported), skipping it.\n");
+			printf
+			    ("omapconf: warning: CPU Frequency not available (CPU not supported), skipping it.\n");
 			p_flags[CPU_FREQ] = 0;
 		}
 	}
@@ -1811,8 +1792,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				goto trace_perf_capture_err;
 			}
 		} else {
-			printf(
-				"omapconf: warning: GPU Frequency not available (CPU not supported), skipping it.\n");
+			printf
+			    ("omapconf: warning: GPU Frequency not available (CPU not supported), skipping it.\n");
 			p_flags[GPU_FREQ] = 0;
 		}
 	}
@@ -1821,13 +1802,13 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		if (cpu_is_omap44xx() | cpu_is_dra7xx()) {
 			/* Configure counters to count data bus busy cycles */
 			ret = emif44xx_perf_cnt_configure(EMIF44XX_0,
-				EMIF44XX_PERF_CNT_1,
-				EMIF44XX_PERF_CNT_FILTER_DATA_TRANSFER_CYCLES,
-				0, 0);
+							  EMIF44XX_PERF_CNT_1,
+							  EMIF44XX_PERF_CNT_FILTER_DATA_TRANSFER_CYCLES,
+							  0, 0);
 			ret |= emif44xx_perf_cnt_configure(EMIF44XX_1,
-				EMIF44XX_PERF_CNT_1,
-				EMIF44XX_PERF_CNT_FILTER_DATA_TRANSFER_CYCLES,
-				0, 0);
+							   EMIF44XX_PERF_CNT_1,
+							   EMIF44XX_PERF_CNT_FILTER_DATA_TRANSFER_CYCLES,
+							   0, 0);
 			if (ret != 0) {
 				fprintf(stderr,
 					"omapconf: error while configuring EMIF performance counters!!! (%d)\n",
@@ -1836,8 +1817,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				goto trace_perf_capture_err;
 			}
 
-			emif_busy_cycles = malloc(
-				sample_cnt * sizeof(unsigned int));
+			emif_busy_cycles =
+			    malloc(sample_cnt * sizeof(unsigned int));
 			if (emif_busy_cycles == NULL) {
 				fprintf(stderr,
 					"omapconf: could not allocate buffer for emif_busy_cycles!\n");
@@ -1852,8 +1833,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				goto trace_perf_capture_err;
 			}
 		} else {
-			printf(
-				"omapconf: warning: EMIF LOAD not available (CPU not supported), skipping it.\n");
+			printf
+			    ("omapconf: warning: EMIF LOAD not available (CPU not supported), skipping it.\n");
 			p_flags[EMIF_LOAD] = 0;
 		}
 	}
@@ -1861,8 +1842,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	if (p_flags[EMIF_BW]) {
 		ret = trace_bw_init(sample_cnt);
 		if (ret != 0) {
-			printf(
-				"omapconf: warning: EMIF BW not available (CPU not supported), skipping it.\n");
+			printf
+			    ("omapconf: warning: EMIF BW not available (CPU not supported), skipping it.\n");
 			p_flags[EMIF_BW] = 0;
 		}
 	}
@@ -1877,8 +1858,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				goto trace_perf_capture_err;
 			}
 		} else {
-			printf(
-				"omapconf: warning: L3 Frequency not available (CPU not supported), skipping it.\n");
+			printf
+			    ("omapconf: warning: L3 Frequency not available (CPU not supported), skipping it.\n");
 			p_flags[L3_FREQ] = 0;
 		}
 	}
@@ -1900,8 +1881,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	}
 
 	if (p_flags[PCB_TEMP]) {
-		if (cpu_is_omap4460() || cpu_is_omap4470() ||
-			cpu_is_omap54xx()) {
+		if (cpu_is_omap4460() || cpu_is_omap4470() || cpu_is_omap54xx()) {
 			pcb_temp = malloc(sample_cnt * sizeof(int));
 			if (pcb_temp == NULL) {
 				fprintf(stderr,
@@ -1910,16 +1890,16 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				goto trace_perf_capture_err;
 			}
 		} else {
-			printf(
-				"omapconf: warning: PCB temperature sensor not available, skipping it.\n");
+			printf
+			    ("omapconf: warning: PCB temperature sensor not available, skipping it.\n");
 			p_flags[PCB_TEMP] = 0;
 		}
 	}
 
 	if (p_flags[HOTSPOT_MPU_TEMP]) {
 		if ((cpu_is_omap44xx() || cpu_is_omap54xx()) &&
-			(temp_sensor_get(TEMP_SENSOR_HOTSPOT_MPU) !=
-				TEMP_ABSOLUTE_ZERO)) {
+		    (temp_sensor_get(TEMP_SENSOR_HOTSPOT_MPU) !=
+		     TEMP_ABSOLUTE_ZERO)) {
 			hotspot_mpu_temp = malloc(sample_cnt * sizeof(int));
 			if (hotspot_mpu_temp == NULL) {
 				fprintf(stderr,
@@ -2000,8 +1980,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 
 	for (i = 0; i < geninput_num; i++) {
 		if (geninput_flags[i]) {
-			geninput_data[i] = malloc(
-				sample_cnt * sizeof(uint64_t));
+			geninput_data[i] =
+			    malloc(sample_cnt * sizeof(uint64_t));
 			if (geninput_data[i] == NULL) {
 				fprintf(stderr,
 					"omapconf: could not allocate buffer for geninput_data #%d!\n",
@@ -2021,21 +2001,21 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	printf("  * If CPU1 Load = -5.0, it means CPU1 is OFFLINE.\n");
 	printf("  * CPU LOADS CANNOT be converted to Mhz.\n");
 	printf("    OPP may have changed during the audit.\n");
-	printf(
-		"  * EMIF Data Bus Load CANNOT be converted to memory bandwidth (MB/s).\n");
-	printf(
-		"    DDR data busy cycles may be commands (not data) and data size is unknown.\n\n");
+	printf
+	    ("  * EMIF Data Bus Load CANNOT be converted to memory bandwidth (MB/s).\n");
+	printf
+	    ("    DDR data busy cycles may be commands (not data) and data size is unknown.\n\n");
 
 	/* Initial delay before starting capture */
 	if (delay_time >= 1) {
-		printf(
-			"\nWaiting for initial delay (%u sec), then start sampling performance indicators during %us (%.3lfs sampling rate). Please wait...\n",
-			delay_time, capture_time, sampling_rate);
+		printf
+		    ("\nWaiting for initial delay (%u sec), then start sampling performance indicators during %us (%.3lfs sampling rate). Please wait...\n",
+		     delay_time, capture_time, sampling_rate);
 		sleep(delay_time);
 	} else {
-		printf(
-			"\nSampling performance indicators during %us (%.3lfs sampling rate). Please wait...\n",
-			capture_time, sampling_rate);
+		printf
+		    ("\nSampling performance indicators during %us (%.3lfs sampling rate). Please wait...\n",
+		     capture_time, sampling_rate);
 	}
 
 	for (sample = 0; sample < sample_cnt; sample++) {
@@ -2043,7 +2023,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		/* Get CPU runtime execution stats */
 		for (cpu = 0; cpu < 2; cpu++) {
 			ret = cpu_proc_stats_get(cpu, &idle[cpu][sample],
-				&iowait[cpu][sample], &sum[cpu][sample]);
+						 &iowait[cpu][sample],
+						 &sum[cpu][sample]);
 			dprintf("%s(): CPU%u idle=%u, iowait=%u, sum=%u\n",
 				__func__, cpu, idle[cpu][sample],
 				iowait[cpu][sample], sum[cpu][sample]);
@@ -2059,11 +2040,12 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			/* Get current CPU frequency (MHz) */
 			if (cpu_is_omap44xx())
 				cpu_freq[sample] =
-					(int) clk44xx_get_clock_speed(
-						OMAP4_MPU_DPLL_CLK, 0);
+				    (int)
+				    clk44xx_get_clock_speed(OMAP4_MPU_DPLL_CLK,
+							    0);
 			else
 				cpu_freq[sample] =
-					module_clk_rate_get(MOD_MPU, 0) / 1000;
+				    module_clk_rate_get(MOD_MPU, 0) / 1000;
 			dprintf("%s(): cpu_freq = %uMHz\n", __func__,
 				cpu_freq[sample]);
 		}
@@ -2073,12 +2055,12 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			emif_busy_cycles[sample] = 0;
 			for (emif = 0; emif < EMIF44XX_MAX; emif++) {
 				emif_busy_cycles[sample] +=
-					emif44xx_perf_cnt_get_count(
-						(emif44xx_ids) emif,
-						EMIF44XX_PERF_CNT_1);
+				    emif44xx_perf_cnt_get_count((emif44xx_ids)
+								emif,
+								EMIF44XX_PERF_CNT_1);
 			}
 			emif_cycles[sample] =
-				emif44xx_perf_cnt_get_time(EMIF44XX_0);
+			    emif44xx_perf_cnt_get_time(EMIF44XX_0);
 			dprintf("%s(): EMIF busy cycles=%u\n", __func__,
 				emif_busy_cycles[sample]);
 			dprintf("%s(): EMIF cycles=%u\n", __func__,
@@ -2092,24 +2074,25 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			/* Get L3 frequency (MHz) */
 			if (cpu_is_omap44xx())
 				l3_freq[sample] =
-					(int) clk44xx_get_clock_speed(
-						OMAP4_L3_ICLK, 0);
+				    (int)clk44xx_get_clock_speed(OMAP4_L3_ICLK,
+								 0);
 			else
 				l3_freq[sample] =
-					module_clk_rate_get(MOD_L3_MAIN1_INTERCONNECT, 0) / 1000;
-			dprintf("%s(): l3_freq = %uMHz\n",
-				__func__, l3_freq[sample]);
+				    module_clk_rate_get
+				    (MOD_L3_MAIN1_INTERCONNECT, 0) / 1000;
+			dprintf("%s(): l3_freq = %uMHz\n", __func__,
+				l3_freq[sample]);
 		}
 
 		if (p_flags[GPU_FREQ]) {
 			/* Get current GPU frequency (MHz) */
 			if (cpu_is_omap44xx())
 				gpu_freq[sample] =
-					(unsigned int) clk44xx_get_clock_speed(
-						OMAP4_GFX_FCLK, 0);
+				    (unsigned int)
+				    clk44xx_get_clock_speed(OMAP4_GFX_FCLK, 0);
 			else
 				gpu_freq[sample] =
-					module_clk_rate_get(MOD_GPU, 0) / 1000;
+				    module_clk_rate_get(MOD_GPU, 0) / 1000;
 			dprintf("%s(): gpu_freq = %uMHz\n",
 				__func__, gpu_freq[sample]);
 		}
@@ -2117,7 +2100,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		/* Get bandgap sensor temperature */
 		if (p_flags[BANDGAP_TEMP]) {
 			bandgap_temp[sample] =
-				temp_sensor_get(TEMP_SENSOR_BANDGAP);
+			    temp_sensor_get(TEMP_SENSOR_BANDGAP);
 			dprintf("%s(): bandgap_temp = %dC\n", __func__,
 				bandgap_temp[sample]);
 		}
@@ -2132,7 +2115,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		/* Get HOTSPOT temperature */
 		if (p_flags[HOTSPOT_MPU_TEMP]) {
 			hotspot_mpu_temp[sample] =
-				temp_sensor_get(TEMP_SENSOR_HOTSPOT_MPU);
+			    temp_sensor_get(TEMP_SENSOR_HOTSPOT_MPU);
 			dprintf("%s(): hotspot_mpu_temp = %dC\n", __func__,
 				hotspot_mpu_temp[sample]);
 		}
@@ -2140,7 +2123,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		/* Get CPU sensor temperature */
 		if (p_flags[MPU_TEMP]) {
 			temps[TEMP54XX_MPU][sample] =
-				temp54xx_get(TEMP54XX_MPU);
+			    temp54xx_get(TEMP54XX_MPU);
 			dprintf("%s(): cpu_temp = %dC\n", __func__,
 				temps[TEMP54XX_MPU][sample]);
 		}
@@ -2148,7 +2131,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		/* Get GPU sensor temperature */
 		if (p_flags[GPU_TEMP]) {
 			temps[TEMP54XX_GPU][sample] =
-				temp54xx_get(TEMP54XX_GPU);
+			    temp54xx_get(TEMP54XX_GPU);
 			dprintf("%s(): gpu_temp = %dC\n", __func__,
 				temps[TEMP54XX_GPU][sample]);
 		}
@@ -2156,7 +2139,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		/* Get CORE sensor temperature */
 		if (p_flags[CORE_TEMP]) {
 			temps[TEMP54XX_CORE][sample] =
-				temp54xx_get(TEMP54XX_CORE);
+			    temp54xx_get(TEMP54XX_CORE);
 			dprintf("%s(): core_temp = %dC\n", __func__,
 				temps[TEMP54XX_CORE][sample]);
 		}
@@ -2164,7 +2147,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		/* Get CASE sensor temperature */
 		if (p_flags[CASE_TEMP]) {
 			temps[TEMP54XX_CASE][sample] =
-				temp54xx_get(TEMP54XX_CASE);
+			    temp54xx_get(TEMP54XX_CASE);
 			dprintf("%s(): case_temp = %dC\n", __func__,
 				temps[TEMP54XX_CASE][sample]);
 		}
@@ -2173,16 +2156,15 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		for (i = 0; i < geninput_num; i++) {
 			if (geninput_flags[i]) {
 				geninput_data[i][sample] =
-					trace_geninput_file2int(
-						geninput_paths[i]);
+				    trace_geninput_file2int(geninput_paths[i]);
 				dprintf("%s(): %s = %llu\n", __func__,
 					geninput_names[i],
 					geninput_data[i][sample]);
 
 				if (geninput_data[i][sample] == UINT64_MAX) {
-					printf(
-						"\nError Reading Generic Input: %s\n",
-						geninput_names[i]);
+					printf
+					    ("\nError Reading Generic Input: %s\n",
+					     geninput_names[i]);
 				}
 			}
 		}
@@ -2190,9 +2172,9 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		dprintf("\n");
 		/* Sleep for some time before sampling again */
 		if (sampling_rate < 1)
-			usleep((unsigned int) (sampling_rate * 1000000));
+			usleep((unsigned int)(sampling_rate * 1000000));
 		else
-			sleep((unsigned int) sampling_rate);
+			sleep((unsigned int)sampling_rate);
 	}
 
 	printf("Sampling done, processing and saving data...\n");
@@ -2267,7 +2249,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	fprintf(fp, "#\n");
 	fprintf(fp,
 		"# ----------------------- Trace START --------------------\n");
-	snprintf(s, S_SIZE,  "# Timestamp (s)");
+	snprintf(s, S_SIZE, "# Timestamp (s)");
 	for (sample = 1; sample < sample_cnt; sample++) {
 		/* Save timestamp */
 		sprintf(s, "%.3lf", sample * sampling_rate);
@@ -2285,26 +2267,25 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				}
 			}
 			delta_idle[cpu] = count32_delta(idle[cpu][sample - 1],
-				idle[cpu][sample]);
+							idle[cpu][sample]);
 			delta_iowait[cpu] =
-				count32_delta(iowait[cpu][sample - 1],
-					iowait[cpu][sample]);
-			delta_sum[cpu] = count32_delta(
-				sum[cpu][sample - 1],
-				sum[cpu][sample]);
-			dprintf(
-				"%s(): CPU%u delta_idle=%u, delta_iowait=%u, delta_sum=%u\n",
-				__func__, cpu, delta_idle[cpu],
-				delta_iowait[cpu], delta_sum[cpu]);
+			    count32_delta(iowait[cpu][sample - 1],
+					  iowait[cpu][sample]);
+			delta_sum[cpu] = count32_delta(sum[cpu][sample - 1],
+						       sum[cpu][sample]);
+			dprintf
+			    ("%s(): CPU%u delta_idle=%u, delta_iowait=%u, delta_sum=%u\n",
+			     __func__, cpu, delta_idle[cpu], delta_iowait[cpu],
+			     delta_sum[cpu]);
 
 			if ((cpu == 0 && p_flags[CPU0_LOAD]) ||
-				(cpu == 1 && p_flags[CPU1_LOAD])) {
+			    (cpu == 1 && p_flags[CPU1_LOAD])) {
 				/* Compute load */
 				if (delta_sum[cpu] != 0)
 					cpu_load[cpu] =
-						cpu_load_get(delta_idle[cpu],
-							delta_iowait[cpu],
-							delta_sum[cpu]);
+					    cpu_load_get(delta_idle[cpu],
+							 delta_iowait[cpu],
+							 delta_sum[cpu]);
 				else
 					/*
 					 * Due to tickless feature, possible
@@ -2320,9 +2301,9 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 					cpu_load_min[cpu] = cpu_load[cpu];
 				if (cpu_load[cpu] > cpu_load_max[cpu])
 					cpu_load_max[cpu] = cpu_load[cpu];
-				cpu_load_avg[cpu] = avg_recalc(
-					cpu_load_avg[cpu],
-					cpu_load[cpu], sample - 1);
+				cpu_load_avg[cpu] =
+				    avg_recalc(cpu_load_avg[cpu], cpu_load[cpu],
+					       sample - 1);
 
 				/* Save load into trace file */
 				sprintf(s, "%.2lf", cpu_load[cpu]);
@@ -2340,8 +2321,9 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				cpu_load_min[2] = cpu_load[2];
 			if (cpu_load[2] > cpu_load_max[2])
 				cpu_load_max[2] = cpu_load[2];
-			cpu_load_avg[2] = avg_recalc(
-				cpu_load_avg[2], cpu_load[2], sample - 1);
+			cpu_load_avg[2] =
+			    avg_recalc(cpu_load_avg[2], cpu_load[2],
+				       sample - 1);
 			sprintf(s, "%.2lf", cpu_load[2]);
 			fprintf(fp, ", %s", s);
 		} else {
@@ -2395,30 +2377,31 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 
 		if (p_flags[EMIF_LOAD]) {
 			/* Compute and save EMIF load (total) */
-			emif_delta_busy_cycles = count32_delta(
-				emif_busy_cycles[sample - 1],
-				emif_busy_cycles[sample]);
-			emif_delta_cycles = 2 * count32_delta(
-				emif_cycles[sample - 1], emif_cycles[sample]);
-			dprintf(
-				"%s(): EMIF delta_busy_cycles=%u, delta_cycles=%u\n",
-				__func__, emif_delta_busy_cycles,
-				emif_delta_cycles);
+			emif_delta_busy_cycles =
+			    count32_delta(emif_busy_cycles[sample - 1],
+					  emif_busy_cycles[sample]);
+			emif_delta_cycles =
+			    2 * count32_delta(emif_cycles[sample - 1],
+					      emif_cycles[sample]);
+			dprintf
+			    ("%s(): EMIF delta_busy_cycles=%u, delta_cycles=%u\n",
+			     __func__, emif_delta_busy_cycles,
+			     emif_delta_cycles);
 			if (emif_delta_cycles == 0)
 				emif_load = 0.0;
 			else
-				emif_load = 100.0 * (
-					(double) emif_delta_busy_cycles /
-						emif_delta_cycles);
-			dprintf("%s(): EMIF load = %lf%%\n",
-				__func__, emif_load);
+				emif_load = 100.0 * ((double)
+						     emif_delta_busy_cycles /
+						     emif_delta_cycles);
+			dprintf("%s(): EMIF load = %lf%%\n", __func__,
+				emif_load);
 			if (emif_load < emif_load_min)
 				emif_load_min = emif_load;
 			if (emif_load > emif_load_max)
 				emif_load_max = emif_load;
 			emif_load_avg = avg_recalc(emif_load_avg,
-				emif_load, sample - 1);
-			sprintf(s, "%.2lf", (double) emif_load);
+						   emif_load, sample - 1);
+			sprintf(s, "%.2lf", (double)emif_load);
 			fprintf(fp, ", %s", s);
 		} else {
 			fputs(", NA", fp);
@@ -2431,7 +2414,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			if (bandgap_temp[sample] < bandgap_temp_min)
 				bandgap_temp_min = bandgap_temp[sample];
 			bandgap_temp_avg = avg_recalc(bandgap_temp_avg,
-				bandgap_temp[sample], sample - 1);
+						      bandgap_temp[sample],
+						      sample - 1);
 			sprintf(s, "%d", bandgap_temp[sample]);
 			fprintf(fp, ", %s", s);
 		} else {
@@ -2445,7 +2429,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			if (pcb_temp[sample] < pcb_temp_min)
 				pcb_temp_min = pcb_temp[sample];
 			pcb_temp_avg = avg_recalc(pcb_temp_avg,
-				pcb_temp[sample], sample - 1);
+						  pcb_temp[sample], sample - 1);
 			sprintf(s, "%d", pcb_temp[sample]);
 			fprintf(fp, ", %s", s);
 		} else {
@@ -2459,7 +2443,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			if (hotspot_mpu_temp[sample] < hotspot_mpu_temp_min)
 				hotspot_mpu_temp_min = hotspot_mpu_temp[sample];
 			hotspot_mpu_temp_avg = avg_recalc(hotspot_mpu_temp_avg,
-				hotspot_mpu_temp[sample], sample - 1);
+							  hotspot_mpu_temp
+							  [sample], sample - 1);
 			sprintf(s, "%d", hotspot_mpu_temp[sample]);
 			fprintf(fp, ", %s", s);
 		} else {
@@ -2469,16 +2454,16 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		/* Compute and save CPU sensor temperature */
 		if (p_flags[MPU_TEMP]) {
 			if (temps[TEMP54XX_MPU][sample] >
-				temps_max[TEMP54XX_MPU])
+			    temps_max[TEMP54XX_MPU])
 				temps_max[TEMP54XX_MPU] =
-					temps[TEMP54XX_MPU][sample];
+				    temps[TEMP54XX_MPU][sample];
 			if (temps[TEMP54XX_MPU][sample] <
-				temps_min[TEMP54XX_MPU])
+			    temps_min[TEMP54XX_MPU])
 				temps_min[TEMP54XX_MPU] =
-					temps[TEMP54XX_MPU][sample];
-			temps_avg[TEMP54XX_MPU] = avg_recalc(
-				temps_avg[TEMP54XX_MPU],
-				temps[TEMP54XX_MPU][sample], sample - 1);
+				    temps[TEMP54XX_MPU][sample];
+			temps_avg[TEMP54XX_MPU] =
+			    avg_recalc(temps_avg[TEMP54XX_MPU],
+				       temps[TEMP54XX_MPU][sample], sample - 1);
 			fprintf(fp, ", %d", temps[TEMP54XX_MPU][sample]);
 		} else {
 			fputs(", NA", fp);
@@ -2487,16 +2472,16 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		/* Compute and save GPU sensor temperature */
 		if (p_flags[GPU_TEMP]) {
 			if (temps[TEMP54XX_GPU][sample] >
-				temps_max[TEMP54XX_GPU])
+			    temps_max[TEMP54XX_GPU])
 				temps_max[TEMP54XX_GPU] =
-					temps[TEMP54XX_GPU][sample];
+				    temps[TEMP54XX_GPU][sample];
 			if (temps[TEMP54XX_GPU][sample] <
-				temps_min[TEMP54XX_GPU])
+			    temps_min[TEMP54XX_GPU])
 				temps_min[TEMP54XX_GPU] =
-					temps[TEMP54XX_GPU][sample];
-			temps_avg[TEMP54XX_GPU] = avg_recalc(
-				temps_avg[TEMP54XX_GPU],
-				temps[TEMP54XX_GPU][sample], sample - 1);
+				    temps[TEMP54XX_GPU][sample];
+			temps_avg[TEMP54XX_GPU] =
+			    avg_recalc(temps_avg[TEMP54XX_GPU],
+				       temps[TEMP54XX_GPU][sample], sample - 1);
 			fprintf(fp, ", %d", temps[TEMP54XX_GPU][sample]);
 		} else {
 			fputs(", NA", fp);
@@ -2505,16 +2490,17 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		/* Compute and save CORE sensor temperature */
 		if (p_flags[CORE_TEMP]) {
 			if (temps[TEMP54XX_CORE][sample] >
-				temps_max[TEMP54XX_CORE])
+			    temps_max[TEMP54XX_CORE])
 				temps_max[TEMP54XX_CORE] =
-					temps[TEMP54XX_CORE][sample];
+				    temps[TEMP54XX_CORE][sample];
 			if (temps[TEMP54XX_CORE][sample] <
-				temps_min[TEMP54XX_CORE])
+			    temps_min[TEMP54XX_CORE])
 				temps_min[TEMP54XX_CORE] =
-					temps[TEMP54XX_CORE][sample];
-			temps_avg[TEMP54XX_CORE] = avg_recalc(
-				temps_avg[TEMP54XX_CORE],
-				temps[TEMP54XX_CORE][sample], sample - 1);
+				    temps[TEMP54XX_CORE][sample];
+			temps_avg[TEMP54XX_CORE] =
+			    avg_recalc(temps_avg[TEMP54XX_CORE],
+				       temps[TEMP54XX_CORE][sample],
+				       sample - 1);
 			fprintf(fp, ", %d", temps[TEMP54XX_CORE][sample]);
 		} else {
 			fputs(", NA", fp);
@@ -2523,16 +2509,17 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		/* Compute and save CASE sensor temperature */
 		if (p_flags[CASE_TEMP]) {
 			if (temps[TEMP54XX_CASE][sample] >
-				temps_max[TEMP54XX_CASE])
+			    temps_max[TEMP54XX_CASE])
 				temps_max[TEMP54XX_CASE] =
-					temps[TEMP54XX_CASE][sample];
+				    temps[TEMP54XX_CASE][sample];
 			if (temps[TEMP54XX_CASE][sample] <
-				temps_min[TEMP54XX_CASE])
+			    temps_min[TEMP54XX_CASE])
 				temps_min[TEMP54XX_CASE] =
-					temps[TEMP54XX_CASE][sample];
-			temps_avg[TEMP54XX_CASE] = avg_recalc(
-				temps_avg[TEMP54XX_CASE],
-				temps[TEMP54XX_CASE][sample], sample - 1);
+				    temps[TEMP54XX_CASE][sample];
+			temps_avg[TEMP54XX_CASE] =
+			    avg_recalc(temps_avg[TEMP54XX_CASE],
+				       temps[TEMP54XX_CASE][sample],
+				       sample - 1);
 			fprintf(fp, ", %d", temps[TEMP54XX_CASE][sample]);
 		} else {
 			fputs(", NA", fp);
@@ -2543,36 +2530,39 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			if (geninput_flags[i]) {
 				/* Handle Accumulating Generic Inputs */
 				if (geninput_accumulating[i]) {
-					geninput_delta = count64_delta(
-						geninput_data[i][sample-1],
-						geninput_data[i][sample]);
+					geninput_delta =
+					    count64_delta(geninput_data[i]
+							  [sample - 1],
+							  geninput_data[i]
+							  [sample]);
 
 					if (geninput_delta > geninput_max[i])
 						geninput_max[i] =
-							geninput_delta;
+						    geninput_delta;
 					if (geninput_delta < geninput_min[i])
 						geninput_min[i] =
-							geninput_delta;
-					geninput_avg[i] = avg_recalc(
-						geninput_avg[i],
-						geninput_delta, sample - 1);
+						    geninput_delta;
+					geninput_avg[i] =
+					    avg_recalc(geninput_avg[i],
+						       geninput_delta,
+						       sample - 1);
 					sprintf(s, "%llu", geninput_delta);
 					fprintf(fp, ", %s", s);
 				}
 				/* Handle Non-Accumulating Generic Inputs */
 				else {
 					if (geninput_data[i][sample] >
-						geninput_max[i])
+					    geninput_max[i])
 						geninput_max[i] =
-							geninput_data[i][sample];
+						    geninput_data[i][sample];
 					if (geninput_data[i][sample] <
-						geninput_min[i])
+					    geninput_min[i])
 						geninput_min[i] =
-							geninput_data[i][sample];
-					geninput_avg[i] = avg_recalc(
-						geninput_avg[i],
-						geninput_data[i][sample],
-						sample - 1);
+						    geninput_data[i][sample];
+					geninput_avg[i] =
+					    avg_recalc(geninput_avg[i],
+						       geninput_data[i][sample],
+						       sample - 1);
 					sprintf(s, "%llu",
 						geninput_data[i][sample]);
 					fprintf(fp, ", %s", s);
@@ -2640,9 +2630,9 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "N/A");
 		} else {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%dMHz",
-					cpu_freq_min);
+				 cpu_freq_min);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%dMHz",
-					cpu_freq_max);
+				 cpu_freq_max);
 		}
 		row++;
 	}
@@ -2650,11 +2640,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		strncpy(table[row][0], "CPU Temperature", TABLE_MAX_ELT_LEN);
 		if (temps_avg[TEMP54XX_MPU] != TEMP_ABSOLUTE_ZERO) {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%dC",
-				temps_min[TEMP54XX_MPU]);
+				 temps_min[TEMP54XX_MPU]);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%dC",
-				temps_max[TEMP54XX_MPU]);
+				 temps_max[TEMP54XX_MPU]);
 			snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2lfC",
-				temps_avg[TEMP54XX_MPU]);
+				 temps_avg[TEMP54XX_MPU]);
 		} else {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "NA");
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "NA");
@@ -2664,11 +2654,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	}
 	for (cpu = 0; cpu <= 2; cpu++) {
 		if ((cpu == 0 && p_flags[CPU0_LOAD]) ||
-			(cpu == 1 && p_flags[CPU1_LOAD]) ||
-			(cpu == 2 && p_flags[TOTAL_CPU_LOAD])) {
+		    (cpu == 1 && p_flags[CPU1_LOAD]) ||
+		    (cpu == 2 && p_flags[TOTAL_CPU_LOAD])) {
 			if (cpu != 2)
 				snprintf(table[row][0], TABLE_MAX_ELT_LEN,
-					"CPU%u Load", cpu);
+					 "CPU%u Load", cpu);
 			else
 				strncpy(table[row][0], "Total CPU Load",
 					TABLE_MAX_ELT_LEN);
@@ -2677,11 +2667,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 					TABLE_MAX_ELT_LEN);
 			else
 				snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-					"%.2lf%%", cpu_load_min[cpu]);
+					 "%.2lf%%", cpu_load_min[cpu]);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.2lf%%",
-				cpu_load_max[cpu]);
+				 cpu_load_max[cpu]);
 			snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2lf%%",
-				cpu_load_avg[cpu]);
+				 cpu_load_avg[cpu]);
 			row++;
 		}
 
@@ -2689,8 +2679,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			strncpy(table[row][0], "CPU1 Online Time",
 				TABLE_MAX_ELT_LEN);
 			snprintf(table[row][4], TABLE_MAX_ELT_LEN, "%.2lf%%",
-				100.0 * ((double) cpu1_online_cnt /
-					((double) sample_cnt - 1)));
+				 100.0 * ((double)cpu1_online_cnt /
+					  ((double)sample_cnt - 1)));
 			row++;
 		}
 
@@ -2709,9 +2699,9 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "N/A");
 		} else {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%dMHz",
-					gpu_freq_min);
+				 gpu_freq_min);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%dMHz",
-					gpu_freq_max);
+				 gpu_freq_max);
 		}
 		row++;
 	}
@@ -2719,11 +2709,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		strncpy(table[row][0], "GPU Temperature", TABLE_MAX_ELT_LEN);
 		if (temps_avg[TEMP54XX_GPU] != TEMP_ABSOLUTE_ZERO) {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%dC",
-				temps_min[TEMP54XX_GPU]);
+				 temps_min[TEMP54XX_GPU]);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%dC",
-				temps_max[TEMP54XX_GPU]);
+				 temps_max[TEMP54XX_GPU]);
 			snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2lfC",
-				temps_avg[TEMP54XX_GPU]);
+				 temps_avg[TEMP54XX_GPU]);
 		} else {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "NA");
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "NA");
@@ -2741,9 +2731,9 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "N/A");
 		} else {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%dMHz",
-					l3_freq_min);
+				 l3_freq_min);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%dMHz",
-					l3_freq_max);
+				 l3_freq_max);
 		}
 		row++;
 	}
@@ -2751,11 +2741,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		strncpy(table[row][0], "L3 Temperature", TABLE_MAX_ELT_LEN);
 		if (temps_avg[TEMP54XX_CORE] != TEMP_ABSOLUTE_ZERO) {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%dC",
-				temps_min[TEMP54XX_CORE]);
+				 temps_min[TEMP54XX_CORE]);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%dC",
-				temps_max[TEMP54XX_CORE]);
+				 temps_max[TEMP54XX_CORE]);
 			snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2lfC",
-				temps_avg[TEMP54XX_CORE]);
+				 temps_avg[TEMP54XX_CORE]);
 		} else {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "NA");
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "NA");
@@ -2767,36 +2757,36 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		strncpy(table[row][0], "Total EMIF Data Bus Load",
 			TABLE_MAX_ELT_LEN);
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.2lf%%",
-			emif_load_min);
+			 emif_load_min);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.2lf%%",
-			emif_load_max);
+			 emif_load_max);
 		snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2lf%%",
-			emif_load_avg);
+			 emif_load_avg);
 		row++;
 	}
 	if (p_flags[EMIF_BW]) {
 		strncpy(table[row][0], "Total EMIF Bandwidth (WRITE)",
 			TABLE_MAX_ELT_LEN);
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.2lf MB/s",
-			emif_bw_min[0]);
+			 emif_bw_min[0]);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.2lf MB/s",
-			emif_bw_max[0]);
+			 emif_bw_max[0]);
 		snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2lf MB/s",
-			emif_bw_avg[0]);
+			 emif_bw_avg[0]);
 		row++;
 		strncpy(table[row][0], "Total EMIF Bandwidth (READ)",
 			TABLE_MAX_ELT_LEN);
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%.2lf MB/s",
-			emif_bw_min[1]);
+			 emif_bw_min[1]);
 		snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%.2lf MB/s",
-			emif_bw_max[1]);
+			 emif_bw_max[1]);
 		snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2lf MB/s",
-			emif_bw_avg[1]);
+			 emif_bw_avg[1]);
 		row++;
 	}
 
-	if ((p_flags[L3_FREQ]) || (p_flags[CORE_TEMP]) || (p_flags[EMIF_LOAD]) ||
-		(p_flags[EMIF_BW]))
+	if ((p_flags[L3_FREQ]) || (p_flags[CORE_TEMP]) || (p_flags[EMIF_LOAD])
+	    || (p_flags[EMIF_BW]))
 		row++;
 
 	if (p_flags[BANDGAP_TEMP]) {
@@ -2804,11 +2794,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			TABLE_MAX_ELT_LEN);
 		if (bandgap_temp_avg != TEMP_ABSOLUTE_ZERO) {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%dC",
-				bandgap_temp_min);
+				 bandgap_temp_min);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%dC",
-				bandgap_temp_max);
+				 bandgap_temp_max);
 			snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2lfC",
-				bandgap_temp_avg);
+				 bandgap_temp_avg);
 		} else {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "NA");
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "NA");
@@ -2821,11 +2811,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			TABLE_MAX_ELT_LEN);
 		if (hotspot_mpu_temp_avg != TEMP_ABSOLUTE_ZERO) {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%dC",
-				hotspot_mpu_temp_min);
+				 hotspot_mpu_temp_min);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%dC",
-				hotspot_mpu_temp_max);
+				 hotspot_mpu_temp_max);
 			snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2lfC",
-				hotspot_mpu_temp_avg);
+				 hotspot_mpu_temp_avg);
 		} else {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "NA");
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "NA");
@@ -2837,11 +2827,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		strncpy(table[row][0], "PCB Temperature", TABLE_MAX_ELT_LEN);
 		if (pcb_temp_avg != TEMP_ABSOLUTE_ZERO) {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%dC",
-				pcb_temp_min);
+				 pcb_temp_min);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%dC",
-				pcb_temp_max);
+				 pcb_temp_max);
 			snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2lfC",
-				pcb_temp_avg);
+				 pcb_temp_avg);
 		} else {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "NA");
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "NA");
@@ -2853,11 +2843,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		strncpy(table[row][0], "CASE Temperature", TABLE_MAX_ELT_LEN);
 		if (temps_avg[TEMP54XX_CASE] != TEMP_ABSOLUTE_ZERO) {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%dC",
-				temps_min[TEMP54XX_CASE]);
+				 temps_min[TEMP54XX_CASE]);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%dC",
-				temps_max[TEMP54XX_CASE]);
+				 temps_max[TEMP54XX_CASE]);
 			snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2lfC",
-				temps_avg[TEMP54XX_CASE]);
+				 temps_avg[TEMP54XX_CASE]);
 		} else {
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "NA");
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "NA");
@@ -2882,11 +2872,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				TABLE_MAX_ELT_LEN);
 
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%llu%s",
-				geninput_min[i], geninput_units[i]);
+				 geninput_min[i], geninput_units[i]);
 			snprintf(table[row][2], TABLE_MAX_ELT_LEN, "%llu%s",
-				geninput_max[i], geninput_units[i]);
+				 geninput_max[i], geninput_units[i]);
 			snprintf(table[row][3], TABLE_MAX_ELT_LEN, "%.2f%s",
-				geninput_avg[i], geninput_units[i]);
+				 geninput_avg[i], geninput_units[i]);
 
 			row++;
 		}
@@ -2902,13 +2892,13 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 	/* Compute charts height, depending on traced items */
 	chart_count = 0;
 	if (p_flags[CPU0_LOAD] || p_flags[CPU1_LOAD] || p_flags[TOTAL_CPU_LOAD]
-		|| p_flags[EMIF_LOAD] || p_flags[EMIF_BW])
+	    || p_flags[EMIF_LOAD] || p_flags[EMIF_BW])
 		chart_count++;
 	if (p_flags[CPU_FREQ] || p_flags[GPU_FREQ] || p_flags[L3_FREQ])
 		chart_count++;
 	if (p_flags[BANDGAP_TEMP] || p_flags[PCB_TEMP] ||
-		p_flags[HOTSPOT_MPU_TEMP] || MPU_TEMP || GPU_TEMP ||
-		CORE_TEMP || CASE_TEMP)
+	    p_flags[HOTSPOT_MPU_TEMP] || MPU_TEMP || GPU_TEMP ||
+	    CORE_TEMP || CASE_TEMP)
 		chart_count++;
 	for (i = 0; i < geninput_num; i++) {
 		if (geninput_flags[i]) {
@@ -2925,8 +2915,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 
 	for (file = 0; file < 2; file++) {
 		if (file == 0)
-			fp = workdir_fopen(
-				trace_perf_charts_script_file, "w");
+			fp = workdir_fopen(trace_perf_charts_script_file, "w");
 		else
 			fp = workdir_fopen(trace_perf_jpg_script_file, "w");
 
@@ -2937,8 +2926,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			goto trace_perf_capture_err;
 		}
 
-		fprintf(fp,
-			"# Performance Trace GNUPlot Script File\n");
+		fprintf(fp, "# Performance Trace GNUPlot Script File\n");
 		fprintf(fp, "#\n");
 		fprintf(fp, "set xlabel \"Time (s)\"\n");
 		fprintf(fp, "set style line 1 lt 2 lc rgb \"red\" lw 2\n");
@@ -2946,10 +2934,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		fprintf(fp, "set style line 3 lt 2 lc rgb \"#228B22\" lw 2\n");
 		fprintf(fp, "set style line 4 lt 2 lc rgb \"gold\" lw 2\n");
 		fprintf(fp, "set style line 5 lt 2 lc rgb \"#FF1493\" lw 2\n");
-		fprintf(fp,
-			"set style line 6 lt 2 lc rgb \"#FF8C00\" lw 2\n");
-		fprintf(fp,
-			"set style line 7 lt 2 lc rgb \"#FF69B4\" lw 2\n");
+		fprintf(fp, "set style line 6 lt 2 lc rgb \"#FF8C00\" lw 2\n");
+		fprintf(fp, "set style line 7 lt 2 lc rgb \"#FF69B4\" lw 2\n");
 		fprintf(fp, "set mxtics\n");
 		fprintf(fp, "set mytics\n");
 		fprintf(fp, "set grid ytics xtics mxtics\n");
@@ -2958,15 +2944,13 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			fprintf(fp, "set terminal wxt size 1133,850\n");
 		} else {
 			fprintf(fp, "set terminal jpeg size 1280,960\n");
-			fprintf(fp, "set output \"%s\"\n",
-				trace_perf_jpg_file);
+			fprintf(fp, "set output \"%s\"\n", trace_perf_jpg_file);
 		}
 		fprintf(fp, "set multiplot\n");
 		fprintf(fp, "\n");
 
 		chart_count = 0;
-		if (p_flags[CPU_FREQ] || p_flags[GPU_FREQ] ||
-			p_flags[L3_FREQ]) {
+		if (p_flags[CPU_FREQ] || p_flags[GPU_FREQ] || p_flags[L3_FREQ]) {
 			/* Plot CPU, GPU & L3 Speeds over Time */
 			fprintf(fp, "set size 1.0,%.2lf\n", height);
 			fprintf(fp, "set origin 0,%.2lf\n",
@@ -3011,8 +2995,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		}
 
 		if (p_flags[CPU0_LOAD] || p_flags[CPU1_LOAD] ||
-			p_flags[TOTAL_CPU_LOAD] || p_flags[EMIF_LOAD] ||
-			p_flags[EMIF_BW]) {
+		    p_flags[TOTAL_CPU_LOAD] || p_flags[EMIF_LOAD] ||
+		    p_flags[EMIF_BW]) {
 			/* Plot EMIF, CPU, CPU0, CPU1 Loads over Time */
 			fprintf(fp, "set size 1.0,%.2lf\n", height);
 			fprintf(fp, "set origin 0,%.2lf\n",
@@ -3022,13 +3006,13 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 
 			if (p_flags[EMIF_BW]) {
 				if (p_flags[CPU0_LOAD] || p_flags[CPU1_LOAD] ||
-					p_flags[TOTAL_CPU_LOAD]) {
+				    p_flags[TOTAL_CPU_LOAD]) {
 					fprintf(fp,
 						"plot '%s' using 1:%d ls 5 notitle with lines,\\\n",
-						trace_perf_file, EMIF_BW  + 1);
+						trace_perf_file, EMIF_BW + 1);
 					fprintf(fp,
 						"     '%s' using 1:%d ls 7 notitle with lines,\\\n",
-						trace_perf_file, EMIF_BW  + 2);
+						trace_perf_file, EMIF_BW + 2);
 				} else {
 					fprintf(fp,
 						"plot '%s' using 1:%d ls 5 notitle with lines,\\\n",
@@ -3039,7 +3023,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				}
 			} else if (p_flags[EMIF_LOAD]) {
 				if (p_flags[CPU0_LOAD] || p_flags[CPU1_LOAD] ||
-					p_flags[TOTAL_CPU_LOAD])
+				    p_flags[TOTAL_CPU_LOAD])
 					fprintf(fp,
 						"plot '%s' using 1:%d ls 7 notitle with lines,\\\n",
 						trace_perf_file, EMIF_LOAD + 3);
@@ -3081,7 +3065,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			}
 			if (p_flags[CPU1_LOAD]) {
 				if (p_flags[TOTAL_CPU_LOAD] ||
-					p_flags[CPU0_LOAD])
+				    p_flags[CPU0_LOAD])
 					fprintf(fp, "     ");
 				else
 					fprintf(fp, "plot ");
@@ -3094,9 +3078,9 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		}
 
 		if (p_flags[BANDGAP_TEMP] || p_flags[PCB_TEMP] ||
-			p_flags[MPU_TEMP] || p_flags[GPU_TEMP] ||
-			p_flags[CORE_TEMP] || p_flags[CASE_TEMP] ||
-			p_flags[HOTSPOT_MPU_TEMP]) {
+		    p_flags[MPU_TEMP] || p_flags[GPU_TEMP] ||
+		    p_flags[CORE_TEMP] || p_flags[CASE_TEMP] ||
+		    p_flags[HOTSPOT_MPU_TEMP]) {
 			/* Plot temperatures over time */
 			fprintf(fp, "set size 1.0,%.2lf\n", height);
 			fprintf(fp, "set origin 0,%.2lf\n",
@@ -3105,11 +3089,11 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 			fprintf(fp, "set ylabel \"Temperature (C)\"\n");
 			if (p_flags[BANDGAP_TEMP]) {
 				if (p_flags[PCB_TEMP]
-					|| p_flags[MPU_TEMP] ||
-					p_flags[GPU_TEMP] ||
-					p_flags[CORE_TEMP] ||
-					p_flags[CASE_TEMP] ||
-					p_flags[HOTSPOT_MPU_TEMP])
+				    || p_flags[MPU_TEMP] ||
+				    p_flags[GPU_TEMP] ||
+				    p_flags[CORE_TEMP] ||
+				    p_flags[CASE_TEMP] ||
+				    p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"plot '%s' using 1:%d ls 7 title 'Bandgap' with lines,\\\n",
 						trace_perf_file,
@@ -3127,9 +3111,9 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				else
 					fprintf(fp, "plot ");
 				if (p_flags[MPU_TEMP] || p_flags[GPU_TEMP] ||
-					p_flags[CORE_TEMP] ||
-					p_flags[CASE_TEMP] ||
-					p_flags[HOTSPOT_MPU_TEMP])
+				    p_flags[CORE_TEMP] ||
+				    p_flags[CASE_TEMP] ||
+				    p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"     '%s' using 1:%d ls 3 title 'PCB' with lines,\\\n",
 						trace_perf_file, PCB_TEMP + 2);
@@ -3145,8 +3129,8 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 				else
 					fprintf(fp, "plot ");
 				if (p_flags[GPU_TEMP] || p_flags[CORE_TEMP] ||
-					p_flags[CASE_TEMP] ||
-					p_flags[HOTSPOT_MPU_TEMP])
+				    p_flags[CASE_TEMP] ||
+				    p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"     '%s' using 1:%d ls 1 title 'MPU' with lines,\\\n",
 						trace_perf_file, MPU_TEMP + 2);
@@ -3158,13 +3142,12 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 
 			if (p_flags[GPU_TEMP]) {
 				if (p_flags[BANDGAP_TEMP] ||
-					p_flags[PCB_TEMP] ||
-					p_flags[MPU_TEMP])
+				    p_flags[PCB_TEMP] || p_flags[MPU_TEMP])
 					fprintf(fp, "     ");
 				else
 					fprintf(fp, "plot ");
 				if (p_flags[CORE_TEMP] || p_flags[CASE_TEMP] ||
-					p_flags[HOTSPOT_MPU_TEMP])
+				    p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"     '%s' using 1:%d ls 2 title 'GPU' with lines,\\\n",
 						trace_perf_file, GPU_TEMP + 2);
@@ -3176,13 +3159,13 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 
 			if (p_flags[CORE_TEMP]) {
 				if (p_flags[BANDGAP_TEMP] ||
-					p_flags[PCB_TEMP] ||
-					p_flags[MPU_TEMP] ||
-					p_flags[GPU_TEMP])
+				    p_flags[PCB_TEMP] ||
+				    p_flags[MPU_TEMP] || p_flags[GPU_TEMP])
 					fprintf(fp, "     ");
 				else
 					fprintf(fp, "plot ");
-				if (p_flags[CASE_TEMP] || p_flags[HOTSPOT_MPU_TEMP])
+				if (p_flags[CASE_TEMP]
+				    || p_flags[HOTSPOT_MPU_TEMP])
 					fprintf(fp,
 						"     '%s' using 1:%d ls 7 title 'CORE' with lines,\\\n",
 						trace_perf_file, CORE_TEMP + 2);
@@ -3194,10 +3177,9 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 
 			if (p_flags[CASE_TEMP]) {
 				if (p_flags[BANDGAP_TEMP] ||
-					p_flags[PCB_TEMP] ||
-					p_flags[MPU_TEMP] ||
-					p_flags[GPU_TEMP] ||
-					p_flags[CORE_TEMP])
+				    p_flags[PCB_TEMP] ||
+				    p_flags[MPU_TEMP] ||
+				    p_flags[GPU_TEMP] || p_flags[CORE_TEMP])
 					fprintf(fp, "     ");
 				else
 					fprintf(fp, "plot ");
@@ -3213,11 +3195,10 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 
 			if (p_flags[HOTSPOT_MPU_TEMP]) {
 				if (p_flags[BANDGAP_TEMP] ||
-					p_flags[PCB_TEMP] ||
-					p_flags[MPU_TEMP] ||
-					p_flags[GPU_TEMP] ||
-					p_flags[CORE_TEMP] ||
-					p_flags[CASE_TEMP])
+				    p_flags[PCB_TEMP] ||
+				    p_flags[MPU_TEMP] ||
+				    p_flags[GPU_TEMP] ||
+				    p_flags[CORE_TEMP] || p_flags[CASE_TEMP])
 					fprintf(fp, "     ");
 				else
 					fprintf(fp, "plot ");
@@ -3270,8 +3251,7 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 					"'%s' using 1:%d ls %d title '%s' with lines",
 					trace_perf_file,
 					1 + NUM_ITEMS + i,
-					1 + (i % 7),
-					geninput_names[i]);
+					1 + (i % 7), geninput_names[i]);
 				if (i == geninput_last)
 					fprintf(fp, ";\n");
 				else
@@ -3295,17 +3275,16 @@ int trace_perf_capture(const char *cfgfile, const char *prefix,
 		autoadjust_table_print(table, row, 5);
 	else
 		autoadjust_table_print(table, row, 4);
-	printf("Performance trace saved into '%s' file.\n",
-		trace_perf_file);
+	printf("Performance trace saved into '%s' file.\n", trace_perf_file);
 	printf("Performance statistics saved into '%s' file.\n\n",
-		trace_perf_stats_file);
+	       trace_perf_stats_file);
 
 	printf("Use:\n");
 	printf("  gnuplot -persist '%s' to display performance charts.\n",
-		trace_perf_charts_script_file);
-	printf(
-		"  gnuplot '%s' to save performance charts into '%s' JPEG image file.\n\n",
-		trace_perf_jpg_script_file, trace_perf_jpg_file);
+	       trace_perf_charts_script_file);
+	printf
+	    ("  gnuplot '%s' to save performance charts into '%s' JPEG image file.\n\n",
+	     trace_perf_jpg_script_file, trace_perf_jpg_file);
 	ret = 0;
 
 trace_perf_capture_err:
@@ -3338,7 +3317,7 @@ trace_perf_capture_err:
 		free(pcb_temp);
 	if (hotspot_mpu_temp != NULL)
 		free(hotspot_mpu_temp);
-	for (i = 0; i < (int) TEMP54XX_ID_MAX; i++) {
+	for (i = 0; i < (int)TEMP54XX_ID_MAX; i++) {
 		if (temps[i] != NULL)
 			free(temps[i]);
 	}

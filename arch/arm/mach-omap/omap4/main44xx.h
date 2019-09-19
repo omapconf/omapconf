@@ -41,13 +41,10 @@
  *
  */
 
-
 #ifndef __MAIN44XX_H__
 #define __MAIN44XX_H__
 
-
 void main44xx_init(void);
 int main44xx(int argc, char *argv[]);
-
 
 #endif

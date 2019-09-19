@@ -41,14 +41,11 @@
  *
  */
 
-
 #ifndef __EMIF_AM335X_DEFS_H__
 #define __EMIF_AM335X_DEFS_H__
 
-
 #include <reg.h>
 #include <stdio.h>
-
 
 #define AM335X_EMIF4D_EMIF_MOD_ID_REV			0x4c000000
 extern reg am335x_emif4d_emif_mod_id_rev;
@@ -134,10 +131,8 @@ typedef enum {
 	EMIF_AM335X_MODS_COUNT = 1
 } emif_am335x_mod_id;
 
-
 extern reg **emif_am335x_mods[EMIF_AM335X_MODS_COUNT];
 
 extern const char *emif_am335x_mods_name[EMIF_AM335X_MODS_COUNT];
-
 
 #endif

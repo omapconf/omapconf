@@ -41,27 +41,25 @@
  *
  */
 
-
 #ifndef __AUDIT44XX_H__
 #define __AUDIT44XX_H__
-
 
 #include <stdio.h>
 #include <smartreflex44xx.h>
 #include <dpll44xx.h>
 #include <voltdm44xx.h>
 
-
 int audit44xx_main(int argc, char *argv[]);
-int clkspeed_audit44xx(FILE *stream, unsigned int *err_nbr,
-	unsigned int *wng_nbr);
-int sysconfig_audit44xx(FILE *stream, unsigned int *err_nbr,
-	unsigned int *wng_nbr);
-int audit44xx_sr_avs(FILE *stream, omap4_sr_module_id sr_id,
-	unsigned short curr_opp, unsigned int *err_nbr, unsigned int *wng_nbr);
+int clkspeed_audit44xx(FILE * stream, unsigned int *err_nbr,
+		       unsigned int *wng_nbr);
+int sysconfig_audit44xx(FILE * stream, unsigned int *err_nbr,
+			unsigned int *wng_nbr);
+int audit44xx_sr_avs(FILE * stream, omap4_sr_module_id sr_id,
+		     unsigned short curr_opp, unsigned int *err_nbr,
+		     unsigned int *wng_nbr);
 int audit44xx_dpll_main(int argc, char *argv[]);
-int audit44xx_dpll(FILE *stream, dpll44xx_id dpll_id, opp44xx_id opp_id,
-	unsigned short curr_opp, unsigned int *err_nbr, unsigned int *wng_nbr);
-
+int audit44xx_dpll(FILE * stream, dpll44xx_id dpll_id, opp44xx_id opp_id,
+		   unsigned short curr_opp, unsigned int *err_nbr,
+		   unsigned int *wng_nbr);
 
 #endif

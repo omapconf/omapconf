@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <ctt_dra7xx.h>
 #include <lib.h>
 #include <help.h>
@@ -77,25 +76,28 @@ int ctt_dra7xx_dump(void)
 	unsigned int i = 0;
 	unsigned int ret, val = 0;
 	int err = 0;
-	char cpu_name[CPU_NAME_MAX_LENGTH], cpu_revision[CPU_REVISION_MAX_NAME_LENGTH];
+	char cpu_name[CPU_NAME_MAX_LENGTH],
+	    cpu_revision[CPU_REVISION_MAX_NAME_LENGTH];
 
 	printf("The Clock Tree Tool can import register settings from a *.rd1 "
-		"file.\n");
+	       "file.\n");
 	printf("The format of the *.rd1 file is:\n\n");
-	printf("DeviceName %s_SR%s\n", cpu_gets(cpu_name), cpu_revision_gets(cpu_revision));
+	printf("DeviceName %s_SR%s\n", cpu_gets(cpu_name),
+	       cpu_revision_gets(cpu_revision));
 	printf("<register address> <register value>\n");
 	printf("<register address> <register value>\n");
 	printf("...\n\n");
 	printf("Copy the below output between the begin and end separators "
-		"into a\n");
+	       "into a\n");
 	printf("file with the extension *.rd1 and this file can be read by the"
-		"\n");
+	       "\n");
 	printf("Clock Tree Tool\n\n");
 	printf("|--------------------------- ctt dump begin ------------------"
-		"----|\n");
+	       "----|\n");
 
 	if (cpu_is_dra7xx())
-		printf("DeviceName %s_SR%s\n", cpu_gets(cpu_name), cpu_revision_gets(cpu_revision));
+		printf("DeviceName %s_SR%s\n", cpu_gets(cpu_name),
+		       cpu_revision_gets(cpu_revision));
 	else
 		return OMAPCONF_ERR_CPU;
 
@@ -106,7 +108,7 @@ int ctt_dra7xx_dump(void)
 		ret = mem_read(prcm_ctt_reg_table[i].addr, &val);
 		if (ret == 0)
 			printf("0x%08X 0x%08X\n", prcm_ctt_reg_table[i].addr,
-				val);
+			       val);
 		else {
 			fprintf(stderr,
 				"omapconf: read error! (addr=0x%08X, err=%d)\n",
@@ -117,11 +119,10 @@ int ctt_dra7xx_dump(void)
 	}
 
 	printf("|---------------------------- ctt dump end --------------------"
-		"---|\n\n");
+	       "---|\n\n");
 
 	return err;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctt_dra7xx_rd1_export
@@ -140,7 +141,8 @@ int ctt_dra7xx_rd1_export(char *file)
 	int err = 0;
 	FILE *fd = NULL;
 	char fullfilename[128];
-	char cpu_name[CPU_NAME_MAX_LENGTH], cpu_revision[CPU_REVISION_MAX_NAME_LENGTH];
+	char cpu_name[CPU_NAME_MAX_LENGTH],
+	    cpu_revision[CPU_REVISION_MAX_NAME_LENGTH];
 
 	CHECK_NULL_ARG(file, OMAPCONF_ERR_ARG);
 
@@ -152,7 +154,8 @@ int ctt_dra7xx_rd1_export(char *file)
 	}
 
 	if (cpu_is_dra7xx())
-		fprintf(fd, "DeviceName %s_SR%s\n", cpu_gets(cpu_name), cpu_revision_gets(cpu_revision));
+		fprintf(fd, "DeviceName %s_SR%s\n", cpu_gets(cpu_name),
+			cpu_revision_gets(cpu_revision));
 	else
 		return OMAPCONF_ERR_CPU;
 
@@ -179,7 +182,6 @@ int ctt_dra7xx_rd1_export(char *file)
 	return err;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctt_dra7xx_main
  * @BRIEF		CTT main menu
@@ -201,8 +203,7 @@ int ctt_dra7xx_main(int argc, char *argv[])
 		if (strcmp(argv[0], "dump") == 0)
 			ret = ctt_dra7xx_dump();
 		else if (strcmp(argv[0], "rd1") == 0)
-			ret = ctt_dra7xx_rd1_export(
-				"CTT-DRA7xx_ES1.rd1");
+			ret = ctt_dra7xx_rd1_export("CTT-DRA7xx_ES1.rd1");
 		else {
 			help(HELP_EXPORT);
 			ret = OMAPCONF_ERR_ARG;
@@ -214,8 +215,6 @@ int ctt_dra7xx_main(int argc, char *argv[])
 
 	return ret;
 }
-
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		ctt_dra7xx_regtable_init
@@ -231,7 +230,7 @@ static int ctt_dra7xx_regtable_init(void)
 	/* Init PRCM registers table */
 	/* Data from: CTT-v1.12.0.4 */
 	/* WARNING: Make sure you update the macro PRCM_CTT_REG_TABLE_SIZE
-	            before changing this */
+	   before changing this */
 	prcm_ctt_reg_table[i++].addr = 0x4a005100;
 	prcm_ctt_reg_table[i++].addr = 0x4a005120;
 	prcm_ctt_reg_table[i++].addr = 0x4a00512c;

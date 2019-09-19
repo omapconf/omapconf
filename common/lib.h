@@ -41,33 +41,30 @@
  *
  */
 
-
 #ifndef __LIB_H__
 #define __LIB_H__
-
 
 #include <stdio.h>
 #include <reg.h>
 #include <stdint.h>
 #include <help.h>
 
-
 /* OMAPCONF standard error numbers */
-#define OMAPCONF_ERR_ARG		-1 /* incorrect argument(s) */
-#define OMAPCONF_ERR_CPU		-2 /* CPU architecture not supported */
-#define OMAPCONF_ERR_INTERNAL		-3 /* internal error */
-#define OMAPCONF_ERR_REG_ACCESS		-4 /* register R/W access failed */
-#define OMAPCONF_ERR_MEM_MAP		-5 /* memory could not be mapped */
-#define OMAPCONF_ERR_MEM_DEV		-6 /* mem device couldn't be opened */
-#define OMAPCONF_ERR_UNEXPECTED		-7 /* something unexpected occurred */
-#define OMAPCONF_ERR_NOT_AVAILABLE	-8 /* does not exist / not available */
-#define OMAPCONF_ERR_TRUNCATED		-9 /* item partially available */
-#define OMAPCONF_ERR_EMPTY		-10 /* item is empty */
-#define OMAPCONF_ERR_CORRUPTED		-11 /* item is corrupted */
-#define OMAPCONF_ERR_FULL		-12 /* item is full */
-#define OMAPCONF_ERR_OUTOFBOUNDS	-13 /* arg is too large or too small */
-#define OMAPCONF_ERR_TIMEOUT		-14 /* a timer or counter expired */
-#define OMAPCONF_ERR_AUDIT_FAIL		-15 /* there were errors during audit */
+#define OMAPCONF_ERR_ARG		-1	/* incorrect argument(s) */
+#define OMAPCONF_ERR_CPU		-2	/* CPU architecture not supported */
+#define OMAPCONF_ERR_INTERNAL		-3	/* internal error */
+#define OMAPCONF_ERR_REG_ACCESS		-4	/* register R/W access failed */
+#define OMAPCONF_ERR_MEM_MAP		-5	/* memory could not be mapped */
+#define OMAPCONF_ERR_MEM_DEV		-6	/* mem device couldn't be opened */
+#define OMAPCONF_ERR_UNEXPECTED		-7	/* something unexpected occurred */
+#define OMAPCONF_ERR_NOT_AVAILABLE	-8	/* does not exist / not available */
+#define OMAPCONF_ERR_TRUNCATED		-9	/* item partially available */
+#define OMAPCONF_ERR_EMPTY		-10	/* item is empty */
+#define OMAPCONF_ERR_CORRUPTED		-11	/* item is corrupted */
+#define OMAPCONF_ERR_FULL		-12	/* item is full */
+#define OMAPCONF_ERR_OUTOFBOUNDS	-13	/* arg is too large or too small */
+#define OMAPCONF_ERR_TIMEOUT		-14	/* a timer or counter expired */
+#define OMAPCONF_ERR_AUDIT_FAIL		-15	/* there were errors during audit */
 
 #define OMAPCONF_DESCRIPTION_MAX_LENGTH	128
 
@@ -91,7 +88,6 @@ typedef enum {
 	VOLTAGE_TYPE_MAX
 } voltage_type;
 
-
 typedef enum {
 	DATA_INVALID = 0,
 	DATA_VALID = 1,
@@ -100,12 +96,10 @@ typedef enum {
 	DATA_TYPE_MAX = 4
 } data_type;
 
-
 typedef struct {
 	char name[OMAPCONF_REG_NAME_MAX_LENGTH];
 	unsigned int addr;
 } reg_table;
-
 
 typedef struct {
 	char name[OMAPCONF_REG_NAME_MAX_LENGTH];
@@ -113,19 +107,15 @@ typedef struct {
 	unsigned int value;
 } name_desc_val_table;
 
-
 typedef struct {
 	char name[OMAPCONF_REG_NAME_MAX_LENGTH];
 	char desc[OMAPCONF_DESCRIPTION_MAX_LENGTH];
 	unsigned int value[6];
 } name_desc_multival_table;
 
-
 static const char int2char_table[11] = "0123456789";
 
-
 #define inline __inline
-
 
 #define OMAPCONF_COND_STRCPY(cond, string, string_cond_true, string_cond_false)\
 	if (cond) \
@@ -163,12 +153,11 @@ static const char int2char_table[11] = "0123456789";
 		return ret; \
 	}
 
-
 unsigned short os_supports_wakelock(void);
-void omapconf_revision_show(FILE *stream);
+void omapconf_revision_show(FILE * stream);
 char *product_name_get(char product_name[256]);
-void chips_info_show(FILE *stream, unsigned short die_id);
-void release_info_show(FILE *stream);
+void chips_info_show(FILE * stream, unsigned short die_id);
+void release_info_show(FILE * stream);
 
 char *date_get(char s[17]);
 
@@ -176,7 +165,7 @@ char *bin2str_32(char s[33], unsigned int value);
 
 int short extract_bit(unsigned int regVal, unsigned short pos);
 int extract_bitfield(unsigned int regVal, unsigned short start,
-	unsigned short len);
+		     unsigned short len);
 
 unsigned int count32_delta(unsigned int a, unsigned int b);
 unsigned int max32(unsigned int a, unsigned int b);
@@ -202,30 +191,30 @@ char *workdir_get(void);
 FILE *workdir_fopen(char filename[128], const char *mode);
 
 char *kernel_details_get(char version[KERNEL_VERSION_MAX_LENGTH],
-			char author[KERNEL_AUTHOR_MAX_LENGTH],
-			char toolchain[KERNEL_TOOLCHAIN_MAX_LENGTH],
-			char type[KERNEL_TYPE_MAX_LENGTH],
-			char date[KERNEL_DATE_MAX_LENGTH]);
+			 char author[KERNEL_AUTHOR_MAX_LENGTH],
+			 char toolchain[KERNEL_TOOLCHAIN_MAX_LENGTH],
+			 char type[KERNEL_TYPE_MAX_LENGTH],
+			 char date[KERNEL_DATE_MAX_LENGTH]);
 
 char *release_details_get(char version[RELEASE_VERSION_MAX_LENGTH],
-			char type[RELEASE_TYPE_MAX_LENGTH],
-			char date[RELEASE_DATE_MAX_LENGTH]);
+			  char type[RELEASE_TYPE_MAX_LENGTH],
+			  char date[RELEASE_DATE_MAX_LENGTH]);
 
-int name2value(
-char *name, unsigned int *value, const name_desc_val_table table[]);
-int name2index(
-	char *name, unsigned int *index, const name_desc_val_table table[]);
-int value2name(
-	unsigned int value, char *name, const name_desc_val_table table[]);
-int value2desc(
-	unsigned int value, char *desc, const name_desc_val_table table[]);
+int name2value(char *name, unsigned int *value,
+	       const name_desc_val_table table[]);
+int name2index(char *name, unsigned int *index,
+	       const name_desc_val_table table[]);
+int value2name(unsigned int value, char *name,
+	       const name_desc_val_table table[]);
+int value2desc(unsigned int value, char *desc,
+	       const name_desc_val_table table[]);
 
 int name2multivalue(char *name, unsigned int *value, unsigned int index,
-	const name_desc_multival_table table[]);
+		    const name_desc_multival_table table[]);
 int multivalue2name(unsigned int value, char *name, unsigned int index,
-	const name_desc_multival_table table[]);
+		    const name_desc_multival_table table[]);
 int multivalue2desc(unsigned int value, char *desc, unsigned int index,
-	const name_desc_multival_table table[]);
+		    const name_desc_multival_table table[]);
 
 double avg_recalc(double prev_avg, double new_val, unsigned int n);
 
@@ -242,7 +231,7 @@ static inline double uv2v(int uv)
 {
 	double v;
 
-	v = ((double) uv) / 1000000.0;
+	v = ((double)uv) / 1000000.0;
 	return v;
 }
 
@@ -255,7 +244,7 @@ static inline double uv2v(int uv)
  *------------------------------------------------------------------------ */
 static inline int v2uv(double v)
 {
-	return (int) (v * 1000000.0);
+	return (int)(v * 1000000.0);
 }
 
 /* ------------------------------------------------------------------------
@@ -267,7 +256,7 @@ static inline int v2uv(double v)
  *------------------------------------------------------------------------ */
 static inline double khz2mhz(int khz)
 {
-	return ((double) khz) / 1000.0;
+	return ((double)khz) / 1000.0;
 }
 
 /* ------------------------------------------------------------------------
@@ -279,12 +268,10 @@ static inline double khz2mhz(int khz)
  *------------------------------------------------------------------------ */
 static inline int mhz2khz(double mhz)
 {
-	return (int) (mhz * 1000.0);
+	return (int)(mhz * 1000.0);
 }
 
-
-int omapconf_getdefaults(
-	char *defaults_file, char *prefix, name_desc_val_table tablep[]);
-
+int omapconf_getdefaults(char *defaults_file, char *prefix,
+			 name_desc_val_table tablep[]);
 
 #endif

@@ -72,8 +72,7 @@ static int check_funcs(int file, int size, int daddress, int pec)
 			fprintf(stderr, MISSING_FUNC_FMT, "SMBus receive byte");
 			return -1;
 		}
-		if (daddress >= 0
-		 && !(funcs & I2C_FUNC_SMBUS_WRITE_BYTE)) {
+		if (daddress >= 0 && !(funcs & I2C_FUNC_SMBUS_WRITE_BYTE)) {
 			fprintf(stderr, MISSING_FUNC_FMT, "SMBus send byte");
 			return -1;
 		}
@@ -94,8 +93,7 @@ static int check_funcs(int file, int size, int daddress, int pec)
 		break;
 	}
 
-	if (pec
-	 && !(funcs & (I2C_FUNC_SMBUS_PEC | I2C_FUNC_I2C))) {
+	if (pec && !(funcs & (I2C_FUNC_SMBUS_PEC | I2C_FUNC_I2C))) {
 		fprintf(stderr, "Warning: Adapter does "
 			"not seem to support PEC\n");
 	}
@@ -137,9 +135,9 @@ static int confirm(const char *filename, int address, int size, int daddress,
 		fprintf(stderr, "data address\n0x%02x", daddress);
 	fprintf(stderr, ", using %s.\n",
 		size == I2C_SMBUS_BYTE ? (daddress < 0 ?
-		"read byte" : "write byte/read byte") :
-		size == I2C_SMBUS_BYTE_DATA ? "read byte data" :
-		"read word data");
+					  "read byte" : "write byte/read byte")
+		: size ==
+		I2C_SMBUS_BYTE_DATA ? "read byte data" : "read word data");
 	if (pec)
 		fprintf(stderr, "PEC checking enabled.\n");
 
@@ -164,14 +162,20 @@ int main_i2cget(int argc, char *argv[])
 	int force = 0, yes = 0, version = 0;
 
 	/* handle (optional) flags first */
-	while (1+flags < argc && argv[1+flags][0] == '-') {
-		switch (argv[1+flags][1]) {
-		case 'V': version = 1; break;
-		case 'f': force = 1; break;
-		case 'y': yes = 1; break;
+	while (1 + flags < argc && argv[1 + flags][0] == '-') {
+		switch (argv[1 + flags][1]) {
+		case 'V':
+			version = 1;
+			break;
+		case 'f':
+			force = 1;
+			break;
+		case 'y':
+			yes = 1;
+			break;
 		default:
 			fprintf(stderr, "Error: Unsupported option "
-				"\"%s\"!\n", argv[1+flags]);
+				"\"%s\"!\n", argv[1 + flags]);
 			help();
 			exit(1);
 		}
@@ -186,17 +190,17 @@ int main_i2cget(int argc, char *argv[])
 	if (argc < flags + 3)
 		help();
 
-	i2cbus = lookup_i2c_bus(argv[flags+1]);
+	i2cbus = lookup_i2c_bus(argv[flags + 1]);
 	if (i2cbus < 0)
 		help();
 
-	address = parse_i2c_address(argv[flags+2]);
+	address = parse_i2c_address(argv[flags + 2]);
 	if (address < 0)
 		help();
 
 	if (argc > flags + 3) {
 		size = I2C_SMBUS_BYTE_DATA;
-		daddress = strtol(argv[flags+3], &end, 0);
+		daddress = strtol(argv[flags + 3], &end, 0);
 		if (*end || daddress < 0 || daddress > 0xff) {
 			fprintf(stderr, "Error: Data address invalid!\n");
 			help();
@@ -207,21 +211,26 @@ int main_i2cget(int argc, char *argv[])
 	}
 
 	if (argc > flags + 4) {
-		switch (argv[flags+4][0]) {
-		case 'b': size = I2C_SMBUS_BYTE_DATA; break;
-		case 'w': size = I2C_SMBUS_WORD_DATA; break;
-		case 'c': size = I2C_SMBUS_BYTE; break;
+		switch (argv[flags + 4][0]) {
+		case 'b':
+			size = I2C_SMBUS_BYTE_DATA;
+			break;
+		case 'w':
+			size = I2C_SMBUS_WORD_DATA;
+			break;
+		case 'c':
+			size = I2C_SMBUS_BYTE;
+			break;
 		default:
 			fprintf(stderr, "Error: Invalid mode!\n");
 			help();
 		}
-		pec = argv[flags+4][1] == 'p';
+		pec = argv[flags + 4][1] == 'p';
 	}
 
 	file = open_i2c_dev(i2cbus, filename, sizeof(filename), 0);
-	if (file < 0
-	 || check_funcs(file, size, daddress, pec)
-	 || set_slave_addr(file, address, force))
+	if (file < 0 || check_funcs(file, size, daddress, pec)
+	    || set_slave_addr(file, address, force))
 		exit(1);
 
 	if (!yes && !confirm(filename, address, size, daddress, pec))
@@ -246,7 +255,7 @@ int main_i2cget(int argc, char *argv[])
 	case I2C_SMBUS_WORD_DATA:
 		res = i2c_smbus_read_word_data(file, daddress);
 		break;
-	default: /* I2C_SMBUS_BYTE_DATA */
+	default:		/* I2C_SMBUS_BYTE_DATA */
 		res = i2c_smbus_read_byte_data(file, daddress);
 	}
 	close(file);
@@ -260,7 +269,6 @@ int main_i2cget(int argc, char *argv[])
 
 	exit(0);
 }
-
 
 /**
  * Function: i2cget
@@ -276,9 +284,8 @@ int main_i2cget(int argc, char *argv[])
  *	-8 in case of i2c dev cannot be opened
  *	-4 in case of I2C read error
  */
-int i2cget(
-	unsigned int i2cbus, unsigned int address, unsigned int daddress,
-	unsigned int *data)
+int i2cget(unsigned int i2cbus, unsigned int address, unsigned int daddress,
+	   unsigned int *data)
 {
 	int res, file;
 	char filename[20];
@@ -300,9 +307,8 @@ int i2cget(
 	}
 
 	file = open_i2c_dev(i2cbus, filename, sizeof(filename), 1);
-	if (file < 0
-	 || check_funcs(file, I2C_SMBUS_BYTE_DATA, daddress, 0)
-	 || set_slave_addr(file, address, 1))
+	if (file < 0 || check_funcs(file, I2C_SMBUS_BYTE_DATA, daddress, 0)
+	    || set_slave_addr(file, address, 1))
 		return -8;
 
 	res = i2c_smbus_read_byte_data(file, daddress);
@@ -315,7 +321,6 @@ int i2cget(
 
 	return 0;
 }
-
 
 /**
  * Function: i2cget_word
@@ -331,9 +336,8 @@ int i2cget(
  *	-8 in case of i2c dev cannot be opened
  *	-4 in case of I2C read error
  */
-int i2cget_word(
-	unsigned int i2cbus, unsigned int address, unsigned int daddress,
-	unsigned int *data)
+int i2cget_word(unsigned int i2cbus, unsigned int address,
+		unsigned int daddress, unsigned int *data)
 {
 	int res, file;
 	char filename[20];
@@ -355,9 +359,8 @@ int i2cget_word(
 	}
 
 	file = open_i2c_dev(i2cbus, filename, sizeof(filename), 1);
-	if (file < 0
-	 || check_funcs(file, I2C_SMBUS_WORD_DATA, daddress, 0)
-	 || set_slave_addr(file, address, 1))
+	if (file < 0 || check_funcs(file, I2C_SMBUS_WORD_DATA, daddress, 0)
+	    || set_slave_addr(file, address, 1))
 		return -8;
 
 	res = i2c_smbus_read_word_data(file, daddress);

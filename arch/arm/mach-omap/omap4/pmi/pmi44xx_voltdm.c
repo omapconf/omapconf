@@ -42,7 +42,6 @@
  *
  */
 
-
 #include <pmi44xx_voltdm.h>
 #include <stdio.h>
 #include <autoadjust_table.h>
@@ -52,14 +51,12 @@
 
 /* #define PMI44XX_VOLTDM_DEBUG */
 #ifdef PMI44XX_VOLTDM_DEBUG
-	#define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
+#define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
-	#define dprintf(format, ...)
+#define dprintf(format, ...)
 #endif
 
-
 #define PMI44XX_VOLTDM_NAME_MAX 11
-
 
 typedef struct {
 	/* Voltage in integer format, as sent to PMIC SMPS */
@@ -68,26 +65,25 @@ typedef struct {
 	double ts;
 } pmi44xx_voltdm_transition;
 
-
 #ifdef PMI44XX_VOLTDM_DEBUG
 static const char
-	pmi44xx_logic_voltdm_names_table
-		[PMI44XX_VOLTDM_LOGIC_MAX][PMI44XX_VOLTDM_NAME_MAX] = {
-		"LOGIC_MPU",
-		"LOGIC_IVA",
-		"LOGIC_CORE"};
+ pmi44xx_logic_voltdm_names_table
+    [PMI44XX_VOLTDM_LOGIC_MAX][PMI44XX_VOLTDM_NAME_MAX] = {
+	"LOGIC_MPU",
+	"LOGIC_IVA",
+	"LOGIC_CORE"
+};
 #endif
 
-
-#if 0 /* defined for future use */
+#if 0				/* defined for future use */
 static const char
-	pmi44xx_mem_voltdm_names_table
-		[PMI44XX_VOLTDM_MEM_MAX][PMI44XX_VOLTDM_NAME_MAX] = {
-		"MEM_MPU",
-		"MEM_IVA",
-		"MEM_CORE"};
+ pmi44xx_mem_voltdm_names_table
+    [PMI44XX_VOLTDM_MEM_MAX][PMI44XX_VOLTDM_NAME_MAX] = {
+	"MEM_MPU",
+	"MEM_IVA",
+	"MEM_CORE"
+};
 #endif
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmi44xx_voltdm_transitions_extract
@@ -107,7 +103,7 @@ static const char
  * @DESCRIPTION		extract voltage domain voltage transition(s) from PMI
  *			trace file.
  *------------------------------------------------------------------------ */
-int pmi44xx_voltdm_transitions_extract(char *filename, genlist *transitions)
+int pmi44xx_voltdm_transitions_extract(char *filename, genlist * transitions)
 {
 	unsigned int evt_class, evt_state_lsb, evt_state_msb;
 	unsigned int dom, shift, vsels, vsel;
@@ -116,14 +112,13 @@ int pmi44xx_voltdm_transitions_extract(char *filename, genlist *transitions)
 	char dummy[7], dummy2[8];
 	pmi44xx_voltdm_transition voltdm_tr;
 	unsigned int evt_count;
-	#ifdef PMI44XX_VOLTDM_DEBUG
+#ifdef PMI44XX_VOLTDM_DEBUG
 	unsigned long uv;
 	char *name;
-	#endif
+#endif
 	double ts = 0.0;
 	double volt;
 	unsigned int prev_vsel[PMI44XX_VOLTDM_LOGIC_MAX];
-
 
 	if (transitions == NULL) {
 		fprintf(stderr, "%s(): transitions == NULL!\n", __func__);
@@ -160,11 +155,11 @@ int pmi44xx_voltdm_transitions_extract(char *filename, genlist *transitions)
 	for (dom = 0; dom < PMI44XX_VOLTDM_LOGIC_MAX; dom++) {
 		voltdm44xx_get_voltage((voltdm44xx_id) (dom + 1), &volt);
 		prev_vsel[dom] = smps_uvolt2vsel(vdd_id2smps_id(dom + 1),
-			(unsigned int) (volt * 1000000));
+						 (unsigned int)(volt *
+								1000000));
 	}
 
-	dprintf("pmi_voltdm_events_get(): "
-		"parsing trace file...\n");
+	dprintf("pmi_voltdm_events_get(): " "parsing trace file...\n");
 	while (fgets(line, sizeof(line), fp) != NULL) {
 		/* Looking for D8 headers */
 		if (strstr(line, "D8 (0x4)") == NULL)
@@ -178,7 +173,7 @@ int pmi44xx_voltdm_transitions_extract(char *filename, genlist *transitions)
 			return OMAPCONF_ERR_UNEXPECTED;
 		}
 		if (sscanf(line, "\tEvent Class is %s %s Domain (0x%02X)",
-			dummy, dummy2, &evt_class) != 3) {
+			   dummy, dummy2, &evt_class) != 3) {
 			printf("could not get class from %s", line);
 			fclose(fp);
 			return OMAPCONF_ERR_UNEXPECTED;
@@ -197,9 +192,9 @@ int pmi44xx_voltdm_transitions_extract(char *filename, genlist *transitions)
 			return OMAPCONF_ERR_UNEXPECTED;
 		}
 		if ((evt_class == PMI_PWRDM_CLASS_LOGIC) ||
-			(evt_class == PMI_VOLTDM_CLASS_MEM)) {
+		    (evt_class == PMI_VOLTDM_CLASS_MEM)) {
 			if (sscanf(line, "\t\tEvent Data = 0x%08X",
-				&evt_state_lsb) != 1) {
+				   &evt_state_lsb) != 1) {
 				printf("could not get state from %s", line);
 				fclose(fp);
 				return OMAPCONF_ERR_UNEXPECTED;
@@ -208,7 +203,7 @@ int pmi44xx_voltdm_transitions_extract(char *filename, genlist *transitions)
 			evt_state_msb = 0;
 		} else {
 			if (sscanf(line, "\t\tEvent Data = 0x%08X%08X",
-				&evt_state_msb, &evt_state_lsb) != 2) {
+				   &evt_state_msb, &evt_state_lsb) != 2) {
 				printf("could not get state from %s", line);
 				fclose(fp);
 				return OMAPCONF_ERR_UNEXPECTED;
@@ -220,49 +215,49 @@ int pmi44xx_voltdm_transitions_extract(char *filename, genlist *transitions)
 		if (evt_class == PMI_VOLTDM_CLASS_LOGIC) {
 			/* Retrieve all logic domain voltages from event data */
 			for (dom = 0; dom < PMI44XX_VOLTDM_LOGIC_MAX; dom++) {
-				#ifdef PMI44XX_VOLTDM_DEBUG
+#ifdef PMI44XX_VOLTDM_DEBUG
 				name = (char *)
-					pmi44xx_logic_voltdm_names_table[dom];
-				#endif
+				    pmi44xx_logic_voltdm_names_table[dom];
+#endif
 				switch (dom) {
 				case PMI44XX_VOLTDM_LOGIC_MPU:
 					vsels = evt_state_lsb;
 					shift = 0;
 					vsel = (vsels & (0xFF << shift))
-						>> shift;
+					    >> shift;
 					if (vsel == 0x8C)
 						vsel = prev_vsel[dom];
-					#ifdef PMI44XX_VOLTDM_DEBUG
-					uv = smps_vsel2uvolt(
-						vdd_id2smps_id(OMAP4_VDD_MPU),
-						vsel);
-					#endif
+#ifdef PMI44XX_VOLTDM_DEBUG
+					uv = smps_vsel2uvolt(vdd_id2smps_id
+							     (OMAP4_VDD_MPU),
+							     vsel);
+#endif
 					break;
 				case PMI44XX_VOLTDM_LOGIC_IVA:
 					vsels = evt_state_lsb;
 					shift = 16;
 					vsel = (vsels & (0xFF << shift))
-						>> shift;
+					    >> shift;
 					if (vsel == 0x8C)
 						vsel = prev_vsel[dom];
-					#ifdef PMI44XX_VOLTDM_DEBUG
-					uv = smps_vsel2uvolt(
-						vdd_id2smps_id(OMAP4_VDD_IVA),
-						vsel);
-					#endif
+#ifdef PMI44XX_VOLTDM_DEBUG
+					uv = smps_vsel2uvolt(vdd_id2smps_id
+							     (OMAP4_VDD_IVA),
+							     vsel);
+#endif
 					break;
 				case PMI44XX_VOLTDM_LOGIC_CORE:
 					vsels = evt_state_msb;
 					shift = 0;
 					vsel = (vsels & (0xFF << shift))
-						>> shift;
+					    >> shift;
 					if (vsel == 0x8C)
 						vsel = prev_vsel[dom];
-					#ifdef PMI44XX_VOLTDM_DEBUG
-					uv = smps_vsel2uvolt(
-						vdd_id2smps_id(OMAP4_VDD_CORE),
-						vsel);
-					#endif
+#ifdef PMI44XX_VOLTDM_DEBUG
+					uv = smps_vsel2uvolt(vdd_id2smps_id
+							     (OMAP4_VDD_CORE),
+							     vsel);
+#endif
 					break;
 				default:
 					fprintf(stderr, "%s(): unexpected "
@@ -272,15 +267,14 @@ int pmi44xx_voltdm_transitions_extract(char *filename, genlist *transitions)
 				}
 				dprintf("dom=%s, shift=%u, vsels=0x%08X, "
 					"vsel=0x%X (%1.3lfV)\n",
-					name, shift, vsels, vsel,
-					(double)
-					((double) uv / (double) 1000000.0));
+					name, shift, vsels, vsel, (double)
+					((double)uv / (double)1000000.0));
 				voltdm_tr.vsel[dom] = vsel;
 				prev_vsel[dom] = vsel;
 			}
 			/* Add new element to list */
 			genlist_addtail(transitions, &voltdm_tr,
-				sizeof(pmi44xx_voltdm_transition));
+					sizeof(pmi44xx_voltdm_transition));
 			evt_count++;
 
 			dprintf("new event added to the list.\n");
@@ -311,7 +305,6 @@ int pmi44xx_voltdm_transitions_extract(char *filename, genlist *transitions)
 	return evt_count;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		pmi44xx_voltdm_transitions_save
  * @BRIEF		Save voltage domain voltage transitions into files.
@@ -324,7 +317,7 @@ int pmi44xx_voltdm_transitions_extract(char *filename, genlist *transitions)
  * @DESCRIPTION		1- Save voltage domain voltage transitions into files.
  *			2- Generate GNUPlot scripts to draw and save charts.
  *------------------------------------------------------------------------ */
-int pmi44xx_voltdm_transitions_save(genlist *transitions, double duration)
+int pmi44xx_voltdm_transitions_save(genlist * transitions, double duration)
 {
 	unsigned int dom;
 	voltdm44xx_id vdd_id;
@@ -335,15 +328,13 @@ int pmi44xx_voltdm_transitions_save(genlist *transitions, double duration)
 	char pltfile[64];
 	char s[16];
 	static char datafile[64] = "omap_vdd_trace.dat";
-	static const char draw_plt_file[64] =
-		"gnuplot_draw_voltage_charts.plt";
+	static const char draw_plt_file[64] = "gnuplot_draw_voltage_charts.plt";
 	static const char jpeg_plt_file[64] =
-		"gnuplot_create_voltage_traces_jpg.plt";
+	    "gnuplot_create_voltage_traces_jpg.plt";
 	static const char jpeg_file[] = "voltage_traces.jpg";
 
 	if (transitions == NULL) {
-		printf("%s(): "
-			"transitions == NULL!\n", __func__);
+		printf("%s(): " "transitions == NULL!\n", __func__);
 		return OMAPCONF_ERR_ARG;
 	}
 
@@ -384,16 +375,15 @@ int pmi44xx_voltdm_transitions_save(genlist *transitions, double duration)
 			default:
 				/* cannot happen */
 				printf("%s(): dom (%u) >= "
-					"PMI44XX_VOLTDM_LOGIC_MAX\n",
-					__func__, dom);
+				       "PMI44XX_VOLTDM_LOGIC_MAX\n",
+				       __func__, dom);
 				fclose(fp);
 				return OMAPCONF_ERR_UNEXPECTED;
 			}
-			volt = smps_vsel2uvolt(
-				vdd_id2smps_id(vdd_id),
-				tr.vsel[dom]);
+			volt = smps_vsel2uvolt(vdd_id2smps_id(vdd_id),
+					       tr.vsel[dom]);
 			sprintf(s, "%.3lf",
-				(double) ((double) volt / (double) 1000000.0));
+				(double)((double)volt / (double)1000000.0));
 			fprintf(fp, "\t%-5s", s);
 		}
 		fprintf(fp, "\n");
@@ -457,9 +447,9 @@ int pmi44xx_voltdm_transitions_save(genlist *transitions, double duration)
 	printf("GNUPlot script files generated.\n");
 	printf("Type:\n");
 	printf("  gnuplot -persist '%s' to draw voltage transition charts.\n",
-		draw_plt_file);
+	       draw_plt_file);
 	printf("  gnuplot -persist '%s' to save voltage transition charts into "
-		"'%s' image file.\n\n", jpeg_plt_file, jpeg_file);
+	       "'%s' image file.\n\n", jpeg_plt_file, jpeg_file);
 
 	return 0;
 }

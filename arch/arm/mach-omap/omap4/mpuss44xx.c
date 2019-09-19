@@ -41,7 +41,6 @@
  *
  */
 
-
 #include <mpuss44xx.h>
 #define __USE_GNU
 #define _GNU_SOURCE
@@ -54,14 +53,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 /* #define MPUSS44XX_DEBUG */
 #ifdef MPUSS44XX_DEBUG
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #else
 #define dprintf(format, ...)
 #endif
-
 
 reg_table mpuss44xx_scu_reg_table[9];
 reg_table mpuss44xx_gic_proc_reg_table[10];
@@ -73,58 +70,88 @@ static unsigned int init_done = 0;
 static int mpuss44xx_regtable_init(void);
 
 static unsigned int int_config_reg_addr_array[10] = {
-	OMAP4430_INT_CONFIG_15_0, OMAP4430_INT_CONFIG_31_16, OMAP4430_INT_CONFIG_47_32,
-	OMAP4430_INT_CONFIG_63_48, OMAP4430_INT_CONFIG_79_64, OMAP4430_INT_CONFIG_95_80,
-		OMAP4430_INT_CONFIG_111_96, OMAP4430_INT_CONFIG_127_112, OMAP4430_INT_CONFIG_143_128,
-	OMAP4430_INT_CONFIG_159_144};
+	OMAP4430_INT_CONFIG_15_0, OMAP4430_INT_CONFIG_31_16,
+	    OMAP4430_INT_CONFIG_47_32,
+	OMAP4430_INT_CONFIG_63_48, OMAP4430_INT_CONFIG_79_64,
+	    OMAP4430_INT_CONFIG_95_80,
+	OMAP4430_INT_CONFIG_111_96, OMAP4430_INT_CONFIG_127_112,
+	    OMAP4430_INT_CONFIG_143_128,
+	OMAP4430_INT_CONFIG_159_144
+};
 
 static unsigned int active_status_reg_addr_array[5] = {
 	OMAP4430_ACTIVE_STATUS_31_0, OMAP4430_ACTIVE_STATUS_63_32,
 	OMAP4430_ACTIVE_STATUS_95_64, OMAP4430_ACTIVE_STATUS_127_96,
-	OMAP4430_ACTIVE_STATUS_159_128};
+	OMAP4430_ACTIVE_STATUS_159_128
+};
 
 static unsigned int enable_set_reg_addr_array[5] = {
 	OMAP4430_ENABLE_SET_31_0, OMAP4430_ENABLE_SET_63_32,
 	OMAP4430_ENABLE_SET_95_64, OMAP4430_ENABLE_SET_127_96,
-	OMAP4430_ENABLE_SET_159_128};
+	OMAP4430_ENABLE_SET_159_128
+};
 
 static unsigned int pending_set_reg_addr_array[5] = {
 	OMAP4430_PENDING_SET_31_0, OMAP4430_PENDING_SET_63_32,
 	OMAP4430_PENDING_SET_95_64, OMAP4430_PENDING_SET_127_96,
-	OMAP4430_PENDING_SET_159_128};
+	OMAP4430_PENDING_SET_159_128
+};
 
 static unsigned int spi_target_reg_addr_array[40] = {
-	OMAP4430_SPI_TARGET_3_0, OMAP4430_SPI_TARGET_7_4, OMAP4430_SPI_TARGET_11_8,
+	OMAP4430_SPI_TARGET_3_0, OMAP4430_SPI_TARGET_7_4,
+	    OMAP4430_SPI_TARGET_11_8,
 	OMAP4430_SPI_TARGET_15_12, 0, 0, 0,
 	OMAP4430_SPI_TARGET_31_28, OMAP4430_SPI_TARGET_35_32,
-	OMAP4430_SPI_TARGET_39_36, OMAP4430_SPI_TARGET_43_40, OMAP4430_SPI_TARGET_47_44,
-	OMAP4430_SPI_TARGET_51_48, OMAP4430_SPI_TARGET_55_52, OMAP4430_SPI_TARGET_59_56,
-	OMAP4430_SPI_TARGET_63_60, OMAP4430_SPI_TARGET_67_64, OMAP4430_SPI_TARGET_71_68,
-	OMAP4430_SPI_TARGET_75_72, OMAP4430_SPI_TARGET_79_76, OMAP4430_SPI_TARGET_83_80,
-	OMAP4430_SPI_TARGET_87_84, OMAP4430_SPI_TARGET_91_88, OMAP4430_SPI_TARGET_95_92,
-	OMAP4430_SPI_TARGET_99_96, OMAP4430_SPI_TARGET_103_100, OMAP4430_SPI_TARGET_107_104,
-	OMAP4430_SPI_TARGET_111_108, OMAP4430_SPI_TARGET_115_112, OMAP4430_SPI_TARGET_119_116,
-	OMAP4430_SPI_TARGET_123_120, OMAP4430_SPI_TARGET_127_124, OMAP4430_SPI_TARGET_131_128,
-	OMAP4430_SPI_TARGET_135_132, OMAP4430_SPI_TARGET_139_136, OMAP4430_SPI_TARGET_143_140,
-	OMAP4430_SPI_TARGET_147_144, OMAP4430_SPI_TARGET_151_148, OMAP4430_SPI_TARGET_155_152,
-	OMAP4430_SPI_TARGET_159_156};
+	OMAP4430_SPI_TARGET_39_36, OMAP4430_SPI_TARGET_43_40,
+	    OMAP4430_SPI_TARGET_47_44,
+	OMAP4430_SPI_TARGET_51_48, OMAP4430_SPI_TARGET_55_52,
+	    OMAP4430_SPI_TARGET_59_56,
+	OMAP4430_SPI_TARGET_63_60, OMAP4430_SPI_TARGET_67_64,
+	    OMAP4430_SPI_TARGET_71_68,
+	OMAP4430_SPI_TARGET_75_72, OMAP4430_SPI_TARGET_79_76,
+	    OMAP4430_SPI_TARGET_83_80,
+	OMAP4430_SPI_TARGET_87_84, OMAP4430_SPI_TARGET_91_88,
+	    OMAP4430_SPI_TARGET_95_92,
+	OMAP4430_SPI_TARGET_99_96, OMAP4430_SPI_TARGET_103_100,
+	    OMAP4430_SPI_TARGET_107_104,
+	OMAP4430_SPI_TARGET_111_108, OMAP4430_SPI_TARGET_115_112,
+	    OMAP4430_SPI_TARGET_119_116,
+	OMAP4430_SPI_TARGET_123_120, OMAP4430_SPI_TARGET_127_124,
+	    OMAP4430_SPI_TARGET_131_128,
+	OMAP4430_SPI_TARGET_135_132, OMAP4430_SPI_TARGET_139_136,
+	    OMAP4430_SPI_TARGET_143_140,
+	OMAP4430_SPI_TARGET_147_144, OMAP4430_SPI_TARGET_151_148,
+	    OMAP4430_SPI_TARGET_155_152,
+	OMAP4430_SPI_TARGET_159_156
+};
 
 static unsigned int priority_level_reg_addr_array[40] = {
-	OMAP4430_PRIORITY_LEVEL_3_0, OMAP4430_PRIORITY_LEVEL_7_4, OMAP4430_PRIORITY_LEVEL_11_8,
+	OMAP4430_PRIORITY_LEVEL_3_0, OMAP4430_PRIORITY_LEVEL_7_4,
+	    OMAP4430_PRIORITY_LEVEL_11_8,
 	OMAP4430_PRIORITY_LEVEL_15_12, 0, 0, 0,
 	OMAP4430_PRIORITY_LEVEL_31_28, OMAP4430_PRIORITY_LEVEL_35_32,
-	OMAP4430_PRIORITY_LEVEL_39_36, OMAP4430_PRIORITY_LEVEL_43_40, OMAP4430_PRIORITY_LEVEL_47_44,
-	OMAP4430_PRIORITY_LEVEL_51_48, OMAP4430_PRIORITY_LEVEL_55_52, OMAP4430_PRIORITY_LEVEL_59_56,
-	OMAP4430_PRIORITY_LEVEL_63_60, OMAP4430_PRIORITY_LEVEL_67_64, OMAP4430_PRIORITY_LEVEL_71_68,
-	OMAP4430_PRIORITY_LEVEL_75_72, OMAP4430_PRIORITY_LEVEL_79_76, OMAP4430_PRIORITY_LEVEL_83_80,
-	OMAP4430_PRIORITY_LEVEL_87_84, OMAP4430_PRIORITY_LEVEL_91_88, OMAP4430_PRIORITY_LEVEL_95_92,
-	OMAP4430_PRIORITY_LEVEL_99_96, OMAP4430_PRIORITY_LEVEL_103_100, OMAP4430_PRIORITY_LEVEL_107_104,
-	OMAP4430_PRIORITY_LEVEL_111_108, OMAP4430_PRIORITY_LEVEL_115_112, OMAP4430_PRIORITY_LEVEL_119_116,
-	OMAP4430_PRIORITY_LEVEL_123_120, OMAP4430_PRIORITY_LEVEL_127_124, OMAP4430_PRIORITY_LEVEL_131_128,
-	OMAP4430_PRIORITY_LEVEL_135_132, OMAP4430_PRIORITY_LEVEL_139_136, OMAP4430_PRIORITY_LEVEL_143_140,
-	OMAP4430_PRIORITY_LEVEL_147_144, OMAP4430_PRIORITY_LEVEL_151_148, OMAP4430_PRIORITY_LEVEL_155_152,
-	OMAP4430_PRIORITY_LEVEL_159_156};
-
+	OMAP4430_PRIORITY_LEVEL_39_36, OMAP4430_PRIORITY_LEVEL_43_40,
+	    OMAP4430_PRIORITY_LEVEL_47_44,
+	OMAP4430_PRIORITY_LEVEL_51_48, OMAP4430_PRIORITY_LEVEL_55_52,
+	    OMAP4430_PRIORITY_LEVEL_59_56,
+	OMAP4430_PRIORITY_LEVEL_63_60, OMAP4430_PRIORITY_LEVEL_67_64,
+	    OMAP4430_PRIORITY_LEVEL_71_68,
+	OMAP4430_PRIORITY_LEVEL_75_72, OMAP4430_PRIORITY_LEVEL_79_76,
+	    OMAP4430_PRIORITY_LEVEL_83_80,
+	OMAP4430_PRIORITY_LEVEL_87_84, OMAP4430_PRIORITY_LEVEL_91_88,
+	    OMAP4430_PRIORITY_LEVEL_95_92,
+	OMAP4430_PRIORITY_LEVEL_99_96, OMAP4430_PRIORITY_LEVEL_103_100,
+	    OMAP4430_PRIORITY_LEVEL_107_104,
+	OMAP4430_PRIORITY_LEVEL_111_108, OMAP4430_PRIORITY_LEVEL_115_112,
+	    OMAP4430_PRIORITY_LEVEL_119_116,
+	OMAP4430_PRIORITY_LEVEL_123_120, OMAP4430_PRIORITY_LEVEL_127_124,
+	    OMAP4430_PRIORITY_LEVEL_131_128,
+	OMAP4430_PRIORITY_LEVEL_135_132, OMAP4430_PRIORITY_LEVEL_139_136,
+	    OMAP4430_PRIORITY_LEVEL_143_140,
+	OMAP4430_PRIORITY_LEVEL_147_144, OMAP4430_PRIORITY_LEVEL_151_148,
+	    OMAP4430_PRIORITY_LEVEL_155_152,
+	OMAP4430_PRIORITY_LEVEL_159_156
+};
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		scu44xx_cpu_power_status2string
@@ -158,7 +185,6 @@ int scu44xx_cpu_power_status2string(unsigned short status, char s[10])
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		scu44xx_tag_ram_size2string
  * @BRIEF		convert tag RAM size field into string
@@ -191,7 +217,6 @@ int scu44xx_tag_ram_size2string(unsigned short size, char s[30])
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_int_nbr2name
  * @BRIEF		retrieve interrupt name from interrupt line number
@@ -212,7 +237,6 @@ int gic44xx_int_nbr2name(unsigned short int_nbr, char name[24])
 	strcpy(name, omap44xx_mpu_irq_names[int_nbr]);
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_sensitivity_get
@@ -260,7 +284,6 @@ int gic44xx_sensitivity_get(unsigned int int_nbr, char s[12])
 	return val;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_is_active
  * @BRIEF		check interrupt active status from GIC registers
@@ -299,7 +322,6 @@ int gic44xx_is_active(unsigned int int_nbr, char s[9])
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_is_masked
@@ -340,7 +362,6 @@ int gic44xx_is_masked(unsigned int int_nbr, char s[4])
 		return 1;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_is_pending
@@ -387,7 +408,6 @@ int gic44xx_is_pending(unsigned int int_nbr, char s[4])
 	}
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_is_cpu_target
  * @BRIEF		check from GIC registers if cpu is target
@@ -402,8 +422,7 @@ int gic44xx_is_pending(unsigned int int_nbr, char s[4])
  * @DESCRIPTION		check from GIC registers if cpu is target
  *			of this interrupt
  *------------------------------------------------------------------------ */
-int gic44xx_is_cpu_target(unsigned int int_nbr, unsigned short cpu,
-	char s[4])
+int gic44xx_is_cpu_target(unsigned int int_nbr, unsigned short cpu, char s[4])
 {
 	unsigned int spi_target_reg_addr, spi_target_reg;
 
@@ -436,7 +455,6 @@ int gic44xx_is_cpu_target(unsigned int int_nbr, unsigned short cpu,
 		return 0;
 	}
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_priority_get
@@ -475,7 +493,6 @@ int gic44xx_priority_get(unsigned int int_nbr, unsigned short *p)
 	return *p;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_binary_point_mask_get
  * @BRIEF		retrieve binary point mask from GIC registers
@@ -487,11 +504,12 @@ int gic44xx_priority_get(unsigned int int_nbr, unsigned short *p)
  * @DESCRIPTION		retrieve binary point mask from GIC registers
  *------------------------------------------------------------------------ */
 int gic44xx_binary_point_mask_get(unsigned int bpr,
-	unsigned short sec, unsigned short *bpm)
+				  unsigned short sec, unsigned short *bpm)
 {
 	static unsigned short bpm_array[2][8] = {
 		{0xF8, 0xF8, 0xF8, 0xF0, 0xE0, 0xC0, 0x80, 0x00},
-		{0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xE0, 0xC0, 0x80} };
+		{0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xE0, 0xC0, 0x80}
+	};
 
 	if (sec > 1)
 		return OMAPCONF_ERR_ARG;
@@ -504,7 +522,6 @@ int gic44xx_binary_point_mask_get(unsigned int bpr,
 
 	return *bpm;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_scu_dump
@@ -523,7 +540,6 @@ int mpuss44xx_scu_dump(void)
 	return dumpregs((reg_table *) mpuss44xx_scu_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_pl310_dump
  * @BRIEF		dump MPUSS PL310 registers
@@ -540,7 +556,6 @@ int mpuss44xx_pl310_dump(void)
 
 	return dumpregs((reg_table *) omap4_mpuss_pl310_reg_table);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_gic_dump
@@ -561,7 +576,6 @@ int mpuss44xx_gic_dump(void)
 	return dumpregs((reg_table *) mpuss44xx_gic_proc_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_wkg_dump
  * @BRIEF		dump MPUSS WKG registers
@@ -579,7 +593,6 @@ int mpuss44xx_wkg_dump(void)
 	return dumpregs((reg_table *) mpuss44xx_wkg_reg_table);
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_scm_dump
  * @BRIEF		dump MPUSS SCM registers
@@ -596,7 +609,6 @@ int mpuss44xx_scm_dump(void)
 
 	return dumpregs((reg_table *) mpuss44xx_scm_reg_table);
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_scu_config_show
@@ -623,104 +635,101 @@ int mpuss44xx_scu_config_show(void)
 
 	mpuss44xx_regtable_init();
 
-	if (mem_read(OMAP4430_SCU_CONTROL_REGISTER,
-		&scu_control_register) != 0)
+	if (mem_read(OMAP4430_SCU_CONTROL_REGISTER, &scu_control_register) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (mem_read(OMAP4430_SCU_CONFIGURATION_REGISTER,
-		&scu_configuration_register) != 0)
+		     &scu_configuration_register) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
-	if (mem_read(OMAP4430_SCU_CPU_POWER_STATUS,
-		&scu_cpu_power_status) != 0)
+	if (mem_read(OMAP4430_SCU_CPU_POWER_STATUS, &scu_cpu_power_status) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (mem_read(OMAP4430_SCU_INVALIDATE_ALL_REGISTER,
-		&scu_invalidate_all_register) != 0)
+		     &scu_invalidate_all_register) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (mem_read(OMAP4430_FILTERING_START_ADDRESS_REGISTER,
-		&filtering_start_address_register) != 0)
+		     &filtering_start_address_register) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (mem_read(OMAP4430_FILTERING_END_ADDRESS_REGISTER,
-		&filtering_end_address_register) != 0)
+		     &filtering_end_address_register) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (mem_read(OMAP4430_SCU_ACCESS_CONTROL_REGISTER,
-		&scu_access_control_register) != 0)
+		     &scu_access_control_register) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 	if (mem_read(OMAP4430_SCU_SECURE_ACCESS_CONTROL_REGISTER,
-		&scu_secure_access_control_register) != 0)
+		     &scu_secure_access_control_register) != 0)
 		return OMAPCONF_ERR_REG_ACCESS;
 
 	printf("|---------------------------------"
-		"--------------------------------|\n");
+	       "--------------------------------|\n");
 	printf("| %-30s | %-30s |\n", "MPUSS SCU config", "");
 	printf("|---------------------------------"
-		"--------------------------------|\n");
+	       "--------------------------------|\n");
 	printf("| %-30s | %-30s |\n", "Mode",
-		((extract_bit(scu_control_register, 0) == 1) ?
-			"Enabled" : "Disabled"));
+	       ((extract_bit(scu_control_register, 0) == 1) ?
+		"Enabled" : "Disabled"));
 	printf("| %-30s | %-30s |\n", "Parity",
-		((extract_bit(scu_control_register, 1) == 1) ?
-			"Enabled" : "Disabled"));
+	       ((extract_bit(scu_control_register, 1) == 1) ?
+		"Enabled" : "Disabled"));
 	printf("| %-30s | %-30s |\n", "Address Filtering",
-		((extract_bit(scu_control_register, 2) == 1) ?
-			"Enabled" : "Disabled"));
+	       ((extract_bit(scu_control_register, 2) == 1) ?
+		"Enabled" : "Disabled"));
 	if (extract_bit(scu_control_register, 2) == 1) {
 		printf("| %-30s | %-30d |\n", "  Filtering Start Address",
-			extract_bitfield(filtering_start_address_register,
-				20, 12) << 20);
+		       extract_bitfield(filtering_start_address_register,
+					20, 12) << 20);
 		printf("| %-30s | %-30d |\n", "  Filtering End Address",
-			extract_bitfield(filtering_end_address_register,
-				20, 12) << 20);
+		       extract_bitfield(filtering_end_address_register,
+					20, 12) << 20);
 	}
 	printf("| %-30s | %-30d |\n", "Number of CPUs",
-		extract_bitfield(1 + scu_configuration_register, 0, 2));
+	       extract_bitfield(1 + scu_configuration_register, 0, 2));
 	printf("| %-30s | %-30s |\n", "CPU Mode", "");
 	printf("| %-30s | %-30s |\n", "  CPU0",
-		((extract_bit(scu_configuration_register, 4) == 1) ?
-			"SMP" : "AMP"));
+	       ((extract_bit(scu_configuration_register, 4) == 1) ?
+		"SMP" : "AMP"));
 	printf("| %-30s | %-30s |\n", "  CPU1",
-		((extract_bit(scu_configuration_register, 5) == 1) ?
-			"SMP" : "AMP"));
+	       ((extract_bit(scu_configuration_register, 5) == 1) ?
+		"SMP" : "AMP"));
 	printf("| %-30s | %-30s |\n", "Tag RAM Size", "");
-	scu44xx_tag_ram_size2string(
-		extract_bitfield(scu_configuration_register, 8, 2), s);
+	scu44xx_tag_ram_size2string(extract_bitfield
+				    (scu_configuration_register, 8, 2), s);
 	printf("| %-30s | %-30s |\n", "  CPU0", s);
-	scu44xx_tag_ram_size2string(
-		extract_bitfield(scu_configuration_register, 10, 2), s);
+	scu44xx_tag_ram_size2string(extract_bitfield
+				    (scu_configuration_register, 10, 2), s);
 	printf("| %-30s | %-30s |\n", "  CPU1", s);
 	printf("| %-30s | %-30s |\n", "Power Status", "");
-	scu44xx_cpu_power_status2string(
-		extract_bitfield(scu_cpu_power_status, 0, 2), s);
+	scu44xx_cpu_power_status2string(extract_bitfield
+					(scu_cpu_power_status, 0, 2), s);
 	printf("| %-30s | %-30s |\n", "  CPU0", s);
-	scu44xx_cpu_power_status2string(
-		extract_bitfield(scu_cpu_power_status, 8, 2), s);
+	scu44xx_cpu_power_status2string(extract_bitfield
+					(scu_cpu_power_status, 8, 2), s);
 	printf("| %-30s | %-30s |\n", "  CPU1", s);
 	printf("| %-30s | %-30s |\n", "SCU Access Control", "");
 	printf("| %-30s | %-30s |\n", "  CPU0",
-		((extract_bit(scu_access_control_register, 0) == 1) ?
+	       ((extract_bit(scu_access_control_register, 0) == 1) ?
 		"Allowed" : "Forbidden"));
 	printf("| %-30s | %-30s |\n", "  CPU1",
-		((extract_bit(scu_access_control_register, 1) == 1) ?
+	       ((extract_bit(scu_access_control_register, 1) == 1) ?
 		"Allowed" : "Forbidden"));
 	printf("| %-30s | %-30s |\n", "Non-Secure Access Control", "");
 	printf("| %-30s | %-30s |\n", "  Components", "");
 	printf("| %-30s | %-30s |\n", "    CPU0",
-		((extract_bit(scu_secure_access_control_register, 0) == 1) ?
+	       ((extract_bit(scu_secure_access_control_register, 0) == 1) ?
 		"Allowed" : "Forbidden"));
 	printf("| %-30s | %-30s |\n", "    CPU1",
-		((extract_bit(scu_secure_access_control_register, 1) == 1) ?
+	       ((extract_bit(scu_secure_access_control_register, 1) == 1) ?
 		"Allowed" : "Forbidden"));
 	printf("| %-30s | %-30s |\n", "  Private Timer", "");
 	printf("| %-30s | %-30s |\n", "    CPU0",
-		((extract_bit(scu_secure_access_control_register, 4) == 1) ?
+	       ((extract_bit(scu_secure_access_control_register, 4) == 1) ?
 		"Allowed" : "Secure only"));
 	printf("| %-30s | %-30s |\n", "    CPU1",
-		((extract_bit(scu_secure_access_control_register, 5) == 1) ?
+	       ((extract_bit(scu_secure_access_control_register, 5) == 1) ?
 		"Allowed" : "Secure only"));
 	printf("|---------------------------------"
-		"--------------------------------|\n\n");
+	       "--------------------------------|\n\n");
 
 	return 0;
 };
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_gic_config_show
@@ -762,21 +771,21 @@ int mpuss44xx_gic_config_show(void)
 		CPU_ZERO(&set);
 		CPU_SET(cpu, &set);
 		sched_setaffinity(0, len, &set);
-		#ifdef MPUSS44XX_DEBUG
+#ifdef MPUSS44XX_DEBUG
 		sched_getaffinity(0, len, &set);
 		dprintf("mpuss44xx_gic_config_show(): CPU%d affinity: %d\n",
 			cpu, set);
-		#endif
+#endif
 		printf("|-------------------------------------------------"
-			"-------------------------------------------------|\n");
+		       "-------------------------------------------------|\n");
 		printf("| CPU%d %-91s |\n", cpu, "GIC SGI & PPI Configuration");
 		printf("|-------------------------------------------------"
-			"-------------------------------------------------|\n");
+		       "-------------------------------------------------|\n");
 		printf("| %-28s | %-8s | %-6s | %-7s | %-10s | %-8s |"
-			" %-11s |\n", "Int (#) Name", "Status", "Masked",
-			"Pending", "Target CPU", "Priority", "Sensitivity");
+		       " %-11s |\n", "Int (#) Name", "Status", "Masked",
+		       "Pending", "Target CPU", "Priority", "Sensitivity");
 		printf("|-------------------------------------------------"
-			"-------------------------------------------------|\n");
+		       "-------------------------------------------------|\n");
 		for (i = 0; i < 32; i++) {
 			if (i == 16)
 				/* skip interrupt lines 16 to 27, not mapped */
@@ -789,31 +798,28 @@ int mpuss44xx_gic_config_show(void)
 			gic44xx_is_cpu_target(i, cpu, cpu0_target);
 			gic44xx_priority_get(i, &priority);
 			printf("| (%-2d) %-23s | %-8s | %-6s | %-7s | "
-				"%-10s | %-8d | %-11s |\n",
-				i, s,
-				active,
-				masked,
-				pending,
-				cpu0_target,
-				priority,
-				sensitivity);
+			       "%-10s | %-8d | %-11s |\n",
+			       i, s,
+			       active,
+			       masked,
+			       pending, cpu0_target, priority, sensitivity);
 		}
 		printf("|---------------------------------------------------"
-			"-----------------------------------------------|\n\n");
+		       "-----------------------------------------------|\n\n");
 	}
 
 	printf("|------------------------------------------------"
-		"----------------------------------------------------|\n");
+	       "----------------------------------------------------|\n");
 	printf("| %-98s |\n", "GIC SPI Configuration");
 	printf("|------------------------------------------------"
-		"----------------------------------------------------|\n");
+	       "----------------------------------------------------|\n");
 	printf("| %-29s | %-8s | %-6s | %-7s | %-11s | %-8s | %-11s |\n",
-		"Int (#) Name", "Status", "Masked", "Pending", "Target CPU",
-		"Priority", "Sensitivity");
+	       "Int (#) Name", "Status", "Masked", "Pending", "Target CPU",
+	       "Priority", "Sensitivity");
 	printf("| %-29s | %-8s | %-6s | %-7s | %-4s | %-4s | %-11s |\n",
-		"", "", "", "", "CPU0", "CPU1", "");
+	       "", "", "", "", "CPU0", "CPU1", "");
 	printf("|------------------------------------------------"
-		"----------------------------------------------------|\n");
+	       "----------------------------------------------------|\n");
 
 	for (i = 32; i < 160; i++) {
 		gic44xx_int_nbr2name(i, s);
@@ -826,18 +832,15 @@ int mpuss44xx_gic_config_show(void)
 		gic44xx_priority_get(i, &priority);
 
 		printf("| (%-3d) %-23s | %-8s | %-6s | %-7s | %-4s | "
-			"%-4s | %-8d | %-11s |\n",
-			i, s,
-			active,
-			masked,
-			pending,
-			cpu0_target,
-			cpu1_target,
-			priority,
-			sensitivity);
+		       "%-4s | %-8d | %-11s |\n",
+		       i, s,
+		       active,
+		       masked,
+		       pending,
+		       cpu0_target, cpu1_target, priority, sensitivity);
 	}
 	printf("|------------------------------------------------"
-		"----------------------------------------------------|\n\n");
+	       "----------------------------------------------------|\n\n");
 
 	/* GIC Processor Interface smart analyzis */
 	for (cpu = 0; cpu < 2; cpu++) {
@@ -845,11 +848,11 @@ int mpuss44xx_gic_config_show(void)
 		CPU_ZERO(&set);
 		CPU_SET(cpu, &set);
 		sched_setaffinity(0, len, &set);
-		#ifdef MPUSS44XX_DEBUG
+#ifdef MPUSS44XX_DEBUG
 		sched_getaffinity(0, len, &set);
 		dprintf("mpuss44xx_gic_config_show(): CPU%d affinity: %d\n",
 			cpu, set);
-		#endif
+#endif
 		/* Read Registers */
 		ret = 0;
 		ret += mem_read(OMAP4430_ICPICR, &icpicr);
@@ -862,77 +865,68 @@ int mpuss44xx_gic_config_show(void)
 			return OMAPCONF_ERR_REG_ACCESS;
 		/* Display Configuration */
 		printf("|-----------------------------------------"
-			"--------------------------------------------|\n");
+		       "--------------------------------------------|\n");
 		printf("| CPU%d %-78s |\n", cpu,
-			"GIC Processor Interface Configuration");
+		       "GIC Processor Interface Configuration");
 		printf("|-----------------------------------------"
-			"--------------------------------------------|\n");
+		       "--------------------------------------------|\n");
 		OMAPCONF_COND_STRCPY(extract_bit(icpicr, 4) == 1, s,
-			"Non-Sec ignored",
-			"Sec: bin_pt_s, N-Sec: bin_pt_ns");
+				     "Non-Sec ignored",
+				     "Sec: bin_pt_s, N-Sec: bin_pt_ns");
 		printf("| %-40s | %-40s |\n",
-				"Used Binary Pointer Register", s);
+		       "Used Binary Pointer Register", s);
 		OMAPCONF_COND_STRCPY(extract_bit(icpicr, 3) == 1, s,
-			"nFIQ",
-			"nIRQ");
-		printf("| %-40s | %-40s |\n",
-				"Signal used for Secure Int.", s);
+				     "nFIQ", "nIRQ");
+		printf("| %-40s | %-40s |\n", "Signal used for Secure Int.", s);
 		OMAPCONF_COND_STRCPY(extract_bit(icpicr, 2) == 1, s,
-			"Returns ID of the Non-Sec int. and ACK it.",
-			"Returns 1022 and int. remains pending");
+				     "Returns ID of the Non-Sec int. and ACK it.",
+				     "Returns 1022 and int. remains pending");
 		printf("| %-40s | %-40s |\n",
-				"On ICCIAR secure read when highest", "");
+		       "On ICCIAR secure read when highest", "");
 		printf("| %-40s | %-40s |\n",
-				" priority interrupt is non-secure", s);
+		       " priority interrupt is non-secure", s);
 		OMAPCONF_COND_STRCPY(extract_bit(icpicr, 2) == 1, s,
-			"int. changed to inactive or pending",
-			"Write is ignored, int. status unchanged");
+				     "int. changed to inactive or pending",
+				     "Write is ignored, int. status unchanged");
 		printf("| %-40s | %-40s |\n",
-				"On ICCEOIR secure write to signal ", "");
+		       "On ICCEOIR secure write to signal ", "");
 		printf("| %-40s | %-40s |\n",
-				" the completion of non-sec int.", s);
+		       " the completion of non-sec int.", s);
 		OMAPCONF_COND_STRCPY(extract_bit(icpicr, 1) == 1, s,
-			"Enabled",
-			"Disabled");
-		printf("| %-40s | %-40s |\n",
-				"Non-Secure Interrupts", s);
+				     "Enabled", "Disabled");
+		printf("| %-40s | %-40s |\n", "Non-Secure Interrupts", s);
 		OMAPCONF_COND_STRCPY(extract_bit(icpicr, 0) == 1, s,
-			"Enabled",
-			"Disabled");
-		printf("| %-40s | %-40s |\n",
-				"Secure Interrupts", s);
+				     "Enabled", "Disabled");
+		printf("| %-40s | %-40s |\n", "Secure Interrupts", s);
 		printf("| %-40s | 0x%-38X |\n",
-				"Priority Mask Level",
-				extract_bitfield(iccipmr, 3, 5));
+		       "Priority Mask Level", extract_bitfield(iccipmr, 3, 5));
 		gic44xx_binary_point_mask_get(iccbpr, 1, &bpm);
 		printf("| %-40s | 0x%-38X |\n",
-				"Binary Point Mask (Sec. int.)", bpm);
+		       "Binary Point Mask (Sec. int.)", bpm);
 		gic44xx_binary_point_mask_get(iccabpr, 0, &bpm);
 		printf("| %-40s | 0x%-38X |\n",
-				"Binary Point Mask (Non-Sec. int.)", bpm);
+		       "Binary Point Mask (Non-Sec. int.)", bpm);
 		printf("| %-40s | 0x%-38X |\n",
-				"Priority Level of highest active int.",
-				extract_bitfield(iccrpr, 3, 5));
+		       "Priority Level of highest active int.",
+		       extract_bitfield(iccrpr, 3, 5));
 		printf("| %-40s | 0x%-38X |\n",
-				"Priority Level of highest pending int.",
-				extract_bitfield(icchpir, 0, 10));
+		       "Priority Level of highest pending int.",
+		       extract_bitfield(icchpir, 0, 10));
 		printf("|-----------------------------------------"
-			"--------------------------------------------|\n\n");
+		       "--------------------------------------------|\n\n");
 	}
 
 	/* Force process to come back on CPU0 */
 	CPU_ZERO(&set);
 	CPU_SET(0, &set);
 	sched_setaffinity(0, len, &set);
-	#ifdef MPUSS44XX_DEBUG
+#ifdef MPUSS44XX_DEBUG
 	sched_getaffinity(0, len, &set);
-	dprintf("mpuss44xx_gic_config_show(): CPU%d affinity: %d\n",
-		0, set);
-	#endif
+	dprintf("mpuss44xx_gic_config_show(): CPU%d affinity: %d\n", 0, set);
+#endif
 
 	return 0;
 };
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_main
@@ -955,11 +949,9 @@ int mpuss44xx_main(int argc, char *argv[])
 
 		if (strcmp(argv[1], "gic") == 0) {
 			if (strcmp(argv[2], "dump") == 0) {
-				if (dumpregs(
-					mpuss44xx_gic_dist_reg_table) != 0)
+				if (dumpregs(mpuss44xx_gic_dist_reg_table) != 0)
 					return OMAPCONF_ERR_REG_ACCESS;
-				if (dumpregs(
-					mpuss44xx_gic_proc_reg_table) != 0)
+				if (dumpregs(mpuss44xx_gic_proc_reg_table) != 0)
 					return OMAPCONF_ERR_REG_ACCESS;
 			} else if (strcmp(argv[2], "cfg") == 0) {
 				return mpuss44xx_gic_config_show();
@@ -969,8 +961,7 @@ int mpuss44xx_main(int argc, char *argv[])
 			}
 		} else if (strcmp(argv[1], "scu") == 0) {
 			if (strcmp(argv[2], "dump") == 0) {
-				return dumpregs(
-					mpuss44xx_scu_reg_table);
+				return dumpregs(mpuss44xx_scu_reg_table);
 			} else if (strcmp(argv[2], "cfg") == 0) {
 				return mpuss44xx_scu_config_show();
 			} else {
@@ -979,24 +970,22 @@ int mpuss44xx_main(int argc, char *argv[])
 			}
 		} else if (strcmp(argv[1], "l2c") == 0) {
 			if (strcmp(argv[2], "dump") == 0) {
-				return dumpregs(
-				(reg_table *) omap4_mpuss_pl310_reg_table);
+				return dumpregs((reg_table *)
+						omap4_mpuss_pl310_reg_table);
 			} else {
 				help(HELP_MPUSS);
 				return OMAPCONF_ERR_ARG;
 			}
 		} else if (strcmp(argv[1], "wkg") == 0) {
 			if (strcmp(argv[2], "dump") == 0) {
-				return dumpregs(
-				mpuss44xx_wkg_reg_table);
+				return dumpregs(mpuss44xx_wkg_reg_table);
 			} else {
 				help(HELP_MPUSS);
 				return OMAPCONF_ERR_ARG;
 			}
 		} else if (strcmp(argv[1], "scm") == 0) {
 			if (strcmp(argv[2], "dump") == 0) {
-				return dumpregs(
-					mpuss44xx_scm_reg_table);
+				return dumpregs(mpuss44xx_scm_reg_table);
 			} else {
 				help(HELP_MPUSS);
 				return OMAPCONF_ERR_ARG;
@@ -1012,7 +1001,6 @@ int mpuss44xx_main(int argc, char *argv[])
 
 	return 0;
 }
-
 
 /* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_regtable_init
@@ -1031,30 +1019,27 @@ static int mpuss44xx_regtable_init(void)
 	strcpy(mpuss44xx_scu_reg_table[i].name, "SCU_CONTROL_REGISTER");
 	mpuss44xx_scu_reg_table[i++].addr = OMAP4430_SCU_CONTROL_REGISTER;
 	strcpy(mpuss44xx_scu_reg_table[i].name, "SCU_CONFIGURATION_REGISTER");
-	mpuss44xx_scu_reg_table[i++].addr =
-		OMAP4430_SCU_CONFIGURATION_REGISTER;
+	mpuss44xx_scu_reg_table[i++].addr = OMAP4430_SCU_CONFIGURATION_REGISTER;
 	strcpy(mpuss44xx_scu_reg_table[i].name, "SCU_CPU_POWER_STATUS");
 	mpuss44xx_scu_reg_table[i++].addr = OMAP4430_SCU_CPU_POWER_STATUS;
-	strcpy(mpuss44xx_scu_reg_table[i].name,
-		"SCU_INVALIDATE_ALL_REGISTER");
+	strcpy(mpuss44xx_scu_reg_table[i].name, "SCU_INVALIDATE_ALL_REGISTER");
 	mpuss44xx_scu_reg_table[i++].addr =
-		OMAP4430_SCU_INVALIDATE_ALL_REGISTER;
+	    OMAP4430_SCU_INVALIDATE_ALL_REGISTER;
 	strcpy(mpuss44xx_scu_reg_table[i].name,
-		"FILTERING_START_ADDRESS_REGISTER");
+	       "FILTERING_START_ADDRESS_REGISTER");
 	mpuss44xx_scu_reg_table[i++].addr =
-		OMAP4430_FILTERING_START_ADDRESS_REGISTER;
+	    OMAP4430_FILTERING_START_ADDRESS_REGISTER;
 	strcpy(mpuss44xx_scu_reg_table[i].name,
-		"FILTERING_END_ADDRESS_REGISTER");
+	       "FILTERING_END_ADDRESS_REGISTER");
 	mpuss44xx_scu_reg_table[i++].addr =
-		OMAP4430_FILTERING_END_ADDRESS_REGISTER;
+	    OMAP4430_FILTERING_END_ADDRESS_REGISTER;
+	strcpy(mpuss44xx_scu_reg_table[i].name, "SCU_ACCESS_CONTROL_REGISTER");
+	mpuss44xx_scu_reg_table[i++].addr =
+	    OMAP4430_SCU_ACCESS_CONTROL_REGISTER;
 	strcpy(mpuss44xx_scu_reg_table[i].name,
-		"SCU_ACCESS_CONTROL_REGISTER");
+	       "SCU_SECURE_ACCESS_CONTROL_REGISTER");
 	mpuss44xx_scu_reg_table[i++].addr =
-		OMAP4430_SCU_ACCESS_CONTROL_REGISTER;
-	strcpy(mpuss44xx_scu_reg_table[i].name,
-		"SCU_SECURE_ACCESS_CONTROL_REGISTER");
-	mpuss44xx_scu_reg_table[i++].addr =
-		OMAP4430_SCU_SECURE_ACCESS_CONTROL_REGISTER;
+	    OMAP4430_SCU_SECURE_ACCESS_CONTROL_REGISTER;
 	strcpy(mpuss44xx_scu_reg_table[i].name, "END");
 	mpuss44xx_scu_reg_table[i].addr = 0;
 	dprintf("mpuss44xx_scu_reg_table last index=%d, size=%d\n", i, i + 1);
@@ -1137,11 +1122,9 @@ static int mpuss44xx_regtable_init(void)
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "ACTIVE_STATUS_95_64");
 	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_ACTIVE_STATUS_95_64;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "ACTIVE_STATUS_127_96");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_ACTIVE_STATUS_127_96;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_ACTIVE_STATUS_127_96;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "ACTIVE_STATUS_159_128");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_ACTIVE_STATUS_159_128;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_ACTIVE_STATUS_159_128;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_3_0");
 	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_3_0;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_7_4");
@@ -1149,122 +1132,88 @@ static int mpuss44xx_regtable_init(void)
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_11_8");
 	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_11_8;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_15_12");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_15_12;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_15_12;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_31_28");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_31_28;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_31_28;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_35_32");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_35_32;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_35_32;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_39_36");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_39_36;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_39_36;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_43_40");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_43_40;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_43_40;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_47_44");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_47_44;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_47_44;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_51_48");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_51_48;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_51_48;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_55_52");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_55_52;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_55_52;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_59_56");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_59_56;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_59_56;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_63_60");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_63_60;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_63_60;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_67_64");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_67_64;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_67_64;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_71_68");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_71_68;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_71_68;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_75_72");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_75_72;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_75_72;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_79_76");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_79_76;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_79_76;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_83_80");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_83_80;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_83_80;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_87_84");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_87_84;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_87_84;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_91_88");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_91_88;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_91_88;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_95_92");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_95_92;
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_95_92;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_99_96");
+	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_PRIORITY_LEVEL_99_96;
+	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_103_100");
 	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_99_96;
-	strcpy(mpuss44xx_gic_dist_reg_table[i].name,
-		"PRIORITY_LEVEL_103_100");
+	    OMAP4430_PRIORITY_LEVEL_103_100;
+	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_107_104");
 	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_103_100;
-	strcpy(mpuss44xx_gic_dist_reg_table[i].name,
-		"PRIORITY_LEVEL_107_104");
+	    OMAP4430_PRIORITY_LEVEL_107_104;
+	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_111_108");
 	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_107_104;
-	strcpy(mpuss44xx_gic_dist_reg_table[i].name,
-		"PRIORITY_LEVEL_111_108");
+	    OMAP4430_PRIORITY_LEVEL_111_108;
+	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_115_112");
 	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_111_108;
-	strcpy(mpuss44xx_gic_dist_reg_table[i].name,
-		"PRIORITY_LEVEL_115_112");
+	    OMAP4430_PRIORITY_LEVEL_115_112;
+	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_119_116");
 	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_115_112;
-	strcpy(mpuss44xx_gic_dist_reg_table[i].name,
-		"PRIORITY_LEVEL_119_116");
+	    OMAP4430_PRIORITY_LEVEL_119_116;
+	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_123_120");
 	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_119_116;
-	strcpy(mpuss44xx_gic_dist_reg_table[i].name,
-		"PRIORITY_LEVEL_123_120");
+	    OMAP4430_PRIORITY_LEVEL_123_120;
+	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_127_124");
 	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_123_120;
-	strcpy(mpuss44xx_gic_dist_reg_table[i].name,
-		"PRIORITY_LEVEL_127_124");
+	    OMAP4430_PRIORITY_LEVEL_127_124;
+	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_131_128");
 	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_127_124;
-	strcpy(mpuss44xx_gic_dist_reg_table[i].name,
-		"PRIORITY_LEVEL_131_128");
+	    OMAP4430_PRIORITY_LEVEL_131_128;
+	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_135_132");
 	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_131_128;
-	strcpy(mpuss44xx_gic_dist_reg_table[i].name,
-		"PRIORITY_LEVEL_135_132");
+	    OMAP4430_PRIORITY_LEVEL_135_132;
+	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_139_136");
 	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_135_132;
-	strcpy(mpuss44xx_gic_dist_reg_table[i].name,
-		"PRIORITY_LEVEL_139_136");
+	    OMAP4430_PRIORITY_LEVEL_139_136;
+	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_143_140");
 	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_139_136;
-	strcpy(mpuss44xx_gic_dist_reg_table[i].name,
-		"PRIORITY_LEVEL_143_140");
+	    OMAP4430_PRIORITY_LEVEL_143_140;
+	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_147_144");
 	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_143_140;
-	strcpy(mpuss44xx_gic_dist_reg_table[i].name,
-		"PRIORITY_LEVEL_147_144");
+	    OMAP4430_PRIORITY_LEVEL_147_144;
+	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_151_148");
 	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_147_144;
-	strcpy(mpuss44xx_gic_dist_reg_table[i].name,
-		"PRIORITY_LEVEL_151_148");
+	    OMAP4430_PRIORITY_LEVEL_151_148;
+	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_155_152");
 	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_151_148;
-	strcpy(mpuss44xx_gic_dist_reg_table[i].name,
-		"PRIORITY_LEVEL_155_152");
+	    OMAP4430_PRIORITY_LEVEL_155_152;
+	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "PRIORITY_LEVEL_159_156");
 	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_155_152;
-	strcpy(mpuss44xx_gic_dist_reg_table[i].name,
-		"PRIORITY_LEVEL_159_156");
-	mpuss44xx_gic_dist_reg_table[i++].addr =
-		OMAP4430_PRIORITY_LEVEL_159_156;
+	    OMAP4430_PRIORITY_LEVEL_159_156;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "SPI_TARGET_3_0");
 	mpuss44xx_gic_dist_reg_table[i++].addr = OMAP4430_SPI_TARGET_3_0;
 	strcpy(mpuss44xx_gic_dist_reg_table[i].name, "SPI_TARGET_7_4");
@@ -1454,7 +1403,6 @@ static int mpuss44xx_regtable_init(void)
 	return 0;
 }
 
-
 /* ------------------------------------------------------------------------
  * @FUNCTION    mpuss44xx_name2addr
  * @BRIEF       retrieve physical address of a register, given its name.
@@ -1477,7 +1425,7 @@ int mpuss44xx_name2addr(char *name, unsigned int *addr)
 	if (name2addr(name, addr, mpuss44xx_gic_proc_reg_table) == 0)
 		return 0;
 	if (name2addr(name, addr,
-		(reg_table *) omap4_mpuss_pl310_reg_table) == 0)
+		      (reg_table *) omap4_mpuss_pl310_reg_table) == 0)
 		return 0;
 	if (name2addr(name, addr, mpuss44xx_scu_reg_table) == 0)
 		return 0;

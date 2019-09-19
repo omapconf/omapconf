@@ -41,7 +41,6 @@
  *
  */
 
-
 #ifndef __CTRLMOD_CORE_PAD54XX_DEFS_H__
 #define __CTRLMOD_CORE_PAD54XX_DEFS_H__
 
@@ -383,8 +382,11 @@ extern reg omap5430_control_srcomp_code_latch;
 extern reg omap5430_control_ddrio_ext_0;
 
 #define OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT				162
-extern reg *omap5430es1_ctrl_module_core_pad_mod[OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT + 1];
-extern reg *omap5430_ctrl_module_core_pad_mod[OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT + 1];
-
+extern reg
+    *omap5430es1_ctrl_module_core_pad_mod
+    [OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT + 1];
+extern reg
+    *omap5430_ctrl_module_core_pad_mod
+    [OMAP5430_CTRL_MODULE_CORE_PAD_MOD_REGCOUNT + 1];
 
 #endif

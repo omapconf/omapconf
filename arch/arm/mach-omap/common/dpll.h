@@ -41,13 +41,10 @@
  *
  */
 
-
 #ifndef __DPLL_H__
 #define __DPLL_H__
 
-
 #include <reg.h>
-
 
 #define DPLL_MAX_NAME_LENGTH			16
 #define DPLL_OUTPUT_MAX_NAME_LENGTH		16
@@ -59,13 +56,11 @@
 #define DPLL_BP_CLK_SRC_MAX_NAME_LENGTH		12
 #define DPLL_CLKOUTHIF_SRC_MAX_NAME_LENGTH	12
 
-
 typedef enum {
 	DPLL_TYPE_A,		/* DPLLs MPU, IVA, ABE, CORE, PER */
 	DPLL_TYPE_B,		/* DPLLs USB, UNIPRO[1-2]) */
 	DPLL_TYPE_MAX
 } dpll_type;
-
 
 typedef enum {
 	DPLL_RESERVED_0 = 0,
@@ -79,7 +74,6 @@ typedef enum {
 	DPLL_MODE_MAX = 8
 } dpll_mode;
 
-
 typedef enum {
 	DPLL_DISABLED = 0,
 	DPLL_AUTO_LOW_POWER_STOP = 1,
@@ -92,7 +86,6 @@ typedef enum {
 	DPLL_AUTOIDLE_MODE_MAX
 } dpll_autoidle_mode;
 
-
 typedef enum {
 	DPLL_STATUS_BYPASSED = 0,
 	DPLL_STATUS_LOCKED = 1,
@@ -100,7 +93,6 @@ typedef enum {
 	DPLL_STATUS_RESERVED = 3,
 	DPLL_STATUS_MAX
 } dpll_status;
-
 
 typedef enum {
 	DPLL_RAMP_NO = 0,
@@ -110,20 +102,17 @@ typedef enum {
 	DPLL_RAMP_LEVEL_MAX = 4
 } dpll_ramp_level;
 
-
 typedef enum {
 	DPLL_BP_CLK_SRC_CLKINP = 0,
 	DPLL_BP_CLK_SRC_CLKINPULOW = 1,
 	DPLL_BP_CLK_SRC_ID_MAX
 } dpll_bp_clk_src;
 
-
 typedef enum {
 	DPLL_CLKOUTHIF_SRC_DCO = 0,
 	DPLL_CLKOUTHIF_SRC_CLKINPHIF = 1,
 	DPLL_CLKOUTHIF_SRC_ID_MAX
 } dpll_clkouthif_src;
-
 
 typedef struct {
 	reg *cm_clkmode_dpll;
@@ -138,91 +127,85 @@ typedef struct {
 	reg *cm_clkdcoldo_dpll;
 } dpll_settings_regs;
 
-
 typedef struct {
 	unsigned int relock_ramp_en;	/* CM_CLKMODE_DPLL.DPLL_RELOCK_RAMP_EN */
-	unsigned int ramp_rate;		/* CM_CLKMODE_DPLL.DPLL_RAMP_RATE */
+	unsigned int ramp_rate;	/* CM_CLKMODE_DPLL.DPLL_RAMP_RATE */
 	unsigned int ramp_level;	/* CM_CLKMODE_DPLL.DPLL_RAMP_LEVEL */
 } dpll_ramp_settings;
 
-
 typedef struct {
 	/* Common DPLL types A & B */
-	unsigned int M;				/* CM_CLKSEL_DPLL.DPLL_MULT */
-	unsigned int N;				/* CM_CLKSEL_DPLL.DPLL_DIV */
-	unsigned short M2_present;		/* 0 if does not exist in CM_DIV_M2_DPLL, 1 otherwise */
-	unsigned int M2;			/* CM_DIV_M2_DPLL.DPLL_CLKOUT_DIV */
-	double M2_rate;				/* in MHz (== CLKOUT for DPLL type B */
+	unsigned int M;		/* CM_CLKSEL_DPLL.DPLL_MULT */
+	unsigned int N;		/* CM_CLKSEL_DPLL.DPLL_DIV */
+	unsigned short M2_present;	/* 0 if does not exist in CM_DIV_M2_DPLL, 1 otherwise */
+	unsigned int M2;	/* CM_DIV_M2_DPLL.DPLL_CLKOUT_DIV */
+	double M2_rate;		/* in MHz (== CLKOUT for DPLL type B */
 	/* DPLL type A only */
-	unsigned short M2_clkout_st;		/* CM_DIV_M2_DPLL.ST_DPLL_CLKOUT */
-	unsigned short M2_autogating;		/* CM_DIV_M2_DPLL.DPLL_CLKOUT_GATE_CTRL */
-	unsigned short X2_M2_present;		/* 0 if does not exist in CM_DIV_M2_DPLL, 1 otherwise */
-	double X2_M2_rate;			/* in MHz */
-	unsigned short X2_M2_clkout_st;		/* CM_DIV_M2_DPLL.ST_DPLL_CLKOUTX2 */
+	unsigned short M2_clkout_st;	/* CM_DIV_M2_DPLL.ST_DPLL_CLKOUT */
+	unsigned short M2_autogating;	/* CM_DIV_M2_DPLL.DPLL_CLKOUT_GATE_CTRL */
+	unsigned short X2_M2_present;	/* 0 if does not exist in CM_DIV_M2_DPLL, 1 otherwise */
+	double X2_M2_rate;	/* in MHz */
+	unsigned short X2_M2_clkout_st;	/* CM_DIV_M2_DPLL.ST_DPLL_CLKOUTX2 */
 	unsigned short X2_M2_autogating;	/* CM_DIV_M2_DPLL.DPLL_CLKOUTX2_GATE_CTRL */
-	unsigned short M3_present;		/* 0 if does not exist in CM_DIV_M3_DPLL, 1 otherwise */
-	unsigned int M3;			/* CM_DIV_M3_DPLL.DPLL_CLKOUT_DIV */
-	double X2_M3_rate;			/* in MHz */
-	unsigned short X2_M3_clkout_st;		/* CM_DIV_M3_DPLL.ST_DPLL_CLKOUT */
+	unsigned short M3_present;	/* 0 if does not exist in CM_DIV_M3_DPLL, 1 otherwise */
+	unsigned int M3;	/* CM_DIV_M3_DPLL.DPLL_CLKOUT_DIV */
+	double X2_M3_rate;	/* in MHz */
+	unsigned short X2_M3_clkout_st;	/* CM_DIV_M3_DPLL.ST_DPLL_CLKOUT */
 	unsigned short X2_M3_autogating;	/* CM_DIV_M3_DPLL.DPLL_CLKOUT_GATE_CTRL */
 	/* DPLL type B only */
 	unsigned short clkdcoldo_clkout_st;	/* CM_CLKDCOLDO_DPLL.ST_DPLL_CLKDCOLDO */
 	unsigned short clkdcoldo_autogating;	/* CM_CLKDCOLDO_DPLL.DPLL_CLKDCOLDO_GATE_CTRL */
-	double clkdcoldo_rate;			/* in MHz */
-	unsigned short clkoutldo_st;		/* CM_DIV_M2_DPLL.CLKLDOST (ex: DPLL PCIE_REF for DRA7) */
-	double clkoutldo_rate;			/* in MHz */
+	double clkdcoldo_rate;	/* in MHz */
+	unsigned short clkoutldo_st;	/* CM_DIV_M2_DPLL.CLKLDOST (ex: DPLL PCIE_REF for DRA7) */
+	double clkoutldo_rate;	/* in MHz */
 } dpll_MN_settings;
 
-
 typedef struct {
-	char type[12];			/* CM_CLKMODE_DPLL_xxx.DPLL_SSC_TYPE */
+	char type[12];		/* CM_CLKMODE_DPLL_xxx.DPLL_SSC_TYPE */
 	unsigned short downspread;	/* CM_CLKMODE_DPLL_xxx.DPLL_SSC_DOWNSPREAD */
-	unsigned short mode;		/* CM_CLKMODE_DPLL_xxx.DPLL_SSC_EN */
-	unsigned short ack;		/* CM_CLKMODE_DPLL_xxx.DPLL_SSC_ACK */
+	unsigned short mode;	/* CM_CLKMODE_DPLL_xxx.DPLL_SSC_EN */
+	unsigned short ack;	/* CM_CLKMODE_DPLL_xxx.DPLL_SSC_ACK */
 	unsigned int deltaMStep;	/* CM_SSC_DELTAMSTEP_DPLL_xxx.DELTAMSTEP */
-	unsigned int exponent;		/* CM_SSC_MODFREQDIV_DPLL_xxx.MODFREQDIV_MANTISSA */
-	unsigned int mantissa;		/* CM_SSC_MODFREQDIV_DPLL_xxx.MODFREQDIV_MANTISSA */
-	double fm;			/* Modulation Frequency = [DPLL_REFCLK/4]/MODFREQDIV */
-					/* MODFREQDIV = MODFREQDIV_MANTISSA * 2^MODFREQDIV_EXPONENT */
-} dpll_SSC_settings; /* Spread Spectrum Clocking */
-
+	unsigned int exponent;	/* CM_SSC_MODFREQDIV_DPLL_xxx.MODFREQDIV_MANTISSA */
+	unsigned int mantissa;	/* CM_SSC_MODFREQDIV_DPLL_xxx.MODFREQDIV_MANTISSA */
+	double fm;		/* Modulation Frequency = [DPLL_REFCLK/4]/MODFREQDIV */
+	/* MODFREQDIV = MODFREQDIV_MANTISSA * 2^MODFREQDIV_EXPONENT */
+} dpll_SSC_settings;		/* Spread Spectrum Clocking */
 
 typedef struct {
-	unsigned int en;		/* CM_CLKSEL_DPLL.DCC_EN */
-	unsigned int count;		/* CM_CLKSEL_DPLL.DCC_COUNT_MAX */
-} dpll_DCC_settings; /* Duty Cycle Correction */
-
+	unsigned int en;	/* CM_CLKSEL_DPLL.DCC_EN */
+	unsigned int count;	/* CM_CLKSEL_DPLL.DCC_COUNT_MAX */
+} dpll_DCC_settings;		/* Duty Cycle Correction */
 
 typedef struct {
 	/* Common DPLL type A & B */
-	unsigned int id;			/* DPLL ID */
+	unsigned int id;	/* DPLL ID */
 	unsigned short initialized;
-	dpll_type type;				/* A or B */
-	dpll_mode mode;				/* CM_CLKMODE_DPLL.DPLL_EN */
+	dpll_type type;		/* A or B */
+	dpll_mode mode;		/* CM_CLKMODE_DPLL.DPLL_EN */
 	dpll_autoidle_mode autoidle_mode;	/* CM_AUTOIDLE_DPLL.AUTO_DPLL_MODE */
 	dpll_MN_settings MN;
 	dpll_SSC_settings SSC;
-	double fref;				/* REF_CLK, in MHz */
-	double fbyp_clk_m2;			/* M2 output bypass clock, in MHz */
-	double fdpll;				/* in MHz */
-	unsigned short lock_status;		/* CM_IDLEST_DPLL.ST_DPLL_CLK */
+	double fref;		/* REF_CLK, in MHz */
+	double fbyp_clk_m2;	/* M2 output bypass clock, in MHz */
+	double fdpll;		/* in MHz */
+	unsigned short lock_status;	/* CM_IDLEST_DPLL.ST_DPLL_CLK */
 	unsigned short mn_bypass_status;	/* CM_IDLEST_DPLL.ST_MN_BYPASS */
 	/* DPLL type A only */
 	dpll_DCC_settings DCC;
 	dpll_ramp_settings ramp;
-	unsigned int lpmode_en;			/* CM_CLKMODE_DPLL.DPLL_LPMODE_EN */
-	unsigned int driftguard_en;		/* CM_CLKMODE_DPLL.DPLL_DRIFTGUARD_EN */
-	unsigned short regm4xen;		/* CM_CLKMODE_DPLL.DPLL_REGM4XEN */
-	double fbyp_clk_m3;			/* M3 output bypass clock, in MHz */
-	double fbyp_clk_hsdiv;			/* HS dividers output bypass clock, in MHz */
-	unsigned short bypass_clk_div;		/* CM_BYPCLK_DPLL.CLKSEL */
-	unsigned short bypass_clk;		/* CM_CLKSEL_DPLL.DPLL_BYP_CLKSEL */
-	unsigned short clkouthif_src;		/* CM_CLKSEL_DPLL.DPLL_CLKOUTHIF_CLKSEL */
+	unsigned int lpmode_en;	/* CM_CLKMODE_DPLL.DPLL_LPMODE_EN */
+	unsigned int driftguard_en;	/* CM_CLKMODE_DPLL.DPLL_DRIFTGUARD_EN */
+	unsigned short regm4xen;	/* CM_CLKMODE_DPLL.DPLL_REGM4XEN */
+	double fbyp_clk_m3;	/* M3 output bypass clock, in MHz */
+	double fbyp_clk_hsdiv;	/* HS dividers output bypass clock, in MHz */
+	unsigned short bypass_clk_div;	/* CM_BYPCLK_DPLL.CLKSEL */
+	unsigned short bypass_clk;	/* CM_CLKSEL_DPLL.DPLL_BYP_CLKSEL */
+	unsigned short clkouthif_src;	/* CM_CLKSEL_DPLL.DPLL_CLKOUTHIF_CLKSEL */
 	/* DPLL type B only */
-	unsigned int sd_div;			/* CM_CLKSEL_DPLL.DPLL_SD_DIV */
-	unsigned short selfreqdco;		/* CM_CLKSEL_DPLL.SELFREQDCO */
+	unsigned int sd_div;	/* CM_CLKSEL_DPLL.DPLL_SD_DIV */
+	unsigned short selfreqdco;	/* CM_CLKSEL_DPLL.SELFREQDCO */
 } dpll_settings;
-
 
 typedef struct {
 	unsigned int ref_clk;
@@ -231,7 +214,6 @@ typedef struct {
 	unsigned int byp_clk_hsdiv;
 } dpll_clk_sources;
 
-
 const char *dpll_mode_name_get(dpll_mode mode);
 const char *dpll_ramp_level_name_get(dpll_ramp_level level);
 const char *dpll_autoidle_mode_name_get(dpll_autoidle_mode mode);
@@ -239,10 +221,10 @@ const char *dpll_status_name_get(dpll_status status);
 const char *dpll_bp_clk_src_name_get(dpll_bp_clk_src id);
 const char *dpll_clkouthif_src_name_get(dpll_clkouthif_src id);
 
-double dpll_lock_freq_calc(dpll_settings *settings);
+double dpll_lock_freq_calc(dpll_settings * settings);
 
 int dpll_settings_extract(unsigned int id, dpll_type type,
-	dpll_settings_regs *dpll_regs, dpll_settings *settings);
-
+			  dpll_settings_regs * dpll_regs,
+			  dpll_settings * settings);
 
 #endif

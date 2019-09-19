@@ -42,10 +42,8 @@
  *
  */
 
-
 #ifndef __HWOBS44XX_H__
 #define __HWOBS44XX_H__
-
 
 #define OMAP4430_HWOBS_MAX_NBR 32
 #define OMAP4430_HWOBS_NAME_LENGTH 16
@@ -57,7 +55,6 @@
 #define OMAP4430_HWOBS_ABE_UNRESERVED_LAST 25
 #define OMAP4430_HWOBS_ABE_UNRESERVED_MASK 0x03FE0000
 
-
 typedef struct {
 	char name[OMAP4430_HWOBS_PAD_NAME_LENGTH];
 	unsigned int addr;
@@ -68,10 +65,12 @@ static const unsigned int char_mask[4] = {
 	0xFFFFFF00,
 	0xFFFF00FF,
 	0xFF00FFFF,
-	0x00FFFFFF };
+	0x00FFFFFF
+};
 
 /* OMAP4430_CONTROL_CORE_PADCONFS: HWOBS signal names */
-static const char omap4430_hwobs_names[OMAP4430_HWOBS_MAX_NBR+1][OMAP4430_HWOBS_NAME_LENGTH] = {
+static const char omap4430_hwobs_names[OMAP4430_HWOBS_MAX_NBR +
+				       1][OMAP4430_HWOBS_NAME_LENGTH] = {
 	"attila_hw_dbg0",
 	"attila_hw_dbg1",
 	"attila_hw_dbg2",
@@ -104,41 +103,48 @@ static const char omap4430_hwobs_names[OMAP4430_HWOBS_MAX_NBR+1][OMAP4430_HWOBS_
 	"attila_hw_dbg29",
 	"attila_hw_dbg30",
 	"attila_hw_dbg31",
-	"END"};
+	"END"
+};
 
 /* OMAP4430_CONTROL_CORE_DEBOBS_FINAL_MUX_SEL: Names depending on bit values */
-static const char debobs_final_mux_sel_names[3][OMAP4430_HWOBS_MUX_NAME_LENGTH] = {
+static const char debobs_final_mux_sel_names[3][OMAP4430_HWOBS_MUX_NAME_LENGTH]
+    = {
 	"WKUP",
 	"CORE",
-	"END"};
+	"END"
+};
 
 /* OMAP4430_CONTROL_WKUP_CONF_DEBUG_SEL_TST_i: Names depending on bit values */
-static const char ctrl_wkup_conf_debug_sel_tst_names[3][OMAP4430_HWOBS_MUX_NAME_LENGTH] = {
+static const char
+    ctrl_wkup_conf_debug_sel_tst_names[3][OMAP4430_HWOBS_MUX_NAME_LENGTH] = {
 	"PRM",
 	"CM1",
-	"END"};
+	"END"
+};
 
 /* OMAP4430_CONTROL_CORE_CONF_DEBUG_SEL_TST_i: Names depending on bit values */
-static const char ctrl_core_conf_debug_sel_tst_names[15][OMAP4430_HWOBS_MUX_NAME_LENGTH] = {
+static const char
+    ctrl_core_conf_debug_sel_tst_names[15][OMAP4430_HWOBS_MUX_NAME_LENGTH] = {
 	"MPUSS",
-	"reserved", /* FIXME: some bits contain dplls, clocks or usbotg debug signals */
-	"reserved", /* FIXME: some bits contain sdma or clocks debug signals */
+	"reserved",		/* FIXME: some bits contain dplls, clocks or usbotg debug signals */
+	"reserved",		/* FIXME: some bits contain sdma or clocks debug signals */
 	"reserved",
-	"reserved", /* FIXME: some bits contain additional dspss debug signals */
+	"reserved",		/* FIXME: some bits contain additional dspss debug signals */
 	"CM2",
 	"IVAHD",
 	"reserved",
 	"ABE",
 	"DSPSS",
 	"reserved",
-	"reserved", /* FIXME: some bits contain dss debug signals */
-	"reserved", /* FIXME: some bits contain additional dspss or sdma debug signals */
-	"END"};
-
+	"reserved",		/* FIXME: some bits contain dss debug signals */
+	"reserved",		/* FIXME: some bits contain additional dspss or sdma debug signals */
+	"END"
+};
 
 int hwobs44xx_padreg_read(unsigned int padreg_addr, unsigned short *pad_val);
 int hwobs44xx_padreg_write(unsigned int padreg_addr, unsigned short pad_val);
-int hwobs44xx_blkmuxreg_modify(unsigned int muxreg_addr, unsigned int block_pos, char mux_val);
+int hwobs44xx_blkmuxreg_modify(unsigned int muxreg_addr, unsigned int block_pos,
+			       char mux_val);
 
 int hwobs44xx_pinmux_setup(void);
 int hwobs44xx_test(char *level);
@@ -153,6 +159,5 @@ int hwobs44xx_config_show(void);
 
 /* DEPRECATED, DO NOT USE ANYMORE */
 int hwobs44xx_main(int argc, char *argv[]);
-
 
 #endif
