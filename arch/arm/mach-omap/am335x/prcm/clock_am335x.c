@@ -137,14 +137,14 @@ static const double sysclk_am335x_rate_table[SYSCLK_AM335X_ID_MAX] = {
 };
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clk_am335x_name_get
  * @BRIEF		return clock name
  * @RETURNS		clock name on success
  *			NULL in case of error
  * @param[in]		id: clock ID
  * @DESCRIPTION		return clock name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *clk_am335x_name_get(clk_am335x_id id)
 {
 	CHECK_ARG_LESS_THAN(id, CLK_AM335X_ID_MAX + 1, NULL);
@@ -152,7 +152,7 @@ const char *clk_am335x_name_get(clk_am335x_id id)
 	return clk_am335x_name_table[id];
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clk_am335x_sysclk_rate_get
  * @BRIEF		Return the mandatory system clock speed, in MHz.
  * @RETURNS		> 0 system clock speed, in MHz.
@@ -160,7 +160,7 @@ const char *clk_am335x_name_get(clk_am335x_id id)
  *			OMAPCONF_ERR_UNEXPECTED
  * @param[in]		none
  * @DESCRIPTION		Return the mandatory system clock speed, in MHz.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double clk_am335x_sysclk_rate_get(void)
 {
 	unsigned int reg_val;
@@ -237,7 +237,7 @@ double clk_am335x_sysclk_rate_get(void)
 	out_clk_speed);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clk_am335x_rate_get
  * @BRIEF		convert bitfield value from register into string
  * @RETURNS		> 0 clock speed in MHz
@@ -249,7 +249,7 @@ double clk_am335x_sysclk_rate_get(void)
  *			frequencies whatever its status
  *			(e.g. audit, clock tree, etc)
  * @DESCRIPTION		convert bitfield value from register into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double clk_am335x_rate_get(clk_am335x_id clk_id,
 	unsigned short ignore)
 {

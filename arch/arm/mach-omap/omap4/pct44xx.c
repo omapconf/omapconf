@@ -67,14 +67,14 @@ static reg_table prcm_pct_reg_table[PRCM_PCT_REG_TABLE_SIZE + 1];
 static int pct44xx_regtable_init(void);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ctt44xx_dump
  * @BRIEF		dump PRCM registers
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		dump PRCM registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pct44xx_dump(void)
 {
 	unsigned int i = 0;
@@ -131,7 +131,7 @@ int pct44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pct44xx_rd1_export
  * @BRIEF		export PRCM registers in PCT RD1 format
  * @RETURNS		0 in case of success
@@ -140,7 +140,7 @@ int pct44xx_dump(void)
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @param[in]		filename: output file name
  * @DESCRIPTION		export PRCM registers in PCT RD1 format
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pct44xx_rd1_export(char *filename)
 {
 	unsigned int i = 0;
@@ -195,7 +195,7 @@ pct44xx_rd1_export_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pct44xx_main
  * @BRIEF		main entry point
  * @RETURNS		0 in case of success
@@ -205,7 +205,7 @@ pct44xx_rd1_export_end:
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		main entry point
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pct44xx_main(int argc, char *argv[])
 {
 	int ret;
@@ -231,13 +231,13 @@ int pct44xx_main(int argc, char *argv[])
 
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pct44xx_regtable_init
  * @BRIEF		initialize regtable
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize regtable
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int pct44xx_regtable_init(void)
 {
 	int i = 0;

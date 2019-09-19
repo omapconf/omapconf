@@ -93,11 +93,11 @@ static unsigned short clkdm54xx_init_done = 0;
 genlist clkdm54xx_list;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm54xx_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void clkdm54xx_init(void)
 {
 	clockdm_info clkdm;
@@ -374,12 +374,12 @@ void clkdm54xx_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm54xx_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void clkdm54xx_deinit(void)
 {
 	if (clkdm54xx_init_done) {
@@ -391,13 +391,13 @@ void clkdm54xx_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm54xx_list_get
  * @BRIEF		return the list of clock domains
  * @RETURNS		list of clock domains in case of success
  *			NULL in case of error
  * @DESCRIPTION		return the list of clock domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *clkdm54xx_list_get(void)
 {
 	clkdm54xx_init();
@@ -406,14 +406,14 @@ const genlist *clkdm54xx_list_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm54xx_count_get
  * @BRIEF		return the number of clock domains
  * @RETURNS		number of clock domains (> 0) in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
  * @DESCRIPTION		return the number of clock domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int clkdm54xx_count_get(void)
 {
 	int count;
@@ -427,14 +427,14 @@ int clkdm54xx_count_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm54xx_name_get
  * @BRIEF		return clock domain name
  * @RETURNS		clock domain name on success
  *			NULL in case of error
  * @param[in]		id: clock domain ID
  * @DESCRIPTION		return clock domain name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *clkdm54xx_name_get(clkdm54xx_id id)
 {
 	CHECK_ARG_LESS_THAN(id, CLKDM54XX_ID_MAX, NULL);
@@ -443,7 +443,7 @@ const char *clkdm54xx_name_get(clkdm54xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm54xx_s2id
  * @BRIEF		retrieve clock domain ID matching string s
  * @RETURNS		valid clock domain ID
@@ -455,7 +455,7 @@ const char *clkdm54xx_name_get(clkdm54xx_id id)
  *			"l3init", "l4per", "l4sec", "abe", "dsp", "gpu, "iva",
  *			"mpu"
  * @DESCRIPTION		retrieve clock domain ID matching string s
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 clkdm54xx_id clkdm54xx_s2id(char *s)
 {
 	clkdm54xx_id id;
@@ -516,7 +516,7 @@ clkdm54xx_id clkdm54xx_s2id(char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm54xx_config_show
  * @BRIEF		display clock domain configuration
  * @RETURNS		0 in case of success
@@ -525,7 +525,7 @@ clkdm54xx_id clkdm54xx_s2id(char *s)
  * @param[in,out]	stream: output file
  * @param[in]		clkdm: clock domain details
  * @DESCRIPTION		display clock domain configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int clkdm54xx_config_show(FILE *stream, clockdm_info clkdm)
 {
 	unsigned int cm_clkstctrl;

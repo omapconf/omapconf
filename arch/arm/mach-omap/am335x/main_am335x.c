@@ -67,7 +67,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_am335x_dump
  * @BRIEF		dump some AM335X registers, which category is found in
  *			argv
@@ -78,7 +78,7 @@
  * @param[in]		argv: argument(s)
  * @DESCRIPTION		dump some AM335X registers, which category is found in
  *			argv
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main_am335x_dump(int argc, char *argv[])
 {
 	dpll_am335x_id dpll_id;
@@ -121,7 +121,7 @@ int main_am335x_dump(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_am335x_export
  * @BRIEF		Export AM335X configuration into format and destination
  *			provided in argv.
@@ -134,7 +134,7 @@ int main_am335x_dump(int argc, char *argv[])
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		Export AM335X configuration into format and destination
  *			provided in argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main_am335x_export(int argc, char *argv[])
 {
 	if (strcmp(argv[0], "ctt") == 0) {
@@ -149,7 +149,7 @@ static int main_am335x_export(int argc, char *argv[])
 	}
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_am335x_legacy
  * @BRIEF		AM335X functions main entry point (legacy)
  * @RETURNS		0 in case of success
@@ -160,7 +160,7 @@ static int main_am335x_export(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		AM335X functions main entry point (legacy)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main_am335x_legacy(int argc, char*argv[])
 {
 	int ret;
@@ -188,7 +188,7 @@ main_am335x_legacy_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_am335x_show
  * @BRIEF		show some AM335X registers, which category is found in
  *			argv
@@ -199,7 +199,7 @@ main_am335x_legacy_end:
  * @param[in]		argv: argument(s)
  * @DESCRIPTION		show some AM335X registers, which category is found in
  *			argv
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main_am335x_show(int argc, char *argv[])
 {
 	if (argc < 1) {
@@ -232,7 +232,7 @@ int main_am335x_show(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_am335x
  * @BRIEF		AM335X functions main entry point
  * @RETURNS		0 in case of success
@@ -243,7 +243,7 @@ int main_am335x_show(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		AM335X functions main entry point.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main_am335x(int argc, char *argv[])
 {
 	int ret = 0;

@@ -1,11 +1,11 @@
-/* ======================================================================= *//**
+/* ======================================================================= 
  * @Component			OMAPCONF
  * @Filename			camera-regbits-44xx.h
  * @Description			OMAP4 Camera Configuration
  * @Author			Edward Lee (edward.lee@ti.com)
  * @Date			2012
  * @Copyright			TEXAS INSTRUMENTS Incorporated
- *//*======================================================================== */
+ *======================================================================== */
 /*
  * camera-regbits-44xx.h
  *

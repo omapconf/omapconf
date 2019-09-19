@@ -71,7 +71,7 @@ reg_table hwobs_core_debug_mux_table[OMAP4430_HWOBS_MAX_NBR + 1];
 reg_table hwobs_wkup_debug_mux_table[OMAP4430_HWOBS_MAX_NBR + 1];
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_padreg_read
  * @BRIEF		read 16 bits pad value at given pad address
  *			(word aligned)
@@ -83,7 +83,7 @@ reg_table hwobs_wkup_debug_mux_table[OMAP4430_HWOBS_MAX_NBR + 1];
  * @param[in,out]	pad_val: pointer where to store pad read value
  * @DESCRIPTION		read 16 bits pad value at given pad address
  *			(word aligned)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs44xx_padreg_read(unsigned int padreg_addr, unsigned short *pad_val)
 {
 	int ret = 0;
@@ -103,7 +103,7 @@ int hwobs44xx_padreg_read(unsigned int padreg_addr, unsigned short *pad_val)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_padreg_write
  * @BRIEF		write 16 bits pad value at given pad address
  *			(word aligned)
@@ -115,7 +115,7 @@ int hwobs44xx_padreg_read(unsigned int padreg_addr, unsigned short *pad_val)
  * @param[in]		pad_val: value to be written into pad register
  * @DESCRIPTION		write 16 bits pad value at given pad address
  *			(word aligned)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs44xx_padreg_write(unsigned int padreg_addr, unsigned short pad_val)
 {
 	int ret = 0;
@@ -137,7 +137,7 @@ int hwobs44xx_padreg_write(unsigned int padreg_addr, unsigned short pad_val)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_blkmuxreg_modify
  * @BRIEF		read/modify block muxing (8 bits) at given 32 bits mux
  *			reg address
@@ -150,7 +150,7 @@ int hwobs44xx_padreg_write(unsigned int padreg_addr, unsigned short pad_val)
  * @param[in]		mux_val: value to be written into mux register
  * @DESCRIPTION		read/modify block muxing (8 bits) at given 32 bits mux
  *			reg address
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs44xx_blkmuxreg_modify(unsigned int muxreg_addr,
 	unsigned int block_pos, char mux_val)
 {
@@ -169,13 +169,13 @@ int hwobs44xx_blkmuxreg_modify(unsigned int muxreg_addr,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_pad_regtable_init
  * @BRIEF		initialize regtable for pad registers
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize regtable for pad registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int hwobs44xx_pad_regtable_init(void)
 {
 	int i = 0;
@@ -269,13 +269,13 @@ static int hwobs44xx_pad_regtable_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_mux_regtable_init
  * @BRIEF		initialize regtable for mux registers
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize regtable for mux registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int hwobs44xx_mux_regtable_init(void)
 {
 	unsigned int i = 0;
@@ -356,13 +356,13 @@ static int hwobs44xx_mux_regtable_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_regtable_init
  * @BRIEF		initialize hwobs tables
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize hwobs tables
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int hwobs44xx_regtable_init(void)
 {
 	int err = 0;
@@ -374,14 +374,14 @@ static int hwobs44xx_regtable_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_pinmux_check
  * @BRIEF		check hwobs pinmux is properly configured.
  * @RETURNS		0 in case of success
  *			number of non-configured pins otherwise
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		check hwobs pinmux is properly configured.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int hwobs44xx_pinmux_check(unsigned int check_field)
 {
 	unsigned int i = 0;
@@ -422,14 +422,14 @@ static int hwobs44xx_pinmux_check(unsigned int check_field)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_gating_check
  * @BRIEF		check hwobs signals are not gated or tied low/high.
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_INTERNAL
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		check hwobs signals are not gated or tied low/high.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int hwobs44xx_gating_check()
 {
 	unsigned short reg_val;
@@ -480,7 +480,7 @@ static int hwobs44xx_gating_check()
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_ctrl_cfg_show
  * @BRIEF		Print current OMAP44XX CONTROL_HWOBS_CONTROL register
  *			configuration.
@@ -489,7 +489,7 @@ static int hwobs44xx_gating_check()
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		Print current OMAP44XX CONTROL_HWOBS_CONTROL register
  *			configuration.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs44xx_ctrl_cfg_show(void)
 {
 	unsigned int ret = 0;
@@ -569,7 +569,7 @@ int hwobs44xx_ctrl_cfg_show(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_test
  * @BRIEF		test HWOBS setup by using tie-low / tie-high feature
  * @RETURNS		0 in case of success
@@ -578,7 +578,7 @@ int hwobs44xx_ctrl_cfg_show(void)
  * @param[in]		level: == "low" to tie signals low,
  *			== "high" to tie signal high.
  * @DESCRIPTION		test HWOBS setup by using tie-low / tie-high feature
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs44xx_test(char *level)
 {
 	unsigned int ret = 0;
@@ -664,14 +664,14 @@ hwobs44xx_test_err:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_setup_enable
  * @BRIEF		Enable HWOBS signals at hwobs ctrl mux level
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		Enable HWOBS signals at hwobs ctrl mux level
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs44xx_setup_enable(void)
 {
 	unsigned int ret = 0;
@@ -706,7 +706,7 @@ int hwobs44xx_setup_enable(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_signals_show
  * @BRIEF		Print current OMAP4 Mux Configuration.
  *			Print list of selected debug signals
@@ -717,7 +717,7 @@ int hwobs44xx_setup_enable(void)
  * @DESCRIPTION		Print current OMAP4 Mux Configuration.
  *			Print list of selected debug signals
  *			for each hw_dbg[0:31] debug pin.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs44xx_signals_show(void)
 {
 	unsigned int pad_check = 0, ret = 0, i = 0;
@@ -863,7 +863,7 @@ int hwobs44xx_signals_show(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_pads_setup
  * @BRIEF		Change OMAP4 pinmux to drive HWOBS signals on
  *			external pads.
@@ -872,7 +872,7 @@ int hwobs44xx_signals_show(void)
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		Change OMAP4 pinmux to drive HWOBS signals on
  *			external pads.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs44xx_pads_setup(void)
 {
 	unsigned int ret, i = 0;
@@ -905,7 +905,7 @@ int hwobs44xx_pads_setup(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_prcm_setup
  * @BRIEF		Setup OMAP4 HWOBS Mux Configuration: allow selection of
  *			desired PRCM debug signals. Implicitly configure HWOBS
@@ -920,7 +920,7 @@ int hwobs44xx_pads_setup(void)
  * @DESCRIPTION		Setup OMAP4 HWOBS Mux Configuration: allow selection of
  *			desired PRCM debug signals. Implicitly configure HWOBS
  *			muxes.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs44xx_prcm_setup(char *pos_s, char *type_s, char *num_s)
 {
 	unsigned int ret, i = 0;
@@ -1092,7 +1092,7 @@ hwobs44xx_prcm_setup_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_mpuss_setup
  * @BRIEF		Setup OMAP4 HWOBS Mux Configuration: allow selection of
  *			desired MPUSS debug signals. Implicitly configure
@@ -1105,7 +1105,7 @@ hwobs44xx_prcm_setup_end:
  * @DESCRIPTION		Setup OMAP4 HWOBS Mux Configuration: allow selection of
  *			desired MPUSS debug signals. Implicitly configure
  *			HWOBS muxes.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs44xx_mpuss_setup(char *mode_s)
 {
 	unsigned int ret, i = 0;
@@ -1193,7 +1193,7 @@ hwobs44xx_mpuss_setup_err:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_abe_setup
  * @BRIEF		Setup OMAP4 HWOBS Mux Configuration: allow selection of
  *			desired ABE debug signals. Implicitly configure
@@ -1206,7 +1206,7 @@ hwobs44xx_mpuss_setup_err:
  * @DESCRIPTION		Setup OMAP4 HWOBS Mux Configuration: allow selection of
  *			desired ABE debug signals. Implicitly configure
  *			HWOBS muxes.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs44xx_abe_setup(char *enable)
 {
 	unsigned int i = 0;
@@ -1300,14 +1300,14 @@ hwobs44xx_abe_setup_err:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_pads_config_show
  * @BRIEF		Dump OMAP4 HW Observability PADCONFs regs.
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		Dump OMAP4 HW Observability PADCONFs regs.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs44xx_pads_config_show(void)
 {
 	unsigned int ret, i = 0;
@@ -1350,11 +1350,11 @@ int hwobs44xx_pads_config_show(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_setup_help
  * @BRIEF		display list of supported commands
  * @DESCRIPTION		display list of supported commands
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static void hwobs44xx_setup_help(void)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -1422,7 +1422,7 @@ int hwobs44xx_pinmux_setup(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs44xx_main
  * @BRIEF		main entry point for omap4 hwobs
  * @RETURNS		0 in case of success
@@ -1432,7 +1432,7 @@ int hwobs44xx_pinmux_setup(void)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		main entry point for omap4 hwobs
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs44xx_main(int argc, char *argv[])
 {
 	int ret;

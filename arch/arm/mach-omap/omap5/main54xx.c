@@ -90,11 +90,11 @@
 #define PERF_TRACE54XX_MIN_SAMPLING_RATE	(double) 0.1 /* second */
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sigkill_handler
  * @BRIEF		catch kill signal
  * @DESCRIPTION		catch kill signal
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void sigkill_handler(int sigID, siginfo_t *siginfo, void *context)
 {
 	/* just to remove "unused parameter" warnings ... */
@@ -108,7 +108,7 @@ void sigkill_handler(int sigID, siginfo_t *siginfo, void *context)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_dpll_audit
  * @BRIEF		analyze command-line arguments & call DPLL audit with
  *			selected options
@@ -121,7 +121,7 @@ void sigkill_handler(int sigID, siginfo_t *siginfo, void *context)
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		analyze command-line arguments & call DPLL audit with
  *			selected options
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main54xx_dpll_audit(int argc, char *argv[])
 {
 	int ret = 0;
@@ -232,7 +232,7 @@ main54xx_dpll_audit_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_audit
  * @BRIEF		analyze command-line arguments & select relevant
  *			audit function
@@ -246,7 +246,7 @@ main54xx_dpll_audit_end:
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		analyze command-line arguments & select relevant
  *			audit function to call
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main54xx_audit(int argc, char *argv[])
 {
 	int ret = 0;
@@ -301,7 +301,7 @@ main54xx_audit_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_dump
  * @BRIEF		dump some OMAP5 registers, which category is found in
  *			argv
@@ -312,7 +312,7 @@ main54xx_audit_end:
  * @param[in]		argv: argument(s)
  * @DESCRIPTION		dump some OMAP5 registers, which category is found in
  *			argv
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main54xx_dump(int argc, char *argv[])
 {
 	dpll54xx_id dpll_id;
@@ -437,7 +437,7 @@ int main54xx_dump(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_set
  * @BRIEF		set some OMAP5 item, which category is found in argv
  * @RETURNS		0 in case of success
@@ -446,7 +446,7 @@ int main54xx_dump(int argc, char *argv[])
  * @param[in]		argc: number of arguments
  * @param[in]		argv: argument(s)
  * @DESCRIPTION		set some OMAP5 item, which category is found in argv
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main54xx_set(int argc, char *argv[])
 {
 	voltdm54xx_id vdd_id;
@@ -498,7 +498,7 @@ static int main54xx_set(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_clear
  * @BRIEF		clear some OMAP5 item, which category is found in argv
  * @RETURNS		0 in case of success
@@ -507,7 +507,7 @@ static int main54xx_set(int argc, char *argv[])
  * @param[in]		argc: number of arguments
  * @param[in]		argv: argument(s)
  * @DESCRIPTION		clear some OMAP5 item, which category is found in argv
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main54xx_clear(int argc, char *argv[])
 {
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
@@ -535,7 +535,7 @@ static int main54xx_clear(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_read
  * @BRIEF		read some item, which category is found in argv
  * @RETURNS		0 in case of success
@@ -546,7 +546,7 @@ static int main54xx_clear(int argc, char *argv[])
  *			argv[0] = category
  *			argv[1...n] = arguments of that category
  * @DESCRIPTION		read some item, which category is found in argv
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main54xx_read(int argc, char *argv[])
 {
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
@@ -562,7 +562,7 @@ int main54xx_read(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_write
  * @BRIEF		udpate some item, which category is found in argv
  * @RETURNS		0 in case of success
@@ -573,7 +573,7 @@ int main54xx_read(int argc, char *argv[])
  *			argv[0] = category
  *			argv[1...n] = arguments of that category
  * @DESCRIPTION		udpate some item, which category is found in argv
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main54xx_write(int argc, char *argv[])
 {
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
@@ -589,7 +589,7 @@ int main54xx_write(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_trace
  * @BRIEF		find which trace to run (found in argv), and execute it
  * @RETURNS		0 in case of success
@@ -600,7 +600,7 @@ int main54xx_write(int argc, char *argv[])
  *			argv[0] = category
  *			argv[1...n] = arguments of that category
  * @DESCRIPTION		find which trace to run (found in argv), and execute it
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main54xx_trace(int argc, char *argv[])
 {
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
@@ -624,7 +624,7 @@ int main54xx_trace(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_show
  * @BRIEF		show some OMAP5 information,
  *			which category is found in argv
@@ -635,7 +635,7 @@ int main54xx_trace(int argc, char *argv[])
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		show some OMAP5 information,
  *			which category is found in argv
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main54xx_show(int argc, char *argv[])
 {
 	int ret;
@@ -779,7 +779,7 @@ int main54xx_show(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_enable
  * @BRIEF		enable selected item provided in string argv.
  * @RETURNS		0 in case of success
@@ -790,7 +790,7 @@ int main54xx_show(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		enable selected item provided in string argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main54xx_enable(int argc, char *argv[])
 {
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
@@ -808,7 +808,7 @@ static int main54xx_enable(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_setup
  * @BRIEF		setup selected item provided in string argv.
  * @RETURNS		0 in case of success
@@ -819,7 +819,7 @@ static int main54xx_enable(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		setup selected item provided in string argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main54xx_setup(int argc, char *argv[])
 {
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
@@ -854,7 +854,7 @@ static int main54xx_setup(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_test
  * @BRIEF		test selected item provided in string argv.
  * @RETURNS		0 in case of success
@@ -865,7 +865,7 @@ static int main54xx_setup(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		test selected item provided in string argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main54xx_test(int argc, char *argv[])
 {
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
@@ -883,7 +883,7 @@ static int main54xx_test(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_search
  * @BRIEF		search selected item provided in string argv.
  * @RETURNS		0 in case of success
@@ -894,7 +894,7 @@ static int main54xx_test(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		test selected item provided in string argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main54xx_search(int argc, char *argv[])
 {
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
@@ -914,7 +914,7 @@ static int main54xx_search(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_export
  * @BRIEF		Export OMAP configuration into format and destination
  *			provided in argv.
@@ -927,7 +927,7 @@ static int main54xx_search(int argc, char *argv[])
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		Export OMAP configuration into format and destination
  *			provided in argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main54xx_export(int argc, char *argv[])
 {
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
@@ -963,7 +963,7 @@ static int main54xx_export(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx_legacy
  * @BRIEF		OMAP5 LEGACY functions main entry point
  * @RETURNS		0 in case of success
@@ -974,7 +974,7 @@ static int main54xx_export(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		OMAP5 LEGACY functions main entry point
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main54xx_legacy(int argc, char *argv[])
 {
 	int ret;
@@ -1012,7 +1012,7 @@ main54xx_legacy_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main54xx
  * @BRIEF		OMAP5 functions main entry point
  * @RETURNS		0 in case of success
@@ -1023,7 +1023,7 @@ main54xx_legacy_end:
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		OMAP5 functions main entry point.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main54xx(int argc, char *argv[])
 {
 	int ret = 0;

@@ -106,7 +106,7 @@ dpll54xx_settings *dpll54xx_locked_settings_table[DPLL54XX_ID_MAX] = {
 	NULL};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll54xx_s2id
  * @BRIEF		convert string to valid DPLL ID
  * @RETURNS		DPLL54XX_MPU if s == "mpu"
@@ -120,7 +120,7 @@ dpll54xx_settings *dpll54xx_locked_settings_table[DPLL54XX_ID_MAX] = {
  *			DPLL54XX_ID_MAX otherwise
  * @param[in,out]	s: string
  * @DESCRIPTION		convert string to valid DPLL ID
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 dpll54xx_id dpll54xx_s2id(char *s)
 {
 	CHECK_NULL_ARG(s, DPLL54XX_ID_MAX);
@@ -146,14 +146,14 @@ dpll54xx_id dpll54xx_s2id(char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll54xx_name_get
  * @BRIEF		return DPLL name
  * @RETURNS		DPLL name
  *			NULL in case of incorrect id
  * @param[in]		id: DPLL ID
  * @DESCRIPTION		return DPLL name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *dpll54xx_name_get(dpll54xx_id id)
 {
 	CHECK_ARG_LESS_THAN(id, DPLL54XX_ID_MAX, NULL);
@@ -162,14 +162,14 @@ const char *dpll54xx_name_get(dpll54xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll54xx_output_name_get
  * @BRIEF		return DPLL output name
  * @RETURNS		DPLL output name
  *			NULL in case of incorrect id
  * @param[in]		id: DPLL output ID
  * @DESCRIPTION		return DPLL output name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *dpll54xx_output_name_get(dpll54xx_output_id id)
 {
 	CHECK_ARG_LESS_THAN(id, DPLL54XX_OUTPUT_ID_MAX, NULL);
@@ -178,14 +178,14 @@ const char *dpll54xx_output_name_get(dpll54xx_output_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hsdiv54xx_name_get
  * @BRIEF		return HS divider name
  * @RETURNS		HS divider name
  *			NULL in case of incorrect id
  * @param[in]		id: HS divider ID
  * @DESCRIPTION		return HS divider name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *hsdiv54xx_name_get(hsdiv54xx_id id)
 {
 	CHECK_ARG_LESS_THAN(id, HSDIV54XX_ID_MAX, NULL);
@@ -194,7 +194,7 @@ const char *hsdiv54xx_name_get(hsdiv54xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll54xx_dump
  * @BRIEF		dump selected DPLL registers
  * @RETURNS		0 in case of success
@@ -206,7 +206,7 @@ const char *hsdiv54xx_name_get(hsdiv54xx_id id)
  *			If id == DPLL54XX_ID_MAX, dump all DPLL registers.
  * @DESCRIPTION		dump selected DPLL registers and pretty-print it to
  *			output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll54xx_dump(FILE *stream, dpll54xx_id id)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -322,7 +322,7 @@ int dpll54xx_dump(FILE *stream, dpll54xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll54xx_clk_sources_get
  * @BRIEF		retrieve DPLL input clock rates
  * @RETURNS		0 in case of success
@@ -334,7 +334,7 @@ int dpll54xx_dump(FILE *stream, dpll54xx_id id)
  *			frequencies even when DPLL is stopped
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		retrieve DPLL input clock rates
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll54xx_clk_sources_get(dpll_settings *settings, unsigned short ignore)
 {
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
@@ -378,7 +378,7 @@ int dpll54xx_clk_sources_get(dpll_settings *settings, unsigned short ignore)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hsdiv54xx_settings_extract
  * @BRIEF		extract OMAP5 HSDIV settings from registers
  * @RETURNS		0 in case of success
@@ -389,7 +389,7 @@ int dpll54xx_clk_sources_get(dpll_settings *settings, unsigned short ignore)
  * @param[in]		dpll_regs: dpll registers to extract from
  * @param[in, out]	settings: struct with extracted HSDIV settings
  * @DESCRIPTION		extract OMAP5 HSDIV settings from registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hsdiv54xx_settings_extract(unsigned int id,
 	 reg *hsdiv_reg, hsdiv54xx_settings *settings)
 {
@@ -421,7 +421,7 @@ int hsdiv54xx_settings_extract(unsigned int id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hsdiv54xx_rates_calc
  * @BRIEF		calculate DPLL HSDIV output rates
  * @RETURNS		0 in case of success
@@ -433,7 +433,7 @@ int hsdiv54xx_settings_extract(unsigned int id,
  *			frequencies even when DPLL is stopped
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		calculate DPLL HSDIV output rates
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hsdiv54xx_rates_calc(dpll54xx_settings *settings,
 	unsigned short ignore)
 {
@@ -517,7 +517,7 @@ int hsdiv54xx_rates_calc(dpll54xx_settings *settings,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll54xx_rates_calc
  * @BRIEF		calculate DPLL output rates
  * @RETURNS		0 in case of success
@@ -529,7 +529,7 @@ int hsdiv54xx_rates_calc(dpll54xx_settings *settings,
  *			frequencies even when DPLL is stopped
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		calculate DPLL output rates
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll54xx_rates_calc(dpll54xx_settings *settings,
 	unsigned short ignore)
 {
@@ -642,7 +642,7 @@ m3_rate_locked_calc:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll54xx_settings_extract
  * @BRIEF		extract DPLL settings from registers
  * @RETURNS		0 in case of success
@@ -656,7 +656,7 @@ m3_rate_locked_calc:
  *			frequencies even when DPLL is stopped
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		extract DPLL settings from registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll54xx_settings_extract(dpll54xx_settings *settings,
 	unsigned int id, unsigned short ignore)
 {
@@ -770,7 +770,7 @@ int dpll54xx_settings_extract(dpll54xx_settings *settings,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll54xx_settings_get
  * @BRIEF		return DPLL settings struct pointer
  * @RETURNS		DPLL settings struct pointer in case of success
@@ -782,7 +782,7 @@ int dpll54xx_settings_extract(dpll54xx_settings *settings,
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		return DPLL settings struct pointer
  *			If DPLL settings not yet extracted, do it.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 dpll54xx_settings *dpll54xx_settings_get(
 	unsigned int id, unsigned short ignore)
 {
@@ -812,7 +812,7 @@ dpll54xx_settings *dpll54xx_settings_get(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll54xx_status_get
  * @BRIEF		return DPLL status.
  * @RETURNS		valid DPLL status (< DPLL_STATUS_MAX) in case of success
@@ -820,7 +820,7 @@ dpll54xx_settings *dpll54xx_settings_get(
  * @param[in]		id: valid DPLL ID
  * @DESCRIPTION		return DPLL status.
  *			If DPLL settings not yet extracted, do it.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 dpll_status dpll54xx_status_get(dpll54xx_id id)
 {
 	dpll54xx_settings *settings;
@@ -847,7 +847,7 @@ dpll_status dpll54xx_status_get(dpll54xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll54xx_output_rate_get
  * @BRIEF		return DPLL output clock rate (in MHz).
  * @RETURNS		DPLL output clock rate (in MHz) in case of success
@@ -860,7 +860,7 @@ dpll_status dpll54xx_status_get(dpll54xx_id id)
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		return DPLL output clock rate (in MHz).
  *			If DPLL settings not yet extracted, do it.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double dpll54xx_output_rate_get(
 	dpll54xx_id id, dpll54xx_output_id out_id, unsigned short ignore)
 {
@@ -942,7 +942,7 @@ dpll54xx_output_rate_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll54xx_show
  * @BRIEF		analyze PLLs configuration
  * @RETURNS		0 in case of success
@@ -952,7 +952,7 @@ dpll54xx_output_rate_get_end:
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output stream
  * @DESCRIPTION		analyze PLLs configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll54xx_show(FILE *stream)
 {
 	int ret = 0;
@@ -1430,7 +1430,7 @@ int dpll54xx_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll54xx_audit
  * @BRIEF		OMAP5 DPLLS settings audit.
  * @RETURNS		0 in case of success
@@ -1444,7 +1444,7 @@ int dpll54xx_show(FILE *stream)
  * @param[in,out]	err_nbr: pointer to return audit error number
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		OMAP5 DPLLS settings audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll54xx_audit(dpll54xx_id dpll_id, opp54xx_id opp_id,
 	FILE *stream, unsigned int *err_nbr, unsigned int *wng_nbr)
 {
@@ -1985,7 +1985,7 @@ dpll54xx_audit_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll54xx_init
  * @BRIEF		allocate memory for dpll settings structs and save
  *			dpll settings in it.
@@ -1995,7 +1995,7 @@ dpll54xx_audit_end:
  *			OMAPCONF_ERR_UNEXPECTED
  * @DESCRIPTION		allocate memory for dpll settings structs and save
  *			dpll settings in it.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll54xx_init(void)
 {
 	dpll54xx_id id;
@@ -2063,7 +2063,7 @@ int dpll54xx_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll54xx_free
  * @BRIEF		free memory for dpll settings structs and save
  *			dpll settings in it.
@@ -2071,7 +2071,7 @@ int dpll54xx_init(void)
  * @param[in]		none
  * @DESCRIPTION		allocate memory for dpll settings structs and save
  *			dpll settings in it.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll54xx_free(void)
 {
 	dpll54xx_id id;
@@ -2087,7 +2087,7 @@ int dpll54xx_free(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll54xx_main
  * @BRIEF		main entry point for DPLL functions
  *
@@ -2105,7 +2105,7 @@ int dpll54xx_free(void)
  *			argv[1] = DPLL ID ("mpu", "iva", "core", "per", "abe",
  *				"usb", "unipro1", "unipro2")
  *				argv[1] may be omitted (then "all" assumed)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll54xx_main(int argc, char *argv[])
 {
 	int ret = 0;

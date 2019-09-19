@@ -1,4 +1,4 @@
-/* ======================================================================= *//**
+/* ======================================================================= 
  * @Component			OMAPCONF
  * @Filename			camera44xx.c
  * @Description			OMAP4 Camera Configuration
@@ -6,7 +6,7 @@
  * @Author			Edward Lee (edward.lee@ti.com)
  * @Date			2012
  * @Copyright			TEXAS INSTRUMENTS Incorporated
- *//*======================================================================== */
+ *======================================================================== */
 /*
  * camera44xx.c
  *
@@ -74,11 +74,11 @@ reg_table iss_ccp2_reg_table[ISS_CCP2_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		camera44xx_init_regtable
  * @BRIEF		initialize regtable
  * @DESCRIPTION		initialize regtable
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void camera44xx_init_regtable(void)
 {
 	int i = 0, j = 0, k = 0;
@@ -263,14 +263,14 @@ void camera44xx_init_regtable(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		camera44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 if found, -1 otherwise.
  * @param[in]		name: register name
  * @param[in, out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int camera44xx_name2addr(char *name, unsigned int *addr)
 {
 	int ret, k;
@@ -304,14 +304,14 @@ int camera44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		camera44xx_clock_is_running
  * @BRIEF		check if selected camera clock is running or not.
  * @RETURNS		1 if selected clock is running,
  *			0 if clock is gated or erroneous id.
  * @param[in]		id: module to be dump (i.e. user-entered argv[3])
  * @DESCRIPTION		check if selected camera clock is running or not.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char camera44xx_clock_is_running(camera44xx_clock_id id)
 {
 	unsigned char running;
@@ -393,13 +393,13 @@ camera44xx_clock_is_running_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		get_frame_name
  * @BRIEF		Transfer to format string from format value.
  * @RETURNS		format string
  * @param[in]		format integer
  * @DESCRIPTION		Transfer to format string from format value.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static char *get_frame_name(unsigned int format)
 {
 	switch (format) {
@@ -429,12 +429,12 @@ static char *get_frame_name(unsigned int format)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		iss_csi2_check
  * @BRIEF		Dump CSI2 information.
  * @param[in]		CSI2 register
  * @DESCRIPTION		Dump CSI2 information.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void iss_csi2_check(struct iss_csi2_regs *csi2)
 {
 	int mem_out = 0;
@@ -666,12 +666,12 @@ void iss_csi2_check(struct iss_csi2_regs *csi2)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		iss_isp5_sys1_check
  * @BRIEF		Dump ISP2 information.
  * @param[in]		ISP register
  * @DESCRIPTION		Dump ISP2 information.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int iss_isp5_sys1_check(struct iss_top_regs *iss_top,
 	struct iss_isp5_sys1_regs *iss_isp5_sys1)
 {
@@ -923,7 +923,7 @@ next5:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		camera44xx_dump
  * @BRIEF		dump CAMERA registers
  * @RETURNS		0 in case of success
@@ -933,7 +933,7 @@ next5:
  * @param[in]		camera_mod: module to be dump
  *			(i.e. user-entered argv[3])
  * @DESCRIPTION		dump CAMERA registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int camera44xx_dump(char *camera_mod)
 {
 	int ret;
@@ -1020,7 +1020,7 @@ camera44xx_dump_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		camera44xx_config_show
  * @BRIEF		Show camera configuration
  * @RETURNS		0 in case of success
@@ -1029,7 +1029,7 @@ camera44xx_dump_end:
  *			OMAPCONF_ERR_ARG
  *			OMAPCONF_ERR_INTERNAL
  * @DESCRIPTION		Show camera configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int camera44xx_config_show(void)
 {
 	struct iss_top_regs *iss_top = NULL;
@@ -1233,7 +1233,7 @@ camera44xx_show_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		camera44xx_main
  * @BRIEF		CAMERA main menu
  * @RETURNS		0 in case of success
@@ -1243,7 +1243,7 @@ camera44xx_show_end:
  * @param[in]		argc: shell input argument number
  *			argv: shell input argument(s)
  * @DESCRIPTION		CAMERA main menu
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int camera44xx_main(int argc, char *argv[])
 {
 	int ret;

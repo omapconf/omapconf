@@ -97,7 +97,7 @@ static int dpll44xx_speeds_get(omap4_dpll_params *dpll_params,
 	unsigned short ignore_stop_status);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -106,7 +106,7 @@ static int dpll44xx_speeds_get(omap4_dpll_params *dpll_params,
  * @param[in]		name: register name
  * @param[in]		addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll44xx_name2addr(char *name, unsigned int *addr)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -117,14 +117,14 @@ int dpll44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll44xx_dump
  * @BRIEF		dump PLLs PRCM registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		dump PLLs PRCM registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll44xx_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -135,14 +135,14 @@ int dpll44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll44xx_name_get
  * @BRIEF		return DPLL name.
  * @RETURNS		DPLL name on success
  *			"FIXME" string in case of error
  * @param[in]		id: DPLL ID
  * @DESCRIPTION		return DPLL name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *dpll44xx_name_get(dpll44xx_id id)
 {
 	if (id < DPLL44XX_ID_MAX)
@@ -152,14 +152,14 @@ const char *dpll44xx_name_get(dpll44xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll44xx_output_name_get
  * @BRIEF		return DPLL output name.
  * @RETURNS		DPLL name on success
  *			"FIXME" string in case of error
  * @param[in]		id: DPLL output ID
  * @DESCRIPTION		return DPLL output name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *dpll44xx_output_name_get(dpll44xx_output_id id)
 {
 	if (id < DPLL44XX_OUTPUT_ID_MAX)
@@ -169,21 +169,21 @@ const char *dpll44xx_output_name_get(dpll44xx_output_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll44xx_dcc_count2us
  * @BRIEF		convert DCC COUNT MAX RAW value into micro-seconds
  * @RETURNS		DCC COUNT value into micro-seconds
  *			-1 in case of error.
  * @param[in]		dcc_count: DCC COUNT MAX RAW value
  * @DESCRIPTION		convert DCC COUNT MAX RAW value into micro-seconds
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double dpll44xx_dcc_count2us(unsigned int dcc_count)
 {
 	return 32 * dcc_count / clk44xx_get_clock_speed(OMAP4_L4_ICLK1, 0);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll44xx_MN_params_get
  * @BRIEF		get M/N parameters and compute the output speed
  * @RETURNS		0 on success
@@ -195,7 +195,7 @@ double dpll44xx_dcc_count2us(unsigned int dcc_count)
  * @param[in,out]	dpll_MN_params: pre-allocated structure where to store
  *			DPLL parameters
  * @DESCRIPTION		get M/N parameters and compute the output speed
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int dpll44xx_MN_params_get(dpll44xx_id dpll_id,
 	omap4_dpll_MN_params *dpll_MN_params)
 {
@@ -263,7 +263,7 @@ static int dpll44xx_MN_params_get(dpll44xx_id dpll_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll44xx_SSC_params_get
  * @BRIEF		extract SSC parameters from DPLL registers
  * @RETURNS		0
@@ -275,7 +275,7 @@ static int dpll44xx_MN_params_get(dpll44xx_id dpll_id,
  *			parameters
  * @DESCRIPTION		extract SSC parameters from DPLL registers
  *			and store it into structure.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int dpll44xx_SSC_params_get(dpll44xx_id dpll_id,
 	omap4_dpll_SSC_params *dpll_SSC_params)
 {
@@ -288,7 +288,7 @@ static int dpll44xx_SSC_params_get(dpll44xx_id dpll_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll44xx_hs_divider_params_get
  * @BRIEF		extract HS divider parameters from DPLL registers
  * @RETURNS		0
@@ -300,7 +300,7 @@ static int dpll44xx_SSC_params_get(dpll44xx_id dpll_id,
  *			parameters
  * @DESCRIPTION		extract HS divider parameters from DPLL registers
  *			and store it into structure.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int dpll44xx_hs_divider_params_get(dpll44xx_id dpll_id,
 	omap4_dpll_hs_divider_params dpll_hs_divider_params[4])
 {
@@ -365,7 +365,7 @@ static int dpll44xx_hs_divider_params_get(dpll44xx_id dpll_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll44xx_dpll_params_get
  * @BRIEF		extract parameters from DPLL registers
  * @RETURNS		0
@@ -382,7 +382,7 @@ static int dpll44xx_hs_divider_params_get(dpll44xx_id dpll_id,
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		extract parameters from DPLL registers
  *			and store it into structure.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll44xx_dpll_params_get(dpll44xx_id dpll_id,
 	omap4_dpll_params *dpll_params, unsigned short ignore_stop_status)
 {
@@ -676,7 +676,7 @@ int dpll44xx_dpll_params_get(dpll44xx_id dpll_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll44xx_speeds_get
  * @BRIEF		compute DPLL output speeds in MHz
  * @RETURNS		0 on success
@@ -689,7 +689,7 @@ int dpll44xx_dpll_params_get(dpll44xx_id dpll_id,
  *			frequencies even when DPLL is stopped
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		compute DPLL output speeds in MHz
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int dpll44xx_speeds_get(omap4_dpll_params *dpll_params,
 	unsigned short ignore_stop_status)
 {
@@ -874,7 +874,7 @@ static int dpll44xx_speeds_get(omap4_dpll_params *dpll_params,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll44xx_config_show
  * @BRIEF		analyze PLLs configuration
  * @RETURNS		0 in case of success
@@ -883,7 +883,7 @@ static int dpll44xx_speeds_get(omap4_dpll_params *dpll_params,
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in, out]	stream: output file
  * @DESCRIPTION		analyze PLLs configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll44xx_config_show(FILE *stream)
 {
 	int ret = 0;
@@ -1230,7 +1230,7 @@ int dpll44xx_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll44xx_ssc_config_show
  * @BRIEF		analyze PLLs Spread Spectrum Clocking configuration
  * @RETURNS		0 in case of success
@@ -1239,7 +1239,7 @@ int dpll44xx_config_show(FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		none
  * @DESCRIPTION		analyze PLLs Spread Spectrum Clocking configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll44xx_ssc_config_show(void)
 {
 	/* FIXME: implement function */
@@ -1247,7 +1247,7 @@ int dpll44xx_ssc_config_show(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll44xx_audit
  * @BRIEF		OMAP4 DPLLS settings audit.
  * @RETURNS		0 in case of success
@@ -1261,7 +1261,7 @@ int dpll44xx_ssc_config_show(void)
  * @param[in,out]	err_nbr: audit error number
  * @param[in,out]	wng_nbr: audit warning number
  * @DESCRIPTION		OMAP4 DPLLS settings audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll44xx_audit(dpll44xx_id dpll_id, opp44xx_id opp_id,
 	FILE *stream, unsigned int *err_nbr, unsigned int *wng_nbr)
 {
@@ -1747,7 +1747,7 @@ dpll44xx_audit_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll44xx_s2id
  * @BRIEF		convert string to valid DPLL ID.
  * @RETURNS		DPLL44XX_MPU if s == "mpu"
@@ -1761,7 +1761,7 @@ dpll44xx_audit_end:
  *			DPLL44XX_ID_MAX otherwise
  * @param[in]		s: string
  * @DESCRIPTION		convert string to valid DPLL ID.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 dpll44xx_id dpll44xx_s2id(char *s)
 {
 	CHECK_NULL_ARG(s, DPLL44XX_ID_MAX);
@@ -1787,7 +1787,7 @@ dpll44xx_id dpll44xx_s2id(char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll44xx_main
  * @BRIEF		call function corresponding to shell arguments
  * @RETURNS		0 in case of success
@@ -1797,7 +1797,7 @@ dpll44xx_id dpll44xx_s2id(char *s)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		call function corresponding to shell arguments
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll44xx_main(int argc, char *argv[])
 {
 	int ret;

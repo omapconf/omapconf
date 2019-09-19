@@ -83,7 +83,7 @@ static const char warning[8] = "Warning";
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_autoidle_mode_audit44xx
  * @BRIEF		module autoidle mode audit.
  * @RETURNS		pointer to global pass string in case of successfull
@@ -97,7 +97,7 @@ static const char warning[8] = "Warning";
  * @param[in,out]	err_nbr: error number (returned)
  * @param[in,out]	wng_nbr: warning number (returned)
  * @DESCRIPTION		module autoidle mode audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *module_autoidle_mode_audit44xx(mod44xx_id mod_id,
 	mod_autoidle_mode *mode, mod_autoidle_mode *mode_por,
 	unsigned int *err_nbr, unsigned int *wng_nbr)
@@ -156,7 +156,7 @@ char *module_autoidle_mode_audit44xx(mod44xx_id mod_id,
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_idle_mode_audit44xx
  * @BRIEF		module idle mode audit.
  * @RETURNS		pointer to global pass string in case of successfull
@@ -172,7 +172,7 @@ char *module_autoidle_mode_audit44xx(mod44xx_id mod_id,
  * @param[in,out]	err_nbr: error number (returned)
  * @param[in,out]	wng_nbr: warning number (returned)
  * @DESCRIPTION		module idle mode audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *module_idle_mode_audit44xx(mod44xx_id mod_id,
 	mod_idle_mode *mode, mod_idle_mode *mode_por,
 	unsigned int *err_nbr, unsigned int *wng_nbr)
@@ -290,7 +290,7 @@ module_idle_mode_audit44xx_end:
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_standby_mode_audit44xx
  * @BRIEF		module standby mode audit.
  * @RETURNS		pointer to global pass string in case of successfull
@@ -306,7 +306,7 @@ module_idle_mode_audit44xx_end:
  * @param[in,out]	err_nbr: error number (returned)
  * @param[in,out]	wng_nbr: warning number (returned)
  * @DESCRIPTION		module standby mode audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *module_standby_mode_audit44xx(mod44xx_id mod_id,
 	mod_standby_mode *mode, mod_standby_mode *mode_por,
 	unsigned int *err_nbr, unsigned int *wng_nbr)
@@ -395,7 +395,7 @@ char *module_standby_mode_audit44xx(mod44xx_id mod_id,
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_clockactivity_bit_audit44xx
  * @BRIEF		module clock activity mode audit.
  * @RETURNS		pointer to global pass string in case of successfull
@@ -411,7 +411,7 @@ char *module_standby_mode_audit44xx(mod44xx_id mod_id,
  * @param[in,out]	err_nbr: error number (returned)
  * @param[in,out]	wng_nbr: warning number (returned)
  * @DESCRIPTION		module clock activity mode audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *module_clockactivity_bit_audit44xx(mod44xx_id mod_id,
 	mod_clock_activity_mode *mode,
 	mod_clock_activity_mode *mode_por,
@@ -500,7 +500,7 @@ char *module_clockactivity_bit_audit44xx(mod44xx_id mod_id,
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		audit44xx_dpll
  * @BRIEF		audit DPLL Configuration
  * @RETURNS		0 in case of success
@@ -516,7 +516,7 @@ char *module_clockactivity_bit_audit44xx(mod44xx_id mod_id,
  * @param[in,out]	err_nbr: audit error number
  * @param[in,out]	wng_nbr: audit warning number
  * @DESCRIPTION		audit DPLL Configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int audit44xx_dpll(FILE *stream, dpll44xx_id dpll_id, opp44xx_id opp_id,
 	unsigned short curr_opp, unsigned int *err_nbr, unsigned int *wng_nbr)
 {
@@ -683,7 +683,7 @@ audit44xx_dpll_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		audit44xx_dpll_main
  * @BRIEF		analyze command-line arguments & call DPLL audit with
  *			selected options.
@@ -696,7 +696,7 @@ audit44xx_dpll_end:
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		analyze command-line arguments & call DPLL audit with
  *			selected options.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int audit44xx_dpll_main(int argc, char *argv[])
 {
 	int ret = 0;
@@ -811,7 +811,7 @@ audit44xx_dpll_end:
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sysconfig_audit44xx
  * @BRIEF		OMAP4 SYSCONFIG registers audit.
  * @RETURNS		0 in case of success
@@ -822,7 +822,7 @@ audit44xx_dpll_end:
  * @param[in,out]	err_nbr: pointer to return audit error number
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		OMAP4 SYSCONFIG registers audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sysconfig_audit44xx(FILE *stream, unsigned int *err_nbr,
 	unsigned int *wng_nbr)
 {
@@ -1153,7 +1153,7 @@ sysconfig_audit44xx_default:
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkspeed_audit44xx
  * @BRIEF		OMAP4 Clock Speed audit.
  * @RETURNS		0 in case of success
@@ -1165,7 +1165,7 @@ sysconfig_audit44xx_default:
  * @param[in,out]	err_nbr: pointer to return audit error number
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		OMAP4 Clock Speed audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int clkspeed_audit44xx(FILE *stream, unsigned int *err_nbr,
 	unsigned int *wng_nbr)
 {
@@ -1515,7 +1515,7 @@ clkspeed_audit44xx_show:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		audit44xx_sr_avs
  * @BRIEF		audit Smart-Reflex AVS Configuration
  * @RETURNS		0 in case of success
@@ -1528,7 +1528,7 @@ clkspeed_audit44xx_show:
  * @param[in,out]	err_nbr: audit error number
  * @param[in,out]	wng_nbr: audit warning number
  * @DESCRIPTION		audit Smart-Reflex AVS Configuration (SR + VP modules)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int audit44xx_sr_avs(FILE *stream, omap4_sr_module_id sr_id,
 	unsigned short curr_opp, unsigned int *err_nbr, unsigned int *wng_nbr)
 {
@@ -1745,7 +1745,7 @@ audit44xx_sr_avs_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		full_audit44xx
  * @BRIEF		full OMAP4 power configuration audit
  *			(dplls, sysconfig, clkspeed, statdep, avs, pads).
@@ -1755,7 +1755,7 @@ audit44xx_sr_avs_end:
  *			OMAPCONF_ERR_INTERNAL
  * @DESCRIPTION		full OMAP4 power configuration audit
  *			(dplls, sysconfig, clkspeed, statdep, avs, pads).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int full_audit44xx(void)
 {
 	unsigned int dplls_err_nbr = 0, dplls_wng_nbr = 0;
@@ -1916,7 +1916,7 @@ int full_audit44xx(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		audit44xx_main
  * @BRIEF		OMAP4 audit menu
  * @RETURNS		0 in case of success
@@ -1926,7 +1926,7 @@ int full_audit44xx(void)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		OMAP4 audit menu
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int audit44xx_main(int argc, char *argv[])
 {
 	unsigned int err_nbr = 0, wng_nbr = 0;

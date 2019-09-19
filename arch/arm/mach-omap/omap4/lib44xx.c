@@ -85,7 +85,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		reg44xx_addr_find
  * @BRIEF		find reg. addr corresponding to reg. name given as
  *			argument
@@ -95,7 +95,7 @@
  * @param[in,out]	addr: reg. addr corresponding to reg. name
  * @DESCRIPTION		find reg. addr corresponding to reg. name given as
  *			argument
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int reg44xx_addr_find(char *name, unsigned int* addr)
 {
 	#ifdef LIB44XX_FIND_REG_ADDR_DEBUG
@@ -156,7 +156,7 @@ reg_addr_found:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu44xx_power_state_get
  * @BRIEF		extract current CPU[0-1] power state from register
  * @RETURNS		0 on success
@@ -164,7 +164,7 @@ reg_addr_found:
  * @param[in]		cpu: CPU core number (0, 1)
  * @param[in, out]	state: current CPU[0-1] power state (returned)
  * @DESCRIPTION		extract current CPU[0-1] power state from register
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cpu44xx_power_state_get(unsigned int cpu,
 	pwrdm_state *state)
 {
@@ -203,7 +203,7 @@ int cpu44xx_power_state_get(unsigned int cpu,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		power44xx_status_show
  * @BRIEF		analyze & display OMAP4 power status
  * @RETURNS		0 on success
@@ -211,7 +211,7 @@ int cpu44xx_power_state_get(unsigned int cpu,
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_INTERNAL
  * @DESCRIPTION		analyze & display OMAP4 power status
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int power44xx_status_show(void)
 {
 	char s_idlest[14];

@@ -72,13 +72,13 @@ dpll_am335x_settings *dpll_am335x_locked_settings_table[DPLL_AM335X_ID_MAX] = {
 	NULL, NULL, NULL, NULL, NULL};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		am335x_print_reg
  * @BRIEF		Show register name, addr & content
  * @RETURNS		None
  * @param[in]		r: register. row: pointer to the row number
  * @DESCRIPTION		Show register name, addr & content
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void am335x_print_reg(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
 		reg *r, unsigned int *row)
 {
@@ -93,7 +93,7 @@ void am335x_print_reg(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN
 	(*row)++;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_s2id
  * @BRIEF		convert string to valid DPLL ID
  * @RETURNS		DPLL_AM335X_PER if s == "per"
@@ -104,7 +104,7 @@ void am335x_print_reg(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN
  *			DPLL_AM335X_ID_MAX otherwise
  * @param[in,out]	s: string
  * @DESCRIPTION		convert string to valid DPLL ID
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 dpll_am335x_id dpll_am335x_s2id(char *s)
 {
 	int index;
@@ -117,14 +117,14 @@ dpll_am335x_id dpll_am335x_s2id(char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_name_get
  * @BRIEF		return DPLL name
  * @RETURNS		DPLL name
  *			NULL in case of incorrect id
  * @param[in]		id: DPLL ID
  * @DESCRIPTION		return DPLL name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *dpll_am335x_name_get(dpll_am335x_id id)
 {
 	CHECK_ARG_LESS_THAN(id, DPLL_AM335X_ID_MAX, NULL);
@@ -133,14 +133,14 @@ const char *dpll_am335x_name_get(dpll_am335x_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_output_name_get
  * @BRIEF		return DPLL output name
  * @RETURNS		DPLL output name
  *			NULL in case of incorrect id
  * @param[in]		id: DPLL output ID
  * @DESCRIPTION		return DPLL output name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *dpll_am335x_output_name_get(dpll_am335x_output_id id)
 {
 	CHECK_ARG_LESS_THAN(id, DPLL_AM335X_OUTPUT_ID_MAX, NULL);
@@ -149,14 +149,14 @@ const char *dpll_am335x_output_name_get(dpll_am335x_output_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hsdiv_am335x_name_get
  * @BRIEF		return HS divider name
  * @RETURNS		HS divider name
  *			NULL in case of incorrect id
  * @param[in]		id: HS divider ID
  * @DESCRIPTION		return HS divider name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *hsdiv_am335x_name_get(hsdiv_am335x_id id)
 {
 	CHECK_ARG_LESS_THAN(id, HSDIV_AM335X_ID_MAX, NULL);
@@ -165,7 +165,7 @@ const char *hsdiv_am335x_name_get(hsdiv_am335x_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_dump
  * @BRIEF		dump selected DPLL registers
  * @RETURNS		0 in case of success
@@ -177,7 +177,7 @@ const char *hsdiv_am335x_name_get(hsdiv_am335x_id id)
  *			If id == DPLL_AM335X_ID_MAX, dump all DPLL registers.
  * @DESCRIPTION		dump selected DPLL registers and pretty-print it to
  *			output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_am335x_dump(FILE *stream, dpll_am335x_id id)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -255,7 +255,7 @@ int dpll_am335x_dump(FILE *stream, dpll_am335x_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_show
  * @BRIEF		analyze PLLs configuration
  * @RETURNS		0 in case of success
@@ -265,7 +265,7 @@ int dpll_am335x_dump(FILE *stream, dpll_am335x_id id)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output stream
  * @DESCRIPTION		analyze PLLs configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_am335x_show(FILE *stream)
 {
 	int ret;
@@ -278,7 +278,7 @@ int dpll_am335x_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_type_b_show
  * @BRIEF		show tpye B dpll module configuration
  * @RETURNS		0 in case of success
@@ -288,7 +288,7 @@ int dpll_am335x_show(FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output stream
  * @DESCRIPTION		show tpye B dpll module configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_am335x_type_b_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 	FILE *stream)
 {
@@ -449,7 +449,7 @@ int dpll_am335x_type_b_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_type_a_show
  * @BRIEF		show tpye A dpll module configuration
  * @RETURNS		0 in case of success
@@ -459,7 +459,7 @@ int dpll_am335x_type_b_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output stream
  * @DESCRIPTION		show tpye A dpll module configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_am335x_type_a_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 	FILE *stream)
 {
@@ -701,7 +701,7 @@ int dpll_am335x_type_a_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_lock_freq_calc
  * @BRIEF		compute DPLL lock frequency (in MHz)
  * @RETURNS		lock frequency in case of success (in MHz)
@@ -710,7 +710,7 @@ int dpll_am335x_type_a_show(dpll_am335x_id start_id, dpll_am335x_id end_id,
  * @param[in]		ignore: do not consider DPLL STOP status.
  *			regm4xen, fref, MN.M, MN.N INITIALIZED
  * @DESCRIPTION		compute DPLL lock frequency (in MHz)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double dpll_am335x_lock_freq_calc(dpll_settings *settings)
 {
 	CHECK_NULL_ARG(settings, 0.0);
@@ -742,7 +742,7 @@ double dpll_am335x_lock_freq_calc(dpll_settings *settings)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_clk_sources_get
  * @BRIEF		retrieve DPLL input clock rates
  * @RETURNS		0 in case of success
@@ -754,7 +754,7 @@ double dpll_am335x_lock_freq_calc(dpll_settings *settings)
  *			frequencies even when DPLL is stopped
  *			(e.g. autdit, clock tree, OPP detection, etc)
  * @DESCRIPTION		retrieve DPLL input clock rates
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_am335x_clk_sources_get(dpll_settings *settings, unsigned short ignore)
 {
 	CHECK_NULL_ARG(settings, OMAPCONF_ERR_ARG);
@@ -805,7 +805,7 @@ int dpll_am335x_clk_sources_get(dpll_settings *settings, unsigned short ignore)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hsdiv_am335x_settings_extract
  * @BRIEF		extract HSDIV DPLL settings from registers
  * @RETURNS		0 in case of success
@@ -816,7 +816,7 @@ int dpll_am335x_clk_sources_get(dpll_settings *settings, unsigned short ignore)
  * @param[in]		dpll_regs: dpll registers to extract from
  * @param[in,out]	settings: struct with extracted HSDIV settings
  * @DESCRIPTION		extract DPLL HSDIV settings from registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hsdiv_am335x_settings_extract(unsigned int id, reg *hsdiv_reg,
 	hsdiv_am335x_settings * settings)
 {
@@ -847,7 +847,7 @@ int hsdiv_am335x_settings_extract(unsigned int id, reg *hsdiv_reg,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hsdiv_am335x_rates_calc
  * @BRIEF		calculate DPLL HSDIV output rates
  * @RETURNS		0 in case of success
@@ -859,7 +859,7 @@ int hsdiv_am335x_settings_extract(unsigned int id, reg *hsdiv_reg,
  *			frequencies even when DPLL is stopped
  *			(e.g. autdit, clock tree, OPP detection, etc)
  * @DESCRIPTION		calculate DPLL HSDIV output rates
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hsdiv_am335x_rates_calc(dpll_am335x_settings *settings,
 	unsigned short ignore)
 {
@@ -921,7 +921,7 @@ int hsdiv_am335x_rates_calc(dpll_am335x_settings *settings,
 	return 0;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_rates_calc
  * @BRIEF		calculate DPLL output rates
  * @RETURNS		0 in case of success
@@ -933,7 +933,7 @@ int hsdiv_am335x_rates_calc(dpll_am335x_settings *settings,
  *			frequencies even when DPLL is stopped
  *			(e.g. autdit, clock tree, OPP detection, etc)
  * @DESCRIPTION		calculate DPLL output rates
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_am335x_rates_calc(dpll_am335x_settings *settings,
 	unsigned short ignore)
 {
@@ -1021,7 +1021,7 @@ int dpll_am335x_rates_calc(dpll_am335x_settings *settings,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_settings_extract
  * @BRIEF		extract DPLL settings from registers
  * @RETURNS		0 in case of success
@@ -1036,7 +1036,7 @@ int dpll_am335x_rates_calc(dpll_am335x_settings *settings,
  *			frequencies even when DPLL is stopped
  *			(e.g. autdit, clock tree, OPP detection, etc)
  * @DESCRIPTION		extract DPLL settings from registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_am335x_settings_extract(dpll_am335x_settings *settings,
 	unsigned int id, unsigned short ignore)
 {
@@ -1155,7 +1155,7 @@ int dpll_am335x_settings_extract(dpll_am335x_settings *settings,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_settings_get
  * @BRIEF		return DPLL settings struct pointer
  * @RETURNS		DPLL settings struct pointer in case of success
@@ -1167,7 +1167,7 @@ int dpll_am335x_settings_extract(dpll_am335x_settings *settings,
  *			(e.g. autdit, clock tree, OPP detection, etc)
  * @DESCRIPTION		return DPLL settings struct pointer
  *			If DPLL settings not yet extracted, do it.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 dpll_am335x_settings *dpll_am335x_settings_get(unsigned int id,
 	unsigned short ignore)
 {
@@ -1197,7 +1197,7 @@ dpll_am335x_settings *dpll_am335x_settings_get(unsigned int id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_output_rate_get
  * @BRIEF		return DPLL output clock rate (in MHz)
  * @RETURNS		DPLL output clock rate (in MHz) in case of success
@@ -1210,7 +1210,7 @@ dpll_am335x_settings *dpll_am335x_settings_get(unsigned int id,
  *			(e.g. autdit, clock tree, OPP detection, etc)
  * @DESCRIPTION		return DPLL output clock rate (in MHz)
  *			If DPLL settings not yet extracted, do it.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double dpll_am335x_output_rate_get(dpll_am335x_id id,
 	dpll_am335x_output_id out_id, unsigned short ignore)
 {
@@ -1270,7 +1270,7 @@ dpll_am335x_output_rate_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_init
  * @BRIEF		allocate memory for dpll settings structs and save
  *			dpll settings in it.
@@ -1280,7 +1280,7 @@ dpll_am335x_output_rate_get_end:
  *			OMAPCONF_ERR_UNEXPECTED
  * @DESCRIPTION		allocate memory for dpll settings structs and save
  *			dpll settings in it.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_am335x_init(void)
 {
 	dpll_am335x_id id;
@@ -1342,14 +1342,14 @@ int dpll_am335x_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_free
  * @BRIEF		free memory for dpll settings structs and save
  *			dpll settings in it.
  * @RETURNS		0 on success
  * @DESCRIPTION		free memory for dpll settings structs and save
  *			dpll settings in it.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_am335x_free(void)
 {
 	dpll_am335x_id id;
@@ -1365,7 +1365,7 @@ int dpll_am335x_free(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_am335x_main
  * @BRIEF		main entry point for DPLL functions
  *
@@ -1382,7 +1382,7 @@ int dpll_am335x_free(void)
  *			argv[0] = function ("dump", "cfg")
  *			argv[1] = DPLL ID ("mpu", "per", "core", "ddr", "disp")
  *				argv[1] may be omitted (then "all" assumed)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_am335x_main(int argc, char *argv[])
 {
 	int ret = 0;

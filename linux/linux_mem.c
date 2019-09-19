@@ -71,7 +71,7 @@ static void *mem_offset = NULL;
 static int mem_fd;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lmem_map
  * @BRIEF		map memory by chunk of 1MB.
  *			Keep it mapped until new address to be mapped is out
@@ -82,7 +82,7 @@ static int mem_fd;
  * @DESCRIPTION		map memory by chunk of 1MB.
  *			Keep it mapped until new address to be mapped is out
  *			of the current chunk.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int lmem_map(unsigned int addr)
 {
 	if ((mem_offset != NULL) &&
@@ -123,13 +123,13 @@ int lmem_map(unsigned int addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lmem_unmap
  * @BRIEF		unmap last 1MB memory chunk.
  *			*** To be called at end of application execution. ***
  * @DESCRIPTION		unmap last 1MB memory chunk.
  *			*** To be called at end of application execution. ***
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void lmem_unmap(void)
 {
 	int ret;
@@ -149,7 +149,7 @@ void lmem_unmap(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lmem_map_address
  * @BRIEF		map memory for 1 precise address, 4K mapping.
  *			*** User has to explicitly unmap it. ***
@@ -158,7 +158,7 @@ void lmem_unmap(void)
  * @param[in]		addr: 32-bit memory physical address
  * @DESCRIPTION		map memory for 1 precise address, 4K mapping.
  *			*** User has to explicitly unmap it. ***
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void *lmem_map_address(unsigned int addr)
 {
 	int mem_fd_address;
@@ -190,13 +190,13 @@ void *lmem_map_address(unsigned int addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lmem_unmap_address
  * @BRIEF		unmap specific virtual address.
  *			*** To be called at end of application execution. ***
  * @DESCRIPTION		unmap specific virtual address.
  *			*** To be called at end of application execution. ***
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void lmem_unmap_address(void *vaddr)
 {
 	int ret;
@@ -223,13 +223,13 @@ void lmem_unmap_address(void *vaddr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_phys2virt
  * @BRIEF		convert memory physical address to virtual address.
  * @RETURNS		memory virtual address
  * @param[in]		addr: memory physical address
  * @DESCRIPTION		convert memory physical address to virtual address.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void *lmem_phys2virt(void *addr)
 {
 	dprintf("%s(0x%08X)=0x%08X\n", __func__,
@@ -241,7 +241,7 @@ void *lmem_phys2virt(void *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lmem_read
  * @BRIEF		read memory value at given address
  * @RETURNS		0 on success
@@ -251,7 +251,7 @@ void *lmem_phys2virt(void *addr)
  * @param[in]		addr: 32-bit memory address
  * @param[in, out]	val: pointer where to store read value
  * @DESCRIPTION		read memory value at given address
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int lmem_read(unsigned int addr, unsigned int *val)
 {
 	int ret;
@@ -293,7 +293,7 @@ int lmem_read(unsigned int addr, unsigned int *val)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lmem_write
  * @BRIEF		write memory value at given physical address
  * @RETURNS		0 on success
@@ -302,7 +302,7 @@ int lmem_read(unsigned int addr, unsigned int *val)
  * @param[in]		addr: 32-bit memory address
  * @param[in]		val: value to be written int memory
  * @DESCRIPTION		write value at given physical address
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int lmem_write(unsigned int addr, unsigned int val)
 {
 	int ret;

@@ -61,14 +61,14 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp44xx_name_get
  * @BRIEF		return VP module name.
  * @RETURNS		VP module name on success
  *			"FIXME" string in case of error
  * @param[in]		vp_id: VP module ID
  * @DESCRIPTION		return VP module name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *vp44xx_name_get(vp44xx_mod_id vp_id)
 {
 	if (vp_id < VP44XX_ID_MAX)
@@ -78,7 +78,7 @@ const char *vp44xx_name_get(vp44xx_mod_id vp_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp44xx_registers_get
  * @BRIEF		save VP registers content into vp_regs structure.
  * @RETURNS		0 in case of success
@@ -88,7 +88,7 @@ const char *vp44xx_name_get(vp44xx_mod_id vp_id)
  * @param[in]		vp_id: VP module ID
  * @param[in,out]	vp_regs: VP module registers content
  * @DESCRIPTION		save VP registers content into vp_regs structure.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp44xx_registers_get(vp44xx_mod_id vp_id, vp_registers *vp_regs)
 {
 	int ret;
@@ -154,7 +154,7 @@ int vp44xx_registers_get(vp44xx_mod_id vp_id, vp_registers *vp_regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp44xx_golden_settings_get
  * @BRIEF		return VP module golden settings.
  * @RETURNS		VP module name on success
@@ -163,7 +163,7 @@ int vp44xx_registers_get(vp44xx_mod_id vp_id, vp_registers *vp_regs)
  * @param[in]		opp_id: OPP ID
  * @DESCRIPTION		return VP module golden settings, for a given chip,
  *			module and OPP.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const vp_audit_settings *vp44xx_golden_settings_get(vp44xx_mod_id vp_id,
 	opp44xx_id opp_id)
 {
@@ -179,7 +179,7 @@ const vp_audit_settings *vp44xx_golden_settings_get(vp44xx_mod_id vp_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp44xx_config_show
  * @BRIEF		decode and print Voltage Processor (VP) configuration
  * @RETURNS		0 in case of success
@@ -187,7 +187,7 @@ const vp_audit_settings *vp44xx_golden_settings_get(vp44xx_mod_id vp_id,
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output file (NULL: no output (silent))
  * @DESCRIPTION		decode and print Voltage Processor (VP) configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp44xx_config_show(FILE *stream)
 {
 	int ret = 0;
@@ -214,7 +214,7 @@ int vp44xx_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp44xx_config_audit
  * @BRIEF		audit Voltage Processor (VP) configuration
  * @RETURNS		0 in case of success
@@ -227,7 +227,7 @@ int vp44xx_config_show(FILE *stream)
  * @param[in,out]	wng_nbr: audit warning number
  * @DESCRIPTION		audit Voltage Processor (VP) configuration by comparison
  *			with expected ("golden") settings
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp44xx_config_audit(FILE *stream, vp44xx_mod_id vp_id,
 	unsigned int *err_nbr, unsigned int *wng_nbr)
 {

@@ -72,14 +72,14 @@ static const char
 	"TARGET"};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_state_name_get
  * @BRIEF		return power domain state name
  * @RETURNS		power domain state name on success
  *			NULL in case of error
  * @param[in]		st: valid power domain state
  * @DESCRIPTION		return power domain state name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *pwrdm_state_name_get(pwrdm_state st)
 {
 	CHECK_ARG_LESS_THAN(st, PWRDM_STATE_MAX, NULL);
@@ -88,14 +88,14 @@ const char *pwrdm_state_name_get(pwrdm_state st)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_state_type_name_get
  * @BRIEF		return power domain state type name
  * @RETURNS		power domain state type name on success
  *			NULL in case of error
  * @param[in]		type: valid power domain state type
  * @DESCRIPTION		return power domain state type name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *pwrdm_state_type_name_get(pwrdm_state_type type)
 {
 	CHECK_ARG_LESS_THAN(type, PWRDM_STATE_TYPE_MAX, NULL);
@@ -104,7 +104,7 @@ const char *pwrdm_state_type_name_get(pwrdm_state_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_state_get
  * @BRIEF		return power domain state
  * @RETURNS		power domain state on success
@@ -112,7 +112,7 @@ const char *pwrdm_state_type_name_get(pwrdm_state_type type)
  * @param[in]		pm_pwrst: PM_xyz_PWRST[CTRL-ST] register
  * @param[in]		type: pwrdm state type
  * @DESCRIPTION		return power domain state
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 pwrdm_state pwrdm_state_get(reg *pm_pwrst, pwrdm_state_type type)
 {
 	pwrdm_state st;
@@ -137,7 +137,7 @@ pwrdm_state pwrdm_state_get(reg *pm_pwrst, pwrdm_state_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_target_logic_ret_state_get
  * @BRIEF		return logic target state for this power domain
  *			when domain is RET
@@ -147,7 +147,7 @@ pwrdm_state pwrdm_state_get(reg *pm_pwrst, pwrdm_state_type type)
  * @param[in]		pm_pwrstctrl: PM_xyz_PWRSTCTRL register
  * @DESCRIPTION		return logic target state for this power domain when
  *			domain is RET
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 pwrdm_state pwrdm_target_logic_ret_state_get(reg *pm_pwrstctrl)
 {
 	pwrdm_state st;
@@ -172,7 +172,7 @@ pwrdm_state pwrdm_target_logic_ret_state_get(reg *pm_pwrstctrl)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_logic_state_get
  * @BRIEF		return logic state for this power domain
  * @RETURNS		power domain logic state:
@@ -180,7 +180,7 @@ pwrdm_state pwrdm_target_logic_ret_state_get(reg *pm_pwrstctrl)
  *			PWRDM_STATE_MAX in case of error
  * @param[in]		pm_pwrstst: PM_xyz_PWRSTST register
  * @DESCRIPTION		return logic state for this power domain
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 pwrdm_state pwrdm_logic_state_get(reg *pm_pwrstst)
 {
 	pwrdm_state st;
@@ -205,13 +205,13 @@ pwrdm_state pwrdm_logic_state_get(reg *pm_pwrstst)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_in_transition
  * @BRIEF		return 1 if power domain is in transition, 0 otherwise
  * @RETURNS		return 1 if power domain is in transition, 0 otherwise
  * @param[in]		pm_pwrstst: PM_xyz_PWRSTST register
  * @DESCRIPTION		return 1 if power domain is in transition, 0 otherwise
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int pwrdm_in_transition(reg *pm_pwrstst)
 {
 	unsigned int val;
@@ -229,7 +229,7 @@ unsigned int pwrdm_in_transition(reg *pm_pwrstst)
 
 
 /* FIXME: DEPRECATED FUNCTION. Update OMAP4 code to use new functions ... */
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_state2string
  * @BRIEF		convert powerstate into string
  * @RETURNS		0 on success
@@ -237,7 +237,7 @@ unsigned int pwrdm_in_transition(reg *pm_pwrstst)
  * @param[in,out]	s: destination string (pre-allocated)
  * @param[in]		powerstate: powerstate
  * @DESCRIPTION		convert powerstate into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pwrdm_state2string(char s[6], pwrdm_state powerstate)
 {
 	if (s == NULL)
@@ -265,7 +265,7 @@ int pwrdm_state2string(char s[6], pwrdm_state powerstate)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_states_get
  * @BRIEF		extract power domain states (current, target)
  * @RETURNS		0 on success
@@ -277,7 +277,7 @@ int pwrdm_state2string(char s[6], pwrdm_state powerstate)
  *				(must be pre-allocated)
  * @DESCRIPTION		extract power domain states (current, target)
  *			from register into strings.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pwrdm_states_get(char *name, char pwst[6], char pwtgst[6])
 {
 	unsigned int pwrstst, pwrstctrl;

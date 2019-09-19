@@ -161,7 +161,7 @@ struct atc_item atc54xx_list[OMAP_ABE_ATC_LIST_SIZE] = {
 };
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		abe54xx_atc_status_show
  * @BRIEF		analyze ABE ATC configuration
  * @RETURNS		0 in case of success
@@ -169,7 +169,7 @@ struct atc_item atc54xx_list[OMAP_ABE_ATC_LIST_SIZE] = {
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in,out]	stream: output file stream
  * @DESCRIPTION		analyze ABE ATC configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int abe54xx_atc_status_show(FILE *stream)
 {
 	int i, j;

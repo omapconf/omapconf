@@ -75,14 +75,14 @@ const char *temp_dra7xx_sensor_names[TEMP_DRA7XX_ID_MAX + 1] = {
 	"FIXME"};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		temp_dra7xx_name_get
  * @BRIEF		return temperature sensor name
  * @RETURNS		temperature sensor ID
  *			NULL in case of incorrect id
  * @param[in]		id: temperature sensor ID
  * @DESCRIPTION		return temperature sensor name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *temp_dra7xx_name_get(temp_dra7xx_sensor_id id)
 {
 	if (id > TEMP_DRA7XX_ID_MAX)
@@ -92,7 +92,7 @@ const char *temp_dra7xx_name_get(temp_dra7xx_sensor_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION           temp_dra7xx_get
  * @BRIEF              return temperature measured by selected sensor
  *                     (in degrees celcius)
@@ -102,7 +102,7 @@ const char *temp_dra7xx_name_get(temp_dra7xx_sensor_id id)
  * @param[in, out]     temp: temperature (Celcius, min) (returned)
  * @DESCRIPTION                return temperature measured by selected sensor
  *                     (in degrees celcius)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int temp_dra7xx_get(temp_dra7xx_sensor_id id)
 {
 	int temp, ret;

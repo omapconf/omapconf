@@ -70,7 +70,7 @@ static unsigned int init_done = 0;
 static int per44xx_regtable_init(void);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		per44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -79,7 +79,7 @@ static int per44xx_regtable_init(void);
  * @param[in]		name: register name
  * @param[in,out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int per44xx_name2addr(char *name, unsigned int *addr)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -91,7 +91,7 @@ int per44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		per44xx_config_show
  * @BRIEF		analyze power configuration
  * @RETURNS		0 in case of success
@@ -99,7 +99,7 @@ int per44xx_name2addr(char *name, unsigned int *addr)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in,out]	stream: output file stream
  * @DESCRIPTION		analyze power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int per44xx_config_show(FILE *stream)
 {
 	unsigned int pm_pwstctrl;
@@ -447,14 +447,14 @@ int per44xx_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		per44xx_dependency_show
  * @BRIEF		analyse dependency configuration
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		analyse dependency configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int per44xx_dependency_show(FILE *stream)
 {
 	unsigned int cm_dynamicdep;
@@ -493,14 +493,14 @@ int per44xx_dependency_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		per44xx_dump
  * @BRIEF		dump PRCM PER registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		dump PRCM PER registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int per44xx_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -512,7 +512,7 @@ int per44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		per44xx_main
  * @BRIEF		PRCM L4PER main menu
  * @RETURNS		0 in case of success
@@ -522,7 +522,7 @@ int per44xx_dump(void)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		PRCM L4PER main menu
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int per44xx_main(int argc, char *argv[])
 {
 	int ret;
@@ -551,13 +551,13 @@ int per44xx_main(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		per44xx_regtable_init
  * @BRIEF		initialize regtable
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize regtable
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int per44xx_regtable_init(void)
 {
 	int i = 0;

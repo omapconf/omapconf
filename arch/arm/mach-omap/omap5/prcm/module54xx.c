@@ -69,11 +69,11 @@ static unsigned short mod54xx_init_done = 0;
 genlist mod54xx_list;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod5430_init
  * @BRIEF		initialize internal data for OMAP5430
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void mod5430_init(void)
 {
 	mod_info mod;
@@ -4302,11 +4302,11 @@ void mod5430_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod5432_init
  * @BRIEF		initialize internal data for OMAP5432
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void mod5432_init(void)
 {
 	mod_info mod;
@@ -8148,11 +8148,11 @@ void mod5432_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod54xx_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void mod54xx_init(void)
 {
 	if (cpu_get() == OMAP_5430)
@@ -8162,12 +8162,12 @@ void mod54xx_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod54xx_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void mod54xx_deinit(void)
 {
 	int i, count;
@@ -8186,13 +8186,13 @@ void mod54xx_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod54xx_list_get
  * @BRIEF		return the list of modules
  * @RETURNS		list of modules in case of success
  *			NULL in case of error
  * @DESCRIPTION		return the list of modules
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *mod54xx_list_get(void)
 {
 	mod54xx_init();
@@ -8201,14 +8201,14 @@ const genlist *mod54xx_list_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod54xx_count_get
  * @BRIEF		return the number of modules
  * @RETURNS		number of modules (> 0) in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
  * @DESCRIPTION		return the number of modules
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod54xx_count_get(void)
 {
 	int count;
@@ -8222,7 +8222,7 @@ int mod54xx_count_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod54xx_config_show
  * @BRIEF		analyze module power configuration
  * @RETURNS		0 in case of success
@@ -8231,7 +8231,7 @@ int mod54xx_count_get(void)
  * @param[in,out]	stream: output file
  * @param[in]		id: valid module ID
  * @DESCRIPTION		analyze module power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod54xx_config_show(FILE *stream, mod54xx_id id, unsigned int cm_clkctrl)
 {
 	char s[72];

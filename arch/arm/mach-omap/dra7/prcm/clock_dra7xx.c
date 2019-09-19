@@ -322,14 +322,14 @@ static const double sysclk_dra7xx_rate_table[SYSCLK_DRA7XX_ID_MAX] = { /* MHz */
 };
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clk_dra7xx_name_get
  * @BRIEF		return clock name
  * @RETURNS		clock name on success
  *			NULL in case of error
  * @param[in]		id: clock ID
  * @DESCRIPTION		return clock name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *clk_dra7xx_name_get(clk_dra7xx_id id)
 {
 	CHECK_ARG_LESS_THAN(id, CLK_DRA7XX_ID_MAX + 1, NULL);
@@ -337,7 +337,7 @@ const char *clk_dra7xx_name_get(clk_dra7xx_id id)
 	return clk_dra7xx_name_table[id];
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clk_dra7xx_sysclk1_rate_get
  * @BRIEF		Return the mandatory system clock speed, in MHz.
  * @RETURNS		> 0 system clock speed, in MHz.
@@ -345,7 +345,7 @@ const char *clk_dra7xx_name_get(clk_dra7xx_id id)
  *			OMAPCONF_ERR_UNEXPECTED
  * @param[in]		none
  * @DESCRIPTION		Return the mandatory system clock speed, in MHz.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double clk_dra7xx_sysclk1_rate_get(void)
 {
 	unsigned int reg_val;
@@ -423,7 +423,7 @@ double clk_dra7xx_sysclk1_rate_get(void)
 	out_clk_speed);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clk_dra7xx_rate_get
  * @BRIEF		convert bitfield value from register into string
  * @RETURNS		> 0 clock speed in MHz
@@ -435,7 +435,7 @@ double clk_dra7xx_sysclk1_rate_get(void)
  *			frequencies whatever its status
  *			(e.g. audit, clock tree, etc)
  * @DESCRIPTION		convert bitfield value from register into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double clk_dra7xx_rate_get(clk_dra7xx_id clk_id,
 	unsigned short ignore)
 {

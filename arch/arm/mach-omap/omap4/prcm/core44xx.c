@@ -70,7 +70,7 @@ static unsigned int init_done = 0;
 static int core44xx_regtable_init(void);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		core44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -79,7 +79,7 @@ static int core44xx_regtable_init(void);
  * @param[in]		name: register name
  * @param[in,out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int core44xx_name2addr(char *name, unsigned int *addr)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -91,7 +91,7 @@ int core44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		core44xx_config_show
  * @BRIEF		analyze CORE power configuration
  * @RETURNS		0 in case of success
@@ -99,7 +99,7 @@ int core44xx_name2addr(char *name, unsigned int *addr)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in,out]	stream: output file stream
  * @DESCRIPTION		analyze CORE power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int core44xx_config_show(FILE *stream)
 {
 	unsigned int pm_pwstctrl;
@@ -402,7 +402,7 @@ int core44xx_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		core44xx_dependency_show
  * @BRIEF		analyse CORE dependency configuration
  * @RETURNS		0 in case of success
@@ -410,7 +410,7 @@ int core44xx_config_show(FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in, out]	stream: output file stream
  * @DESCRIPTION		analyse CORE dependency configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int core44xx_dependency_show(FILE *stream)
 {
 	unsigned int cm_l3_1_dynamicdep;
@@ -811,14 +811,14 @@ int core44xx_dependency_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		core44xx_dump
  * @BRIEF		dump PRCM CORE registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		dump PRCM CORE registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int core44xx_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -830,7 +830,7 @@ int core44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		core44xx_main
  * @BRIEF		PRCM CORE menu
  * @RETURNS		0 in case of success
@@ -840,7 +840,7 @@ int core44xx_dump(void)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		PRCM CORE menu
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int core44xx_main(int argc, char *argv[])
 {
 	int ret;
@@ -869,12 +869,12 @@ int core44xx_main(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		core44xx_regtable_init
  * @BRIEF		initialize fields of reg_table
  * @RETURNS		0
  * @DESCRIPTION		initialize fields of reg_table
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int core44xx_regtable_init(void)
 {
 	int i = 0;

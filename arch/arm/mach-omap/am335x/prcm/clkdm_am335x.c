@@ -86,11 +86,11 @@ static unsigned short clkdm_am335x_init_done = 0;
 genlist clkdm_am335x_list;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm_am335x_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void clkdm_am335x_init(void)
 {
 	clockdm_info clkdm;
@@ -265,12 +265,12 @@ void clkdm_am335x_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm_am335x_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void clkdm_am335x_deinit(void)
 {
 	if (clkdm_am335x_init_done) {
@@ -282,13 +282,13 @@ void clkdm_am335x_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm_am335x_list_get
  * @BRIEF		return the list of clock domains
  * @RETURNS		list of clock domains in case of success
  *			NULL in case of error
  * @DESCRIPTION		return the list of clock domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *clkdm_am335x_list_get(void)
 {
 	clkdm_am335x_init();
@@ -297,14 +297,14 @@ const genlist *clkdm_am335x_list_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm_am335x_count_get
  * @BRIEF		return the number of clock domains
  * @RETURNS		number of clock domains (> 0) in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
  * @DESCRIPTION		return the number of clock domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int clkdm_am335x_count_get(void)
 {
 	int count;
@@ -318,14 +318,14 @@ int clkdm_am335x_count_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm_am335x_name_get
  * @BRIEF		return clock domain name
  * @RETURNS		clock domain name on success
  *			NULL in case of error
  * @param[in]		id: clock domain ID
  * @DESCRIPTION		return clock domain name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *clkdm_am335x_name_get(clkdm_am335x_id id)
 {
 	CHECK_ARG_LESS_THAN(id, CLKDM_AM335X_ID_MAX, NULL);
@@ -334,7 +334,7 @@ const char *clkdm_am335x_name_get(clkdm_am335x_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm_am335x_status_get
  * @BRIEF		return clock  domain status for AM335X
  * @RETURNS		clock domain status on success
@@ -342,7 +342,7 @@ const char *clkdm_am335x_name_get(clkdm_am335x_id id)
  * @param[in]		cm_clkstctrl: CM_xyz_CLKSTCTRL register content
  * @param[in]		clkstctrl_bit: domain bit in CM_xyz_CLKSTCTRL register
  * @DESCRIPTION		return clock domain status
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 clkdm_status clkdm_am335x_status_get(unsigned int cm_clkstctrl,
 	unsigned int clkstctrl_bit)
 {

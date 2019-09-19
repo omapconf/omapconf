@@ -69,11 +69,11 @@ static unsigned short mod_dra7xx_init_done;
 genlist mod_dra7xx_list;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_dra7xx_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void mod_dra7xx_init(void)
 {
 	mod_info mod;
@@ -479,12 +479,12 @@ void mod_dra7xx_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_dra7xx_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void mod_dra7xx_deinit(void)
 {
 	int i, count;
@@ -503,13 +503,13 @@ void mod_dra7xx_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_dra7xx_list_get
  * @BRIEF		return the list of modules
  * @RETURNS		list of modules in case of success
  *			NULL in case of error
  * @DESCRIPTION		return the list of modules
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *mod_dra7xx_list_get(void)
 {
 	mod_dra7xx_init();
@@ -518,14 +518,14 @@ const genlist *mod_dra7xx_list_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_dra7xx_count_get
  * @BRIEF		return the number of modules
  * @RETURNS		number of modules (> 0) in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
  * @DESCRIPTION		return the number of modules
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod_dra7xx_count_get(void)
 {
 	int count;

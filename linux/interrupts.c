@@ -56,7 +56,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		irq_snapshot_save
  * @BRIEF		save a copy of the /proc/interrupts file
  * @RETURNS		0 in case of success
@@ -65,7 +65,7 @@
  *			IRQ_ERR_UNEXPECTED
  * @param[in,out]	file: copy file name
  * @DESCRIPTION		save a copy of the /proc/interrupts file
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int irq_snapshot_save(char *file)
 {
 	FILE *from, *to;
@@ -126,7 +126,7 @@ int irq_snapshot_save(char *file)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		irq_total_count_get
  * @BRIEF		return the total number of times CPU was interrupted
  * @RETURNS		0 in case of success
@@ -135,7 +135,7 @@ int irq_snapshot_save(char *file)
  *			IRQ_ERR_INTERNAL
  * @param[in,out]	fp: file descriptor of an opened /proc/interrupts file
  * @DESCRIPTION		return the total number of times CPU was interrupted
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int irq_total_count_get(FILE *fp)
 {
 	unsigned int cpu_count;
@@ -221,7 +221,7 @@ int irq_total_count_get(FILE *fp)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		irq_count_get
  * @BRIEF		return the number of times a given interrupt woke up
  *			the CPU
@@ -233,7 +233,7 @@ int irq_total_count_get(FILE *fp)
  * @param[in,out]	fp: file descriptor of an opened /proc/interrupts file
  * @DESCRIPTION		return the number of times a given interrupt woke up
  *			the CPU
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int irq_count_get(unsigned int n, FILE *fp)
 {
 	unsigned int cpu_count;
@@ -335,7 +335,7 @@ int irq_count_get(unsigned int n, FILE *fp)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		irq_dev_name_get
  * @BRIEF		return the name of the device associated to the
  *			interrupt line n
@@ -347,7 +347,7 @@ int irq_count_get(unsigned int n, FILE *fp)
  *				line n
  * @DESCRIPTION		return the name of the device associated to the
  *			interrupt line n
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *irq_dev_name_get(unsigned int n, FILE *fp, char name[256])
 {
 	unsigned int cpu_count;
@@ -455,7 +455,7 @@ char *irq_dev_name_get(unsigned int n, FILE *fp, char name[256])
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		irq_occurred
  * @BRIEF		check if an interrupt fired between 2 /proc/interrupts
  *			snapshots
@@ -468,7 +468,7 @@ char *irq_dev_name_get(unsigned int n, FILE *fp, char name[256])
  *				file
  * @DESCRIPTION		check if an interrupt fired between 2 /proc/interrupts
  *			snapshots
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int irq_occurred(unsigned int n, FILE *fp1, FILE *fp2)
 {
 	int count1, count2;
@@ -493,7 +493,7 @@ int irq_occurred(unsigned int n, FILE *fp1, FILE *fp2)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		irq_occurred_list_get
  * @BRIEF		parse 2 snapshots of /proc/interrupts file and fill list
  *			with information about occurred interrupt(s)
@@ -505,7 +505,7 @@ int irq_occurred(unsigned int n, FILE *fp1, FILE *fp2)
  * @param[in,out]	list: generic list where to store irq stats
  * @DESCRIPTION		parse 2 snapshots of /proc/interrupts file and fill list
  *			with information about occurred interrupt(s)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int irq_occurred_list_get(FILE *fp1, FILE *fp2, genlist *list)
 {
 	unsigned int occurred_irqs_count;
@@ -546,7 +546,7 @@ int irq_occurred_list_get(FILE *fp1, FILE *fp2, genlist *list)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		irq_occurred_list_sort
  * @BRIEF		sort list by irq occurrence decreasing order
  * @RETURNS		0 in case of success
@@ -555,7 +555,7 @@ int irq_occurred_list_get(FILE *fp1, FILE *fp2, genlist *list)
  * @param[in,out]	list: populated list of IRQ stats.
  * @DESCRIPTION		sort list by irq occurrence decreasing order.
  *			Use bubble sort algorithm.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int irq_occurred_list_sort(genlist *list)
 {
 	unsigned int i, max, tmpmax;

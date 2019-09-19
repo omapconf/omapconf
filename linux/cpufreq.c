@@ -68,7 +68,7 @@ static char cpufreq_scaling_setspeed_file[60] =
 static int cpufreq_opp_nbr = -1;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpufreq_total_transitions_get
  * @BRIEF		return the total number of OPP transitions that happened
  *			since start
@@ -77,7 +77,7 @@ static int cpufreq_opp_nbr = -1;
  * @param[in]		none
  * @DESCRIPTION		return the total number of OPP transitions that happened
  *			since start
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 uint64_t cpufreq_total_transitions_get(void)
 {
 	FILE *fp;
@@ -105,14 +105,14 @@ uint64_t cpufreq_total_transitions_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpufreq_time_in_state_get
  * @BRIEF		return the time spent in a given OPP
  * @RETURNS		time spent in given OPP (in milliseconds)
  *			0 in case of error
  * @param[in]		opp_id: OPP
  * @DESCRIPTION		return the time spent in a given OPP
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 uint64_t cpufreq_time_in_state_get(unsigned int opp)
 {
 	FILE *fp;
@@ -146,14 +146,14 @@ uint64_t cpufreq_time_in_state_get(unsigned int opp)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpufreq_scaling_governor_get
  * @BRIEF		return the name of the current scaling governor
  * @RETURNS		name of the current scaling governor
  *			NULL in case of error
  * @param[in,out]	name: name of the current scaling governor (returned)
  * @DESCRIPTION		return the name of the current scaling governor
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *cpufreq_scaling_governor_get(char name[CPUFREQ_GOV_MAX_NAME_LENGTH])
 {
 	FILE *fp;
@@ -188,7 +188,7 @@ char *cpufreq_scaling_governor_get(char name[CPUFREQ_GOV_MAX_NAME_LENGTH])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpufreq_scaling_governor_set
  * @BRIEF		set scaling governor and return previous governor
  * @RETURNS		0 in case of success
@@ -199,7 +199,7 @@ char *cpufreq_scaling_governor_get(char name[CPUFREQ_GOV_MAX_NAME_LENGTH])
  * @param[in,out]	prev_gov: name of the previous scaling governor
  *				(returned)
  * @DESCRIPTION		set scaling governor and return previous governor
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cpufreq_scaling_governor_set(char new_gov[CPUFREQ_GOV_MAX_NAME_LENGTH],
 	char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH])
 {
@@ -257,14 +257,14 @@ cpufreq_scaling_governor_set_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpufreq_cur_freq_get
  * @BRIEF		return the current CPU frequency (KHz)
  * @RETURNS		current CPU frequency (KHz)
  *			0 in case of error
  * @param[in]		none
  * @DESCRIPTION		return the current CPU frequency (KHz)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpufreq_cur_freq_get(void)
 {
 	FILE *fp;
@@ -291,14 +291,14 @@ unsigned int cpufreq_cur_freq_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpufreq_opp_nbr_get
  * @BRIEF		return the number of OPP available
  * @RETURNS		> 0 the number of OPP available
  *			0 in case of error
  * @param[in]		none
  * @DESCRIPTION		return the number of OPP available
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpufreq_opp_nbr_get(void)
 {
 	FILE *fp;
@@ -334,7 +334,7 @@ unsigned int cpufreq_opp_nbr_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpufreq_set
  * @BRIEF		change MPU OPP using cpufreq userspace governor.
  * @RETURNS		0 in case of success
@@ -342,7 +342,7 @@ unsigned int cpufreq_opp_nbr_get(void)
  *			CPUFREQ_ERR_UNEXPECTED
  * @param[in]		freq_mpu: MPU frequency to be set (KHz)
  * @DESCRIPTION		change MPU OPP using cpufreq userspace governor.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cpufreq_set(unsigned int freq_mpu)
 {
 	int ret;

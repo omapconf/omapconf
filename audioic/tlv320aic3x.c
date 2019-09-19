@@ -187,14 +187,14 @@ static void tlv320aic3x_dumpregs_usage(void)
 	printf("  Warning: prefix '0x' is mandatory.\n");
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tlv320aic3x_dumpregs
  * @BRIEF		dump registers from table given as argument
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		none
  * @DESCRIPTION		dump registers from table given as argument
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int tlv320aic3x_dumpregs(int argc, char *argv[])
 {
 	unsigned int i = 0;
@@ -297,7 +297,7 @@ int tlv320aic3x_dumpregs(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tlv320aic3x_main
  * @BRIEF		main entry point
  * @RETURNS		0 in case of success
@@ -306,7 +306,7 @@ int tlv320aic3x_dumpregs(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		main entry point
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int tlv320aic3x_main(int argc, char *argv[])
 {
 	int ret;

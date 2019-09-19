@@ -142,7 +142,7 @@ static const name_desc_val_table trace_config_defaults_table[] =  {
 
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		counters44xx_main
  * @BRIEF		main entry point
  * @RETURNS		0 in case of success
@@ -153,7 +153,7 @@ static const name_desc_val_table trace_config_defaults_table[] =  {
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		Counters functions main entry point
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int counters44xx_main(int argc, char *argv[]);
 
 

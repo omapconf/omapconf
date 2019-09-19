@@ -82,11 +82,11 @@ static void print_rate(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LE
 #define OPP_MAX_RETRY		10
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void opp_init(void)
 {
 	if (cpu_is_omap44xx()) {
@@ -104,12 +104,12 @@ void opp_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void opp_deinit(void)
 {
 	if (cpu_is_omap44xx()) {
@@ -127,7 +127,7 @@ void opp_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_s2id
  * @BRIEF		convert OPP provided as a string (as defined in opp.h)
  *			into a plaftorm-specific OPP ID (integer).
@@ -136,7 +136,7 @@ void opp_deinit(void)
  * @param[in]		opp: OPP provided as a string (as defined in opp.h)
  * @DESCRIPTION		convert OPP provided as a string (as defined in opp.h)
  *			into a plaftorm-specific OPP ID (integer).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int opp_s2id(const char *opp)
 {
 	if (cpu_is_omap44xx()) {
@@ -155,14 +155,14 @@ int opp_s2id(const char *opp)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_list_get
  * @BRIEF		return the list of OPP of a given voltage domain
  * @RETURNS		list of OPP of a given voltage domain in case of success
  *			NULL in case of error
  * @param[in]		voltdm: voltage domain name (as defined in voltdm.h)
  * @DESCRIPTION		return the list of OPP of a given voltage domain
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *opp_list_get(const char *voltdm)
 {
 	int vdd_id;
@@ -191,7 +191,7 @@ const genlist *opp_list_get(const char *voltdm)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_count_get
  * @BRIEF		return the number of OPP(s) of a given voltage domain
  * @RETURNS		number of OPP(s) (> 0) in case of success
@@ -199,7 +199,7 @@ const genlist *opp_list_get(const char *voltdm)
  *			OMAPCONF_ERR_ARG
  * @param[in]		voltdm: voltage domain name (as defined in voltdm.h)
  * @DESCRIPTION		return the number of OPP(s) of a given voltage domain
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int opp_count_get(const char *voltdm)
 {
 	int vdd_id;
@@ -228,7 +228,7 @@ int opp_count_get(const char *voltdm)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_set
  * @BRIEF		change OPP of a given voltage domain.
  * @RETURNS		0 in case of success
@@ -238,7 +238,7 @@ int opp_count_get(const char *voltdm)
  * @param[in]		voltdm: voltage domain name (as defined in voltdm.h)
  * @param[in]		opp: name of OPP to be set (as defined in opp.h)
  * @DESCRIPTION		change OPP of a given voltage domain.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int opp_set(const char *voltdm, const char *opp)
 {
 	int vdd_id, opp_id;
@@ -270,7 +270,7 @@ int opp_set(const char *voltdm, const char *opp)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_by_rate_get
  * @BRIEF		return the current voltage domain OPP name,
  *			searched by clock rates.
@@ -281,7 +281,7 @@ int opp_set(const char *voltdm, const char *opp)
  *			could not be found
  * @DESCRIPTION		return the current voltage domain OPP,
  *			searched by clock rates.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *opp_by_rate_get(const char *voltdm, unsigned short quiet)
 {
 	const char *opp = NULL;
@@ -325,7 +325,7 @@ const char *opp_by_rate_get(const char *voltdm, unsigned short quiet)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_by_voltage_get
  * @BRIEF		return the current voltage domain OPP name,
  *			searched by voltages.
@@ -336,7 +336,7 @@ const char *opp_by_rate_get(const char *voltdm, unsigned short quiet)
  *			could not be found
  * @DESCRIPTION		return the current voltage domain OPP name,
  *			searched by voltages.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 #if 0
 const char *opp_by_voltage_get(const char *voltdm, unsigned short quiet)
 {
@@ -415,7 +415,7 @@ const char *opp_by_voltage_get(const char *voltdm, unsigned short quiet)
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_get
  * @BRIEF		return the current voltage domain OPP name
  * @RETURNS		current voltage domain OPP name (as defined in opp.h)
@@ -425,7 +425,7 @@ const char *opp_by_voltage_get(const char *voltdm, unsigned short quiet)
  *			could not be found
  * @DESCRIPTION		return the current voltage domain OPP name. Search it by
  *			voltage first, then if failed search it by rates.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *opp_get(const char *voltdm, unsigned int quiet)
 {
 	const char *opp = NULL;
@@ -482,10 +482,10 @@ opp_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		get_rate_and_por
  * @BRIEF		get the rate and por_rate for a specific module.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static void get_rate_and_por(const char *mod_name, const char *opp_s,
 		int *rate, int *rate_por)
 {
@@ -498,12 +498,12 @@ static void get_rate_and_por(const char *mod_name, const char *opp_s,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		check_mmode_and_print
  * @BRIEF		check module mode and print the rate with indicating 1
  *			at behind if it is in disabled mode, or print regularly.
  *			And then increment the row number by 1.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static void check_mmode_and_print(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
 		unsigned int *row, const char *mod_name, int rate)
 {
@@ -521,10 +521,10 @@ static void check_mmode_and_print(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		print_rate
  * @BRIEF		print the frequency and increment the row by 1.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static void print_rate(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
 		unsigned int *row, int rate)
 {
@@ -535,7 +535,7 @@ static void print_rate(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LE
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_show
  * @BRIEF		show current operating voltages and key clock rates.
  * @RETURNS		0 in case of success
@@ -544,7 +544,7 @@ static void print_rate(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LE
  *			OMAPCONF_ERR_INTERNAL
  * @param[in,out]	stream: output file stream (opened, != NULL)
  * @DESCRIPTION		show current operating voltages and key clock rates.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int opp_show(FILE *stream)
 {
 	int start = 0, end = 0;
@@ -1130,7 +1130,7 @@ int opp_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_audit
  * @BRIEF		OPP (Operating Point) audit. Assess for each OPP that
  *			both nominal voltage and frequency are aligned with
@@ -1144,7 +1144,7 @@ int opp_show(FILE *stream)
  * @param[in,out]	err_nbr: pointer to return audit error number
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		OPP (Operating Point) audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *opp_audit(FILE *stream, const char *voltdm,
 	unsigned int *err_nbr, unsigned int *wng_nbr)
 {

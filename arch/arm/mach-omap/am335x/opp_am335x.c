@@ -87,11 +87,11 @@ static const char
 static unsigned short opp_am335x_init_done;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_am335x_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void opp_am335x_init(void)
 {
 	static const opp_t core_opp_50       = {OPP_50,		950000,  50000};
@@ -177,12 +177,12 @@ void opp_am335x_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_am335x_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void opp_am335x_deinit(void)
 {
 	if (opp_am335x_init_done) {
@@ -196,7 +196,7 @@ void opp_am335x_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_am335x_id_get
  * @BRIEF		convert OPP provided as a string (as defined in opp.h)
  *			into a plaftorm-specific OPP ID (integer).
@@ -205,7 +205,7 @@ void opp_am335x_deinit(void)
  * @param[in]		opp: OPP provided as a string (as defined in opp.h)
  * @DESCRIPTION		convert OPP provided as a string (as defined in opp.h)
  *			into a plaftorm-specific OPP ID (integer).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int opp_am335x_id_get(const char *opp)
 {
 	CHECK_NULL_ARG(opp, OMAPCONF_ERR_ARG);
@@ -229,7 +229,7 @@ int opp_am335x_id_get(const char *opp)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_am335x_count_get
  * @BRIEF		return the number of OPP(s) of a given voltage domain
  * @RETURNS		number of OPP(s) (> 0) in case of success
@@ -237,7 +237,7 @@ int opp_am335x_id_get(const char *opp)
  *			OMAPCONF_ERR_ARG
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		return the number of OPP(s) of a given voltage domain
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int opp_am335x_count_get(voltdm_am335x_id vdd_id)
 {
 	int count;
@@ -253,14 +253,14 @@ int opp_am335x_count_get(voltdm_am335x_id vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_am335x_list_get
  * @BRIEF		return the list of OPP of a given voltage domain
  * @RETURNS		list of OPP of a given voltage domain in case of success
  *			NULL in case of error
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		return the list of OPP of a given voltage domain
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *opp_am335x_list_get(voltdm_am335x_id vdd_id)
 {
 	CHECK_ARG_LESS_THAN(vdd_id, VDD_AM335X_ID_MAX, NULL);
@@ -271,7 +271,7 @@ const genlist *opp_am335x_list_get(voltdm_am335x_id vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_am335x_by_rate_get
  * @BRIEF		return the current voltage domain OPP name,
  *			searched by clock rates.
@@ -280,7 +280,7 @@ const genlist *opp_am335x_list_get(voltdm_am335x_id vdd_id)
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		return the current voltage domain OPP name,
  *			searched by clock rates.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *opp_am335x_by_rate_get(voltdm_am335x_id vdd_id)
 {
 	const char *opp_name = NULL;
@@ -421,7 +421,7 @@ opp_am335x_by_rate_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_am335x_get
  * @BRIEF		return the current voltage domain OPP name.
  * @RETURNS		current voltage domain OPP name (as defined in opp.h)
@@ -429,7 +429,7 @@ opp_am335x_by_rate_get_end:
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		return the current voltage domain OPP name. Search it by
  *			voltage first, then if failed search it by rates.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *opp_am335x_get(voltdm_am335x_id vdd_id)
 {
 	CHECK_ARG_LESS_THAN(vdd_id, VDD_AM335X_ID_MAX, NULL);

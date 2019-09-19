@@ -66,14 +66,14 @@ static const char
 	"Enabled"};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep_type_name_get
  * @BRIEF		return type name
  * @RETURNS		name on success
  *			NULL in case of error
  * @param[in]		type: dependency type (static/dynamic)
  * @DESCRIPTION		return type name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *clkdmdep_type_name_get(clkdmdep_type type)
 {
 	CHECK_ARG_LESS_THAN(type, CLKDMDEP_TYPE_MAX, NULL);
@@ -82,14 +82,14 @@ const char *clkdmdep_type_name_get(clkdmdep_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep_ctrl_type_name_get
  * @BRIEF		return control type name
  * @RETURNS		name on success
  *			NULL in case of error
  * @param[in]		type: dependency control type (RW/RO/...)
  * @DESCRIPTION		return control type name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *clkdmdep_ctrl_type_name_get(clkdmdep_ctrl_type type)
 {
 	CHECK_ARG_LESS_THAN(type, CLKDMDEP_CONTROL_TYPE_MAX, NULL);
@@ -98,14 +98,14 @@ const char *clkdmdep_ctrl_type_name_get(clkdmdep_ctrl_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep_status_name_get
  * @BRIEF		return status name
  * @RETURNS		name on success
  *			NULL in case of error
  * @param[in]		st: status (en/dis)
  * @DESCRIPTION		return status name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *clkdmdep_status_name_get(clkdmdep_status st)
 {
 	CHECK_ARG_LESS_THAN(st, CLKDMDEP_STATUS_MAX, NULL);

@@ -69,14 +69,14 @@ static const unsigned int
 		{OMAP44XX_EMIF2_PERF_CNT_1, OMAP44XX_EMIF2_PERF_CNT_2} };
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_init_regtable
  * @BRIEF		initialize regtable
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @param[in]		none
  * @DESCRIPTION		initialize regtable
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int emif44xx_init_regtable(void)
 {
 	int i = 0;
@@ -302,7 +302,7 @@ int emif44xx_init_regtable(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -311,7 +311,7 @@ int emif44xx_init_regtable(void)
  * @param[in]		name: register name
  * @param[in,out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int emif44xx_name2addr(char *name, unsigned int *addr)
 {
 	int ret;
@@ -329,7 +329,7 @@ int emif44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_perf_cnt_configure
  * @BRIEF		configure emif performance counter
  * @RETURNS		0 in case of success
@@ -341,7 +341,7 @@ int emif44xx_name2addr(char *name, unsigned int *addr)
  * @param[in]		addr_sel: Address space (chip select) filtering.
  *			Refer to ENUM
  * @DESCRIPTION		configure emif performance counter
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int emif44xx_perf_cnt_configure(emif44xx_ids emif_id,
 	emif44xx_perf_cnt_ids cnt_id, emif44xx_perf_cnt_filter_ids filter,
 	int conn_id, emif44xx_memaddrspace addr_sel)
@@ -464,7 +464,7 @@ int emif44xx_perf_cnt_configure(emif44xx_ids emif_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_perf_cnt_get_time
  * @BRIEF		return L3 clock cycles elapsed since EMIF is brought
  *			out of reset
@@ -473,7 +473,7 @@ int emif44xx_perf_cnt_configure(emif44xx_ids emif_id,
  * @param[in]		emif_id: EMIF instance
  * @DESCRIPTION		return L3 clock cycles elapsed since EMIF is brought
  *			out of reset
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int emif44xx_perf_cnt_get_time(emif44xx_ids emif_id)
 {
 	int ret;
@@ -504,7 +504,7 @@ unsigned int emif44xx_perf_cnt_get_time(emif44xx_ids emif_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_perf_cnt_get_count
  * @BRIEF		retrieve performance counter value as configured (filtered)
  * @RETURNS		performance counter value as configured
@@ -512,7 +512,7 @@ unsigned int emif44xx_perf_cnt_get_time(emif44xx_ids emif_id)
  * @param[in]		emif_id: EMIF instance
  * @param[in]		cnt_id: performance counter ID
  * @DESCRIPTION		retrieve performance counter value as configured (filtered)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int emif44xx_perf_cnt_get_count(emif44xx_ids emif_id,
 	emif44xx_perf_cnt_ids cnt_id)
 {
@@ -541,13 +541,13 @@ unsigned int emif44xx_perf_cnt_get_count(emif44xx_ids emif_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_cs_count_get
  * @BRIEF		return the number of Chip Select (CS) used
  * @RETURNS		number of Chip Select (CS) used (1 or 2)
  * @DESCRIPTION		return the number of Chip Select (CS) used by analyzing
  *			EMIF[1-2]_SDRAM_CONFIG configuration.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char emif44xx_cs_count_get(void)
 {
 	unsigned int emif1_config, emif2_config;
@@ -575,14 +575,14 @@ unsigned char emif44xx_cs_count_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_dump
  * @BRIEF		dump EMIF[1-2] registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		dump EMIF[1-2] registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int emif44xx_dump(void)
 {
 	int ret;
@@ -598,7 +598,7 @@ int emif44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emif44xx_main
  * @BRIEF		EMIF main menu
  * @RETURNS		0 in case of success
@@ -608,7 +608,7 @@ int emif44xx_dump(void)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int emif44xx_main(int argc, char *argv[])
 {
 	int ret;

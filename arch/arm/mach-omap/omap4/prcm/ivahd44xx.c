@@ -59,14 +59,14 @@ reg_table prcm_iva_reg_table[PRCM_IVA_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ivahd44xx_regtable_init
  * @BRIEF		initialize regtable
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @param[in]		none
  * @DESCRIPTION		initialize regtable
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int ivahd44xx_regtable_init(void)
 {
 	int i = 0;
@@ -104,7 +104,7 @@ static int ivahd44xx_regtable_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ivahd44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -113,7 +113,7 @@ static int ivahd44xx_regtable_init(void)
  * @param[in,out]	name: register name
  * @param[in,out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ivahd44xx_name2addr(char *name, unsigned int *addr)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -125,7 +125,7 @@ int ivahd44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ivahd44xx_config_show
  * @BRIEF		analyze IVAHD power configuration
  * @RETURNS		0 in case of success
@@ -133,7 +133,7 @@ int ivahd44xx_name2addr(char *name, unsigned int *addr)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyze IVAHD power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ivahd44xx_config_show(FILE *stream)
 {
 	unsigned int pm_pwstctrl;
@@ -192,7 +192,7 @@ int ivahd44xx_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ivahd44xx_dependency_show
  * @BRIEF		analyse IVAHD dependency configuration
  * @RETURNS		0 in case of success
@@ -200,7 +200,7 @@ int ivahd44xx_config_show(FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyse IVAHD dependency configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ivahd44xx_dependency_show(FILE *stream)
 {
 	unsigned int cm_staticdep;
@@ -243,14 +243,14 @@ int ivahd44xx_dependency_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ivahd44xx_dump
  * @BRIEF		dump PRCM IVAHD registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		dump PRCM IVAHD registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ivahd44xx_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -262,7 +262,7 @@ int ivahd44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ivahd44xx_main
  * @BRIEF		PRCM IVAHD main menu
  * @RETURNS		0 in case of success
@@ -272,7 +272,7 @@ int ivahd44xx_dump(void)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		PRCM IVAHD main menu
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ivahd44xx_main(int argc, char *argv[])
 {
 	int ret;

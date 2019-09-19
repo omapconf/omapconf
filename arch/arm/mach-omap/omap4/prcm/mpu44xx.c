@@ -131,13 +131,13 @@ static char omap44xx_prm_irq_names
 static unsigned int init_done = 0;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpu44xx_regtable_init
  * @BRIEF		initialize reg_table fields (not possible statically)
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize reg_table fields (not possible statically)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpu44xx_regtable_init(void)
 {
 	int i = 0;
@@ -215,7 +215,7 @@ int mpu44xx_regtable_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpu44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -224,7 +224,7 @@ int mpu44xx_regtable_init(void)
  * @param[in]		name: register name
  * @param[in, out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpu44xx_name2addr(char *name, unsigned int *addr)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -236,7 +236,7 @@ int mpu44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpu44xx_config_show
  * @BRIEF		analyze MPU power configuration
  * @RETURNS		0 in case of success
@@ -244,7 +244,7 @@ int mpu44xx_name2addr(char *name, unsigned int *addr)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyze MPU power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpu44xx_config_show(FILE *stream)
 {
 	unsigned int pm_pda_cpu0_pwrstctrl;
@@ -466,7 +466,7 @@ int mpu44xx_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpu44xx_dependency_show
  * @BRIEF		analyse MPU dependency configuration
  * @RETURNS		0 in case of success
@@ -474,7 +474,7 @@ int mpu44xx_config_show(FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyse MPU dependency configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpu44xx_dependency_show(FILE *stream)
 {
 	unsigned int cm_mpu_staticdep;
@@ -567,7 +567,7 @@ int mpu44xx_dependency_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpu44xx_irq_show
  * @BRIEF		analyse MPU PRM IRQ configuration
  * @RETURNS		0 in case of success
@@ -575,7 +575,7 @@ int mpu44xx_dependency_show(FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]
  * @DESCRIPTION		analyse MPU PRM IRQ configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpu44xx_irq_show(FILE *stream)
 {
 	unsigned int prm_irqstatus_mpu;
@@ -639,14 +639,14 @@ int mpu44xx_irq_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpu44xx_dump
  * @BRIEF		dump PRCM MPU registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		dump PRCM MPU registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpu44xx_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -658,7 +658,7 @@ int mpu44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpu44xx_main
  * @BRIEF		PRCM MPU main menu
  * @RETURNS		0 in case of success
@@ -668,7 +668,7 @@ int mpu44xx_dump(void)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		PRCM MPU main menu
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpu44xx_main(int argc, char *argv[])
 {
 	int ret;

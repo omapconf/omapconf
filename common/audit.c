@@ -69,7 +69,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		audit_performances
  * @BRIEF		audit performances (CPU Load, C-States, OPP,
  *			memory bandwidth, timers, interrrupts, ...).
@@ -82,7 +82,7 @@
  * @param[in]		delay: initial wait delay before starting audit (in sec)
  * @DESCRIPTION		audit performance (CPU Load, C-States, OPP,
  *			memory bandwidth, timers, interrrupts, ...).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int audit_performances(FILE *stream, unsigned int duration, unsigned int delay)
 {
 	int ret = 0;
@@ -882,7 +882,7 @@ audit_performances_exit:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		audit_performances_main
  * @BRIEF		analyze command-line arguments & call performance audit
  *			with selected options.
@@ -899,7 +899,7 @@ audit_performances_exit:
  *					argv[2]=delay
  * @DESCRIPTION		analyze command-line arguments & call performance audit
  *			with selected options.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int audit_performances_main(int argc, char *argv[])
 {
 	int ret;

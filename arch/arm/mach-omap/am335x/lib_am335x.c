@@ -59,7 +59,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		reg_am335x_addr_find
  * @BRIEF		find reg. addr corresponding to reg. name given as
  *			argument
@@ -69,7 +69,7 @@
  * @param[in,out]	addr: reg. addr corresponding to reg. name
  * @DESCRIPTION		find reg. addr corresponding to reg. name given as
  *			argument
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int reg_am335x_addr_find(char *name, unsigned int* addr)
 {
 	dprintf("%s(): looking for addr of register %s...\n", __func__, name);
@@ -88,7 +88,7 @@ reg_addr_found:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		am335x_name2addr
  * @BRIEF		convert register name to address
  * @RETURNS		0 on success
@@ -98,7 +98,7 @@ reg_addr_found:
  * @param[in]		mods: array with AM335X modules to corresponding registers
  * @param[in]		mods_regcount: array with number of elements of each module
  * @DESCRIPTION		convert register name to address
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int am335x_name2addr(char *name, unsigned int *addr, reg ****mods)
 {
 	int i, j;

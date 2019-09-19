@@ -53,7 +53,7 @@
 #include <cpuinfo.h>
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		err_arg_too_many_msg_show
  * @BRIEF		print standard "too many arguments" error message.
  * @RETURNS		OMAPCONF_ERR_ARG
@@ -62,7 +62,7 @@
  *			followed by help of given category.
  *			If cat == HELP_CATEGORY_MAX, no specific help section
  *			will be printed.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int err_arg_too_many_msg_show(help_category cat)
 {
 	if (cat != HELP_CATEGORY_MAX) {
@@ -79,7 +79,7 @@ int err_arg_too_many_msg_show(help_category cat)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		err_arg_missing_msg_show
  * @BRIEF		print standard "missing argument" error message.
  * @RETURNS		OMAPCONF_ERR_ARG
@@ -88,7 +88,7 @@ int err_arg_too_many_msg_show(help_category cat)
  *			followed by help of given category.
  *			If cat == HELP_CATEGORY_MAX, no specific help section
  *			will be printed.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int err_arg_missing_msg_show(help_category cat)
 {
 	if (cat != HELP_CATEGORY_MAX) {
@@ -105,7 +105,7 @@ int err_arg_missing_msg_show(help_category cat)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		err_arg_msg_show
  * @BRIEF		print standard "incorrect argument" error message,
  * @RETURNS		OMAPCONF_ERR_ARG
@@ -114,7 +114,7 @@ int err_arg_missing_msg_show(help_category cat)
  *			followed by help of given category.
  *			If cat == HELP_CATEGORY_MAX, no specific help section
  *			will be printed.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int err_arg_msg_show(help_category cat)
 {
 	if (cat != HELP_CATEGORY_MAX) {
@@ -131,12 +131,12 @@ int err_arg_msg_show(help_category cat)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		err_internal_msg_show
  * @BRIEF		print standard "internal error" error message.
  * @RETURNS		OMAPCONF_ERR_INTERNAL
  * @DESCRIPTION		print standard "internal error" error message.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int err_internal_msg_show(void)
 {
 	printf("\nomapconf: aborting due to internal error, sorry :-( ...\n\n");
@@ -145,13 +145,13 @@ int err_internal_msg_show(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		err_unknown_argument_msg_show
  * @BRIEF		print standard "unknown argument, see help" message.
  * @RETURNS		OMAPCONF_ERR_ARG
  * @param[in]		s: unknown argument
  * @DESCRIPTION		print standard "unknown argument, see help" message.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int err_unknown_argument_msg_show(char *s)
 {
 	printf("\nomapconf: '%s' is not a valid omapconf argument. "
@@ -161,13 +161,13 @@ int err_unknown_argument_msg_show(char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		help
  * @BRIEF		display omapconf help
  * @RETURNS		none
  * @param[in]		cat: help category to display
  * @DESCRIPTION		display omapconf help
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void help(help_category cat)
 {
 	if (cat >= HELP_CATEGORY_MAX) {

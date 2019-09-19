@@ -65,13 +65,13 @@ reg_table prcm_dsp_reg_table[28];
 static unsigned int init_done = 0;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dsp44xx_regtable_init
  * @BRIEF		initialize reg_table fields (not possible statically)
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize reg_table fields (not possible statically)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int dsp44xx_regtable_init(void)
 {
 	int i = 0;
@@ -105,7 +105,7 @@ static int dsp44xx_regtable_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dsp44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -114,7 +114,7 @@ static int dsp44xx_regtable_init(void)
  * @param[in]		name: register name
  * @param[in, out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dsp44xx_name2addr(char *name, unsigned int *addr)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -126,7 +126,7 @@ int dsp44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dsp44xx_config_show
  * @BRIEF		analyze DSP power configuration
  * @RETURNS		0 in case of success
@@ -134,7 +134,7 @@ int dsp44xx_name2addr(char *name, unsigned int *addr)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyze DSP power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dsp44xx_config_show(FILE *stream)
 {
 	unsigned int pm_pwstctrl;
@@ -184,7 +184,7 @@ int dsp44xx_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dsp44xx_dependency_show
  * @BRIEF		analyse DSP dependency configuration
  * @RETURNS		0 in case of success
@@ -192,7 +192,7 @@ int dsp44xx_config_show(FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyse DSP dependency configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dsp44xx_dependency_show(FILE *stream)
 {
 	unsigned int cm_dsp_staticdep;
@@ -260,14 +260,14 @@ int dsp44xx_dependency_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dsp44xx_dump
  * @BRIEF		dump PRCM DSP registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		dump PRCM DSP registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dsp44xx_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -279,7 +279,7 @@ int dsp44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dsp44xx_main
  * @BRIEF		PRCM DSP main menu
  * @RETURNS		0 in case of success
@@ -289,7 +289,7 @@ int dsp44xx_dump(void)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		PRCM DSP main menu
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dsp44xx_main(int argc, char *argv[])
 {
 	int ret;

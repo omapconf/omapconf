@@ -53,33 +53,33 @@ static unsigned short mem_read_trace = 0;
 static unsigned short mem_write_trace = 0;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_read_trace_enable
  * @BRIEF		enable tracing of all memory read access.
  * @param[in]		enable: 0 to disable trace (default), 1 to enable it.
  * @DESCRIPTION		enable tracing of all memory read access.
  *			Print trace with physical address and read value.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void mem_read_trace_enable(unsigned short enable)
 {
 	mem_read_trace = enable;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_write_trace_enable
  * @BRIEF		enable tracing of all memory write access.
  * @param[in]		enable: 0 to disable trace (default), 1 to enable it.
  * @DESCRIPTION		enable tracing of all memory read access.
  *			Print trace with physical address and written value.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void mem_write_trace_enable(unsigned short enable)
 {
 	mem_write_trace = enable;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_map
  * @BRIEF		map memory by chunk of 1MB.
  *			Keep it mapped until new address to be mapped is out
@@ -90,7 +90,7 @@ void mem_write_trace_enable(unsigned short enable)
  * @DESCRIPTION		map memory by chunk of 1MB.
  *			Keep it mapped until new address to be mapped is out
  *			of the current chunk.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mem_map(unsigned int addr)
 {
 	int ret;
@@ -102,20 +102,20 @@ int mem_map(unsigned int addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_unmap
  * @BRIEF		unmap last 1MB memory chunk.
  *			*** To be called at end of application execution. ***
  * @DESCRIPTION		unmap last 1MB memory chunk.
  *			*** To be called at end of application execution. ***
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void mem_unmap(void)
 {
 	lmem_unmap();
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_map_address
  * @BRIEF		map memory for 1 precise address, 4K mapping.
  *			*** User has to explicitly unmap it. ***
@@ -124,40 +124,40 @@ void mem_unmap(void)
  * @param[in]		addr: 32-bit memory physical address
  * @DESCRIPTION		map memory for 1 precise address, 4K mapping.
  *			*** User has to explicitly unmap it. ***
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void *mem_map_address(unsigned int addr)
 {
 	return lmem_map_address(addr);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_unmap_address
  * @BRIEF		unmap specific virtual address.
  *			*** To be called at end of application execution. ***
  * @DESCRIPTION		unmap specific virtual address.
  *			*** To be called at end of application execution. ***
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void mem_unmap_address(void *vaddr)
 {
 	lmem_unmap_address(vaddr);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_phys2virt
  * @BRIEF		convert memory physical address to virtual address.
  * @RETURNS		memory virtual address
  * @param[in]		addr: memory physical address
  * @DESCRIPTION		convert memory physical address to virtual address.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void *mem_phys2virt(void *addr)
 {
 	return lmem_phys2virt(addr);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_read
  * @BRIEF		read memory value at given physical address.
  * @RETURNS		0 on success
@@ -167,7 +167,7 @@ void *mem_phys2virt(void *addr)
  * @param[in, out]	val: pointer where to store read value
  * @DESCRIPTION		read memory value at given physical address.
  *			*val == 0xBEEFDEAD in case of error.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mem_read(unsigned int addr, unsigned int *val)
 {
 	int ret;
@@ -206,7 +206,7 @@ int mem_read(unsigned int addr, unsigned int *val)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_write
  * @BRIEF		write memory value at given physical address.
  * @RETURNS		0 on success
@@ -215,7 +215,7 @@ int mem_read(unsigned int addr, unsigned int *val)
  * @param[in]		addr: 32-bit memory physical address
  * @param[in]		val: value to be written in memory
  * @DESCRIPTION		write value at given memory physical address.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mem_write(unsigned int addr, unsigned int val)
 {
 	int ret;
@@ -249,7 +249,7 @@ int mem_write(unsigned int addr, unsigned int val)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_address_range_read
  * @BRIEF		Fill 'mem_ptr' array of size 'size' with
  *			consecutive memory content read starting at address
@@ -263,7 +263,7 @@ int mem_write(unsigned int addr, unsigned int val)
  * @DESCRIPTION		Fill 'mem_ptr' array of size 'size' with
  *			consecutive memory content read starting at address
  *			'addr'.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mem_address_range_read(unsigned int addr, unsigned int *mem_ptr,
 	unsigned int size)
 {
@@ -288,21 +288,21 @@ int mem_address_range_read(unsigned int addr, unsigned int *mem_ptr,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_last_addr_get
  * @BRIEF		return last physical memory address accessed
  *			(useful in case of access failure).
  * @RETURNS		last physical memory address accessed.
  * @DESCRIPTION		return last physical memory address accessed
  *			(useful in case of access failure).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int mem_last_addr_get(void)
 {
 	return last_mem_addr;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_fake_access_set
  * @BRIEF		enable/disable "fake" memory access.
  *			When disabled (== 0), true memory R/W access is
@@ -321,14 +321,14 @@ unsigned int mem_last_addr_get(void)
  *			a different platform than the target one. ###
  *			e.g. allow code to be develop on x86 (host PC) instead
  *			of on target, saving time.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void mem_fake_access_set(unsigned short enable)
 {
 	fake_mem_access = enable;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_fake_access_get
  * @BRIEF		return the "fake" memory access status
  *			(enabled/disabled).
@@ -336,7 +336,7 @@ void mem_fake_access_set(unsigned short enable)
  *			!= 0: no memory R/W access is performed.
  * @DESCRIPTION		return the "fake" memory access status
  *			(enabled/disabled).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short mem_fake_access_get(void)
 {
 	return fake_mem_access;

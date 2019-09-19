@@ -56,13 +56,13 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION	timerstats_stop
  * @BRIEF	stop timer statistics collection in the /proc/timer_stats file
  * @RETURNS	0 in case of success
  *		TIMER_ERR_NOT_AVAILABLE
  * @DESCRIPTION	stop timer statistics collection in the /proc/timer_stats file
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int timerstats_stop(void)
 {
 	FILE *fp;
@@ -81,13 +81,13 @@ int timerstats_stop(void)
 	return 0;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION	timerstats_start
  * @BRIEF	start timer statistics collection in the /proc/timer_stats file
  * @RETURNS	0 in case of success
  *		TIMER_ERR_NOT_AVAILABLE
  * @DESCRIPTION	start timer statistics collection in the /proc/timer_stats file
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int timerstats_start(void)
 {
 	FILE *fp;
@@ -106,7 +106,7 @@ int timerstats_start(void)
 	return 0;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION	timerstats_save
  * @BRIEF	save timer statistics in the /proc/timer_stats file
  * @RETURNS	0 in case of success
@@ -115,7 +115,7 @@ int timerstats_start(void)
  *		TIMER_ERR_UNEXPECTED
  * @param[in,out]	filename: file where statistics are saved
  * @DESCRIPTION	save timer statistics in the /proc/timer_stats file
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int timerstats_save(char *filename)
 {
 	FILE *from, *to;
@@ -176,7 +176,7 @@ int timerstats_save(char *filename)
 	return 0;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION	timerstats_list_get
  * @BRIEF	parse snapshot of /proc/timer_stats file and fill list
  *		with information about the timer events that occurred
@@ -186,7 +186,7 @@ int timerstats_save(char *filename)
  * @param[in,out]	list: generic list where to store timers stats
  * @DESCRIPTION	parse snapshot of /proc/timer_stats file and fill list
  *		with information about the timer events that occurred
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int timerstats_list_get(FILE *fp, genlist *list)
 {
 	char line[256], count[24];
@@ -240,7 +240,7 @@ int timerstats_list_get(FILE *fp, genlist *list)
 	return timer_count;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION	timerstats_get_summary
  * @BRIEF	parse snapshot of /proc/timer_stats file and extract
  *		summary information and store in a string
@@ -250,7 +250,7 @@ int timerstats_list_get(FILE *fp, genlist *list)
  * @param[in,out]	summary: pointer to char array where summary is stored
  * @DESCRIPTION	parse snapshot of /proc/timer_stats file and extract
  *		summary information and store in a string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int timerstats_get_summary(FILE *fp, char *summary)
 {
 	char line[256];
@@ -287,7 +287,7 @@ int timerstats_get_summary(FILE *fp, char *summary)
 	return 0;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION	timerstats_list_sort
  * @BRIEF	sort list by timer-stats occurrence decreasing order.
  * @RETURNS	0 in case of success
@@ -296,7 +296,7 @@ int timerstats_get_summary(FILE *fp, char *summary)
  * @param[in,out]	list: populated list of TIMER stats.
  * @DESCRIPTION	sort list by timer-stats occurrence decreasing order.
  *		Use bubble sort algorithm.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int timerstats_list_sort(genlist *list)
 {
 	unsigned int i, max, tmpmax;

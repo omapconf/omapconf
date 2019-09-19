@@ -46,7 +46,7 @@
 #define __I2C_TOOLS_H__
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		i2cget
  * @BRIEF		read given data from given address of given device of
  *			given I2C bus
@@ -60,13 +60,13 @@
  * @param[in,out]	data: I2C device register content (returned)
  * @DESCRIPTION		read given data from given address of given device of
  *			given I2C bus
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int i2cget(
 	unsigned int i2cbus, unsigned int address, unsigned int daddress,
 	unsigned int *data);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		i2cset
  * @BRIEF		write given data at given address of given device of
  *			given I2C bus
@@ -80,13 +80,13 @@ int i2cget(
  * @param[in]		data: data to be written
  * @DESCRIPTION		write given data at given address of given device of
  *			given I2C bus
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int i2cset(
 	unsigned int i2cbus, unsigned int address, unsigned int daddress,
 	unsigned int data);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		i2cget_word
  * @BRIEF		read given data from given address of given device of
  *			given I2C bus
@@ -100,13 +100,13 @@ int i2cset(
  * @param[in,out]	data: I2C device register content (returned)
  * @DESCRIPTION		read given data from given address of given device of
  *			given I2C bus
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int i2cget_word(
 	unsigned int i2cbus, unsigned int address, unsigned int daddress,
 	unsigned int *data);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		i2cset_word
  * @BRIEF		write given data at given address of given device of
  *			given I2C bus
@@ -120,7 +120,7 @@ int i2cget_word(
  * @param[in]		data: data to be written
  * @DESCRIPTION		write given data at given address of given device of
  *			given I2C bus
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int i2cset_word(
 	unsigned int i2cbus, unsigned int address, unsigned int daddress,
 	unsigned int data);

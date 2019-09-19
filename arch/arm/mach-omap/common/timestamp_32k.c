@@ -57,12 +57,12 @@
 static volatile unsigned int *addr_32k = NULL;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_map_32k
  * @BRIEF		map given physical address
  * @RETURNS		32K virtual address
  * @DESCRIPTION		map given physical address
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 volatile unsigned int *mem_map_32k(void)
 {
 	unsigned int reg_32k = 0;
@@ -76,19 +76,19 @@ volatile unsigned int *mem_map_32k(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_unmap_32k
  * @BRIEF		unmap given physical address
  * @param[in]		addr: 32K virtual address to be unmapped
  * @DESCRIPTION		unmap given physical address
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void mem_unmap_32k(volatile unsigned int *addr)
 {
 	mem_unmap_address((unsigned int *) addr);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		timestamp_32k_main
  * @BRIEF		print delta time between 32K clock to clock_gettime(),
  *			32K clock to gettimeofday().
@@ -97,7 +97,7 @@ void mem_unmap_32k(volatile unsigned int *addr)
  * @param[in]		argv: arguments (argv[0] = number of loops, default 10)
  * @DESCRIPTION		print delta time between 32K clock to clock_gettime(),
  *			32K clock to gettimeofday().
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int timestamp_32k_main(int argc, char **argv)
 {
 	struct timespec clock_get;

@@ -56,14 +56,14 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emif_am335x_mod_name_get
  * @BRIEF		return EMIF module name
  * @RETURNS		EMIF module name
  *			NULL in case of incorrect id
  * @param[in]		id: EMIF module ID
  * @DESCRIPTION		return EMIF module name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *emif_am335x_mod_name_get(emif_am335x_mod_id id)
 {
 	if (id >= EMIF_AM335X_MODS_COUNT) {
@@ -76,7 +76,7 @@ const char *emif_am335x_mod_name_get(emif_am335x_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emif_am335x_dump
  * @BRIEF		dump selected registers
  * @RETURNS		0 in case of success
@@ -87,7 +87,7 @@ const char *emif_am335x_mod_name_get(emif_am335x_mod_id id)
  *			If id == EMIF_AM335X_MODS_COUNT, dump all EMIF registers.
  * @DESCRIPTION		dump selected registers and pretty-print it in selected
  *			output stream
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int emif_am335x_dump(FILE *stream, emif_am335x_mod_id id)
 {
 	unsigned int i, mid;

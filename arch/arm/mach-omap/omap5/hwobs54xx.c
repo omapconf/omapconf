@@ -146,7 +146,7 @@ reg *hwobs54xx_wkup_debug_mux_table[HWOBS54XX_SIG_MAX_NBR] = {
 static int hwobs54xx_init_regtable(void);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_wkup_sys_pad_table_init
  * @BRIEF		initialize regtable for wkup domain sysboot, fref, drm,
  *			llib, llia and sys_pwr_req pad registers
@@ -154,7 +154,7 @@ static int hwobs54xx_init_regtable(void);
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize regtable for wkup domain sysboot, fref, drm,
  *			llib, llia and sys_pwr_req pad registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_wkup_sys_pad_table_init(void)
 {
 	int i = 0;
@@ -246,13 +246,13 @@ int hwobs54xx_wkup_sys_pad_table_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_core_c2c_pad_table_init
  * @BRIEF		initialize regtable for core domain c2c pad registers
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize regtable for core domain c2c pad registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_core_c2c_pad_table_init(void)
 {
 	int i = 0;
@@ -344,7 +344,7 @@ int hwobs54xx_core_c2c_pad_table_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_core_per_pad_table_init
  * @BRIEF		initialize regtable for core domain uart2, uart5,
  *			mcspi2, timer8, timer11 and gpio6 pad registers
@@ -353,7 +353,7 @@ int hwobs54xx_core_c2c_pad_table_init(void)
  * @param[in]		none
  * @DESCRIPTION		initialize regtable for core domain uart2, uart5,
  *			mcspi2, timer8, timer11 and gpio6 pad registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_core_per_pad_table_init(void)
 {
 	int i = 0;
@@ -445,7 +445,7 @@ int hwobs54xx_core_per_pad_table_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_check_pinmux
  * @BRIEF		check hwobs pinmux is properly configured.
  * @RETURNS		0 in case of success
@@ -453,7 +453,7 @@ int hwobs54xx_core_per_pad_table_init(void)
  *			OMAPCONF_ERR_CPU
  * @param[in]		check_field: the field to check
  * @DESCRIPTION		check hwobs pinmux is properly configured.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_check_pinmux(unsigned int check_field)
 {
 	int err = 0;
@@ -514,14 +514,14 @@ int hwobs54xx_check_pinmux(unsigned int check_field)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_check_gating
  * @BRIEF		check hwobs signals are not gated or tied low/high.
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_INTERNAL
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		check hwobs signals are not gated or tied low/high.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_check_gating()
 {
 	unsigned short reg_val;
@@ -575,14 +575,14 @@ int hwobs54xx_check_gating()
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_enable
  * @BRIEF		Enable HWOBS signals at hwobs ctrl mux level
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		Enable HWOBS signals at hwobs ctrl mux level
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_enable(void)
 {
 	unsigned int ret;
@@ -610,7 +610,7 @@ int hwobs54xx_enable(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_test_menu
  * @BRIEF		Test OMAP5430 HWOBS Mux Configuration
  * @RETURNS		0 in case of success
@@ -622,7 +622,7 @@ int hwobs54xx_enable(void)
  * @DESCRIPTION		Test OMAP5430 HWOBS Mux Configuration:
  *			modify hwobs main mux for test purpose.
  *			Check observability setup from external pads to probes.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_test(char *level)
 {
 	unsigned int ret = 0, val;
@@ -714,7 +714,7 @@ hwobs54xx_test_end:
 	return ret;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_write_pads
  * @BRIEF		Write OMAP54XX pads pinmux to drive HWOBS signals.
  * @RETURNS		0 in case of success
@@ -722,7 +722,7 @@ hwobs54xx_test_end:
  *			OMAPCONF_ERR_CPU
  * @param[in,out]	pad_reg_table: table of pad registers
  * @DESCRIPTION		Write OMAP54XX pads pinmux to drive HWOBS signals.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_write_pads(pad_cell pad_reg_table[HWOBS54XX_PAD_MAX_NBR+1])
 {
 	unsigned int ret, i = 0;
@@ -767,7 +767,7 @@ int hwobs54xx_write_pads(pad_cell pad_reg_table[HWOBS54XX_PAD_MAX_NBR+1])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_pinmux_setup
  * @BRIEF		Setup OMAP54XX pinmux to drive HWOBS signals on external pads.
  * @RETURNS		0 in case of success
@@ -776,7 +776,7 @@ int hwobs54xx_write_pads(pad_cell pad_reg_table[HWOBS54XX_PAD_MAX_NBR+1])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		Setup OMAP54XX pinmux to drive HWOBS signals on external pads.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_pinmux_setup(char *padset)
 {
 	unsigned int ret;
@@ -863,7 +863,7 @@ hwobs54xx_pinmux_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_prcm_setup
  * @BRIEF		Setup OMAP54XX HWOBS Mux Configuration:
  *			allow selection of desired PRCM debug signals.
@@ -878,7 +878,7 @@ hwobs54xx_pinmux_end:
  * @DESCRIPTION		Setup OMAP54XX HWOBS Mux Configuration:
  *			allow selection of desired PRCM debug signals.
  *			Implicitly configure HWOBS muxes.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_prcm_setup(char *pos_s, char *cat_s, char *num_s)
 {
 	unsigned int ret, i = 0;
@@ -1053,7 +1053,7 @@ hwobs54xx_setup_prcm_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_mpuss_setup
  * @BRIEF		Setup OMAP54XX HWOBS Mux Configuration:
  *			allow selection of desired MPUSS debug signals.
@@ -1065,7 +1065,7 @@ hwobs54xx_setup_prcm_end:
  * @DESCRIPTION		Setup OMAP54XX HWOBS Mux Configuration:
  *			allow selection of desired MPUSS debug signals.
  *			Implicitly configure HWOBS muxes.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_mpuss_setup(char *mode_s)
 {
 	unsigned int ret, i = 0;
@@ -1159,7 +1159,7 @@ hwobs54xx_mpuss_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_setup_menu
  * @BRIEF		Change OMAP54XX pinmux to drive HWOBS signals on
  *			external pads.
@@ -1170,7 +1170,7 @@ hwobs54xx_mpuss_end:
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		Change OMAP54XX pinmux to drive HWOBS signals on
  *			external pads.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_setup_menu(int argc, char *argv[])
 {
 	unsigned int ret = 0;
@@ -1251,14 +1251,14 @@ hwobs54xx_setup_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_display_pads
  * @BRIEF		Dump OMAP54XX HW Observability PADCONFs regs.
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in,out]	pad_reg_table: table of pad registers
  * @DESCRIPTION		Dump OMAP54XX HW Observability PADCONFs regs.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_display_pads(pad_cell pad_reg_table[HWOBS54XX_PAD_MAX_NBR+1])
 {
 	unsigned int ret, pad_id = 0;
@@ -1327,7 +1327,7 @@ int hwobs54xx_display_pads(pad_cell pad_reg_table[HWOBS54XX_PAD_MAX_NBR+1])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_display_signals
  * @BRIEF		Print current OMAP54XX Mux Configuration
  * @RETURNS		0 in case of success
@@ -1337,7 +1337,7 @@ int hwobs54xx_display_pads(pad_cell pad_reg_table[HWOBS54XX_PAD_MAX_NBR+1])
  * @DESCRIPTION		Print current OMAP54XX Mux Configuration.
  *			Print list of selected debug signals
  *			for each hw_dbg[0:31] debug pin.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_display_signals(void)
 {
 	unsigned int pad_check = 0, ret = 0;
@@ -1555,7 +1555,7 @@ int hwobs54xx_display_signals(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_display_hwobs_ctrl_cfg
  * @BRIEF		Print current OMAP54XX CONTROL_HWOBS_CONTROL register
  *			configuration.
@@ -1564,7 +1564,7 @@ int hwobs54xx_display_signals(void)
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		Print current OMAP54XX CONTROL_HWOBS_CONTROL register
  *			configuration.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_display_hwobs_ctrl_cfg(void)
 {
 	unsigned int ret = 0;
@@ -1644,13 +1644,13 @@ int hwobs54xx_display_hwobs_ctrl_cfg(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_display_cfg
  * @BRIEF		Dump overall OMAP54XX HW Observability configuration
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		Dump overall OMAP54XX HW Observability configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_display_cfg(void)
 {
 	unsigned int ret;
@@ -1669,11 +1669,11 @@ int hwobs54xx_display_cfg(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_init_regtable
  * @BRIEF		initialize hwobs tables
  * @DESCRIPTION		initialize hwobs tables
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int hwobs54xx_init_regtable(void)
 {
 	int err = 0;
@@ -1690,7 +1690,7 @@ static int hwobs54xx_init_regtable(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwobs54xx_main
  * @BRIEF		main entry point for HWOBS functions
  * @RETURNS		0 on success
@@ -1706,7 +1706,7 @@ static int hwobs54xx_init_regtable(void)
  *			argv[2] = (optional) arguments vary based on function
  *			argv[3] = (optional) arguments vary based on function
  *			argv[4] = (optional)  arguments vary based on function
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwobs54xx_main(int argc, char *argv[])
 {
 	int ret = 0;

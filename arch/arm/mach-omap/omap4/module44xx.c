@@ -63,7 +63,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_name
  * @BRIEF		return module name
  * @RETURNS		module name on success
@@ -71,7 +71,7 @@
  * @param[in]		id: module ID
  * @param[in,out]	name: module name
  * @DESCRIPTION		return module name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *mod44xx_get_name(mod44xx_id id, char name[MOD44XX_MAX_NAME_LENGTH])
 {
 	if ((id >= OMAP4_MODULE_ID_MAX) || (name == NULL))
@@ -83,14 +83,14 @@ char *mod44xx_get_name(mod44xx_id id, char name[MOD44XX_MAX_NAME_LENGTH])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_id
  * @BRIEF		return module ID
  * @RETURNS		module ID on success
  *			OMAP4_MODULE_ID_MAX in case of fail
  * @param[in,out]	name: module name
  * @DESCRIPTION		return module ID
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod44xx_id mod44xx_get_id(const char *name)
 {
 	int i;
@@ -104,7 +104,7 @@ mod44xx_id mod44xx_get_id(const char *name)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_clkdm
  * @BRIEF		return the ID of the clock domain a given module
  *			is part of.
@@ -114,7 +114,7 @@ mod44xx_id mod44xx_get_id(const char *name)
  * @param[in]		id: module ID
  * @DESCRIPTION		return the ID of the clock domain a given module
  *			is part of.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 clkdm44xx_id mod44xx_get_clkdm(mod44xx_id id)
 {
 	if (id >= OMAP4_MODULE_ID_MAX)
@@ -125,7 +125,7 @@ clkdm44xx_id mod44xx_get_clkdm(mod44xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_pwrdm
  * @BRIEF		return the ID of the power domain a given module
  *			is part of.
@@ -135,7 +135,7 @@ clkdm44xx_id mod44xx_get_clkdm(mod44xx_id id)
  * @param[in]		id: module ID
  * @DESCRIPTION		return the ID of the power domain a given module
  *			is part of.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 pwrdm44xx_id mod44xx_get_pwrdm(mod44xx_id id)
 {
 	if (id >= OMAP4_MODULE_ID_MAX)
@@ -146,7 +146,7 @@ pwrdm44xx_id mod44xx_get_pwrdm(mod44xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_voltdm
  * @BRIEF		return the ID of the voltage domain a given module
  *			is part of.
@@ -156,7 +156,7 @@ pwrdm44xx_id mod44xx_get_pwrdm(mod44xx_id id)
  * @param[in]		id: module ID
  * @DESCRIPTION		return the ID of the voltage domain a given module
  *			is part of.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 voltdm44xx_id mod44xx_get_voltdm(mod44xx_id id)
 {
 	if (id >= OMAP4_MODULE_ID_MAX)
@@ -167,7 +167,7 @@ voltdm44xx_id mod44xx_get_voltdm(mod44xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_mode
  * @BRIEF		retrieve module mode from PRCM register
  * @RETURNS		0 on success
@@ -176,7 +176,7 @@ voltdm44xx_id mod44xx_get_voltdm(mod44xx_id id)
  * @param[in]		id: module ID
  * @param[in,out]	mmode: module mode
  * @DESCRIPTION		retrieve module mode from PRCM register
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod44xx_get_mode(mod44xx_id id, mod_module_mode *mmode)
 {
 	unsigned int cm_clkctrl_addr, cm_clkctrl;
@@ -225,7 +225,7 @@ mod44xx_get_mode_exit:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_is_accessible
  * @BRIEF		check omap module's registers accessibility
  * @RETURNS		1 if omap module's registers accessible
@@ -235,7 +235,7 @@ mod44xx_get_mode_exit:
  *			OMAPCONF_ERR_CPU
  * @param[in]		module_id: omap module ID
  * @DESCRIPTION		check omap module's registers accessibility
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod44xx_is_accessible(mod44xx_id module_id)
 {
 	unsigned int cm_clkctrl_addr, cm_clkctrl;
@@ -346,7 +346,7 @@ mod44xx_is_accessible_exit:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_interface_type
  * @BRIEF		retrieve omap module's interface type
  * @RETURNS		0 if success
@@ -355,7 +355,7 @@ mod44xx_is_accessible_exit:
  * @param[in]		module_id: omap module ID
  * @param[in,out]	type: returned omap module's interface type
  * @DESCRIPTION		retrieve omap module's interface type
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod44xx_get_interface_type(mod44xx_id module_id,
 	mod_interface_type *type)
 {
@@ -380,7 +380,7 @@ int mod44xx_get_interface_type(mod44xx_id module_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_has_clockactivity_bit
  * @BRIEF		check if omap module has clockactivity bit
  *			in sysconfig register
@@ -393,7 +393,7 @@ int mod44xx_get_interface_type(mod44xx_id module_id,
  * @param[in]		module_id: omap module ID
  * @DESCRIPTION		check if omap module has clockactivity bit
  *			in sysconfig register
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod44xx_has_clockactivity_bit(mod44xx_id module_id)
 {
 	#ifdef MODULE44XX_DEBUG
@@ -418,7 +418,7 @@ int mod44xx_has_clockactivity_bit(mod44xx_id module_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_autoidle_mode
  * @BRIEF		retrieve omap module's autoidle mode
  * @RETURNS		1 if success
@@ -431,7 +431,7 @@ int mod44xx_has_clockactivity_bit(mod44xx_id module_id)
  * @param[in]		module_id: omap module ID
  * @param[in,out]	mode: returned omap module's autoidle mode
  * @DESCRIPTION		retrieve omap module's autoidle mode
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod44xx_get_autoidle_mode(mod44xx_id module_id,
 	mod_autoidle_mode *mode)
 {
@@ -609,7 +609,7 @@ int mod44xx_get_autoidle_mode(mod44xx_id module_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_idle_mode
  * @BRIEF		retrieve omap module's idle mode
  * @RETURNS		1 if success
@@ -622,7 +622,7 @@ int mod44xx_get_autoidle_mode(mod44xx_id module_id,
  * @param[in]		module_id: omap module ID
  * @param[in,out]	mode: returned omap module's idle mode
  * @DESCRIPTION		retrieve omap module's idle mode
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod44xx_get_idle_mode(mod44xx_id module_id, mod_idle_mode *mode)
 {
 	int ret_val = 0;
@@ -796,7 +796,7 @@ mod44xx_get_idle_mode_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_has_smart_idle_wakeup_mode
  * @BRIEF		return 1 if module implements "smart-idle wakeup" mode
  * @RETURNS		1 if module implements "smart-idle wakeup" mode
@@ -806,7 +806,7 @@ mod44xx_get_idle_mode_end:
  *			(not all modules feature this new OMAP4 mode).
  *			return 0 if mode not available or in case of error.
  *			Does not make any access to any register.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod44xx_has_smart_idle_wakeup_mode(mod44xx_id id)
 {
 	if (!cpu_is_omap44xx()) {
@@ -826,7 +826,7 @@ int mod44xx_has_smart_idle_wakeup_mode(mod44xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_idle_status
  * @BRIEF		retrieve module's idle status from CM_xxx_xxx_CLKCTRL
  * @RETURNS		module idle status
@@ -834,7 +834,7 @@ int mod44xx_has_smart_idle_wakeup_mode(mod44xx_id id)
  * @param[in]		id: module ID
  * @param[in,out]	idlest: returned module idle status (string)
  * @DESCRIPTION		retrieve module's idle status from CM_xxx_xxx_CLKCTRL
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_idle_status mod44xx_get_idle_status(mod44xx_id id,
 	char idlest[14])
 {
@@ -906,7 +906,7 @@ mod44xx_get_idle_status_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_standby_mode
  * @BRIEF		retrieve omap module's standby mode
  * @RETURNS		1 if success
@@ -919,7 +919,7 @@ mod44xx_get_idle_status_end:
  * @param[in]		module_id: omap module ID
  * @param[in,out]	mode: returned omap module's standby mode
  * @DESCRIPTION		retrieve omap module's standby mode
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod44xx_get_standby_mode(mod44xx_id module_id, mod_standby_mode *mode)
 {
 	int ret_val = 0;
@@ -1043,7 +1043,7 @@ mod44xx_get_standby_mode_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_standby_status
  * @BRIEF		retrieve module standby status from CM_xxx_xxx_CLKCTRL
  * @RETURNS		module standby status
@@ -1051,7 +1051,7 @@ mod44xx_get_standby_mode_end:
  * @param[in]		id: module ID
  * @param[in,out]	st: returned module standby status (string)
  * @DESCRIPTION		retrieve module standby status from CM_xxx_xxx_CLKCTRL
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_standby_status mod44xx_get_standby_status(mod44xx_id id,
 	char st[11])
 {
@@ -1144,7 +1144,7 @@ mod44xx_get_standby_status_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_clock_activity_mode
  * @BRIEF		retrieve omap module's clockactivity mode
  * @RETURNS		1 if success
@@ -1157,7 +1157,7 @@ mod44xx_get_standby_status_end:
  * @param[in]		module_id: omap module ID
  * @param[in,out]	mode: returned omap module's clockactivity mode
  * @DESCRIPTION		retrieve omap module's clockactivity mode
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod44xx_get_clock_activity_mode(mod44xx_id module_id,
 	mod_clock_activity_mode *mode)
 {
@@ -1236,7 +1236,7 @@ int mod44xx_get_clock_activity_mode(mod44xx_id module_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_src_clk
  * @BRIEF		retrieve omap module's functional clock source
  * @RETURNS		0 in case of success
@@ -1246,7 +1246,7 @@ int mod44xx_get_clock_activity_mode(mod44xx_id module_id,
  * @param[in,out]	src_clk_id: returned omap functional clock source id
  *			OMAP4_UNDEF_CLK if not defined or in case of error
  * @DESCRIPTION		retrieve omap module's functional clock source
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod44xx_get_src_clk(mod44xx_id module_id, int *src_clk_id)
 {
 	*src_clk_id = OMAP4_UNDEF_CLK;
@@ -1269,7 +1269,7 @@ int mod44xx_get_src_clk(mod44xx_id module_id, int *src_clk_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_por_clk_speed
  * @BRIEF		retrieve omap module's functional POR clock speed
  * @RETURNS		0 in case of success
@@ -1280,7 +1280,7 @@ int mod44xx_get_src_clk(mod44xx_id module_id, int *src_clk_id)
  * @param[in,out]	por_clk_speed: returned omap functional clock speed
  *			(in MHz)
  * @DESCRIPTION		retrieve omap module's functional POR clock speed
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod44xx_get_por_clk_speed(mod44xx_id module_id,
 	unsigned short opp, double *por_clk_speed)
 {
@@ -1312,7 +1312,7 @@ int mod44xx_get_por_clk_speed(mod44xx_id module_id,
 #endif
 #endif
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_get_clk_speed
  * @BRIEF		retrieve omap module's functional clock speed,
  *			as well as source clock ID and current OPP.
@@ -1332,7 +1332,7 @@ int mod44xx_get_por_clk_speed(mod44xx_id module_id,
  *			Ensure that OPP is stable before returning OPP and clock
  *			speed, so that there is no misalignment between the
  *			2 data.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod44xx_get_clk_speed(mod44xx_id module_id,
 	clock44xx_id *src_clk_id, opp44xx_id *opp_id, double *speed)
 {
@@ -1437,7 +1437,7 @@ mod44xx_get_clk_speed_end:
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_config_show
  * @BRIEF		analyze module power configuration
  * @RETURNS		0 in case of success
@@ -1450,7 +1450,7 @@ mod44xx_get_clk_speed_end:
  * @param[in]		rm_context_addr: module's RM CONTEXT register addr
  * @param[in]		rm_context: module's RM CONTEXT register content
  * @DESCRIPTION		analyze module power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod44xx_config_show(FILE *stream, const char name[11],
 	unsigned int cm_clkctrl_addr, unsigned int cm_clkctrl,
 	unsigned int rm_context_addr, unsigned int rm_context)

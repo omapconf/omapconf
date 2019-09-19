@@ -101,7 +101,7 @@
 #define VC_CFG_CHANNEL_SA_VDD_CORE_L_POS		0
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc44xx_sa_get
  * @BRIEF		return Slave Address (SA)
  * @RETURNS		>0 Slave Address (SA)
@@ -110,7 +110,7 @@
  * @param[in]		prm_vc_smps_sa: PRM_VC_SMPS_SA register content
  * @param[in]		prm_vc_cfg_channel: PRM_VC_CFG_CHANNEL register content
  * @DESCRIPTION		return Slave Address (SA)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 short int vc44xx_sa_get(voltdm44xx_id id,
 	unsigned int prm_vc_smps_sa, unsigned int prm_vc_cfg_channel)
 {
@@ -150,7 +150,7 @@ short int vc44xx_sa_get(voltdm44xx_id id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc44xx_volra_get
  * @BRIEF		return Voltage Register Address (VOLRA)
  * @RETURNS		>0 Voltage Register Address (VOLRA)
@@ -160,7 +160,7 @@ short int vc44xx_sa_get(voltdm44xx_id id,
  * @param[in]		prm_vc_val_smps_ra_vol: PRM_VC_VAL_SMPS_RA_VOL register
  *			content
  * @DESCRIPTION		return Voltage Register Address (VOLRA)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 short int vc44xx_volra_get(voltdm44xx_id id,
 	unsigned int prm_vc_cfg_channel, unsigned int prm_vc_val_smps_ra_vol)
 {
@@ -203,7 +203,7 @@ short int vc44xx_volra_get(voltdm44xx_id id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc44xx_cmdra_get
  * @BRIEF		return Command Register Address (CMDRA)
  * @RETURNS		>0 Command Register Address (CMDRA)
@@ -213,7 +213,7 @@ short int vc44xx_volra_get(voltdm44xx_id id,
  * @param[in]		prm_vc_val_smps_ra_cmd: PRM_VC_VAL_SMPS_RA_CMD register
  *			content
  * @DESCRIPTION		return Command Register Address (CMDRA)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 short int vc44xx_cmdra_get(voltdm44xx_id id,
 	unsigned int prm_vc_cfg_channel, unsigned int prm_vc_val_smps_ra_cmd)
 {
@@ -256,7 +256,7 @@ short int vc44xx_cmdra_get(voltdm44xx_id id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc44xx_raw_cmd_values_get
  * @BRIEF		return ON/ONLP/RET/OFF command values
  * @RETURNS		0 in case of success
@@ -269,7 +269,7 @@ short int vc44xx_cmdra_get(voltdm44xx_id id,
  * @param[in,out]	cmd_off: OFF command value (RETURNED)
  * @DESCRIPTION		return ON/ONLP/RET/OFF command values
  *			WARNING: DO NOT CONSIDER PMIC-SPECIFIC SIZE OF COMMAND.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 short int vc44xx_raw_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
 	unsigned char *cmd_on, unsigned char *cmd_onlp,
 	unsigned char *cmd_ret, unsigned char *cmd_off)
@@ -311,7 +311,7 @@ short int vc44xx_raw_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc44xx_cmd_values_get
  * @BRIEF		return ON/ONLP/RET/OFF command values
  * @RETURNS		0 in case of success
@@ -324,7 +324,7 @@ short int vc44xx_raw_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
  * @param[in,out]	cmd_off: OFF command value (RETURNED)
  * @DESCRIPTION		return ON/ONLP/RET/OFF command values
  *			WARNING: CONSIDER PMIC-SPECIFIC SIZE OF COMMAND.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 short int vc44xx_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
 	unsigned char *cmd_on, unsigned char *cmd_onlp,
 	unsigned char *cmd_ret, unsigned char *cmd_off)
@@ -351,7 +351,7 @@ short int vc44xx_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc44xx_registers_get
  * @BRIEF		save all VC registers in structure provided as argument.
  * @RETURNS		0 in case of success
@@ -360,7 +360,7 @@ short int vc44xx_cmd_values_get(voltdm44xx_id id, vc44xx_registers *vc_regs,
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in, out]	vc_regs: structure where to store VC registers
  * @DESCRIPTION		save all VC registers in structure provided as argument.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vc44xx_registers_get(vc44xx_registers *vc_regs)
 {
 	int ret;
@@ -391,7 +391,7 @@ int vc44xx_registers_get(vc44xx_registers *vc_regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc44xx_config_show
  * @BRIEF		decode and show VC current configuration
  * @RETURNS		0 in case of success
@@ -400,7 +400,7 @@ int vc44xx_registers_get(vc44xx_registers *vc_regs)
  * @param[in,out]	stream: output file (NULL: no output (silent))
  * @param[in,out]	vc_regs: Voltage Controller registers content
  * @DESCRIPTION		decode and show VC current configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vc44xx_config_show(FILE *stream, vc44xx_registers *vc_regs)
 {
 	voltdm44xx_id id;

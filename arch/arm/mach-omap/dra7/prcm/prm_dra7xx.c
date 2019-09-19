@@ -59,14 +59,14 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		prm_dra7xx_mod_name_get
  * @BRIEF		return PRM module name
  * @RETURNS		PRM module name
  *			NULL in case of incorrect id
  * @param[in]		id: PRM module ID
  * @DESCRIPTION		return PRM module name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *prm_dra7xx_mod_name_get(prm_dra7xx_mod_id id)
 {
 	if (id >= PRM_DRA7XX_MODS_COUNT) {
@@ -79,7 +79,7 @@ const char *prm_dra7xx_mod_name_get(prm_dra7xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		prm_dra7xx_is_profiling_running
  * @BRIEF		return 1 if profiling module (PMI) is running,
  *			0 otherwise
@@ -87,7 +87,7 @@ const char *prm_dra7xx_mod_name_get(prm_dra7xx_mod_id id)
  *			0 otherwise
  * @DESCRIPTION		return 1 if profiling module (PMI) is running,
  *			0 otherwise
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int prm_dra7xx_is_profiling_running(void)
 {
 	reg *cm_clkctrl_reg;
@@ -105,7 +105,7 @@ unsigned int prm_dra7xx_is_profiling_running(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		prm_dra7xx_dump
  * @BRIEF		dump selected registers and pretty-print it in
  *			selected output stream
@@ -117,7 +117,7 @@ unsigned int prm_dra7xx_is_profiling_running(void)
  *			dump all PRM registers.
  * @DESCRIPTION		dump selected registers and pretty-print it in
  *			selected output stream
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int prm_dra7xx_dump(FILE *stream, prm_dra7xx_mod_id id)
 {
 	unsigned int i = 0, mid;

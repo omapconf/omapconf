@@ -67,13 +67,13 @@ reg_table prcm_cam_reg_table[PRCM_CAM_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cam44xx_regtable_init
  * @BRIEF		initialize regtable
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize regtable
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int cam44xx_regtable_init(void)
 {
 	int i = 0;
@@ -107,7 +107,7 @@ static int cam44xx_regtable_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cam44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -116,7 +116,7 @@ static int cam44xx_regtable_init(void)
  * @param[in]		name: register name
  * @param[in,out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cam44xx_name2addr(char *name, unsigned int *addr)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -128,7 +128,7 @@ int cam44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cam44xx_config_show
  * @BRIEF		analyze CAM power configuration
  * @RETURNS		0 in case of success
@@ -136,7 +136,7 @@ int cam44xx_name2addr(char *name, unsigned int *addr)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in,out]	stream: output file stream
  * @DESCRIPTION		analyze CAM power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cam44xx_config_show(FILE *stream)
 {
 	unsigned int pm_pwstctrl;
@@ -195,14 +195,14 @@ int cam44xx_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cam44xx_dependency_show
  * @BRIEF		analyse CAM dependency configuration
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		analyse CAM dependency configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cam44xx_dependency_show(FILE *stream)
 {
 	unsigned int cm_staticdep;
@@ -245,14 +245,14 @@ int cam44xx_dependency_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cam44xx_dump
  * @BRIEF		dump PRCM CAM registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		dump PRCM CAM registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cam44xx_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -264,7 +264,7 @@ int cam44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cam44xx_main
  * @BRIEF		OMAP4 PRCM CAM main menu
  * @RETURNS		0 in case of success
@@ -274,7 +274,7 @@ int cam44xx_dump(void)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		OMAP4 PRCM CAM main menu
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cam44xx_main(int argc, char *argv[])
 {
 	int ret;

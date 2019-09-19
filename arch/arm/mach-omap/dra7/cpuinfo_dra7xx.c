@@ -59,7 +59,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_dra7xx_silicon_max_speed_get
  * @BRIEF		return silicon max speed (depending on cpu type and
  *			silicon type)
@@ -67,7 +67,7 @@
  *			0 in case of error
  * @DESCRIPTION		return silicon max speed (depending on cpu type and
  *			silicon type)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_dra7xx_silicon_max_speed_get(void)
 {
 	unsigned int max_speed, efuse, speed_grade;

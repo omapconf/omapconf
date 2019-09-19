@@ -47,12 +47,12 @@
 #include <stdio.h>
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		help_am437x
  * @BRIEF		display help for AM437X-specific functions
  * @param[in]		cat: help category to display
  * @DESCRIPTION		display help for AM437X-specific functions
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void help_am437x(help_category cat, char *context)
 {
 	if (cat >= HELP_CATEGORY_MAX) {

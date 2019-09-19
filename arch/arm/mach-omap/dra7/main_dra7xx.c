@@ -74,7 +74,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx_dump
  * @BRIEF		dump some DRA7 registers, which category is found in
  *			argv
@@ -85,7 +85,7 @@
  * @param[in]		argv: argument(s)
  * @DESCRIPTION		dump some DRA7 registers, which category is found in
  *			argv
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main_dra7xx_dump(int argc, char *argv[])
 {
 	dpll_dra7xx_id dpll_id;
@@ -144,7 +144,7 @@ int main_dra7xx_dump(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx_legacy
  * @BRIEF		OMAP5 LEGACY functions main entry point
  * @RETURNS		0 in case of success
@@ -155,7 +155,7 @@ int main_dra7xx_dump(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		OMAP5 LEGACY functions main entry point
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main_dra7xx_legacy(int argc, char *argv[])
 {
 	int ret;
@@ -187,7 +187,7 @@ main_dra7xx_legacy_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx_show
  * @BRIEF		show some DRA7 information,
  *			which category is found in argv
@@ -198,7 +198,7 @@ main_dra7xx_legacy_end:
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		show some DRA7 information,
  *			which category is found in argv
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main_dra7xx_show(int argc, char *argv[])
 {
 	CHECK_NULL_ARG(argv, OMAPCONF_ERR_ARG);
@@ -280,7 +280,7 @@ int main_dra7xx_show(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx_dpll_audit
  * @BRIEF		analyze command-line arguments & call DPLL audit with
  *			selected options
@@ -293,7 +293,7 @@ int main_dra7xx_show(int argc, char *argv[])
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		analyze command-line arguments & call DPLL audit with
  *			selected options
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main_dra7xx_dpll_audit(int argc, char *argv[])
 {
 	int ret = 0;
@@ -402,7 +402,7 @@ main_dra7xx_dpll_audit_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx_audit
  * @BRIEF		analyze command-line arguments & select relevant
  *			audit function
@@ -416,7 +416,7 @@ main_dra7xx_dpll_audit_end:
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		analyze command-line arguments & select relevant
  *			audit function to call
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main_dra7xx_audit(int argc, char *argv[])
 {
 	int ret = 0;
@@ -443,7 +443,7 @@ main_dra7xx_audit_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx_export
  * @BRIEF		Export OMAP configuration into format and destination
  *			provided in argv.
@@ -456,7 +456,7 @@ main_dra7xx_audit_end:
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		Export OMAP configuration into format and destination
  *			provided in argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main_dra7xx_export(int argc, char *argv[])
 {
 	if (strcmp(argv[0], "ctt") == 0) {
@@ -472,7 +472,7 @@ static int main_dra7xx_export(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx_set
  * @BRIEF		set some DRA7 item, which category is found in argv
  * @RETURNS		0 in case of success
@@ -481,7 +481,7 @@ static int main_dra7xx_export(int argc, char *argv[])
  * @param[in]		argc: number of arguments
  * @param[in]		argv: argument(s)
  * @DESCRIPTION		set some DRA7 settings, which category is found in argv
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main_dra7xx_set(int argc, char *argv[])
 {
 	voltdm_dra7xx_id vdd_id;
@@ -554,7 +554,7 @@ static int main_dra7xx_set(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_dra7xx
  * @BRIEF		DRA7 functions main entry point
  * @RETURNS		0 in case of success
@@ -565,7 +565,7 @@ static int main_dra7xx_set(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		DRA7 functions main entry point.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main_dra7xx(int argc, char *argv[])
 {
 	int ret = 0;

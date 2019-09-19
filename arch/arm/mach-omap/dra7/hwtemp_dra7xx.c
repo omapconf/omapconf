@@ -107,7 +107,7 @@ static reg *dspeve_temperature_FIFO_reg_address[NUM_DTEMP_TAGS] = {
 	DRA7_DTEMP_REG(dspeve, 4),
 };
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwtemp_dra7xx_get
  * @BRIEF		return temperature measured by selected sensor's register buffer
  *			(in degrees celcius)
@@ -117,7 +117,7 @@ static reg *dspeve_temperature_FIFO_reg_address[NUM_DTEMP_TAGS] = {
  * @param[in, out]	temp: temperature (Celcius, min) (returned)
  * @DESCRIPTION		return temperature measured by selected sensor
  *			(in degrees celcius)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwtemp_dra7xx_get(hwtemp_dra7xx_sensor_id id)
 {
 	reg *temp_reg;

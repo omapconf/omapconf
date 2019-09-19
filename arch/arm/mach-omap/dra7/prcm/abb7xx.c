@@ -59,7 +59,7 @@
 #define dprintf(format, ...)
 #endif
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		abb7xx_dump
  * @BRIEF		dump PRCM ABB registers
  * @RETURNS		0 in case of success
@@ -67,7 +67,7 @@
  *			OMAPCONF_ERR_ARG
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump PRCM ABB registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int abb7xx_dump(FILE *stream)
 {
 	reg *abb_registers[] = {
@@ -129,7 +129,7 @@ static void read_all_abb_regs(struct abb_data *data)
 	data[3].ctrl = reg_read(&dra7xx_device_prm_prm_abbldo_gpu_ctrl);
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		abb7xx_config_show
  * @BRIEF		analyze power configuration
  * @RETURNS		0 in case of success
@@ -138,7 +138,7 @@ static void read_all_abb_regs(struct abb_data *data)
  *			OMAPCONF_ERR_INTERNAL
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		analyze power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int abb7xx_config_show(FILE *stream)
 {
 	double sysclk_rate;

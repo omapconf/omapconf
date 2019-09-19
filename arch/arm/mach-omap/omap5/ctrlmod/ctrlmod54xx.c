@@ -93,14 +93,14 @@ typedef enum {
 } ctrlmod54xx_index;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ctrlmod54xx_mod_name_get
  * @BRIEF		return module name
  * @RETURNS		module name
  *			NULL in case of incorrect id
  * @param[in]		id: module ID
  * @DESCRIPTION		return module name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *ctrlmod54xx_mod_name_get(ctrlmod54xx_mod_id id)
 {
 	if (id >= CTRLMOD54XX_MODS_COUNT) {
@@ -114,7 +114,7 @@ const char *ctrlmod54xx_mod_name_get(ctrlmod54xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ctrlmod54xx_dump
  * @BRIEF		dump selected registers and pretty-print it in selected
  *			output stream
@@ -126,7 +126,7 @@ const char *ctrlmod54xx_mod_name_get(ctrlmod54xx_mod_id id)
  *			dump all registers.
  * @DESCRIPTION		dump selected registers and pretty-print it in selected
  *			output stream
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ctrlmod54xx_dump(FILE *stream, ctrlmod54xx_mod_id id)
 {
 	unsigned int i = 0, mid;
@@ -201,7 +201,7 @@ ctrlmod54xx_dump_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ctrlmod54xx_io_audit
  * @BRIEF		OMAP5 PADCONF/IO audit.
  * @RETURNS		0 in case of success
@@ -211,7 +211,7 @@ ctrlmod54xx_dump_end:
  * @param[in,out]	err_nbr: pointer to return audit error number
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		OMAP5 PADCONF/IO audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ctrlmod54xx_io_audit(FILE *stream, unsigned int *err_nbr,
 	unsigned int *wng_nbr)
 {
@@ -383,7 +383,7 @@ int ctrlmod54xx_io_audit(FILE *stream, unsigned int *err_nbr,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ctrlmod54xx_export
  * @BRIEF		export CONTROL MODULE registers content to file, in
  *			XML format.
@@ -395,7 +395,7 @@ int ctrlmod54xx_io_audit(FILE *stream, unsigned int *err_nbr,
  * @param[in]		id: module ID
  * @DESCRIPTION		export CONTROL MODULE registers content to file, in
  *			XML format.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ctrlmod54xx_export(FILE *fp, ctrlmod54xx_mod_id id)
 {
 	reg **mod;
@@ -422,7 +422,7 @@ int ctrlmod54xx_export(FILE *fp, ctrlmod54xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ctrlmod54xx_import
  * @BRIEF		import CONTROL MODULE registers from XML file
  * @RETURNS		0 in case of success
@@ -432,7 +432,7 @@ int ctrlmod54xx_export(FILE *fp, ctrlmod54xx_mod_id id)
  * @param[in]		id: module ID
  * @DESCRIPTION		import CONTROL MODULE registers from XML file,
  *			generated with lib54xx_export().
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ctrlmod54xx_import(FILE *fp, ctrlmod54xx_mod_id id)
 {
 	reg **mod;
@@ -494,7 +494,7 @@ int ctrlmod54xx_import(FILE *fp, ctrlmod54xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ctrlmod54xx_s2idx
  * @BRIEF		convert string to valid CTRLMOD index
  * @RETURNS		valid CTRLMOD index
@@ -502,7 +502,7 @@ int ctrlmod54xx_import(FILE *fp, ctrlmod54xx_mod_id id)
  *			corresponding to string s
  * @param[in]		s: string
  * @DESCRIPTION		convert string to valid CTRLMOD index
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 ctrlmod54xx_index ctrlmod54xx_s2idx(char *s)
 {
 	if (strcmp(s, "all") == 0)
@@ -520,7 +520,7 @@ ctrlmod54xx_index ctrlmod54xx_s2idx(char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ctrlmod54xx_main
  * @BRIEF		main entry point for CTRLMOD functions
  *
@@ -532,7 +532,7 @@ ctrlmod54xx_index ctrlmod54xx_s2idx(char *s)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		main entry point for CTRLMOD functions
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ctrlmod54xx_main(int argc, char *argv[])
 {
 	int ret = 0;

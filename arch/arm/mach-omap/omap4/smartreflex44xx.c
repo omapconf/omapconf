@@ -111,7 +111,7 @@ static unsigned int init_done = 0;
 static int sr44xx_regtable_init(void);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -120,7 +120,7 @@ static int sr44xx_regtable_init(void);
  * @param[in]		name: register name
  * @param[in,out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr44xx_name2addr(char *name, unsigned int *addr)
 {
 	int ret;
@@ -178,14 +178,14 @@ int sr44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_dump
  * @BRIEF		dump SR PRCM registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		dump SR PRCM registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr44xx_dump(void)
 {
 	unsigned int ret;
@@ -233,13 +233,13 @@ int sr44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_is_enabled
  * @BRIEF		Check if SR module is enabled
  * @RETURNS		1 if module is enabled, 0 otherwise
  * @param[in]		sr_id: SR module ID
  * @DESCRIPTION		Check if SR module is enabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int sr44xx_is_enabled(omap4_sr_module_id sr_id)
 {
 	unsigned int sr_config_addr, sr_config;
@@ -275,14 +275,14 @@ unsigned int sr44xx_is_enabled(omap4_sr_module_id sr_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_name_get
  * @BRIEF		return SR module name.
  * @RETURNS		SR module name on success
  *			"FIXME" string in case of error
  * @param[in]		sr_id: SR module ID
  * @DESCRIPTION		return SR module name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *sr44xx_name_get(omap4_sr_module_id sr_id)
 {
 	if (sr_id < OMAP4_SR_ID_MAX)
@@ -292,7 +292,7 @@ const char *sr44xx_name_get(omap4_sr_module_id sr_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_golden_settings_get
  * @BRIEF		return SR module golden settings.
  * @RETURNS		SR module name on success
@@ -301,7 +301,7 @@ const char *sr44xx_name_get(omap4_sr_module_id sr_id)
  *			opp_id: OPP ID
  * @DESCRIPTION		return SR module golden settings, for a given chip,
  *			module and OPP.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const sr_audit_settings *sr44xx_golden_settings_get(omap4_sr_module_id sr_id,
 	opp44xx_id opp_id)
 {
@@ -317,7 +317,7 @@ const sr_audit_settings *sr44xx_golden_settings_get(omap4_sr_module_id sr_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_registers_get
  * @BRIEF		save SR registers content into sr_regs structure.
  * @RETURNS		0 in case of success
@@ -327,7 +327,7 @@ const sr_audit_settings *sr44xx_golden_settings_get(omap4_sr_module_id sr_id,
  * @param[in]		sr_id: SR module ID
  * @param[in,out]	sr_regs: SR module registers content
  * @DESCRIPTION		save SR registers content into sr_regs structure.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr44xx_registers_get(omap4_sr_module_id sr_id, sr_registers *sr_regs)
 {
 	int ret;
@@ -452,7 +452,7 @@ int sr44xx_registers_get(omap4_sr_module_id sr_id, sr_registers *sr_regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_vp_voltage_get
  * @BRIEF		find the last voltage set by the voltage processor
  *			for a domain
@@ -469,7 +469,7 @@ int sr44xx_registers_get(omap4_sr_module_id sr_id, sr_registers *sr_regs)
  *			NB: SR/VP/VC have to be at least initialized
  *			(SR could be disabled) otherwise this value has no
  *			sense.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr44xx_vp_voltage_get(omap4_sr_module_id sr_id, double *volt)
 {
 	unsigned int vp_voltage, vp_voltage_addr, uv;
@@ -516,7 +516,7 @@ int sr44xx_vp_voltage_get(omap4_sr_module_id sr_id, double *volt)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_vc_config
  * @BRIEF		analyse voltage controller configuration
  * @RETURNS		0 in case of success
@@ -524,7 +524,7 @@ int sr44xx_vp_voltage_get(omap4_sr_module_id sr_id, double *volt)
  *			OMAPCONF_ERR_ARG
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		analyse voltage controller configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr44xx_vc_config(void)
 {
 	vc44xx_registers vc_regs;
@@ -547,14 +547,14 @@ int sr44xx_vc_config(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_module_config
  * @BRIEF		analyze configuration
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		analyze configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr44xx_module_config(void)
 {
 	sr_registers sr_regs[3];
@@ -588,7 +588,7 @@ int sr44xx_module_config(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_status_show
  * @BRIEF		analyze OMAP4 SR convergence status
  * @RETURNS		0 in case of success
@@ -596,7 +596,7 @@ int sr44xx_module_config(void)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output file (NULL: no output (silent))
  * @DESCRIPTION		analyze OMAP4 SR convergence status
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr44xx_status_show(FILE *stream)
 {
 	sr_status_registers sr_status_regs[3];
@@ -673,7 +673,7 @@ int sr44xx_status_show(FILE *stream)
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_voltage_set
  * @BRIEF		set voltage of a voltage domain using VC bypass method
  * @RETURNS		0 in case of success
@@ -687,7 +687,7 @@ int sr44xx_status_show(FILE *stream)
  *			NB: automatically disable SmartReflex (if enabled).
  *			NB: do not re-enable smartreflex afterwards or
  *			new voltage will be overriden.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr44xx_voltage_set(unsigned int vdd_id, unsigned long uv)
 {
 	omap4_sr_module_id sr_id;
@@ -903,7 +903,7 @@ int sr44xx_voltage_set(unsigned int vdd_id, unsigned long uv)
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_config_show
  * @BRIEF		Print SR configuration
  *			(incl. SR modules (MPU, IVA, CORE), VP, VC).
@@ -914,7 +914,7 @@ int sr44xx_voltage_set(unsigned int vdd_id, unsigned long uv)
  * @param[in]		stream: output file
  * @DESCRIPTION		Print SR configuration
  *			(incl. SR modules (MPU, IVA, CORE), VP, VC).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr44xx_config_show(FILE *stream)
 {
 	int ret;
@@ -928,7 +928,7 @@ int sr44xx_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_audit
  * @BRIEF		audit SR settings
  * @RETURNS		0 in case of success
@@ -941,7 +941,7 @@ int sr44xx_config_show(FILE *stream)
  * @param[in,out]	wng_nbr: warning number
  * @DESCRIPTION		audit SR settings, by comparing current settings with
  *			predefined "golden" settings.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr44xx_audit(FILE *stream, omap4_sr_module_id sr_id,
 	unsigned int *err_nbr, unsigned int *wng_nbr)
 {
@@ -1055,13 +1055,13 @@ int sr44xx_audit(FILE *stream, omap4_sr_module_id sr_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr44xx_regtable_init
  * @BRIEF		initialize regtable
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize regtable
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int sr44xx_regtable_init(void)
 {
 	int i = 0;

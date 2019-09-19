@@ -91,7 +91,7 @@ typedef struct {
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_transitions_stats_process
  * @BRIEF		process power domain transitions statistics
  * @RETURNS		0 in case of success
@@ -101,7 +101,7 @@ typedef struct {
  * @param[in]		duration: trace duration
  * @param[in, out]	stats: processed transitions statistics
  * @DESCRIPTION		process power domain transitions statistics
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pwrdm_transitions_stats_process(pwrdm_transitions transitions,
 	double duration,
 	time_stats stats[OMAP4_PMI_PWRDM_MAX][PWRDM_STATE_MAX])
@@ -180,7 +180,7 @@ int pwrdm_transitions_stats_process(pwrdm_transitions transitions,
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_transitions_stats_format
  * @BRIEF		format transitions statistics into table
  * @RETURNS		0 in case of success
@@ -191,7 +191,7 @@ int pwrdm_transitions_stats_process(pwrdm_transitions transitions,
  * @param[in, out]	row: table row number
  * @param[in, out]	col: table column number
  * @DESCRIPTION		format transitions statistics into table
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pwrdm_transitions_stats_format(
 	time_stats stats[OMAP4_PMI_PWRDM_MAX][PWRDM_STATE_MAX],
 	double duration,
@@ -285,7 +285,7 @@ int pwrdm_transitions_stats_format(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_transitions_stats_save
  * @BRIEF		save power domain transitions stats into file
  * @RETURNS		0 in case of success
@@ -297,7 +297,7 @@ int pwrdm_transitions_stats_format(
  * @param[in]		row: table row number
  * @param[in]		col: table column number
  * @DESCRIPTION		save power domain transitions stats into file
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pwrdm_transitions_stats_save(char *filename,
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
 	unsigned int row, unsigned int col)
@@ -334,7 +334,7 @@ int pwrdm_transitions_stats_save(char *filename,
 #endif
 /* #define SKIP_PMI_PWRDM_CAPTURE */
 /* #define SKIP_PMI_PWRDM_DECODE */
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace44xx_pwrdm
  * @BRIEF		capture and decode power domain transitions trace
  *			using PMI
@@ -345,7 +345,7 @@ int pwrdm_transitions_stats_save(char *filename,
  * @param[in]		duration: capture (trace) duration
  * @DESCRIPTION		capture and decode power domain transitions trace
  *			using PMI
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int trace44xx_pwrdm(unsigned int duration)
 {
 	int ret;
@@ -497,7 +497,7 @@ int trace44xx_pwrdm(unsigned int duration)
 /* #define SKIP_PMI_OPP_CAPTURE */
 /* #define SKIP_PMI_OPP_DECODE */
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace44xx_opp
  * @BRIEF		capture and decode PMI voltage domain transitions trace
  * @RETURNS		0 in case of success
@@ -506,7 +506,7 @@ int trace44xx_pwrdm(unsigned int duration)
  *			OMAPCONF_ERR_UNEXPECTED
  * @param[in]		capture_time: capture (trace) duration
  * @DESCRIPTION		capture and decode PMI voltage domain transitions trace
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int trace44xx_opp(unsigned int capture_time)
 {
 	int ret;

@@ -57,14 +57,14 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		prm_am335x_mod_name_get
  * @BRIEF		return PRM module name
  * @RETURNS		PRM module name
  *			NULL in case of incorrect id
  * @param[in]		id: PRM module ID
  * @DESCRIPTION		return PRM module name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *prm_am335x_mod_name_get(prm_am335x_mod_id id)
 {
 	if (id >= PRM_AM335X_MODS_COUNT) {
@@ -77,7 +77,7 @@ const char *prm_am335x_mod_name_get(prm_am335x_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		prm_am335x_dump
  * @BRIEF		dump selected registers
  * @RETURNS		0 in case of success
@@ -88,7 +88,7 @@ const char *prm_am335x_mod_name_get(prm_am335x_mod_id id)
  *			If id == PRM_AM335X_MODS_COUNT, dump all PRM registers.
  * @DESCRIPTION		dump selected registers and pretty-print it in selected
  *			output stream
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int prm_am335x_dump(FILE *stream, prm_am335x_mod_id id)
 {
 	unsigned int i, mid;
@@ -154,7 +154,7 @@ int prm_am335x_dump(FILE *stream, prm_am335x_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		prm_am335x_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -163,7 +163,7 @@ int prm_am335x_dump(FILE *stream, prm_am335x_mod_id id)
  * @param[in]		name: register name
  * @param[in, out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int prm_am335x_name2addr(char *name, unsigned int *addr)
 {
 	if (!cpu_is_am335x())

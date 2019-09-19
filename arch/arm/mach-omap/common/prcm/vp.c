@@ -104,7 +104,7 @@
 		}
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_error_offset_get
  * @BRIEF		return VP error offset
  * @RETURNS		0 in case of success
@@ -113,7 +113,7 @@
  * @param[in,out]	offset_raw: VP error offset RAW HEX value (RETURNED)
  * @param[in,out]	offset: VP error offset in % (signed) (RETURNED)
  * @DESCRIPTION		return VP error offset
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp_error_offset_get(unsigned int vp_config,
 	signed char *offset_raw, double *offset)
 {
@@ -128,20 +128,20 @@ int vp_error_offset_get(unsigned int vp_config,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_error_offset_hex2percent
  * @BRIEF		convert VP error offset HEX signed value into %
  * @RETURNS		VP error offset in %
  * @param[in]		offset: VP error offset RAW HEX value
  * @DESCRIPTION		convert VP error offset HEX signed value into %
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double vp_error_offset_hex2percent(signed char offset)
 {
 	return (double) offset * 0.8;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_error_gain_get
  * @BRIEF		return VP error gain
  * @RETURNS		0 in case of success
@@ -151,7 +151,7 @@ double vp_error_offset_hex2percent(signed char offset)
  * @param[in,out]	gain_raw: VP error gain RAW HEX value (RETURNED)
  * @param[in,out]	gain: VP error gain in mV/% (signed) (RETURNED)
  * @DESCRIPTION		return VP error gain
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp_error_gain_get(unsigned int vp_config, unsigned short vdd_id,
 	signed char *gain_raw, double *gain)
 {
@@ -166,14 +166,14 @@ int vp_error_gain_get(unsigned int vp_config, unsigned short vdd_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_error_gain_hex2percent
  * @BRIEF		convert VP error gain HEX signed value into mV/%
  * @RETURNS		VP error gain in mV/%
  * @param[in]		gain: VP error gain RAW HEX value
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		convert VP error gain HEX signed value into mV/%
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double vp_error_gain_hex2percent(signed char gain, unsigned short vdd_id)
 {
 	double step_mv;
@@ -184,7 +184,7 @@ double vp_error_gain_hex2percent(signed char gain, unsigned short vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_init_voltage_get
  * @BRIEF		return VP initial voltage
  * @RETURNS		0 in case of success
@@ -195,7 +195,7 @@ double vp_error_gain_hex2percent(signed char gain, unsigned short vdd_id)
  * @param[in,out]	init_vsel: initial voltage (vsel command) (RETURNED)
  * @param[in,out]	init_uv: initial voltage (in micro-volt) (RETURNED)
  * @DESCRIPTION		return VP initial voltage
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp_init_voltage_get(unsigned int vp_config, unsigned short vdd_id,
 	unsigned char *init_vsel, unsigned int *init_uv)
 {
@@ -210,49 +210,49 @@ int vp_init_voltage_get(unsigned int vp_config, unsigned short vdd_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_vc_timeout_is_enabled
  * @BRIEF		check if VC Timeout is enabled
  * @RETURNS		1 if VC Timeout is enabled
  *			0 if VC Timeout is disabled
  * @param[in]		vp_config: VP_xyz_CONFIG register content
  * @DESCRIPTION		check if VC Timeout is enabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char vp_vc_timeout_is_enabled(unsigned int vp_config)
 {
 	return extract_bit(vp_config, VP_TIMEOUTEN_POS);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_is_enabled
  * @BRIEF		check if VP is enabled
  * @RETURNS		1 if VP is enabled
  *			0 if VP is disabled
  * @param[in]		vp_config: VP_xyz_CONFIG register content
  * @DESCRIPTION		check if VP is enabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char vp_is_enabled(unsigned int vp_config)
 {
 	return extract_bit(vp_config, VP_VPENABLE_POS);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_is_idle
  * @BRIEF		check if VP is idle
  * @RETURNS		1 if VP is idle
  *			0 if VP is not idle (running)
  * @param[in]		vp_status: VP_xyz_STATUS register content
  * @DESCRIPTION		check if VP is idle
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char vp_is_idle(unsigned int vp_status)
 {
 	return extract_bit(vp_status, VP_VPINIDLE_POS);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_min_voltage_get
  * @BRIEF		return VP minimum supply voltage
  * @RETURNS		0 in case of success
@@ -265,7 +265,7 @@ unsigned char vp_is_idle(unsigned int vp_status)
  * @param[in,out]	min_uv: minimum supply voltage (in micro-volt)
  *				(RETURNED)
  * @DESCRIPTION		return VP minimum supply voltage
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp_min_voltage_get(unsigned int vp_vlimitto, unsigned short vdd_id,
 	unsigned char *min_vsel, unsigned int *min_uv)
 {
@@ -280,7 +280,7 @@ int vp_min_voltage_get(unsigned int vp_vlimitto, unsigned short vdd_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_max_voltage_get
  * @BRIEF		return VP maximum supply voltage
  * @RETURNS		0 in case of success
@@ -293,7 +293,7 @@ int vp_min_voltage_get(unsigned int vp_vlimitto, unsigned short vdd_id,
  * @param[in,out]	max_uv: maximum supply voltage (in micro-volt)
  *				(RETURNED)
  * @DESCRIPTION		return VP maximum supply voltage
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp_max_voltage_get(unsigned int vp_vlimitto, unsigned short vdd_id,
 	unsigned char *max_vsel, unsigned int *max_uv)
 {
@@ -308,7 +308,7 @@ int vp_max_voltage_get(unsigned int vp_vlimitto, unsigned short vdd_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_last_voltage_get
  * @BRIEF		return the last voltage set by the voltage processor
  *			for a domain.
@@ -325,7 +325,7 @@ int vp_max_voltage_get(unsigned int vp_vlimitto, unsigned short vdd_id,
  *			for a domain.
  *			NB: SR/VP/VC HAVE TO BE AT LEAST INITIALIZED
  *			(SR COULD BE DISABLED) OTHERWISE THIS VALUE HAS NO SENSE
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp_last_voltage_get(unsigned int vp_voltage, unsigned short vdd_id,
 	unsigned char *vsel, unsigned int *uv)
 {
@@ -343,7 +343,7 @@ int vp_last_voltage_get(unsigned int vp_voltage, unsigned short vdd_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_vc_timeout_get
  * @BRIEF		return VC maximum response wait time
  * @RETURNS		0 in case of success
@@ -355,7 +355,7 @@ int vp_last_voltage_get(unsigned int vp_voltage, unsigned short vdd_id,
  * @param[in,out]	timeout_us: maximum response wait time (in micro-second)
  *				(RETURNED)
  * @DESCRIPTION		return VC maximum response wait time
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp_vc_timeout_get(unsigned int vp_vlimitto,
 	unsigned int *timeout_cycles, unsigned int *timeout_us)
 {
@@ -381,7 +381,7 @@ int vp_vc_timeout_get(unsigned int vp_vlimitto,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_force_update_wait_time_get
  * @BRIEF		return the time voltage processor needs to wait for
  *			SMPS to be settled after receiving SMPS acknowledge.
@@ -395,7 +395,7 @@ int vp_vc_timeout_get(unsigned int vp_vlimitto,
  *				(in micro-second) (returned)
  * @DESCRIPTION		return the time voltage processor needs to wait for
  *			SMPS to be settled after receiving SMPS acknowledge.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp_force_update_wait_time_get(unsigned int vp_voltage,
 	unsigned int *time_cycles, unsigned int *time_us)
 {
@@ -423,7 +423,7 @@ int vp_force_update_wait_time_get(unsigned int vp_voltage,
 
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_max_step_get
  * @BRIEF		return VP maximum voltage step
  * @RETURNS		0 in case of success
@@ -433,7 +433,7 @@ int vp_force_update_wait_time_get(unsigned int vp_voltage,
  * @param[in,out]	max_step: maximum voltage step (vsel command) (RETURNED)
  * @param[in,out]	max_uv: maximum voltage step (in micro-volt) (RETURNED)
  * @DESCRIPTION		return VP maximum voltage step
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp_max_step_get(unsigned int vp_vstepmax, unsigned short vdd_id,
 	unsigned int *max_step, unsigned int *max_uv)
 {
@@ -448,7 +448,7 @@ int vp_max_step_get(unsigned int vp_vstepmax, unsigned short vdd_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_min_step_get
  * @BRIEF		return VP minimum voltage step
  * @RETURNS		0 in case of success
@@ -458,7 +458,7 @@ int vp_max_step_get(unsigned int vp_vstepmax, unsigned short vdd_id,
  * @param[in,out]	min_step: minimum voltage step (vsel command) (RETURNED)
  * @param[in,out]	min_uv: minimum voltage step (in micro-volt) (RETURNED)
  * @DESCRIPTION		return VP minimum voltage step
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp_min_step_get(unsigned int vp_vstepmin, unsigned short vdd_id,
 	unsigned int *min_step, unsigned int *min_uv)
 {
@@ -473,7 +473,7 @@ int vp_min_step_get(unsigned int vp_vstepmin, unsigned short vdd_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_positive_slew_rate_get
  * @BRIEF		return VP slew rate for positive voltage step
  * @RETURNS		0 in case of success
@@ -485,7 +485,7 @@ int vp_min_step_get(unsigned int vp_vstepmin, unsigned short vdd_id,
  * @param[in,out]	us: VP slew rate for positive voltage step
  *				in micro-seconds per step (RETURNED)
  * @DESCRIPTION		return VP slew rate for positive voltage step
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp_positive_slew_rate_get(unsigned int vp_vstepmax,
 	unsigned int *cycles, unsigned int *us)
 {
@@ -507,7 +507,7 @@ int vp_positive_slew_rate_get(unsigned int vp_vstepmax,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_negative_slew_rate_get
  * @BRIEF		return VP slew rate for negative voltage step
  * @RETURNS		0 in case of success
@@ -519,7 +519,7 @@ int vp_positive_slew_rate_get(unsigned int vp_vstepmax,
  * @param[in,out]	us: VP slew rate for negative voltage step
  *				in micro-seconds per step (RETURNED)
  * @DESCRIPTION		return VP slew rate for negative voltage step
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp_negative_slew_rate_get(unsigned int vp_vstepmin,
 	unsigned int *cycles, unsigned int *us)
 {
@@ -541,7 +541,7 @@ int vp_negative_slew_rate_get(unsigned int vp_vstepmin,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_slew_rate_cycles2us
  * @BRIEF		convert VP slew rate HEX value into micro-seconds
  * @RETURNS		VP slew rate in micro-seconds
@@ -549,7 +549,7 @@ int vp_negative_slew_rate_get(unsigned int vp_vstepmin,
  * @param[in]		cycles: VP slew rate for negative voltage step in
  *				number of cycles per step
  * @DESCRIPTION		convert VP slew rate HEX value into micro-seconds
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp_slew_rate_cycles2us(unsigned int cycles)
 {
 	double sysclk;
@@ -567,7 +567,7 @@ int vp_slew_rate_cycles2us(unsigned int cycles)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_config_show
  * @BRIEF		decode and show VP current configuration
  * @RETURNS		0 in case of success
@@ -577,7 +577,7 @@ int vp_slew_rate_cycles2us(unsigned int cycles)
  * @param[in,out]	vp_regs: VP registers content for the 3 VP instances
  *				(MPU, IVA/MM, CORE)
  * @DESCRIPTION		decode and show VP current configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp_config_show(FILE *stream, vp_registers vp_regs[3])
 {
 	unsigned int cycles, us, step, uv;
@@ -764,7 +764,7 @@ int vp_config_show(FILE *stream, vp_registers vp_regs[3])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp_config_audit
  * @BRIEF		audit Voltage Processor (VP) configuration
  * @RETURNS		0 in case of success
@@ -779,7 +779,7 @@ int vp_config_show(FILE *stream, vp_registers vp_regs[3])
  * @param[in,out]	wng_nbr: audit warning number
  * @DESCRIPTION		audit Voltage Processor (VP) configuration by comparison
  *			with expected ("golden") settings
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp_config_audit(FILE *stream, const char *vp_name, const char *opp_name,
 	vp_registers *vp_regs, const vp_audit_settings *vp_golden_settings,
 	unsigned int *err_nbr, unsigned int *wng_nbr)

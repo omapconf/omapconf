@@ -210,66 +210,66 @@ static char cpu_online_file[36] =
 static int cpu_cores_count = -1;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_forced_set
  * @BRIEF		set CPU forced flag
  * @RETURNS		none
  * @param[in]		forced: CPU forced flag
  * @DESCRIPTION		set CPU forced flag
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline void cpu_forced_set(unsigned short forced)
 {
 	cpu_forced = forced;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_forced
  * @BRIEF		return CPU forced flag
  * @RETURNS		0 if CPU not forced (true detection)
  *			1 if CPU forced (user selected CPU)
  * @param[in]		none
  * @DESCRIPTION		return CPU forced flag
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short cpu_is_forced(void)
 {
 	return cpu_forced;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_set
  * @BRIEF		set CPU
  * @RETURNS		none
  * @param[in]		omap: detected CPU
  * @DESCRIPTION		set CPU
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline void cpu_set(omap_chip omap)
 {
 	cpu = omap;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_get
  * @BRIEF		return CPU
  * @RETURNS		CPU
  * @param[in]		none
  * @DESCRIPTION		return CPU
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 omap_chip cpu_get(void)
 {
 	return cpu;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_gets
  * @BRIEF		return CPU name as a string
  * @RETURNS		CPU name as a string
  * @param[in,out]	s: pre-allocated string where to store CPU name
  * @DESCRIPTION		return CPU name as a string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *cpu_gets(char s[CPU_NAME_MAX_LENGTH])
 {
 	omap_chip omap;
@@ -281,7 +281,7 @@ char *cpu_gets(char s[CPU_NAME_MAX_LENGTH])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_omap
  * @BRIEF		check if cpu is an omap chip by trying to read
  *			/sys/devices/soc0/machine
@@ -290,7 +290,7 @@ char *cpu_gets(char s[CPU_NAME_MAX_LENGTH])
  * @param[in]		none
  * @DESCRIPTION		check if cpu is an omap chip by trying to read
  *			/sys/devices/soc0/machine
-*//*------------------------------------------------------------------------ */
+*------------------------------------------------------------------------ */
 unsigned int cpu_is_omap(void)
 {
 	FILE *fp;
@@ -320,14 +320,14 @@ unsigned int cpu_is_omap(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_am335x
  * @BRIEF		check if cpu is AM335x
  * @RETURNS		1 if cpu is AM335x
  *			0 if cpu is NOT AM335x
  * @param[in]		none
  * @DESCRIPTION		check if cpu is AM335x
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_am335x(void)
 {
 	return ((cpu == AM_3352) || (cpu == AM_3354) || (cpu == AM_3356) ||
@@ -335,203 +335,203 @@ unsigned int cpu_is_am335x(void)
 		(cpu == AM_335X));
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_am437x
  * @BRIEF		check if cpu is AM437x
  * @RETURNS		1 if cpu is AM437x
  *			0 if cpu is NOT AM437x
  * @param[in]		none
  * @DESCRIPTION		check if cpu is AM437x
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_am437x(void)
 {
 	return cpu == AM_437X;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_dra7xx
  * @BRIEF		check if cpu is DRA7xx
  * @RETURNS		1 if cpu is DRA7xx
  *			0 if cpu is NOT DRA7xx
  * @param[in]		none
  * @DESCRIPTION		check if cpu is DRA7xx
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_dra7xx(void)
 {
 	return cpu == DRA_75X || cpu == DRA_72X || cpu == DRA_76X;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_dra72x
  * @BRIEF		check if cpu is DRA72x
  * @RETURNS		1 if cpu is DRA72x
  *			0 if cpu is NOT DRA72x
  * @param[in]		none
  * @DESCRIPTION		check if cpu is DRA72x
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_dra72x(void)
 {
 	return cpu == DRA_72X;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_dra75x
  * @BRIEF		check if cpu is DRA75x
  * @RETURNS		1 if cpu is DRA75x
  *			0 if cpu is NOT DRA75x
  * @param[in]		none
  * @DESCRIPTION		check if cpu is DRA75x
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_dra75x(void)
 {
 	return cpu == DRA_75X;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_dra76x
  * @BRIEF		check if cpu is DRA76x
  * @RETURNS		1 if cpu is DRA76x
  *			0 if cpu is NOT DRA76x
  * @param[in]		none
  * @DESCRIPTION		check if cpu is DRA76x
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_dra76x(void)
 {
 	return cpu == DRA_76X;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_omap44xx
  * @BRIEF		check if cpu is OMAP44xx
  * @RETURNS		1 if cpu is OMAP44xx
  *			0 if cpu is NOT OMAP44xx
  * @param[in]		none
  * @DESCRIPTION		check if cpu is OMAP44xx
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_omap44xx(void)
 {
 	return ((cpu == OMAP_4430) || (cpu == OMAP_4460) || (cpu == OMAP_4470));
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_omap4430
  * @BRIEF		check if cpu is OMAP4430
  * @RETURNS		1 if cpu is OMAP4430
  *			0 if cpu is NOT OMAP4430
  * @param[in]		none
  * @DESCRIPTION		check if cpu is OMAP4430
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_omap4430(void)
 {
 	return cpu == OMAP_4430;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_omap4460
  * @BRIEF		check if cpu is OMAP4460
  * @RETURNS		1 if cpu is OMAP4460
  *			0 if cpu is NOT OMAP4460
  * @param[in]		none
  * @DESCRIPTION		check if cpu is OMAP4460
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_omap4460(void)
 {
 	return cpu == OMAP_4460;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_omap4470
  * @BRIEF		check if cpu is OMAP4470
  * @RETURNS		1 if cpu is OMAP4470
  *			0 if cpu is NOT OMAP4470
  * @param[in]		none
  * @DESCRIPTION		check if cpu is OMAP4470
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_omap4470(void)
 {
 	return cpu == OMAP_4470;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_omap5430
  * @BRIEF		check if cpu is OMAP5430
  * @RETURNS		1 if cpu is OMAP5430
  *			0 if cpu is NOT OMAP5430
  * @param[in]		none
  * @DESCRIPTION		check if cpu is OMAP5430
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_omap5430(void)
 {
 	return cpu == OMAP_5430;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_omap5432
  * @BRIEF		check if cpu is OMAP5432
  * @RETURNS		1 if cpu is OMAP5432
  *			0 if cpu is NOT OMAP5432
  * @param[in]		none
  * @DESCRIPTION		check if cpu is OMAP5432
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_omap5432(void)
 {
 	return cpu == OMAP_5432;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_omap54xx
  * @BRIEF		check if cpu is OMAP54xx
  * @RETURNS		1 if cpu is OMAP54xx
  *			0 if cpu is NOT OMAP54xx
  * @param[in]		none
  * @DESCRIPTION		check if cpu is OMAP54xx
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_omap54xx(void)
 {
 	return ((cpu == OMAP_5430) || (cpu == OMAP_5432));
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_revision_set
  * @BRIEF		set CPU revision
  * @RETURNS		none
  * @param[in]		rev: CPU revision
  * @DESCRIPTION		set CPU revision
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline void cpu_revision_set(omap_chip_revision rev)
 {
 	cpu_rev = rev;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_revision_get
  * @BRIEF		return CPU revision
  * @RETURNS		CPU revision
  * @param[in]		none
  * @DESCRIPTION		return CPU revision
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 omap_chip_revision cpu_revision_get(void)
 {
 	return cpu_rev;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_revision_gets
  * @BRIEF		return CPU revision as a string
  * @RETURNS		CPU revision as a string
  * @param[in,out]	s: pre-allocated string where to store CPU revision
  * @DESCRIPTION		return CPU revision as a string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *cpu_revision_gets(char s[CPU_REVISION_MAX_NAME_LENGTH])
 {
 	if (s == NULL) {
@@ -549,39 +549,39 @@ char *cpu_revision_gets(char s[CPU_REVISION_MAX_NAME_LENGTH])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_device_type_set
  * @BRIEF		set CPU device type
  * @RETURNS		none
  * @param[in]		type: device type
  * @DESCRIPTION		set CPU device type
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline void cpu_device_type_set(omap_device_type type)
 {
 	cpu_type = type;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_device_type_get
  * @BRIEF		return CPU device type
  * @RETURNS		CPU device type
  * @param[in]		none
  * @DESCRIPTION		return CPU device type
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 omap_device_type cpu_device_type_get(void)
 {
 	return cpu_type;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_device_type_gets
  * @BRIEF		return CPU device type as a string
  * @RETURNS		CPU device type as a string
  * @param[in,out]	s: pre-allocated string where to store CPU device type
  * @DESCRIPTION		return CPU device type as a string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *cpu_device_type_gets(char s[CPU_DEVICE_TYPE_MAX_NAME_LENGTH])
 {
 	omap_device_type t;
@@ -602,70 +602,70 @@ char *cpu_device_type_gets(char s[CPU_DEVICE_TYPE_MAX_NAME_LENGTH])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_gp_device
  * @BRIEF		check if cpu device type is GP
  * @RETURNS		1 if cpu device type is GP
  *			0 if cpu device type is GP
  * @param[in]		none
  * @DESCRIPTION		check if cpu device type is GP
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_gp_device(void)
 {
 	return cpu_type == DEV_GP;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_hs_device
  * @BRIEF		check if cpu device type is HS
  * @RETURNS		1 if cpu device type is HS
  *			0 if cpu device type is HS
  * @param[in]		none
  * @DESCRIPTION		check if cpu device type is HS
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_hs_device(void)
 {
 	return cpu_type == DEV_HS;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_emu_device
  * @BRIEF		check if cpu device type is EMU
  * @RETURNS		1 if cpu device type is EMU
  *			0 if cpu device type is EMU
  * @param[in]		none
  * @DESCRIPTION		check if cpu device type is EMU
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_emu_device(void)
 {
 	return cpu_type == DEV_EMU;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_test_device
  * @BRIEF		check if cpu device type is TEST
  * @RETURNS		1 if cpu device type is TEST
  *			0 if cpu device type is TEST
  * @param[in]		none
  * @DESCRIPTION		check if cpu device type is TEST
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_test_device(void)
 {
 	return cpu_type == DEV_TEST;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_full_name_set
  * @BRIEF		set CPU full name (name + rev + type)
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_INTERNAL
  * @param[in]		none
  * @DESCRIPTION		set CPU full name (name + rev + type)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int cpu_full_name_set(void)
 {
 	char name[CPU_NAME_MAX_LENGTH];
@@ -704,53 +704,53 @@ static int cpu_full_name_set(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_full_name_get
  * @BRIEF		return CPU full name (name + rev + type) as a string
  * @RETURNS		CPU full name as a string
  * @param[in,out]	s: pre-allocated string where to store CPU full name
  * @DESCRIPTION		return CPU full name (name + rev + type) as a string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *cpu_full_name_get(char s[CPU_FULL_NAME_MAX_LENGTH])
 {
 	return strncpy(s, cpu_full_name, CPU_FULL_NAME_MAX_LENGTH);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_silicon_type_set
  * @BRIEF		set silicon type
  * @RETURNS		none
  * @param[in]		t: silicon type
  * @DESCRIPTION		set silicon type
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline void cpu_silicon_type_set(silicon_type t)
 {
 	si_type = t;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_silicon_type_get
  * @BRIEF		return silicon type
  * @RETURNS		Silicon (process) type
  *			SILICON_TYPE_MAX if unknown
  * @param[in]		none
  * @DESCRIPTION		return silicon type
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 silicon_type cpu_silicon_type_get(void)
 {
 	return si_type;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_silicon_type_gets
  * @BRIEF		return silicon type as a string
  * @RETURNS		silicon type as a string
  * @param[in,out]	type: pre-allocated string where to store silicon type
  * @DESCRIPTION		return silicon type as a string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *cpu_silicon_type_gets(char type[CPU_SI_TYPE_MAX_NAME_LENGTH])
 {
 	silicon_type t;
@@ -771,7 +771,7 @@ char *cpu_silicon_type_gets(char type[CPU_SI_TYPE_MAX_NAME_LENGTH])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_silicon_max_speed_get
  * @BRIEF		return silicon max speed
  * @RETURNS		Silicon max speed (in MHz)
@@ -779,7 +779,7 @@ char *cpu_silicon_type_gets(char type[CPU_SI_TYPE_MAX_NAME_LENGTH])
  * @param[in]		none
  * @DESCRIPTION		return silicon max speed
  *			(depending on cpu type and silicon type)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_silicon_max_speed_get(void)
 {
 	unsigned int max_speed;
@@ -804,40 +804,40 @@ unsigned int cpu_silicon_max_speed_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_package_type_set
  * @BRIEF		set package type
  * @RETURNS		none
  * @param[in]		t: package type
  * @DESCRIPTION		set package type
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline void cpu_package_type_set(package_type t)
 {
 	pkg_type = t;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_package_type_get
  * @BRIEF		return package type
  * @RETURNS		Package type
  *			PACKAGE_TYPE_MAX if unknown
  * @param[in]		none
  * @DESCRIPTION		return package type
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 package_type cpu_package_type_get(void)
 {
 	return pkg_type;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_package_type_gets
  * @BRIEF		return package type as a string
  * @RETURNS		package type as a string
  * @param[in,out]	type: pre-allocated string where to store package type
  * @DESCRIPTION		return package type as a string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *cpu_package_type_gets(char type[CPU_PKG_TYPE_MAX_NAME_LENGTH])
 {
 	package_type t;
@@ -858,7 +858,7 @@ char *cpu_package_type_gets(char type[CPU_PKG_TYPE_MAX_NAME_LENGTH])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_die_id_get
  * @BRIEF		return SoC DIE ID (4x 32-bit integers, string).
  * @RETURNS		OMAP DIE ID string (as "DIEID3-DIEID2-DIEID1-DIEID0")
@@ -869,7 +869,7 @@ char *cpu_package_type_gets(char type[CPU_PKG_TYPE_MAX_NAME_LENGTH])
  * @param[in,out]	die_id_0: DIE ID (part 0, LSB)
  * @param[in,out]	die_id: DIE ID string ("DIEID3-DIEID2-DIEID1-DIEID0")
  * @DESCRIPTION		return SoC DIE ID (4x 32-bit integers, string).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *cpu_die_id_get(unsigned int *die_id_3, unsigned int *die_id_2,
 	unsigned int *die_id_1, unsigned int *die_id_0,
 	char die_id[CPU_DIE_ID_LENGTH])
@@ -920,14 +920,14 @@ char *cpu_die_id_get(unsigned int *die_id_3, unsigned int *die_id_2,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_init
  * @BRIEF		init local cpuinfo variables
  * @RETURNS		0 on success
  *			OMAPCONF_ERR_ARG
  * @param[in]		none
  * @DESCRIPTION		init local cpuinfo variables
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void cpu_init(void)
 {
 	cpu_forced_set(0);
@@ -940,7 +940,7 @@ void cpu_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_rev_get_from_cpuinfo
  * @BRIEF		Parse /proc/cpuinfo to get ARM Cortex-A9 revision
  * @RETURNS		0 on success
@@ -952,7 +952,7 @@ void cpu_init(void)
  *			= REV_ES2_0 if VEYRON
  *			= REV_ES_MAX if not found
  * @DESCRIPTION		Parse /proc/cpuinfo to get ARM Cortex-A9 revision
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cpu_rev_get_from_cpuinfo(omap_chip_revision *cpu_rev)
 {
 	char line[256];
@@ -1215,7 +1215,7 @@ static int identify_sitara(void)
 	return ret;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_detect
  * @BRIEF		Detect cpu and set internal global variables accordingly
  * @RETURNS		0 on success
@@ -1224,7 +1224,7 @@ static int identify_sitara(void)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		none
  * @DESCRIPTION		Detect cpu and set internal global variables accordingly
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cpu_detect(void)
 {
 	unsigned int status;
@@ -1357,14 +1357,14 @@ int cpu_detect(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_force
  * @BRIEF		Force cpu detection.
  * @RETURNS		0 on success
  *			OMAPCONF_ERR_ARG
  * @param[in]		forced_cpu: name of the force cpu
  * @DESCRIPTION		Force cpu detection.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cpu_force(char *forced_cpu)
 {
 	if (forced_cpu == NULL) {
@@ -1514,14 +1514,14 @@ int cpu_force(char *forced_cpu)
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_is_online
  * @BRIEF		check if cpu core is online
  * @RETURNS		0 cpu is OFFLINE
  *			1 cpu is ONLINE
  * @param[in]		cpu: cpu core number
  * @DESCRIPTION		check if cpu core is online
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_is_online(unsigned short cpu)
 {
 	FILE *fp;
@@ -1568,7 +1568,7 @@ unsigned int cpu_is_online(unsigned short cpu)
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_proc_stats_get
  * @BRIEF		extract CPU runtime execution statistics from /proc/stat
  * @RETURNS		0 in case of success
@@ -1582,7 +1582,7 @@ unsigned int cpu_is_online(unsigned short cpu)
  * @param[in,out]	sum: total amount of time, since boot (RETURNED)
  * @DESCRIPTION		extract CPU runtime execution statistics from /proc/stat
  *			Time units are in USER_HZ.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cpu_proc_stats_get(unsigned int cpu,
 	unsigned int *idle, unsigned int *iowait, unsigned int *sum)
 {
@@ -1653,7 +1653,7 @@ int cpu_proc_stats_get(unsigned int cpu,
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_load_get
  * @BRIEF		compute CPU load (0 - 100%)
  * @RETURNS		CPU load (0 - 100%)
@@ -1663,7 +1663,7 @@ int cpu_proc_stats_get(unsigned int cpu,
  *			between two samples
  * @param[in]		delta_sum: delta amount of time, between two samples
  * @DESCRIPTION		compute CPU load (0 - 100%)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double cpu_load_get(unsigned int delta_idle,
 	unsigned int delta_iowait, unsigned int delta_sum)
 {
@@ -1681,13 +1681,13 @@ double cpu_load_get(unsigned int delta_idle,
 	return load;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_online_cores_count_get
  * @BRIEF		return the number of CPU cores online
  * @RETURNS		number of CPU cores online
  * @param[in]		none
  * @DESCRIPTION		return the number of CPU cores online
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_online_cores_count_get(void)
 {
 	unsigned int i, cpu_total_count, cpu_online_count;
@@ -1702,14 +1702,14 @@ unsigned int cpu_online_cores_count_get(void)
 	return cpu_online_count;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_cores_count_get
  * @BRIEF		return the number of CPU cores available
  * @RETURNS		>0 number of CPU cores available
  *			0 in case of error (unknown architecture)
  * @param[in]		none
  * @DESCRIPTION		return the number of CPU cores available
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_cores_count_get(void)
 {
 	FILE *fp;

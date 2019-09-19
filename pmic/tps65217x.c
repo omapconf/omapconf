@@ -89,7 +89,7 @@ static const tps65217x_smps_registers **tps65217x_smps_vdd_am335x[5] = {
 static float chip_revision = -1.0;
 static int chip_type = 0;
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_is_present
  * @BRIEF		return 1 if TPS65217X is present on this platform,
  *			0 otherwise
@@ -97,7 +97,7 @@ static int chip_type = 0;
  *			0 otherwise
  * @DESCRIPTION		return 1 if TPS65217X is present on this platform,
  *			0 otherwise
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short int tps65217x_is_present(void)
 {
 	int ret;
@@ -131,13 +131,13 @@ unsigned short int tps65217x_is_present(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_chip_get
  * @BRIEF		return TPS65217X chip
  * @RETURNS		> 0.0 TPS65217X chip
  *			OMAPCONF_ERR_UNEXPECTED in case of error
  * @DESCRIPTION		return TPS65217X chip (A, B, C, D, UNKNOWN)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int tps65217x_chip_get(void)
 {
 	int ret;
@@ -176,13 +176,13 @@ tps65217x_chip_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_chip_revision_get
  * @BRIEF		return TPS65217X chip revision
  * @RETURNS		> 0.0 TPS65217X chip revision
  *			OMAPCONF_ERR_UNEXPECTED in case of error
  * @DESCRIPTION		return TPS65217X chip revision
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double tps65217x_chip_revision_get(void)
 {
 	int ret;
@@ -220,13 +220,13 @@ tps65217x_chip_revision_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_eprom_revision_get
  * @BRIEF		return TPS65217X EPROM revision
  * @RETURNS		> 0.0 TPS65217X EPROM revision
  *			OMAPCONF_ERR_NOT_AVAILABLE in case of error
  * @DESCRIPTION		return TPS65217X EPROM revision
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double tps65217x_eprom_revision_get(void)
 {
 	/*
@@ -237,7 +237,7 @@ double tps65217x_eprom_revision_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_vsel_get
  * @BRIEF		return vsel-encoded voltage of a given SMPS voltage rail
  * @RETURNS		VSEL-encoded voltage (8-bit, >= 0) in case of success
@@ -248,7 +248,7 @@ double tps65217x_eprom_revision_get(void)
  *			OMAPCONF_ERR_INTERNAL
  * @param[in]		smps_id: voltage domain ID
  * @DESCRIPTION		return vsel-encoded voltage of a given SMPS voltage rail
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int tps65217x_vsel_get(unsigned int smps_id)
 {
 	int ret;
@@ -341,7 +341,7 @@ int tps65217x_vsel_get(unsigned int smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_vsel_to_uv
  * @BRIEF		for a given rail, convert SMPS vsel command into voltage
  *			in microvolts. Take into account SMPS voltage offset.
@@ -350,7 +350,7 @@ int tps65217x_vsel_get(unsigned int smps_id)
  * @param[in]		vsel: SMPS vsel command (in microvolts)
  * @DESCRIPTION		for a given rail, convert SMPS vsel command into voltage
  *			in microvolts. Take into account SMPS voltage offset.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned long tps65217x_vsel_to_uv(unsigned char vsel)
 {
 	unsigned long uv;
@@ -373,12 +373,12 @@ unsigned long tps65217x_vsel_to_uv(unsigned char vsel)
 	return uv;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_smps_offset_get
  * @BRIEF		return SMPS regulator voltage offset
  * @RETURNS		voltage offset in microvolts
  * @DESCRIPTION		return SMPS regulator voltage offset
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 long tps65217x_smps_offset_get(void)
 {
 	dprintf("%s(): offset=%lduV\n", __func__, (long) TPS65217X_VOLT_MIN_UV);
@@ -387,12 +387,12 @@ long tps65217x_smps_offset_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_smps_step_get
  * @BRIEF		return SMPS regulator voltage step in microvolts
  * @RETURNS		voltage step in microvolts
  * @DESCRIPTION		return SMPS regulator voltage step in microvolts
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 long tps65217x_smps_step_get(void)
 {
 	dprintf("%s(): step=%lduV\n", __func__, (long) TPS65217X_VSTEP_UV);
@@ -401,19 +401,19 @@ long tps65217x_smps_step_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_vsel_len_get
  * @BRIEF		return the size of the vsel command
  * @RETURNS		SMPS regulator size of the vsel command
  * @DESCRIPTION		return the size of the vsel command
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int tps65217x_vsel_len_get(void)
 {
 	return TPS65217X_VSEL_LEN;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps65217x_uv_to_vsel
  * @BRIEF		for a given rail, convert voltage in microvolts into
  *			SMPS vsel command.
@@ -421,7 +421,7 @@ int tps65217x_vsel_len_get(void)
  * @param[in]		uv: voltage to be converted (in microvolts)
  * @DESCRIPTION		for a given rail, convert voltage in microvolts into
  *			SMPS vsel command.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char tps65217x_uv_to_vsel(unsigned long uv)
 {
 	unsigned char vsel;

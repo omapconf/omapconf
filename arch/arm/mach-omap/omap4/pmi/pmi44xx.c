@@ -81,7 +81,7 @@ static const reg_table pmi44xx_reg_table[8] = {
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmi44xx_capture_enable
  * @BRIEF		setup PMI to capture selected event class
  * @RETURNS		0 in case of success
@@ -93,7 +93,7 @@ static const reg_table pmi44xx_reg_table[8] = {
  * @DESCRIPTION		setup PMI to capture selected event class
  *			NB: make sure EMU domain is ON before calling this
  *			function.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pmi44xx_capture_enable(pmi_event_class_type class,
 	unsigned int div, unsigned int window_size)
 {
@@ -148,7 +148,7 @@ int pmi44xx_capture_enable(pmi_event_class_type class,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmi44xx_capture_disable
  * @BRIEF		disable PMI Events capture
  * @RETURNS		0 in case of success
@@ -156,7 +156,7 @@ int pmi44xx_capture_enable(pmi_event_class_type class,
  * @DESCRIPTION		disable PMI Events capture
  *			NB: make sure EMU domain is ON before calling this
  *			function.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pmi44xx_capture_disable(void)
 {
 	unsigned int pmi_psr;
@@ -186,7 +186,7 @@ int pmi44xx_capture_disable(void)
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmi44xx_trace_capture
  * @BRIEF		capture PMI trace and save it into file
  * @RETURNS		> 0 saved trace length (in 4-bit words)
@@ -198,7 +198,7 @@ int pmi44xx_capture_disable(void)
  * @param[in]		delay: delay before capture start (in seconds)
  * @param[in,out]	file: output file where captured trace is saved
  * @DESCRIPTION		capture PMI trace and save it into file
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pmi44xx_trace_capture(pmi_event_class_type class,
 	unsigned int time, unsigned short delay, char *file)
 {
@@ -330,7 +330,7 @@ restore_hw_cfg1:
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmi44xx_trace_decode
  * @BRIEF		from ETB RAW trace, extract PMI STP messages and save it
  *			into file.
@@ -354,7 +354,7 @@ restore_hw_cfg1:
  *			started (due to OMAP4 HW bug, no initial OPP event ...)
  * @DESCRIPTION		from ETB RAW trace, extract PMI STP messages and save it
  *			into file.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pmi44xx_trace_decode(char *etb_trace, unsigned int lts_ref_clk,
 	char *pmi_trace, double *duration, opp44xx_id vddcore_opp)
 {
@@ -864,7 +864,7 @@ pmi44xx_trace_decode_end:
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmi44xx_events_get
  * @BRIEF		retrieve PM event(s) from PMI trace file.
  * @RETURNS		>=0 total number of PM events extracted from PMI trace
@@ -877,7 +877,7 @@ pmi44xx_trace_decode_end:
  * @param[in,out]	pmi_events: list of PMI events extracted from PMI
  *				trace file
  * @DESCRIPTION		retrieve PM event(s) from PMI trace file.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pmi44xx_events_get(char *filename, genlist *pmi_events)
 {
 	double ts;

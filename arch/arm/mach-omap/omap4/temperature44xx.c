@@ -69,14 +69,14 @@ const char *temp44xx_sensor_names[TEMP44XX_ID_MAX + 1] = {
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		temp44xx_name_get
  * @BRIEF		return temperature sensor name
  * @RETURNS		temperature sensor ID
  *			NULL in case of incorrect id
  * @param[in]		id: temperature sensor ID
  * @DESCRIPTION		return temperature sensor name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *temp44xx_name_get(temp44xx_sensor_id id)
 {
 	if (id > TEMP44XX_ID_MAX)
@@ -86,14 +86,14 @@ const char *temp44xx_name_get(temp44xx_sensor_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		temp44xx_voltdm2sensor_id
  * @BRIEF		convert voltage domain ID to sensor domain ID
  * @RETURNS		valid sensor ID in case of success
  *			TEMP44XX_ID_MAX in case of voltage domain ID
  * @param[in]		vdd_id: valid voltage domain ID
  * @DESCRIPTION		convert voltage domain ID to sensor domain ID.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 temp44xx_sensor_id temp44xx_voltdm2sensor_id(voltdm44xx_id vdd_id)
 {
 	static const temp44xx_sensor_id voltdm2sensor_map[OMAP4_VD_ID_MAX] = {
@@ -109,7 +109,7 @@ temp44xx_sensor_id temp44xx_voltdm2sensor_id(voltdm44xx_id vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		temp44xx_get
  * @BRIEF		return temperature measured by selected sensor
  *			(in degrees celcius)
@@ -118,7 +118,7 @@ temp44xx_sensor_id temp44xx_voltdm2sensor_id(voltdm44xx_id vdd_id)
  * @param[in]		id: temperature sensor id
  * @DESCRIPTION		return temperature measured by selected sensor
  *			(in degrees celcius)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int temp44xx_get(temp44xx_sensor_id id)
 {
 	int temp, ret;

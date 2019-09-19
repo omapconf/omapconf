@@ -50,7 +50,7 @@
 #include "crossbar.h"
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dra7xx_crossbar_input_init
  * @BRIEF		initalizes the cross bar mapping by reading required
  *			registers
@@ -62,7 +62,7 @@
  * @param[in]		mask: what mask to apply for register access
  * @DESCRIPTION		Reads register if present per entry, and updates the
  *			map for the cross bar.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dra7xx_crossbar_input_init(char *module_name,
 			       struct cross_bar_module_input *minput,
 			       int minput_size, unsigned int mask)
@@ -99,7 +99,7 @@ int dra7xx_crossbar_input_init(char *module_name,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dra7xx_crossbar_audit
  * @BRIEF		Does an audit of crossbar configuration
  * @RETURNS		0 on success
@@ -115,7 +115,7 @@ int dra7xx_crossbar_input_init(char *module_name,
  * @param[in,out]	tot_checks: total checks - updated with results of audit
  * @DESCRIPTION		Audits the cross bar to see multiple module interrupts
  *			mapping to same source.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dra7xx_crossbar_audit(FILE *stream, char *type, char *module_name,
 			  struct cross_bar_module_input *minput,
 			  int minput_size, struct cross_bar_input *cinput,
@@ -259,7 +259,7 @@ stuff_remaining:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dra7xx_crossbar_dump
  * @BRIEF		Does an dump of crossbar configuration
  * @RETURNS		0 on success
@@ -271,7 +271,7 @@ stuff_remaining:
  * @param[in]		cinput: array representing SoC crossbar
  * @param[in]		cinput_size: size of crossbar array
  * @DESCRIPTION		Dumps the cross bar to see show the current config
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dra7xx_crossbar_dump(FILE *stream, char *type, char *module_name,
 			 struct cross_bar_module_input *minput,
 			 int minput_size, struct cross_bar_input *cinput,
@@ -345,13 +345,13 @@ int dra7xx_crossbar_dump(FILE *stream, char *type, char *module_name,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dra7_crossbar_dump_main
  * @BRIEF		top handler for crossbar dumps
  * @RETURNS		0 on success
  * @param[in]		argc: argument count
  * @param[in]		argv: argument array
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dra7_crossbar_dump_main(int argc, char *argv[])
 {
 	int err = OMAPCONF_ERR_ARG;
@@ -369,13 +369,13 @@ int dra7_crossbar_dump_main(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dra7_crossbar_audit_main
  * @BRIEF		top handler for crossbar audits
  * @RETURNS		0 on success
  * @param[in]		argc: argument count
  * @param[in]		argv: argument array
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dra7_crossbar_audit_main(int argc, char *argv[])
 {
 	int err = OMAPCONF_ERR_ARG;

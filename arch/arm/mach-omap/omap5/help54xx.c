@@ -47,12 +47,12 @@
 #include <cpuinfo.h>
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		help54xx
  * @BRIEF		display help for OMAP5-specific functions
  * @param[in]		cat: help category to display
  * @DESCRIPTION		display help for OMAP5-specific functions
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void help54xx(help_category cat, char *context)
 {
 	if (cat >= HELP_CATEGORY_MAX) {

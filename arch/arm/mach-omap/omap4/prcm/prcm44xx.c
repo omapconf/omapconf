@@ -74,7 +74,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		prcm44xx_dump
  * @BRIEF		dump (formated in table) PRCM registers related to power
  *			domain provided in string s.
@@ -85,7 +85,7 @@
  * @param[in]		s: power domain
  * @DESCRIPTION		dump (formated in table) PRCM registers related to power
  *			domain provided in string s.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int prcm44xx_dump(char *s)
 {
 	int ret;
@@ -148,7 +148,7 @@ int prcm44xx_dump(char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		prcm44xx_config_show
  * @BRIEF		print PRCM configuration and status of item
  *			provided in string s.
@@ -159,7 +159,7 @@ int prcm44xx_dump(char *s)
  * @param[in]		s: PRCM item
  * @DESCRIPTION		print PRCM configuration and status of item
  *			provided in string s.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int prcm44xx_config_show(char *s)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -205,7 +205,7 @@ int prcm44xx_config_show(char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		prcm44xx_dep_show
  * @BRIEF		print PRCM clock domain dependency onfiguration.
  * @RETURNS		0 in case of success
@@ -214,7 +214,7 @@ int prcm44xx_config_show(char *s)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		s: clock domain
  * @DESCRIPTION		print PRCM clock domain dependency onfiguration.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int prcm44xx_dep_show(char *s)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);

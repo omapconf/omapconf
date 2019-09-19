@@ -158,7 +158,7 @@ static const tps659038_smps_registers **tps659038_smps_vdd_dra7xx[5] = {
 static float chip_revision = -1.0;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_is_present
  * @BRIEF		return 1 if TPS659038 is present on this platform,
  *			0 otherwise
@@ -166,7 +166,7 @@ static float chip_revision = -1.0;
  *			0 otherwise
  * @DESCRIPTION		return 1 if TPS659038 is present on this platform,
  *			0 otherwise
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short int tps659038_is_present(void)
 {
 	int ret;
@@ -244,13 +244,13 @@ unsigned short int tps659038_is_present(void)
 	return present;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_chip_revision_get
  * @BRIEF		return TPS659038 chip revision
  * @RETURNS		> 0.0 TPS659038 chip revision
  *			OMAPCONF_ERR_NOT_AVAILABLE in case of error
  * @DESCRIPTION		return TPS659038 chip revision
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double tps659038_chip_revision_get(void)
 {
 	int ret;
@@ -291,13 +291,13 @@ tps659038_chip_revision_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_eprom_revision_get
  * @BRIEF		return TPS659038 EPROM revision
  * @RETURNS		> 0.0 TPS659038 EPROM revision
  *			OMAPCONF_ERR_NOT_AVAILABLE in case of error
  * @DESCRIPTION		return TPS659038 EPROM revision
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double tps659038_eprom_revision_get(void)
 {
 	/*
@@ -308,7 +308,7 @@ double tps659038_eprom_revision_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_vsel_get
  * @BRIEF		return vsel-encoded voltage of a given SMPS voltage rail
  * @RETURNS		VSEL-encoded voltage (8-bit, >= 0) in case of success
@@ -319,7 +319,7 @@ double tps659038_eprom_revision_get(void)
  *			OMAPCONF_ERR_INTERNAL
  * @param[in]		smps_id: voltage domain ID
  * @DESCRIPTION		return vsel-encoded voltage of a given SMPS voltage rail
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int tps659038_vsel_get(unsigned int smps_id)
 {
 	int ret;
@@ -426,7 +426,7 @@ int tps659038_vsel_get(unsigned int smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_vsel_to_uv
  * @BRIEF		for a given rail, convert SMPS vsel command into voltage
  *			in microvolts. Take into account SMPS voltage offset.
@@ -435,7 +435,7 @@ int tps659038_vsel_get(unsigned int smps_id)
  * @param[in]		vsel: SMPS vsel command (in microvolts)
  * @DESCRIPTION		for a given rail, convert SMPS vsel command into voltage
  *			in microvolts. Take into account SMPS voltage offset.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned long tps659038_vsel_to_uv(unsigned char vsel)
 {
 	unsigned long uv;
@@ -465,12 +465,12 @@ unsigned long tps659038_vsel_to_uv(unsigned char vsel)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_smps_offset_get
  * @BRIEF		return SMPS regulator voltage offset
  * @RETURNS		voltage offset in microvolts
  * @DESCRIPTION		return SMPS regulator voltage offset
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 long tps659038_smps_offset_get(void)
 {
 	dprintf("%s(): offset=%lduV\n", __func__, (long) TPS659038_VOLT_MIN_UV);
@@ -479,12 +479,12 @@ long tps659038_smps_offset_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_smps_step_get
  * @BRIEF		return SMPS regulator voltage step in microvolts
  * @RETURNS		voltage step in microvolts
  * @DESCRIPTION		return SMPS regulator voltage step in microvolts
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 long tps659038_smps_step_get(void)
 {
 	dprintf("%s(): step=%lduV\n", __func__, (long) TPS659038_VSTEP_UV);
@@ -493,19 +493,19 @@ long tps659038_smps_step_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_vsel_len_get
  * @BRIEF		return the size of the vsel command
  * @RETURNS		SMPS regulator size of the vsel command
  * @DESCRIPTION		return the size of the vsel command
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int tps659038_vsel_len_get(void)
 {
 	return TPS659038_VSEL_LEN;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_uv_to_vsel
  * @BRIEF		for a given rail, convert voltage in microvolts into
  *			SMPS vsel command.
@@ -513,7 +513,7 @@ int tps659038_vsel_len_get(void)
  * @param[in]		uv: voltage to be converted (in microvolts)
  * @DESCRIPTION		for a given rail, convert voltage in microvolts into
  *			SMPS vsel command.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char tps659038_uv_to_vsel(unsigned long uv)
 {
 	unsigned char vsel;
@@ -525,7 +525,7 @@ unsigned char tps659038_uv_to_vsel(unsigned long uv)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps659038_uvoltage_set
  * @BRIEF		set voltage of a given SMPS voltage rail.
  * @RETURNS		0 in case of success
@@ -537,7 +537,7 @@ unsigned char tps659038_uv_to_vsel(unsigned long uv)
  * @param[in]		vdd_id: voltage domain ID
  * @param[in]		uv: voltage to be set (in micro-volt)
  * @DESCRIPTION		set voltage of a given SMPS voltage rail, in micro-volt.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int tps659038_uvoltage_set(unsigned int vdd_id, unsigned long uv)
 {
 	int ret;

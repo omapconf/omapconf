@@ -57,14 +57,14 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cm_am335x_mod_name_get
  * @BRIEF		return CM module name
  * @RETURNS		CM module name
  *			NULL in case of incorrect id
  * @param[in]		id: CM module ID
  * @DESCRIPTION		return CM module name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *cm_am335x_mod_name_get(cm_am335x_mod_id id)
 {
 	if (id >= CM_AM335X_MODS_COUNT) {
@@ -77,7 +77,7 @@ const char *cm_am335x_mod_name_get(cm_am335x_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cm_am335x_dump
  * @BRIEF		dump selected registers
  * @RETURNS		0 in case of success
@@ -88,7 +88,7 @@ const char *cm_am335x_mod_name_get(cm_am335x_mod_id id)
  *			If id == CM_AM335X_MODS_COUNT, dump all CM registers.
  * @DESCRIPTION		dump selected registers and pretty-print it in selected
  *			output stream
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cm_am335x_dump(FILE *stream, cm_am335x_mod_id id)
 {
 	unsigned int i, mid;
@@ -154,7 +154,7 @@ int cm_am335x_dump(FILE *stream, cm_am335x_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cm_am335x_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -163,7 +163,7 @@ int cm_am335x_dump(FILE *stream, cm_am335x_mod_id id)
  * @param[in]		name: register name
  * @param[in, out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cm_am335x_name2addr(char *name, unsigned int *addr)
 {
 	if (!cpu_is_am335x())

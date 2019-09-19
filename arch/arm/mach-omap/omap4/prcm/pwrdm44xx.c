@@ -104,11 +104,11 @@ static unsigned short pwrdm44xx_init_done = 0;
 genlist pwrdm44xx_list;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void pwrdm44xx_init(void)
 {
 	powerdm_info pwrdm;
@@ -125,12 +125,12 @@ void pwrdm44xx_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void pwrdm44xx_deinit(void)
 {
 	if (pwrdm44xx_init_done) {
@@ -142,13 +142,13 @@ void pwrdm44xx_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_list_get
  * @BRIEF		return the list of power domains
  * @RETURNS		list of power domains in case of success
  *			NULL in case of error
  * @DESCRIPTION		return the list of power domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *pwrdm44xx_list_get(void)
 {
 	pwrdm44xx_init();
@@ -157,14 +157,14 @@ const genlist *pwrdm44xx_list_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_count_get
  * @BRIEF		return the number of power domains
  * @RETURNS		number of power domains (> 0) in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
  * @DESCRIPTION		return the number of power domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pwrdm44xx_count_get(void)
 {
 	int count;
@@ -178,7 +178,7 @@ int pwrdm44xx_count_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_get_name
  * @BRIEF		return power domain name
  * @RETURNS		power domain name on success
@@ -186,7 +186,7 @@ int pwrdm44xx_count_get(void)
  * @param[in]		id: power domain ID
  * @param[in,out]	name: power domain name
  * @DESCRIPTION		return power domain name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *pwrdm44xx_get_name(pwrdm44xx_id id, char name[PWRDM44XX_MAX_NAME_LENGTH])
 {
 	if ((id >= OMAP4_PD_ID_MAX) || (name == NULL))
@@ -198,7 +198,7 @@ char *pwrdm44xx_get_name(pwrdm44xx_id id, char name[PWRDM44XX_MAX_NAME_LENGTH])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_get_voltdm
  * @BRIEF		return the ID of the voltage domain a given power domain
  *			is part of.
@@ -208,7 +208,7 @@ char *pwrdm44xx_get_name(pwrdm44xx_id id, char name[PWRDM44XX_MAX_NAME_LENGTH])
  * @param[in]		id: power domain ID
  * @DESCRIPTION		return the ID of the voltage domain a given power domain
  *			is part of.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 voltdm44xx_id pwrdm44xx_get_voltdm(pwrdm44xx_id id)
 {
 	if (id >= OMAP4_PD_ID_MAX) {
@@ -221,7 +221,7 @@ voltdm44xx_id pwrdm44xx_get_voltdm(pwrdm44xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_get_state
  * @BRIEF		extract current power domain state from register
  * @RETURNS		0 on success
@@ -229,7 +229,7 @@ voltdm44xx_id pwrdm44xx_get_voltdm(pwrdm44xx_id id)
  * @param[in]		pd_id: domain name (MPU, CORE, PER, ...)
  * @param[in,out]	state: current power domain state (returned)
  * @DESCRIPTION		extract current power domain state from register
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pwrdm44xx_get_state(pwrdm44xx_id pd_id,
 	pwrdm_state *state)
 {
@@ -308,7 +308,7 @@ int pwrdm44xx_get_state(pwrdm44xx_id pd_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm44xx_config_show
  * @BRIEF		analyze power domain configuration
  * @RETURNS		0 in case of error
@@ -319,7 +319,7 @@ int pwrdm44xx_get_state(pwrdm44xx_id pd_id,
  * @param[in]		pm_pwstst_addr: PM_xyz_PWSTST register address
  * @param[in]		pm_pwstst: PM_xyz_PWSTST register content
  * @DESCRIPTION		analyze power domain configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pwrdm44xx_config_show(FILE *stream, const char name[11],
 	unsigned int pm_pwstctrl_addr, unsigned int pm_pwstctrl,
 	unsigned int pm_pwstst_addr, unsigned int pm_pwstst)

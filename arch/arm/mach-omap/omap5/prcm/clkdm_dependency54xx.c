@@ -61,7 +61,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_register_get
  * @BRIEF		return the dependency register physical address.
  * @RETURNS		NULL in case of error
@@ -69,7 +69,7 @@
  * @param[in]		id: clock domain ID
  * @param[in]		type: static or dynamic
  * @DESCRIPTION		return the dependency register physical address.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const reg *clkdmdep54xx_register_get(clkdm54xx_id id, clkdmdep_type type)
 {
 	CHECK_ARG_LESS_THAN(id, CLKDM54XX_ID_MAX, NULL);
@@ -93,7 +93,7 @@ const reg *clkdmdep54xx_register_get(clkdm54xx_id id, clkdmdep_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_bit_pos_get
  * @BRIEF		return the position of the dependency control bit in
  *			register
@@ -103,7 +103,7 @@ const reg *clkdmdep54xx_register_get(clkdm54xx_id id, clkdmdep_type type)
  * @param[in]		id: target clock domain ID
  * @DESCRIPTION		return the position of the dependency control bit in
  *			register
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 short clkdmdep54xx_bit_pos_get(clkdm54xx_id id)
 {
 	short pos;
@@ -120,7 +120,7 @@ short clkdmdep54xx_bit_pos_get(clkdm54xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_dump
  * @BRIEF		dump all static dependency registers content
  * @RETURNS		0 in case of success
@@ -128,7 +128,7 @@ short clkdmdep54xx_bit_pos_get(clkdm54xx_id id)
  *			OMAPCONF_ERR_ARG
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump all static dependency registers content
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int clkdmdep54xx_dump(FILE *stream)
 {
 	clkdm54xx_id id;
@@ -180,7 +180,7 @@ clkdmdep54xx_dump_dynamic:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_has_dependency_towards_it
  * @BRIEF		indicate if clock domain can be dependent on another one
  * @RETURNS		1 if clock domain is dependent on another one
@@ -188,7 +188,7 @@ clkdmdep54xx_dump_dynamic:
  *			OMAPCONF_ERR_ARG
  * @param[in]		id: clock domain ID
  * @DESCRIPTION		indicate if clock domain can be dependent on another one
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int clkdmdep54xx_has_dependency_towards_it(clkdm54xx_id id)
 {
 	short int flag;
@@ -205,7 +205,7 @@ int clkdmdep54xx_has_dependency_towards_it(clkdm54xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_dep_get
  * @BRIEF		return dependency from 'from' clock domain towards 'to'
  *			domain.
@@ -216,7 +216,7 @@ int clkdmdep54xx_has_dependency_towards_it(clkdm54xx_id id)
  * @param[in]		type: dependency type
  * @DESCRIPTION		return dependency from 'from' clock domain towards 'to'
  *			domain.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 clkdmdep_ctrl_type clkdmdep54xx_dep_get(
 	clkdm54xx_id from, clkdm54xx_id to, clkdmdep_type type)
 {
@@ -238,7 +238,7 @@ clkdmdep_ctrl_type clkdmdep54xx_dep_get(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_dep_exists
  * @BRIEF		indicate if there is a dependency between the 2 given
  *			clock domains.
@@ -249,7 +249,7 @@ clkdmdep_ctrl_type clkdmdep54xx_dep_get(
  * @param[in]		type: dependency type
  * @DESCRIPTION		indicate if there is a dependency between the 2 given
  *			clock domains.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short clkdmdep54xx_dep_exists(
 	clkdm54xx_id from, clkdm54xx_id to, clkdmdep_type type)
 {
@@ -281,7 +281,7 @@ unsigned short clkdmdep54xx_dep_exists(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_is_enabled
  * @BRIEF		check if a dependency between 2 clock domains is enabled
  *			or not.
@@ -292,7 +292,7 @@ unsigned short clkdmdep54xx_dep_exists(
  * @param[in]		type: static or dynamic
  * @DESCRIPTION		check if a dependency between 2 clock domains is enabled
  *			or not.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short clkdmdep54xx_is_enabled(
 	clkdm54xx_id from, clkdm54xx_id to, clkdmdep_type type)
 {
@@ -333,7 +333,7 @@ unsigned short clkdmdep54xx_is_enabled(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_is_read_only
  * @BRIEF		indicate if a dependency between 2 given
  *			clock domains is SW-configurable or hard-coded.
@@ -345,7 +345,7 @@ unsigned short clkdmdep54xx_is_enabled(
  * @param[in]		type: static or dynamic
  * @DESCRIPTION		indicate if a dependency between 2 given
  *			clock domains is SW-configurable or hard-coded.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short clkdmdep54xx_is_read_only(
 	clkdm54xx_id from, clkdm54xx_id to, clkdmdep_type type)
 {
@@ -367,7 +367,7 @@ unsigned short clkdmdep54xx_is_read_only(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_statdep_set
  * @BRIEF		clear/set given static dependency.
  * @RETURNS		0 in case of success
@@ -377,7 +377,7 @@ unsigned short clkdmdep54xx_is_read_only(
  * @param[in]		to: clock domain ID
  * @param[in]		enable: 0 to clear, 1 to set static dependency.
  * @DESCRIPTION		clear/set given static dependency.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int clkdmdep54xx_statdep_set(clkdm54xx_id from, clkdm54xx_id to, int enable)
 {
 	reg *cm_dep_reg;
@@ -415,7 +415,7 @@ int clkdmdep54xx_statdep_set(clkdm54xx_id from, clkdm54xx_id to, int enable)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_show
  * @BRIEF		show complete clock domain dependencies configuration
  * @RETURNS		0 in case of success
@@ -425,7 +425,7 @@ int clkdmdep54xx_statdep_set(clkdm54xx_id from, clkdm54xx_id to, int enable)
  * @param[in]		type: dependency type
  *			if type == CLKDMDEP_TYPE_MAX, show static + dynamic.
  * @DESCRIPTION		show complete clock domain dependencies configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int clkdmdep54xx_show(FILE *stream, clkdmdep_type type)
 {
 	clkdm54xx_id from, to;
@@ -529,7 +529,7 @@ int clkdmdep54xx_show(FILE *stream, clkdmdep_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_audit
  * @BRIEF		audit clock domain static dependencies configuration
  * @RETURNS		0 in case of success
@@ -540,7 +540,7 @@ int clkdmdep54xx_show(FILE *stream, clkdmdep_type type)
  * @param[in,out]	err_nbr: pointer to return audit error number
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		audit clock domain static dependencies configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int clkdmdep54xx_audit(FILE *stream, unsigned int *err_nbr,
 	unsigned int *wng_nbr)
 {
@@ -641,7 +641,7 @@ int clkdmdep54xx_audit(FILE *stream, unsigned int *err_nbr,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdmdep54xx_set
  * @BRIEF		set/clear given static dependency
  * @RETURNS		0 in case of success
@@ -657,7 +657,7 @@ int clkdmdep54xx_audit(FILE *stream, unsigned int *err_nbr,
  *			List of clock domain names: cf clkdm54xx_s2id()
  * @param[in]		enable: set dependency if == 1, clear it if == 0.
  * @DESCRIPTION		set/clear given static dependency
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int clkdmdep54xx_set(char *clkdm_from, char *clkdm_to, unsigned short enable)
 {
 	int ret;

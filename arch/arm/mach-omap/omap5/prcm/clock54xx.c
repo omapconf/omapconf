@@ -280,14 +280,14 @@ static const double sysclk54xx_rate_table[SYSCLK54XX_ID_MAX] = { /* MHz */
 
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clk54xx_name_get
  * @BRIEF		return clock name
  * @RETURNS		clock name on success
  *			NULL in case of error
  * @param[in]		id: clock ID
  * @DESCRIPTION		return clock name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *clk54xx_name_get(clk54xx_id id)
 {
 	CHECK_ARG_LESS_THAN(id, CLK54XX_ID_MAX + 1, NULL);
@@ -296,7 +296,7 @@ const char *clk54xx_name_get(clk54xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clk54xx_sysclk_rate_get
  * @BRIEF		Return the system clock speed, in MHz.
  * @RETURNS		> 0 system clock speed, in MHz.
@@ -306,7 +306,7 @@ const char *clk54xx_name_get(clk54xx_id id)
  *			speed
  * @param[in]		none
  * @DESCRIPTION		Return the system clock speed, in MHz.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double clk54xx_sysclk_rate_get(void)
 {
 	unsigned int val;
@@ -380,7 +380,7 @@ double clk54xx_sysclk_rate_get(void)
 	out_clk_speed);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clk54xx_rate_get
  * @BRIEF		convert bitfield value from register into string
  * @RETURNS		> 0 clock speed in MHz
@@ -392,7 +392,7 @@ double clk54xx_sysclk_rate_get(void)
  *			frequencies whatever its status
  *			(e.g. audit, clock tree, etc)
  * @DESCRIPTION		convert bitfield value from register into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double clk54xx_rate_get(clk54xx_id clk_id,
 	unsigned short ignore)
 {

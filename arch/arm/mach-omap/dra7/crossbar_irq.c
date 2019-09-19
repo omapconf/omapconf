@@ -119,7 +119,7 @@ static struct irq_crossbar_list dra7_irq_list[] = {
 };
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dra7_crossbar_irq_op
  * @BRIEF		Do the IRQ crossbar operations
  * @RETURNS		0 on success
@@ -128,7 +128,7 @@ static struct irq_crossbar_list dra7_irq_list[] = {
  * @param[in]		argc:	argument count
  * @param[in]		argv:	argument value
  * @param[in]		dump:	if 1, it does a dump operation, else audits
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int dra7_crossbar_irq_op(FILE *stream, int argc, char *argv[], int dump)
 {
 	int r;

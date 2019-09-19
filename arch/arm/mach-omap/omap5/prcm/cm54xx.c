@@ -58,14 +58,14 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cm54xx_mod_name_get
  * @BRIEF		return CM module name
  * @RETURNS		CM module name
  *			NULL in case of incorrect id
  * @param[in]		id: CM module ID
  * @DESCRIPTION		return CM module name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *cm54xx_mod_name_get(cm54xx_mod_id id)
 {
 	if (id >= CM54XX_MODS_COUNT) {
@@ -78,7 +78,7 @@ const char *cm54xx_mod_name_get(cm54xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cm54xx_is_profiling_running
  * @BRIEF		return 1 if profiling module (CMI) is running,
  *			0 otherwise
@@ -87,7 +87,7 @@ const char *cm54xx_mod_name_get(cm54xx_mod_id id)
  *			(CM54XX_INSTR_CM_CORE or CM54XX_INSTR_CM_CORE_AON)
  * @DESCRIPTION		return 1 if profiling module (CMI) is running,
  *			0 otherwise
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cm54xx_is_profiling_running(cm54xx_mod_id id)
 {
 	reg *cm_clkctrl_reg;
@@ -132,7 +132,7 @@ unsigned int cm54xx_is_profiling_running(cm54xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cm54xx_dump
  * @BRIEF		dump selected registers and pretty-print it in
  *			selected output stream
@@ -144,7 +144,7 @@ unsigned int cm54xx_is_profiling_running(cm54xx_mod_id id)
  *			dump all CM registers.
  * @DESCRIPTION		dump selected registers and pretty-print it in
  *			selected output stream
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cm54xx_dump(FILE *stream, cm54xx_mod_id id)
 {
 	unsigned int i = 0, mid;
@@ -216,7 +216,7 @@ cm54xx_dump_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cm54xx_export
  * @BRIEF		export module register content to file, in XML format.
  * @RETURNS		0 in case of success
@@ -226,7 +226,7 @@ cm54xx_dump_end:
  * @param[in,out]	fp: output file stream (opened for write operations)
  * @param[in]		id: CM module ID
  * @DESCRIPTION		export module register content to file, in XML format.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cm54xx_export(FILE *fp, cm54xx_mod_id id)
 {
 	reg **mod;
@@ -287,7 +287,7 @@ int cm54xx_export(FILE *fp, cm54xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cm54xx_import
  * @BRIEF		import OMAP CM registers from XML file
  * @RETURNS		0 in case of success
@@ -297,7 +297,7 @@ int cm54xx_export(FILE *fp, cm54xx_mod_id id)
  * @param[in]		id: CM module ID
  * @DESCRIPTION		import OMAP CM registers from XML file,
  *			generated with lib54xx_export().
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cm54xx_import(FILE *fp, cm54xx_mod_id id)
 {
 	reg **mod;

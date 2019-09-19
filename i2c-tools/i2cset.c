@@ -1,9 +1,9 @@
-/* ======================================================================= *//**
+/* ======================================================================= 
  * @Component			OMAPCONF
  * @Filename			i2cset.c
  * @Description			A user-space program to write an I2C register.
  * @Copyright			GPL
- *//*======================================================================== */
+ *======================================================================== */
 /*
     i2cset.c - A user-space program to write an I2C register.
     Copyright (C) 2001-2003  Frodo Looijaard <frodol@dds.nl>, and

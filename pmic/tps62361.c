@@ -65,7 +65,7 @@
 
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_is_present
  * @BRIEF		return 1 if TPS62361 is present on this platform,
  *			0 otherwise
@@ -73,7 +73,7 @@
  *			0 otherwise
  * @DESCRIPTION		return 1 if TPS62361 is present on this platform,
  *			0 otherwise
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short int tps62361_is_present(void)
 {
 	/*
@@ -111,13 +111,13 @@ unsigned short int tps62361_is_present(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_chip_revision_get
  * @BRIEF		return TPS62361 chip revision
  * @RETURNS		> 0.0 TPS62361 chip revision
  *			OMAPCONF_ERR_NOT_AVAILABLE in case of error
  * @DESCRIPTION		return TPS62361 chip revision
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double tps62361_chip_revision_get(void)
 {
 	/* SR-I2C link is write-only, cannot read-back any chip register ... */
@@ -125,13 +125,13 @@ double tps62361_chip_revision_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_eprom_revision_get
  * @BRIEF		return TPS62361 EPROM revision
  * @RETURNS		> 0.0 TPS62361 EPROM revision
  *			OMAPCONF_ERR_NOT_AVAILABLE in case of error
  * @DESCRIPTION		return TPS62361 EPROM revision
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double tps62361_eprom_revision_get(void)
 {
 	/* SR-I2C link is write-only, cannot read-back any chip register ... */
@@ -139,12 +139,12 @@ double tps62361_eprom_revision_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_smps_offset_get
  * @BRIEF		return SMPS regulator voltage offset
  * @RETURNS		voltage offset in microvolts
  * @DESCRIPTION		return SMPS regulator voltage offset
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 long tps62361_smps_offset_get(void)
 {
 	dprintf("%s(): offset=%lduV\n", __func__, (long) TPS62361_VDCDC1_MIN);
@@ -153,12 +153,12 @@ long tps62361_smps_offset_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_smps_step_get
  * @BRIEF		return SMPS regulator voltage step in microvolts
  * @RETURNS		voltage step in microvolts
  * @DESCRIPTION		return SMPS regulator voltage step in microvolts
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 long tps62361_smps_step_get(void)
 {
 	dprintf("%s(): step=%lduV\n", __func__, (long) TPS62361_VDCDC1_STEP);
@@ -167,19 +167,19 @@ long tps62361_smps_step_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_vsel_len_get
  * @BRIEF		return the size of the vsel command
  * @RETURNS		SMPS regulator size of the vsel command
  * @DESCRIPTION		return the size of the vsel command
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int tps62361_vsel_len_get(void)
 {
 	return 8;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_vsel_to_uv
  * @BRIEF		for a given rail, convert SMPS vsel command into voltage
  *			in microvolts.
@@ -187,7 +187,7 @@ int tps62361_vsel_len_get(void)
  * @param[in]		vsel: SMPS vsel command (in microvolts)
  * @DESCRIPTION		for a given rail, convert SMPS vsel command into voltage
  *			in microvolts.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned long tps62361_vsel_to_uv(unsigned char vsel)
 {
 	unsigned long uv;
@@ -199,7 +199,7 @@ unsigned long tps62361_vsel_to_uv(unsigned char vsel)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		tps62361_uv_to_vsel
  * @BRIEF		for a given rail, convert voltage in microvolts into
  *			SMPS vsel command.
@@ -207,7 +207,7 @@ unsigned long tps62361_vsel_to_uv(unsigned char vsel)
  * @param[in]		uv: voltage to be converted (in microvolts)
  * @DESCRIPTION		for a given rail, convert voltage in microvolts into
  *			SMPS vsel command.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char tps62361_uv_to_vsel(unsigned long uv)
 {
 	unsigned char vsel;

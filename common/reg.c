@@ -56,7 +56,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		reg_init
  * @BRIEF		initialize reg structure.
  * @RETURNS		0 in case of success
@@ -66,7 +66,7 @@
  * @param[in]		addr: addr field value
  * @param[in]		data: data field value
  * @DESCRIPTION		initialize reg structure.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int reg_init(reg *r,
 	char name[OMAPCONF_REG_NAME_MAX_LENGTH],
 	unsigned int addr,
@@ -84,7 +84,7 @@ int reg_init(reg *r,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		reg_xml_import
  * @BRIEF		import reg details from XML entry
  * @RETURNS		0 in case of success
@@ -94,7 +94,7 @@ int reg_init(reg *r,
  * @param[in]		xml_entry: XML entry (i.e. "<register id=..."),
  *				as generated with reg_xml_export()
  * @DESCRIPTION		import reg details from XML entry
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int reg_xml_import(reg *r, char *xml_entry)
 {
 	char name[OMAPCONF_REG_NAME_MAX_LENGTH];
@@ -172,7 +172,7 @@ int reg_xml_import(reg *r, char *xml_entry)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		reg_xml_export
  * @BRIEF		export reg details to XML entry
  * @RETURNS		0 in case of success
@@ -181,7 +181,7 @@ int reg_xml_import(reg *r, char *xml_entry)
  * @param[in]		r: reg structure pointer
  * @param[in,out]	xml_entry: XML entry (i.e. "<register id=..."),
  * @DESCRIPTION		export reg details to XML entry
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int reg_xml_export(reg r, char *xml_entry)
 {
 	/* FIXME */
@@ -191,7 +191,7 @@ int reg_xml_export(reg r, char *xml_entry)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		reg_read
  * @BRIEF		return register content
  * @RETURNS		register content
@@ -200,7 +200,7 @@ int reg_xml_export(reg r, char *xml_entry)
  *			from the pre-loaded (via import) value, or
  *			from a true register access if there is no pre-loaded
  *			value.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int reg_read(reg *r)
 {
 	unsigned int val;
@@ -221,7 +221,7 @@ unsigned int reg_read(reg *r)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		reg_write
  * @BRIEF		update register content of, either:
  *				the pre-loaded (via import) value, or
@@ -235,7 +235,7 @@ unsigned int reg_read(reg *r)
  *				the pre-loaded (via import) value, or
  *				the real register if there is no pre-loaded
  *				value.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int reg_write(reg *r, unsigned int val)
 {
 	int ret;
@@ -258,13 +258,13 @@ int reg_write(reg *r, unsigned int val)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		reg_name_get
  * @BRIEF		return register name
  * @RETURNS		register name pointer
  * @param[in]		r: a reg struct pointer
  * @DESCRIPTION		return register name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *reg_name_get(reg *r)
 {
 	CHECK_NULL_ARG(r, NULL);
@@ -273,13 +273,13 @@ char *reg_name_get(reg *r)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		reg_addr_get
  * @BRIEF		return register physical address
  * @RETURNS		register physical address
  * @param[in]		r: a reg struct pointer
  * @DESCRIPTION		return register physical address
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int reg_addr_get(reg *r)
 {
 	CHECK_NULL_ARG(r, 0);

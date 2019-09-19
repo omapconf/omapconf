@@ -76,7 +76,7 @@
 #define VC_SCLH_LEN			8
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc_cmd_values_get
  * @BRIEF		return ON/ONLP/RET/OFF command values
  * @RETURNS		0 in case of success
@@ -87,7 +87,7 @@
  * @param[in,out]	cmd_ret: RET command value (RETURNED)
  * @param[in,out]	cmd_off: OFF command value (RETURNED)
  * @DESCRIPTION		return ON/ONLP/RET/OFF command values
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 short int vc_cmd_values_get(unsigned int prm_vc_val_cmd,
 	unsigned char *cmd_on, unsigned char *cmd_onlp,
 	unsigned char *cmd_ret, unsigned char *cmd_off)
@@ -106,7 +106,7 @@ short int vc_cmd_values_get(unsigned int prm_vc_val_cmd,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sri2c_is_double_filtering_enabled
  * @BRIEF		check if double filtering is enabled
  * @RETURNS		1 if double filtering is enabled
@@ -114,7 +114,7 @@ short int vc_cmd_values_get(unsigned int prm_vc_val_cmd,
  * @param[in]		prm_vc_cfg_i2c_mode: PRM_VC_CFG_I2C_MODE register
  *			content
  * @DESCRIPTION		check if double filtering is enabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sri2c_is_double_filtering_enabled(
 	unsigned int prm_vc_cfg_i2c_mode)
 {
@@ -122,7 +122,7 @@ unsigned char sri2c_is_double_filtering_enabled(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sri2c_is_sr_mode_enabled
  * @BRIEF		check if I2C repeated start operation mode is enabled
  * @RETURNS		1 if I2C repeated start operation mode is enabled
@@ -130,14 +130,14 @@ unsigned char sri2c_is_double_filtering_enabled(
  * @param[in]		prm_vc_cfg_i2c_mode: PRM_VC_CFG_I2C_MODE register
  *			content
  * @DESCRIPTION		check if I2C repeated start operation mode is enabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sri2c_is_sr_mode_enabled(unsigned int prm_vc_cfg_i2c_mode)
 {
 	return extract_bit(prm_vc_cfg_i2c_mode, VC_SRMODEEN_POS);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sri2c_is_hs_mode_enabled
  * @BRIEF		check if I2C high speed mode is enabled
  * @RETURNS		1 if I2C high speed mode is enabled
@@ -145,14 +145,14 @@ unsigned char sri2c_is_sr_mode_enabled(unsigned int prm_vc_cfg_i2c_mode)
  * @param[in]		prm_vc_cfg_i2c_mode: PRM_VC_CFG_I2C_MODE register
  *			content
  * @DESCRIPTION		check if I2C high speed mode is enabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sri2c_is_hs_mode_enabled(unsigned int prm_vc_cfg_i2c_mode)
 {
 	return extract_bit(prm_vc_cfg_i2c_mode, VC_HSMODEEN_POS);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sri2c_master_code_get
  * @BRIEF		return the master code value for I2C High Speed preamble
  *			transmission
@@ -162,7 +162,7 @@ unsigned char sri2c_is_hs_mode_enabled(unsigned int prm_vc_cfg_i2c_mode)
  *			content
  * @DESCRIPTION		return the master code value for I2C High Speed preamble
  *			transmission
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sri2c_master_code_get(unsigned int prm_vc_cfg_i2c_mode)
 {
 	return extract_bitfield(prm_vc_cfg_i2c_mode,
@@ -171,7 +171,7 @@ unsigned char sri2c_master_code_get(unsigned int prm_vc_cfg_i2c_mode)
 
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sri2c_low_clock_cycles_count_get
  * @BRIEF		return the system clock cycles, necessary to count
  *			the low period of the I2C clock signal
@@ -187,7 +187,7 @@ unsigned char sri2c_master_code_get(unsigned int prm_vc_cfg_i2c_mode)
  *				(RETURNED)
  * @DESCRIPTION		return the system clock cycles, necessary to count
  *			the low period of the I2C clock signal
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sri2c_low_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
 	unsigned int prm_vc_cfg_i2c_clk,
 	unsigned char *cycles, double *us)
@@ -218,7 +218,7 @@ int sri2c_low_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sri2c_high_clock_cycles_count_get
  * @BRIEF		return the system clock cycles, necessary to count
  *			the high period of the I2C clock signal
@@ -234,7 +234,7 @@ int sri2c_low_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
  *				(RETURNED)
  * @DESCRIPTION		return the system clock cycles, necessary to count
  *			the high period of the I2C clock signal
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sri2c_high_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
 	unsigned int prm_vc_cfg_i2c_clk,
 	unsigned char *cycles, double *us)
@@ -265,7 +265,7 @@ int sri2c_high_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sri2c_config_show
  * @BRIEF		decode and show VC SR I2C current configuration
  * @RETURNS		0 in case of success
@@ -276,7 +276,7 @@ int sri2c_high_clock_cycles_count_get(unsigned int prm_vc_cfg_i2c_mode,
  *				content
  * @param[in]		prm_vc_cfg_i2c_clk: PRM_VC_CFG_I2C_CLK register content
  * @DESCRIPTION		decode and show VC SR I2C current configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sri2c_config_show(FILE *stream, unsigned int prm_vc_cfg_i2c_mode,
 	unsigned int prm_vc_cfg_i2c_clk)
 {

@@ -77,14 +77,14 @@ const char *temp54xx_sensor_names[TEMP54XX_ID_MAX + 1] = {
 	"FIXME"};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		temp54xx_name_get
  * @BRIEF		return temperature sensor name
  * @RETURNS		temperature sensor ID
  *			NULL in case of incorrect id
  * @param[in]		id: temperature sensor ID
  * @DESCRIPTION		return temperature sensor name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *temp54xx_name_get(temp54xx_sensor_id id)
 {
 	if (id > TEMP54XX_ID_MAX)
@@ -94,14 +94,14 @@ const char *temp54xx_name_get(temp54xx_sensor_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm2sensor_id
  * @BRIEF		convert voltage domain ID to sensor domain ID
  * @RETURNS		valid sensor ID in case of success
  *			TEMP54XX_ID_MAX in case of voltage domain ID
  * @param[in]		vdd_id: valid voltage domain ID
  * @DESCRIPTION		convert voltage domain ID to sensor domain ID.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 temp54xx_sensor_id voltdm2sensor_id(voltdm54xx_id vdd_id)
 {
 	static const temp54xx_sensor_id voltdm2sensor_map[VDD54XX_ID_MAX] = {
@@ -117,7 +117,7 @@ temp54xx_sensor_id voltdm2sensor_id(voltdm54xx_id vdd_id)
 
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		temp54xx_get
  * @BRIEF		return temperature measured by selected sensor
  *			(in degrees celcius)
@@ -127,7 +127,7 @@ temp54xx_sensor_id voltdm2sensor_id(voltdm54xx_id vdd_id)
  * @param[in, out]	temp: temperature (Celcius, min) (returned)
  * @DESCRIPTION		return temperature measured by selected sensor
  *			(in degrees celcius)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int temp54xx_get(temp54xx_sensor_id id)
 {
 	int temp, ret;

@@ -59,7 +59,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		genlist_init
  * @BRIEF		initialize list internal variables
  * @RETURNS		0 in case of success
@@ -67,7 +67,7 @@
  * @param[in,out]	list: genlist pointer
  * @DESCRIPTION		initialize list internal variables
  *			(must be called before any other function).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int genlist_init(genlist *list)
 {
 	if (list == NULL) {
@@ -83,14 +83,14 @@ int genlist_init(genlist *list)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		genlist_getcount
  * @BRIEF		Return the number of elements in the list.
  * @RETURNS		>= 0 the number of elements in the list
  *			GENLIST_ERR_ARG
  * @param[in]		list: genlist pointer
  * @DESCRIPTION		Return the number of elements in the list.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int genlist_getcount(genlist *list)
 {
 	if (list == NULL) {
@@ -102,7 +102,7 @@ int genlist_getcount(genlist *list)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		genlist_isempty
  * @BRIEF		used to check if list is empty or not
  * @RETURNS		0 list is not empty
@@ -110,7 +110,7 @@ int genlist_getcount(genlist *list)
  *			GENLIST_ERR_ARG
  * @param[in]		list: genlist pointer
  * @DESCRIPTION		used to check if list is empty or not
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int genlist_isempty(genlist *list)
 {
 	if (list == NULL) {
@@ -122,7 +122,7 @@ int genlist_isempty(genlist *list)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		genlist_addhead
  * @BRIEF		Add element at the head position of the list
  * @RETURNS		>0 number of element in the list
@@ -133,7 +133,7 @@ int genlist_isempty(genlist *list)
  * @param[in,out]	data: element to add to the list
  * @param[in]		data_size: size of data parameter
  * @DESCRIPTION		Add element at the head position of the list
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int genlist_addhead(genlist *list, void *data, unsigned int data_size)
 {
 	genlist_elt *new_elt;
@@ -180,7 +180,7 @@ int genlist_addhead(genlist *list, void *data, unsigned int data_size)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		genlist_addtail
  * @BRIEF		Add element at the tail position of the list
  * @RETURNS		>0 number of element in the list
@@ -191,7 +191,7 @@ int genlist_addhead(genlist *list, void *data, unsigned int data_size)
  * @param[in,out]	data: element to add to the list
  * @param[in]		data_size: size of data parameter
  * @DESCRIPTION		Add element at the tail position of the list
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int genlist_addtail(genlist *list, void *data, unsigned int data_size)
 {
 	genlist_elt *new_elt;
@@ -242,7 +242,7 @@ int genlist_addtail(genlist *list, void *data, unsigned int data_size)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		genlist_add
  * @BRIEF		add element at given position in the list
  * @RETURNS		0 in case of success
@@ -254,7 +254,7 @@ int genlist_addtail(genlist *list, void *data, unsigned int data_size)
  * @param[in]		pos: position of element to be removed
  *				(0..genlist_getcount() - 1)
  * @DESCRIPTION		add element at given position in the list
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int genlist_add(genlist *list,
 	void *data, unsigned int data_size, unsigned int pos)
 {
@@ -318,7 +318,7 @@ int genlist_add(genlist *list,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		genlist_get
  * @BRIEF		return element at given position in the list
  * @RETURNS		0 in case of success
@@ -328,7 +328,7 @@ int genlist_add(genlist *list,
  * @param[in]		pos: element position in the list
  * @param[in,out]	data: element to get
  * @DESCRIPTION		return element at given position in the list
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int genlist_get(genlist *list, unsigned int pos, void *data)
 {
 	genlist_elt *elt;
@@ -365,7 +365,7 @@ int genlist_get(genlist *list, unsigned int pos, void *data)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		genlist_gethead
  * @BRIEF		return element at head position in the list
  * @RETURNS		0 in case of success
@@ -374,7 +374,7 @@ int genlist_get(genlist *list, unsigned int pos, void *data)
  * @param[in]		list: genlist pointer
  * @param[in,out]	data: element to get
  * @DESCRIPTION		return element at head position in the list
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int genlist_gethead(genlist *list, void *data)
 {
 	if (list == NULL) {
@@ -394,7 +394,7 @@ int genlist_gethead(genlist *list, void *data)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		genlist_gettail
  * @BRIEF		return element at tail position in the list
  * @RETURNS		0 in case of success
@@ -403,7 +403,7 @@ int genlist_gethead(genlist *list, void *data)
  * @param[in]		list: genlist pointer
  * @param[in,out]	data: element to get
  * @DESCRIPTION		return element at tail position in the list
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int genlist_gettail(genlist *list, void *data)
 {
 	if (list == NULL) {
@@ -423,7 +423,7 @@ int genlist_gettail(genlist *list, void *data)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		genlist_removehead
  * @BRIEF		remove element at head position in the list
  * @RETURNS		0 in case of success
@@ -432,7 +432,7 @@ int genlist_gettail(genlist *list, void *data)
  *			GENLIST_ERR_INTERNAL
  * @param[in,out]	list: genlist pointer
  * @DESCRIPTION		remove element at head position in the list
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int genlist_removehead(genlist *list)
 {
 	genlist_elt *elt;
@@ -471,7 +471,7 @@ int genlist_removehead(genlist *list)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		genlist_removetail
  * @BRIEF		remove element at tail position in the list
  * @RETURNS		0 in case of success
@@ -480,7 +480,7 @@ int genlist_removehead(genlist *list)
  *			GENLIST_ERR_INTERNAL
  * @param[in,out]	list: genlist pointer
  * @DESCRIPTION		remove element at tail position in the list
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int genlist_removetail(genlist *list)
 {
 	genlist_elt *elt = NULL, *elt2 = NULL;
@@ -524,7 +524,7 @@ int genlist_removetail(genlist *list)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		genlist_remove
  * @BRIEF		remove element at given position in the list
  * @RETURNS		0 in case of success
@@ -535,7 +535,7 @@ int genlist_removetail(genlist *list)
  * @param[in]		pos: position of element to be removed
  *				(0..genlist_getcount() - 1)
  * @DESCRIPTION		remove element at given position in the list
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int genlist_remove(genlist *list, unsigned int pos)
 {
 	genlist_elt *elt, *elt2 = NULL;
@@ -587,7 +587,7 @@ int genlist_remove(genlist *list, unsigned int pos)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		genlist_free
  * @BRIEF		Free all memory buffers allocated for this list
  * @RETURNS		0 in case of success
@@ -595,7 +595,7 @@ int genlist_remove(genlist *list, unsigned int pos)
  *			GENLIST_ERR_INTERNAL
  * @param[in,out]	list: genlist pointer
  * @DESCRIPTION		Free all memory buffers allocated for this list
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int genlist_free(genlist *list)
 {
 	unsigned int i;

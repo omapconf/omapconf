@@ -110,14 +110,14 @@ static const char
 	"CLKINPHIF"};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_mode_name_get
  * @BRIEF		return DPLL mode name
  * @RETURNS		pointer towards const string containing DPLL mode name
  *			"RESERVED" in case of 'mode' is invalid
  * @param[in]		mode: dpll mode extracted from register
  * @DESCRIPTION		return DPLL mode name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *dpll_mode_name_get(dpll_mode mode)
 {
 	if (mode >= DPLL_MODE_MAX) {
@@ -129,7 +129,7 @@ const char *dpll_mode_name_get(dpll_mode mode)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_ramp_level_name_get
  * @BRIEF		return RAMP LEVEL string
  * @RETURNS		pointer towards const string containing
@@ -137,7 +137,7 @@ const char *dpll_mode_name_get(dpll_mode mode)
  *			"RESERVED" in case of 'mode' is invalid
  * @param[in]		level: RAMP LEVEL mode extracted from register
  * @DESCRIPTION		return RAMP LEVEL string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *dpll_ramp_level_name_get(dpll_ramp_level level)
 {
 	if (level >= DPLL_RAMP_LEVEL_MAX) {
@@ -149,7 +149,7 @@ const char *dpll_ramp_level_name_get(dpll_ramp_level level)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_autoidle_mode_name_get
  * @BRIEF		return DPLL autoidle mode name
  * @RETURNS		pointer towards const string containing
@@ -157,7 +157,7 @@ const char *dpll_ramp_level_name_get(dpll_ramp_level level)
  *			"RESERVED" in case of 'mode' is invalid
  * @param[in]		mode: dpll autoidle mode extracted from register
  * @DESCRIPTION		return DPLL autoidle mode name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *dpll_autoidle_mode_name_get(dpll_autoidle_mode mode)
 {
 	if (mode >= DPLL_AUTOIDLE_MODE_MAX) {
@@ -169,14 +169,14 @@ const char *dpll_autoidle_mode_name_get(dpll_autoidle_mode mode)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_status_name_get
  * @BRIEF		return DPLL status name
  * @RETURNS		pointer towards const string containing DPLL status name
  *			"RESERVED" in case of 'status' is invalid
  * @param[in]		status: dpll status extracted from register
  * @DESCRIPTION		return DPLL status name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *dpll_status_name_get(dpll_status status)
 {
 	if (status >= DPLL_STATUS_MAX) {
@@ -188,14 +188,14 @@ const char *dpll_status_name_get(dpll_status status)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_bp_clk_src_name_get
  * @BRIEF		return DPLL bypass source clock name
  * @RETURNS		bypass source clock name on success
  *			NULL in case of error
  * @param[in]		id: valid DPLL bypass source clock ID
  * @DESCRIPTION		return DPLL bypass source clock name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *dpll_bp_clk_src_name_get(dpll_bp_clk_src id)
 {
 	CHECK_ARG_LESS_THAN(id, DPLL_BP_CLK_SRC_ID_MAX, NULL);
@@ -204,14 +204,14 @@ const char *dpll_bp_clk_src_name_get(dpll_bp_clk_src id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_clkouthif_src_name_get
  * @BRIEF		return DPLL clkouthif source clock name
  * @RETURNS		clkouthif source clock name on success
  *			NULL in case of error
  * @param[in]		id: valid DPLL clkouthif source clock ID
  * @DESCRIPTION		return DPLL clkouthif source clock name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *dpll_clkouthif_src_name_get(dpll_clkouthif_src id)
 {
 	CHECK_ARG_LESS_THAN(id, DPLL_CLKOUTHIF_SRC_ID_MAX, NULL);
@@ -229,7 +229,7 @@ const char *dpll_clkouthif_src_name_get(dpll_clkouthif_src id)
 #define dprintf(format, ...)
 #endif
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_settings_extract
  * @BRIEF		extract DPLL settings from registers
  * @RETURNS		0 in case of success
@@ -240,7 +240,7 @@ const char *dpll_clkouthif_src_name_get(dpll_clkouthif_src id)
  * @param[in]		dpll_regs: dpll registers to extract settings from
  * @param[in,out]	settings: struct with extracted DPLL settings
  * @DESCRIPTION		extract DPLL settings from registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_settings_extract(unsigned int id, dpll_type type,
 	dpll_settings_regs *dpll_regs, dpll_settings *settings)
 {
@@ -447,7 +447,7 @@ int dpll_settings_extract(unsigned int id, dpll_type type,
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_lock_freq_calc
  * @BRIEF		compute DPLL lock frequency (in MHz)
  * @RETURNS		lock frequency in case of success (in MHz)
@@ -455,7 +455,7 @@ int dpll_settings_extract(unsigned int id, dpll_type type,
  * @param[in]		settings: DPLL settings with fields
  *			regm4xen, fref, MN.M, MN.N INITIALIZED
  * @DESCRIPTION		compute DPLL lock frequency (in MHz)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double dpll_lock_freq_calc(dpll_settings *settings)
 {
 	CHECK_NULL_ARG(settings, 0.0);

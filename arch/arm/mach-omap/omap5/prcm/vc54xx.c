@@ -115,14 +115,14 @@ static const char
 #define VC_BYPS_SA_ERR_POS		0
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_vfsm_error_name_get
  * @BRIEF		return VFSM error type name
  * @RETURNS		VFSM error type on success
  *			"FIXME" string in case of error
  * @param[in]		type: valid VFSM error type
  * @DESCRIPTION		return VFSM error type name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *vc54xx_vfsm_error_name_get(vc54xx_vfsm_error_type type)
 {
 	if (type < VC54XX_VFSM_ERR_TYPE_MAX)
@@ -132,14 +132,14 @@ const char *vc54xx_vfsm_error_name_get(vc54xx_vfsm_error_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_smps_error_name_get
  * @BRIEF		return SMPS error type name
  * @RETURNS		SMPS error type on success
  *			"FIXME" string in case of error
  * @param[in]		type: valid SMPS error type
  * @DESCRIPTION		return SMPS error type name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *vc54xx_smps_error_name_get(vc54xx_smps_error_type type)
 {
 	if (type < VC54XX_SMPS_ERR_TYPE_MAX)
@@ -149,14 +149,14 @@ const char *vc54xx_smps_error_name_get(vc54xx_smps_error_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_bypass_error_name_get
  * @BRIEF		return BYPASS error type name
  * @RETURNS		BYPASS error type on success
  *			"FIXME" string in case of error
  * @param[in]		type: valid BYPASS error type
  * @DESCRIPTION		return BYPASS error type name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *vc54xx_bypass_error_name_get(vc54xx_bypass_error_type type)
 {
 	if (type < VC54XX_BYPS_ERR_TYPE_MAX)
@@ -166,7 +166,7 @@ const char *vc54xx_bypass_error_name_get(vc54xx_bypass_error_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_registers_get
  * @BRIEF		save all VC registers in structure provided as argument.
  * @RETURNS		0 in case of success
@@ -174,7 +174,7 @@ const char *vc54xx_bypass_error_name_get(vc54xx_bypass_error_type type)
  *			OMAPCONF_ERR_ARG
  * @param[in, out]	vc_regs: structure where to store VC registers
  * @DESCRIPTION		save all VC registers in structure provided as argument.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vc54xx_registers_get(vc54xx_registers *vc_regs)
 {
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
@@ -240,7 +240,7 @@ int vc54xx_registers_get(vc54xx_registers *vc_regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_sa_get
  * @BRIEF		return Slave Address (SA)
  * @RETURNS		>0 Slave Address (SA)
@@ -248,7 +248,7 @@ int vc54xx_registers_get(vc54xx_registers *vc_regs)
  * @param[in]		id: voltage domain ID
  * @param[in,out]	vc_regs: VC registers content
  * @DESCRIPTION		return Slave Address (SA)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 short int vc54xx_sa_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
 {
 	short int sa;
@@ -287,7 +287,7 @@ short int vc54xx_sa_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_volra_get
  * @BRIEF		return Voltage Register Address (VOLRA)
  * @RETURNS		>0 Voltage Register Address (VOLRA)
@@ -295,7 +295,7 @@ short int vc54xx_sa_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
  * @param[in]		id: voltage domain ID
  * @param[in,out]	vc_regs: VC registers content
  * @DESCRIPTION		return Voltage Register Address (VOLRA)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 short int vc54xx_volra_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
 {
 	short int volra;
@@ -334,7 +334,7 @@ short int vc54xx_volra_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_cmdra_get
  * @BRIEF		return Command Register Address (CMDRA)
  * @RETURNS		>0 Voltage Register Address (CMDRA)
@@ -342,7 +342,7 @@ short int vc54xx_volra_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
  * @param[in]		id: voltage domain ID
  * @param[in,out]	vc_regs: VC registers content
  * @DESCRIPTION		return Command Register Address (CMDRA)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 short int vc54xx_cmdra_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
 {
 	short int cmdra;
@@ -381,7 +381,7 @@ short int vc54xx_cmdra_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_no_pending_error
  * @BRIEF		return 1 if there is no pending error
  * @RETURNS		1 if there is no pending error, 0 otherwise
@@ -389,7 +389,7 @@ short int vc54xx_cmdra_get(voltdm54xx_id id, vc54xx_registers *vc_regs)
  * @param[in]		prm_vc_bypass_errst: PRM_VC_BYPASS_ERRST register
  *			content
  * @DESCRIPTION		return 1 if there is no pending error
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char vc54xx_no_pending_error(unsigned int prm_vc_errst,
 	unsigned int prm_vc_bypass_errst)
 {
@@ -399,13 +399,13 @@ unsigned char vc54xx_no_pending_error(unsigned int prm_vc_errst,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_no_pending_vfsm_error
  * @BRIEF		return 1 if there is no pending VFSM error
  * @RETURNS		1 if there is no pending VFSM error, 0 otherwise
  * @param[in]		prm_vc_errst: PRM_VC_xyz_ERRST register content
  * @DESCRIPTION		return 1 if there is no pending VFSM error
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char vc54xx_no_pending_vfsm_error(unsigned int prm_vc_errst)
 {
 	return extract_bitfield(prm_vc_errst,
@@ -413,14 +413,14 @@ unsigned char vc54xx_no_pending_vfsm_error(unsigned int prm_vc_errst)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_is_vfsm_error_pending
  * @BRIEF		return 1 if selected VFSM error is pending
  * @RETURNS		1 if selected VFSM error is pending, 0 otherwise
  * @param[in]		prm_vc_errst: PRM_VC_xyz_ERRST register content
  * @param[in]		type: VFSM error type
  * @DESCRIPTION		return 1 if selected VFSM error is pending
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char vc54xx_is_vfsm_error_pending(unsigned int prm_vc_errst,
 	vc54xx_vfsm_error_type type)
 {
@@ -442,13 +442,13 @@ unsigned char vc54xx_is_vfsm_error_pending(unsigned int prm_vc_errst,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_no_pending_smps_error
  * @BRIEF		return 1 if there is no pending SMPS error
  * @RETURNS		1 if there is no pending SMPS error, 0 otherwise
  * @param[in]		prm_vc_errst: PRM_VC_xyz_ERRST register content
  * @DESCRIPTION		return 1 if there is no pending SMPS error
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char vc54xx_no_pending_smps_error(unsigned int prm_vc_errst)
 {
 	return extract_bitfield(prm_vc_errst,
@@ -456,14 +456,14 @@ unsigned char vc54xx_no_pending_smps_error(unsigned int prm_vc_errst)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_is_smps_error_pending
  * @BRIEF		return 1 if selected SMPS error is pending
  * @RETURNS		1 if selected SMPS error is pending, 0 otherwise
  * @param[in]		prm_vc_errst: PRM_VC_xyz_ERRST register content
  * @param[in]		type: SMPS error type
  * @DESCRIPTION		return 1 if selected SMPS error is pending
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char vc54xx_is_smps_error_pending(unsigned int prm_vc_errst,
 	vc54xx_smps_error_type type)
 {
@@ -482,14 +482,14 @@ unsigned char vc54xx_is_smps_error_pending(unsigned int prm_vc_errst,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_no_pending_bypass_error
  * @BRIEF		return 1 if there is no pending BYPASS error
  * @RETURNS		1 if there is no pending BYPASS error, 0 otherwise
  * @param[in]		prm_vc_bypass_errst: PRM_VC_BYPASS_ERRST register
  *			content
  * @DESCRIPTION		return 1 if there is no pending BYPASS error
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char vc54xx_no_pending_bypass_error(unsigned int prm_vc_bypass_errst)
 {
 	return extract_bitfield(prm_vc_bypass_errst,
@@ -497,7 +497,7 @@ unsigned char vc54xx_no_pending_bypass_error(unsigned int prm_vc_bypass_errst)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_is_bypass_error_pending
  * @BRIEF		return 1 if selected BYPASS error is pending
  * @RETURNS		1 if selected BYPASS error is pending, 0 otherwise
@@ -505,7 +505,7 @@ unsigned char vc54xx_no_pending_bypass_error(unsigned int prm_vc_bypass_errst)
  *			content
  * @param[in]		type: BYPASS error type
  * @DESCRIPTION		return 1 if selected BYPASS error is pending
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char vc54xx_is_bypass_error_pending(unsigned int prm_vc_bypass_errst,
 	vc54xx_bypass_error_type type)
 {
@@ -525,7 +525,7 @@ unsigned char vc54xx_is_bypass_error_pending(unsigned int prm_vc_bypass_errst,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_raw_cmd_values_get
  * @BRIEF		return ON/ONLP/RET/OFF command values
  * @RETURNS		0 in case of success
@@ -538,7 +538,7 @@ unsigned char vc54xx_is_bypass_error_pending(unsigned int prm_vc_bypass_errst,
  * @param[in,out]	cmd_off: OFF command value (RETURNED)
  * @DESCRIPTION		return ON/ONLP/RET/OFF command values
  *			WARNING: DO NOT CONSIDER PMIC-SPECIFIC SIZE OF COMMAND.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vc54xx_raw_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
 	unsigned char *cmd_on, unsigned char *cmd_onlp,
 	unsigned char *cmd_ret, unsigned char *cmd_off)
@@ -584,7 +584,7 @@ int vc54xx_raw_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_cmd_values_get
  * @BRIEF		return ON/ONLP/RET/OFF command values
  * @RETURNS		0 in case of success
@@ -597,7 +597,7 @@ int vc54xx_raw_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
  * @param[in,out]	cmd_off: OFF command value (RETURNED)
  * @DESCRIPTION		return ON/ONLP/RET/OFF command values
  *			WARNING: CONSIDER PMIC-SPECIFIC SIZE OF COMMAND.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vc54xx_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
 	unsigned char *cmd_on, unsigned char *cmd_onlp,
 	unsigned char *cmd_ret, unsigned char *cmd_off)
@@ -624,7 +624,7 @@ int vc54xx_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vc54xx_config_show
  * @BRIEF		decode and show VC current configuration
  * @RETURNS		0 in case of success
@@ -632,7 +632,7 @@ int vc54xx_cmd_values_get(voltdm54xx_id id, vc54xx_registers *vc_regs,
  * @param[in,out]	stream: output file (NULL: no output (silent))
  * @param[in,out]	vc_regs: Voltage Controller registers content
  * @DESCRIPTION		decode and show VC current configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vc54xx_config_show(FILE *stream, vc54xx_registers *vc_regs)
 {
 	voltdm54xx_id id;

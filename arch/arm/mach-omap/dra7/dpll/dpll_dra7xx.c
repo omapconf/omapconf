@@ -115,13 +115,13 @@ dpll_dra7xx_settings *dpll_dra7xx_locked_settings_table[DPLL_DRA7XX_ID_MAX] = {
 	NULL};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		print_reg
  * @BRIEF		Show register name, addr & content
  * @RETURNS		None
  * @param[in]		r: register. row: pointer to the row number
  * @DESCRIPTION		Show register name, addr & content
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void print_reg(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
 		reg *r, unsigned int *row)
 {
@@ -136,7 +136,7 @@ void print_reg(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
 	(*row)++;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_s2id
  * @BRIEF		convert string to valid DPLL ID
  * @RETURNS		DPLL_DRA7XX_MPU if s == "mpu"
@@ -154,7 +154,7 @@ void print_reg(char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
  *			DPLL_DRA7XX_ID_MAX otherwise
  * @param[in,out]	s: string
  * @DESCRIPTION		convert string to valid DPLL ID
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 dpll_dra7xx_id dpll_dra7xx_s2id(char *s)
 {
 	int index;
@@ -167,14 +167,14 @@ dpll_dra7xx_id dpll_dra7xx_s2id(char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_name_get
  * @BRIEF		return DPLL name
  * @RETURNS		DPLL name
  *			NULL in case of incorrect id
  * @param[in]		id: DPLL ID
  * @DESCRIPTION		return DPLL name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *dpll_dra7xx_name_get(dpll_dra7xx_id id)
 {
 	CHECK_ARG_LESS_THAN(id, DPLL_DRA7XX_ID_MAX, NULL);
@@ -183,14 +183,14 @@ const char *dpll_dra7xx_name_get(dpll_dra7xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_output_name_get
  * @BRIEF		return DPLL output name
  * @RETURNS		DPLL output name
  *			NULL in case of incorrect id
  * @param[in]		id: DPLL output ID
  * @DESCRIPTION		return DPLL output name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *dpll_dra7xx_output_name_get(dpll_dra7xx_output_id id)
 {
 	CHECK_ARG_LESS_THAN(id, DPLL_DRA7XX_OUTPUT_ID_MAX, NULL);
@@ -199,14 +199,14 @@ const char *dpll_dra7xx_output_name_get(dpll_dra7xx_output_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hsdiv_dra7xx_name_get
  * @BRIEF		return HS divider name
  * @RETURNS		HS divider name
  *			NULL in case of incorrect id
  * @param[in]		id: HS divider ID
  * @DESCRIPTION		return HS divider name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *hsdiv_dra7xx_name_get(hsdiv_dra7xx_id id)
 {
 	CHECK_ARG_LESS_THAN(id, HSDIV_DRA7XX_ID_MAX, NULL);
@@ -215,7 +215,7 @@ const char *hsdiv_dra7xx_name_get(hsdiv_dra7xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_dump
  * @BRIEF		dump selected DPLL registers
  * @RETURNS		0 in case of success
@@ -227,7 +227,7 @@ const char *hsdiv_dra7xx_name_get(hsdiv_dra7xx_id id)
  *			If id == DPLL_DRA7XX_ID_MAX, dump all DPLL registers.
  * @DESCRIPTION		dump selected DPLL registers and pretty-print it to
  *			output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_dra7xx_dump(FILE *stream, dpll_dra7xx_id id)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -306,7 +306,7 @@ int dpll_dra7xx_dump(FILE *stream, dpll_dra7xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_show
  * @BRIEF		analyze PLLs configuration
  * @RETURNS		0 in case of success
@@ -316,7 +316,7 @@ int dpll_dra7xx_dump(FILE *stream, dpll_dra7xx_id id)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output stream
  * @DESCRIPTION		analyze PLLs configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_dra7xx_show(FILE *stream)
 {
 	int ret;
@@ -331,7 +331,7 @@ int dpll_dra7xx_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_type_b_show
  * @BRIEF		show tpye B dpll module configuration
  * @RETURNS		0 in case of success
@@ -341,7 +341,7 @@ int dpll_dra7xx_show(FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output stream
  * @DESCRIPTION		show tpye B dpll module configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *stream)
 {
 	int ret = 0;
@@ -541,7 +541,7 @@ int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_type_a_show
  * @BRIEF		show tpye A dpll module configuration
  * @RETURNS		0 in case of success
@@ -551,7 +551,7 @@ int dpll_type_b_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output stream
  * @DESCRIPTION		show tpye A dpll module configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *stream)
 {
 	int ret = 0;
@@ -842,7 +842,7 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_clk_sources_get
  * @BRIEF		retrieve DPLL input clock rates
  * @RETURNS		0 in case of success
@@ -854,7 +854,7 @@ int dpll_type_a_show(dpll_dra7xx_id start_id, dpll_dra7xx_id end_id, FILE *strea
  *			frequencies even when DPLL is stopped
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		retrieve DPLL input clock rates
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_dra7xx_clk_sources_get(dpll_settings *settings, unsigned short ignore)
 {
 	CHECK_NULL_ARG(settings, OMAPCONF_ERR_ARG);
@@ -897,7 +897,7 @@ int dpll_dra7xx_clk_sources_get(dpll_settings *settings, unsigned short ignore)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hsdiv_dra7xx_settings_extract
  * @BRIEF		extract DRA7 HSDIV settings from registers
  * @RETURNS		0 in case of success
@@ -908,7 +908,7 @@ int dpll_dra7xx_clk_sources_get(dpll_settings *settings, unsigned short ignore)
  * @param[in]		dpll_regs: dpll registers to extract from
  * @param[in, out]	settings: struct with extracted HSDIV settings
  * @DESCRIPTION		extract DRA7 HSDIV settings from registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hsdiv_dra7xx_settings_extract(unsigned int id,
 	 reg *hsdiv_reg, hsdiv_dra7xx_settings *settings)
 {
@@ -948,7 +948,7 @@ int hsdiv_dra7xx_settings_extract(unsigned int id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hsdiv_dra7xx_rates_calc
  * @BRIEF		calculate DPLL HSDIV output rates
  * @RETURNS		0 in case of success
@@ -960,7 +960,7 @@ int hsdiv_dra7xx_settings_extract(unsigned int id,
  *			frequencies even when DPLL is stopped
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		calculate DPLL HSDIV output rates
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hsdiv_dra7xx_rates_calc(dpll_dra7xx_settings *settings,
 	unsigned short ignore)
 {
@@ -1046,7 +1046,7 @@ int hsdiv_dra7xx_rates_calc(dpll_dra7xx_settings *settings,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_rates_calc
  * @BRIEF		calculate DPLL output rates
  * @RETURNS		0 in case of success
@@ -1058,7 +1058,7 @@ int hsdiv_dra7xx_rates_calc(dpll_dra7xx_settings *settings,
  *			frequencies even when DPLL is stopped
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		calculate DPLL output rates
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_dra7xx_rates_calc(dpll_dra7xx_settings *settings,
 	unsigned short ignore)
 {
@@ -1175,7 +1175,7 @@ m3_rate_locked_calc:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_settings_extract
  * @BRIEF		extract DPLL settings from registers
  * @RETURNS		0 in case of success
@@ -1189,7 +1189,7 @@ m3_rate_locked_calc:
  *			frequencies even when DPLL is stopped
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		extract DPLL settings from registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_dra7xx_settings_extract(dpll_dra7xx_settings *settings,
 	unsigned int id, unsigned short ignore)
 {
@@ -1317,7 +1317,7 @@ int dpll_dra7xx_settings_extract(dpll_dra7xx_settings *settings,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_settings_get
  * @BRIEF		return DPLL settings struct pointer
  * @RETURNS		DPLL settings struct pointer in case of success
@@ -1329,7 +1329,7 @@ int dpll_dra7xx_settings_extract(dpll_dra7xx_settings *settings,
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		return DPLL settings struct pointer
  *			If DPLL settings not yet extracted, do it.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 dpll_dra7xx_settings *dpll_dra7xx_settings_get(
 	unsigned int id, unsigned short ignore)
 {
@@ -1359,7 +1359,7 @@ dpll_dra7xx_settings *dpll_dra7xx_settings_get(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_status_get
  * @BRIEF		return DPLL status.
  * @RETURNS		valid DPLL status (< DPLL_STATUS_MAX) in case of success
@@ -1367,7 +1367,7 @@ dpll_dra7xx_settings *dpll_dra7xx_settings_get(
  * @param[in]		id: valid DPLL ID
  * @DESCRIPTION		return DPLL status.
  *			If DPLL settings not yet extracted, do it.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 dpll_status dpll_dra7xx_status_get(dpll_dra7xx_id id)
 {
 	dpll_dra7xx_settings *settings;
@@ -1393,7 +1393,7 @@ dpll_status dpll_dra7xx_status_get(dpll_dra7xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_output_rate_get
  * @BRIEF		return DPLL output clock rate (in MHz).
  * @RETURNS		DPLL output clock rate (in MHz) in case of success
@@ -1406,7 +1406,7 @@ dpll_status dpll_dra7xx_status_get(dpll_dra7xx_id id)
  *			(e.g. audit, clock tree, OPP detection, etc)
  * @DESCRIPTION		return DPLL output clock rate (in MHz).
  *			If DPLL settings not yet extracted, do it.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double dpll_dra7xx_output_rate_get(
 	dpll_dra7xx_id id, dpll_dra7xx_output_id out_id, unsigned short ignore)
 {
@@ -1490,7 +1490,7 @@ dpll_dra7xx_output_rate_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_audit
  * @BRIEF		DRA7 DPLLS settings audit.
  * @RETURNS		0 in case of success
@@ -1504,7 +1504,7 @@ dpll_dra7xx_output_rate_get_end:
  * @param[in,out]	err_nbr: pointer to return audit error number
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		DRA7 DPLLS settings audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_dra7xx_audit(dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id,
 	FILE *stream, unsigned int *err_nbr, unsigned int *wng_nbr)
 {
@@ -1991,7 +1991,7 @@ dpll_dra7xx_audit_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_init
  * @BRIEF		allocate memory for dpll settings structs and save
  *			dpll settings in it.
@@ -2001,7 +2001,7 @@ dpll_dra7xx_audit_end:
  *			OMAPCONF_ERR_UNEXPECTED
  * @DESCRIPTION		allocate memory for dpll settings structs and save
  *			dpll settings in it.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_dra7xx_init(void)
 {
 	dpll_dra7xx_id id;
@@ -2072,7 +2072,7 @@ int dpll_dra7xx_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_free
  * @BRIEF		free memory for dpll settings structs and save
  *			dpll settings in it.
@@ -2080,7 +2080,7 @@ int dpll_dra7xx_init(void)
  * @param[in]		none
  * @DESCRIPTION		allocate memory for dpll settings structs and save
  *			dpll settings in it.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_dra7xx_free(void)
 {
 	dpll_dra7xx_id id;
@@ -2096,7 +2096,7 @@ int dpll_dra7xx_free(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_dra7xx_main
  * @BRIEF		main entry point for DPLL functions
  *
@@ -2114,7 +2114,7 @@ int dpll_dra7xx_free(void)
  *			argv[1] = DPLL ID ("mpu", "iva", "core", "per", "abe",
  *				"usb", "unipro1", "unipro2")
  *				argv[1] may be omitted (then "all" assumed)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dpll_dra7xx_main(int argc, char *argv[])
 {
 	int ret = 0;

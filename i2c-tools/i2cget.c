@@ -1,9 +1,9 @@
-/* ======================================================================= *//**
+/* ======================================================================= 
  * @Component			OMAPCONF
  * @Filename			i2cget.c
  * @Description			A user-space program to read an I2C register.
  * @Copyright			GPL
- *//*======================================================================== */
+ *======================================================================== */
 /*
     i2cget.c - A user-space program to read an I2C register.
     Copyright (C) 2005-2010  Jean Delvare <khali@linux-fr.org>

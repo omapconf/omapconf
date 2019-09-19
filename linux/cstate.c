@@ -64,13 +64,13 @@ static char cstate_namefile[50] =
 int cstates_nbr = -1;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cstate_get_number
  * @BRIEF		retrieve and return the number of available C-State(s)
  * @RETURNS		0 if no C-State available
  *			>0 the number of available C-State(s)
  * @DESCRIPTION		retrieve and return the number of available C-State(s)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cstate_get_number(void)
 {
 	unsigned int i;
@@ -106,14 +106,14 @@ unsigned int cstate_get_number(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cstate_get_usage
  * @BRIEF		return the number of time(s) a C-State was entered
  * @RETURNS		the number of time(s) a C-State was entered
  *			0 in case of error
  * @param[in]		n: C-State number ([0 -- cstate_get_number() -1])
  * @DESCRIPTION		return the number of time(s) a C-State was entered
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 uint64_t cstate_get_usage(unsigned int n)
 {
 	FILE *fp;
@@ -152,14 +152,14 @@ uint64_t cstate_get_usage(unsigned int n)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cstate_get_time
  * @BRIEF		return the time spent in a given C-State
  * @RETURNS		time spent in given C-State (in microseconds)
  *			0 in case of error
  * @param[in]		n: C-State number ([0 -- cstate_get_number() -1])
  * @DESCRIPTION		return the time spent in a given C-State
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 uint64_t cstate_get_time(unsigned int n)
 {
 	FILE *fp;
@@ -197,7 +197,7 @@ uint64_t cstate_get_time(unsigned int n)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cstate_get_name
  * @BRIEF		return the name of a given C-State
  * @RETURNS		name of given C-State
@@ -205,7 +205,7 @@ uint64_t cstate_get_time(unsigned int n)
  * @param[in]		n: C-State number ([0 -- cstate_get_number() -1])
  * @param[in,out]	name: name of given C-State (returned)
  * @DESCRIPTION		return the name of a given C-State
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *cstate_get_name(unsigned int n, char name[3])
 {
 	FILE *fp;

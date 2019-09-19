@@ -107,7 +107,7 @@ unsigned long p_step = LP87565_VDCDC1_STEP;
 unsigned int p_voff = LP87565_VDCDC1_MIN;
 unsigned int p_eoff = LP87565_VDCDC1_ENC_OFF;
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lp87565_is_present
  * @BRIEF		return 1 if LP87565  is present on this platform,
  *			0 otherwise
@@ -115,7 +115,7 @@ unsigned int p_eoff = LP87565_VDCDC1_ENC_OFF;
  *			0 otherwise
  * @DESCRIPTION		return 1 if LP87565  is present on this platform,
  *			0 otherwise
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short int lp87565_is_present(void)
 {
 	int ret;
@@ -151,38 +151,38 @@ unsigned short int lp87565_is_present(void)
 	return present;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lp87565_chip_revision_get
  * @BRIEF		return LP87565  chip revision
  * @RETURNS		> 0.0 LP87565  chip revision
  *			OMAPCONF_ERR_NOT_AVAILABLE in case of error
  * @DESCRIPTION		return LP87565  chip revision
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double lp87565_chip_revision_get(void)
 {
 	/* SR-I2C link is write-only, cannot read-back any chip register ... */
 	return (double) OMAPCONF_ERR_NOT_AVAILABLE;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lp87565_eprom_revision_get
  * @BRIEF		return LP87565  EPROM revision
  * @RETURNS		> 0.0 LP87565  EPROM revision
  *			OMAPCONF_ERR_NOT_AVAILABLE in case of error
  * @DESCRIPTION		return LP87565  EPROM revision
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double lp87565_eprom_revision_get(void)
 {
 	/* SR-I2C link is write-only, cannot read-back any chip register ... */
 	return (double) OMAPCONF_ERR_NOT_AVAILABLE;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lp87565_smps_offset_get
  * @BRIEF		return SMPS regulator voltage offset
  * @RETURNS		voltage offset in microvolts
  * @DESCRIPTION		return SMPS regulator voltage offset
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 long lp87565_smps_offset_get(void)
 {
 	dprintf("%s(): offset=%lduV\n", __func__, (long) p_voff);
@@ -190,12 +190,12 @@ long lp87565_smps_offset_get(void)
 	return (long) p_voff;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lp87565_smps_step_get
  * @BRIEF		return SMPS regulator voltage step in microvolts
  * @RETURNS		voltage step in microvolts
  * @DESCRIPTION		return SMPS regulator voltage step in microvolts
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 long lp87565_smps_step_get(void)
 {
 	dprintf("%s(): step=%lduV\n", __func__, (long) p_step);
@@ -203,7 +203,7 @@ long lp87565_smps_step_get(void)
 	return (long) p_step;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lp87565_vsel_to_uv
  * @BRIEF		for a given rail, convert SMPS vsel command into voltage
  *			in microvolts.
@@ -211,7 +211,7 @@ long lp87565_smps_step_get(void)
  * @param[in]		vsel: SMPS vsel command (in microvolts)
  * @DESCRIPTION		for a given rail, convert SMPS vsel command into voltage
  *			in microvolts.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned long lp87565_vsel_to_uv(unsigned char vsel)
 {
 	unsigned long uv;
@@ -221,7 +221,7 @@ unsigned long lp87565_vsel_to_uv(unsigned char vsel)
 	return uv;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lp87565_uv_to_vsel
  * @BRIEF		for a given rail, convert voltage in microvolts into
  *			SMPS vsel command.
@@ -229,7 +229,7 @@ unsigned long lp87565_vsel_to_uv(unsigned char vsel)
  * @param[in]		uv: voltage to be converted (in microvolts)
  * @DESCRIPTION		for a given rail, convert voltage in microvolts into
  *			SMPS vsel command.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char lp87565_uv_to_vsel(unsigned long uv)
 {
 	unsigned char vsel;
@@ -240,7 +240,7 @@ unsigned char lp87565_uv_to_vsel(unsigned long uv)
 	return vsel;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lp87565_vsel_get
  * @BRIEF		return vsel-encoded voltage of a given SMPS voltage rail
  * @RETURNS		VSEL-encoded voltage (8-bit, >= 0) in case of success
@@ -251,7 +251,7 @@ unsigned char lp87565_uv_to_vsel(unsigned long uv)
  *			OMAPCONF_ERR_INTERNAL
  * @param[in]		smps_id: voltage domain ID
  * @DESCRIPTION		return vsel-encoded voltage of a given SMPS voltage rail
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int lp87565_vsel_get(unsigned int smps_id)
 {
 	int ret;
@@ -286,7 +286,7 @@ int lp87565_vsel_get(unsigned int smps_id)
 	return vsel;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lp87565_uvoltage_set
  * @BRIEF		set voltage of a given SMPS voltage rail.
  * @RETURNS		0 in case of success
@@ -298,7 +298,7 @@ int lp87565_vsel_get(unsigned int smps_id)
  * @param[in]		vdd_id: voltage domain ID
  * @param[in]		uv: voltage to be set (in micro-volt)
  * @DESCRIPTION		set voltage of a given SMPS voltage rail, in micro-volt.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int lp87565_uvoltage_set(unsigned int vdd_id, unsigned long uv)
 {
 	int ret;
@@ -329,12 +329,12 @@ int lp87565_uvoltage_set(unsigned int vdd_id, unsigned long uv)
 	return ret;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lp87565_vsel_len_get
  * @BRIEF		return the size of the vsel command
  * @RETURNS		SMPS regulator size of the vsel command
  * @DESCRIPTION		return the size of the vsel command
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int lp87565_vsel_len_get(void)
 {
 	return 8;

@@ -96,11 +96,11 @@ static unsigned short voltdm_dra7xx_init_done;
 genlist voltdm_dra7xx_list;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void voltdm_dra7xx_init(void)
 {
 	voltdm_info voltdm;
@@ -151,12 +151,12 @@ void voltdm_dra7xx_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void voltdm_dra7xx_deinit(void)
 {
 	if (voltdm_dra7xx_init_done) {
@@ -167,13 +167,13 @@ void voltdm_dra7xx_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_list_get
  * @BRIEF		return the list of voltage domains
  * @RETURNS		list of voltage domains in case of success
  *			NULL in case of error
  * @DESCRIPTION		return the list of voltage domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *voltdm_dra7xx_list_get(void)
 {
 	voltdm_dra7xx_init();
@@ -182,14 +182,14 @@ const genlist *voltdm_dra7xx_list_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_count_get
  * @BRIEF		return the number of voltage domains
  * @RETURNS		number of voltage domains (> 0) in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
  * @DESCRIPTION		return the number of voltage domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int voltdm_dra7xx_count_get(void)
 {
 	int count;
@@ -203,14 +203,14 @@ int voltdm_dra7xx_count_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_name_get
  * @BRIEF		return voltage domain name
  * @RETURNS		voltage domain name on success
  *			NULL in case of error
  * @param[in]		id: valid voltage domain ID
  * @DESCRIPTION		return voltage domain name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *voltdm_dra7xx_name_get(voltdm_dra7xx_id id)
 {
 	CHECK_ARG_LESS_THAN(id, VDD_DRA7XX_ID_MAX, NULL);
@@ -219,7 +219,7 @@ const char *voltdm_dra7xx_name_get(voltdm_dra7xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_s2id
  * @BRIEF		convert string to valid OPP ID
  * @RETURNS		OPP_DRA7XX_NOM if s == "nom"
@@ -228,7 +228,7 @@ const char *voltdm_dra7xx_name_get(voltdm_dra7xx_id id)
  *			OPP_DRA7XX_ID_MAX otherwise
  * @param[in,out]	s: string
  * @DESCRIPTION		convert string to valid OPP ID
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 opp_dra7xx_id opp_dra7xx_s2id(char *s)
 {
 	CHECK_NULL_ARG(s, OPP_DRA7XX_ID_MAX);
@@ -244,7 +244,7 @@ opp_dra7xx_id opp_dra7xx_s2id(char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_id2s
  * @BRIEF		convert voltage domain ID into voltage domain name, as
  *			defined in voltdm.h.
@@ -252,7 +252,7 @@ opp_dra7xx_id opp_dra7xx_s2id(char *s)
  *			NULL in case of invalid voltage domain ID
  * @param[in]		id: voltage domain ID
  * @DESCRIPTION		convert voltage domain ID to voltage domain name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *voltdm_dra7xx_id2s(voltdm_dra7xx_id id)
 {
 	const char *s;
@@ -286,14 +286,14 @@ const char *voltdm_dra7xx_id2s(voltdm_dra7xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_name_get
  * @BRIEF		return OPP name
  * @RETURNS		OPP name on success
  *			NULL in case of error
  * @param[in]		id: valid OPP ID
  * @DESCRIPTION		return OPP name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *opp_dra7xx_name_get(opp_dra7xx_id id)
 {
 	CHECK_ARG_LESS_THAN(id, OPP_DRA7XX_ID_MAX + 1, NULL);
@@ -302,7 +302,7 @@ const char *opp_dra7xx_name_get(opp_dra7xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vr_dra7xx_vsel2uv
  * @BRIEF		for a given rail, convert SMPS vsel command into voltage
  *			in microvolts.
@@ -311,7 +311,7 @@ const char *opp_dra7xx_name_get(opp_dra7xx_id id)
  * @param[in]		vsel: SMPS vsel command
  * @DESCRIPTION		for a given rail, convert SMPS vsel command into voltage
  *			in microvolts.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned long vr_dra7xx_vsel2uv(voltdm_dra7xx_id id, unsigned char vsel)
 {
 	unsigned long uv = 0;
@@ -328,7 +328,7 @@ unsigned long vr_dra7xx_vsel2uv(voltdm_dra7xx_id id, unsigned char vsel)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vr_dra7xx_vsel2volt
  * @BRIEF		for a given rail, convert SMPS vsel command into voltage
  *			(in VOLTS).
@@ -337,7 +337,7 @@ unsigned long vr_dra7xx_vsel2uv(voltdm_dra7xx_id id, unsigned char vsel)
  * @param[in]		vsel: SMPS vsel command
  * @DESCRIPTION		for a given rail, convert SMPS vsel command into voltage
  *			(in VOLTS).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double vr_dra7xx_vsel2volt(voltdm_dra7xx_id id, unsigned char vsel)
 {
 	double volt;
@@ -354,7 +354,7 @@ double vr_dra7xx_vsel2volt(voltdm_dra7xx_id id, unsigned char vsel)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_por_nominal_voltage_get
  * @BRIEF		return the Plan of Record (POR) nominal voltage
  *			of a given voltage domain for a given OPP.
@@ -364,7 +364,7 @@ double vr_dra7xx_vsel2volt(voltdm_dra7xx_id id, unsigned char vsel)
  * @param[in]		id: valid voltage domain ID
  * @DESCRIPTION		return the Plan of Record (POR) nominal voltage
  *			of a given voltage domain for a given OPP.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double voltdm_dra7xx_por_nominal_voltage_get(voltdm_dra7xx_id id, opp_dra7xx_id opp_id)
 {
 	double volt;
@@ -382,7 +382,7 @@ double voltdm_dra7xx_por_nominal_voltage_get(voltdm_dra7xx_id id, opp_dra7xx_id 
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_voltage_get
  * @BRIEF		find the current supply voltage of a domain
  * @RETURNS		supply voltage in case of success (>= 0.0)
@@ -397,7 +397,7 @@ double voltdm_dra7xx_por_nominal_voltage_get(voltdm_dra7xx_id id, opp_dra7xx_id 
  *			NB: use PRCM VP VOLTAGE register to retrieve ON voltage.
  *			Hence SR/VP/VC have to be at least initialized
  *			(SR could be disabled)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double voltdm_dra7xx_voltage_get(voltdm_dra7xx_id id)
 {
 	double volt;
@@ -440,7 +440,7 @@ double voltdm_dra7xx_voltage_get(voltdm_dra7xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_dra7xx_voltage_set
  * @BRIEF		set voltage of given voltage domain
  * @RETURNS		0 in case of success
@@ -451,7 +451,7 @@ double voltdm_dra7xx_voltage_get(voltdm_dra7xx_id id)
  *			OMAPCONF_ERR_INTERNAL
  * @param[in]		id: valid voltage domain ID
  * @DESCRIPTION		set voltage of given voltage domain
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int voltdm_dra7xx_voltage_set(voltdm_dra7xx_id id, unsigned long uv)
 {
 	CHECK_ARG_LESS_THAN(id, VDD_DRA7XX_ID_MAX, (double) OMAPCONF_ERR_ARG);

@@ -142,7 +142,7 @@ static const char smps_am335x_names[PMIC_SMPS_ID_MAX + 1][PMIC_NAME_MAX_LENGTH] 
 	[PMIC_SMPS_ID_MAX] = "FIXME"};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_detection_done
  * @BRIEF		return 1 if PMIC detection already done
  *			(i.e. static data valid)
@@ -152,21 +152,21 @@ static const char smps_am335x_names[PMIC_SMPS_ID_MAX + 1][PMIC_NAME_MAX_LENGTH] 
  * @DESCRIPTION		return 1 if PMIC detection already done
  *			(i.e. static data valid)
  *			0 otherwise.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short pmic_detection_done(void)
 {
 	return pmic_detection_done_flag;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vdd_id2smps_id
  * @BRIEF		convert VDD ID into SMPS ID (for a given platform)
  * @RETURNS		valid SMPS ID in case of success
  *			PMIC_SMPS_ID_MAX in case of error
  * @param[in]		vdd_id: valid VDD ID
  * @DESCRIPTION		convert VDD ID into SMPS ID (for a given platform)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 pmic_smps_id vdd_id2smps_id(unsigned short vdd_id)
 {
 	pmic_smps_id smps_id;
@@ -276,7 +276,7 @@ pmic_smps_id vdd_id2smps_id(unsigned short vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		smps_id2vdd_id
  * @BRIEF		convert SMPS ID into VDD ID (for a given platform)
  * @RETURNS		valid VDD ID in case of success
@@ -284,7 +284,7 @@ pmic_smps_id vdd_id2smps_id(unsigned short vdd_id)
  *			VDD54XX_ID_MAX in case of error (OMAP5)
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		convert SMPS ID into VDD ID (for a given platform)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short smps_id2vdd_id(pmic_smps_id smps_id)
 {
 	unsigned short vdd_id;
@@ -392,14 +392,14 @@ unsigned short smps_id2vdd_id(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_name_get
  * @BRIEF		return PMIC chip name as a string
  * @RETURNS		PMIC chip name as a string in case of success
  *			"FIXME" in case of error
  * @param[in]		id: valid PMIC ID
  * @DESCRIPTION		return PMIC chip name as a string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *pmic_name_get(pmic_id id)
 {
 	if (id > PMIC_ID_MAX)
@@ -409,12 +409,12 @@ const char *pmic_name_get(pmic_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_smps_init
  * @BRIEF		Initialize PMIC information related SMPS ID.
  * @RETURNS		None
  * @DESCRIPTION		Initialize PMIC information related SMPS ID.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void pmic_smps_init(pmic_smps_id id, unsigned short is_twl6030,
 		unsigned short is_twl6032, unsigned short is_twl6034,
 		unsigned short is_twl6035, unsigned short tps62361_present,
@@ -570,12 +570,12 @@ void pmic_smps_init(pmic_smps_id id, unsigned short is_twl6030,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_detect
  * @BRIEF		detect platform PMIC chip(s) and retrieve PMIC details.
  * @RETURNS		0
  * @DESCRIPTION		detect platform PMIC chip(s) and retrieve PMIC details.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pmic_detect(void)
 {
 	unsigned short is_twl6030, is_twl6032, is_twl6034, is_twl6035,
@@ -658,14 +658,14 @@ int pmic_detect(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_chip_get
  * @BRIEF		return the PMIC chip ID of a given power rail.
  * @RETURNS		PMIC chip ID of a given power rail.
  *			PMIC_ID_MAX in case of error.
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		return the PMIC chip ID of a given power rail.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 pmic_id pmic_chip_get(pmic_smps_id smps_id)
 {
 	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, PMIC_ID_MAX);
@@ -677,14 +677,14 @@ pmic_id pmic_chip_get(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_twl6030
  * @BRIEF		return 1 if PMIC chip of a given rail is TWL6030
  * @RETURNS		1 if PMIC chip is TWL6030
  *			0 otherwise
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		return 1 if PMIC chip of a given rail is TWL6030
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short pmic_is_twl6030(pmic_smps_id smps_id)
 {
 	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, 0);
@@ -696,14 +696,14 @@ unsigned short pmic_is_twl6030(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_twl6032
  * @BRIEF		return 1 if PMIC chip of a given rail is TWL6032
  * @RETURNS		1 if PMIC chip is TWL6032
  *			0 otherwise
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		return 1 if PMIC chip of a given rail is TWL6032
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short pmic_is_twl6032(pmic_smps_id smps_id)
 {
 	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, 0);
@@ -715,14 +715,14 @@ unsigned short pmic_is_twl6032(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_twl6034
  * @BRIEF		return 1 if PMIC chip of a given rail is TWL6034
  * @RETURNS		1 if PMIC chip is TWL6034
  *			0 otherwise
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		return 1 if PMIC chip of a given rail is TWL6034
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short pmic_is_twl6034(pmic_smps_id smps_id)
 {
 	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, 0);
@@ -734,14 +734,14 @@ unsigned short pmic_is_twl6034(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_twl6035
  * @BRIEF		return 1 if PMIC chip of a given rail is TWL6035
  * @RETURNS		1 if PMIC chip is TWL6035
  *			0 otherwise
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		return 1 if PMIC chip of a given rail is TWL6035
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short pmic_is_twl6035(pmic_smps_id smps_id)
 {
 	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, 0);
@@ -753,14 +753,14 @@ unsigned short pmic_is_twl6035(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_tps62361
  * @BRIEF		return 1 if PMIC chip of a given rail is TPS62361
  * @RETURNS		1 if PMIC chip is TPS62361
  *			0 otherwise
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		return 1 if PMIC chip of a given rail is TPS62361
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short pmic_is_tps62361(pmic_smps_id smps_id)
 {
 	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, 0);
@@ -771,14 +771,14 @@ unsigned short pmic_is_tps62361(pmic_smps_id smps_id)
 	return pmic_chip[smps_id] == PMIC_TPS62361;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_lp87565
  * @BRIEF		return 1 if PMIC chip of a given rail is LP87565
  * @RETURNS		1 if PMIC chip is LP87565
  *			0 otherwise
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		return 1 if PMIC chip of a given rail is LP87565
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short pmic_is_lp87565(pmic_smps_id smps_id)
 {
 	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, 0);
@@ -790,14 +790,14 @@ unsigned short pmic_is_lp87565(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_tps659038
  * @BRIEF		return 1 if PMIC chip of a given rail is TPS659038
  * @RETURNS		1 if PMIC chip is TPS659038
  *			0 otherwise
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		return 1 if PMIC chip of a given rail is TPS659038
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short pmic_is_tps659038(pmic_smps_id smps_id)
 {
 	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, 0);
@@ -812,14 +812,14 @@ unsigned short pmic_is_tps659038(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_tps65217x
  * @BRIEF		return 1 if PMIC chip of a given rail is TPS65217X
  * @RETURNS		1 if PMIC chip is TPS65217X
  *			0 otherwise
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		return 1 if PMIC chip of a given rail is TPS65217X
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short pmic_is_tps65217x(pmic_smps_id smps_id)
 {
 	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, 0);
@@ -833,7 +833,7 @@ unsigned short pmic_is_tps65217x(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_is_single_chip
  * @BRIEF		return 1 if all SMPS rails powered by the same PMIC,
  *			0 otherwise.
@@ -841,7 +841,7 @@ unsigned short pmic_is_tps65217x(pmic_smps_id smps_id)
  *			0 otherwise
  * @DESCRIPTION		return 1 if all SMPS rails powered by the same PMIC,
  *			0 otherwise.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short pmic_is_single_chip(void)
 {
 	if (!pmic_detection_done())
@@ -851,7 +851,7 @@ unsigned short pmic_is_single_chip(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_chip_revision_get
  * @BRIEF		return the PMIC chip revision of a given power rail.
  * @RETURNS		> 0.0 PMIC chip revision of a given power rail.
@@ -859,7 +859,7 @@ unsigned short pmic_is_single_chip(void)
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		return the PMIC chip revision of a given power rail.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double pmic_chip_revision_get(pmic_smps_id smps_id)
 {
 	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX,
@@ -872,7 +872,7 @@ double pmic_chip_revision_get(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmic_eprom_revision_get
  * @BRIEF		return the PMIC EPROM revision of a given power rail.
  * @RETURNS		> 0.0 PMIC EPROM revision of a given power rail.
@@ -880,7 +880,7 @@ double pmic_chip_revision_get(pmic_smps_id smps_id)
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		return the PMIC EPROM revision of a given power rail.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double pmic_eprom_revision_get(pmic_smps_id smps_id)
 {
 	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX,
@@ -893,14 +893,14 @@ double pmic_eprom_revision_get(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		smps_name_get
  * @BRIEF		return PMIC SMPS name as a string
  * @RETURNS		PMIC SMPS name as a string in case of success
  *			NULL in case of error
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		return PMIC SMPS name as a string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *smps_name_get(pmic_smps_id smps_id)
 {
 	CHECK_ARG_LESS_THAN(smps_id, PMIC_SMPS_ID_MAX, NULL);
@@ -938,7 +938,7 @@ const char *smps_name_get(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		smps_step_get
  * @BRIEF		return SMPS regulator voltage step (in microvolts)
  * @RETURNS		> 0 voltage step in microvolts
@@ -946,7 +946,7 @@ const char *smps_name_get(pmic_smps_id smps_id)
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		return SMPS regulator voltage step (in microvolts)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 long smps_step_get(pmic_smps_id smps_id)
 {
 	long step;
@@ -988,7 +988,7 @@ long smps_step_get(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		smps_offset_get
  * @BRIEF		return SMPS regulator offset
  * @RETURNS		> 0 voltage offset in microvolts
@@ -996,7 +996,7 @@ long smps_step_get(pmic_smps_id smps_id)
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		return SMPS regulator offset
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 long smps_offset_get(pmic_smps_id smps_id)
 {
 	long offset;
@@ -1041,7 +1041,7 @@ long smps_offset_get(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		smps_vsel_len_get
  * @BRIEF		return the size of the vsel command
  * @RETURNS		> 0 SMPS regulator size of the vsel command
@@ -1049,7 +1049,7 @@ long smps_offset_get(pmic_smps_id smps_id)
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @param[in]		smps_id: valid SMPS ID
  * @DESCRIPTION		return the size of the vsel command
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int smps_vsel_len_get(pmic_smps_id smps_id)
 {
 	int vsel_len;
@@ -1092,7 +1092,7 @@ int smps_vsel_len_get(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		smps_uvolt2vsel
  * @BRIEF		for a given rail, convert voltage in microvolts into
  *			SMPS vsel command.
@@ -1103,7 +1103,7 @@ int smps_vsel_len_get(pmic_smps_id smps_id)
  * @param[in]		uvolt: voltage to be converted (in microvolts)
  * @DESCRIPTION		for a given rail, convert voltage in microvolts into
  *			SMPS vsel command.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int smps_uvolt2vsel(pmic_smps_id smps_id, unsigned long uvolt)
 {
 	int vsel;
@@ -1147,7 +1147,7 @@ int smps_uvolt2vsel(pmic_smps_id smps_id, unsigned long uvolt)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		smps_vsel2uvolt
  * @BRIEF		for a given rail, convert SMPS vsel command into voltage
  *			in microvolts.
@@ -1159,7 +1159,7 @@ int smps_uvolt2vsel(pmic_smps_id smps_id, unsigned long uvolt)
  * @param[in]		vsel: SMPS vsel command
  * @DESCRIPTION		for a given rail, convert SMPS vsel command into voltage
  *			in microvolts.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 long smps_vsel2uvolt(pmic_smps_id smps_id, unsigned char vsel)
 {
 	long uvolt;
@@ -1204,7 +1204,7 @@ long smps_vsel2uvolt(pmic_smps_id smps_id, unsigned char vsel)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		smps_vsel2volt
  * @BRIEF		for a given rail, convert SMPS vsel command into voltage
  *			(in VOLTS).
@@ -1215,7 +1215,7 @@ long smps_vsel2uvolt(pmic_smps_id smps_id, unsigned char vsel)
  * @param[in]		vsel: SMPS vsel command
  * @DESCRIPTION		for a given rail, convert SMPS vsel command into voltage
  *			(in VOLTS).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double smps_vsel2volt(pmic_smps_id smps_id, unsigned char vsel)
 {
 	double volt;
@@ -1229,7 +1229,7 @@ double smps_vsel2volt(pmic_smps_id smps_id, unsigned char vsel)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		smps_voltage_round
  * @BRIEF		for a given rail, convert RAW voltage
  *			(e.g from Data Manual) into stepped SMPS voltage
@@ -1242,7 +1242,7 @@ double smps_vsel2volt(pmic_smps_id smps_id, unsigned char vsel)
  * @DESCRIPTION		for a given rail, convert RAW voltage
  *			(e.g from Data Manual) into stepped SMPS voltage
  *			(in microvolt).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 long smps_voltage_round(pmic_smps_id smps_id, long uvolt)
 {
 	long rounded_uvolt;
@@ -1261,7 +1261,7 @@ long smps_voltage_round(pmic_smps_id smps_id, long uvolt)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		smps_vsel_get
  * @BRIEF		return VSEL-encoded voltage of a given SMPS voltage rail
  * @RETURNS		0 on success
@@ -1272,7 +1272,7 @@ long smps_voltage_round(pmic_smps_id smps_id, long uvolt)
  *			OMAPCONF_ERR_INTERNAL
  * @param[in]		smps_id: SMPS ID
  * @DESCRIPTION		return VSEL-encoded voltage of a given SMPS voltage rail
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int smps_vsel_get(pmic_smps_id smps_id)
 {
 
@@ -1289,7 +1289,7 @@ int smps_vsel_get(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		smps_uvoltage_get
  * @BRIEF		return voltage of a given SMPS voltage rail.
  * @RETURNS		0 on success
@@ -1300,7 +1300,7 @@ int smps_vsel_get(pmic_smps_id smps_id)
  *			OMAPCONF_ERR_INTERNAL
  * @param[in]		smps_id: SMPS ID
  * @DESCRIPTION		return voltage of a given SMPS voltage rail.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned long smps_uvoltage_get(pmic_smps_id smps_id)
 {
 	int vsel;
@@ -1318,7 +1318,7 @@ unsigned long smps_uvoltage_get(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		smps_voltage_get
  * @BRIEF		return voltage of a given SMPS voltage rail in volt.
  * @RETURNS		>= 0 voltage in volt
@@ -1326,7 +1326,7 @@ unsigned long smps_uvoltage_get(pmic_smps_id smps_id)
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @param[in]		smps_id: SMPS ID
  * @DESCRIPTION		return voltage of a given SMPS voltage rail in volt.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double smps_voltage_get(pmic_smps_id smps_id)
 {
 	int vsel;
@@ -1344,7 +1344,7 @@ double smps_voltage_get(pmic_smps_id smps_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		smps_voltage_set
  * @BRIEF		set voltage of a given SMPS voltage rail.
  * @RETURNS		0 in case of success
@@ -1356,7 +1356,7 @@ double smps_voltage_get(pmic_smps_id smps_id)
  * @param[in]		smps_id: SMPS ID
  * @param[in]		uv: voltage to be set (in micro-volt)
  * @DESCRIPTION		set voltage of a given SMPS voltage rail, in micro-volt.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int smps_voltage_set(pmic_smps_id smps_id, unsigned long uvolt)
 {
 	/* only allow a look up if a pmic which suports the rail and has claimed it exists */

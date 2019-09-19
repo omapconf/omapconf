@@ -203,14 +203,14 @@ static const char
 };
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_type_name_get
  * @BRIEF		return sensor type name
  * @RETURNS		sensor type name on success
  *			"FIXME" string in case of error
  * @param[in]		type: valid sensor type ID
  * @DESCRIPTION		return sensor type name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *sr_sensor_type_name_get(sr_sensor_type type)
 {
 	if (type < SR_SENSOR_TYPE_MAX)
@@ -220,14 +220,14 @@ const char *sr_sensor_type_name_get(sr_sensor_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_value_type_name_get
  * @BRIEF		return sensor value type name
  * @RETURNS		sensor value type name on success
  *			"FIXME" string in case of error
  * @param[in]		type: valid sensor value type ID
  * @DESCRIPTION		return sensor value type name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *sr_sensor_value_type_name_get(sr_sensor_value_type type)
 {
 	if (type < SR_SENSOR_VAL_TYPE_MAX)
@@ -237,14 +237,14 @@ const char *sr_sensor_value_type_name_get(sr_sensor_value_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_value_status_name_get
  * @BRIEF		return sensor value status name
  * @RETURNS		sensor value status name on success
  *			"FIXME" string in case of error
  * @param[in]		status: valid sensor value status ID
  * @DESCRIPTION		return sensor value status name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *sr_sensor_value_status_name_get(sr_sensor_value_status status)
 {
 	if (status < SR_SENSOR_VAL_STATUS_MAX)
@@ -254,14 +254,14 @@ const char *sr_sensor_value_status_name_get(sr_sensor_value_status status)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_interrupt_type_name_get
  * @BRIEF		return SR interrupt type name
  * @RETURNS		interrupt type name on success
  *			"FIXME" string in case of error
  * @param[in]		type: valid interrupt type ID
  * @DESCRIPTION		return SR interrupt type name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *sr_interrupt_type_name_get(sr_interrupt_type type)
 {
 	if (type < SR_IRQ_TYPE_MAX)
@@ -271,7 +271,7 @@ const char *sr_interrupt_type_name_get(sr_interrupt_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_enabled
  * @BRIEF		check if SR module is enabled by analyzing SRCONFIG
  *			register content
@@ -279,21 +279,21 @@ const char *sr_interrupt_type_name_get(sr_interrupt_type type)
  * @param[in]		sr_config: SRCONFIG register content
  * @DESCRIPTION		check if SR module is enabled by analyzing SRCONFIG
  *			register content
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_is_enabled(unsigned int sr_config)
 {
 	return extract_bit(sr_config, SR_SRENABLE_POS);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_has_converged
  * @BRIEF		check if SR module has converged
  * @RETURNS		1 if module is enabled, 0 otherwise
  * @param[in]		errconfig: ERRCONFIG register content
  * @param[in]		senerror: SENERROR register content
  * @DESCRIPTION		check if SR module has converged
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_has_converged(unsigned int errconfig, unsigned int senerror)
 {
 	signed char minlimit, maxlimit, avgerr;
@@ -315,40 +315,40 @@ unsigned char sr_has_converged(unsigned int errconfig, unsigned int senerror)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_sensors_disabled
  * @BRIEF		check if SR sensors (N+P) are disabled
  * @RETURNS		1 if SR sensors (N+P) are disabled, 0 otherwise
  * @param[in]		sr_config: SRCONFIG register content
  * @DESCRIPTION		check if SR sensors (N+P) are disabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_is_sensors_disabled(unsigned int sr_config)
 {
 	return !extract_bit(sr_config, SR_SENENABLE_POS);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_lvt_sensors_disabled
  * @BRIEF		check if SR LVT sensors (N+P) are disabled
  * @RETURNS		1 if SR LVT sensors (N+P) are disabled, 0 otherwise
  * @param[in]		sr_config: SRCONFIG register content
  * @DESCRIPTION		check if SR LVT sensors (N+P) are disabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_is_lvt_sensors_disabled(unsigned int sr_config)
 {
 	return !extract_bit(sr_config, SR_LVTSENENABLE_POS);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_sensor_enabled
  * @BRIEF		check if SR sensor is enabled
  * @RETURNS		1 if SR sensor is enabled, 0 otherwise
  * @param[in]		sr_config: SRCONFIG register content
  * @param[in]		type: sensor type
  * @DESCRIPTION		check if SR sensor is enabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_is_sensor_enabled(unsigned int sr_config, sr_sensor_type type)
 {
 	switch (type) {
@@ -364,14 +364,14 @@ unsigned char sr_is_sensor_enabled(unsigned int sr_config, sr_sensor_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_lvt_sensor_enabled
  * @BRIEF		check if SR LVT sensor is enabled
  * @RETURNS		1 if SR LVT sensor is enabled, 0 otherwise
  * @param[in]		sr_config: SRCONFIG register content
  * @param[in]		type: sensor type
  * @DESCRIPTION		check if SR LVT sensor is enabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_is_lvt_sensor_enabled(unsigned int sr_config,
 	sr_sensor_type type)
 {
@@ -388,39 +388,39 @@ unsigned char sr_is_lvt_sensor_enabled(unsigned int sr_config,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_error_generator_enabled
  * @BRIEF		check if SR error generator is enabled
  * @RETURNS		1 if SR error generator is enabled, 0 otherwise
  * @param[in]		sr_config: SRCONFIG register content
  * @DESCRIPTION		check if SR error generator is enabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_is_error_generator_enabled(unsigned int sr_config)
 {
 	return extract_bit(sr_config, SR_ERRORGENERATORENABLE_POS);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_minmaxavg_detector_enabled
  * @BRIEF		check if SR min/max/avg detector is enabled
  * @RETURNS		1 if SR min/max/avg detector is enabled, 0 otherwise
  * @param[in]		sr_config: SRCONFIG register content
  * @DESCRIPTION		check if SR min/max/avg detector is enabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_is_minmaxavg_detector_enabled(unsigned int sr_config)
 {
 	return extract_bit(sr_config, SR_MINMAXAVGENABLE_POS);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_accumdata_count_get
  * @BRIEF		return the number of values to accumulate
  * @RETURNS		number of values to accumulate (ACCUMDATA)
  * @param[in]		sr_config: SRCONFIG register content
  * @DESCRIPTION		return the number of values to accumulate
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_accumdata_count_get(unsigned int sr_config)
 {
 	return extract_bitfield(sr_config,
@@ -428,13 +428,13 @@ unsigned char sr_accumdata_count_get(unsigned int sr_config)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_clk_div_get
  * @BRIEF		return the value of the internal source clock divider
  * @RETURNS		value of the internal source clock divider (SRCLKLENGTH)
  * @param[in]		sr_config: SRCONFIG register content
  * @DESCRIPTION		return the value of the internal source clock divider
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_clk_div_get(unsigned int sr_config)
 {
 	return extract_bitfield(sr_config,
@@ -442,7 +442,7 @@ unsigned char sr_clk_div_get(unsigned int sr_config)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_clk_rate_get
  * @BRIEF		return the rate of the SR clock, considering internal
  *			divider
@@ -451,7 +451,7 @@ unsigned char sr_clk_div_get(unsigned int sr_config)
  * @param[in]		sr_sysclk: smartreflex sysclk rate (MHz)
  * @DESCRIPTION		return the rate of the SR clock, considering internal
  *			divider
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double sr_clk_rate_get(unsigned int sr_config, double sr_sysclk)
 {
 	return (sr_sysclk * 1000.0) /
@@ -459,14 +459,14 @@ double sr_clk_rate_get(unsigned int sr_config, double sr_sysclk)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_avg_weighting_factor_get
  * @BRIEF		return the sensor averaging weighting factor (P & N)
  * @RETURNS		sensor averaging weighting factor (P & N)
  * @param[in]		avgweight: AVGWEIGHT register content
  * @param[in]		type: valid sensor type ID
  * @DESCRIPTION		return the sensor averaging weighting factor (P & N)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_avg_weighting_factor_get(unsigned int avgweight,
 	sr_sensor_type type)
 {
@@ -485,14 +485,14 @@ unsigned char sr_avg_weighting_factor_get(unsigned int avgweight,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_gain_get
  * @BRIEF		return the reciprocal gain (P & N)
  * @RETURNS		reciprocal gain (P & N)
  * @param[in]		nvaluereciprocal: NVALUERECIPROCAL register content
  * @param[in]		type: valid sensor type ID
  * @DESCRIPTION		return the reciprocal gain (P & N)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_gain_get(unsigned int nvaluereciprocal, sr_sensor_type type)
 {
 	switch (type) {
@@ -510,14 +510,14 @@ unsigned char sr_gain_get(unsigned int nvaluereciprocal, sr_sensor_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_scale_value_get
  * @BRIEF		return the reciprocal scale value (P & N)
  * @RETURNS		reciprocal scale value (P & N)
  * @param[in]		nvaluereciprocal: NVALUERECIPROCAL register content
  * @param[in]		type: valid sensor type ID
  * @DESCRIPTION		return the reciprocal scale value (P & N)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_scale_value_get(unsigned int nvaluereciprocal,
 	sr_sensor_type type)
 {
@@ -536,14 +536,14 @@ unsigned char sr_scale_value_get(unsigned int nvaluereciprocal,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_ntarget_get
  * @BRIEF		return the sensor NTarget (P & N)
  * @RETURNS		sensor NTarget
  * @param[in]		nvaluereciprocal: NVALUERECIPROCAL register content
  * @param[in]		type: valid sensor type ID
  * @DESCRIPTION		return the sensor NTarget (P & N)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int sr_ntarget_get(unsigned int nvaluereciprocal, sr_sensor_type type)
 {
 	unsigned char gain, scale;
@@ -560,20 +560,20 @@ unsigned int sr_ntarget_get(unsigned int nvaluereciprocal, sr_sensor_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_error_generator_limit_hex2percent
  * @BRIEF		convert error limit HEX signed value into %
  * @RETURNS		error limit value in %
  * @param[in]		limit: error limit HEX signed value
  * @DESCRIPTION		convert error limit HEX signed value into %
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double sr_error_generator_limit_hex2percent(signed char limit)
 {
 	return 0.8 * (double) limit;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_error_generator_minlimit_get
  * @BRIEF		return the RAW lower limit of SenError for interrupt
  *			generation
@@ -581,7 +581,7 @@ double sr_error_generator_limit_hex2percent(signed char limit)
  * @param[in]		errconfig: ERRCONFIG register content
  * @DESCRIPTION		return the RAW lower limit of SenError for interrupt
  *			generation
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_error_generator_minlimit_get(unsigned int errconfig)
 {
 	return (unsigned char) extract_bitfield(errconfig,
@@ -589,7 +589,7 @@ unsigned char sr_error_generator_minlimit_get(unsigned int errconfig)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_error_generator_minlimit_percentage_get
  * @BRIEF		return the percentage of lower limit of SenError
  *			for interrupt generation
@@ -597,7 +597,7 @@ unsigned char sr_error_generator_minlimit_get(unsigned int errconfig)
  * @param[in]		errconfig: ERRCONFIG register content
  * @DESCRIPTION		return the percentage of lower limit of SenError
  *			for interrupt generation
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double sr_error_generator_minlimit_percentage_get(unsigned int errconfig)
 {
 	return sr_error_generator_limit_hex2percent(
@@ -605,7 +605,7 @@ double sr_error_generator_minlimit_percentage_get(unsigned int errconfig)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_error_generator_maxlimit_get
  * @BRIEF		return the RAW upper limit of SenError for interrupt
  *			generation
@@ -613,7 +613,7 @@ double sr_error_generator_minlimit_percentage_get(unsigned int errconfig)
  * @param[in]		errconfig: ERRCONFIG register content
  * @DESCRIPTION		return the RAW upper limit of SenError for interrupt
  *			generation
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_error_generator_maxlimit_get(unsigned int errconfig)
 {
 	return (unsigned char) extract_bitfield(errconfig,
@@ -621,7 +621,7 @@ unsigned char sr_error_generator_maxlimit_get(unsigned int errconfig)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_error_generator_maxlimit_percentage_get
  * @BRIEF		return the percentage of upper limit of SenError
  *			for interrupt generation
@@ -629,7 +629,7 @@ unsigned char sr_error_generator_maxlimit_get(unsigned int errconfig)
  * @param[in]		errconfig: ERRCONFIG register content
  * @DESCRIPTION		return the percentage of upper limit of SenError
  *			for interrupt generation
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double sr_error_generator_maxlimit_percentage_get(unsigned int errconfig)
 {
 	return sr_error_generator_limit_hex2percent(
@@ -637,13 +637,13 @@ double sr_error_generator_maxlimit_percentage_get(unsigned int errconfig)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_error_generator_weight_get
  * @BRIEF		return the sensor error weighting factor (ERRWEIGHT)
  * @RETURNS		AvgSenError weight (ERRWEIGHT)
  * @param[in]		errconfig: ERRCONFIG register content
  * @DESCRIPTION		return the sensor error weighting factor (ERRWEIGHT)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_error_generator_weight_get(unsigned int errconfig)
 {
 	return (unsigned char) extract_bitfield(errconfig,
@@ -651,13 +651,13 @@ unsigned char sr_error_generator_weight_get(unsigned int errconfig)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_error_generator_idle_mode_get
  * @BRIEF		return sensor error generator idle mode
  * @RETURNS		sensor error generator idle mode
  * @param[in]		errconfig: ERRCONFIG register content
  * @DESCRIPTION		return sensor error generator idle mode
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_idle_mode sr_error_generator_idle_mode_get(unsigned int errconfig)
 {
 	return extract_bitfield(errconfig,
@@ -665,7 +665,7 @@ mod_idle_mode sr_error_generator_idle_mode_get(unsigned int errconfig)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_is_error_generator_wakeup_enabled
  * @BRIEF		check if SR error generator module WAKEUP generation
  *			is enabled
@@ -673,14 +673,14 @@ mod_idle_mode sr_error_generator_idle_mode_get(unsigned int errconfig)
  * @param[in]		errconfig: ERRCONFIG register content
  * @DESCRIPTION		check if SR error generator module WAKEUP generation
  *			is enabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_is_error_generator_wakeup_enabled(unsigned int errconfig)
 {
 	return extract_bit(errconfig, SR_WAKEUPENABLE_POS);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_irq_is_enabled
  * @BRIEF		check if SR interrupt of type 'irq' is enabled
  * @RETURNS		1 if interrupt is enabled, 0 otherwise
@@ -688,7 +688,7 @@ unsigned char sr_is_error_generator_wakeup_enabled(unsigned int errconfig)
  * @param[in]		errconfig: ERRCONFIG register content
  * @param[in]		irq: interrupt type
  * @DESCRIPTION		check if SR interrupt of type 'irq' is enabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_irq_is_enabled(unsigned int irqenable_set,
 	unsigned int errconfig, sr_interrupt_type type)
 {
@@ -710,7 +710,7 @@ unsigned char sr_irq_is_enabled(unsigned int irqenable_set,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_irq_status_is_set
  * @BRIEF		check if SR interrupt of type 'irq' status is set
  *			(pending)
@@ -720,7 +720,7 @@ unsigned char sr_irq_is_enabled(unsigned int irqenable_set,
  * @param[in]		type: interrupt type
  * @DESCRIPTION		check if SR interrupt of type 'irq' status is set
  *			(pending)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_irq_status_is_set(unsigned int irqstatus,
 	unsigned int errconfig, sr_interrupt_type type)
 {
@@ -742,7 +742,7 @@ unsigned char sr_irq_status_is_set(unsigned int irqstatus,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_irq_raw_status_is_set
  * @BRIEF		check if SR interrupt of type 'irq' status is set
  *			(pending).
@@ -753,7 +753,7 @@ unsigned char sr_irq_status_is_set(unsigned int irqstatus,
  * @DESCRIPTION		check if SR interrupt of type 'irq' status is set
  *			(pending).
  *			NB: VPBOUNDS interrupt has no raw interrupt status flag
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_irq_raw_status_is_set(unsigned int irqstatus_raw,
 	sr_interrupt_type type)
 {
@@ -777,13 +777,13 @@ unsigned char sr_irq_raw_status_is_set(unsigned int irqstatus_raw,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_error_value_status_get
  * @BRIEF		return the current status of sensor error value
  * @RETURNS		sensor error value (SenError) status
  * @param[in]		srstatus: SRSTATUS register content
  * @DESCRIPTION		return the current status of sensor error value
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 sr_sensor_value_status sr_sensor_error_value_status_get(
 	unsigned int srstatus)
 {
@@ -794,13 +794,13 @@ sr_sensor_value_status sr_sensor_error_value_status_get(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_error_value_get
  * @BRIEF		return RAW sensor error value from SENERROR register
  * @RETURNS		RAW sensor error value from SENERROR register
  * @param[in]		senerror: SENERROR register content
  * @DESCRIPTION		return RAW sensor error value from SENERROR register
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_sensor_error_value_get(unsigned int senerror)
 {
 	return (unsigned char) extract_bitfield(senerror,
@@ -808,26 +808,26 @@ unsigned char sr_sensor_error_value_get(unsigned int senerror)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_error_percentage_get
  * @BRIEF		return sensor error percentage
  * @RETURNS		percentage of sensor error value
  * @param[in]		senerror: SENERROR register content
  * @DESCRIPTION		return sensor error percentage
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double sr_sensor_error_percentage_get(unsigned int senerror)
 {
 	return 0.8 * (signed char) sr_sensor_error_value_get(senerror);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_avg_sensor_error_value_status_get
  * @BRIEF		return the current status of avg error value
  * @RETURNS		avg error value (AvgError) status
  * @param[in]		srstatus: SRSTATUS register content
  * @DESCRIPTION		return the current status of avg error value
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 sr_sensor_value_status sr_avg_sensor_error_value_status_get(
 	unsigned int srstatus)
 {
@@ -838,13 +838,13 @@ sr_sensor_value_status sr_avg_sensor_error_value_status_get(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_avg_sensor_error_value_get
  * @BRIEF		return RAW sensor error value from SENERROR register
  * @RETURNS		RAW sensor error value from SENERROR register
  * @param[in]		senerror: SENERROR register content
  * @DESCRIPTION		return RAW sensor error value from SENERROR register
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char sr_avg_sensor_error_value_get(unsigned int senerror)
 {
 	return (unsigned char) extract_bitfield(senerror,
@@ -852,20 +852,20 @@ unsigned char sr_avg_sensor_error_value_get(unsigned int senerror)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_avg_sensor_error_percentage_get
  * @BRIEF		return avg sensor error percentage
  * @RETURNS		avg sensor error value
  * @param[in]		senerror: SENERROR register content
  * @DESCRIPTION		return avg sensor error percentage
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double sr_avg_sensor_error_percentage_get(unsigned int senerror)
 {
 	return 0.8 * (signed char) sr_avg_sensor_error_value_get(senerror);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_value_status_get
  * @BRIEF		return the current status of selected value type
  *			(invalid/valid/final)
@@ -873,7 +873,7 @@ double sr_avg_sensor_error_percentage_get(unsigned int senerror)
  * @param[in]		srstatus: SRSTATUS register content
  * @DESCRIPTION		return the current status of selected value type
  *			(invalid/valid/final)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 sr_sensor_value_status sr_sensor_value_status_get(unsigned int srstatus)
 {
 	if (extract_bit(srstatus, SR_MINMAXAVGACCUMVALID_POS) == 1)
@@ -885,7 +885,7 @@ sr_sensor_value_status sr_sensor_value_status_get(unsigned int srstatus)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_sensor_value_get
  * @BRIEF		return selected SR sensor value
  *			NB: use sr_sensor_value_status_get() first to make sure
@@ -897,7 +897,7 @@ sr_sensor_value_status sr_sensor_value_status_get(unsigned int srstatus)
  * @DESCRIPTION		return selected SR sensor value
  *			NB: use sr_sensor_value_status_get() first to make sure
  *			value is valid
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int sr_sensor_value_get(sr_registers *sr_regs, sr_sensor_type sen_type,
 	sr_sensor_value_type val_type)
 {
@@ -950,7 +950,7 @@ unsigned int sr_sensor_value_get(sr_registers *sr_regs, sr_sensor_type sen_type,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_delta_vdd_get
  * @BRIEF		return the delta Vdd error in mV
  * @RETURNS		SR delta Vdd error in mV
@@ -958,14 +958,14 @@ unsigned int sr_sensor_value_get(sr_registers *sr_regs, sr_sensor_type sen_type,
  * @param[in]		vp_offset: programmed VP error offset (%)
  * @param[in]		vp_gain: programmed VP error gain (mV/%)
  * @DESCRIPTION		return the delta Vdd error in mV
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double sr_delta_vdd_get(double freq_error, double vp_offset, double vp_gain)
 {
 	return (freq_error + vp_offset) * vp_gain;
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_lvt_sensor_value_get
  * @BRIEF		return selected SR sensor value
  *			NB: use sr_sensor_value_status_get() first to make sure
@@ -977,7 +977,7 @@ double sr_delta_vdd_get(double freq_error, double vp_offset, double vp_gain)
  * @DESCRIPTION		return selected SR sensor value
  *			NB: use sr_sensor_value_status_get() first to make sure
  *			value is valid
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int sr_lvt_sensor_value_get(sr_registers *sr_regs,
 	sr_sensor_type sen_type, sr_sensor_value_type val_type)
 {
@@ -1038,7 +1038,7 @@ unsigned int sr_lvt_sensor_value_get(sr_registers *sr_regs,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_config_show
  * @BRIEF		analyze Smart-Reflex sensor configuration
  * @RETURNS		0 in case of success
@@ -1048,7 +1048,7 @@ unsigned int sr_lvt_sensor_value_get(sr_registers *sr_regs,
  * @param[in]		sr_regs: SR registers content for the 3 SR instances
  *			(MPU, IVA/MM, CORE)
  * @DESCRIPTION		analyze Smart-Reflex sensor configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr_config_show(FILE *stream, sr_registers sr_regs[3])
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -1476,7 +1476,7 @@ sr_config_show_errgen:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_convergence_status_show
  * @BRIEF		analyze Smart-Reflex convergence status
  * @RETURNS		0 in case of success
@@ -1487,7 +1487,7 @@ sr_config_show_errgen:
  * @param[in]		sr_regs: SR registers content for the 3 SR instances
  *			(MPU, IVA/MM, CORE)
  * @DESCRIPTION		analyze Smart-Reflex convergence status
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr_convergence_status_show(FILE *stream, sr_status_registers sr_regs[3])
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -1614,7 +1614,7 @@ int sr_convergence_status_show(FILE *stream, sr_status_registers sr_regs[3])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr_config_audit
  * @BRIEF		audit SR settings
  * @RETURNS		0 in case of success
@@ -1629,7 +1629,7 @@ int sr_convergence_status_show(FILE *stream, sr_status_registers sr_regs[3])
  * @param[in,out]	wng_nbr: warning number
  * @DESCRIPTION		audit SR settings, by comparing current settings with
  *			predefined "golden" settings.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr_config_audit(FILE *stream, const char *sr_name, const char *opp_name,
 	sr_registers *sr_regs, const sr_audit_settings *sr_golden_settings,
 	unsigned int *err_nbr, unsigned int *wng_nbr)

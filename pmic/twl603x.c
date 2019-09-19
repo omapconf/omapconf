@@ -187,13 +187,13 @@ static const twl6035_smps_registers **twl6035_smps_vdd54xx[3] = {
 	(const twl6035_smps_registers **) &twl6035_smps_vdd54xx_core};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_is_twl6030
  * @BRIEF		return 1 if PMIC chip is TWL6030, 0 otherwise.
  * @RETURNS		1 PMIC chip is TWL6030
  *			0 otherwise
  * @DESCRIPTION		return 1 if PMIC chip is TWL6030, 0 otherwise.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short twl603x_is_twl6030(void)
 {
 	int ret;
@@ -229,13 +229,13 @@ twl603x_is_twl6030_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_is_twl6032
  * @BRIEF		return 1 if PMIC chip is TWL6032, 0 otherwise.
  * @RETURNS		1 PMIC chip is TWL6032
  *			0 otherwise
  * @DESCRIPTION		return 1 if PMIC chip is TWL6032, 0 otherwise.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short twl603x_is_twl6032(void)
 {
 	int ret;
@@ -271,13 +271,13 @@ twl603x_is_twl6032_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_is_twl6034
  * @BRIEF		return 1 if PMIC chip is TWL6034, 0 otherwise.
  * @RETURNS		1 PMIC chip is TWL6034
  *			0 otherwise
  * @DESCRIPTION		return 1 if PMIC chip is TWL6034, 0 otherwise.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short twl603x_is_twl6034(void)
 {
 	int ret;
@@ -312,13 +312,13 @@ twl603x_is_twl6034_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_is_twl6035
  * @BRIEF		return 1 if PMIC chip is TWL6035, 0 otherwise.
  * @RETURNS		1 PMIC chip is TWL6035
  *			0 otherwise
  * @DESCRIPTION		return 1 if PMIC chip is TWL6035, 0 otherwise.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short twl603x_is_twl6035(void)
 {
 #if 0 /* FIXME: implement true detection when ID data available */
@@ -355,14 +355,14 @@ twl603x_is_twl6035_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_chip_revision_get
  * @BRIEF		return TWL6030 chip revision
  * @RETURNS		> 0.0 valid TWL6030 chip revision
  *			OMAPCONF_ERR_NOT_AVAILABLE
  *			OMAPCONF_ERR_UNEXPECTED
  * @DESCRIPTION		return TWL6030 chip revision
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 float twl603x_chip_revision_get(void)
 {
 	int ret;
@@ -403,13 +403,13 @@ twl603x_chip_revision_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_eprom_revision_get
  * @BRIEF		return TWL603x EPROM revision
  * @RETURNS		>0 .0 valid TWL6030 EPROM revision
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @DESCRIPTION		return TWL603x EPROM revision
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 float twl603x_eprom_revision_get(void)
 {
 	int ret;
@@ -436,14 +436,14 @@ twl603x_eprom_revision_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_smps_offset_get
  * @BRIEF		return SMPS regulator offset for a given rail
  * @RETURNS		>0 voltage offset in microvolts
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @param[in]		vdd_id: voltage rail
  * @DESCRIPTION		return SMPS regulator offset for a given rail
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned long twl603x_smps_offset_get(voltdm44xx_id vdd_id)
 {
 	int ret;
@@ -519,14 +519,14 @@ twl603x_smps_offset_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_smps_step_get
  * @BRIEF		return SMPS regulator voltage step for a given rail
  *			(in microvolts)
  * @RETURNS		voltage step in microvolts
  * @DESCRIPTION		return SMPS regulator voltage step for a given rail
  *			(in microvolts)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 long twl603x_smps_step_get(void)
 {
 	if (twl603x_is_twl6035())
@@ -536,12 +536,12 @@ long twl603x_smps_step_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_vsel_len_get
  * @BRIEF		return the size of the vsel command
  * @RETURNS		SMPS regulator size of the vsel command
  * @DESCRIPTION		return the size of the vsel command
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl603x_vsel_len_get(void)
 {
 	if (twl603x_is_twl6035())
@@ -551,7 +551,7 @@ int twl603x_vsel_len_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_uv_to_vsel
  * @BRIEF		for a given rail, convert voltage in microvolts into
  *			vsel command. Take into account voltage offset.
@@ -560,7 +560,7 @@ int twl603x_vsel_len_get(void)
  * @param[in]		uv: voltage to be converted (in microvolts)
  * @DESCRIPTION		for a given rail, convert voltage in microvolts into
  *			vsel command. Take into account voltage offset.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char twl603x_uv_to_vsel(unsigned int vdd_id, unsigned long uv)
 {
 	unsigned long smps_offset;
@@ -614,7 +614,7 @@ unsigned char twl603x_uv_to_vsel(unsigned int vdd_id, unsigned long uv)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_vsel_to_uv
  * @BRIEF		for a given rail, convert SMPS vsel command into voltage
  *			in microvolts. Take into account SMPS voltage offset.
@@ -623,7 +623,7 @@ unsigned char twl603x_uv_to_vsel(unsigned int vdd_id, unsigned long uv)
  * @param[in]		vsel: SMPS vsel command (in microvolts)
  * @DESCRIPTION		for a given rail, convert SMPS vsel command into voltage
  *			in microvolts. Take into account SMPS voltage offset.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned long twl603x_vsel_to_uv(unsigned int vdd_id, unsigned char vsel)
 {
 	unsigned long smps_offset, uv;
@@ -671,7 +671,7 @@ unsigned long twl603x_vsel_to_uv(unsigned int vdd_id, unsigned char vsel)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_vsel_to_volt
  * @BRIEF		for a given rail, convert SMPS vsel command into voltage
  *			(in VOLTS). Take into account SMPS voltage offset.
@@ -680,7 +680,7 @@ unsigned long twl603x_vsel_to_uv(unsigned int vdd_id, unsigned char vsel)
  * @param[in]		vsel: SMPS vsel command (in microvolts)
  * @DESCRIPTION		for a given rail, convert SMPS vsel command into voltage
  *			(in VOLTS). Take into account SMPS voltage offset.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double twl603x_vsel_to_volt(unsigned int vdd_id, unsigned char vsel)
 {
 	double volt;
@@ -693,7 +693,7 @@ double twl603x_vsel_to_volt(unsigned int vdd_id, unsigned char vsel)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_vsel_get
  * @BRIEF		return vsel-encoded voltage of a given SMPS voltage rail
  * @RETURNS		VSEL-encoded voltage (8-bit, >= 0) in case of success
@@ -705,7 +705,7 @@ double twl603x_vsel_to_volt(unsigned int vdd_id, unsigned char vsel)
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		return vsel-encoded voltage of a given SMPS voltage rail
  *			NB: not supported by TWL6030/TWL6032.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl603x_vsel_get(unsigned int vdd_id)
 {
 	int ret;
@@ -816,7 +816,7 @@ int twl603x_vsel_get(unsigned int vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_uvoltage_get
  * @BRIEF		return voltage of a given SMPS voltage rail.
  * @RETURNS		voltage of a given SMPS voltage rail, in micro-volt.
@@ -824,7 +824,7 @@ int twl603x_vsel_get(unsigned int vdd_id)
  * @DESCRIPTION		return voltage of a given SMPS voltage rail,
  *			in millivolt.
  *			NB: not supported by TWL6030/TWL6032.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned long twl603x_uvoltage_get(unsigned int vdd_id)
 {
 	int vsel;
@@ -837,7 +837,7 @@ unsigned long twl603x_uvoltage_get(unsigned int vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_voltage_get
  * @BRIEF		return voltage of a given SMPS voltage rail.
  * @RETURNS		voltage of a given SMPS voltage rail, in volt.
@@ -845,7 +845,7 @@ unsigned long twl603x_uvoltage_get(unsigned int vdd_id)
  * @DESCRIPTION		return voltage of a given SMPS voltage rail,
  *			in volt.
  *			NB: not supported by TWL6030/TWL6032.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double twl603x_voltage_get(unsigned int vdd_id)
 {
 	int vsel;
@@ -858,7 +858,7 @@ double twl603x_voltage_get(unsigned int vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_uvoltage_set
  * @BRIEF		set voltage of a given SMPS voltage rail.
  * @RETURNS		0 in case of success
@@ -871,7 +871,7 @@ double twl603x_voltage_get(unsigned int vdd_id)
  * @param[in]		uv: voltage to be set (in micro-volt)
  * @DESCRIPTION		set voltage of a given SMPS voltage rail, in micro-volt.
  *			NB: not supported by TWL6030/TWL6032.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl603x_uvoltage_set(unsigned int vdd_id, unsigned long uv)
 {
 	int ret;
@@ -961,7 +961,7 @@ int twl603x_uvoltage_set(unsigned int vdd_id, unsigned long uv)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl603x_main
  * @BRIEF		TWL603x menu
  *			### DEPRECATED, DO NOT USE ANYMORE ###
@@ -973,7 +973,7 @@ int twl603x_uvoltage_set(unsigned int vdd_id, unsigned long uv)
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		TWL603x menu
  *			### DEPRECATED, DO NOT USE ANYMORE ###
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl603x_main(int argc, char *argv[])
 {
 	int ret;

@@ -73,7 +73,7 @@ static unsigned char emu_enabled = 0;
 static int emu44xx_regtable_init(void);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -82,7 +82,7 @@ static int emu44xx_regtable_init(void);
  * @param[in]		name: register name
  * @param[in, out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int emu44xx_name2addr(char *name, unsigned int *addr)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -94,14 +94,14 @@ int emu44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_dump
  * @BRIEF		dump EMU PRCM registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		dump EMU PRCM registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int emu44xx_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -113,7 +113,7 @@ int emu44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_config_show
  * @BRIEF		analyze power configuration
  * @RETURNS		0 in case of success
@@ -121,7 +121,7 @@ int emu44xx_dump(void)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyze power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int emu44xx_config_show(FILE *stream)
 {
 	unsigned int pm_pwstctrl;
@@ -167,7 +167,7 @@ int emu44xx_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_dependency_show
  * @BRIEF		analyse dependency configuration
  * @RETURNS		0 in case of success
@@ -175,7 +175,7 @@ int emu44xx_config_show(FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyse dependency configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int emu44xx_dependency_show(FILE *stream)
 {
 	unsigned int cm_dynamicdep;
@@ -213,7 +213,7 @@ int emu44xx_dependency_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_main
  * @BRIEF		PRCM EMU main menu
  * @RETURNS		0 in case of success
@@ -223,7 +223,7 @@ int emu44xx_dependency_show(FILE *stream)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		PRCM EMU main menu
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int emu44xx_main(int argc, char *argv[])
 {
 	int ret;
@@ -252,13 +252,13 @@ int emu44xx_main(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_regtable_init
  * @BRIEF		initialize regtable
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize regtable
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int emu44xx_regtable_init(void)
 {
 	int i = 0;
@@ -287,14 +287,14 @@ static int emu44xx_regtable_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_enable
  * @BRIEF		Power ON EMU domain and instrumentation
  * @DESCRIPTION		Power ON EMU domain and instrumentation
  *			To be used when EMU/instrumentation HW is required but
  *			no debugger is attached to automatically power ON EMU
  *			domain.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void emu44xx_enable(void)
 {
 	mem_write(OMAP4430_CM_EMU_CLKSTCTRL, 0x2);
@@ -306,11 +306,11 @@ void emu44xx_enable(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_disable
  * @BRIEF		Power OFF EMU domain and instrumentation
  * @DESCRIPTION		Power OFF EMU domain and instrumentation
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void emu44xx_disable(void)
 {
 	mem_write(OMAP4430_PRM_PRM_PROFILING_CLKCTRL, 0x1);
@@ -322,13 +322,13 @@ void emu44xx_disable(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emu44xx_is_enabled
  * @BRIEF		check if EMU domain is enabled
  * @RETURNS		0 if EMU domain is not enabled
  *			1 if EMU domain is enabled
  * @DESCRIPTION		check if EMU domain is enabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int emu44xx_is_enabled(void)
 {
 	return emu_enabled;

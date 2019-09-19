@@ -81,11 +81,11 @@ genlist *opp_dra7xx_list_table[VDD_DRA7XX_ID_MAX] = {
 static unsigned short opp_dra7xx_init_done;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void opp_dra7xx_init(void)
 {
 	static const opp_t core_opp_nom = {OPP_NOM,	1030000, 266000};
@@ -196,12 +196,12 @@ void opp_dra7xx_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void opp_dra7xx_deinit(void)
 {
 	if (opp_dra7xx_init_done) {
@@ -218,7 +218,7 @@ void opp_dra7xx_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_id_get
  * @BRIEF		convert OPP provided as a string (as defined in opp.h)
  *			into a plaftorm-specific OPP ID (integer).
@@ -227,7 +227,7 @@ void opp_dra7xx_deinit(void)
  * @param[in]		opp: OPP provided as a string (as defined in opp.h)
  * @DESCRIPTION		convert OPP provided as a string (as defined in opp.h)
  *			into a plaftorm-specific OPP ID (integer).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int opp_dra7xx_id_get(const char *opp)
 {
 	CHECK_NULL_ARG(opp, OMAPCONF_ERR_ARG);
@@ -245,7 +245,7 @@ int opp_dra7xx_id_get(const char *opp)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_count_get
  * @BRIEF		return the number of OPP(s) of a given voltage domain
  * @RETURNS		number of OPP(s) (> 0) in case of success
@@ -253,7 +253,7 @@ int opp_dra7xx_id_get(const char *opp)
  *			OMAPCONF_ERR_ARG
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		return the number of OPP(s) of a given voltage domain
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int opp_dra7xx_count_get(voltdm_dra7xx_id vdd_id)
 {
 	int count;
@@ -269,14 +269,14 @@ int opp_dra7xx_count_get(voltdm_dra7xx_id vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_list_get
  * @BRIEF		return the list of OPP of a given voltage domain
  * @RETURNS		list of OPP of a given voltage domain in case of success
  *			NULL in case of error
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		return the list of OPP of a given voltage domain
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *opp_dra7xx_list_get(voltdm_dra7xx_id vdd_id)
 {
 	CHECK_ARG_LESS_THAN(vdd_id, VDD_DRA7XX_ID_MAX, NULL);
@@ -287,7 +287,7 @@ const genlist *opp_dra7xx_list_get(voltdm_dra7xx_id vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_by_rate_get
  * @BRIEF		return the current voltage domain OPP name,
  *			searched by clock rates.
@@ -296,7 +296,7 @@ const genlist *opp_dra7xx_list_get(voltdm_dra7xx_id vdd_id)
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		return the current voltage domain OPP name,
  *			searched by clock rates.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *opp_dra7xx_by_rate_get(voltdm_dra7xx_id vdd_id)
 {
 	const char *opp_name = NULL;
@@ -451,7 +451,7 @@ opp_dra7xx_by_rate_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_get
  * @BRIEF		return the current voltage domain OPP name.
  * @RETURNS		current voltage domain OPP name (as defined in opp.h)
@@ -459,7 +459,7 @@ opp_dra7xx_by_rate_get_end:
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		return the current voltage domain OPP name. Search it by
  *			voltage first, then if failed search it by rates.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *opp_dra7xx_get(voltdm_dra7xx_id vdd_id)
 {
 	CHECK_ARG_LESS_THAN(vdd_id, VDD_DRA7XX_ID_MAX, NULL);
@@ -470,7 +470,7 @@ const char *opp_dra7xx_get(voltdm_dra7xx_id vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_dra7xx_set
  * @BRIEF		change OPP of a given voltage domain.
  * @RETURNS		0 in case of success
@@ -480,7 +480,7 @@ const char *opp_dra7xx_get(voltdm_dra7xx_id vdd_id)
  * @param[in]		vdd_id: voltage domain ID
  * @param[in]		opp_id: ID of the OPP to be set
  * @DESCRIPTION		change OPP of a given voltage domain.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int opp_dra7xx_set(voltdm_dra7xx_id vdd_id, opp_dra7xx_id opp_id)
 {
 	CHECK_ARG_LESS_THAN(vdd_id, VDD_DRA7XX_ID_MAX, OMAPCONF_ERR_ARG);

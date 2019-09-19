@@ -64,11 +64,11 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void module_init(void)
 {
 	#ifdef MODULE_DEBUG
@@ -121,12 +121,12 @@ void module_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void module_deinit(void)
 {
 	if (cpu_is_omap44xx()) {
@@ -144,13 +144,13 @@ void module_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_list_get
  * @BRIEF		return the list of modules
  * @RETURNS		list of modules in case of success
  *			NULL in case of error
  * @DESCRIPTION		return the list of modules
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *module_list_get(void)
 {
 	if (cpu_is_omap44xx()) {
@@ -169,14 +169,14 @@ const genlist *module_list_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_count_get
  * @BRIEF		return the number of modules
  * @RETURNS		number of modules (> 0) in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
  * @DESCRIPTION		return the number of modules
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int module_count_get(void)
 {
 	if (cpu_is_omap44xx()) {
@@ -195,7 +195,7 @@ int module_count_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_module_info_get
  * @BRIEF		return the saved informations of a given module.
  * @RETURNS		0 in case of success
@@ -203,7 +203,7 @@ int module_count_get(void)
  * @param[in]		mod: module name
  * @param[in,out]	data: module details
  * @DESCRIPTION		return the saved informations of a given module.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int _module_info_get(const char *mod, mod_info *data)
 {
 	const genlist *mod_list;
@@ -227,7 +227,7 @@ static int _module_info_get(const char *mod, mod_info *data)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_module_properties_get
  * @BRIEF		return the properties of a given module.
  * @RETURNS		>= 0 module properties
@@ -236,7 +236,7 @@ static int _module_info_get(const char *mod, mod_info *data)
  * @param[in]		mod: module name
  * @param[in,out]	properties: module properties
  * @DESCRIPTION		return the properties of a given module.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int _module_properties_get(const char *mod, unsigned int *properties)
 {
 	const genlist *mod_list;
@@ -264,7 +264,7 @@ static int _module_properties_get(const char *mod, unsigned int *properties)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_has_sysconfig_register
  * @BRIEF		return 1 if module has a SYSCONFIG register.
  * @RETURNS		1 if module has a SYSCONFIG register.
@@ -274,7 +274,7 @@ static int _module_properties_get(const char *mod, unsigned int *properties)
  *			(not all modules feature it).
  *			Return 0 if not available or in case of error.
  *			Does not make any access to any register.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int module_has_sysconfig_register(const char *mod)
 {
 	int ret;
@@ -300,7 +300,7 @@ unsigned int module_has_sysconfig_register(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_has_autoidle_bit
  * @BRIEF		return 1 if module has autoidle bit in sysconfig.
  * @RETURNS		1 if module has autoidle bit in sysconfig register.
@@ -310,7 +310,7 @@ unsigned int module_has_sysconfig_register(const char *mod)
  *			(not all modules feature it).
  *			Return 0 if not available or in case of error.
  *			Does not make any access to any register.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int module_has_autoidle_bit(const char *mod)
 {
 	int ret;
@@ -338,7 +338,7 @@ unsigned int module_has_autoidle_bit(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_has_idle_mode
  * @BRIEF		return 1 if module has idle mode in sysconfig register.
  * @RETURNS		1 if module has idle mode in sysconfig register.
@@ -348,7 +348,7 @@ unsigned int module_has_autoidle_bit(const char *mod)
  *			(not all modules feature it).
  *			Return 0 if not available or in case of error.
  *			Does not make any access to any register.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int module_has_idle_mode(const char *mod)
 {
 	int ret;
@@ -379,7 +379,7 @@ unsigned int module_has_idle_mode(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_has_idle_status
  * @BRIEF		return 1 if module has idle mode in sysconfig register.
  * @RETURNS		1 if module has idle status in CM_CLKCTRL register.
@@ -389,7 +389,7 @@ unsigned int module_has_idle_mode(const char *mod)
  *			(not all modules feature it).
  *			Return 0 if not available or in case of error.
  *			Does not make any access to any register.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int module_has_idle_status(const char *mod)
 {
 	int ret;
@@ -414,7 +414,7 @@ unsigned int module_has_idle_status(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_has_smart_idle_wakeup_mode
  * @BRIEF		return 1 if module implements "smart-idle wakeup" mode
  * @RETURNS		1 if module implements "smart-idle wakeup" mode.
@@ -424,7 +424,7 @@ unsigned int module_has_idle_status(const char *mod)
  *			(not all modules feature it).
  *			Return 0 if not available or in case of error.
  *			Does not make any access to any register.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int module_has_smart_idle_wakeup_mode(const char *mod)
 {
 	int ret;
@@ -450,7 +450,7 @@ unsigned int module_has_smart_idle_wakeup_mode(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_has_enawakeup_bit
  * @BRIEF		return 1 if module has ENAWAKEUP bit in sysconfig
  * @RETURNS		1 if module has ENAWAKEUP bit in sysconfig register.
@@ -460,7 +460,7 @@ unsigned int module_has_smart_idle_wakeup_mode(const char *mod)
  *			(not all modules feature it).
  *			Return 0 if not available or in case of error.
  *			Does not make any access to any register.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int module_has_enawakeup_bit(const char *mod)
 {
 	int ret;
@@ -485,7 +485,7 @@ unsigned int module_has_enawakeup_bit(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_has_standby_mode
  * @BRIEF		return 1 if module has STANDBY mode in sysconfig
  * @RETURNS		1 if module has STANDBY mode in sysconfig register.
@@ -495,7 +495,7 @@ unsigned int module_has_enawakeup_bit(const char *mod)
  *			(not all modules feature it).
  *			Return 0 if not available or in case of error.
  *			Does not make any access to any register.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int module_has_standby_mode(const char *mod)
 {
 	int ret;
@@ -523,7 +523,7 @@ unsigned int module_has_standby_mode(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_has_standby_status
  * @BRIEF		return 1 if module has STANDBY status field in
  *			CM_xyz_CLKCTRL register.
@@ -536,7 +536,7 @@ unsigned int module_has_standby_mode(const char *mod)
  *			(not all modules feature it).
  *			Return 0 if not available or in case of error.
  *			Does not make any access to any register.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int module_has_standby_status(const char *mod)
 {
 	int ret;
@@ -562,7 +562,7 @@ unsigned int module_has_standby_status(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_has_smart_standby_wakeup_mode
  * @BRIEF		return 1 if module implements "smart-standby wakeup"
  *			mode
@@ -574,7 +574,7 @@ unsigned int module_has_standby_status(const char *mod)
  *			(not all modules feature it).
  *			Return 0 if not available or in case of error.
  *			Does not make any access to any register.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int module_has_smart_standby_wakeup_mode(const char *mod)
 {
 	int ret;
@@ -602,7 +602,7 @@ unsigned int module_has_smart_standby_wakeup_mode(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_has_clock_activity_mode
  * @BRIEF		check if omap module has clock activity mode in
  *			sysconfig register
@@ -615,7 +615,7 @@ unsigned int module_has_smart_standby_wakeup_mode(const char *mod)
  *			(not all modules feature it).
  *			Return 0 if not available or in case of error.
  *			Does not make any access to any register.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int module_has_clock_activity_mode(const char *mod)
 {
 	int ret;
@@ -642,14 +642,14 @@ unsigned int module_has_clock_activity_mode(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_id_get
  * @BRIEF		return the unique ID of a given module.
  * @RETURNS		>= 0 module ID
  *			-1 in case of error
  * @param[in]		mod: module name
  * @DESCRIPTION		return the unique ID of a given module.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int module_id_get(const char *mod)
 {
 	int id;
@@ -666,7 +666,7 @@ int module_id_get(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_is_accessible
  * @BRIEF		check omap module's registers accessibility
  * @RETURNS		1 if omap module's registers accessible
@@ -674,7 +674,7 @@ int module_id_get(const char *mod)
  *			(or in case of error)
  * @param[in]		mod: module name
  * @DESCRIPTION		check omap module's registers accessibility
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short int module_is_accessible(const char *mod)
 {
 	int ret;
@@ -701,14 +701,14 @@ unsigned short int module_is_accessible(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_mode_get
  * @BRIEF		retrieve module mode from CM register
  * @RETURNS		module mode on success
  *			MOD_MODULE_MODE_MAX in case of error or not available
  * @param[in]		mod: module name
  * @DESCRIPTION		retrieve module mode from CM register
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_module_mode module_mode_get(const char *mod)
 {
 	int ret;
@@ -744,14 +744,14 @@ mod_module_mode module_mode_get(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_autoidle_mode_get
  * @BRIEF		retrieve module autoidle mode
  * @RETURNS		module autoidle mode
  *			MOD_AUTOIDLE_MODE_MAX in case of error
  * @param[in]		mod: module name
  * @DESCRIPTION		retrieve module autoidle mode
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_autoidle_mode module_autoidle_mode_get(const char *mod)
 {
 	int ret;
@@ -783,14 +783,14 @@ mod_autoidle_mode module_autoidle_mode_get(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_idle_mode_get
  * @BRIEF		retrieve omap module's idle mode
  * @RETURNS		module's idle mode
  *			MOD_IDLE_MODE_MAX in case of error
  * @param[in]		mod: module name
  * @DESCRIPTION		retrieve omap module's idle mode
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_idle_mode module_idle_mode_get(const char *mod)
 {
 	int ret;
@@ -822,14 +822,14 @@ mod_idle_mode module_idle_mode_get(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_idle_status_get
  * @BRIEF		retrieve module's idle status from CM_xxx_xxx_CLKCTRL
  * @RETURNS		module idle status
  *			MOD_IDLE_STATUS_MAX in case of error
  * @param[in]		mod: module name
  * @DESCRIPTION		retrieve module's idle status from CM_xxx_xxx_CLKCTRL
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_idle_status module_idle_status_get(const char *mod)
 {
 	int ret;
@@ -858,14 +858,14 @@ mod_idle_status module_idle_status_get(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_standby_mode_get
  * @BRIEF		retrieve omap module's standby mode
  * @RETURNS		module's standby mode
  *			MOD_STANDBY_MODE_MAX in case of error
  * @param[in]		mod: module name
  * @DESCRIPTION		retrieve omap module's standby mode
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_standby_mode module_standby_mode_get(const char *mod)
 {
 	int ret;
@@ -897,14 +897,14 @@ mod_standby_mode module_standby_mode_get(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_standby_status_get
  * @BRIEF		retrieve module standby status from CM_xxx_xxx_CLKCTRL
  * @RETURNS		module standby status
  *			MOD_STANDBY_STATUS_MAX in case of error
  * @param[in]		mod: module name
  * @DESCRIPTION		retrieve module standby status from CM_xxx_xxx_CLKCTRL
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_standby_status module_standby_status_get(const char *mod)
 {
 	int ret;
@@ -933,7 +933,7 @@ mod_standby_status module_standby_status_get(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_context_is_lost
  * @BRIEF		check if module's context was retained or lost
  *			during last power transition
@@ -945,7 +945,7 @@ mod_standby_status module_standby_status_get(const char *mod)
  * @param[in]		mod: module name
  * @DESCRIPTION		check if module's context was retained or lost
  *			during last power transition
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int module_context_is_lost(const char *mod)
 {
 	int ret;
@@ -973,14 +973,14 @@ int module_context_is_lost(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_clock_activity_mode_get
  * @BRIEF		retrieve omap module's clock activity mode
  * @RETURNS		module's clock activity mode
  *			MOD_CLOCK_ACTIVITY_MODE_MAX in case of error
  * @param[in]		mod: module name
  * @DESCRIPTION		retrieve omap module's clock activity mode
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_clock_activity_mode module_clock_activity_mode_get(const char *mod)
 {
 	int ret;
@@ -1014,7 +1014,7 @@ mod_clock_activity_mode module_clock_activity_mode_get(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_por_clk_rate_get
  * @BRIEF		return the recommended module functional clock rate,
  *			in KHz, for a given OPerating Point (OPP),
@@ -1027,7 +1027,7 @@ mod_clock_activity_mode module_clock_activity_mode_get(const char *mod)
  * @DESCRIPTION		return the recommended module functional clock rate,
  *			in KHz, for a given OPerating Point (OPP),
  *			as defined in Data Manual.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int module_por_clk_rate_get(const char *mod, const char *opp)
 {
 	mod_info data;
@@ -1108,7 +1108,7 @@ module_por_clk_rate_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_clk_get
  * @BRIEF		return module functional clock ID
  * @RETURNS		module functional clock source in case of success (>= 0)
@@ -1116,7 +1116,7 @@ module_por_clk_rate_get_end:
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @param[in]		id: valid module ID
  * @DESCRIPTION		return module functional clock ID
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int module_clk_get(const char *mod)
 {
 	mod_info data;
@@ -1142,7 +1142,7 @@ int module_clk_get(const char *mod)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_clk_rate_get
  * @BRIEF		return the module functional clock rate, in KHz.
  * @RETURNS		module functional clock rate, in KHz.
@@ -1152,7 +1152,7 @@ int module_clk_get(const char *mod)
  * @param[in]		mod: module name, as defined in module.h
  * @param[in]		ignore: do not consider DPLL status (if any).
  * @DESCRIPTION		return the module functional clock rate, in KHz.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int module_clk_rate_get(const char *mod, unsigned short ignore)
 {
 	mod_info data;
@@ -1199,7 +1199,7 @@ module_clk_rate_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_status_show
  * @BRIEF		show OMAP5 power status
  * @RETURNS		0 on success
@@ -1208,7 +1208,7 @@ module_clk_rate_get_end:
  *			OMAPCONF_ERR_INTERNAL
  * @param[in,out]	stream: output file stream (!= NULL)
  * @DESCRIPTION		show OMAP5 power status
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int module_status_show(FILE *stream)
 {
 	int voltdm_count;
@@ -1464,7 +1464,7 @@ int module_status_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_clk_rate_audit
  * @BRIEF		Modules functional clock rate audit.
  * @RETURNS		0 in case of success
@@ -1476,7 +1476,7 @@ int module_status_show(FILE *stream)
  * @param[in,out]	err_nbr: pointer to return audit error number
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		Modules functional clock rate audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int module_clk_rate_audit(FILE *stream,
 	unsigned int *err_nbr, unsigned int *wng_nbr)
 {
@@ -1751,7 +1751,7 @@ module_clk_rate_audit_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_sysconfig_audit
  * @BRIEF		Modules SYSCONFIG registers audit.
  * @RETURNS		0 in case of success
@@ -1762,7 +1762,7 @@ module_clk_rate_audit_end:
  * @param[in,out]	err_nbr: pointer to return audit error number
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		Modules SYSCONFIG registers audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int module_sysconfig_audit(FILE *stream, unsigned int *err_nbr,
 	unsigned int *wng_nbr)
 {
@@ -2069,7 +2069,7 @@ module_sysconfig_audit_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		module_config_show
  * @BRIEF		analyze module power configuration
  * @RETURNS		0 in case of success
@@ -2078,7 +2078,7 @@ module_sysconfig_audit_end:
  * @param[in,out]	stream: output file
  * @param[in]		mod: module name
  * @DESCRIPTION		analyze module power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int module_config_show(FILE *stream, const char *mod)
 {
 	int ret;

@@ -46,7 +46,7 @@
 #include <hwtemp.h>
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwtemp_get
  * @BRIEF		return temperature measured by selected sensor's
  *			register buffer	(in degrees celcius)
@@ -58,7 +58,7 @@
  * @param[in]		conv_table: mask to use
  * @DESCRIPTION		return temperature measured by selected sensor
  *			(in degrees celcius)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwtemp_get(reg *temp_register, unsigned int mask, unsigned int shift,
 	       unsigned int start_val, const short int *conv_table,
 	       unsigned int sizeof_conv_table)

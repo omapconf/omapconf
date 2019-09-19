@@ -1,11 +1,11 @@
-/* ======================================================================= *//**
+/* ======================================================================= 
  * @Component			OMAPCONF
  * @Filename			util.c
  * @Description			I2C helper functions
  * @Author			Jean Delvare <khali@linux-fr.org>
  * @Date			2006
  * @Copyright			GPL version 2
- *//*======================================================================== */
+ *======================================================================== */
 /*
     util - helper functions
     Copyright (C) 2006 Jean Delvare <khali@linux-fr.org>

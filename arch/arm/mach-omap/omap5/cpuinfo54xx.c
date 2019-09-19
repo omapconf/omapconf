@@ -58,7 +58,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu54xx_silicon_max_speed_get
  * @BRIEF		return silicon max speed (depending on cpu type and
  *			silicon type)
@@ -66,7 +66,7 @@
  *			0 in case of error
  * @DESCRIPTION		return silicon max speed (depending on cpu type and
  *			silicon type)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu54xx_silicon_max_speed_get(void)
 {
 	unsigned int max_speed;
@@ -117,13 +117,13 @@ unsigned int cpu54xx_silicon_max_speed_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu54xx_cores_count_get
  * @BRIEF		return the number of CPU cores available
  * @RETURNS		>0 number of CPU cores available
  *			0 in case of error (unknown architecture)
  * @DESCRIPTION		return the number of CPU cores available
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu54xx_cores_count_get(void)
 {
 	if (cpu_is_omap54xx()) {

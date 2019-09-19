@@ -59,7 +59,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_display_version_config
  * @BRIEF		analyze TWL6040 version
  * @RETURNS		0 on success
@@ -67,7 +67,7 @@
  * @param[in,out]	stream: output file
  * @param[in,out]	regs: register values
  * @DESCRIPTION		analyze TWL6040 version
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_display_version_config(FILE *stream, unsigned char *regs)
 {
 	fprintf(stream, "|---------------------------------------------------"
@@ -97,7 +97,7 @@ int twl6040_display_version_config(FILE *stream, unsigned char *regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_i2cmode2string
  * @BRIEF		convert I2CMODE bitfield into string
  * @RETURNS		0 on success
@@ -105,7 +105,7 @@ int twl6040_display_version_config(FILE *stream, unsigned char *regs)
  * @param[in]		s: destination string (pre-allocated)
  * @param[in]		i2cmode: I2CMODE bitfield
  * @DESCRIPTION		convert I2CMODE bitfield into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_i2cmode2string(char s[20], unsigned char i2cmode)
 {
 	if (s == NULL)
@@ -133,7 +133,7 @@ static int twl6040_i2cmode2string(char s[20], unsigned char i2cmode)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_display_control_config
  * @BRIEF		analyze TWL6040 version
  * @RETURNS		0 on success
@@ -141,7 +141,7 @@ static int twl6040_i2cmode2string(char s[20], unsigned char i2cmode)
  * @param[in,out]	stream: output file
  * @param[in,out]	regs: register values
  * @DESCRIPTION		analyze TWL6040 version
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_display_control_config(FILE *stream, unsigned char *regs)
 {
 	char mode[20];
@@ -178,7 +178,7 @@ int twl6040_display_control_config(FILE *stream, unsigned char *regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_ncpfetsize2string
  * @BRIEF		convert NCP FET size bitfield into string
  * @RETURNS		0 on success
@@ -186,7 +186,7 @@ int twl6040_display_control_config(FILE *stream, unsigned char *regs)
  * @param[in]		s: destination string (pre-allocated)
  * @param[in]		ncpfetsize: NCPFETSIZE bitfield
  * @DESCRIPTION		convert NCP FET size bitfield into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_ncpfetsize2string(char s[20], unsigned char ncpfetsize)
 {
 	if (s == NULL)
@@ -226,7 +226,7 @@ static int twl6040_ncpfetsize2string(char s[20], unsigned char ncpfetsize)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_display_power_config
  * @BRIEF		analyze TWL6040 NCP, HSLDO and LSDO configuration
  * @RETURNS		0 on success
@@ -234,7 +234,7 @@ static int twl6040_ncpfetsize2string(char s[20], unsigned char ncpfetsize)
  * @param[in,out]	stream: output file
  * @param[in,out]	regs: register values
  * @DESCRIPTION		analyze TWL6040 NCP, HSLDO and LSDO configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_display_power_config(FILE *stream, unsigned char *regs)
 {
 	char ncp[20];
@@ -310,7 +310,7 @@ int twl6040_display_power_config(FILE *stream, unsigned char *regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_lpplldiv2string
  * @BRIEF		convert LPPLLDIV bitfield into string
  * @RETURNS		0 on success
@@ -318,7 +318,7 @@ int twl6040_display_power_config(FILE *stream, unsigned char *regs)
  * @param[in]		s: destination string (pre-allocated)
  * @param[in]		lpplldiv: LPPLLDIV bitfield
  * @DESCRIPTION		convert LPPLLDIV bitfield into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_lpplldiv2string(char s[10], unsigned char lpplldiv)
 {
 	if (s == NULL)
@@ -330,7 +330,7 @@ static int twl6040_lpplldiv2string(char s[10], unsigned char lpplldiv)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_mclk2string
  * @BRIEF		convert MCLK frequency into string
  * @RETURNS		0 on success
@@ -338,7 +338,7 @@ static int twl6040_lpplldiv2string(char s[10], unsigned char lpplldiv)
  * @param[in]		s: destination string (pre-allocated)
  * @param[in]		hppllmclk: HPPLLMCLK bitfield
  * @DESCRIPTION		convert MCLK frequency into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_mclk2string(char s[10], unsigned char hppllmclk)
 {
 	if (s == NULL)
@@ -366,7 +366,7 @@ static int twl6040_mclk2string(char s[10], unsigned char hppllmclk)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_display_clocking_config
  * @BRIEF		analyze TWL6040 HPPLL and LPPLL configuration
  * @RETURNS		0 on success
@@ -374,7 +374,7 @@ static int twl6040_mclk2string(char s[10], unsigned char hppllmclk)
  * @param[in,out]	stream: output file
  * @param[in,out]	regs: register values
  * @DESCRIPTION		analyze TWL6040 HPPLL and LPPLL configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_display_clocking_config(FILE *stream, unsigned char *regs)
 {
 	char data[10];
@@ -437,7 +437,7 @@ int twl6040_display_clocking_config(FILE *stream, unsigned char *regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_display_interrupts_config
  * @BRIEF		analyze TWL6040 interrupts and status
  * @RETURNS		0 on success
@@ -445,7 +445,7 @@ int twl6040_display_clocking_config(FILE *stream, unsigned char *regs)
  * @param[in,out]	stream: output file
  * @param[in,out]	regs: register values
  * @DESCRIPTION		analyze TWL6040 interrupts and status
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_display_interrupts_config(FILE *stream, unsigned char *regs)
 {
 	fprintf(stream, "|---------------------------------------------------"
@@ -540,7 +540,7 @@ int twl6040_display_interrupts_config(FILE *stream, unsigned char *regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_display_biasing_config
  * @BRIEF		analyze TWL6040 biasing module configuration
  * @RETURNS		0 on success
@@ -548,7 +548,7 @@ int twl6040_display_interrupts_config(FILE *stream, unsigned char *regs)
  * @param[in,out]	stream: output file
  * @param[in,out]	regs: register values
  * @DESCRIPTION		analyze TWL6040 biasing module configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_display_biasing_config(FILE *stream, unsigned char *regs)
 {
 	fprintf(stream, "|---------------------------------------------------"
@@ -622,7 +622,7 @@ int twl6040_display_biasing_config(FILE *stream, unsigned char *regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_miclsel2string
  * @BRIEF		convert MICLSEL to corresponding string
  * @RETURNS		0 on success
@@ -630,7 +630,7 @@ int twl6040_display_biasing_config(FILE *stream, unsigned char *regs)
  * @param[in]		s: destination string (pre-allocated)
  * @param[in]		miclsel: MICLSEL bitfield
  * @DESCRIPTION		convert MICLSEL to corresponding string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_miclsel2string(char s[30], unsigned char miclsel)
 {
 	if (s == NULL)
@@ -658,7 +658,7 @@ static int twl6040_miclsel2string(char s[30], unsigned char miclsel)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_micrsel2string
  * @BRIEF		convert MICRSEL to corresponding string
  * @RETURNS		0 on success
@@ -666,7 +666,7 @@ static int twl6040_miclsel2string(char s[30], unsigned char miclsel)
  * @param[in]		s: destination string (pre-allocated)
  * @param[in]		micrsel: MICRSEL bitfield
  * @DESCRIPTION		convert MICRSEL to corresponding string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_micrsel2string(char s[30], unsigned char micrsel)
 {
 	if (s == NULL)
@@ -694,7 +694,7 @@ static int twl6040_micrsel2string(char s[30], unsigned char micrsel)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_micgain2string
  * @BRIEF		convert MICGAINL/MICGAINR to corresponding dB value
  * @RETURNS		0 on success
@@ -702,7 +702,7 @@ static int twl6040_micrsel2string(char s[30], unsigned char micrsel)
  * @param[in]		s: destination string (pre-allocated)
  * @param[in]		micgain: MICGAINL/MICGAINR bitfield
  * @DESCRIPTION		convert MICGAINL/MICGAINR to corresponding dB value
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_micgain2string(char s[10], unsigned char micgain)
 {
 	int db;
@@ -726,7 +726,7 @@ static int twl6040_micgain2string(char s[10], unsigned char micgain)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_linegain2string
  * @BRIEF		convert LINEGAINL/LINEGAINR to corresponding dB value
  * @RETURNS		0 on success
@@ -734,7 +734,7 @@ static int twl6040_micgain2string(char s[10], unsigned char micgain)
  * @param[in]		s: destination string (pre-allocated)
  * @param[in]	l	inegain: LINEGAINL/LINEGAINR bitfield
  * @DESCRIPTION		convert LINEGAINL/LINEGAINR to corresponding dB value
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_linegain2string(char s[10], unsigned char linegain)
 {
 	int db;
@@ -754,7 +754,7 @@ static int twl6040_linegain2string(char s[10], unsigned char linegain)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_display_uplink_config
  * @BRIEF		analyze TWL6040 uplink path
  * @RETURNS		0 on success
@@ -762,7 +762,7 @@ static int twl6040_linegain2string(char s[10], unsigned char linegain)
  * @param[in,out]	stream: output file
  * @param[in,out]	regs: register values
  * @DESCRIPTION		analyze TWL6040 uplink path
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_display_uplink_config(FILE *stream, unsigned char *regs)
 {
 	char micsel[30];
@@ -838,7 +838,7 @@ int twl6040_display_uplink_config(FILE *stream, unsigned char *regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_hsgain2string
  * @BRIEF		convert headset driver gain to corresponding dB value
  * @RETURNS		0 on success
@@ -846,7 +846,7 @@ int twl6040_display_uplink_config(FILE *stream, unsigned char *regs)
  * @param[in]		s: destination string (pre-allocated)
  * @param[in]		hsgain: HSLGAIN/HSRGAIN bitfield
  * @DESCRIPTION		convert headset driver gain to corresponding dB value
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_hsgain2string(char s[10], unsigned char hsgain)
 {
 	int db;
@@ -866,7 +866,7 @@ static int twl6040_hsgain2string(char s[10], unsigned char hsgain)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_eargain2string
  * @BRIEF		convert ear driver gain to corresponding dB value
  * @RETURNS		0 on success
@@ -874,7 +874,7 @@ static int twl6040_hsgain2string(char s[10], unsigned char hsgain)
  * @param[in]		s: destination string (pre-allocated)
  * @param[in]		eargain: EARGAIN bitfield
  * @DESCRIPTION		convert ear driver gain to corresponding dB value
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_eargain2string(char s[10], unsigned char eargain)
 {
 	int db;
@@ -894,7 +894,7 @@ static int twl6040_eargain2string(char s[10], unsigned char eargain)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_display_downlink1_config
  * @BRIEF		analyze TWL6040 downlink-1 path
  * @RETURNS		0 on success
@@ -902,7 +902,7 @@ static int twl6040_eargain2string(char s[10], unsigned char eargain)
  * @param[in,out]	stream: output file
  * @param[in,out]	regs: register values
  * @DESCRIPTION		analyze TWL6040 downlink-1 path
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_display_downlink1_config(FILE *stream, unsigned char *regs)
 {
 	char gain[10];
@@ -994,7 +994,7 @@ int twl6040_display_downlink1_config(FILE *stream, unsigned char *regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_hfgain2string
  * @BRIEF		convert handsfree PGA gain to corresponding dB value
  * @RETURNS		0 on success
@@ -1002,7 +1002,7 @@ int twl6040_display_downlink1_config(FILE *stream, unsigned char *regs)
  * @param[in]		s: destination string (pre-allocated)
  * @param[in]		hfpgagain: HFPGAGAINL/HFPGAGAINR bitfield
  * @DESCRIPTION		convert handsfree PGA gain to corresponding dB value
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_hfgain2string(char s[10], unsigned char hfpgagain)
 {
 	int db;
@@ -1026,7 +1026,7 @@ static int twl6040_hfgain2string(char s[10], unsigned char hfpgagain)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_display_downlink2_config
  * @BRIEF		analyze TWL6040 downlink-2 path
  * @RETURNS		0 on success
@@ -1034,7 +1034,7 @@ static int twl6040_hfgain2string(char s[10], unsigned char hfpgagain)
  * @param[in,out]	stream: output file
  * @param[in,out]	regs: register values
  * @DESCRIPTION		analyze TWL6040 downlink-2 path
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_display_downlink2_config(FILE *stream, unsigned char *regs)
 {
 	char gain[10];
@@ -1112,7 +1112,7 @@ int twl6040_display_downlink2_config(FILE *stream, unsigned char *regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_vibdata2string
  * @BRIEF		convert vibrator data to corresponding differential
  *			output voltage
@@ -1122,7 +1122,7 @@ int twl6040_display_downlink2_config(FILE *stream, unsigned char *regs)
  * @param[in]		vibdat: VIBDATL/VIBDATR bitfield
  * @DESCRIPTION		convert vibrator data to corresponding differential
  *			output voltage
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_vibdata2string(char s[10], signed char vibdat)
 {
 	float diff;
@@ -1141,7 +1141,7 @@ static int twl6040_vibdata2string(char s[10], signed char vibdat)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_display_vibrator_config
  * @BRIEF		analyze TWL6040 vibrator path
  * @RETURNS		0 on success
@@ -1149,7 +1149,7 @@ static int twl6040_vibdata2string(char s[10], signed char vibdat)
  * @param[in,out]	stream: output file
  * @param[in,out]	regs: register values
  * @DESCRIPTION		analyze TWL6040 vibrator path
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_display_vibrator_config(FILE *stream, unsigned char *regs)
 {
 	char data[10];
@@ -1235,7 +1235,7 @@ int twl6040_display_vibrator_config(FILE *stream, unsigned char *regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_aloopl2string
  * @BRIEF		convert left analog loopback bitfield value into string
  * @RETURNS		0 on success
@@ -1243,7 +1243,7 @@ int twl6040_display_vibrator_config(FILE *stream, unsigned char *regs)
  * @param[in]		s: destination string (pre-allocated)
  * @param[in]		aloopl: ALOOPL bitfield
  * @DESCRIPTION		convert left analog loopback bitfield value into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_aloopl2string(char s[30], unsigned char aloopl)
 {
 	if (s == NULL)
@@ -1280,7 +1280,7 @@ static int twl6040_aloopl2string(char s[30], unsigned char aloopl)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_aloopr2string
  * @BRIEF		convert right analog loopback bitfield value into string
  * @RETURNS		0 on success
@@ -1288,7 +1288,7 @@ static int twl6040_aloopl2string(char s[30], unsigned char aloopl)
  * @param[in]		s: destination string (pre-allocated)
  * @param[in]		aloopr: ALOOPR bitfield
  * @DESCRIPTION		convert right analog loopback bitfield value into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_aloopr2string(char s[30], unsigned char aloopr)
 {
 	if (s == NULL)
@@ -1325,7 +1325,7 @@ static int twl6040_aloopr2string(char s[30], unsigned char aloopr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_dloopl2string
  * @BRIEF		convert digital loopback 0 bitfield value into string
  * @RETURNS		0 on success
@@ -1333,7 +1333,7 @@ static int twl6040_aloopr2string(char s[30], unsigned char aloopr)
  * @param[in]		s: destination string (pre-allocated)
  * @param[in]		dloop0: DLOOP0 bitfield
  * @DESCRIPTION		convert digital loopback 0 bitfield value into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_dloopl2string(char s[15], unsigned char dloop0)
 {
 	if (s == NULL)
@@ -1367,7 +1367,7 @@ static int twl6040_dloopl2string(char s[15], unsigned char dloop0)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_dloopr2string
  * @BRIEF		convert digital loopback 1 bitfield value into string
  * @RETURNS		0 on success
@@ -1375,7 +1375,7 @@ static int twl6040_dloopl2string(char s[15], unsigned char dloop0)
  * @param[in]		s: destination string (pre-allocated)
  * @param[in]		dloop1: DLOOP1 bitfield
  * @DESCRIPTION		convert digital loopback 1 bitfield value into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int twl6040_dloopr2string(char s[15], unsigned char dloop1)
 {
 	if (s == NULL)
@@ -1409,7 +1409,7 @@ static int twl6040_dloopr2string(char s[15], unsigned char dloop1)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_display_loopback_config
  * @BRIEF		analyze TWL6040 loopback configuration
  * @RETURNS		0 on success
@@ -1417,7 +1417,7 @@ static int twl6040_dloopr2string(char s[15], unsigned char dloop1)
  * @param[in,out]	stream: output file
  * @param[in,out]	regs: register values
  * @DESCRIPTION		analyze TWL6040 loopback configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_display_loopback_config(FILE *stream, unsigned char *regs)
 {
 	char al[30], dl[15];
@@ -1455,7 +1455,7 @@ int twl6040_display_loopback_config(FILE *stream, unsigned char *regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_display_gpo_config
  * @BRIEF		analyze TWL6040 GPO configuration
  * @RETURNS		0 on success
@@ -1463,7 +1463,7 @@ int twl6040_display_loopback_config(FILE *stream, unsigned char *regs)
  * @param[in,out]	stream: output file
  * @param[in,out]	regs: register values
  * @DESCRIPTION		analyze TWL6040 GPO configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_display_gpo_config(FILE *stream, unsigned char *regs)
 {
 	fprintf(stream, "|---------------------------------------------------"
@@ -1491,7 +1491,7 @@ int twl6040_display_gpo_config(FILE *stream, unsigned char *regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_display_misc_config
  * @BRIEF		analyze TWL6040 miscellaneous configuration
  * @RETURNS		0 on success
@@ -1499,7 +1499,7 @@ int twl6040_display_gpo_config(FILE *stream, unsigned char *regs)
  * @param[in,out]	stream: output file
  * @param[in,out]	regs: register values
  * @DESCRIPTION		analyze TWL6040 miscellaneous configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_display_misc_config(FILE *stream, unsigned char *regs)
 {
 	fprintf(stream, "|---------------------------------------------------"
@@ -1529,7 +1529,7 @@ int twl6040_display_misc_config(FILE *stream, unsigned char *regs)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_display_gains
  * @BRIEF		analyze TWL6040 analog gains
  * @RETURNS		0 on success
@@ -1537,7 +1537,7 @@ int twl6040_display_misc_config(FILE *stream, unsigned char *regs)
  * @param[in,out]	stream: output file
  * @param[in,out]	regs: register values
  * @DESCRIPTION		analyze TWL6040 analog gains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_display_gains(FILE *stream, unsigned char *regs)
 {
 	char gain[20];

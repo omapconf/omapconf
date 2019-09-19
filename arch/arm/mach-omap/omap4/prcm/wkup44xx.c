@@ -72,7 +72,7 @@ static unsigned int init_done = 0;
 static int wkup44xx_regtable_init(void);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		wkup44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -81,7 +81,7 @@ static int wkup44xx_regtable_init(void);
  * @param[in]		name: register name
  * @param[in,out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int wkup44xx_name2addr(char *name, unsigned int *addr)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -93,14 +93,14 @@ int wkup44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		wkup44xx_config_show
  * @BRIEF		analyze WKUP power configuration
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		analyze WKUP power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int wkup44xx_config_show(FILE *stream)
 {
 	unsigned int cm_clkstctrl;
@@ -244,14 +244,14 @@ int wkup44xx_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		wkup44xx_dump
  * @BRIEF		dump PRCM WKUP registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		dump PRCM WKUP registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int wkup44xx_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_ARG);
@@ -263,7 +263,7 @@ int wkup44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		wkup44xx_main
  * @BRIEF		PRCM WKUP main menu
  * @RETURNS		0 in case of success
@@ -273,7 +273,7 @@ int wkup44xx_dump(void)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		PRCM WKUP main menu
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int wkup44xx_main(int argc, char *argv[])
 {
 	int ret;
@@ -300,13 +300,13 @@ int wkup44xx_main(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		wkup44xx_regtable_init
  * @BRIEF		initialize regtable
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize regtable
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int wkup44xx_regtable_init(void)
 {
 	int i = 0;

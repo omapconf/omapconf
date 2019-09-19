@@ -67,14 +67,14 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr54xx_mod_name_get
  * @BRIEF		return SR module name
  * @RETURNS		SR module name
  *			NULL in case of incorrect id
  * @param[in]		id: SR module ID
  * @DESCRIPTION		return SR module name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *sr54xx_mod_name_get(sr54xx_mod_id id)
 {
 	if (id >= SR54XX_MODS_COUNT) {
@@ -87,13 +87,13 @@ const char *sr54xx_mod_name_get(sr54xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr54xx_is_accessible
  * @BRIEF		check if SR module is accessible
  * @RETURNS		1 if SR module is accessible, 0 otherwise
  * @param[in]		id: valid SR module ID
  * @DESCRIPTION		check if SR module is accessible
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int sr54xx_is_accessible(sr54xx_mod_id id)
 {
 	const char *mod_name;
@@ -127,13 +127,13 @@ unsigned int sr54xx_is_accessible(sr54xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr54xx_is_enabled
  * @BRIEF		check if SR module is enabled
  * @RETURNS		1 if SR module is enabled, 0 if not
  * @param[in]		id: valid SR module ID
  * @DESCRIPTION		check if SR module is enabled
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int sr54xx_is_enabled(sr54xx_mod_id id)
 {
 	reg **mod;
@@ -155,7 +155,7 @@ unsigned int sr54xx_is_enabled(sr54xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr54xx_last_vp_voltage_get
  * @BRIEF		return the last voltage set by the voltage processor
  *			for a domain.
@@ -168,7 +168,7 @@ unsigned int sr54xx_is_enabled(sr54xx_mod_id id)
  *			for a domain
  *			NB: SR/VP/VC HAVE TO BE AT LEAST INITIALIZED (SR COULD
  *			BE DISABLED) OTHERWISE THIS VALUE HAS NO SENSE.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double sr54xx_last_vp_voltage_get(sr54xx_mod_id id)
 {
 	unsigned int vp_voltage, uv;
@@ -213,7 +213,7 @@ double sr54xx_last_vp_voltage_get(sr54xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr54xx_dump
  * @BRIEF		dump selected registers and pretty-print it in selected
  *			output stream
@@ -225,7 +225,7 @@ double sr54xx_last_vp_voltage_get(sr54xx_mod_id id)
  *			dump all SR registers.
  * @DESCRIPTION		dump selected registers and pretty-print it in selected
  *			output stream
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr54xx_dump(FILE *stream, sr54xx_mod_id id)
 {
 	unsigned int i = 0, mid;
@@ -302,7 +302,7 @@ sr54xx_dump_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr54xx_export
  * @BRIEF		export module register content to file, in XML format.
  * @RETURNS		0 in case of success
@@ -312,7 +312,7 @@ sr54xx_dump_end:
  * @param[in,out]	fp: output file stream (opened for write operations)
  * @param[in]		id: SR module ID
  * @DESCRIPTION		export module register content to file, in XML format.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr54xx_export(FILE *fp, sr54xx_mod_id id)
 {
 	reg **mod;
@@ -344,7 +344,7 @@ int sr54xx_export(FILE *fp, sr54xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr54xx_import
  * @BRIEF		import OMAP Smart-Reflex registers from XML file
  * @RETURNS		0 in case of success
@@ -354,7 +354,7 @@ int sr54xx_export(FILE *fp, sr54xx_mod_id id)
  * @param[in]		id: SR module ID
  * @DESCRIPTION		import OMAP Smart-Reflex registers from XML file,
  *			generated with lib54xx_export().
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr54xx_import(FILE *fp, sr54xx_mod_id id)
 {
 	reg **mod;
@@ -413,14 +413,14 @@ int sr54xx_import(FILE *fp, sr54xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr54xx_module_config_show
  * @BRIEF		analyze Smart-Reflex module configuration
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  * @param[in]		stream: output file (NULL: no output (silent))
  * @DESCRIPTION		analyze Smart-Reflex module configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr54xx_module_config_show(FILE *stream)
 {
 	sr_registers sr_regs[3];
@@ -470,7 +470,7 @@ int sr54xx_module_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr54xx_config_show
  * @BRIEF		analyze Smart-Reflex complete configuration
  *			(SR module + VC + VP)
@@ -479,7 +479,7 @@ int sr54xx_module_config_show(FILE *stream)
  * @param[in]		stream: output file (NULL: no output (silent))
  * @DESCRIPTION		analyze Smart-Reflex complete configuration
  *			(SR module + VC + VP)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr54xx_config_show(FILE *stream)
 {
 	vc54xx_registers vc_regs;
@@ -541,14 +541,14 @@ int sr54xx_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr54xx_convergence_status_show
  * @BRIEF		analyze Smart-Reflex convergence status
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  * @param[in]		stream: output file (NULL: no output (silent))
  * @DESCRIPTION		analyze Smart-Reflex convergence status
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr54xx_convergence_status_show(FILE *stream)
 {
 	sr_status_registers sr_status_regs[3];
@@ -614,7 +614,7 @@ int sr54xx_convergence_status_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr54xx_s2id
  * @BRIEF		convert string to valid SR ID
  * @RETURNS		SR54XX_SMARTREFLEX_MPU if s == "mpu"
@@ -623,7 +623,7 @@ int sr54xx_convergence_status_show(FILE *stream)
  *			SR54XX_MODS_COUNT otherwise
  * @param[in]		s: string
  * @DESCRIPTION		convert string to valid SR ID
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 sr54xx_mod_id sr54xx_s2id(char *s)
 {
 	if (strcmp(s, "mpu") == 0)
@@ -637,14 +637,14 @@ sr54xx_mod_id sr54xx_s2id(char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr54xx_vddid2srid
  * @BRIEF		convert a VDD ID into corresponding SR ID.
  * @RETURNS		corresponding SR ID
  *			SR54XX_MODS_COUNT in case of error.
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		convert a VDD ID into corresponding SR ID.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 sr54xx_mod_id sr54xx_vddid2srid(voltdm54xx_id vdd_id)
 {
 
@@ -660,7 +660,7 @@ sr54xx_mod_id sr54xx_vddid2srid(voltdm54xx_id vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr54xx_avs_enable
  * @BRIEF		control SR AVS via sysfs entry.
  * @RETURNS		0 in case of success
@@ -671,7 +671,7 @@ sr54xx_mod_id sr54xx_vddid2srid(voltdm54xx_id vdd_id)
  * @param[in]		id: SR ID
  * @param[in]		enable: =1 to enable, =0 to disable SR AVS
  * @DESCRIPTION		control SR AVS via sysfs entry.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr54xx_avs_enable(sr54xx_mod_id id, unsigned short enable)
 {
 	int ret;
@@ -714,14 +714,14 @@ int sr54xx_avs_enable(sr54xx_mod_id id, unsigned short enable)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr54xx_avs_is_enabled
  * @BRIEF		return SR AVS current mode (enabled/disabled).
  * @RETURNS		0 if disabled or in case of error.
  *			1 if enabled.
  * @param[in]		id: SR ID
  * @DESCRIPTION		return SR AVS current mode (enabled/disabled).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short sr54xx_avs_is_enabled(sr54xx_mod_id id)
 {
 	int ret;
@@ -762,7 +762,7 @@ unsigned short sr54xx_avs_is_enabled(sr54xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sr54xx_main
  * @BRIEF		main entry point for Smart-Reflex AVS functions
  *			### DEPRECATED, DO NOT USE ANYMORE ###
@@ -777,7 +777,7 @@ unsigned short sr54xx_avs_is_enabled(sr54xx_mod_id id)
  *			argv[0] = function ("dump", "cfg")
  *			argv[1] = SR ID ("mpu", "mm", "core", "all")
  *			argv[1] may be omitted (then "all" assumed)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int sr54xx_main(int argc, char *argv[])
 {
 	int ret = 0;

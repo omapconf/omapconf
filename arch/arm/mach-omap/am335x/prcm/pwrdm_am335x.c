@@ -65,11 +65,11 @@ static unsigned short pwrdm_am335x_init_done = 0;
 genlist pwrdm_am335x_list;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_am335x_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void pwrdm_am335x_init(void)
 {
 	powerdm_info pwrdm;
@@ -131,12 +131,12 @@ void pwrdm_am335x_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_am335x_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void pwrdm_am335x_deinit(void)
 {
 	if (pwrdm_am335x_init_done) {
@@ -148,13 +148,13 @@ void pwrdm_am335x_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_am335x_list_get
  * @BRIEF		return the list of power domains
  * @RETURNS		list of power domains in case of success
  *			NULL in case of error
  * @DESCRIPTION		return the list of power domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *pwrdm_am335x_list_get(void)
 {
 	pwrdm_am335x_init();
@@ -163,14 +163,14 @@ const genlist *pwrdm_am335x_list_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_am335x_count_get
  * @BRIEF		return the number of power domains
  * @RETURNS		number of power domains (> 0) in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
  * @DESCRIPTION		return the number of power domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pwrdm_am335x_count_get(void)
 {
 	int count;

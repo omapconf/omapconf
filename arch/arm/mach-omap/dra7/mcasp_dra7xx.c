@@ -327,14 +327,14 @@ static int dra7xx_mcasp_is_clocked(unsigned int instance)
 	return clocked;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dra7xx_mcasp_dumpregs
  * @BRIEF		dump registers from table given as argument
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		none
  * @DESCRIPTION		dump registers from table given as argument
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dra7xx_mcasp_dumpregs(FILE *stream, int argc, char *argv[])
 {
 	unsigned int i = 0;
@@ -1325,7 +1325,7 @@ static int dra7xx_mcasp_pinctrl(struct mcasp_regs *regs, FILE *stream)
 	return 0;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dra7xx_mcasp_show
  * @BRIEF		analyze McASP configuration
  * @RETURNS		0 in case of success
@@ -1335,7 +1335,7 @@ static int dra7xx_mcasp_pinctrl(struct mcasp_regs *regs, FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output stream
  * @DESCRIPTION		analyze McASP configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dra7xx_mcasp_show(FILE *stream, int argc, char *argv[])
 {
 	struct mcasp_regs *regs = &mcasp_regs;
@@ -1441,7 +1441,7 @@ int dra7xx_mcasp_show(FILE *stream, int argc, char *argv[])
 	return 0;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dra7xx_mcasp_main
  * @BRIEF		main entry point
  * @RETURNS		0 in case of success
@@ -1450,7 +1450,7 @@ int dra7xx_mcasp_show(FILE *stream, int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		main entry point
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dra7xx_mcasp_main(int argc, char *argv[])
 {
 	int ret;

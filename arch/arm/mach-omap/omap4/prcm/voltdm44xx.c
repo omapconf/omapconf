@@ -146,11 +146,11 @@ static unsigned short voltdm44xx_init_done = 0;
 genlist voltdm44xx_list;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void voltdm44xx_init(void)
 {
 	voltdm_info voltdm;
@@ -188,12 +188,12 @@ void voltdm44xx_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void voltdm44xx_deinit(void)
 {
 	if (voltdm44xx_init_done) {
@@ -205,13 +205,13 @@ void voltdm44xx_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_list_get
  * @BRIEF		return the list of voltage domains
  * @RETURNS		list of voltage domains in case of success
  *			NULL in case of error
  * @DESCRIPTION		return the list of voltage domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *voltdm44xx_list_get(void)
 {
 	voltdm44xx_init();
@@ -220,14 +220,14 @@ const genlist *voltdm44xx_list_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_count_get
  * @BRIEF		return the number of voltage domains
  * @RETURNS		number of voltage domains (> 0) in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
  * @DESCRIPTION		return the number of voltage domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int voltdm44xx_count_get(void)
 {
 	int count;
@@ -241,7 +241,7 @@ int voltdm44xx_count_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_get_name
  * @BRIEF		return voltage domain name
  * @RETURNS		voltage domain name on success
@@ -249,7 +249,7 @@ int voltdm44xx_count_get(void)
  * @param[in]		id: voltage domain ID
  * @param[in,out]	name: voltage domain name
  * @DESCRIPTION		return voltage domain name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *voltdm44xx_get_name(voltdm44xx_id id,
 	char name[VOLTDM44XX_MAX_NAME_LENGTH])
 {
@@ -262,14 +262,14 @@ char *voltdm44xx_get_name(voltdm44xx_id id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_s2id
  * @BRIEF		convert string to valid voltage domain ID.
  * @RETURNS		valid voltage domain ID in case of success
  *			OMAP4_VD_ID_MAX otherwise
  * @param[in]		s: string
  * @DESCRIPTION		convert string to valid voltage domain ID.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 voltdm44xx_id voltdm44xx_s2id(char *s)
 {
 	voltdm44xx_id vdd_id;
@@ -294,14 +294,14 @@ voltdm44xx_id voltdm44xx_s2id(char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_retention_voltage_get
  * @BRIEF		return voltage domain retention voltage, in volt.
  * @RETURNS		voltage domain retention voltage on success (> 0)
  *			<= 0 in case of error
  * @param[in]		id: voltage domain ID
  * @DESCRIPTION		return voltage domain retention voltage, in volt.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double voltdm44xx_retention_voltage_get(voltdm44xx_id id)
 {
 	int ret;
@@ -336,7 +336,7 @@ double voltdm44xx_retention_voltage_get(voltdm44xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_por_retention_voltage_get
  * @BRIEF		return voltage domain retention voltage, as defined in
  *			Data Manual.
@@ -346,7 +346,7 @@ double voltdm44xx_retention_voltage_get(voltdm44xx_id id)
  * @param[in]		id: voltage domain ID
  * @DESCRIPTION		return voltage domain retention voltage, as defined in
  *			Data Manual.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double voltdm44xx_por_retention_voltage_get(voltdm44xx_id id)
 {
 	double volt;
@@ -378,7 +378,7 @@ double voltdm44xx_por_retention_voltage_get(voltdm44xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_nominal_voltage_get
  * @BRIEF		return voltage domain nominal voltage
  * @RETURNS		voltage domain nominal voltage on success (> 0)
@@ -387,7 +387,7 @@ double voltdm44xx_por_retention_voltage_get(voltdm44xx_id id)
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @param[in]		id: voltage domain ID
  * @DESCRIPTION		return voltage domain nominal voltage
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double voltdm44xx_nominal_voltage_get(voltdm44xx_id id)
 {
 	int ret;
@@ -422,7 +422,7 @@ double voltdm44xx_nominal_voltage_get(voltdm44xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_por_nominal_voltage_get
  * @BRIEF		return voltage domain nominal voltage, as defined in
  *			Data Manual.
@@ -433,7 +433,7 @@ double voltdm44xx_nominal_voltage_get(voltdm44xx_id id)
  * @param[in]		opp: opp id
  * @DESCRIPTION		return voltage domain nominal voltage, as defined in
  *			Data Manual.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double voltdm44xx_por_nominal_voltage_get(voltdm44xx_id id, opp44xx_id opp)
 {
 	double volt;
@@ -481,7 +481,7 @@ double voltdm44xx_por_nominal_voltage_get(voltdm44xx_id id, opp44xx_id opp)
 #undef dprintf
 #define dprintf(format, ...)
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_get_opp
  * @BRIEF		find the current voltage domain OPP
  * @RETURNS		0 in case of success
@@ -491,7 +491,7 @@ double voltdm44xx_por_nominal_voltage_get(voltdm44xx_id id, opp44xx_id opp)
  * @param[in]		id: voltage domain ID
  * @param[in,out]	opp: pointer to return OPP
  * @DESCRIPTION		find the current voltage domain OPP
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 {
 	int ret;
@@ -695,7 +695,7 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp44xx_name_get
  * @BRIEF		return OPP name.
  * @RETURNS		OPP name on success
@@ -703,7 +703,7 @@ int voltdm44xx_get_opp(voltdm44xx_id id, opp44xx_id *opp)
  * @param[in]		opp_id: OPP ID
  * @param[in]		vdd_id: VDD ID
  * @DESCRIPTION		return DPLL name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *opp44xx_name_get(unsigned short opp_id, voltdm44xx_id vdd_id)
 {
 	if (cpu_is_omap4470() &&
@@ -721,7 +721,7 @@ const char *opp44xx_name_get(unsigned short opp_id, voltdm44xx_id vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_opp2string
  * @BRIEF		convert OPP ID into string
  * @RETURNS		0 on success
@@ -730,7 +730,7 @@ const char *opp44xx_name_get(unsigned short opp_id, voltdm44xx_id vdd_id)
  * @param[in]		opp: OPP ID
  * @param[in]		vd_id: VDD ID
  * @DESCRIPTION		convert OPP ID into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int voltdm44xx_opp2string(char s[OPP44XX_MAX_NAME_LENGTH],
 	unsigned short opp, voltdm44xx_id vd_id)
 {
@@ -795,14 +795,14 @@ int voltdm44xx_opp2string(char s[OPP44XX_MAX_NAME_LENGTH],
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp44xx_s2id
  * @BRIEF		convert string to valid OPP ID.
  * @RETURNS		valid OMAP4 OPP ID in case of success
  *			OPP44XX_ID_MAX otherwise
  * @param[in]		s: string
  * @DESCRIPTION		convert string to valid OPP ID.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int opp44xx_s2id(char *s)
 {
 	CHECK_NULL_ARG(s, OPP44XX_ID_MAX);
@@ -836,7 +836,7 @@ unsigned int opp44xx_s2id(char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_id2s
  * @BRIEF		convert voltage domain ID to voltage domain name, as
  *			defined in voltdm.h.
@@ -845,7 +845,7 @@ unsigned int opp44xx_s2id(char *s)
  * @param[in]		id: voltage domain ID
  * @DESCRIPTION		convert voltage domain ID to voltage domain name, as
  *			defined in voltdm.h.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *voltdm44xx_id2s(voltdm44xx_id id)
 {
 	const char *s;
@@ -873,7 +873,7 @@ const char *voltdm44xx_id2s(voltdm44xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_get_voltage
  * @BRIEF		find the current supply voltage of a domain, taking care
  *			of the voltage domain state (ON/ON_LP/RET/OFF).
@@ -890,7 +890,7 @@ const char *voltdm44xx_id2s(voltdm44xx_id id)
  *			NB: use PRCM VP VOLTAGE register to retrieve ON voltage.
  *			Hence SR/VP/VC have to be at least initialized
  *			(SR could be disabled).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int voltdm44xx_get_voltage(voltdm44xx_id id, double *volt)
 {
 	voltdm44xx_voltage_type type;
@@ -960,7 +960,7 @@ int voltdm44xx_get_voltage(voltdm44xx_id id, double *volt)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_get_voltage_by_type
  * @BRIEF		return the programmed voltage of a domain.
  * @RETURNS		0 in case of success
@@ -972,7 +972,7 @@ int voltdm44xx_get_voltage(voltdm44xx_id id, double *volt)
  * @param[in]		type: voltage type (ON/SLEEP/RETENTION/OFF)
  * @param[in,out]	volt: programmed voltage (returned)
  * @DESCRIPTION		return the programmed voltage of a domain.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int voltdm44xx_get_voltage_by_type(voltdm44xx_id id,
 	voltdm44xx_voltage_type type, double *volt)
 {
@@ -1057,7 +1057,7 @@ voltdm44xx_get_voltage_by_type_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm44xx_vminsearch
  * @BRIEF		Search minimum supply voltage of a given voltage domain
  *			by decreasing voltage step by step until it breaks.
@@ -1076,7 +1076,7 @@ voltdm44xx_get_voltage_by_type_end:
  *			by decreasing voltage step by step until it breaks.
  *			NB: PLATFORM MUST BE REBOOTED AFTER USE
  *			(CRASHED WITH NO POSSIBLE RECOVERY)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int voltdm44xx_vminsearch(voltdm44xx_id vdd_id, double v, unsigned int ms)
 {
 	long uv;

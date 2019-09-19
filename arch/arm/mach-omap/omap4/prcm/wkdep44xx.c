@@ -67,7 +67,7 @@ static unsigned int init_done = 0;
 static int wkdep44xx_regtable_init(void);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		wkdep44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -76,7 +76,7 @@ static int wkdep44xx_regtable_init(void);
  * @param[in]		name: register name
  * @param[in,out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int wkdep44xx_name2addr(char *name, unsigned int *addr)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -88,14 +88,14 @@ int wkdep44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		wkdep44xx_dump
  * @BRIEF		dump PRCM WKDEP registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		dump PRCM WKDEP registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int wkdep44xx_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -107,14 +107,14 @@ int wkdep44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		wkdep44xx_config_show
  * @BRIEF		analyze PRCM WKDEP configuration
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		analyze PRCM WKDEP configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int wkdep44xx_config_show(void)
 {
 	char mpu_irq_wkdep[3];
@@ -330,7 +330,7 @@ int wkdep44xx_config_show(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		wkdep44xx_main
  * @BRIEF		main entry point
  * @RETURNS		0 in case of success
@@ -340,7 +340,7 @@ int wkdep44xx_config_show(void)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		main entry point
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int wkdep44xx_main(int argc, char *argv[])
 {
 	int ret;
@@ -365,13 +365,13 @@ int wkdep44xx_main(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		wkdep44xx_regtable_init
  * @BRIEF		initialize reg_table fields
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize reg_table fields
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int wkdep44xx_regtable_init(void)
 {
 	int i = 0;

@@ -64,14 +64,14 @@ static reg_table prcm_ctt_reg_table[PRCM_CTT_REG_TABLE_SIZE];
 
 static int ctt_dra7xx_regtable_init(void);
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ctt_dra7xx_dump
  * @BRIEF		dump PRCM registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		dump PRCM registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ctt_dra7xx_dump(void)
 {
 	unsigned int i = 0;
@@ -123,7 +123,7 @@ int ctt_dra7xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ctt_dra7xx_rd1_export
  * @BRIEF		export PRCM registers in CTT RD1 format
  * @RETURNS		0 in case of success
@@ -132,7 +132,7 @@ int ctt_dra7xx_dump(void)
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @param[in]		file: output file name
  * @DESCRIPTION		export PRCM registers in CTT RD1 format
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ctt_dra7xx_rd1_export(char *file)
 {
 	unsigned int i = 0;
@@ -180,7 +180,7 @@ int ctt_dra7xx_rd1_export(char *file)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ctt_dra7xx_main
  * @BRIEF		CTT main menu
  * @RETURNS		0 in case of success
@@ -190,7 +190,7 @@ int ctt_dra7xx_rd1_export(char *file)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		CTT main menu
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ctt_dra7xx_main(int argc, char *argv[])
 {
 	int ret;
@@ -217,13 +217,13 @@ int ctt_dra7xx_main(int argc, char *argv[])
 
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ctt_dra7xx_regtable_init
  * @BRIEF		initialize regtable
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize regtable
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int ctt_dra7xx_regtable_init(void)
 {
 	int i = 0;

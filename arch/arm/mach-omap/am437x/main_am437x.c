@@ -100,7 +100,7 @@ int main_am437x_dump(int argc, char *argv[])
 	}
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_am437x_export
  * @BRIEF		Export AM437X configuration into format and destination
  *			provided in argv.
@@ -113,7 +113,7 @@ int main_am437x_dump(int argc, char *argv[])
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		Export AM437X configuration into format and destination
  *			provided in argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main_am437x_export(int argc, char *argv[])
 {
 	if (strcmp(argv[0], "ctt") == 0) {
@@ -128,7 +128,7 @@ static int main_am437x_export(int argc, char *argv[])
 	}
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_am437x_legacy
  * @BRIEF		AM437X functions main entry point (legacy)
  * @RETURNS		0 in case of success
@@ -139,7 +139,7 @@ static int main_am437x_export(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		AM437X functions main entry point (legacy)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main_am437x_legacy(int argc, char*argv[])
 {
 	int ret;
@@ -168,7 +168,7 @@ main_am437x_legacy_end:
 	return ret;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_am437x
  * @BRIEF		AM437X functions main entry point
  * @RETURNS		0 in case of success
@@ -179,7 +179,7 @@ main_am437x_legacy_end:
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		AM437X functions main entry point.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main_am437x(int argc, char *argv[])
 {
 	int ret = 0;

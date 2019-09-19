@@ -79,7 +79,7 @@ static const reg_table omap4_stm_reg_table[18] = {
 	{"END", 0} };
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		stm_claim_ownership
  * @BRIEF		claim STM ownership in order to be able to R/W registers.
  * @RETURNS		0 in case of success
@@ -89,7 +89,7 @@ static const reg_table omap4_stm_reg_table[18] = {
  *			registers.
  *			NB: make sure EMU domain is ON before calling this
  *			function.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int stm_claim_ownership(void)
 {
 	if (!emu44xx_is_enabled()) {
@@ -115,7 +115,7 @@ int stm_claim_ownership(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		stm_is_claimed
  * @BRIEF		check if STM is claimed, i.e. registers accessible.
  * @RETURNS		0 STM not accessible
@@ -123,7 +123,7 @@ int stm_claim_ownership(void)
  * @DESCRIPTION		check if STM is claimed, i.e. registers accessible.
  *			NB: make sure EMU domain is ON before calling this
  *			function.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int stm_is_claimed(void)
 {
 	unsigned int stm_swmctrl0;
@@ -137,7 +137,7 @@ int stm_is_claimed(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		stm_release_ownership
  * @BRIEF		release STM ownership.
  * @RETURNS		0 in case of success
@@ -147,7 +147,7 @@ int stm_is_claimed(void)
  *			NB: must be called at end of STM use.
  *			NB: make sure EMU domain is ON before calling this
  *			function.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int stm_release_ownership(void)
 {
 	if (!emu44xx_is_enabled()) {
@@ -169,13 +169,13 @@ int stm_release_ownership(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		stm_dump_regs
  * @BRIEF		dump STM registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @DESCRIPTION		dump STM registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int stm_dump_regs(void)
 {
 	if (!emu44xx_is_enabled()) {
@@ -193,7 +193,7 @@ int stm_dump_regs(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		stm_hw_master_enable
  * @BRIEF		enable stm hw master
  * @RETURNS		0 in case of success
@@ -203,7 +203,7 @@ int stm_dump_regs(void)
  * @param[in]		hwmid: hw master ID
  * @param[in]		pos: register position
  * @DESCRIPTION		enable stm hw master
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int stm_hw_master_enable(stm_hw_masters hwmid, unsigned char pos)
 {
 	unsigned int stm_hwmctrl, mask;
@@ -239,7 +239,7 @@ int stm_hw_master_enable(stm_hw_masters hwmid, unsigned char pos)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		stm_hw_master_disable
  * @BRIEF		disable stm hw master
  * @RETURNS		0 in case of success
@@ -248,7 +248,7 @@ int stm_hw_master_enable(stm_hw_masters hwmid, unsigned char pos)
  *			OMAPCONF_ERR_ARG
  * @param[in]		pos: register position
  * @DESCRIPTION		disable stm hw master
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int stm_hw_master_disable(unsigned char pos)
 {
 	unsigned int stm_hwmctrl, mask;
@@ -277,7 +277,7 @@ int stm_hw_master_disable(unsigned char pos)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		stm_atb_capture_enable
  * @BRIEF		enable STM trace to be captured in ETB via ATB
  * @RETURNS		0 in case of success
@@ -285,7 +285,7 @@ int stm_hw_master_disable(unsigned char pos)
  * @DESCRIPTION		enable STM trace to be captured in ETB via ATB
  *			NB: make sure EMU domain is ON before calling this
  *			function.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int stm_atb_capture_enable(void)
 {
 	if (!emu44xx_is_enabled()) {
@@ -309,7 +309,7 @@ int stm_atb_capture_enable(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		stm_atb_capture_disable
  * @BRIEF		disable STM trace capture in ETB via ATB
  * @RETURNS		0 in case of success
@@ -318,7 +318,7 @@ int stm_atb_capture_enable(void)
  *			NB: make sure EMU domain is ON before calling this
  *			function.
  *			NB: blocking until STM FIFO is empty
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int stm_atb_capture_disable(void)
 {
 	unsigned int stm_sysstatus;
@@ -351,7 +351,7 @@ int stm_atb_capture_disable(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		stm_last_header_pos_get
  * @BRIEF		return the position of the last STP header in the last
  *			32-bit ATB word stored
@@ -364,7 +364,7 @@ int stm_atb_capture_disable(void)
  *			32-bit ATB word stored
  *			NB: make sure EMU domain is ON before calling this
  *			function.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int stm_last_header_pos_get(void)
 {
 	unsigned int atb_pointer;
@@ -400,7 +400,7 @@ int stm_last_header_pos_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		stm_atb_prescaler_set
  * @BRIEF		set ATB local timestamp reference clock prescaler
  * @RETURNS		0 in case of success
@@ -410,7 +410,7 @@ int stm_last_header_pos_get(void)
  * @DESCRIPTION		set ATB local timestamp reference clock prescaler
  *			NB: make sure EMU domain is ON before calling this
  *			function.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int stm_atb_prescaler_set(unsigned char div)
 {
 	unsigned int atb_config, i;
@@ -442,7 +442,7 @@ int stm_atb_prescaler_set(unsigned char div)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		stm_atb_prescaler_get
  * @BRIEF		return ATB local timestamp reference clock prescaler
  * @RETURNS		>0 prescaler value
@@ -451,7 +451,7 @@ int stm_atb_prescaler_set(unsigned char div)
  * @DESCRIPTION		return ATB local timestamp reference clock prescaler
  *			NB: make sure EMU domain is ON before calling this
  *			function.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int stm_atb_prescaler_get(void)
 {
 	unsigned int atb_config;

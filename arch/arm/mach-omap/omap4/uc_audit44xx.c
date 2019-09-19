@@ -250,14 +250,14 @@ static const char ignore3[12] = "Ignored (3)";
 static const char warning[8] = "Warning";
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		use_case_name_get
  * @BRIEF		return use case name
  * @RETURNS		use case name on success
  *			NULL in case of error
  * @param[in]		id: valid use case ID
  * @DESCRIPTION		return use case name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *use_case_name_get(omap4_use_case_id id)
 {
 	CHECK_ARG_LESS_THAN(id, OMAP4_UC_MAX, NULL);
@@ -266,7 +266,7 @@ const char *use_case_name_get(omap4_use_case_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		por44xx_opp_get
  * @BRIEF		return PoR OPP of a given voltage domain, for a given
  *			use-case
@@ -277,7 +277,7 @@ const char *use_case_name_get(omap4_use_case_id id)
  * @param[in]		uc_id: use-case ID
  * @DESCRIPTION		return PoR OPP of a given voltage domain, for a given
  *			use-case
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 opp44xx_id por_opp44xx_get(voltdm44xx_id id, omap4_use_case_id uc_id)
 {
 	opp44xx_id opp_por;
@@ -319,7 +319,7 @@ opp44xx_id por_opp44xx_get(voltdm44xx_id id, omap4_use_case_id uc_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp_audit44xx
  * @BRIEF		OMAP4 OPP audit.
  * @RETURNS		pointer to global pass string in case of successfull
@@ -334,7 +334,7 @@ opp44xx_id por_opp44xx_get(voltdm44xx_id id, omap4_use_case_id uc_id)
  * @param[in,out]	err_nbr: error number (returned)
  * @param[in,out]	wng_nbr: warning number (returned)
  * @DESCRIPTION		OMAP4 OPP audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *opp_audit44xx(voltdm44xx_id vd_id,
 	omap4_use_case_id uc_id, opp44xx_id *opp, opp44xx_id *opp_por,
 	unsigned int *err_nbr, unsigned int *wng_nbr)
@@ -393,7 +393,7 @@ char *opp_audit44xx(voltdm44xx_id vd_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltage_audit44xx
  * @BRIEF		OMAP4 Voltage audit.
  * @RETURNS		pointer to global pass string in case of successfull
@@ -408,7 +408,7 @@ char *opp_audit44xx(voltdm44xx_id vd_id,
  * @param[in,out]	err_nbr: error number (returned)
  * @param[in,out]	wng_nbr: warning number (returned)
  * @DESCRIPTION		OMAP4 Voltage audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *voltage_audit44xx(voltdm44xx_id vd_id,
 	omap4_use_case_id uc_id, double *volt, double *volt_por,
 	unsigned int *err_nbr, unsigned int *wng_nbr)
@@ -471,7 +471,7 @@ char *voltage_audit44xx(voltdm44xx_id vd_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ret_voltage_audit44xx
  * @BRIEF		OMAP4 RETENTION Voltage audit.
  * @RETURNS		pointer to global pass string in case of successfull
@@ -485,7 +485,7 @@ char *voltage_audit44xx(voltdm44xx_id vd_id,
  * @param[in,out]	err_nbr: error number (returned)
  * @param[in,out]	wng_nbr: warning number (returned)
  * @DESCRIPTION		OMAP4 RETENTION Voltage audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *ret_voltage_audit44xx(voltdm44xx_id vd_id,
 	double *volt, double *volt_por,
 	unsigned int *err_nbr, unsigned int *wng_nbr)
@@ -537,7 +537,7 @@ char *ret_voltage_audit44xx(voltdm44xx_id vd_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm_state_audit44xx
  * @BRIEF		Power Domain State audit.
  * @RETURNS		pointer to global pass string in case of successfull
@@ -552,7 +552,7 @@ char *ret_voltage_audit44xx(voltdm44xx_id vd_id,
  * @param[in,out]	err_nbr: error number (returned)
  * @param[in,out]	wng_nbr: warning number (returned)
  * @DESCRIPTION		Power Domain State audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *pwrdm_state_audit44xx(pwrdm44xx_id pd_id,
 	omap4_use_case_id uc_id,
 	pwrdm_state *state, pwrdm_state *state_por,
@@ -610,7 +610,7 @@ char *pwrdm_state_audit44xx(pwrdm44xx_id pd_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm_status_audit44xx
  * @BRIEF		Clock Domain Status audit.
  * @RETURNS		pointer to global pass string in case of successfull
@@ -625,7 +625,7 @@ char *pwrdm_state_audit44xx(pwrdm44xx_id pd_id,
  * @param[in,out]	err_nbr: error number (returned)
  * @param[in,out]	wng_nbr: warning number (returned)
  * @DESCRIPTION		Clock Domain Status audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *clkdm_status_audit44xx(clkdm44xx_id cd_id,
 	omap4_use_case_id uc_id,
 	clkdm_status *status, clkdm_status *status_por,
@@ -681,7 +681,7 @@ char *clkdm_status_audit44xx(clkdm44xx_id cd_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu1_power_state_audit44xx
  * @BRIEF		CPU1 Power Status audit.
  * @RETURNS		pointer to global pass string in case of successfull
@@ -695,7 +695,7 @@ char *clkdm_status_audit44xx(clkdm44xx_id cd_id,
  * @param[in,out]	err_nbr: error number (returned)
  * @param[in,out]	wng_nbr: warning number (returned)
  * @DESCRIPTION		CPU1 Power Status audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *cpu1_power_state_audit44xx(omap4_use_case_id uc_id,
 	pwrdm_state *state, pwrdm_state *state_por,
 	unsigned int *err_nbr, unsigned int *wng_nbr)
@@ -763,7 +763,7 @@ char *cpu1_power_state_audit44xx(omap4_use_case_id uc_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dpll_status_audit44xx
  * @BRIEF		DPLL status audit.
  * @RETURNS		pointer to global pass string in case of successfull
@@ -778,7 +778,7 @@ char *cpu1_power_state_audit44xx(omap4_use_case_id uc_id,
  * @param[in,out]	err_nbr: error number (returned)
  * @param[in,out]	wng_nbr: warning number (returned)
  * @DESCRIPTION		DPLL status audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *dpll_status_audit44xx(dpll44xx_id dpll_id,
 	omap4_use_case_id uc_id,
 	dpll_status *status, dpll_status *status_por,
@@ -845,7 +845,7 @@ char *dpll_status_audit44xx(dpll44xx_id dpll_id,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpufreq_governor_audit44xx
  * @BRIEF		CPUFreq Governor audit.
  * @RETURNS		pointer to global pass string in case of successfull
@@ -858,7 +858,7 @@ char *dpll_status_audit44xx(dpll44xx_id dpll_id,
  * @param[in,out]	err_nbr: error number (returned)
  * @param[in,out]	wng_nbr: warning number (returned)
  * @DESCRIPTION		CPUFreq Governor audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *cpufreq_governor_audit44xx(char gov[16], char gov_por[16],
 	unsigned int *err_nbr, unsigned int *wng_nbr)
 {
@@ -921,7 +921,7 @@ char *cpufreq_governor_audit44xx(char gov[16], char gov_por[16],
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		deepest_cstate_audit44xx
  * @BRIEF		deepest-entered C-State audit.
  * @RETURNS		pointer to global pass string in case of successfull
@@ -936,7 +936,7 @@ char *cpufreq_governor_audit44xx(char gov[16], char gov_por[16],
  * @param[in,out]	err_nbr: error number (returned)
  * @param[in,out]	wng_nbr: warning number (returned)
  * @DESCRIPTION		deepest-entered C-State audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *deepest_cstate_audit44xx(omap4_use_case_id uc_id,
 	unsigned int *cstate, unsigned int *cstate_por,
 	unsigned int *err_nbr, unsigned int *wng_nbr)
@@ -1034,7 +1034,7 @@ char *deepest_cstate_audit44xx(omap4_use_case_id uc_id,
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		use_case_audit44xx
  * @BRIEF		OMAP4 Use-Case audit.
  * @RETURNS		0 in case of success
@@ -1049,7 +1049,7 @@ char *deepest_cstate_audit44xx(omap4_use_case_id uc_id,
  *			(console prints) otherwise
  * @param[in]		full_log: show full audit details
  * @DESCRIPTION		OMAP4 Use-Case audit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int use_case_audit44xx(omap4_use_case_id uc_id,
 	unsigned int *err_nbr, unsigned int *wng_nbr,
 	unsigned short verbose, unsigned short full_log)
@@ -2017,7 +2017,7 @@ use_case_audit44xx_voltage_check:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		uc_audit44xx_main
  * @BRIEF		main entry point
  * @RETURNS		0 in case of success
@@ -2027,7 +2027,7 @@ use_case_audit44xx_voltage_check:
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		main entry point
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int uc_audit44xx_main(int argc, char *argv[])
 {
 	unsigned int err_nbr = 0, wng_nbr = 0;

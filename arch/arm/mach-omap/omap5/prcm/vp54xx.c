@@ -58,14 +58,14 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		vp54xx_config_show
  * @BRIEF		decode and show VP current configuration
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  * @param[in,out]	stream: output file (NULL: no output (silent))
  * @DESCRIPTION		decode and show VP current configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int vp54xx_config_show(FILE *stream)
 {
 	vp_registers vp_regs[3];

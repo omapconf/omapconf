@@ -372,7 +372,7 @@ static const unsigned int por_statdep4470_ics_table[OMAP4_CD_ID_MAX][OMAP4_CD_ID
 	{DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA, DEP_NA} };  /* NONE */
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		statdep44xx_get
  * @BRIEF		return static dependency from 'from' clock domain
  *			towards 'to' domain.
@@ -384,7 +384,7 @@ static const unsigned int por_statdep4470_ics_table[OMAP4_CD_ID_MAX][OMAP4_CD_ID
  * @param[in]		to: target clock domain ID
  * @DESCRIPTION		return static dependency from 'from' clock domain
  *			towards 'to' domain.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int statdep44xx_get(clkdm44xx_id from, clkdm44xx_id to)
 {
 	CHECK_ARG_LESS_THAN(from, OMAP4_CD_ID_MAX, OMAPCONF_ERR_ARG);
@@ -397,7 +397,7 @@ int statdep44xx_get(clkdm44xx_id from, clkdm44xx_id to)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		statdep44xx_por_cfg_get
  * @BRIEF		return expected static dependency configuration from
  *			'from' clock domain towards 'to' domain.
@@ -410,7 +410,7 @@ int statdep44xx_get(clkdm44xx_id from, clkdm44xx_id to)
  * @param[in]		to: target clock domain ID
  * @DESCRIPTION		return expected static dependency configuration from
  *			'from' clock domain towards 'to' domain.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int statdep44xx_por_cfg_get(clkdm44xx_id from, clkdm44xx_id to)
 {
 	android_pastry_id pastry;
@@ -441,7 +441,7 @@ int statdep44xx_por_cfg_get(clkdm44xx_id from, clkdm44xx_id to)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dep44xx_register_get
  * @BRIEF		return the dependency register physical address.
  * @RETURNS		0 in case of error
@@ -449,7 +449,7 @@ int statdep44xx_por_cfg_get(clkdm44xx_id from, clkdm44xx_id to)
  * @param[in]		id: clock domain ID
  * @param[in]		type: static or dynamic
  * @DESCRIPTION		return the dependency register physical address.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int dep44xx_register_get(clkdm44xx_id id, dep44xx_type type)
 {
 	unsigned int cm_dep_addr;
@@ -485,7 +485,7 @@ unsigned int dep44xx_register_get(clkdm44xx_id id, dep44xx_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dep44xx_is_enabled
  * @BRIEF		check if a static dependency between 2 clock domains
  *			is enabled or not.
@@ -499,7 +499,7 @@ unsigned int dep44xx_register_get(clkdm44xx_id id, dep44xx_type type)
  * @param[in]		type: static or dynamic
  * @DESCRIPTION		check if a static dependency between 2 clock domains
  *			is enabled or not.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dep44xx_is_enabled(
 	clkdm44xx_id from, clkdm44xx_id to, dep44xx_type type)
 {
@@ -574,7 +574,7 @@ int dep44xx_is_enabled(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		statdep44xx_has_dependency_towards_it
  * @BRIEF		indicate if clock domain can be dependent on another one
  * @RETURNS		1 if clock domain is dependent on another one
@@ -582,7 +582,7 @@ int dep44xx_is_enabled(
  *			OMAPCONF_ERR_ARG
  * @param[in]		id: clock domain ID
  * @DESCRIPTION		indicate if clock domain can be dependent on another one
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int statdep44xx_has_dependency_towards_it(clkdm44xx_id id)
 {
 	if (id >= OMAP4_CD_ID_MAX) {
@@ -598,7 +598,7 @@ int statdep44xx_has_dependency_towards_it(clkdm44xx_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dep44xx_register_exists
  * @BRIEF		indicate if given domain has a dependency register
  * @RETURNS		1 given domain has a dependency register.
@@ -607,7 +607,7 @@ int statdep44xx_has_dependency_towards_it(clkdm44xx_id id)
  * @param[in]		id: clock domain ID
  * @param[in]		type: static or dynamic
  * @DESCRIPTION		indicate if given domain has a dependency register
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dep44xx_register_exists(clkdm44xx_id id, dep44xx_type type)
 {
 	#ifdef DEP44XX_DEBUG
@@ -637,7 +637,7 @@ int dep44xx_register_exists(clkdm44xx_id id, dep44xx_type type)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		statdep44xx_exists
  * @BRIEF		indicate if there is a static dependency between the 2
  *			given clock domains.
@@ -650,7 +650,7 @@ int dep44xx_register_exists(clkdm44xx_id id, dep44xx_type type)
  * @param[in]		to: clock domain ID
  * @DESCRIPTION		indicate if there is a static dependency between the 2
  *			given clock domains.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int statdep44xx_exists(clkdm44xx_id from, clkdm44xx_id to)
 {
 	#ifdef DEP44XX_DEBUG
@@ -685,7 +685,7 @@ int statdep44xx_exists(clkdm44xx_id from, clkdm44xx_id to)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		statdep44xx_set
  * @BRIEF		clear/set given static dependency.
  * @RETURNS		OMAPCONF_ERR_CPU
@@ -696,7 +696,7 @@ int statdep44xx_exists(clkdm44xx_id from, clkdm44xx_id to)
  * @param[in]		to: clock domain ID
  * @param[in]		enable: 0 to clear, 1 to set static dependency.
  * @DESCRIPTION		clear/set given static dependency.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int statdep44xx_set(clkdm44xx_id from, clkdm44xx_id to, int enable)
 {
 	int ret;
@@ -782,7 +782,7 @@ statdep44xx_set_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		statdep44xx_is_read_only
  * @BRIEF		indicate if an existing static dependency between 2
  *			given clock domains is SW configurable or hard-coded.
@@ -796,7 +796,7 @@ statdep44xx_set_end:
  * @param[in]		to: clock domain ID
  * @DESCRIPTION		indicate if an existing static dependency between 2
  *			given clock domains is SW configurable or hard-coded.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int statdep44xx_is_read_only(clkdm44xx_id from, clkdm44xx_id to)
 {
 	if (from >= OMAP4_CD_ID_MAX) {
@@ -827,7 +827,7 @@ int statdep44xx_is_read_only(clkdm44xx_id from, clkdm44xx_id to)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		statdep44xx_dump
  * @BRIEF		dump all static dependency registers content
  * @RETURNS		0 in case of success
@@ -835,7 +835,7 @@ int statdep44xx_is_read_only(clkdm44xx_id from, clkdm44xx_id to)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		none
  * @DESCRIPTION		dump all static dependency registers content
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int statdep44xx_dump(void)
 {
 	clkdm44xx_id id;
@@ -890,7 +890,7 @@ int statdep44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		statdep44xx_show
  * @BRIEF		show complete static dependencies configuration
  * @RETURNS		0 in case of success
@@ -899,7 +899,7 @@ int statdep44xx_dump(void)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]
  * @DESCRIPTION		show complete static dependencies configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int statdep44xx_show(void)
 {
 	clkdm44xx_id from, to;
@@ -991,7 +991,7 @@ statdep44xx_show_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		statdep44xx_audit
  * @BRIEF		audit static dependencies configuration
  * @RETURNS		0 in case of success
@@ -1003,7 +1003,7 @@ statdep44xx_show_end:
  * @param[in, out]	err_nbr: pointer to return audit error number
  * @param[in, out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		audit static dependencies configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int statdep44xx_audit(FILE *stream, unsigned int *err_nbr,
 	unsigned int *wng_nbr)
 {
@@ -1118,7 +1118,7 @@ statdep44xx_show_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		statdep44xx_main_set
  * @BRIEF		set/clear given static dependency
  * @RETURNS		0 in case of success
@@ -1138,7 +1138,7 @@ statdep44xx_show_end:
  *			"cam" "dss" "gfx" "l3init" "l4sec" "l4per" "all".
  * @param[in]		enable: set dependency if == 1, clear it if == 0.
  * @DESCRIPTION		set/clear given static dependency
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int statdep44xx_main_set(
 	char *clkdm_from, char *clkdm_to, unsigned short enable)
 {
@@ -1241,7 +1241,7 @@ statdep44xx_main_set_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		statdep44xx_main
  * @BRIEF		omapconf static dependency functions entry point
  * @RETURNS		0 in case of success
@@ -1255,7 +1255,7 @@ statdep44xx_main_set_end:
  *				argc == 2 or argc == 3 or argc == 4
  *				argv[1] = "cfg", "set" or "clear"
  * @DESCRIPTION		omapconf static dependency functions entry point
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int statdep44xx_main(int argc, char *argv[])
 {
 	int ret;

@@ -83,13 +83,13 @@ static const char workdirs[3][WORKDIR_MAX_NAME_LENGTH] = {
 	"/tmp/"};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		os_supports_wakelock
  * @BRIEF		check if running OS supports wake_lock.
  * @RETURNS		1 if running OS supports wake_lock.
  *			0 if running OS does not support wake_lock.
  * @DESCRIPTION		check if running OS is Android.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short os_supports_wakelock(void)
 {
 	FILE *fp = NULL;
@@ -108,13 +108,13 @@ unsigned short os_supports_wakelock(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		omapconf_revision_show
  * @BRIEF		show omapconf revision
  * @RETURNS		none
  * @param[in]		stream: output file
  * @DESCRIPTION		show omapconf revision
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void omapconf_revision_show(FILE *stream)
 {
 	if (stream == NULL) {
@@ -127,13 +127,13 @@ void omapconf_revision_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		linux_product_name_get
  * @BRIEF		retrieve the product name, parsing "/proc/cpuinfo".
  * @RETURNS		product name
  *			NULL if not found
  * @DESCRIPTION		retrieve the product name, parsing "/proc/cpuinfo".
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static char *linux_product_name_get(char product_name[256])
 {
 	FILE *fp = NULL;
@@ -179,13 +179,13 @@ static char *linux_product_name_get(char product_name[256])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		product_name_get
  * @BRIEF		retrieve the product name
  * @RETURNS		product name
  *			NULL if not found
  * @DESCRIPTION		retrieve the product name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *product_name_get(char product_name[256])
 {
 	if (os_is_android())
@@ -195,14 +195,14 @@ char *product_name_get(char product_name[256])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		chips_info_show
  * @BRIEF		show chips revision (OMAP, PMIC, AUDIO IC)
  * @RETURNS		none
  * @param[in]		stream: output file
  *			die_id: select whether or not to show DIE ID
  * @DESCRIPTION		show chips revision (OMAP, PMIC, AUDIO IC)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void chips_info_show(FILE *stream, unsigned short die_id)
 {
 	char name[CPU_NAME_MAX_LENGTH];
@@ -346,13 +346,13 @@ audioic_detect:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		release_info_show
  * @BRIEF		show kernel and build version details
  * @RETURNS		none
  * @param[in]		stream: output file
  * @DESCRIPTION		show kernel and build version details
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void release_info_show(FILE *stream)
 {
 	char kversion[KERNEL_VERSION_MAX_LENGTH];
@@ -398,14 +398,14 @@ void release_info_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		date_get
  * @BRIEF		format current date and time into string.
  * @RETURNS		formatted string pointer in case of success
  *			NULL otherwise
  * @param[in,out]	s: pre-allocated string where to store date and time
  * @DESCRIPTION		format current date and time into string.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *date_get(char s[17])
 {
 	time_t t;
@@ -425,13 +425,13 @@ char *date_get(char s[17])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lowercase
  * @BRIEF		convert all string characters to lowercase
  * @RETURNS		the converted string
  * @param[in, out]	s: the string to be converted
  * @DESCRIPTION		convert all string characters to lowercase
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *lowercase(char *s)
 {
 	unsigned int  i = 0;
@@ -445,13 +445,13 @@ char *lowercase(char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		uppercase
  * @BRIEF		convert all string characters to uppercase
  * @RETURNS		the converted string
  * @param[in, out]	s: the string to be converted
  * @DESCRIPTION		convert all string characters to uppercase
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *uppercase(char *s)
 {
 	unsigned int  i = 0;
@@ -465,7 +465,7 @@ char *uppercase(char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		bin2str_32
  * @BRIEF		Convert 32-bit integer value to binary (string)
  * @RETURNS		string pointer
@@ -473,7 +473,7 @@ char *uppercase(char *s)
  *			(must be pre-allocated)
  * @param[in]		value: 32-bit integer to be coverted
  * @DESCRIPTION		Convert 32-bit integer value to binary (string)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *bin2str_32(char s[33], unsigned int value)
 {
 	unsigned int i, mask;
@@ -496,7 +496,7 @@ char *bin2str_32(char s[33], unsigned int value)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		extract_bit
  * @BRIEF		extract bit value from register, given position
  * @RETURNS		bitfield value on success (>=0)
@@ -504,7 +504,7 @@ char *bin2str_32(char s[33], unsigned int value)
  * @param[in]		regVal: register content to extract from
  * @param[in]		pos: bit position in register
  * @DESCRIPTION		extract bit value from register, given position
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 inline short int extract_bit(unsigned int regVal, unsigned short pos)
 {
 	if (pos > 31)
@@ -514,7 +514,7 @@ inline short int extract_bit(unsigned int regVal, unsigned short pos)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		extract_bitfield
  * @BRIEF		extract bitfield value from register, given position and
  *			length.
@@ -525,7 +525,7 @@ inline short int extract_bit(unsigned int regVal, unsigned short pos)
  * @param[in]		len: bitfield length
  * @DESCRIPTION		extract bitfield value from register, given position and
  *			length.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 inline int extract_bitfield(unsigned int regVal, unsigned short start,
 	unsigned short len)
 {
@@ -540,7 +540,7 @@ inline int extract_bitfield(unsigned int regVal, unsigned short start,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		count64_delta
  * @BRIEF		return the difference between 2 64-bit values,
  *			considering it's collected from timer/counter and it may
@@ -556,7 +556,7 @@ inline int extract_bitfield(unsigned int regVal, unsigned short start,
  *			have wrapped around.
  *			CAUTION: DO NOT USE WITH DATA SIZE OTHER THAN 64-BIT,
  *			OR MAY RETURN ERRONEOUS RESULT.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 uint64_t count64_delta(uint64_t a, uint64_t b)
 {
 	if (b >= a) {
@@ -568,14 +568,14 @@ uint64_t count64_delta(uint64_t a, uint64_t b)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		max
  * @BRIEF		return the greatest of the 2 given 64-bit arguments
  * @RETURNS		the greatest of the 2 given arguments
  * @param[in]		a: an integer
  * @param[in]		b: a 2nd integer
  * @DESCRIPTION		return the greatest of the 2 given 64-bit arguments
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 uint64_t max(uint64_t a, uint64_t b)
 {
 	if (b >= a)
@@ -585,7 +585,7 @@ uint64_t max(uint64_t a, uint64_t b)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		count32_delta
  * @BRIEF		return the difference between 2 32-bit values,
  *			considering it's collected from timer/counter and it
@@ -601,7 +601,7 @@ uint64_t max(uint64_t a, uint64_t b)
  *			may have wrapped around.  (32-bit).
  *			CAUTION: DO NOT USE WITH DATA SIZE OTHER THAN 32-BIT, OR
  *			MAY RETURN ERRONEOUS RESULT.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int count32_delta(unsigned int a, unsigned int b)
 {
 	if (b >= a) {
@@ -613,7 +613,7 @@ unsigned int count32_delta(unsigned int a, unsigned int b)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		max32
  * @BRIEF		return the greatest of the 2 given arguments
  *			(32-bit unsigned).
@@ -622,7 +622,7 @@ unsigned int count32_delta(unsigned int a, unsigned int b)
  *			b: a 2nd 32-bit unsigned integer
  * @DESCRIPTION		return the smallest of the 2 given arguments
  *			(32-bit unsigned).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int max32(unsigned int a, unsigned int b)
 {
 	if (b >= a)
@@ -632,7 +632,7 @@ unsigned int max32(unsigned int a, unsigned int b)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		max32s
  * @BRIEF		return the greatest of the 2 given arguments
  *			(32-bit signed).
@@ -641,7 +641,7 @@ unsigned int max32(unsigned int a, unsigned int b)
  *			b: a 2nd 32-bit signed integer
  * @DESCRIPTION		return the greatest of the 2 given arguments
  *			(32-bit signed).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int max32s(int a, int b)
 {
 	if (b >= a)
@@ -651,7 +651,7 @@ int max32s(int a, int b)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		min32
  * @BRIEF		return the smallest of the 2 given arguments
  *			(32-bit unsigned).
@@ -660,7 +660,7 @@ int max32s(int a, int b)
  *			b: a 2nd 32-bit unsigned integer
  * @DESCRIPTION		return the smallest of the 2 given arguments
  *			(32-bit unsigned).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int min32(unsigned int a, unsigned int b)
 {
 	if (b >= a)
@@ -670,7 +670,7 @@ unsigned int min32(unsigned int a, unsigned int b)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		min32s
  * @BRIEF		return the smallest of the 2 given arguments
  *			(32-bit signed).
@@ -679,7 +679,7 @@ unsigned int min32(unsigned int a, unsigned int b)
  *			b: a 2nd 32-bit integer
  * @DESCRIPTION		return the smallest of the 2 given arguments
  *			(32-bit signed).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int min32s(int a, int b)
 {
 	if (b >= a)
@@ -689,7 +689,7 @@ int min32s(int a, int b)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		avg_recalc
  * @BRIEF		re-compute average based on previous avg and new data.
  * @RETURNS		new average value based on previous avg and new data.
@@ -697,7 +697,7 @@ int min32s(int a, int b)
  * @param[in]		new_val: new data to be averaged with prev_avg
  * @param[in]		n: data count
  * @DESCRIPTION		re-compute average based on previous avg and new data.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double avg_recalc(double prev_avg, double new_val, unsigned int n)
 {
 	double avg;
@@ -710,7 +710,7 @@ double avg_recalc(double prev_avg, double new_val, unsigned int n)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mhz2string
  * @BRIEF		format clock rate in MHz into a string.
  *			if rate < 1MHz, keep all decimals.
@@ -721,7 +721,7 @@ double avg_recalc(double prev_avg, double new_val, unsigned int n)
  * @DESCRIPTION		format clock rate in MHz into a string.
  *			if rate < 1MHz, keep all decimals.
  *			if rate >= 1Mhz, keep only 3 decimals.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *mhz2string(double rate, char s[15])
 {
 	CHECK_NULL_ARG(s, NULL);
@@ -737,13 +737,13 @@ char *mhz2string(double rate, char s[15])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		workdir_get
  * @BRIEF		find a writable directory where to store output file(s).
  * @RETURNS		writable working directory
  *			NULL if not found
  * @DESCRIPTION		find a writable directory where to store output file(s).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *workdir_get(void)
 {
 	FILE *fp = NULL;
@@ -781,7 +781,7 @@ char *workdir_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		workdir_fopen
  * @BRIEF		depending on platform (generic linux, android, eMMC
  *			boot, SD boot, etc) current directory may not be
@@ -802,7 +802,7 @@ char *workdir_get(void)
  *			function to first look for a writable directory and then
  *			open file in this directory. In case file is open for
  *			read only, no change to regular fopen().
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 FILE *workdir_fopen(char filename[128], const char *mode)
 {
 	char *workdir;
@@ -830,7 +830,7 @@ FILE *workdir_fopen(char filename[128], const char *mode)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		kernel_details_get
  * @BRIEF		retrieve kernel details (version, author, toolchain,
  *			type, date) from "/proc/version" and copy it into
@@ -850,7 +850,7 @@ FILE *workdir_fopen(char filename[128], const char *mode)
  * @DESCRIPTION		retrieve kernel details (version, author, toolchain,
  *			type, date) from "/proc/version" and copy it into
  *			dedicated strings.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *kernel_details_get(char version[KERNEL_VERSION_MAX_LENGTH],
 			char author[KERNEL_AUTHOR_MAX_LENGTH],
 			char toolchain[KERNEL_TOOLCHAIN_MAX_LENGTH],
@@ -944,7 +944,7 @@ kernel_info_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		release_version_get
  * @BRIEF		retrieve release details (version, type, date) from
  *			either "/etc/issue.net" (Linux) or
@@ -962,7 +962,7 @@ kernel_info_get_end:
  *			either "/etc/issue.net" (Linux) or
  *			"/system/build.prop" (Android) and copy it into
  *			dedicated strings.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *release_details_get(char version[RELEASE_VERSION_MAX_LENGTH],
 			char type[RELEASE_TYPE_MAX_LENGTH],
 			char date[RELEASE_DATE_MAX_LENGTH])
@@ -1067,7 +1067,7 @@ release_details_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		name2addr
  * @BRIEF		convert register name to address.
  * @RETURNS		0 on success
@@ -1076,7 +1076,7 @@ release_details_get_end:
  * @param[in, out]	addr: register address
  * @param[in]		table: table with list of registers name & address
  * @DESCRIPTION		convert register name to address.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int name2addr(char *name, unsigned int *addr, reg_table table[])
 {
 	unsigned int i = 0;
@@ -1107,7 +1107,7 @@ int name2addr(char *name, unsigned int *addr, reg_table table[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		find_reg_addr
  * @BRIEF		find reg. addr corresponding to reg. name
  * @RETURNS		0 on success
@@ -1116,7 +1116,7 @@ int name2addr(char *name, unsigned int *addr, reg_table table[])
  * @param[in]		name: register name.
  * @param[in, out]	addr: register address corresponding to reg. name.
  * @DESCRIPTION		find reg. addr corresponding to reg. name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int find_reg_addr(char *name, unsigned int *addr)
 {
 	int ret = 0;
@@ -1138,7 +1138,7 @@ int find_reg_addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dumpregs
  * @BRIEF		dump registers from table given as argument.
  *			Display registers in a table with name, address and
@@ -1148,7 +1148,7 @@ int find_reg_addr(char *name, unsigned int *addr)
  * @param[in]		table: table with list of registers to display.
  *			Must be terminated with table field name == "END".
  * @DESCRIPTION		dump registers from table given as argument.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dumpregs(reg_table table[])
 {
 	unsigned int i = 0;
@@ -1192,7 +1192,7 @@ int dumpregs(reg_table table[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mem_address_range_dump
  * @BRIEF		dump user-selected range of contiguous physical memory.
  *			addresses
@@ -1201,7 +1201,7 @@ int dumpregs(reg_table table[])
  * @param[in]		start: physical start address (!= 0)
  * @param[in]		end: physical end address (!= 0)
  * @DESCRIPTION		dump user-selected range of contiguous physical memory.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mem_address_range_dump(unsigned int start, unsigned int end)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -1243,7 +1243,7 @@ int mem_address_range_dump(unsigned int start, unsigned int end)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		name2value
  * @BRIEF		Convert a named table entry to its value. If there are
  *			multiple matches, returns the first.
@@ -1254,7 +1254,7 @@ int mem_address_range_dump(unsigned int start, unsigned int end)
  * @param[in]		table: name_desc_val_table type of table.
  * @DESCRIPTION		Convert a named table entry to its value. If there are
  *			multiple matches, returns the first.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int name2value(
 	char *name, unsigned int *value, const name_desc_val_table table[])
 {
@@ -1286,7 +1286,7 @@ int name2value(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		name2vindex
  * @BRIEF		Convert a named table entry to its index. If there are
  *			multiple matches, returns the first.
@@ -1297,7 +1297,7 @@ int name2value(
  * @param[in]		table: name_desc_val_table type of table.
  * @DESCRIPTION		Convert a named table entry to its index. If there are
  *			multiple matches, returns the first.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int name2index(
 	char *name, unsigned int *index, const name_desc_val_table table[])
 {
@@ -1329,7 +1329,7 @@ int name2index(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		value2name
  * @BRIEF		Convert a value table entry to its name. If there are
  *			multiple matches, returns the first.
@@ -1340,7 +1340,7 @@ int name2index(
  * @param[in]		table: name_desc_val_table type of table.
  * @DESCRIPTION		Convert a value table entry to its name. If there are
  *			multiple matches, returns the first.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int value2name(
 	unsigned int value, char *name, const name_desc_val_table table[])
 {
@@ -1373,7 +1373,7 @@ int value2name(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		name2desc
  * @BRIEF		Convert a value of a table entry to its description
  *			text. If there are multiple matches, returns the first.
@@ -1385,7 +1385,7 @@ int value2name(
  * @param[in]		table: name_desc_val_table type of table.
  * @DESCRIPTION		Convert a value of a table entry to its description
  *			text. If there are multiple matches, returns the first.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int value2desc(
 	unsigned int value, char *desc, const name_desc_val_table table[])
 {
@@ -1418,7 +1418,7 @@ int value2desc(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		name2value
  * @BRIEF		Convert a named table entry to its value. If there are
  *			multiple matches, returns the first.
@@ -1430,7 +1430,7 @@ int value2desc(
  * @param[in]		table: name_desc_val_table type of table.
  * @DESCRIPTION		Convert a named table entry to its value. If there are
  *			multiple matches, returns the first.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int name2multivalue(char *name, unsigned int *value, unsigned int index,
 	const name_desc_multival_table table[])
 {
@@ -1462,7 +1462,7 @@ int name2multivalue(char *name, unsigned int *value, unsigned int index,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		value2name
  * @BRIEF		Convert a value table entry to its name. If there are
  *			multiple matches, returns the first.
@@ -1474,7 +1474,7 @@ int name2multivalue(char *name, unsigned int *value, unsigned int index,
  * @param[in]		table: name_desc_val_table type of table.
  * @DESCRIPTION		Convert a value table entry to its name. If there are
  *			multiple matches, returns the first.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int multivalue2name(unsigned int value, char *name, unsigned int index,
 	const name_desc_multival_table table[])
 {
@@ -1507,7 +1507,7 @@ int multivalue2name(unsigned int value, char *name, unsigned int index,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		name2desc
  * @BRIEF		Convert a value of a table entry to its description
  *			text. If there are multiple matches, returns the first.
@@ -1520,7 +1520,7 @@ int multivalue2name(unsigned int value, char *name, unsigned int index,
  * @param[in]		table: name_desc_val_table type of table.
  * @DESCRIPTION		Convert a value of a table entry to its description
  *			text. If there are multiple matches, returns the first.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int multivalue2desc(unsigned int value, char *desc, unsigned int index,
 	const name_desc_multival_table table[])
 {
@@ -1553,19 +1553,19 @@ int multivalue2desc(unsigned int value, char *desc, unsigned int index,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		celcius2fahrenheit
  * @BRIEF		convert celcius degrees to fahrenheit degrees.
  * @RETURNS		celcius degrees converted to fahrenheit degrees.
  * @param[in]		d: celcius degree
  * @DESCRIPTION		convert celcius degrees to fahrenheit degrees.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int celcius2fahrenheit(int d)
 {
 	return ((d * 9) / 5) + 32;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		omapconf_getdefaults
  * @BRIEF		Gets defaults from a file and returns ints or strings in
  *			the pointers allocated in the table provided.
@@ -1602,7 +1602,7 @@ int celcius2fahrenheit(int d)
  *			Later could add processing of 0xNNNN, 0dNNN type strings
  *			from a file as integers... Also could add more types
  *			than ints/strings if required without breaking code.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int omapconf_getdefaults(
 	char *defaults_file, char *prefix, name_desc_val_table tablep[])
 {

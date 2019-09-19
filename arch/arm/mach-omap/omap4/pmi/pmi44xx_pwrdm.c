@@ -77,7 +77,7 @@ typedef struct {
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmi_pwrdm_transitions_find
  * @BRIEF		find power domain transition(s) in list of PMI pm events
  * @RETURNS		>=0 total number of power domain transitions found
@@ -87,7 +87,7 @@ typedef struct {
  * @param[in]		duration: trace duration in microseconds.
  * @param[in]		transitions: list of power transition(s) for each domain
  * @DESCRIPTION		find power domain transition(s) in list of PMI pm events
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pmi_pwrdm_transitions_find(genlist *pm_events,
 	double duration, pwrdm_transitions transitions)
 {
@@ -275,7 +275,7 @@ int pmi_pwrdm_transitions_find(genlist *pm_events,
 #undef dprintf
 #define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
 #endif
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmi_pwrdm_events_get
  * @BRIEF		retrieve PM event(s) from PMI trace file.
  * @RETURNS		>=0 total number of PM events extracted from PMI trace
@@ -288,7 +288,7 @@ int pmi_pwrdm_transitions_find(genlist *pm_events,
  * @param[in,out]	pm_events: list of PM events extracted from PMI
  *				trace file
  * @DESCRIPTION		retrieve PM event(s) from PMI trace file.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pmi_pwrdm_events_get(char *filename, genlist *pm_events)
 {
 	double ts;
@@ -406,7 +406,7 @@ int pmi_pwrdm_events_get(char *filename, genlist *pm_events)
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmi_pwrdm_transitions_save
  * @BRIEF		save power domain transitions it into file.
  * @RETURNS		0 in case of success
@@ -418,7 +418,7 @@ int pmi_pwrdm_events_get(char *filename, genlist *pm_events)
  * @param[in]		transitions: list of power transitions for each domains
  * @param[in]		duration: total trace duration in microseconds.
  * @DESCRIPTION		save power domain transitions it into file.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pmi_pwrdm_transitions_save(char *filename,
 	pwrdm_transitions transitions, double duration)
 {

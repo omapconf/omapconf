@@ -73,11 +73,11 @@ static unsigned short voltdm_am335x_init_done;
 genlist voltdm_am335x_list;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_am335x_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void voltdm_am335x_init(void)
 {
 	voltdm_info voltdm;
@@ -110,12 +110,12 @@ void voltdm_am335x_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_am335x_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void voltdm_am335x_deinit(void)
 {
 	if (voltdm_am335x_init_done) {
@@ -126,13 +126,13 @@ void voltdm_am335x_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_am335x_list_get
  * @BRIEF		return the list of voltage domains
  * @RETURNS		list of voltage domains in case of success
  *			NULL in case of error
  * @DESCRIPTION		return the list of voltage domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *voltdm_am335x_list_get(void)
 {
 	voltdm_am335x_init();
@@ -141,14 +141,14 @@ const genlist *voltdm_am335x_list_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_am335x_count_get
  * @BRIEF		return the number of voltage domains
  * @RETURNS		number of voltage domains (> 0) in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
  * @DESCRIPTION		return the number of voltage domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int voltdm_am335x_count_get(void)
 {
 	int count;
@@ -162,14 +162,14 @@ int voltdm_am335x_count_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_am335x_name_get
  * @BRIEF		return voltage domain name
  * @RETURNS		voltage domain name on success
  *			NULL in case of error
  * @param[in]		id: valid voltage domain ID
  * @DESCRIPTION		return voltage domain name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *voltdm_am335x_name_get(voltdm_am335x_id id)
 {
 	CHECK_ARG_LESS_THAN(id, VDD_AM335X_ID_MAX, NULL);
@@ -178,7 +178,7 @@ const char *voltdm_am335x_name_get(voltdm_am335x_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_am335x_id2s
  * @BRIEF		convert voltage domain ID into voltage domain name, as
  *			defined in voltdm.h.
@@ -186,7 +186,7 @@ const char *voltdm_am335x_name_get(voltdm_am335x_id id)
  *			NULL in case of invalid voltage domain ID
  * @param[in]		id: voltage domain ID
  * @DESCRIPTION		convert voltage domain ID to voltage domain name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *voltdm_am335x_id2s(voltdm_am335x_id id)
 {
 	const char *s;
@@ -211,7 +211,7 @@ const char *voltdm_am335x_id2s(voltdm_am335x_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_am335x_voltage_get
  * @BRIEF		find the current supply voltage of a domain
  * @RETURNS		supply voltage in case of success (>= 0.0)
@@ -226,7 +226,7 @@ const char *voltdm_am335x_id2s(voltdm_am335x_id id)
  *			NB: use PRCM VP VOLTAGE register to retrieve ON voltage.
  *			Hence SR/VP/VC have to be at least initialized
  *			(SR could be disabled)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double voltdm_am335x_voltage_get(voltdm_am335x_id id)
 {
 	double volt;

@@ -64,11 +64,11 @@
 static int _clockdm_info_get(const char *clockdm, clockdm_info *data);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void clockdm_init(void)
 {
 	#ifdef CLOCKDM_DEBUG
@@ -111,12 +111,12 @@ void clockdm_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void clockdm_deinit(void)
 {
 	if (cpu_is_omap44xx()) {
@@ -135,13 +135,13 @@ void clockdm_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_list_get
  * @BRIEF		return the list of clock domains
  * @RETURNS		list of clock domains in case of success
  *			NULL in case of error
  * @DESCRIPTION		return the list of clock domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *clockdm_list_get(void)
 {
 	if (cpu_is_omap44xx()) {
@@ -158,14 +158,14 @@ const genlist *clockdm_list_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_count_get
  * @BRIEF		return the number of clock domains
  * @RETURNS		number of clock domains (> 0) in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
  * @DESCRIPTION		return the number of clock domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int clockdm_count_get(void)
 {
 	if (cpu_is_omap44xx()) {
@@ -182,7 +182,7 @@ int clockdm_count_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_clockdm_info_get
  * @BRIEF		return the saved informations of a given clock domain.
  * @RETURNS		0 in case of success
@@ -190,7 +190,7 @@ int clockdm_count_get(void)
  * @param[in]		clockdm: clock domain name
  * @param[in,out]	data:clock domain details
  * @DESCRIPTION		return the saved informations of a given clock domain.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int _clockdm_info_get(const char *clockdm, clockdm_info *data)
 {
 	const genlist *clkdm_list;
@@ -214,14 +214,14 @@ static int _clockdm_info_get(const char *clockdm, clockdm_info *data)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_id_get
  * @BRIEF		return the unique ID of a given clock domain.
  * @RETURNS		>= 0 clock domain ID
  *			-1 in case of error
  * @param[in]		clockdm: clock domain name
  * @DESCRIPTION		return the unique ID of a given clock domain.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int clockdm_id_get(const char *clockdm)
 {
 	int id;
@@ -238,14 +238,14 @@ int clockdm_id_get(const char *clockdm)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_powerdm_get
  * @BRIEF		return the power domain name a clock domain is part of
  * @RETURNS		power domain name on success.
  *			NULL in case of error
  * @param[in]		clockdm: clock domain name
  * @DESCRIPTION		return the power domain name a clock domain is part of
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *clockdm_powerdm_get(const char *clockdm)
 {
 	int ret;
@@ -265,14 +265,14 @@ const char *clockdm_powerdm_get(const char *clockdm)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_voltdm_get
  * @BRIEF		return the voltage domain name a clock domain is part of
  * @RETURNS		voltage domain name on success.
  *			NULL in case of error (not found)
  * @param[in]		clockdm: clock domain name
  * @DESCRIPTION		return the voltage domain name a clock domain is part of
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *clockdm_voltdm_get(const char *clockdm)
 {
 	int ret;
@@ -292,14 +292,14 @@ const char *clockdm_voltdm_get(const char *clockdm)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_clkstctrl_get
  * @BRIEF		return the CLKSTCTRL register of a given clock domain
  * @RETURNS		CLKSTCTRL register on success
  *			NULL in case of error (not found)
  * @param[in]		clockdm: clock domain name
  * @DESCRIPTION		return the CLKSTCTRL register of a given clock domain
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 reg *clockdm_clkstctrl_get(const char *clockdm)
 {
 	int ret;
@@ -325,14 +325,14 @@ reg *clockdm_clkstctrl_get(const char *clockdm)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_bit_get
  * @BRIEF		return the CLKSTCTRL domain bit of a given clock domain
  * @RETURNS		CLKSTCTRL domain bit on success
  *			0 in case of error (not found)
  * @param[in]		clockdm: clock domain name
  * @DESCRIPTION		return the CLKSTCTRL domain bit of a given clock domain
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int clockdm_bit_get(const char *clockdm)
 {
 	int ret;
@@ -358,14 +358,14 @@ unsigned int clockdm_bit_get(const char *clockdm)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_status_get
  * @BRIEF		return the status of a given clock domain
  * @RETURNS		clock domain status on success
  *			CLKDM_STATUS_MAX in case of error
  * @param[in]		clockdm: clock domain name
  * @DESCRIPTION		return the status of a given clock domain
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 clkdm_status clockdm_status_get(const char *clockdm)
 {
 	reg *clkstctrl_reg;
@@ -393,14 +393,14 @@ clkdm_status clockdm_status_get(const char *clockdm)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_ctrl_mode_get
  * @BRIEF		return the control mode of a given clock domain
  * @RETURNS		control mode on success
  *			CLKM_CTRL_MODE_MAX in case of error
  * @param[in]		clockdm: clock domain name
  * @DESCRIPTION		return the control mode of a given clock domain
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 clkdm_ctrl_mode clockdm_ctrl_mode_get(const char *clockdm)
 {
 	reg *clkstctrl_reg;
@@ -424,7 +424,7 @@ clkdm_ctrl_mode clockdm_ctrl_mode_get(const char *clockdm)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clockdm_config_show
  * @BRIEF		display clock domain configuration
  * @RETURNS		0 in case of success
@@ -434,7 +434,7 @@ clkdm_ctrl_mode clockdm_ctrl_mode_get(const char *clockdm)
  * @param[in,out]	stream: output file
  * @param[in]		clockdm: clock domain name
  * @DESCRIPTION		display clock domain configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int clockdm_config_show(FILE *stream, const char *clockdm)
 {
 	clockdm_info data;

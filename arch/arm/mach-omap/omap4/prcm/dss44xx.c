@@ -65,13 +65,13 @@ reg_table prcm_dss_reg_table[PRCM_DSS_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dss44xx_regtable_init
  * @BRIEF		initialize .addr field of reg_table
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize .addr field of reg_table
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int dss44xx_regtable_init(void)
 {
 	int i = 0;
@@ -115,7 +115,7 @@ static int dss44xx_regtable_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dss44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -124,7 +124,7 @@ static int dss44xx_regtable_init(void)
  * @param[in]		name: register name
  * @param[in,out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dss44xx_name2addr(char *name, unsigned int *addr)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -136,7 +136,7 @@ int dss44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dss44xx_config_show
  * @BRIEF		analyze DSS power configuration
  * @RETURNS		0 in case of success
@@ -144,7 +144,7 @@ int dss44xx_name2addr(char *name, unsigned int *addr)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in,out]	stream: output file stream
  * @DESCRIPTION		analyze DSS power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dss44xx_config_show(FILE *stream)
 {
 	unsigned int pm_pwstctrl;
@@ -205,7 +205,7 @@ int dss44xx_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dss44xx_dependency_show
  * @BRIEF		analyse DSP dependency configuration
  * @RETURNS		0 in case of success
@@ -213,7 +213,7 @@ int dss44xx_config_show(FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyse DSP dependency configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dss44xx_dependency_show(FILE *stream)
 {
 	unsigned int cm_staticdep;
@@ -261,14 +261,14 @@ int dss44xx_dependency_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dss44xx_dump
  * @BRIEF		dump PRCM DSS registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		dump PRCM DSS registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dss44xx_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -280,7 +280,7 @@ int dss44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		dss44xx_main
  * @BRIEF		PRCM DSS main menu
  * @RETURNS		0 in case of success
@@ -290,7 +290,7 @@ int dss44xx_dump(void)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		PRCM DSS main menu
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int dss44xx_main(int argc, char *argv[])
 {
 	int ret;

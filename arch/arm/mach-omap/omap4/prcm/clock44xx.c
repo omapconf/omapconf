@@ -238,7 +238,7 @@ const char
 };
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clk44xx_get_name
  * @BRIEF		return clock name
  * @RETURNS		clock name on success
@@ -246,7 +246,7 @@ const char
  * @param[in]		id: clock ID
  * @param[in,out]	name: clock name
  * @DESCRIPTION		return clock name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *clk44xx_get_name(clock44xx_id id, char name[CLOCK44XX_MAX_NAME_LENGTH])
 {
 	if ((id >= OMAP4_CLOCK_ID_MAX) || (name == NULL))
@@ -258,7 +258,7 @@ char *clk44xx_get_name(clock44xx_id id, char name[CLOCK44XX_MAX_NAME_LENGTH])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clk44xx_get_system_clock_speed
  * @BRIEF		Return the system clock speed, in MHz.
  * @RETURNS		> 0 system clock speed, in MHz.
@@ -267,7 +267,7 @@ char *clk44xx_get_name(clock44xx_id id, char name[CLOCK44XX_MAX_NAME_LENGTH])
  *			OMAPCONF_ERR_UNEXPECTED
  * @param[in]		none
  * @DESCRIPTION		Return the system clock speed, in MHz.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double clk44xx_get_system_clock_speed(void)
 {
 	unsigned int osc_clkspeed;
@@ -354,7 +354,7 @@ double clk44xx_get_system_clock_speed(void)
 	out_clk_speed);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clk44xx_get_clock_speed
  * @BRIEF		convert bitfield value from register into string
  * @RETURNS		> 0 clock speed in MHz
@@ -365,7 +365,7 @@ double clk44xx_get_system_clock_speed(void)
  *			Useful for functions that needs the DPLL output speed
  *			whatever its status (e.g. audit, clock tree, etc)
  * @DESCRIPTION		convert bitfield value from register into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 double clk44xx_get_clock_speed(clock44xx_id clk_id,
 	unsigned short ignore_stop_status)
 {

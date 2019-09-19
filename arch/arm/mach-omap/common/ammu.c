@@ -45,13 +45,13 @@
 #include <mem.h>
 #include <lib.h>
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION            ammu_decode_large_page
  * @BRIEF               decodes the parameters for a large page from the ammu
  * @RETURNS             0=success, non-zero error
  * @param[in]           p_base_addr: pointer to first large page
  * @param[in]           page_num: page 0-3
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ammu_decode_large_page(unsigned int *p_base_addr, unsigned int page_num) {
 	unsigned int phys_addr, logical_addr, policy_reg, size;
 	int ret;
@@ -169,13 +169,13 @@ int ammu_decode_large_page(unsigned int *p_base_addr, unsigned int page_num) {
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION            ammu_decode_medium_page
  * @BRIEF               decodes the parameters for a medium page from the ammu
  * @RETURNS             0=success, non-zero error
  * @param[in]           p_base_addr: pointer to first medium page
  * @param[in]           page_num: page 0-1
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ammu_decode_medium_page(unsigned int *p_base_addr, unsigned int page_num) {
 	unsigned int phys_addr, logical_addr, policy_reg, size;
 	int ret;
@@ -293,13 +293,13 @@ int ammu_decode_medium_page(unsigned int *p_base_addr, unsigned int page_num) {
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION            ammu_decode_small_page
  * @BRIEF               decodes the parameters for a small page from the ammu
  * @RETURNS             0=success, non-zero error
  * @param[in]           p_base_addr: pointer to first small page
  * @param[in]           page_num: page 0-9
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int ammu_decode_small_page(unsigned int *p_base_addr, unsigned int page_num) {
 	unsigned int phys_addr, logical_addr, policy_reg, size;
 	int ret;

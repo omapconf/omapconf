@@ -68,11 +68,11 @@ genlist temp_sensor_list;
 static unsigned short temp_sensor_init_done = 0;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void temp_sensor_init(void)
 {
 	if (!temp_sensor_init_done) {
@@ -147,12 +147,12 @@ void temp_sensor_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void temp_sensor_deinit(void)
 {
 	if (temp_sensor_init_done)
@@ -161,7 +161,7 @@ void temp_sensor_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_voltdm2sensor
  * @BRIEF		convert generic voltage domain name
  *			into generic temperature sensor name.
@@ -172,7 +172,7 @@ void temp_sensor_deinit(void)
  *			into generic temperature sensor name.
  *			To be used to generically retrieve the temperature
  *			sensor of a given voltage domain.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *temp_sensor_voltdm2sensor(const char *voltdm)
 {
 	int vdd_id;
@@ -242,13 +242,13 @@ const char *temp_sensor_voltdm2sensor(const char *voltdm)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_count_get
  * @BRIEF		return the number of temperature sensor(s)
  * @RETURNS		> 0 number of temperature sensor(s)
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		return the number of temperature sensor(s)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int temp_sensor_count_get(void)
 {
 	int count;
@@ -272,13 +272,13 @@ int temp_sensor_count_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_list_get
  * @BRIEF		return the list of temperature sensor(s)
  * @RETURNS		list of temperature sensor(s)
  *			NULL in case of architecture is not supported
  * @DESCRIPTION		return the list of temperature sensor(s)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *temp_sensor_list_get(void)
 {
 	temp_sensor_init();
@@ -297,7 +297,7 @@ const genlist *temp_sensor_list_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_s2id
  * @BRIEF		convert generic temperature sensor name (string)
  *			into platform-specific ID (integer).
@@ -308,7 +308,7 @@ const genlist *temp_sensor_list_get(void)
  * @DESCRIPTION		convert generic temperature sensor name (string)
  *			into platform-specific ID (integer).
  *			To be used when calling architecture-specific functions.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int temp_sensor_s2id(const char *sensor)
 {
 	int id;
@@ -375,7 +375,7 @@ int temp_sensor_s2id(const char *sensor)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwtemp_sensor_s2id
  * @BRIEF		convert generic temperature sensor name (string)
  *			into platform-specific ID (integer).
@@ -386,7 +386,7 @@ int temp_sensor_s2id(const char *sensor)
  * @DESCRIPTION		convert generic temperature sensor name (string)
  *			into platform-specific ID (integer).
  *			To be used when calling architecture-specific functions.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwtemp_sensor_s2id(const char *sensor)
 {
 	int id;
@@ -425,7 +425,7 @@ int hwtemp_sensor_s2id(const char *sensor)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_is_available
  * @BRIEF		check if temperature sensor is available.
  * @RETURNS		1 if temperature sensor is available
@@ -433,7 +433,7 @@ int hwtemp_sensor_s2id(const char *sensor)
  * @param[in]		sensor: generic temperature sensor name
  * @DESCRIPTION		check if temperature sensor is available
  *			(platform-dependent).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int temp_sensor_is_available(const char *sensor)
 {
 	int id;
@@ -451,7 +451,7 @@ int temp_sensor_is_available(const char *sensor)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwtemp_sensor_is_available
  * @BRIEF		check if temperature sensor is available.
  * @RETURNS		1 if temperature sensor is available
@@ -459,7 +459,7 @@ int temp_sensor_is_available(const char *sensor)
  * @param[in]		sensor: generic temperature sensor name
  * @DESCRIPTION		check if temperature sensor is available
  *			(platform-dependent).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwtemp_sensor_is_available(const char *sensor)
 {
 	int id;
@@ -479,7 +479,7 @@ int hwtemp_sensor_is_available(const char *sensor)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_get
  * @BRIEF		return temperature measured by temperature sensor.
  * @RETURNS		temperature measured by temperature sensor (Celcius)
@@ -487,7 +487,7 @@ int hwtemp_sensor_is_available(const char *sensor)
  * @param[in]		sensor: generic temperature sensor name
  * @DESCRIPTION		return temperature measured by temperature sensor
  *			in Celcius degrees.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int temp_sensor_get(const char *sensor)
 {
 	int id, temp;
@@ -514,7 +514,7 @@ int temp_sensor_get(const char *sensor)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwtemp_sensor_get
  * @BRIEF		return temperature measured by temperature sensor hw registers.
  * @RETURNS		temperature measured by temperature sensor (Celcius)
@@ -522,7 +522,7 @@ int temp_sensor_get(const char *sensor)
  * @param[in]		sensor: generic temperature sensor name
  * @DESCRIPTION		return temperature measured by temperature sensor
  *			in Celcius degrees.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwtemp_sensor_get(const char *sensor)
 {
 	int id, temp;
@@ -546,7 +546,7 @@ int hwtemp_sensor_get(const char *sensor)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		temp_sensor_show
  * @BRIEF		display all available temperatures formatted in a table.
  * @RETURNS		temperatures formatted in a table
@@ -560,7 +560,7 @@ int hwtemp_sensor_get(const char *sensor)
  * @param[in]		hw: use s/w (driver based) read or hw_sensor read?
  * @DESCRIPTION		display all available temperatures formatted in a table.
  *			Display both Celcius and Fahrenheit degrees.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int _temp_sensor_show(FILE *stream, const char *sensor, const char hw)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];

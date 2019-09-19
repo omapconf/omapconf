@@ -66,11 +66,11 @@ static unsigned short pwrdm54xx_init_done = 0;
 genlist pwrdm54xx_list;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm54xx_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void pwrdm54xx_init(void)
 {
 	powerdm_info pwrdm;
@@ -269,12 +269,12 @@ void pwrdm54xx_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm54xx_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void pwrdm54xx_deinit(void)
 {
 	if (pwrdm54xx_init_done) {
@@ -286,13 +286,13 @@ void pwrdm54xx_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm54xx_list_get
  * @BRIEF		return the list of power domains
  * @RETURNS		list of power domains in case of success
  *			NULL in case of error
  * @DESCRIPTION		return the list of power domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *pwrdm54xx_list_get(void)
 {
 	pwrdm54xx_init();
@@ -301,14 +301,14 @@ const genlist *pwrdm54xx_list_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm54xx_count_get
  * @BRIEF		return the number of power domains
  * @RETURNS		number of power domains (> 0) in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
  * @DESCRIPTION		return the number of power domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pwrdm54xx_count_get(void)
 {
 	int count;
@@ -322,7 +322,7 @@ int pwrdm54xx_count_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pwrdm54xx_config_show
  * @BRIEF		decode and display power domain configuration
  * @RETURNS		0 in case of success
@@ -331,7 +331,7 @@ int pwrdm54xx_count_get(void)
  * @param[in,out]	stream: output file
  * @param[in]		pwrdm: power domain details
  * @DESCRIPTION		decode and display power domain configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pwrdm54xx_config_show(FILE *stream, powerdm_info pwrdm)
 {
 	pwrdm_state st_curr, st_tgt;

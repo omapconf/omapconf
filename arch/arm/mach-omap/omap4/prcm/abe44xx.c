@@ -173,7 +173,7 @@ static unsigned int init_done = 0;
 static int abe44xx_regtable_init(void);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		abe44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -182,7 +182,7 @@ static int abe44xx_regtable_init(void);
  * @param[in]		name: register name
  * @param[in, out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int abe44xx_name2addr(char *name, unsigned int *addr)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -194,7 +194,7 @@ int abe44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		abe44xx_config_show
  * @BRIEF		analyze ABE power configuration
  * @RETURNS		0 in case of success
@@ -202,7 +202,7 @@ int abe44xx_name2addr(char *name, unsigned int *addr)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyze ABE power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int abe44xx_config_show(FILE *stream)
 {
 	unsigned int pm_pwstctrl;
@@ -379,14 +379,14 @@ int abe44xx_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		abe44xx_dump
  * @BRIEF		dump PRCM ABE registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		dump PRCM ABE registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int abe44xx_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -398,7 +398,7 @@ int abe44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		abe44xx_atc_status_show
  * @BRIEF		analyze ABE ATC configuration
  * @RETURNS		0 in case of success
@@ -406,7 +406,7 @@ int abe44xx_dump(void)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in, out]	stream: output file stream
  * @DESCRIPTION		analyze ABE ATC configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int abe44xx_atc_status_show(FILE *stream)
 {
 	int i, j;
@@ -528,7 +528,7 @@ int abe44xx_atc_status_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		abe44xx_main
  * @BRIEF		abe main entry point
  * @RETURNS		0 in case of success
@@ -538,7 +538,7 @@ int abe44xx_atc_status_show(FILE *stream)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		abe menu
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int abe44xx_main(int argc, char *argv[])
 {
 	int ret;
@@ -567,13 +567,13 @@ int abe44xx_main(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		abe44xx_regtable_init
  * @BRIEF		initialize regtable
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize regtable
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int abe44xx_regtable_init(void)
 {
 	int i = 0;

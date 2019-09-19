@@ -55,7 +55,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		ckgen54xx_dump
  * @BRIEF		dump CKGEN PRCM registers
  * @RETURNS		0 in case of success
@@ -65,7 +65,7 @@
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump CKGEN PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 inline int ckgen54xx_dump(FILE *stream)
 {
 	int ret;

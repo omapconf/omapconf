@@ -60,7 +60,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		abb54xx_dump
  * @BRIEF		dump PRCM ABB registers
  * @RETURNS		0 in case of success
@@ -68,7 +68,7 @@
  *			OMAPCONF_ERR_ARG
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump PRCM ABB registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int abb54xx_dump(FILE *stream)
 {
 	reg *abb_mpu_setup_reg;
@@ -135,7 +135,7 @@ int abb54xx_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		abb54xx_config_show
  * @BRIEF		analyze power configuration
  * @RETURNS		0 in case of success
@@ -144,7 +144,7 @@ int abb54xx_dump(FILE *stream)
  *			OMAPCONF_ERR_INTERNAL
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		analyze power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int abb54xx_config_show(FILE *stream)
 {
 	double sysclk_rate;

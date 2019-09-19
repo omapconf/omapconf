@@ -52,12 +52,12 @@
 #include <mpuss44xx.h>
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		help44xx
  * @BRIEF		display omap4conf help
  * @param[in]		cat: help category to display
  * @DESCRIPTION		display omap4conf help
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void help44xx(help_category cat, char *context)
 {
 	unsigned int i;

@@ -58,14 +58,14 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cm_dra7xx_mod_name_get
  * @BRIEF		return CM module name
  * @RETURNS		CM module name
  *			NULL in case of incorrect id
  * @param[in]		id: CM module ID
  * @DESCRIPTION		return CM module name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *cm_dra7xx_mod_name_get(cm_dra7xx_mod_id id)
 {
 	if (id >= CM_DRA7XX_MODS_COUNT) {
@@ -78,7 +78,7 @@ const char *cm_dra7xx_mod_name_get(cm_dra7xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cm_dra7xx_is_profiling_running
  * @BRIEF		return 1 if profiling module (CMI) is running,
  *			0 otherwise
@@ -87,7 +87,7 @@ const char *cm_dra7xx_mod_name_get(cm_dra7xx_mod_id id)
  *			(CM_DRA7XX_INSTR_CM_CORE or CM_DRA7XX_INSTR_CM_CORE_AON)
  * @DESCRIPTION		return 1 if profiling module (CMI) is running,
  *			0 otherwise
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cm_dra7xx_is_profiling_running(cm_dra7xx_mod_id id)
 {
 	reg *cm_clkctrl_reg;
@@ -114,7 +114,7 @@ unsigned int cm_dra7xx_is_profiling_running(cm_dra7xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cm_dra7xx_dump
  * @BRIEF		dump selected registers and pretty-print it in
  *			selected output stream
@@ -126,7 +126,7 @@ unsigned int cm_dra7xx_is_profiling_running(cm_dra7xx_mod_id id)
  *			dump all CM registers.
  * @DESCRIPTION		dump selected registers and pretty-print it in
  *			selected output stream
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int cm_dra7xx_dump(FILE *stream, cm_dra7xx_mod_id id)
 {
 	unsigned int i = 0, mid;

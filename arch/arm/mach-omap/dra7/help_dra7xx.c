@@ -48,12 +48,12 @@
 #include <tlv320aic3x.h>
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		help_dra7xx
  * @BRIEF		display help for DRA7-specific functions
  * @param[in]		cat: help category to display
  * @DESCRIPTION		display help for DRA7-specific functions
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void help_dra7xx(help_category cat, char *context)
 {
 	if (cat >= HELP_CATEGORY_MAX) {

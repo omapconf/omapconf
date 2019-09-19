@@ -70,14 +70,14 @@ static const char
 	"Running"};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm_ctrl_mode_name_get
  * @BRIEF		return clock domain transition control mode name
  * @RETURNS		clock domain transition control mode name on success
  *			"FIXME" in case of error
  * @param[in]		mode: valid clock domain transition control mode
  * @DESCRIPTION		return clock domain transition control mode name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *clkdm_ctrl_mode_name_get(clkdm_ctrl_mode mode)
 {
 	CHECK_ARG_LESS_THAN(mode, CLKM_CTRL_MODE_MAX, "FIXME");
@@ -86,14 +86,14 @@ const char *clkdm_ctrl_mode_name_get(clkdm_ctrl_mode mode)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm_ctrl_mode_get
  * @BRIEF		return clock domain transition control mode
  * @RETURNS		clock domain transition control mode on success
  *			CLKM_CTRL_MODE_MAX in case of error
  * @param[in]		cm_clkstctrl: CM_xyz_CLKSTCTRL register content
  * @DESCRIPTION		return clock domain transition control mode
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 clkdm_ctrl_mode clkdm_ctrl_mode_get(unsigned int cm_clkstctrl)
 {
 	clkdm_ctrl_mode mode;
@@ -107,14 +107,14 @@ clkdm_ctrl_mode clkdm_ctrl_mode_get(unsigned int cm_clkstctrl)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm_status_name_get
  * @BRIEF		return clock domain status name
  * @RETURNS		clock domain status name on success
  *			"FIXME" in case of error
  * @param[in]		st: valid clock domain status
  * @DESCRIPTION		return clock domain status name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *clkdm_status_name_get(clkdm_status st)
 {
 	CHECK_ARG_LESS_THAN(st, CLKDM_STATUS_MAX, "FIXME");
@@ -123,14 +123,14 @@ const char *clkdm_status_name_get(clkdm_status st)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		clkdm_status_get
  * @BRIEF		return clock domain status
  * @RETURNS		clock domain status on success
  *			CLKDM_STATUS_MAX in case of error
  * @param[in]		cm_clkstctrl: CM_xyz_CLKSTCTRL register content
  * @DESCRIPTION		return clock domain status
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 clkdm_status clkdm_status_get(unsigned int cm_clkstctrl)
 {
 	clkdm_status clkdmst;

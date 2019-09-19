@@ -89,7 +89,7 @@
 static unsigned short cpu_found;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_readreg
  * @BRIEF		read OMAP register
  * @RETURNS		0 in case of success
@@ -100,7 +100,7 @@ static unsigned short cpu_found;
  * @param[in]		val_format: value output format
  *			can be "hex", "bin" or "dec"
  * @DESCRIPTION		read OMAP register
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main_readreg(const char *reg_addr, const char *val_format)
 {
 	int ret = 0;
@@ -207,7 +207,7 @@ static int main_readreg(const char *reg_addr, const char *val_format)
 	return 0;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_writereg
  * @BRIEF		write into OMAP register
  * @RETURNS		0 in case of success
@@ -217,7 +217,7 @@ static int main_readreg(const char *reg_addr, const char *val_format)
  *			can be hex value (with mandatory'0x' prefix) or name
  * @param[in]		reg_val: value to be written into reg_addr
  * @DESCRIPTION		write into OMAP register
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main_writereg(const char *reg_addr, const char *reg_val)
 {
 	int ret = 0;
@@ -329,7 +329,7 @@ static int main_writereg(const char *reg_addr, const char *reg_val)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_clearbit
  * @BRIEF		clear given bit into OMAP register
  * @RETURNS		0 in case of success
@@ -338,7 +338,7 @@ static int main_writereg(const char *reg_addr, const char *reg_val)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		clear given bit into OMAP register
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main_clearbit(int argc, char *argv[])
 {
 	int ret = 0;
@@ -472,7 +472,7 @@ main_clearbit_arg_err:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_setbit
  * @BRIEF		set given bit into OMAP register
  * @RETURNS		0 in case of success
@@ -481,7 +481,7 @@ main_clearbit_arg_err:
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		set given bit into OMAP register
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main_setbit(int argc, char *argv[])
 {
 	int ret = 0;
@@ -614,7 +614,7 @@ main_setbit_arg_err:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_i2c_read
  * @BRIEF		read given data from given address of given device of
  *			given I2C bus
@@ -630,7 +630,7 @@ main_setbit_arg_err:
  *			argv[4] = daddress: I2C device register address
  * @DESCRIPTION		read given data from given address of given device of
  *			given I2C bus
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main_i2c_read(int argc, char *argv[])
 {
 	unsigned int i2cbus, chip_address, data_address;
@@ -667,7 +667,7 @@ main_i2c_read_err:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_i2c_write
  * @BRIEF		write given data at given address of given device of
  *			given I2C bus
@@ -684,7 +684,7 @@ main_i2c_read_err:
  *			argv[5] = data: data to be written
  * @DESCRIPTION		write given data at given address of given device of
  *			given I2C bus
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main_i2c_write(int argc, char *argv[])
 {
 	unsigned int i2cbus, chip_address, data_address;
@@ -725,13 +725,13 @@ main_i2c_write_err:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_sigbus_handler
  * @BRIEF		catch bus error and print failing memory physical
  *			address
  * @DESCRIPTION		catch bus error and print failing memory physical
  *			address
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static void main_sigbus_handler(int sig, siginfo_t *siginfo, void *context)
 {
 	/* just to remove "unused parameter" warnings ... */
@@ -751,7 +751,7 @@ static void main_sigbus_handler(int sig, siginfo_t *siginfo, void *context)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_arguments_lowercase
  * @BRIEF		make sure all user arguments are in lower case.
  * @RETURNS		none
@@ -759,7 +759,7 @@ static void main_sigbus_handler(int sig, siginfo_t *siginfo, void *context)
  * @param[in, out]	argv: shell input argument(s)
  * @DESCRIPTION		make sure all user arguments are in lower case, so that
  *			case can be ignored further on.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static void main_arguments_lowercase(int argc, char *argv[])
 {
 	int i;
@@ -774,7 +774,7 @@ static void main_arguments_lowercase(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main_options_scan
  * @BRIEF		search for omapconf option(s) in argv and set it.
  *			Remove found option(s) from argv (by increasing argv
@@ -786,7 +786,7 @@ static void main_arguments_lowercase(int argc, char *argv[])
  * @DESCRIPTION		search for omapconf option(s) in argv and set it.
  *			Remove found option(s) from argv (by increasing argv
  *			pointer).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main_options_scan(int *argc, char **argv[])
 {
 	int ret = 0, cpt = 0;
@@ -888,7 +888,7 @@ main_options_scan_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main
  * @BRIEF		main entry point
  * @RETURNS		0 on success
@@ -898,7 +898,7 @@ main_options_scan_end:
  * @param[in, out]	argc: shell input argument number
  * @param[in, out]	argv: shell input argument(s)
  * @DESCRIPTION		main entry point
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main(int argc, char *argv[])
 {
 	int ret;

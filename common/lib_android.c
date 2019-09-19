@@ -70,13 +70,13 @@ const char *android_pastry_names[PASTRY_ID_MAX] = {
 	[PASTRY_UNKNOWN] = "Unknown"};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		os_is_android
  * @BRIEF		check if running OS is Android.
  * @RETURNS		1 if running OS is Android.
  *			0 if running OS is NOT Android.
  * @DESCRIPTION		check if running OS is Android.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned short os_is_android(void)
 {
 	FILE *fp = NULL;
@@ -96,13 +96,13 @@ unsigned short os_is_android(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		wakelock_acquire
  * @BRIEF		acquire wakelock to avoid device off mode to happen.
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @DESCRIPTION		acquire wakelock to avoid device off mode to happen.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int wakelock_acquire(void)
 {
 	FILE *fp = NULL;
@@ -119,13 +119,13 @@ int wakelock_acquire(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		wakelock_release
  * @BRIEF		release wakelock.
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @DESCRIPTION		release wakelock.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int wakelock_release(void)
 {
 	FILE *fp = NULL;
@@ -142,14 +142,14 @@ int wakelock_release(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		android_pastry_name_get
  * @BRIEF		return pastry name
  * @RETURNS		pastry name
  *			NULL in case of incorrect id
  * @param[in]		id: pastry ID
  * @DESCRIPTION		return pastry name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *android_pastry_name_get(android_pastry_id id)
 {
 	CHECK_ARG_LESS_THAN(id, PASTRY_ID_MAX, NULL);
@@ -158,7 +158,7 @@ const char *android_pastry_name_get(android_pastry_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		android_pastry_get
  * @BRIEF		retrieve the running Android pastry,
  *			parsing "/system/build.prop".
@@ -167,7 +167,7 @@ const char *android_pastry_name_get(android_pastry_id id)
  *			PASTRY_ID_MAX if OS is not Android or in case of error
  * @DESCRIPTION		retrieve the running Android pastry,
  *			parsing "/system/build.prop".
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 android_pastry_id android_pastry_get(void)
 {
 	FILE *fp = NULL;
@@ -255,13 +255,13 @@ android_pastry_id android_pastry_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		android_product_name_get
  * @BRIEF		retrieve the product name, parsing "/system/build.prop".
  * @RETURNS		product name
  *			NULL if OS is not Android or in case of error
  * @DESCRIPTION		retrieve the product name, parsing "/system/build.prop".
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *android_product_name_get(char product_name[256])
 {
 	FILE *fp = NULL;

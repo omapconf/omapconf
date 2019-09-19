@@ -100,20 +100,20 @@ static int violation_count = 0;
 static int total_count = 0;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		marker
  * @BRIEF
  * @RETURNS
  * @param[in]		stream: output stream
  * @DESCRIPTION
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline void marker(FILE *stream)
 {
 	fprintf(stream, "================================================\n");
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		check_mux_reg
  * @BRIEF
  * @RETURNS
@@ -122,7 +122,7 @@ static inline void marker(FILE *stream)
  * @param[in]		reg_addr:
  * @param[in]		val:
  * @DESCRIPTION
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static void check_mux_reg(FILE *stream, struct mux_reg_range *mux,
 		      unsigned int reg_addr, unsigned short val)
 {
@@ -206,7 +206,7 @@ static void check_mux_reg(FILE *stream, struct mux_reg_range *mux,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pads44xx_audit
  * @BRIEF		audit IO PAD configuration for potential glitch during
  *			OFF mode transition (HW bug)
@@ -215,7 +215,7 @@ static void check_mux_reg(FILE *stream, struct mux_reg_range *mux,
  * @param[in]		stream: output file
  * @DESCRIPTION		audit IO PAD configuration for potential glitch during
  *			OFF mode transition (HW bug)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pads44xx_audit(FILE *stream)
 {
 	struct mux_reg_range *mux;

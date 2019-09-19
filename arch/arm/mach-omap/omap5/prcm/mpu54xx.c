@@ -55,7 +55,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpu54xx_dump
  * @BRIEF		dump MPU PRCM registers
  * @RETURNS		0 in case of success
@@ -65,7 +65,7 @@
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump MPU PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 inline int mpu54xx_dump(FILE *stream)
 {
 	int ret;

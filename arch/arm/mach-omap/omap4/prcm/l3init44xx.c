@@ -71,7 +71,7 @@ static unsigned int init_done = 0;
 static int l3init44xx_regtable_init(void);
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		l3init44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -80,7 +80,7 @@ static int l3init44xx_regtable_init(void);
  * @param[in]		name: register name
  * @param[in, out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int l3init44xx_name2addr(char *name, unsigned int *addr)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -92,14 +92,14 @@ int l3init44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		l3init44xx_dump
  * @BRIEF		dump L3INIT PRCM registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		dump L3INIT PRCM registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int l3init44xx_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -111,7 +111,7 @@ int l3init44xx_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		l3init44xx_config_show
  * @BRIEF		analyze power configuration
  * @RETURNS		0 in case of success
@@ -119,7 +119,7 @@ int l3init44xx_dump(void)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyze power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int l3init44xx_config_show(FILE *stream)
 {
 	unsigned int pm_pwstctrl;
@@ -269,7 +269,7 @@ int l3init44xx_config_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		l3init44xx_dependency_show
  * @BRIEF		analyse dependency configuration
  * @RETURNS		0 in case of success
@@ -277,7 +277,7 @@ int l3init44xx_config_show(FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		stream: output file stream
  * @DESCRIPTION		analyse dependency configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int l3init44xx_dependency_show(FILE *stream)
 {
 	unsigned int cm_dynamicdep, cm_staticdep;
@@ -328,7 +328,7 @@ int l3init44xx_dependency_show(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		l3init44xx_main
  * @BRIEF		PRCM L3INIT main menu
  * @RETURNS		0 in case of success
@@ -338,7 +338,7 @@ int l3init44xx_dependency_show(FILE *stream)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		PRCM L3INIT main menu
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int l3init44xx_main(int argc, char *argv[])
 {
 	int ret;
@@ -368,13 +368,13 @@ int l3init44xx_main(int argc, char *argv[])
 
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		l3init44xx_regtable_init
  * @BRIEF		initialize regtable
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize regtable
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int l3init44xx_regtable_init(void)
 {
 	int i = 0;

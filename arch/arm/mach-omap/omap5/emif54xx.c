@@ -62,14 +62,14 @@ const char *emif54xx_mods_name[EMIF54XX_MODS_COUNT] = {
 	"EMIF2"};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emif54xx_mod_name_get
  * @BRIEF		return EMIF module name
  * @RETURNS		EMIF module name
  *			NULL in case of incorrect id
  * @param[in]		id: EMIF module ID
  * @DESCRIPTION		return EMIF module name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *emif54xx_mod_name_get(emif54xx_mod_id id)
 {
 	if (id >= EMIF54XX_MODS_COUNT) {
@@ -82,7 +82,7 @@ const char *emif54xx_mod_name_get(emif54xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emif54xx_dump
  * @BRIEF		dump selected registers
  * @RETURNS		0 in case of success
@@ -93,7 +93,7 @@ const char *emif54xx_mod_name_get(emif54xx_mod_id id)
  *			If id == EMIF54XX_MODS_COUNT, dump all EMIF registers.
  * @DESCRIPTION		dump selected registers and pretty-print it in selected
  *			output stream
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int emif54xx_dump(FILE *stream, emif54xx_mod_id id)
 {
 	unsigned int i = 0, mid, accessible;
@@ -183,7 +183,7 @@ emif54xx_dump_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emif54xx_export
  * @BRIEF		export module register content to file, in XML format.
  * @RETURNS		0 in case of success
@@ -194,7 +194,7 @@ emif54xx_dump_end:
  * @param[in,out]	fp: output file stream (opened for write operations)
  * @param[in]		id: EMIF module ID
  * @DESCRIPTION		export module register content to file, in XML format.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int emif54xx_export(FILE *fp, emif54xx_mod_id id)
 {
 	reg **mod;
@@ -247,7 +247,7 @@ int emif54xx_export(FILE *fp, emif54xx_mod_id id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emif54xx_import
  * @BRIEF		import OMAP EMIF registers from XML file
  * @RETURNS		0 in case of success
@@ -257,7 +257,7 @@ int emif54xx_export(FILE *fp, emif54xx_mod_id id)
  * @param[in]		id: EMIF module ID
  * @DESCRIPTION		import OMAP EMIF registers from XML file,
  *			generated with lib54xx_export().
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int emif54xx_import(FILE *fp, emif54xx_mod_id id)
 {
 	reg **mod;

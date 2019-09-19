@@ -231,13 +231,13 @@ double avg_recalc(double prev_avg, double new_val, unsigned int n);
 
 int celcius2fahrenheit(int d);
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		uv2v
  * @BRIEF		convert micro-volt (integer) to volt (floating point).
  * @RETURNS		voltage in volt (V)
  * @param[in]		uv: voltage in micro-volt (uV)
  * @DESCRIPTION		convert micro-volt (integer) to volt (floating point).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline double uv2v(int uv)
 {
 	double v;
@@ -246,37 +246,37 @@ static inline double uv2v(int uv)
 	return v;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		v2uv
  * @BRIEF		convert volt (floating point) to micro-volt (integer).
  * @RETURNS		voltage in micro-volt (uV)
  * @param[in]		v: voltage in volt (V)
  * @DESCRIPTION		convert volt (floating point) to micro-volt (integer).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int v2uv(double v)
 {
 	return (int) (v * 1000000.0);
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		khz2mhz
  * @BRIEF		convert KHz (integer) to MHz (floating point).
  * @RETURNS		frequency in MHz
  * @param[in]		khz: frequency in KHz
  * @DESCRIPTION		convert KHz (integer) to MHz (floating point).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline double khz2mhz(int khz)
 {
 	return ((double) khz) / 1000.0;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mhz2khz
  * @BRIEF		convert MHz (floating point) to KHz (integer).
  * @RETURNS		frequency in KHz
  * @param[in]		mhz: frequency in MHz
  * @DESCRIPTION		convert MHz (floating point) to KHz (integer).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int mhz2khz(double mhz)
 {
 	return (int) (mhz * 1000.0);

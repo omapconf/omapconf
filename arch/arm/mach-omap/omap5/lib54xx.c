@@ -76,7 +76,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lib54xx_voltage_set
  * @BRIEF		change voltage of a given voltage domain, switching
  *			CPUFreq governor to "userspace" & disabling smart-reflex
@@ -90,7 +90,7 @@
  * @param[in]		volt: new supply voltage (in volt)
  * @DESCRIPTION		change voltage of a given voltage domain, switching
  *			CPUFreq governor to "userspace" & disabling smart-reflex
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int lib54xx_voltage_set(voltdm54xx_id vdd_id, double volt)
 {
 	int ret, ret_cpufreq;
@@ -152,7 +152,7 @@ int lib54xx_voltage_set(voltdm54xx_id vdd_id, double volt)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lib54xx_vminsearch
  * @BRIEF		search minimum supply voltage by decreasing voltage
  *			step by step  until it breaks.
@@ -171,7 +171,7 @@ int lib54xx_voltage_set(voltdm54xx_id vdd_id, double volt)
  *			step by step  until it breaks.
  *			NB: switch CPUFreq governor to "userspace" &
  *			disable smart-reflex
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int lib54xx_vminsearch(int argc, char *argv[])
 {
 	long uv;
@@ -300,7 +300,7 @@ lib54xx_vminsearch_arg_err:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lib54xx_export
  * @BRIEF		export OMAP registers in XML format into file
  * @RETURNS		0 in case of success
@@ -308,7 +308,7 @@ lib54xx_vminsearch_arg_err:
  * @param[in]		file: export file name (default if == NULL)
  * @DESCRIPTION		export OMAP registers in XML format into file. If no
  *			file name provided, generate one using current date.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int lib54xx_export(char *file)
 {
 	FILE *fp = NULL;
@@ -452,7 +452,7 @@ int lib54xx_export(char *file)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lib54xx_import
  * @BRIEF		import OMAP registers from XML file, generated with
  *			lib54xx_export().
@@ -463,7 +463,7 @@ int lib54xx_export(char *file)
  * @param[in,out]	file: XML file name
  * @DESCRIPTION		import OMAP registers from XML file, generated with
  *			lib54xx_export().
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int lib54xx_import(char *file)
 {
 	unsigned int i;

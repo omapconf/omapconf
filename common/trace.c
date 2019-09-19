@@ -147,7 +147,7 @@ static const char
 	"FIXME"};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_cfg_line_parse
  * @BRIEF		Parse a line from the config file
  * @RETURNS		'y' if the flag is a y
@@ -159,7 +159,7 @@ static const char
  * @param[in]		buffer_size: the size of the line buffer
  * @DESCRIPTION		Read a line of the form "item_name | flag" and parse it
  *			for easy access to its individual components.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char trace_cfg_line_parse(char line[], int buffer_size)
 {
 	int i = 0;
@@ -200,13 +200,13 @@ char trace_cfg_line_parse(char line[], int buffer_size)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_default_cfg_create
  * @BRIEF		Create a default config file
  * @RETURNS		Void
  * @param[in]		fp: a file pointer opened in "write" mode
  * @DESCRIPTION		Create a default confifg file if none exists
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void trace_default_cfg_create(FILE *fp)
 {
 	int i;
@@ -274,14 +274,14 @@ void trace_default_cfg_create(FILE *fp)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_yn_swap
  * @BRIEF		Swaps the y/n flag in a line
  * @RETURNS		Void
  * @param[in, out]	line: A line of the form "other_stuff | flag"
  * @DESCRIPTION		Replaces a 'y' flag in line with 'n', or an 'n' flag
  *			with 'y', or puts 'x' if the flag is neither 'y' nor 'n'
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void trace_yn_swap(char line[])
 {
 	int i = 0;
@@ -305,7 +305,7 @@ void trace_yn_swap(char line[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_yn2yesno
  * @BRIEF		Converts a y/n flag to the word "yes" or "no"
  * @RETURNS		"yes" for a 'y' flag
@@ -313,7 +313,7 @@ void trace_yn_swap(char line[])
  *			"ERROR" if the flag is incorrect
  * @param[in]		letter: the flag to convert
  * @DESCRIPTION		Converts a 'y' flag to "yes" or an 'n' flag to "no"
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char *trace_yn2yesno(char letter)
 {
 	char *word;
@@ -331,7 +331,7 @@ char *trace_yn2yesno(char letter)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_newline_strip
  * @BRIEF		Remove '\n' from the end of a line
  * @RETURNS		Void
@@ -339,7 +339,7 @@ char *trace_yn2yesno(char letter)
  *			first instance of '\n' will be replaced by '\0'
  * @param[in]		size: the size of the line
  * @DESCRIPTION		Replaces '\n' at the end of a line with '\0'
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void trace_newline_strip(char line[], int size)
 {
 	int i;
@@ -353,14 +353,14 @@ void trace_newline_strip(char line[], int size)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_index2name
  * @BRIEF		Convert a trace index to a trace item name
  * @RETURNS		trace item name
  * @param[in]		name: string representing the traceable item's name
  * @DESCRIPTION		Takes a name and returns the array index mapped to it by
  *			the enum 'traceables'
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *trace_index2name(traceables index)
 {
 	if (index > NUM_ITEMS)
@@ -370,7 +370,7 @@ const char *trace_index2name(traceables index)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_name2index
  * @BRIEF		Convert a name to an array index
  * @RETURNS		An index mapped to the name
@@ -378,7 +378,7 @@ const char *trace_index2name(traceables index)
  * @param[in]		name: string representing the traceable item's name
  * @DESCRIPTION		Takes a name and returns the array index mapped to it by
  *			the enum 'traceables'
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int trace_name2index(char *name)
 {
 	int i;
@@ -407,7 +407,7 @@ int int_cmp(const void *v1, const void *v2)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_geninput_config_read
  * @BRIEF		Read a config file for the generic inputs
  * @RETURNS		The number of generic input files in the config file
@@ -424,7 +424,7 @@ int int_cmp(const void *v1, const void *v2)
  *			geninput
  * @DESCRIPTION		Read the config file for generic input files and parse
  *			them into the input buffers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int trace_geninput_config_read(const char *filename,
 	char *names[], char *paths[],
 	char *units[], int accumulating[], int flags[])
@@ -597,7 +597,7 @@ int trace_geninput_config_read(const char *filename,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_config_read
  * @BRIEF		Read the config file and output an array of flags.
  * @RETURNS		>= 0 the number of items to be traced
@@ -612,7 +612,7 @@ int trace_geninput_config_read(const char *filename,
  *			0 for untraced items)
  * @DESCRIPTION		Read the config file for non-geninputs and
  *			output an array of flags telling items to be traced.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int trace_config_read(const char *filename, int flags[NUM_ITEMS])
 {
 	static const int BUFFER_SIZE = 256;
@@ -698,7 +698,7 @@ read_config_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_geninput_yn_read
  * @BRIEF		Reads a generic input line from the config
  * @RETURNS		'y' if the trace flag was 'y'
@@ -708,7 +708,7 @@ read_config_end:
  * @param[in]		size: The size of the line
  * @DESCRIPTION		Reads a generic input file from the config and returns
  *			the flag
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 char trace_geninput_yn_read(char line[], int size)
 {
 	int i = 0;
@@ -755,7 +755,7 @@ char trace_geninput_yn_read(char line[], int size)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_config_show
  * @BRIEF		Prints a config file to a table
  * @RETURNS		The number of elements in the table
@@ -766,7 +766,7 @@ char trace_geninput_yn_read(char line[], int size)
  * @param[in, out]	p_error: pointer to an error flag that will be
  *			set if an error is found
  * @DESCRIPTION		Prints the config file pointed to by "fp" to a table
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int trace_config_show(char buffer[], int buffer_size, FILE *fp, int *p_error)
 {
 	int row = 0;
@@ -819,14 +819,14 @@ int trace_config_show(char buffer[], int buffer_size, FILE *fp, int *p_error)
 	return row-1;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_geninput_file_add
  * @BRIEF		Add a generic input file to the config
  * @RETURNS		0 in case of success
  *			-1 if aborted
  * @param[in]		filename: The name of the config file
  * @DESCRIPTION		Add a generic input file to the config
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int trace_geninput_file_add(const char *filename)
 {
 	const int BUFFER_SIZE = 256;
@@ -946,7 +946,7 @@ int trace_geninput_file_add(const char *filename)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_geninput_file_remove
  * @BRIEF		Remove a generic input file from the config
  * @RETURNS		0 in case of success
@@ -957,7 +957,7 @@ int trace_geninput_file_add(const char *filename)
  *			temporary config filename
  * @param[in]		num_elements: Number of elements in the table
  * @DESCRIPTION		Remove a generic input file from the config
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int trace_geninput_file_remove(const char *filename,
 	const char *temp_filename, int num_elements)
 {
@@ -1033,7 +1033,7 @@ int trace_geninput_file_remove(const char *filename,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_geninput_file2int
  * @BRIEF		Read a file into a uint64_t
  * @RETURNS		The number in the file
@@ -1041,7 +1041,7 @@ int trace_geninput_file_remove(const char *filename,
  * @param[in]		file_path: path of the file to read
  * @DESCRIPTION		Read the file at file_path and return a uint64_t
  *			representing it
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 uint64_t trace_geninput_file2int(char *file_path)
 {
 	uint64_t output;
@@ -1061,7 +1061,7 @@ uint64_t trace_geninput_file2int(char *file_path)
 	return output;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_perf_setup
  * @BRIEF		Configure the performance trace
  * @RETURNS		0 in case of success
@@ -1070,7 +1070,7 @@ uint64_t trace_geninput_file2int(char *file_path)
  * @param[in]		filename: name for the config file
  *			(default: trace_config.dat)
  * @DESCRIPTION		Configure the performance trace
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int trace_perf_setup(const char *filename)
 {
 	static const char TEMP_FILENAME[32] = "trace_perf_temp_config.dat";
@@ -1234,14 +1234,14 @@ int trace_perf_setup(const char *filename)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_bw_errhandler
  * @BRIEF		SCI lib error handler
  * @param[in]		phandle: phandle
  * @param[in]		func: failing func
  * @param[in]		err: err number from lib
  * @DESCRIPTION		SCI lib error handler
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static void trace_bw_errhandler(psci_handle phandle,
 	const char *func, enum sci_err err)
 {
@@ -1253,7 +1253,7 @@ static void trace_bw_errhandler(psci_handle phandle,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_bw_init
  * @BRIEF		Allocate buffers and enable EMU HW used for
  *				EMIF bandwidth monitoring.
@@ -1264,7 +1264,7 @@ static void trace_bw_errhandler(psci_handle phandle,
  * @param[in]		sample_count: number of data samples to be collected
  * @DESCRIPTION		Free allocated buffers and release EMU HW used for
  *				EMIF bandwidth monitoring.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int trace_bw_init(unsigned int sample_count)
 {
 	uint32_t plib_major_ver;
@@ -1371,13 +1371,13 @@ static int trace_bw_init(unsigned int sample_count)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_bw_deinit
  * @BRIEF		Free allocated buffers and release EMU HW used for
  *				EMIF bandwidth monitoring.
  * @DESCRIPTION		Free allocated buffers and release EMU HW used for
  *				EMIF bandwidth monitoring.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static void trace_bw_deinit(void)
 {
 	unsigned int i;
@@ -1403,14 +1403,14 @@ static void trace_bw_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_bw_capture
  * @BRIEF		Collect data for EMIF bandwidth monitoring from
  *				HW counters.
  * @param[in]		index: sample number
  * @DESCRIPTION		Collect data for EMIF bandwidth monitoring from
  *				HW counters.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static void trace_bw_capture(unsigned int index)
 {
 	uint32_t sci_cntrs[8];
@@ -1434,7 +1434,7 @@ static void trace_bw_capture(unsigned int index)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_bw_process
  * @BRIEF		Post-process data collected for
  *				EMIF bandwidth monitoring.
@@ -1444,7 +1444,7 @@ static void trace_bw_capture(unsigned int index)
  * @DESCRIPTION		Post-process data collected for
  *			EMIF bandwidth monitoring (convert to MB/s, compute
  *				average, detect min/max values).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static void trace_bw_process(unsigned int sample_count, double sampling_rate)
 {
 	unsigned int i, j;
@@ -1469,7 +1469,7 @@ static void trace_bw_process(unsigned int sample_count, double sampling_rate)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		trace_perf_capture
  * @BRIEF		perform performance trace
  * @RETURNS		0 in case of success
@@ -1489,7 +1489,7 @@ static void trace_bw_process(unsigned int sample_count, double sampling_rate)
  * @DESCRIPTION		trace a custom selection of key performance indicators
  *			(CPU Load, OPPs, memory bandwidth usage & temperatures).
  *			Also trace any generic input files included in config.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int trace_perf_capture(const char *cfgfile, const char *prefix,
 	double sampling_rate, unsigned int capture_time,
 	unsigned int delay_time)

@@ -93,7 +93,7 @@ static reg *core_temperature_FIFO_reg_address[NUM_DTEMP_TAGS] = {
 };
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		hwtemp54xx_get
  * @BRIEF		return temperature measured by selected sensor's register buffer
  *			(in degrees celcius)
@@ -102,7 +102,7 @@ static reg *core_temperature_FIFO_reg_address[NUM_DTEMP_TAGS] = {
  * @param[in]		id: ADC temperature sensor id
  * @DESCRIPTION		return temperature measured by selected sensor
  *			(in degrees celcius)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int hwtemp54xx_get(hwtemp54xx_sensor_id id)
 {
 	reg *temp_reg;

@@ -71,7 +71,7 @@ static const char ignore[12] = "Ignored (1)";
 static const char warning[8] = "Warning";
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		audit54xx_dpll
  * @BRIEF		audit DPLL Configuration
  * @RETURNS		0 in case of success
@@ -87,7 +87,7 @@ static const char warning[8] = "Warning";
  * @param[in,out]	err_nbr: audit error number
  * @param[in,out]	wng_nbr: audit warning number
  * @DESCRIPTION		audit DPLL Configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int audit54xx_dpll(FILE *stream, dpll54xx_id dpll_id, opp54xx_id opp_id,
 	unsigned short curr_opp, unsigned int *err_nbr, unsigned int *wng_nbr)
 {
@@ -267,7 +267,7 @@ audit54xx_dpll_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		audit54xx_full
  * @BRIEF		full OMAP5 power configuration audit
  * @RETURNS		0 in case of success
@@ -281,7 +281,7 @@ audit54xx_dpll_end:
  * @param[in,out]	wng_nbr: pointer to return audit warning number
  * @DESCRIPTION		full OMAP5 power configuration audit
  *			(DPLL + SYSCONFIG + CLKSPEED + STATICDEP + IO).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int audit54xx_full(FILE *stream, char *logfile, unsigned int *err_nbr,
 	unsigned int *wng_nbr)
 {

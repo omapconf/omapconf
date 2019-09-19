@@ -103,7 +103,7 @@ static const reg_table coresight_cstf_reg_table[7] = {
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		coresight_etb_capture_enable
  * @BRIEF		enable ETB capture
  * @RETURNS		0 in case of success
@@ -111,7 +111,7 @@ static const reg_table coresight_cstf_reg_table[7] = {
  * @DESCRIPTION		enable ETB capture
  *			NB: make sure EMU domain is ON before calling
  *			this function.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int coresight_etb_capture_enable(void)
 {
 	#ifdef CORESIGHT44XX_DEBUG
@@ -185,13 +185,13 @@ int coresight_etb_capture_enable(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		coresight_etb_buffer_overflow
  * @BRIEF		check if ETB RAM buffer overflow occurred
  * @RETURNS		0 if no overflow occurred
  *			1 if overflow occurred
  * @DESCRIPTION		check if ETB RAM buffer overflow occurred
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int coresight_etb_buffer_overflow(void)
 {
 	unsigned int sts;
@@ -203,7 +203,7 @@ int coresight_etb_buffer_overflow(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		coresight_etb_buffer_read
  * @BRIEF		read ETB RAM buffer data at given position
  * @RETURNS		0 in case of success
@@ -212,7 +212,7 @@ int coresight_etb_buffer_overflow(void)
  *			to OMAP44xx_ETB_RAM_SIZE/4)
  * @param[in,out]	rrd: data read from ETB buffer at position 'rrp'
  * @DESCRIPTION		read ETB RAM buffer data at given position
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int coresight_etb_buffer_read(unsigned int rrp, unsigned int *rrd)
 {
 	if (rrp >= (OMAP44xx_ETB_RAM_SIZE / 4)) {
@@ -240,7 +240,7 @@ int coresight_etb_buffer_read(unsigned int rrp, unsigned int *rrd)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		coresight_etb_capture_disable
  * @BRIEF		disable ETB capture
  * @RETURNS		0 in case of success
@@ -253,7 +253,7 @@ int coresight_etb_buffer_read(unsigned int rrp, unsigned int *rrd)
  * @DESCRIPTION		disable ETB capture
  *			NB: make sure EMU domain is ON before calling this
  *			function.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int coresight_etb_capture_disable(unsigned int *size)
 {
 	unsigned int rwp, sts;
@@ -305,7 +305,7 @@ int coresight_etb_capture_disable(unsigned int *size)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		coresight_etb_save_trace
  * @BRIEF		save capture ETB trace into file
  * @RETURNS		>= 0 trace length (in 4-bit words)
@@ -315,7 +315,7 @@ int coresight_etb_capture_disable(unsigned int *size)
  * @DESCRIPTION		save capture ETB trace into file
  *			NB: make sure EMU domain is ON before calling this
  *			function.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int coresight_etb_save_trace(char *filename)
 {
 	int i, j, first, last, pos, mask, shift, size;

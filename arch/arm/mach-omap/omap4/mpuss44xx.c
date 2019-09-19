@@ -126,7 +126,7 @@ static unsigned int priority_level_reg_addr_array[40] = {
 	OMAP4430_PRIORITY_LEVEL_159_156};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		scu44xx_cpu_power_status2string
  * @BRIEF		convert SCU CPU power status into string
  * @RETURNS		0 in case of success
@@ -135,7 +135,7 @@ static unsigned int priority_level_reg_addr_array[40] = {
  * @param[in,out]	s: string where to store SCU CPU power status
  *			(must be pre-allocated)
  * @DESCRIPTION		convert SCU CPU power status into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int scu44xx_cpu_power_status2string(unsigned short status, char s[10])
 {
 	switch (status) {
@@ -159,7 +159,7 @@ int scu44xx_cpu_power_status2string(unsigned short status, char s[10])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		scu44xx_tag_ram_size2string
  * @BRIEF		convert tag RAM size field into string
  * @RETURNS		0 in case of success
@@ -168,7 +168,7 @@ int scu44xx_cpu_power_status2string(unsigned short status, char s[10])
  * @param[in]		s: string where to store tag RAM size
  *			(must be pre-allocated)
  * @DESCRIPTION		convert tag RAM size field into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int scu44xx_tag_ram_size2string(unsigned short size, char s[30])
 {
 	switch (size) {
@@ -192,7 +192,7 @@ int scu44xx_tag_ram_size2string(unsigned short size, char s[30])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_int_nbr2name
  * @BRIEF		retrieve interrupt name from interrupt line number
  * @RETURNS		0 in case of success
@@ -200,7 +200,7 @@ int scu44xx_tag_ram_size2string(unsigned short size, char s[30])
  * @param[in]		int_nbr: interrupt number
  * @param[in]		name: interrupt name (must be pre-allocated)
  * @DESCRIPTION		retrieve interrupt name from interrupt line number
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int gic44xx_int_nbr2name(unsigned short int_nbr, char name[24])
 {
 	/* SPI interrupt lines go from #32 to #159 */
@@ -214,7 +214,7 @@ int gic44xx_int_nbr2name(unsigned short int_nbr, char name[24])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_sensitivity_get
  * @BRIEF		retrieve interrupt sensitivity configuration
  *			from GIC registers
@@ -226,7 +226,7 @@ int gic44xx_int_nbr2name(unsigned short int_nbr, char name[24])
  * @param[in]		s: sensitivity (must be pre-allocated)
  * @DESCRIPTION		retrieve interrupt sensitivity configuration
  *			from GIC registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int gic44xx_sensitivity_get(unsigned int int_nbr, char s[12])
 {
 	unsigned int val, int_config_reg_addr, int_config_reg;
@@ -261,7 +261,7 @@ int gic44xx_sensitivity_get(unsigned int int_nbr, char s[12])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_is_active
  * @BRIEF		check interrupt active status from GIC registers
  * @RETURNS		1 if interrupt is active
@@ -271,7 +271,7 @@ int gic44xx_sensitivity_get(unsigned int int_nbr, char s[12])
  * @param[in]		int_nbr: interrupt number
  * @param[in]		s: interrupt status (must be pre-allocated)
  * @DESCRIPTION		check interrupt active status from GIC registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int gic44xx_is_active(unsigned int int_nbr, char s[9])
 {
 	unsigned int active_status_reg_addr, active_status_reg;
@@ -301,7 +301,7 @@ int gic44xx_is_active(unsigned int int_nbr, char s[9])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_is_masked
  * @BRIEF		check interrupt mask configuration from GIC registers
  * @RETURNS		1 if interrupt is masked
@@ -311,7 +311,7 @@ int gic44xx_is_active(unsigned int int_nbr, char s[9])
  * @param[in]		int_nbr: interrupt number
  * @param[in]		s: interrupt mask configuration (must be pre-allocated)
  * @DESCRIPTION		check interrupt mask configuration from GIC registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int gic44xx_is_masked(unsigned int int_nbr, char s[4])
 {
 	unsigned int enable_set_reg_addr, enable_set_reg;
@@ -342,7 +342,7 @@ int gic44xx_is_masked(unsigned int int_nbr, char s[4])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_is_pending
  * @BRIEF		check from GIC registers if interrupt is pending
  * @RETURNS		1 if interrupt is pending
@@ -352,7 +352,7 @@ int gic44xx_is_masked(unsigned int int_nbr, char s[4])
  * @param[in]		int_nbr: interrupt number
  * @param[in]		s: interrupt status (must be pre-allocated)
  * @DESCRIPTION		check from GIC registers if interrupt is pending
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int gic44xx_is_pending(unsigned int int_nbr, char s[4])
 {
 	unsigned int pending_set_reg_addr, pending_set_reg;
@@ -388,7 +388,7 @@ int gic44xx_is_pending(unsigned int int_nbr, char s[4])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_is_cpu_target
  * @BRIEF		check from GIC registers if cpu is target
  *			of this interrupt
@@ -401,7 +401,7 @@ int gic44xx_is_pending(unsigned int int_nbr, char s[4])
  * @param[in]		s: cpu target status (must be pre-allocated)
  * @DESCRIPTION		check from GIC registers if cpu is target
  *			of this interrupt
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int gic44xx_is_cpu_target(unsigned int int_nbr, unsigned short cpu,
 	char s[4])
 {
@@ -438,7 +438,7 @@ int gic44xx_is_cpu_target(unsigned int int_nbr, unsigned short cpu,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_priority_get
  * @BRIEF		retrieve interrupt priority from GIC registers
  * @RETURNS		interrupt priority level
@@ -447,7 +447,7 @@ int gic44xx_is_cpu_target(unsigned int int_nbr, unsigned short cpu,
  * @param[in]		int_nbr: interrupt number
  * @param[in,out]	p: interrupt priority level
  * @DESCRIPTION		retrieve interrupt priority from GIC registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int gic44xx_priority_get(unsigned int int_nbr, unsigned short *p)
 {
 	unsigned int priority_level_reg_addr, priority_level_reg;
@@ -476,7 +476,7 @@ int gic44xx_priority_get(unsigned int int_nbr, unsigned short *p)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		gic44xx_binary_point_mask_get
  * @BRIEF		retrieve binary point mask from GIC registers
  * @RETURNS		binary point mask
@@ -485,7 +485,7 @@ int gic44xx_priority_get(unsigned int int_nbr, unsigned short *p)
  * @param[in]		sec: select secure (1) or non-secure (0) mask
  * @param[in,out]	bpm: binary point mask
  * @DESCRIPTION		retrieve binary point mask from GIC registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int gic44xx_binary_point_mask_get(unsigned int bpr,
 	unsigned short sec, unsigned short *bpm)
 {
@@ -506,14 +506,14 @@ int gic44xx_binary_point_mask_get(unsigned int bpr,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_scu_dump
  * @BRIEF		dump MPUSS SCU registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		dump MPUSS SCU registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpuss44xx_scu_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_ARG);
@@ -524,14 +524,14 @@ int mpuss44xx_scu_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_pl310_dump
  * @BRIEF		dump MPUSS PL310 registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		dump MPUSS PL310 registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpuss44xx_pl310_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_ARG);
@@ -542,14 +542,14 @@ int mpuss44xx_pl310_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_gic_dump
  * @BRIEF		dump MPUSS GIC registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		dump MPUSS GIC registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpuss44xx_gic_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_ARG);
@@ -562,14 +562,14 @@ int mpuss44xx_gic_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_wkg_dump
  * @BRIEF		dump MPUSS WKG registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		dump MPUSS WKG registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpuss44xx_wkg_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_ARG);
@@ -580,14 +580,14 @@ int mpuss44xx_wkg_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_scm_dump
  * @BRIEF		dump MPUSS SCM registers
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		dump MPUSS SCM registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpuss44xx_scm_dump(void)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_ARG);
@@ -598,14 +598,14 @@ int mpuss44xx_scm_dump(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_scu_config_show
  * @BRIEF		analyze SCU configuration
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		analyze SCU configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpuss44xx_scu_config_show(void)
 {
 	unsigned int scu_control_register;
@@ -722,14 +722,14 @@ int mpuss44xx_scu_config_show(void)
 };
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_gic_config_show
  * @BRIEF		analyze GIC configuration
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_REG_ACCESS
  * @DESCRIPTION		analyze GIC configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpuss44xx_gic_config_show(void)
 {
 	unsigned int i = 0;
@@ -934,7 +934,7 @@ int mpuss44xx_gic_config_show(void)
 };
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_main
  * @BRIEF		MPUSS main menu
  * @RETURNS		0 in case of success
@@ -944,7 +944,7 @@ int mpuss44xx_gic_config_show(void)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		MPUSS main menu
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpuss44xx_main(int argc, char *argv[])
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_ARG);
@@ -1014,13 +1014,13 @@ int mpuss44xx_main(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mpuss44xx_regtable_init
  * @BRIEF		initialize reg_table fields (not possible statically)
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize reg_table fields (not possible statically)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int mpuss44xx_regtable_init(void)
 {
 	int i = 0;
@@ -1455,7 +1455,7 @@ static int mpuss44xx_regtable_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION    mpuss44xx_name2addr
  * @BRIEF       retrieve physical address of a register, given its name.
  * @RETURNS     0 in case of success
@@ -1464,7 +1464,7 @@ static int mpuss44xx_regtable_init(void)
  * @param[in,out]   name: register name
  * @param[in,out]   addr: register address
  * @DESCRIPTION retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mpuss44xx_name2addr(char *name, unsigned int *addr)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_ARG);

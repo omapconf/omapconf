@@ -76,11 +76,11 @@ genlist *opp54xx_list_table_es1[VDD54XX_ID_MAX] = {
 static unsigned short opp54xx_init_done = 0;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void opp54xx_init(void)
 {
 	opp_t opp;
@@ -195,12 +195,12 @@ void opp54xx_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void opp54xx_deinit(void)
 {
 	if (opp54xx_init_done) {
@@ -215,7 +215,7 @@ void opp54xx_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_id_get
  * @BRIEF		convert OPP provided as a string (as defined in opp.h)
  *			into a plaftorm-specific OPP ID (integer).
@@ -224,7 +224,7 @@ void opp54xx_deinit(void)
  * @param[in]		opp: OPP provided as a string (as defined in opp.h)
  * @DESCRIPTION		convert OPP provided as a string (as defined in opp.h)
  *			into a plaftorm-specific OPP ID (integer).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int opp54xx_id_get(const char *opp)
 {
 	CHECK_NULL_ARG(opp, OMAPCONF_ERR_ARG);
@@ -244,7 +244,7 @@ int opp54xx_id_get(const char *opp)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_count_get
  * @BRIEF		return the number of OPP(s) of a given voltage domain
  * @RETURNS		number of OPP(s) (> 0) in case of success
@@ -252,7 +252,7 @@ int opp54xx_id_get(const char *opp)
  *			OMAPCONF_ERR_ARG
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		return the number of OPP(s) of a given voltage domain
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int opp54xx_count_get(voltdm54xx_id vdd_id)
 {
 	int count;
@@ -269,14 +269,14 @@ int opp54xx_count_get(voltdm54xx_id vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_list_get
  * @BRIEF		return the list of OPP of a given voltage domain
  * @RETURNS		list of OPP of a given voltage domain in case of success
  *			NULL in case of error
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		return the list of OPP of a given voltage domain
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *opp54xx_list_get(voltdm54xx_id vdd_id)
 {
 	CHECK_CPU(54xx, NULL);
@@ -288,7 +288,7 @@ const genlist *opp54xx_list_get(voltdm54xx_id vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_by_voltage_get
  * @BRIEF		return the current voltage domain OPP name,
  *			searched by voltages.
@@ -297,7 +297,7 @@ const genlist *opp54xx_list_get(voltdm54xx_id vdd_id)
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		return the current voltage domain OPP name,
  *			searched by voltages.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 #if 0
 const char *opp54xx_by_voltage_get(voltdm54xx_id vdd_id)
 {
@@ -311,7 +311,7 @@ const char *opp54xx_by_voltage_get(voltdm54xx_id vdd_id)
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_by_rate_get
  * @BRIEF		return the current voltage domain OPP name,
  *			searched by clock rates.
@@ -320,7 +320,7 @@ const char *opp54xx_by_voltage_get(voltdm54xx_id vdd_id)
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		return the current voltage domain OPP name,
  *			searched by clock rates.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *opp54xx_by_rate_get(voltdm54xx_id vdd_id)
 {
 	const char *opp_name = NULL;
@@ -487,7 +487,7 @@ opp54xx_by_rate_get_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_get
  * @BRIEF		return the current voltage domain OPP name.
  * @RETURNS		current voltage domain OPP name (as defined in opp.h)
@@ -495,7 +495,7 @@ opp54xx_by_rate_get_end:
  * @param[in]		vdd_id: voltage domain ID
  * @DESCRIPTION		return the current voltage domain OPP name. Search it by
  *			voltage first, then if failed search it by rates.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *opp54xx_get(voltdm54xx_id vdd_id)
 {
 	CHECK_CPU(54xx, NULL);
@@ -507,7 +507,7 @@ const char *opp54xx_get(voltdm54xx_id vdd_id)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		opp54xx_set
  * @BRIEF		change OPP of a given voltage domain.
  * @RETURNS		0 in case of success
@@ -517,7 +517,7 @@ const char *opp54xx_get(voltdm54xx_id vdd_id)
  * @param[in]		vdd_id: voltage domain ID
  * @param[in]		opp_id: ID of the OPP to be set
  * @DESCRIPTION		change OPP of a given voltage domain.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int opp54xx_set(voltdm54xx_id vdd_id, opp54xx_id opp_id)
 {
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);

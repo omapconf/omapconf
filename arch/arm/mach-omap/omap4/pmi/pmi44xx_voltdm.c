@@ -89,7 +89,7 @@ static const char
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmi44xx_voltdm_transitions_extract
  * @BRIEF		extract voltage domain voltage transition(s) from PMI
  *			trace file.
@@ -106,7 +106,7 @@ static const char
  *		        from PMI trace file.
  * @DESCRIPTION		extract voltage domain voltage transition(s) from PMI
  *			trace file.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pmi44xx_voltdm_transitions_extract(char *filename, genlist *transitions)
 {
 	unsigned int evt_class, evt_state_lsb, evt_state_msb;
@@ -312,7 +312,7 @@ int pmi44xx_voltdm_transitions_extract(char *filename, genlist *transitions)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		pmi44xx_voltdm_transitions_save
  * @BRIEF		Save voltage domain voltage transitions into files.
  * @RETURNS		0 in case of success
@@ -323,7 +323,7 @@ int pmi44xx_voltdm_transitions_extract(char *filename, genlist *transitions)
  * @param[in]		duration: total trace duration in microseconds.
  * @DESCRIPTION		1- Save voltage domain voltage transitions into files.
  *			2- Generate GNUPlot scripts to draw and save charts.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int pmi44xx_voltdm_transitions_save(genlist *transitions, double duration)
 {
 	unsigned int dom;

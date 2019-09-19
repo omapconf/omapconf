@@ -98,13 +98,13 @@ reg_table venc_reg_table[VENC_REG_TABLE_SIZE];
 static unsigned int init_done = 0;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		display44xx_init_regtable
  * @BRIEF		initialize regtable
  * @RETURNS		0
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize regtable
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int display44xx_init_regtable(void)
 {
 	int i = 0;
@@ -1318,7 +1318,7 @@ int display44xx_init_regtable(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		display44xx_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 in case of success
@@ -1327,7 +1327,7 @@ int display44xx_init_regtable(void)
  * @param[in,out]	name: register name
  * @param[in,out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int display44xx_name2addr(char *name, unsigned int *addr)
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -1360,14 +1360,14 @@ int display44xx_name2addr(char *name, unsigned int *addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		display44xx_clock_is_running
  * @BRIEF		check if selected display clock is running or not.
  * @RETURNS		1 if selected clock is running,
  *			0 if clock is gated or erroneous id.
  * @param[in]		id: module to be dump (i.e. user-entered argv[3])
  * @DESCRIPTION		check if selected display clock is running or not.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned char display44xx_clock_is_running(display44xx_clock_id id)
 {
 	unsigned char running;
@@ -1418,7 +1418,7 @@ display44xx_clock_is_running_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		display44xx_dump
  * @BRIEF		dump display module registers
  * @RETURNS		0 in case of success
@@ -1428,7 +1428,7 @@ display44xx_clock_is_running_end:
  * @param[in]		display_mod: module to be dump
  *			(i.e. user-entered argv[3])
  * @DESCRIPTION		dump display module registers
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int display44xx_dump(char *display_mod)
 {
 	int ret;

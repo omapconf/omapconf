@@ -69,7 +69,7 @@ static const char ignore[12] = "Ignored (1)";
 static const char warning[8] = "Warning";
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		audit_dra7xx_dpll
  * @BRIEF		audit DPLL Configuration
  * @RETURNS		0 in case of success
@@ -85,7 +85,7 @@ static const char warning[8] = "Warning";
  * @param[in,out]	err_nbr: audit error number
  * @param[in,out]	wng_nbr: audit warning number
  * @DESCRIPTION		audit DPLL Configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int audit_dra7xx_dpll(FILE *stream, dpll_dra7xx_id dpll_id, opp_dra7xx_id opp_id,
 	unsigned short curr_opp, unsigned int *err_nbr, unsigned int *wng_nbr)
 {

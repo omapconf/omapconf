@@ -80,7 +80,7 @@ static const char
 	"FIXME"};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		emif_mr4_convert
  * @BRIEF		convert LPDDR2 MR4 code into string
  * @RETURNS		MR4 code as a string indicating temperature range
@@ -90,7 +90,7 @@ static const char
  * @DESCRIPTION		convert LPDDR2 MR4 code into string. MR4 code is not a
  *			temperature, but a temperature range, that cannot be
  *			converted to integer. Hence return it a string.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *emif_mr4_convert(emif_mr4_code mr4, temperature_unit unit)
 {
 	if (mr4 > EMIF_TEMP_RESERVED)

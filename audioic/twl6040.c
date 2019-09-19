@@ -104,14 +104,14 @@ static const reg_table twl6040_reg_table[TWL6040_REG_TABLE_SIZE] = {
 	{"END", 0} };
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_dumpregs
  * @BRIEF		dump registers from table given as argument
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		none
  * @DESCRIPTION		dump registers from table given as argument
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_dumpregs(void)
 {
 	unsigned int i = 0;
@@ -169,7 +169,7 @@ int twl6040_dumpregs(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_name2addr
  * @BRIEF		retrieve physical address of a register, given its name.
  * @RETURNS		0 on success
@@ -177,21 +177,21 @@ int twl6040_dumpregs(void)
  * @param[in,out]	name: register name
  * @param[in,out]	addr: register address
  * @DESCRIPTION		retrieve physical address of a register, given its name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_name2addr(char *name, unsigned int *addr)
 {
 	return name2addr(name, addr, (reg_table *) twl6040_reg_table);
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_config
  * @BRIEF		analyze TWL6040 audio configuration
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in,out]	stream: output file stream
  * @DESCRIPTION		analyze TWL6040 audio configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_config(FILE *stream)
 {
 	unsigned char twl6040_regs[TWL6040_REG_NUM];
@@ -267,14 +267,14 @@ int twl6040_config(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_gains
  * @BRIEF		analyze TWL6040 analog gains
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in,out]	stream: output file stream
  * @DESCRIPTION		analyze TWL6040 analog gains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_gains(FILE *stream)
 {
 	unsigned char twl6040_regs[TWL6040_REG_NUM];
@@ -300,7 +300,7 @@ int twl6040_gains(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_readreg
  * @BRIEF		read data from given TWL6040 address
  * @RETURNS		0 in case of success
@@ -309,7 +309,7 @@ int twl6040_gains(FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in]		reg_addr: Register address (name or hex address)
  * @DESCRIPTION		read data from given TWL6040 address
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_readreg(const char *reg_addr)
 {
 	unsigned int value, addr;
@@ -385,7 +385,7 @@ int twl6040_readreg(const char *reg_addr)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_writereg
  * @BRIEF		write given data to given TWL6040 address
  * @RETURNS		0 in case of success
@@ -395,7 +395,7 @@ int twl6040_readreg(const char *reg_addr)
  * @param[in]		reg_addr: Register address (name or hex address)
  * @param[in]		reg_val: Register value
  * @DESCRIPTION		write given data to given TWL6040 address
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_writereg(const char *reg_addr, const char *reg_val)
 {
 	unsigned int value, addr;
@@ -490,14 +490,14 @@ int twl6040_writereg(const char *reg_addr, const char *reg_val)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_chip_revision_get
  * @BRIEF		return TWL6040 chip revision
  * @RETURNS		>0.0 TWL6030 chip revision
  *			OMAPCONF_ERR_NOT_AVAILABLE
  * @param[in]		none
  * @DESCRIPTION		return TWL6040 chip revision
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 float twl6040_chip_revision_get(void)
 {
 	int ret;
@@ -517,7 +517,7 @@ float twl6040_chip_revision_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		twl6040_main
  * @BRIEF		main entry point
  * @RETURNS		0 in case of success
@@ -526,7 +526,7 @@ float twl6040_chip_revision_get(void)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		main entry point
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int twl6040_main(int argc, char *argv[])
 {
 	int ret;

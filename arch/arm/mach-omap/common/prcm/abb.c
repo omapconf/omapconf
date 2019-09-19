@@ -57,7 +57,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		abb_status2string
  * @BRIEF		convert bitfield value from register into string
  * @RETURNS		0 on success
@@ -65,7 +65,7 @@
  * @param[in,out]	s: destination string (pre-allocated)
  * @param[in]		status: bitfield value
  * @DESCRIPTION		convert bitfield value from register into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int abb_status2string(char s[9], unsigned int status)
 {
 	if (s == NULL)
@@ -92,7 +92,7 @@ int abb_status2string(char s[9], unsigned int status)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		abb_opp_sel2string
  * @BRIEF		convert bitfield value from register into string
  * @RETURNS		0 on success
@@ -100,7 +100,7 @@ int abb_status2string(char s[9], unsigned int status)
  * @param[in,out]	s: destination string (pre-allocated)
  * @param[in]		opp_sel: bitfield value
  * @DESCRIPTION		convert bitfield value from register into string
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int abb_opp_sel2string(char s[8], unsigned int opp_sel)
 {
 	if (s == NULL)
@@ -125,7 +125,7 @@ int abb_opp_sel2string(char s[8], unsigned int opp_sel)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		abb_config_show
  * @BRIEF		analyze power configuration
  * @RETURNS		0 in case of success
@@ -135,7 +135,7 @@ int abb_opp_sel2string(char s[8], unsigned int opp_sel)
  * @param[in]		data: abb data containing name, ctrl and setup information
  * @param[in]		num_entries:number of entries
  * @DESCRIPTION		analyze power configuration
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int abb_config_show(FILE *stream, double sysclk_rate, struct abb_data *data,
 		int num_entries)
 {

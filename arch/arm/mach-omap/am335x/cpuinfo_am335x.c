@@ -66,7 +66,7 @@
 #define OPP_NITRO_1GHZ_BIT				(0x1 << 9)
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_am335x_silicon_max_speed_get
  * @BRIEF		return silicon max speed (depending on cpu type and
  *			silicon type)
@@ -74,7 +74,7 @@
  *			0 in case of error
  * @DESCRIPTION		return silicon max speed (depending on cpu type and
  *			silicon type)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_am335x_silicon_max_speed_get(void)
 {
 	unsigned int max_speed;
@@ -127,13 +127,13 @@ unsigned int cpu_am335x_silicon_max_speed_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		cpu_am335x_cores_count_get
  * @BRIEF		return the number of CPU cores available
  * @RETURNS		>0 number of CPU cores available
  *			0 in case of error (unknown architecture)
  * @DESCRIPTION		return the number of CPU cores available
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int cpu_am335x_cores_count_get(void)
 {
 	if (cpu_is_am335x()) {

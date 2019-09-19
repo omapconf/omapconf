@@ -57,7 +57,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		autoadjust_table_generic_fprint
  * @BRIEF		print elements into a table which size automatically
  *			adjusts.
@@ -105,7 +105,7 @@
  *	| elements[2][0]     | elements[2][1]     | elements[2][col-1]     |
  *	| elements[row-1][0] | elements[row-1][1] | elements[row-1][col-1] |
  *	|------------------------------------------------------------------|
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int autoadjust_table_generic_fprint(FILE *stream,
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
 	unsigned int row_nbr, unsigned int col_nbr, unsigned int flags)
@@ -286,7 +286,7 @@ int autoadjust_table_generic_fprint(FILE *stream,
 	return 0;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		autoadjust_table_fprint
  * @BRIEF		print elements into a table which size automatically
  *			adjusts.
@@ -309,7 +309,7 @@ int autoadjust_table_generic_fprint(FILE *stream,
  *	| elements[2][0]     | elements[2][1]     | elements[2][col-1]     |
  *	| elements[row-1][0] | elements[row-1][1] | elements[row-1][col-1] |
  *	|------------------------------------------------------------------|
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int autoadjust_table_fprint(FILE *stream,
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
 	unsigned int row_nbr, unsigned int col_nbr)
@@ -319,7 +319,7 @@ int autoadjust_table_fprint(FILE *stream,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		autoadjust_table_print
  * @BRIEF		print to console elements into a table which size
  *			automatically adjusts.
@@ -341,7 +341,7 @@ int autoadjust_table_fprint(FILE *stream,
  *	| elements[2][0]     | elements[2][1]     | elements[2][col-1]     |
  *	| elements[row-1][0] | elements[row-1][1] | elements[row-1][col-1] |
  *	|------------------------------------------------------------------|
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int autoadjust_table_print(
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
 	unsigned int row_nbr, unsigned int col_nbr)
@@ -350,7 +350,7 @@ int autoadjust_table_print(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		autoadjust_table_strncpy
  * @BRIEF		copy string into table element, making sure it can fit.
  * @RETURNS		0 in case of success
@@ -363,7 +363,7 @@ int autoadjust_table_print(
  * @param[in]		col: number of columns
  * @param[in]		s: string to copy
  * @DESCRIPTION		copy string into table element, making sure it can fit.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int autoadjust_table_strncpy(
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN],
 	unsigned int row, unsigned int col, char s[TABLE_MAX_ELT_LEN])
@@ -399,7 +399,7 @@ int autoadjust_table_strncpy(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		autoadjust_table_init
  * @BRIEF		fill table with empty strings
  * @RETURNS		0 in case of success
@@ -407,7 +407,7 @@ int autoadjust_table_strncpy(
  * @param[in,out]	table: table to fill with empty strings
  * @DESCRIPTION		fill table with empty strings, so that user does not
  *			need to fill empty cell(s).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int autoadjust_table_init(
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN])
 {

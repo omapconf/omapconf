@@ -98,18 +98,18 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_init
  * @BRIEF		initialize regtables
  * @DESCRIPTION		initialize regtables
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void main44xx_init(void)
 {
 	mod44xx_init_info_table();
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_dump
  * @BRIEF		dump  of selected item provided in string argv
  *			(formated in table).
@@ -122,7 +122,7 @@ void main44xx_init(void)
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		dump  of selected item provided in string argv
  *			(formated in table).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main44xx_dump(int argc, char *argv[])
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -207,7 +207,7 @@ static int main44xx_dump(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_read
  * @BRIEF		read selected item provided in string argv.
  * @RETURNS		0 in case of success
@@ -218,7 +218,7 @@ static int main44xx_dump(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		read selected item provided in string argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main44xx_read(int argc, char *argv[])
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -236,7 +236,7 @@ static int main44xx_read(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_write
  * @BRIEF		write selected item provided in string argv.
  * @RETURNS		0 in case of success
@@ -247,7 +247,7 @@ static int main44xx_read(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		write selected item provided in string argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main44xx_write(int argc, char *argv[])
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -267,7 +267,7 @@ static int main44xx_write(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_clear
  * @BRIEF		clear selected item provided in string argv.
  * @RETURNS		0 in case of success
@@ -278,7 +278,7 @@ static int main44xx_write(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		clear selected item provided in string argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main44xx_clear(int argc, char *argv[])
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -303,7 +303,7 @@ static int main44xx_clear(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_set
  * @BRIEF		set selected item provided in string argv.
  * @RETURNS		0 in case of success
@@ -314,7 +314,7 @@ static int main44xx_clear(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		set selected item provided in string argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main44xx_set(int argc, char *argv[])
 {
 	voltdm44xx_id vdd_id;
@@ -395,7 +395,7 @@ static int main44xx_set(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_reset
  * @BRIEF		reset selected item provided in string argv.
  * @RETURNS		0 in case of success
@@ -406,7 +406,7 @@ static int main44xx_set(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		reset selected item provided in string argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main44xx_reset(int argc, char *argv[])
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -420,7 +420,7 @@ static int main44xx_reset(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_show
  * @BRIEF		Show configuration of item provided in argv.
  * @RETURNS		0 in case of success
@@ -431,7 +431,7 @@ static int main44xx_reset(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		Show configuration of item provided in argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main44xx_show(int argc, char *argv[])
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -578,7 +578,7 @@ static int main44xx_show(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_export
  * @BRIEF		Export OMAP configuration into format and destination
  *			provided in argv.
@@ -591,7 +591,7 @@ static int main44xx_show(int argc, char *argv[])
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		Export OMAP configuration into format and destination
  *			provided in argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main44xx_export(int argc, char *argv[])
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -618,7 +618,7 @@ static int main44xx_export(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_enable
  * @BRIEF		enable selected item provided in string argv.
  * @RETURNS		0 in case of success
@@ -629,7 +629,7 @@ static int main44xx_export(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		enable selected item provided in string argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main44xx_enable(int argc, char *argv[])
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -647,7 +647,7 @@ static int main44xx_enable(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_setup
  * @BRIEF		setup selected item provided in string argv.
  * @RETURNS		0 in case of success
@@ -658,7 +658,7 @@ static int main44xx_enable(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		setup selected item provided in string argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main44xx_setup(int argc, char *argv[])
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -697,7 +697,7 @@ static int main44xx_setup(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_test
  * @BRIEF		test selected item provided in string argv.
  * @RETURNS		0 in case of success
@@ -708,7 +708,7 @@ static int main44xx_setup(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		test selected item provided in string argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main44xx_test(int argc, char *argv[])
 {
 	CHECK_CPU(44xx, OMAPCONF_ERR_CPU);
@@ -728,7 +728,7 @@ static int main44xx_test(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_search
  * @BRIEF		search selected item provided in string argv.
  * @RETURNS		0 in case of success
@@ -739,7 +739,7 @@ static int main44xx_test(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		test selected item provided in string argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main44xx_search(int argc, char *argv[])
 {
 	voltdm44xx_id vdd_id;
@@ -774,11 +774,11 @@ static int main44xx_search(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		sigkill_handler
  * @BRIEF		catch kill signal
  * @DESCRIPTION		catch kill signal
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static void sigkill_handler(int sigID, siginfo_t *siginfo, void *context)
 {
 	/* just to remove "unused parameter" warnings ... */
@@ -792,7 +792,7 @@ static void sigkill_handler(int sigID, siginfo_t *siginfo, void *context)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_trace
  * @BRIEF		trace selected item provided in string argv.
  * @RETURNS		0 in case of success
@@ -803,7 +803,7 @@ static void sigkill_handler(int sigID, siginfo_t *siginfo, void *context)
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		trace selected item provided in string argv.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main44xx_trace(int argc, char *argv[])
 {
 	int ret;
@@ -869,7 +869,7 @@ int main44xx_trace(int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx_legacy
  * @BRIEF		omap4 functions main entry point (legacy)
  * @RETURNS		0 in case of success
@@ -880,7 +880,7 @@ int main44xx_trace(int argc, char *argv[])
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		omap4 functions main entry point (legacy)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int main44xx_legacy(int argc, char *argv[])
 {
 	int ret = 0;
@@ -1048,7 +1048,7 @@ main44xx_legacy_end:
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		main44xx
  * @BRIEF		omap4 functions main entry point
  * @RETURNS		0 in case of success
@@ -1059,7 +1059,7 @@ main44xx_legacy_end:
  * @param[in]		argc: shell input argument number
  * @param[in]		argv: shell input argument(s)
  * @DESCRIPTION		omap4 functions main entry point (legacy)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int main44xx(int argc, char *argv[])
 {
 	int ret;

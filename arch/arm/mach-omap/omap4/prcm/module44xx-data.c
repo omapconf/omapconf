@@ -474,11 +474,11 @@ static unsigned short mod44xx_init_done = 0;
 genlist mod44xx_list;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void mod44xx_init(void)
 {
 	mod_info mod;
@@ -7322,12 +7322,12 @@ void mod44xx_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void mod44xx_deinit(void)
 {
 	int i, count;
@@ -7346,13 +7346,13 @@ void mod44xx_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_list_get
  * @BRIEF		return the list of modules
  * @RETURNS		list of modules in case of success
  *			NULL in case of error
  * @DESCRIPTION		return the list of modules
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *mod44xx_list_get(void)
 {
 	mod44xx_init();
@@ -7361,14 +7361,14 @@ const genlist *mod44xx_list_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_count_get
  * @BRIEF		return the number of modules
  * @RETURNS		number of modules (> 0) in case of success
  *			OMAPCONF_ERR_CPU
  *			OMAPCONF_ERR_ARG
  * @DESCRIPTION		return the number of modules
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod44xx_count_get(void)
 {
 	int count;
@@ -7382,7 +7382,7 @@ int mod44xx_count_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_init_info
  * @BRIEF		initialize module info table
  * @RETURNS		0 in case of success
@@ -7402,7 +7402,7 @@ int mod44xx_count_get(void)
  * @param[in]		src_clk_id: module source clock id
  * @param[in,out]	por_speed: module clock speed POR (Plan Of Record)
  * @DESCRIPTION		initialize module info table
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int mod44xx_init_info(
 	mod44xx_id id,
 	mod_interface_type type,
@@ -7438,13 +7438,13 @@ static int mod44xx_init_info(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod4430_init_info_table
  * @BRIEF		initialize OMAP44[30-60] module info table
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize OMAP44[30-60] module info table
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod4430_init_info_table(void)
 {
 	unsigned int i = 0;
@@ -7698,13 +7698,13 @@ int mod4430_init_info_table(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod4470_init_info_table
  * @BRIEF		initialize OMAP4470 module info table
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize OMAP4470 module info table
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod4470_init_info_table(void)
 {
 	unsigned int i = 0;
@@ -7947,13 +7947,13 @@ int mod4470_init_info_table(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod44xx_init_info_table
  * @BRIEF		initialize module info table
  * @RETURNS		0 in case of success
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		initialize module info table
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod44xx_init_info_table(void)
 {
 	if (!cpu_is_omap44xx())

@@ -61,11 +61,11 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_init
  * @BRIEF		initialize internal data
  * @DESCRIPTION		initialize internal data (architecture dependent)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void voltdm_init(void)
 {
 	#ifdef VOLTDM_DEBUG
@@ -108,12 +108,12 @@ void voltdm_init(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_deinit
  * @BRIEF		free dynamically allocated internal data.
  * @DESCRIPTION		free dynamically allocated internal data.
  *			MUST BE CALLED AT END OF EXECUTION.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 void voltdm_deinit(void)
 {
 	if (cpu_is_omap44xx()) {
@@ -131,13 +131,13 @@ void voltdm_deinit(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_list_get
  * @BRIEF		return the list of voltage domain(s)
  * @RETURNS		list of voltage domain(s) in case of success
  *			NULL if not available
  * @DESCRIPTION		return the number of voltage domain(s)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const genlist *voltdm_list_get(void)
 {
 	if (cpu_is_omap44xx()) {
@@ -156,7 +156,7 @@ const genlist *voltdm_list_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_s2id
  * @BRIEF		convert voltage domain provided as a string
  *			(as defined in voltdm.h) into a plaftorm-specific
@@ -168,7 +168,7 @@ const genlist *voltdm_list_get(void)
  * @DESCRIPTION		convert voltage domain provided as a string
  *			(as defined in voltdm.h) into a plaftorm-specific
  *			voltage domain ID (integer).
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int voltdm_s2id(const char *voltdm)
 {
 	CHECK_NULL_ARG(voltdm, OMAPCONF_ERR_ARG);
@@ -227,13 +227,13 @@ int voltdm_s2id(const char *voltdm)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_count_get
  * @BRIEF		return the number of voltage domain(s)
  * @RETURNS		number of voltage domain(s) (> 0) in case of success
  *			OMAPCONF_ERR_CPU
  * @DESCRIPTION		return the number of voltage domain(s)
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int voltdm_count_get(void)
 {
 	if (cpu_is_omap44xx()) {
@@ -252,7 +252,7 @@ int voltdm_count_get(void)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_voltage_get
  * @BRIEF		return the current voltage supplied to a voltage domain.
  * @RETURNS		supplied voltage in micro-volt (> 0) in case of success
@@ -263,7 +263,7 @@ int voltdm_count_get(void)
  *			OMAPCONF_ERR_INTERNAL
  * @param[in]		voltdm: voltage domain name (as defined in voltdm.h)
  * @DESCRIPTION		return the current voltage supplied to a voltage domain.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int voltdm_voltage_get(const char *voltdm)
 {
 	int id, ret;
@@ -297,7 +297,7 @@ int voltdm_voltage_get(const char *voltdm)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_voltage_set
  * @BRIEF		set the voltage supplied to a voltage domain.
  * @RETURNS		0 in case of success
@@ -310,7 +310,7 @@ int voltdm_voltage_get(const char *voltdm)
  * @param[in]		voltdm: voltage domain name (as defined in voltdm.h)
  * @param[in]		uv: new voltage to be set (in micro-volt)
  * @DESCRIPTION		return the current voltage supplied to a voltage domain.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int voltdm_voltage_set(const char *voltdm, int uv)
 {
 	int id;
@@ -337,7 +337,7 @@ int voltdm_voltage_set(const char *voltdm, int uv)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_nominal_voltage_get
  * @BRIEF		return the nominal voltage supplied to a voltage domain.
  * @RETURNS		nominal voltage in micro-volt (> 0) in case of success
@@ -347,7 +347,7 @@ int voltdm_voltage_set(const char *voltdm, int uv)
  * @DESCRIPTION		return the nominal voltage supplied to a voltage domain.
  *			In case SmartReflex AVS Class3 is enabled,
  *			it may differ from the current supplied voltage.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int voltdm_nominal_voltage_get(const char *voltdm)
 {
 	int id;
@@ -377,7 +377,7 @@ int voltdm_nominal_voltage_get(const char *voltdm)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		voltdm_por_nominal_voltage_get
  * @BRIEF		return the nominal voltage to be supplied to a
  *			voltage domain, as defined in Data Manual.
@@ -389,7 +389,7 @@ int voltdm_nominal_voltage_get(const char *voltdm)
  * @DESCRIPTION		return the nominal voltage to be supplied to a
  *			voltage domain, as defined in Data Manual.
  *			Not read from the platform, but from internal tables.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int voltdm_por_nominal_voltage_get(const char *voltdm, const char *opp)
 {
 	int vdd_id, opp_id;

@@ -1,10 +1,10 @@
-/* ======================================================================= *//**
+/* ======================================================================= 
  * @Component			OMAPCONF
  * @Filename			i2cbusses.c
  * @Description			Print the installed i2c busses for both 2.4
  *				and 2.6 kernels.
  * @Copyright			GPL
- *//*======================================================================== */
+ *======================================================================== */
 /*
     i2cbusses: Print the installed i2c busses for both 2.4 and 2.6 kernels.
                Part of user-space programs to access for I2C

@@ -118,14 +118,14 @@ static const char
 	"FIXME"};
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_module_mode_name_get
  * @BRIEF		return module mode name
  * @RETURNS		module mode name on success
  *			"FIXME" otherwise
  * @param[in]		mode: valid module mode
  * @DESCRIPTION		return module mode name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *mod_module_mode_name_get(mod_module_mode mode)
 {
 	if (mode > MOD_MODULE_MODE_MAX)
@@ -135,14 +135,14 @@ const char *mod_module_mode_name_get(mod_module_mode mode)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_autoidle_mode_name_get
  * @BRIEF		return autoidle mode name
  * @RETURNS		autoidle mode name on success
  *			"FIXME" otherwise
  * @param[in]		mode: valid autoidle mode
  * @DESCRIPTION		return autoidle mode name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *mod_autoidle_mode_name_get(mod_autoidle_mode mode)
 {
 	if (mode > MOD_AUTOIDLE_MODE_MAX)
@@ -152,14 +152,14 @@ const char *mod_autoidle_mode_name_get(mod_autoidle_mode mode)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_idle_mode_name_get
  * @BRIEF		return idle mode name
  * @RETURNS		idle mode name on success
  *			"FIXME" otherwise
  * @param[in]		mode: valid idle mode
  * @DESCRIPTION		return idle mode name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *mod_idle_mode_name_get(mod_idle_mode mode)
 {
 	if (mode > MOD_IDLE_MODE_MAX)
@@ -169,14 +169,14 @@ const char *mod_idle_mode_name_get(mod_idle_mode mode)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_standby_mode_name_get
  * @BRIEF		return standby mode name
  * @RETURNS		standby mode name on success
  *			"FIXME" otherwise
  * @param[in]		mode: valid standby mode
  * @DESCRIPTION		return standby mode name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *mod_standby_mode_name_get(mod_standby_mode mode)
 {
 	if (mode > MOD_STANDBY_MODE_MAX)
@@ -186,14 +186,14 @@ const char *mod_standby_mode_name_get(mod_standby_mode mode)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_clock_activity_mode_name_get
  * @BRIEF		return clock activity mode name
  * @RETURNS		clock activity mode name on success
  *			"FIXME" otherwise
  * @param[in]		mode: valid clock activity mode
  * @DESCRIPTION		return clock activity mode name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *mod_clock_activity_mode_name_get(mod_clock_activity_mode mode)
 {
 	if (mode > MOD_CLOCK_ACTIVITY_MODE_MAX)
@@ -203,14 +203,14 @@ const char *mod_clock_activity_mode_name_get(mod_clock_activity_mode mode)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_idle_status_name_get
  * @BRIEF		return module idle status name
  * @RETURNS		module idle status name on success
  *			"FIXME" otherwise
  * @param[in]		status: valid module idle status
  * @DESCRIPTION		return module idle status name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *mod_idle_status_name_get(mod_idle_status status)
 {
 	if (status > MOD_IDLE_STATUS_MAX)
@@ -220,14 +220,14 @@ const char *mod_idle_status_name_get(mod_idle_status status)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_standby_status_name_get
  * @BRIEF		return module standby status name
  * @RETURNS		module standby status name on success
  *			"FIXME" otherwise
  * @param[in]		status: valid module standby status
  * @DESCRIPTION		return module standby status name
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 const char *mod_standby_status_name_get(mod_standby_status status)
 {
 	if (status > MOD_STANDBY_STATUS_MAX)
@@ -237,13 +237,13 @@ const char *mod_standby_status_name_get(mod_standby_status status)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_is_accessible
  * @BRIEF		return 1 if module is running, 0 otherwise
  * @RETURNS		1 if module is running, 0 otherwise
  * @param[in]		cm_clkctrl: CM_xxx_xxx_CLKCTRL register content
  * @DESCRIPTION		return 1 if module is running, 0 otherwise
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 unsigned int mod_is_accessible(unsigned int cm_clkctrl)
 {
 	mod_module_mode mmode;
@@ -309,14 +309,14 @@ unsigned int mod_is_accessible(unsigned int cm_clkctrl)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_module_mode_get
  * @BRIEF		return the module module mode.
  * @RETURNS		module mode in case of success
  *			MOD_MODULE_MODE_MAX otherwise
  * @param[in]		cm_clkctrl: CM_XYZ_CLKCTRL register content
  * @DESCRIPTION		return the module module mode.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_module_mode mod_module_mode_get(unsigned int cm_clkctrl)
 {
 	mod_module_mode mmode;
@@ -331,7 +331,7 @@ mod_module_mode mod_module_mode_get(unsigned int cm_clkctrl)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_idle_status_get
  * @BRIEF		retrieve module's idle status from CM_xxx_xxx_CLKCTRL
  * @RETURNS		module idle status
@@ -339,7 +339,7 @@ mod_module_mode mod_module_mode_get(unsigned int cm_clkctrl)
  * @param[in]		cm_clkctrl: CM_xxx_xxx_CLKCTRL register content
  * @param[in]		properties: module properties
  * @DESCRIPTION		retrieve module's idle status from CM_xxx_xxx_CLKCTRL
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_idle_status mod_idle_status_get(
 	unsigned int cm_clkctrl, unsigned int properties)
 {
@@ -361,7 +361,7 @@ mod_idle_status mod_idle_status_get(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_standby_status_get
  * @BRIEF		retrieve module standby status from CM_xxx_xxx_CLKCTRL
  * @RETURNS		module standby status
@@ -369,7 +369,7 @@ mod_idle_status mod_idle_status_get(
  * @param[in]		cm_clkctrl: CM_xxx_xxx_CLKCTRL register content
  * @param[in]		properties: module properties
  * @DESCRIPTION		retrieve module standby status from CM_xxx_xxx_CLKCTRL
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_standby_status mod_standby_status_get(
 	unsigned int cm_clkctrl, unsigned int properties)
 {
@@ -391,7 +391,7 @@ mod_standby_status mod_standby_status_get(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_autoidle_mode_get
  * @BRIEF		retrieve module autoidle mode
  * @RETURNS		module autoidle mode
@@ -399,7 +399,7 @@ mod_standby_status mod_standby_status_get(
  * @param[in]		sysconfig: SYSCONFIG register content
  * @param[in]		properties: module properties
  * @DESCRIPTION		retrieve module autoidle mode
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_autoidle_mode mod_autoidle_mode_get(
 	unsigned int sysconfig, unsigned int properties)
 {
@@ -430,7 +430,7 @@ mod_autoidle_mode mod_autoidle_mode_get(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_idle_mode_get
  * @BRIEF		retrieve omap module's idle mode
  * @RETURNS		module's idle mode
@@ -438,7 +438,7 @@ mod_autoidle_mode mod_autoidle_mode_get(
  * @param[in]		sysconfig: SYSCONFIG register content
  * @param[in]		properties: module properties
  * @DESCRIPTION		retrieve omap module's idle mode
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_idle_mode mod_idle_mode_get(
 	unsigned int sysconfig, unsigned int properties)
 {
@@ -470,7 +470,7 @@ mod_idle_mode mod_idle_mode_get(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_standby_mode_get
  * @BRIEF		retrieve omap module's standby mode
  * @RETURNS		module's standby mode
@@ -478,7 +478,7 @@ mod_idle_mode mod_idle_mode_get(
  * @param[in]		sysconfig: SYSCONFIG register content
  * @param[in]		properties: module properties
  * @DESCRIPTION		retrieve omap module's standby mode
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_standby_mode mod_standby_mode_get(
 	unsigned int sysconfig, unsigned int properties)
 {
@@ -506,7 +506,7 @@ mod_standby_mode mod_standby_mode_get(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_clock_activity_mode_get
  * @BRIEF		retrieve omap module's clock activity mode
  * @RETURNS		module's clock activity mode
@@ -514,7 +514,7 @@ mod_standby_mode mod_standby_mode_get(
  * @param[in]		sysconfig: SYSCONFIG register content
  * @param[in]		properties: module properties
  * @DESCRIPTION		retrieve omap module's clock activity mode
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 mod_clock_activity_mode mod_clock_activity_mode_get(
 	unsigned int sysconfig, unsigned int properties)
 {
@@ -536,7 +536,7 @@ mod_clock_activity_mode mod_clock_activity_mode_get(
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		mod_context_is_lost
  * @BRIEF		check if module's context was retained or lost
  *			during last power transition
@@ -547,7 +547,7 @@ mod_clock_activity_mode mod_clock_activity_mode_get(
  * @param[in]		sysconfig: RM_XYZ_CONTEXT register content
  * @DESCRIPTION		check if module's context was retained or lost
  *			during last power transition
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int mod_context_is_lost(unsigned int rm_context)
 {
 	int lost;

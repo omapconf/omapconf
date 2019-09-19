@@ -90,7 +90,7 @@ typedef enum {
 } prcm54xx_index;
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_powerdm_name_get
  * @BRIEF		convert user argument string (argv[]) into power domain
  *			name.
@@ -99,7 +99,7 @@ typedef enum {
  * @param[in]		s: user argument string (argv[])
  * @DESCRIPTION		convert user argument string (argv[]) into power domain
  *			name.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static const char *_prcm54xx_powerdm_name_get(const char *s)
 {
 	if (s == NULL) {
@@ -139,7 +139,7 @@ static const char *_prcm54xx_powerdm_name_get(const char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_clockdm_name_get
  * @BRIEF		retrieve clock domain name matching
  *			user argument string (i.e. argv[])
@@ -153,7 +153,7 @@ static const char *_prcm54xx_powerdm_name_get(const char *s)
  *			"mpu"
  * @DESCRIPTION		retrieve clock domain name matching
  *			user argument string (i.e. argv[])
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static const char *_prcm54xx_clockdm_name_get(const char *s)
 {
 	if (s == NULL)
@@ -209,7 +209,7 @@ static const char *_prcm54xx_clockdm_name_get(const char *s)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_emu_dump
  * @BRIEF		dump EMU PRCM registers
  * @RETURNS		0 in case of success
@@ -219,7 +219,7 @@ static const char *_prcm54xx_clockdm_name_get(const char *s)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump EMU PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int _prcm54xx_emu_dump(FILE *stream)
 {
 	int ret;
@@ -231,7 +231,7 @@ static inline int _prcm54xx_emu_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_wkupaon_dump
  * @BRIEF		dump WKUPAON PRCM registers
  * @RETURNS		0 in case of success
@@ -241,7 +241,7 @@ static inline int _prcm54xx_emu_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump WKUPAON PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static int _prcm54xx_wkupaon_dump(FILE *stream)
 {
 	int ret;
@@ -253,7 +253,7 @@ static int _prcm54xx_wkupaon_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_coreaon_dump
  * @BRIEF		dump COREAON PRCM registers
  * @RETURNS		0 in case of success
@@ -263,7 +263,7 @@ static int _prcm54xx_wkupaon_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump COREAON PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int _prcm54xx_coreaon_dump(FILE *stream)
 {
 	int ret;
@@ -275,7 +275,7 @@ static inline int _prcm54xx_coreaon_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_cam_dump
  * @BRIEF		dump CAM PRCM registers and pretty-print it
  * @RETURNS		0 in case of success
@@ -285,7 +285,7 @@ static inline int _prcm54xx_coreaon_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump CAM PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int _prcm54xx_cam_dump(FILE *stream)
 {
 	int ret;
@@ -297,7 +297,7 @@ static inline int _prcm54xx_cam_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_core_dump
  * @BRIEF		dump CORE PRCM registers
  * @RETURNS		0 in case of success
@@ -307,7 +307,7 @@ static inline int _prcm54xx_cam_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump CORE PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int _prcm54xx_core_dump(FILE *stream)
 {
 	int ret;
@@ -319,7 +319,7 @@ static inline int _prcm54xx_core_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_prmdev_dump
  * @BRIEF		dump PRM DEVICE PRCM registers
  * @RETURNS		0 in case of success
@@ -329,7 +329,7 @@ static inline int _prcm54xx_core_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump PRM DEVICE PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int _prcm54xx_prmdev_dump(FILE *stream)
 {
 	int ret;
@@ -344,7 +344,7 @@ static inline int _prcm54xx_prmdev_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_ckgen_dump
  * @BRIEF		dump CKGEN PRCM registers
  * @RETURNS		0 in case of success
@@ -354,7 +354,7 @@ static inline int _prcm54xx_prmdev_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump CKGEN PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int _prcm54xx_ckgen_dump(FILE *stream)
 {
 	int ret;
@@ -369,7 +369,7 @@ static inline int _prcm54xx_ckgen_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_instr_dump
  * @BRIEF		dump INSTR PRCM registers
  * @RETURNS		0 in case of success
@@ -379,7 +379,7 @@ static inline int _prcm54xx_ckgen_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump INSTR PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int _prcm54xx_instr_dump(FILE *stream)
 {
 	int ret;
@@ -420,7 +420,7 @@ static inline int _prcm54xx_instr_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_dss_dump
  * @BRIEF		dump DSS PRCM registers and pretty-print it
  * @RETURNS		0 in case of success
@@ -430,7 +430,7 @@ static inline int _prcm54xx_instr_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump DSS PRCM registers and pretty-print it
  *			in selected output stream
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int _prcm54xx_dss_dump(FILE *stream)
 {
 	int ret;
@@ -442,7 +442,7 @@ static inline int _prcm54xx_dss_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_l3init_dump
  * @BRIEF		dump L3INIT PRCM registers
  * @RETURNS		0 in case of success
@@ -452,7 +452,7 @@ static inline int _prcm54xx_dss_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump L3INIT PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int _prcm54xx_l3init_dump(FILE *stream)
 {
 	int ret;
@@ -464,7 +464,7 @@ static inline int _prcm54xx_l3init_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		l4per54xx_dump
  * @BRIEF		dump L4PER PRCM registers
  * @RETURNS		0 in case of success
@@ -474,7 +474,7 @@ static inline int _prcm54xx_l3init_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump L4PER PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int _prcm54xx_l4per_dump(FILE *stream)
 {
 	int ret;
@@ -486,7 +486,7 @@ static inline int _prcm54xx_l4per_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_dsp_dump
  * @BRIEF		dump DSP PRCM registers and pretty-print it
  * @RETURNS		0 in case of success
@@ -495,7 +495,7 @@ static inline int _prcm54xx_l4per_dump(FILE *stream)
  *			OMAPCONF_ERR_REG_ACCESS
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump DSP PRCM registers and pretty-print it
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int _prcm54xx_dsp_dump(FILE *stream)
 {
 	int ret;
@@ -507,7 +507,7 @@ static inline int _prcm54xx_dsp_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_gpu_dump
  * @BRIEF		dump GPU PRCM registers
  * @RETURNS		0 in case of success
@@ -517,7 +517,7 @@ static inline int _prcm54xx_dsp_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump GPU PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int _prcm54xx_gpu_dump(FILE *stream)
 {
 	int ret;
@@ -529,7 +529,7 @@ static inline int _prcm54xx_gpu_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_iva_dump
  * @BRIEF		dump IVA PRCM registers
  * @RETURNS		0 in case of success
@@ -539,7 +539,7 @@ static inline int _prcm54xx_gpu_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump IVA PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int _prcm54xx_iva_dump(FILE *stream)
 {
 	int ret;
@@ -551,7 +551,7 @@ static inline int _prcm54xx_iva_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_mpu_dump
  * @BRIEF		dump MPU PRCM registers
  * @RETURNS		0 in case of success
@@ -561,7 +561,7 @@ static inline int _prcm54xx_iva_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump MPU PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int _prcm54xx_mpu_dump(FILE *stream)
 {
 	int ret;
@@ -582,7 +582,7 @@ static inline int _prcm54xx_mpu_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		_prcm54xx_abe_dump
  * @BRIEF		dump ABE PRCM registers
  * @RETURNS		0 in case of success
@@ -592,7 +592,7 @@ static inline int _prcm54xx_mpu_dump(FILE *stream)
  * @param[in,out]	stream: output stream
  * @DESCRIPTION		dump ABE PRCM registers and pretty-print it
  *			in selected output stream.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 static inline int _prcm54xx_abe_dump(FILE *stream)
 {
 	int ret;
@@ -606,7 +606,7 @@ static inline int _prcm54xx_abe_dump(FILE *stream)
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		prcm54xx_pwrdm_config_show
  * @BRIEF		show configuration of a given power domain and
  *			included clock domains
@@ -624,7 +624,7 @@ static inline int _prcm54xx_abe_dump(FILE *stream)
  *				configuration.
  * @DESCRIPTION		show configuration of a given power domain and
  *			included clock domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int prcm54xx_pwrdm_config_show(FILE *stream,
 	const char *powerdm_u, const char *clockdm_u)
 {
@@ -815,7 +815,7 @@ int prcm54xx_pwrdm_config_show(FILE *stream,
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		prcm54xx_config_show
  * @BRIEF		show configuration of a given power domain and
  *			included clock domains
@@ -831,7 +831,7 @@ int prcm54xx_pwrdm_config_show(FILE *stream,
  *			clkdm54xx_s2id()
  * @DESCRIPTION		show configuration of a given power domain and
  *			included clock domains
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int prcm54xx_config_show(FILE *stream, int argc, char *argv[])
 {
 	CHECK_CPU(54xx, OMAPCONF_ERR_CPU);
@@ -928,7 +928,7 @@ int prcm54xx_config_show(FILE *stream, int argc, char *argv[])
 }
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		prcm54xx_dump
  * @BRIEF		dump (formated in table) PRCM registers related to power
  *			domain provided in string s.
@@ -939,7 +939,7 @@ int prcm54xx_config_show(FILE *stream, int argc, char *argv[])
  * @param[in]		s: power domain
  * @DESCRIPTION		dump (formated in table) PRCM registers related to power
  *			domain provided in string s.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int prcm54xx_dump(char *s)
 {
 	int ret;

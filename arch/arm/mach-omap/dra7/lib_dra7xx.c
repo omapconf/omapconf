@@ -64,7 +64,7 @@
 #endif
 
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		lib_dra7xx_voltage_set
  * @BRIEF		change voltage of a given voltage domain, switching
  *			CPUFreq governor to "userspace" & disabling smart-reflex
@@ -78,7 +78,7 @@
  * @param[in]		volt: new supply voltage (in volt)
  * @DESCRIPTION		change voltage of a given voltage domain, switching
  *			CPUFreq governor to "userspace" & disabling smart-reflex
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int lib_dra7xx_voltage_set(voltdm_dra7xx_id vdd_id, double volt)
 {
 	int ret, ret_cpufreq;
@@ -124,7 +124,7 @@ int lib_dra7xx_voltage_set(voltdm_dra7xx_id vdd_id, double volt)
 	return ret;
 }
 
-/* ------------------------------------------------------------------------*//*
+/* ------------------------------------------------------------------------*
  * @FUNCTION		lib_dra7xx_voltage_set_walk
  * @BRIEF		change voltage of a given voltage domain in steps, switching
  *			CPUFreq governor to "userspace" & disabling smart-reflex
@@ -141,7 +141,7 @@ int lib_dra7xx_voltage_set(voltdm_dra7xx_id vdd_id, double volt)
  * @param[in]           trans: flag to enable transient to simulate DVFS
  * @DESCRIPTION		change voltage of a given voltage domain in steps, switching
  *			CPUFreq governor to "userspace" & disabling smart-reflex
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int lib_dra7xx_voltage_set_walk(voltdm_dra7xx_id vdd_id, double volt,
 				double step, unsigned int msec,
 				unsigned int trans)
@@ -186,7 +186,7 @@ int lib_dra7xx_voltage_set_walk(voltdm_dra7xx_id vdd_id, double volt,
 	return ret;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION            libdra7x_vtrans
  * @BRIEF               do vtrans operations along with vmin search
  * @RETURNS             0 in case of success
@@ -194,7 +194,7 @@ int lib_dra7xx_voltage_set_walk(voltdm_dra7xx_id vdd_id, double volt,
  *                      ms: delay between vmin steps
  * @DESCRIPTION         Generate high current transients during vmin test to AVS
  *                      managed domains.  Decent for DualCore J6, Less for J6ECO.
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int libdra7x_vtrans(voltdm_dra7xx_id vdd_id, unsigned int ms)
 {
 	unsigned int val, val1, val2;
@@ -289,7 +289,7 @@ int libdra7x_vtrans(voltdm_dra7xx_id vdd_id, unsigned int ms)
 	return 0;
 }
 
-/* ------------------------------------------------------------------------*//**
+/* ------------------------------------------------------------------------
  * @FUNCTION		libdra7xx_vminsearch
  * @BRIEF		search minimum supply voltage by decreasing voltage
  *			step by step  until it breaks.
@@ -308,7 +308,7 @@ int libdra7x_vtrans(voltdm_dra7xx_id vdd_id, unsigned int ms)
  *			step by step  until it breaks.
  *			NB: switch CPUFreq governor to "userspace" &
  *			disable smart-reflex
- *//*------------------------------------------------------------------------ */
+ *------------------------------------------------------------------------ */
 int libdra7xx_vminsearch(int argc, char *argv[])
 {
 	long uv;
