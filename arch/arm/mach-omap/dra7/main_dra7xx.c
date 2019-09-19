@@ -485,7 +485,8 @@ static int main_dra7xx_export(int argc, char *argv[])
 static int main_dra7xx_set(int argc, char *argv[])
 {
 	voltdm_dra7xx_id vdd_id;
-	double volt;
+	double volt, step;
+	unsigned int msec, trans = 0;
 
 	if (argc < 1) {
 		return err_arg_missing_msg_show(HELP_CATEGORY_MAX);
@@ -510,8 +511,41 @@ static int main_dra7xx_set(int argc, char *argv[])
 			if (sscanf(argv[2], "%lf", &volt) != 1)
 				return err_arg_msg_show(HELP_VOLT);
 
-			return lib_dra7xx_voltage_set(vdd_id, volt);
-		} else {
+                        return lib_dra7xx_voltage_set(vdd_id, volt);
+                } else if ((argc == 5) || (argc == 6)) {
+			lowercase(argv[1]);
+			if (strcmp(argv[1], "mpu") == 0)
+				vdd_id = VDD_DRA7XX_MPU;
+			else if (strcmp(argv[1], "iva") == 0)
+				vdd_id = VDD_DRA7XX_IVA;
+			else if (strcmp(argv[1], "core") == 0)
+				vdd_id = VDD_DRA7XX_CORE;
+			else if (strcmp(argv[1], "dspeve") == 0)
+				vdd_id = VDD_DRA7XX_DSPEVE;
+			else if (strcmp(argv[1], "gpu") == 0)
+				vdd_id = VDD_DRA7XX_GPU;
+			else
+				return err_arg_msg_show(HELP_VOLT);
+
+			if (sscanf(argv[2], "%lf", &volt) != 1)
+				return err_arg_msg_show(HELP_VOLT);
+
+			if (sscanf(argv[3], "%lf", &step) != 1)
+				return err_arg_msg_show(HELP_VOLT);
+
+			if (sscanf(argv[4], "%d", &msec) != 1)
+				return err_arg_msg_show(HELP_VOLT);
+
+                        if (argc == 6) {
+                              lowercase(argv[5]);
+                              if (strcmp(argv[5], "trans") == 0)
+                                    trans = 1;
+                              else
+                                    return err_arg_msg_show(HELP_VOLT);
+                        }
+                        return lib_dra7xx_voltage_set_walk(vdd_id, volt, step,
+							   msec, trans);
+                }  else {
 			return err_arg_too_many_msg_show(HELP_VOLT);
 		}
 	} else {

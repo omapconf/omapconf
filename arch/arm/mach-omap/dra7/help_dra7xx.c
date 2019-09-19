@@ -88,6 +88,14 @@ void help_dra7xx(help_category cat, char *context)
 		printf("\t    ### WARNING ###: do it at your own risk. "
 			"Unsupported voltage may crash or damage device!\n");
 		printf("\t    e.g. omapconf set volt mpu 1.25\n");
+		printf("\n\tomapconf set volt <rail> <voltage> <step> <msec>\n");
+		printf("\t    Set <rail> voltage to <voltage> in steps of <step> and waiting <msec> after each step.\n");
+		printf("\t    Supported <rail>: mpu, iva, core, gpu, dspeve.\n");
+		printf("\t    <voltage> is in volts.\n");
+		printf("\t    <step> is in volts.\n");
+		printf("\t    <msec> is in millisecond.\n");
+		printf("\t    ### WARNING ###: do it at your own risk. "
+			"Unsupported voltage may crash or damage device!\n");
 	}
 
 	if ((cat == HELP_ALL) || (cat == HELP_DPLL)) {

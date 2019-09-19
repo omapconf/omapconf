@@ -47,10 +47,11 @@
 
 
 #include <stdio.h>
+#include <unistd.h>
 #include <voltdm_dra7xx.h>
 
-
 int lib_dra7xx_voltage_set(voltdm_dra7xx_id vdd_id, double volt);
-
+int lib_dra7xx_voltage_set_walk(voltdm_dra7xx_id vdd_id, double volt, double step, unsigned int msec, unsigned int trans);
+int libdra7x_vtrans(voltdm_dra7xx_id vdd_id, unsigned int ms);
 
 #endif
