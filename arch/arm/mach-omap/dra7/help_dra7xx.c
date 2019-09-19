@@ -98,6 +98,16 @@ void help_dra7xx(help_category cat, char *context)
 			"Unsupported voltage may crash or damage device!\n");
 	}
 
+	if ((cat == HELP_ALL) || (cat == HELP_VMINSEARCH)) {
+		printf("\n\tomapconf vminsearch <rail> <voltage> <msec>\n");
+		printf("\t    Search minimum supply voltage by decreasing voltage step by step, until it breaks.\n");
+		printf("\t    Supported <rail>: mpu, core, gpu.\n");
+		printf("\t    <voltage> is initial voltage in volts.\n");
+		printf("\t    <msec> is delay between steps.\n");
+		printf("\t    ### WARNING ###: do it at your own risk. "
+			"Unsupported voltage may crash or damage device!\n");
+	}
+
 	if ((cat == HELP_ALL) || (cat == HELP_DPLL)) {
 		printf("\n\tomapconf dump dpll [<dpll>]\n");
 		printf("\t    RAW dump of <dpll> registers ('all' assumed if "

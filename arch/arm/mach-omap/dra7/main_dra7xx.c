@@ -594,6 +594,8 @@ int main_dra7xx(int argc, char *argv[])
 		ret = main_dra7xx_set(argc - 1, argv + 1);
 	else if (strcmp(argv[0], "trace") == 0)
         ret = statcoll_main_dra(argc - 1, argv + 1);
+	else if (strcmp(argv[0], "vminsearch") == 0)
+		ret = libdra7xx_vminsearch(argc - 1, argv + 1);
 	else
 		ret = main_dra7xx_legacy(argc, argv);
 

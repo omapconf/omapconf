@@ -288,3 +288,138 @@ int libdra7x_vtrans(voltdm_dra7xx_id vdd_id, unsigned int ms)
 	}
 	return 0;
 }
+
+/* ------------------------------------------------------------------------*//**
+ * @FUNCTION		libdra7xx_vminsearch
+ * @BRIEF		search minimum supply voltage by decreasing voltage
+ *			step by step  until it breaks.
+ * @RETURNS		0 on success
+ *			OMAPCONF_ERR_CPU
+ *			OMAPCONF_ERR_ARG
+ *			OMAPCONF_ERR_NOT_AVAILABLE
+ *			OMAPCONF_ERR_REG_ACCESS
+ *			OMAPCONF_ERR_INTERNAL
+ * @param[in]		argc: shell input argument number (must be == 3)
+ * @param[in]		argv: shell input argument(s)
+ *				argv[0]="voltage domain" ("mpu", "mm", "core")
+ *				argv[1]="initial voltage" (in volts)
+ *				argv[2]="delay" between steps (in milliseconds)
+ * @DESCRIPTION		search minimum supply voltage by decreasing voltage
+ *			step by step  until it breaks.
+ *			NB: switch CPUFreq governor to "userspace" &
+ *			disable smart-reflex
+ *//*------------------------------------------------------------------------ */
+int libdra7xx_vminsearch(int argc, char *argv[])
+{
+	long uv;
+	double v, prev_v;
+	int ret, temp;
+	unsigned long vstep;
+	unsigned char vsel;
+	voltdm_dra7xx_id vdd_id;
+	unsigned int ms;
+	char * voltdm_name = (char *)VDD_MPU;
+	char prev_gov[CPUFREQ_GOV_MAX_NAME_LENGTH];
+
+	/* Retrieve arguments */
+	if (argc != 3)
+		goto libdra7xx_vminsearch_arg_err;
+	if (strcmp(argv[0], "mpu") == 0) {
+		vdd_id = VDD_DRA7XX_MPU;
+		voltdm_name = (char *)VDD_MPU;
+	} else if (strcmp(argv[0], "core") == 0) {
+		vdd_id = VDD_DRA7XX_CORE;
+		voltdm_name = (char *)VDD_CORE;
+	} else if(strcmp(argv[0], "gpu") == 0) {
+		vdd_id = VDD_DRA7XX_GPU;
+		voltdm_name = (char *)VDD_GPU;
+	} else
+		goto libdra7xx_vminsearch_arg_err;
+
+	ret = sscanf(argv[1], "%lf", &v);
+	if (ret != 1)
+		goto libdra7xx_vminsearch_arg_err;
+	ret = sscanf(argv[2], "%d", &ms);
+	if (ret != 1)
+		goto libdra7xx_vminsearch_arg_err;
+	if (ms <= 0)
+		goto libdra7xx_vminsearch_arg_err;
+
+	CHECK_ARG_LESS_THAN(vdd_id, VDD_DRA7XX_ID_MAX, OMAPCONF_ERR_ARG);
+	/*
+	 * Switch governor to 'userspace' otherwise voltage change will be
+	 * overriden in case of OPP change.
+	 */
+	printf("Warning: switching CPUFreq governor to 'userspace', otherwise "
+		"voltage change will be overriden...\n");
+	ret = cpufreq_scaling_governor_set("userspace", prev_gov);
+	if (ret < 0)
+		printf("Warning: failed to switch governor. Voltage will be "
+			"overriden in case of OPP change.\n");
+	else
+		printf("CPUFreq governor switched to 'userspace'.\n");
+
+	printf("Assuming kernel has avs and abb drivers disabled\n");
+
+	/* Show current OPP for reference */
+	printf("Current OPP configuration for reference:\n\n");
+	opp_show(stdout);
+
+	/* Retrieving SMPS voltage step */
+	vstep = smps_step_get(vdd_id2smps_id(vdd_id));
+	dprintf("%s(): vstep=%luuV\n", __func__, vstep);
+
+	printf("Vmin SEARCH on %s domain scaling voltage down from %1.3lfV in "
+		"steps of %lumV, waiting %dms between each step.\n",
+		voltdm_dra7xx_name_get(vdd_id), v, vstep / 1000, ms);
+	printf("LAST voltage displayed with OK status before crash "
+		"will be the Vmin for %s domain.\n\n",
+		voltdm_dra7xx_name_get(vdd_id));
+	printf("NB:\n  - Make sure your load generator application is "
+		"running in background during the whole procedure.\n");
+	printf("  - PLATFORM MUST BE REBOOTED AFTER USE "
+		"(NO POSSIBLE RECOVERY).\n\n");
+
+	/* Rounding requested initial voltage */
+	vsel = smps_uvolt2vsel(vdd_id2smps_id(vdd_id),
+		(unsigned long) (v * 1000000));
+
+	prev_v = v;
+	v = (double) smps_vsel2uvolt(vdd_id2smps_id(vdd_id), vsel);
+	v = v / 1000000;
+	if (v != prev_v)
+		printf("Note: rounded up initial voltage to %.3lfV.\n\n", v);
+
+	/* Decreasing voltage step by step until it breaks */
+	printf("Starting Vmin SEARCH...\n");
+
+	for (uv = (unsigned long) (v * 1000000); uv >= 0; uv = uv - vstep) {
+		char *temp_sensor = (char *) temp_sensor_voltdm2sensor(voltdm_name);
+		/* Get vsel corresponding to target voltage */
+		vsel = smps_uvolt2vsel(vdd_id2smps_id(vdd_id), uv);
+		temp = hwtemp_sensor_get(temp_sensor);
+		if (temp != TEMP_ABSOLUTE_ZERO)
+			printf("Trying %1.3lfV (SMPS code: 0x%02X, temperature: %dC/%dF)...",
+				smps_vsel2volt(vdd_id2smps_id(vdd_id), vsel),
+				vsel, temp, celcius2fahrenheit(temp));
+		else
+			printf("Trying %1.3lfV (SMPS code: 0x%02X, temperature: N/A)...",
+				smps_vsel2volt(vdd_id2smps_id(vdd_id), vsel),
+				vsel);
+		fflush(stdout);
+		ret = smps_voltage_set(vdd_id2smps_id(vdd_id), uv);
+		if (ret != 0) {
+			fprintf(stderr, "Error: could not set %s voltage!\n\n",
+				voltdm_dra7xx_name_get(vdd_id));
+			return ret;
+		}
+		usleep(1000 * ms);
+		printf("OK!\n");
+	}
+	fprintf(stderr, "Shouldn't have reached this point... "
+		"please check voltage is really scaling down.\n\n");
+	return 0;
+
+libdra7xx_vminsearch_arg_err:
+	return err_arg_msg_show(HELP_VMINSEARCH);
+}
