@@ -1030,7 +1030,7 @@ int hsdiv_dra7xx_rates_calc(dpll_dra7xx_settings * settings,
 					(settings->hsdiv)[i].rate =
 					    (settings->dpll).fdpll / 2.5 / 2.0;
 			} else {
-				if (!(settings->hsdiv)[i].status)
+				if (!(settings->hsdiv)[i].div)
 					(settings->hsdiv)[i].rate =
 					    (settings->dpll).fdpll;
 				else
