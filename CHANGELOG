@@ -1,3 +1,7 @@
+v1.75:
+------
+	- [DPLL][DRA7] Fix calculation of hs div clk rate
+	- [DPLL][DRA7] Fix up extern exports
 v1.74:
 ------
 	- [LIB][ANDROID] Extend android product name to include Android 10
